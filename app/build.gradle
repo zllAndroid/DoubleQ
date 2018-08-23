@@ -1,0 +1,80 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 27
+
+    defaultConfig {
+        vectorDrawables.useSupportLibrary = true
+        applicationId "com.doubleq.xm6leefunz"
+        minSdkVersion 16
+        targetSdkVersion 27
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        aaptOptions {
+            cruncherEnabled = false
+            useNewCruncher = false
+        }
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+    }
+    buildTypes {
+        release {
+//            minifyEnabled false
+            minifyEnabled true  //是否代码混淆
+            zipAlignEnabled true
+//            multiDexEnabled true  //防止方法数量超过65536导致错误
+            //移除无用的resource文件
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets {
+        main { res.srcDirs = ['src/main/res', 'src/main/res/color', 'src/main/res/menu'] }
+    }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'com.android.support:support-v4:27.+'
+    implementation 'com.android.support:design:27.1.1'
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude group: 'com.android.support'
+        exclude group: 'org.greenrobot:eventbus:3.1.1'
+    })
+    implementation 'com.android.support:appcompat-v7:27.+'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
+    //    Recycleview
+    implementation 'com.android.support:recyclerview-v7:27.+'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
+    //    Glide
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'jp.wasabeef:glide-transformations:2.0.1'
+    //    UserGuideView
+    implementation 'com.github.yilylong:UserGuideView:1.0.2'
+    implementation 'com.zhl.cbpullrefresh:CBPullRefreshLibrary:1.0.0'
+    implementation 'com.isanwenyu.highlight:highlight:1.8.0'
+    //    eventbus
+    implementation 'org.greenrobot:eventbus:3.1.1'
+    //    GridPasswordView
+    implementation 'com.jakewharton:butterknife:8.7.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    implementation 'com.jungly:gridPasswordView:0.3'
+    //    二维码
+    //    implementation files('libs/zxing.jar')
+    implementation files('libs/zixing-core-3.2.0.jar')
+    //    三级市联动PickerView
+    implementation 'com.bigkoo:pickerview:2.1.0'
+    implementation files('libs/alibaba-json-1.1.0.jar')
+    //    implementation files('libs/volley.jar')
+    implementation project(':utilslibrarybyzll')
+    //    compile project(path: ':chat')
+    implementation 'com.jude:easyrecyclerview:4.2.3'
+    implementation project(':chat')
+    compile project(path: ':chat')
+}

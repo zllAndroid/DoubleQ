@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<resources>
+
+
+    <!-- 顶部按钮栏高度 -->
+    <dimen name="pickerview_topbar_height">44dp</dimen>
+
+    <!-- 顶部按钮padding -->
+    <dimen name="pickerview_topbar_padding">20dp</dimen>
+
+    <!-- 顶部按钮文字大小 -->
+    <dimen name="pickerview_topbar_btn_textsize">17sp</dimen>
+    <dimen name="pickerview_topbar_title_textsize">18sp</dimen>
+    <!-- 选项文字大小 -->
+    <dimen name="pickerview_textsize">20sp</dimen>
+
+    <dimen name="dp33">33dp</dimen>
+    <dimen name="dp18">18dp</dimen>
+    <dimen name="dp65">65dp</dimen>
+    <dimen name="dp200">200dp</dimen>
+    <dimen name="dp220">220dp</dimen>
+    <dimen name="dp250">250dp</dimen>
+    <dimen name="dp120">120dp</dimen>
+    <dimen name="dp150">150dp</dimen>
+    <dimen name="dp180">180dp</dimen>
+    <dimen name="dp140">140dp</dimen>
+    <dimen name="dp146">146dp</dimen>
+    <dimen name="dp130">130dp</dimen>
+    <dimen name="dp5">5dp</dimen>
+    <dimen name="dp4">4dp</dimen>
+    <dimen name="dp8">8dp</dimen>
+    <dimen name="dp6">6dp</dimen>
+    <dimen name="dp2">2dp</dimen>
+    <dimen name="dp7">7dp</dimen>
+    <dimen name="dp1">1dp</dimen>
+    <dimen name="dp3">3dp</dimen>
+    <dimen name="dp10">10dp</dimen>
+    <dimen name="dp15">15dp</dimen>
+    <dimen name="dp45">45dp</dimen>
+    <dimen name="dp20">20dp</dimen>
+    <dimen name="dp25">25dp</dimen>
+    <dimen name="dp30">30dp</dimen>
+    <dimen name="dp35">35dp</dimen>
+    <dimen name="dp40">40dp</dimen>
+    <dimen name="dp50">50dp</dimen>
+    <dimen name="dp60">60dp</dimen>
+    <dimen name="dp100">100dp</dimen>
+    <dimen name="dp110">110dp</dimen>
+    <dimen name="margin10dp">10dp</dimen>
+    <dimen name="margin49dp">49dp</dimen>
+    <dimen name="margin20dp">20dp</dimen>
+    <dimen name="margin14dp">14dp</dimen>
+
+    <dimen name="sp18">18sp</dimen>
+    <dimen name="sp12">12sp</dimen>
+    <dimen name="sp16">16sp</dimen>
+    <dimen name="sp14">14sp</dimen>
+    <dimen name="sp11">11sp</dimen>
+    <dimen name="sp10">10sp</dimen>
+    <dimen name="sp15">15sp</dimen>
+    <dimen name="sp22">22sp</dimen>
+    <dimen name="sp20">20sp</dimen>
+    <dimen name="sp30">30sp</dimen>
+
+
+    <dimen name="divider_height">0.5dp</dimen>
+    <dimen name="input_method_spacing">2px</dimen>
+
+
+    <!-- 字体大小 -->
+    <dimen name="font_larger">20sp</dimen>
+    <dimen name="font_large">18sp</dimen>
+    <dimen name="font_normal">15sp</dimen>
+    <dimen name="font_small">12sp</dimen>
+    <dimen name="font_tiny">10sp</dimen>
+    <dimen name="link_man_abc">25sp</dimen>
+
+    <!-- 控件之间的距离 -->
+    <dimen name="spacing_large">20dp</dimen>
+    <dimen name="spacing_normal">15dp</dimen>
+    <dimen name="spacing_small">10dp</dimen>
+    <dimen name="spacing_tiny">4dp</dimen>
+    <dimen name="spacing_layout_padding">10dp</dimen>
+    <dimen name="spacing_layout_margin">10dp</dimen>
+    <dimen name="list_item_spacing">16dp</dimen>
+    <dimen name="list_item_spacing_half">8dp</dimen>
+    <dimen name="margin5dp">5dp</dimen>
+    <dimen name="heigt_pointfive">1dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="home_margin_top">3dp</dimen>
+    <dimen name="home_textsize">16sp</dimen>
+
+    <dimen name="pop320">320dp</dimen>
+    <dimen name="pop100">100dp</dimen>
+    <dimen name="poptextheigh45">45dp</dimen>
+    <dimen name="sp_22">22sp</dimen>
+</resources>

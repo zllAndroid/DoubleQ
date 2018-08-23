@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/custom_tv_text"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+    android:singleLine="true"
+  android:gravity="center"
+  android:minEms="4"
+  android:paddingLeft="@dimen/dp10"
+  android:paddingRight="@dimen/dp10"
+  android:textColor="@color/message_custom_tab"
+  android:textSize="@dimen/sp16"
+/>
