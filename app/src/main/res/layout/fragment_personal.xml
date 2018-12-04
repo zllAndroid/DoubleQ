@@ -7,141 +7,152 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/greyf3"
-    tools:context="com.doubleq.xm6leefunz.main_code.about_fragment.about_personal.PersonalFragment">
+    tools:context="com.doubleq.xm6leefunz.main_code.mains.PersonalFragment">
 
+
+    <!--title bar-->
+    <include layout="@layout/fragment_include_title_bar"/>
     <!--上方个人资料-->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" />
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/doubleq_theme">
+        >
 
         <LinearLayout
-            android:id="@+id/lin_mid"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp15"
-            android:layout_centerInParent="true"
             android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/frag_tv_personal"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:textColor="@color/white"
-                android:layout_gravity="center"
-                android:gravity="center"
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp100"
+                android:background="@color/app_theme"
                 android:layout_weight="1"
-                android:textSize="@dimen/sp20"
-                android:text="个人中心" />
-
-            <ImageView
-                android:id="@+id/frag_img_personal_head"
-                android:layout_width="@dimen/dp90"
-                android:layout_height="@dimen/dp90"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp40" />
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp10"
-                android:layout_marginBottom="@dimen/dp30"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/frag_tv_personal_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/sp15"
-                    android:textColor="@color/white"
-                    android:text="name" />
-                <ImageView
-                    android:layout_width="@dimen/dp20"
-                    android:layout_height="@dimen/dp20"
-                    android:layout_marginLeft="@dimen/dp3"
-                    android:src="@drawable/femal" />
-            </LinearLayout>
-
+                />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp100"
+                android:background="@color/mine_bac"
+                android:layout_weight="1"
+                />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/mine_lin_person_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/mine_stroke_white"
+            android:layout_marginTop="@dimen/dp60"
+            android:layout_marginLeft="@dimen/dp40"
+            android:layout_marginRight="@dimen/dp40"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    />
+                <ImageView
+                    android:layout_width="@dimen/dp30"
+                    android:layout_height="@dimen/dp30"
+                    android:padding="@dimen/dp5"
+                    android:layout_margin="@dimen/dp10"
+                    app:srcCompat="@drawable/mine_erweima"/>
+
+            </LinearLayout>
+            <TextView
+                android:id="@+id/mine_tv_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp14"
+                android:layout_margin="@dimen/dp10"
+                />
+            <TextView
+                android:id="@+id/mine_tv_sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginBottom="@dimen/dp10"
+                />
+        </LinearLayout>
         <ImageView
-            android:id="@+id/frag_img_personal_notice"
-            android:layout_width="@dimen/dp20"
-            android:layout_height="@dimen/dp20"
-            android:layout_alignParentRight="true"
-            android:layout_margin="@dimen/dp20"
-            android:src="@drawable/notice" />
+            android:id="@+id/mine_iv_person"
+            android:layout_width="@dimen/dp80"
+            android:layout_height="@dimen/dp80"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/dp30"
+           />
 
     </RelativeLayout>
-
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="none"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical">
             <!--我的账号-->
             <LinearLayout
-                android:id="@+id/ac_lin_personal_myaccount"
+                android:id="@+id/mine_lin_share"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp40"
-                android:background="@color/white"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:layout_marginTop="@dimen/dp20"
                 android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/tv_person_account"
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
                     android:layout_marginLeft="@dimen/dp10"
+                    app:srcCompat="@drawable/mine_share"/>
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="我的账号" />
+                    android:padding="@dimen/dp10"
+                    android:text="分享" />
+
                 <ImageView
-                    android:id="@+id/frag_img_account"
-                    android:layout_width="@dimen/dp20"
-                    android:layout_height="@dimen/dp20"
-                    android:layout_marginRight="@dimen/dp10"
-                    app:srcCompat="@drawable/to_right" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp10"
+                    app:srcCompat="@drawable/in_right" />
             </LinearLayout>
 
             <!--我的二维码-->
-            <TextView
+            <View
                 android:layout_width="match_parent"
                 android:background="@color/greyf3"
-                android:layout_height="1dp"
+                android:layout_height="@dimen/dp1"
                 />
             <LinearLayout
-                android:id="@+id/ac_lin_personal_QRCode"
+                android:id="@+id/mine_lin_set"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp40"
-                android:background="@color/white"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/frag_tv_code"
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
                     android:layout_marginLeft="@dimen/dp10"
+                    app:srcCompat="@drawable/mine_set"/>
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="我的二维码" />
+                    android:padding="@dimen/dp10"
+                    android:text="设置" />
                 <ImageView
-                    android:id="@+id/frag_img_code"
-                    android:layout_width="@dimen/dp20"
-                    android:layout_height="@dimen/dp20"
-                    android:layout_marginRight="@dimen/dp10"
-                    app:srcCompat="@drawable/to_right" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp10"
+                    app:srcCompat="@drawable/in_right" />
             </LinearLayout>
-
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

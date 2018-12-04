@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.about_chat.adapter.holder.ChatAcceptViewHolder;
 import com.doubleq.xm6leefunz.about_chat.adapter.holder.ChatSendViewHolder;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
@@ -13,11 +14,7 @@ import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.rance.chatui.enity.MessageInfo;
 import com.rance.chatui.util.Constants;
 
-/**
- * 作者：Rance on 2016/11/29 10:46
- * 邮箱：rance935@163.com
- */
-public class ChatAdapter extends RecyclerArrayAdapter<MessageInfo> {
+public class ChatAdapter extends RecyclerArrayAdapter<DataJieShou.RecordBean> {
 
     private onItemClickListener onItemClickListener;
     public Handler handler;
@@ -26,7 +23,6 @@ public class ChatAdapter extends RecyclerArrayAdapter<MessageInfo> {
         super(context);
         handler = new Handler();
     }
-
     @Override
     public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
         BaseViewHolder viewHolder = null;
@@ -37,6 +33,9 @@ public class ChatAdapter extends RecyclerArrayAdapter<MessageInfo> {
             case Constants.CHAT_ITEM_TYPE_RIGHT:
                 viewHolder = new ChatSendViewHolder(parent, onItemClickListener, handler);
                 break;
+                default:
+                    viewHolder = new ChatAcceptViewHolder(parent, onItemClickListener, handler);
+                    break;
         }
         return viewHolder;
     }
@@ -52,6 +51,7 @@ public class ChatAdapter extends RecyclerArrayAdapter<MessageInfo> {
 
     public interface onItemClickListener {
         void onHeaderClick(int position);
+        void onConClick(View view,String conText);
 
         void onImageClick(View view, int position);
 

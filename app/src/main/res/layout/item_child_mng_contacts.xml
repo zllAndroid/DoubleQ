@@ -20,8 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginRight="@dimen/dp10"
-        android:layout_marginTop="@dimen/dp10"
+        android:layout_gravity="center_vertical"
         android:orientation="vertical">
             <TextView
                 android:id="@+id/frag_tv_contacts_child_f_name"
@@ -35,6 +34,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/dp5"
+            android:visibility="gone"
             android:layout_marginTop="@dimen/dp5"
             android:orientation="horizontal">
 

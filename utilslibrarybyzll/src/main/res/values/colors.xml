@@ -9,6 +9,7 @@
     <color name="app_theme_trans00">#0000</color>
     <color name="app_gray_word">#bfbfbf</color>
     <color name="app_theme">#079de8</color>
+    <color name="app_theme_trans66">#66079de8</color>
     <!--<color name="app_theme">#0099e6</color>-->
     <color name="transparency">#00000000</color>
     <color name="gray333">#333</color>

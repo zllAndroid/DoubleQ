@@ -6,41 +6,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/greyf3"
-    tools:context="com.doubleq.xm6leefunz.main_code.about_fragment.about_discovery.DiscoveryFragment">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/doubleq_theme"
-        android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp20"
-            android:textSize="@dimen/sp15"
-            android:textColor="@color/white"
-            android:visibility="invisible"
-            android:text="扫一扫"
-            />
-        <TextView
-            android:id="@+id/include_frag_tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="@dimen/dp20"
-            android:gravity="center"
-            android:layout_marginTop="@dimen/dp20"
-            android:textColor="@color/white"
-            android:text="发现" />
-        <TextView
-            android:id="@+id/include_frag_img_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp20"
-            android:textSize="@dimen/sp15"
-            android:textColor="@color/white"
-            android:text="扫一扫"/>
-    </LinearLayout>
+    tools:context="com.doubleq.xm6leefunz.main_code.mains.FindFragment">
+    <!--title bar-->
+    <include layout="@layout/fragment_include_title_bar"/>
 
     <!--<include layout="@layout/fragment_include_title_bar"/>-->
 

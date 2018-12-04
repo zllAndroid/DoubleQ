@@ -56,4 +56,8 @@ public class DataContactsManage {
         this.tv_parent_all_m = tv_parent_all_m;
         this.dataContactsManageChildList = dataContactsManageChildList;
     }
+    public DataContactsManage(String tv_parent_name_m, List<DataContactsManageChild> dataContactsManageChildList) {
+        this.tv_parent_name_m = tv_parent_name_m;
+        this.dataContactsManageChildList = dataContactsManageChildList;
+    }
 }

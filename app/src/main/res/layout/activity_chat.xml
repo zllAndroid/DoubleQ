@@ -5,21 +5,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:fitsSystemWindows="true"
+
     >
+
+    <LinearLayout
+        android:id="@+id/chat_lin_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:fitsSystemWindows="true"
+        >
         <include
             layout="@layout/activity_include_title_bar"
             />
 
-    <com.jude.easyrecyclerview.EasyRecyclerView
-        android:id="@+id/chat_list"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/bg_content"/>
+        <TextView
+            android:id="@+id/chat_tv_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_theme"
+            android:gravity="center_horizontal"
+            android:paddingTop="@dimen/dp5"
+            android:textSize="@dimen/sp14"
+            android:visibility="gone"
+            android:paddingBottom="@dimen/dp5"
+            android:background="@color/white"/>
+        <!--<RelativeLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_weight="1"-->
+        <!--&gt;-->
+        <com.jude.easyrecyclerview.EasyRecyclerView
+            android:id="@+id/chat_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:paddingBottom="@dimen/dp10"
+            android:background="@color/bg_content"/>
 
-    <include
-        layout="@layout/include_reply_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+
+
+        <!--</RelativeLayout>-->
+
+
+        <include
+            layout="@layout/include_reply_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 </LinearLayout>

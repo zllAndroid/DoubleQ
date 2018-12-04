@@ -1,6 +1,7 @@
 package com.projects.zll.utilslibrarybyzll.aboutsystem;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.res.Resources;
 import android.view.View;
 import android.view.WindowManager;
@@ -10,7 +11,7 @@ import android.view.WindowManager;
  */
 
 public class WindowBugDeal {
-    public static void checkDeviceHasNavigationBar(Activity context){
+    public static void checkDeviceHasNavigationBars(Activity context){
         Resources rs = context.getResources();
         int id = rs.getIdentifier("config_showNavigationBar","bool","android");
         if (id > 0)
@@ -32,6 +33,8 @@ public class WindowBugDeal {
 //            context.getWindow().addFlags(View.SYSTEM_UI_FLAG_VISIBLE);
         }
     }
+
+
     public static void SetTop(Activity context){
         Resources rs = context.getResources();
         int id = rs.getIdentifier("config_showNavigationBar","bool","android");
@@ -40,18 +43,32 @@ public class WindowBugDeal {
             context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//A
         }
     }
+
+
+    /**
+     * 获取状态栏高度
+     * @return
+     */
+    public static int getStatusBarHeight(Context context) {
+        int result = 0;
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = context.getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
     /**
      * 以下是旧的
      */
-//    public static void checkDeviceHasNavigationBar(Activity context){
-//        Resources rs = context.getResources();
-//        int id = rs.getIdentifier("config_showNavigationBar","bool","android");
-//        if (id > 0)
-//        {
-//			context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//A
-//            context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//B//
-//        }
-//    }
+    public static void checkDeviceHasNavigationBar(Activity context){
+        Resources rs = context.getResources();
+        int id = rs.getIdentifier("config_showNavigationBar","bool","android");
+        if (id > 0)
+        {
+			context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//A
+            context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//B//
+        }
+    }
 //    public static void SetTop(Activity context){
 //        Resources rs = context.getResources();
 //        int id = rs.getIdentifier("config_showNavigationBar","bool","android");

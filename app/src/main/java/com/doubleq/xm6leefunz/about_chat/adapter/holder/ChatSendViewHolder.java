@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.about_chat.adapter.holder;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.doubleq.model.DataJieShou;
+import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
+import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
 import com.rance.chatui.enity.MessageInfo;
 import com.rance.chatui.util.Constants;
@@ -20,12 +26,11 @@ import com.rance.chatui.widget.GifTextView;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
- * 作者：Rance on 2016/11/29 10:47
- * 邮箱：rance935@163.com
  */
-public class ChatSendViewHolder extends BaseViewHolder<MessageInfo> {
+public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
 
     @BindView(R.id.chat_item_date)
     TextView chatItemDate;
@@ -54,52 +59,127 @@ public class ChatSendViewHolder extends BaseViewHolder<MessageInfo> {
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
     }
-
-
     @Override
-    public void setData(MessageInfo data) {
-        chatItemDate.setText(data.getTime() != null ? data.getTime() : "");
-        Glide.with(getContext()).load(data.getHeader()).into(chatItemHeader);
+    public void setData(final  DataJieShou.RecordBean data) {
+//        chatItemDate.setText("2018-08-08");
+        if (StrUtils.isEmpty(data.getRequestTime()))
+        {
+            chatItemDate.setVisibility(View.GONE);
+        }else
+        {
+            chatItemDate.setText(TimeUtil.formatDisplayTime(data.getRequestTime(),null));
+            chatItemDate.setVisibility(View.VISIBLE);
+        }
+//        chatItemDate.setText(data.getTime() != null ? data.getTime() : "");
+//        Glide.with(getContext()).load(SplitWeb.USER_HEADER).into(chatItemHeader);
+
+        Glide.with(getContext()).load(SplitWeb.USER_HEADER)
+                .bitmapTransform(new CropCircleTransformation(getContext()))
+                .crossFade(1000).into(chatItemHeader);
+
+
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onItemClickListener.onHeaderClick(getDataPosition());
             }
         });
-        if (data.getContent() != null) {
-            chatItemContentText.setSpanText(handler, data.getContent(), true);
-            chatItemVoice.setVisibility(View.GONE);
-            chatItemContentText.setVisibility(View.VISIBLE);
-            chatItemLayoutContent.setVisibility(View.VISIBLE);
-            chatItemVoiceTime.setVisibility(View.GONE);
-            chatItemContentImage.setVisibility(View.GONE);
-        } else if (data.getImageUrl() != null) {
-            chatItemVoice.setVisibility(View.GONE);
-            chatItemLayoutContent.setVisibility(View.GONE);
-            chatItemVoiceTime.setVisibility(View.GONE);
-            chatItemContentText.setVisibility(View.GONE);
-            chatItemContentImage.setVisibility(View.VISIBLE);
-            Glide.with(getContext()).load(data.getImageUrl()).into(chatItemContentImage);
-            chatItemContentImage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onItemClickListener.onImageClick(chatItemContentImage, getDataPosition());
-                }
-            });
-        } else if (data.getFilepath() != null) {
-            chatItemVoice.setVisibility(View.VISIBLE);
-            chatItemLayoutContent.setVisibility(View.VISIBLE);
-            chatItemContentText.setVisibility(View.GONE);
-            chatItemVoiceTime.setVisibility(View.VISIBLE);
-            chatItemContentImage.setVisibility(View.GONE);
-            chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
-            chatItemLayoutContent.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    onItemClickListener.onVoiceClick(chatItemVoice, getDataPosition());
-                }
-            });
+        chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onItemClickListener.onConClick(v,data.getMessage());
+
+                return false;
+            }
+        });
+//        chatItemContentText.setTextIsSelectable(true);
+        try {
+            switch (data.getMessageType())
+            {
+                case Constants.CHAT_TEXT:
+                    chatItemContentText.setTextColor(Color.BLACK);
+                    chatItemContentText.setSpanText(handler, data.getMessage(), true);
+                    chatItemVoice.setVisibility(View.GONE);
+                    chatItemContentText.setVisibility(View.VISIBLE);
+                    chatItemLayoutContent.setVisibility(View.VISIBLE);
+                    chatItemVoiceTime.setVisibility(View.GONE);
+                    chatItemContentImage.setVisibility(View.GONE);
+                    break;
+                case Constants.CHAT_PICTURE:
+                    chatItemVoice.setVisibility(View.GONE);
+                    chatItemLayoutContent.setVisibility(View.GONE);
+                    chatItemVoiceTime.setVisibility(View.GONE);
+                    chatItemContentText.setVisibility(View.GONE);
+                    chatItemContentImage.setVisibility(View.VISIBLE);
+                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
+                    chatItemContentImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition());
+                        }
+                    });
+                    break;
+                case Constants.CHAT_EMOTION:
+                    chatItemContentText.setSpanText(handler, data.getMessage(), true);
+                    chatItemVoice.setVisibility(View.GONE);
+                    chatItemContentText.setVisibility(View.VISIBLE);
+                    chatItemLayoutContent.setVisibility(View.VISIBLE);
+                    chatItemVoiceTime.setVisibility(View.GONE);
+                    chatItemContentImage.setVisibility(View.GONE);
+                    break;
+                case Constants.CHAT_FILE:
+                    chatItemVoice.setVisibility(View.VISIBLE);
+                    chatItemLayoutContent.setVisibility(View.VISIBLE);
+                    chatItemContentText.setVisibility(View.GONE);
+                    chatItemVoiceTime.setVisibility(View.VISIBLE);
+                    chatItemContentImage.setVisibility(View.GONE);
+                    chatItemVoiceTime.setText("文件");
+    //                chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
+                    chatItemLayoutContent.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onItemClickListener.onVoiceClick(chatItemVoice, getDataPosition());
+                        }
+                    });
+                    break;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+//        if (data.getMessage() != null) {
+//            chatItemContentText.setSpanText(handler, data.getContent(), true);
+//            chatItemVoice.setVisibility(View.GONE);
+//            chatItemContentText.setVisibility(View.VISIBLE);
+//            chatItemLayoutContent.setVisibility(View.VISIBLE);
+//            chatItemVoiceTime.setVisibility(View.GONE);
+//            chatItemContentImage.setVisibility(View.GONE);
+//        } else if (data.getImageUrl() != null) {
+//            chatItemVoice.setVisibility(View.GONE);
+//            chatItemLayoutContent.setVisibility(View.GONE);
+//            chatItemVoiceTime.setVisibility(View.GONE);
+//            chatItemContentText.setVisibility(View.GONE);
+//            chatItemContentImage.setVisibility(View.VISIBLE);
+//            Glide.with(getContext()).load(data.getImageUrl()).into(chatItemContentImage);
+//            chatItemContentImage.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onItemClickListener.onImageClick(chatItemContentImage, getDataPosition());
+//                }
+//            });
+//        } else if (data.getFilepath() != null) {
+//            chatItemVoice.setVisibility(View.VISIBLE);
+//            chatItemLayoutContent.setVisibility(View.VISIBLE);
+//            chatItemContentText.setVisibility(View.GONE);
+//            chatItemVoiceTime.setVisibility(View.VISIBLE);
+//            chatItemContentImage.setVisibility(View.GONE);
+//            chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
+//            chatItemLayoutContent.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    onItemClickListener.onVoiceClick(chatItemVoice, getDataPosition());
+//                }
+//            });
+//        }
         switch (data.getSendState()) {
             case Constants.CHAT_ITEM_SENDING:
                 chatItemProgress.setVisibility(View.VISIBLE);

@@ -63,4 +63,12 @@ public class AppAllKey {
     public static final int HANDLE_MSG_FAILED= 0x04;//失败
     public static final int HANDLE_MSG_ERROR= 0x05;//错误
 
+
+    /**
+     * 联系人
+     */
+//    好友列表
+    public static final String FRIEND_DATA= "friend_data";
+    public static final String GROUD_DATA= "groud_data";
+
 }

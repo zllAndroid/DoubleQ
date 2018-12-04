@@ -36,6 +36,6 @@ dependencies {
 
     implementation 'org.greenrobot:eventbus:3.0.0'
 //    implementation 'com.github.bumptech.glide:glide:3.7.0'
-    implementation files('libs/autobahn-0.5.0.jar')
+//    implementation files('libs/autobahn-0.5.0.jar')
 //    implementation files('libs/alibaba-json-1.1.0.jar')
 }

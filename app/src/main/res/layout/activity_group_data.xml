@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/add_bg"
+    android:orientation="vertical"
+    >
+    <!--s搜索后添加群的群资料页面-->
+    <include layout="@layout/activity_include_title_bar"/>
+
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.doubleq.xm6leefunz.about_custom.CusScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/grayeee"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/app_theme"
+                    android:layout_gravity="center"
+                    android:orientation="vertical">
+                    <ImageView
+                        android:id="@+id/group_data_iv_head"
+                        android:layout_width="@dimen/dp60"
+                        android:layout_height="@dimen/dp60"
+                        app:srcCompat="@drawable/mine_head"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        android:layout_margin="@dimen/dp10"
+                        />
+                    <TextView
+                        android:id="@+id/group_data_tv_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:drawableRight="@drawable/qun_code"
+                        android:drawablePadding="@dimen/dp5"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp14"
+                        android:layout_marginBottom="@dimen/dp5"
+                        android:text="龙哥(张龙龙)"/>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/group_data_lin_intogrouplist"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/dp10"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/group_data_tv_chatnum"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/gray666"
+                        android:layout_marginBottom="@dimen/dp5"
+                        android:drawableRight="@drawable/in_right"
+                        android:text="群聊成员(3)"/>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/white"
+                        android:orientation="vertical">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:descendantFocusability="blocksDescendants">
+                            <!--<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView-->
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/group_data_recyc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:fadingEdge="none"
+                                />
+                        </RelativeLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:paddingLeft="@dimen/dp10"
+                    android:paddingRight="@dimen/dp10"
+                    android:paddingBottom="@dimen/dp10"
+                    android:background="@color/white"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/gray666"
+                        android:textSize="@dimen/sp15"
+                        android:layout_marginBottom="@dimen/dp5"
+                        android:text="群公告"/>
+                    <TextView
+                        android:id="@+id/group_data_tv_gonggao"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="left|top"
+                        android:textSize="@dimen/sp12"
+                        android:textColor="@color/gray666"
+                        android:lines="3"
+                        android:minLines="3"
+                        android:maxLines="3"
+                        android:ellipsize="end"
+                        android:layout_marginBottom="@dimen/dp5"
+                        android:text="暂无公告"
+                        />
+
+                </LinearLayout>
+            </LinearLayout>
+        </com.doubleq.xm6leefunz.about_custom.CusScrollView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dp5"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_stroke_sel"
+                android:paddingTop="@dimen/dp10"
+                android:visibility="gone"
+                android:paddingBottom="@dimen/dp10"
+                android:paddingLeft="@dimen/dp20"
+                android:paddingRight="@dimen/dp20"
+                android:layout_margin="@dimen/dp30"
+                android:text="加密聊天"/>
+            <TextView
+                android:id="@+id/group_data_tv_addgroup"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dp5"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_stroke_sel"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10"
+                android:paddingLeft="@dimen/dp30"
+                android:layout_margin="@dimen/dp30"
+                android:paddingRight="@dimen/dp30"
+                android:text="发起聊天"/>
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 内部颜色 -->
+    <solid android:color="@color/gray_dialog_trans33" />
+
+    <!-- 圆角的幅度 -->
+    <corners
+        android:bottomLeftRadius="@dimen/dp3"
+        android:bottomRightRadius="@dimen/dp3"
+        android:topLeftRadius="@dimen/dp3"
+        android:topRightRadius="@dimen/dp3" />
+</shape>

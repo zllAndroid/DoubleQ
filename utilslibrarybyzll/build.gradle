@@ -22,5 +22,6 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:27.+'
-    implementation files('libs/volley.jar')
+    api files('libs/volley.jar')
+//    compile project(path: ':app')
 }

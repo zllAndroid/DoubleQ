@@ -1,48 +1,60 @@
 apply plugin: 'com.android.application'
-
+//apply plugin: 'android-annotationProcessor'
+apply plugin: 'realm-android'
+realm {
+    syncEnabled = true
+}
 android {
     compileSdkVersion 27
-
+    buildToolsVersion '27.0.3'
     defaultConfig {
+        ndk {
+            abiFilters "arm64-v8a","armeabi", "armeabi-v7a", "x86", "mips", "mips64", "x86", "x86_64"
+        }
         vectorDrawables.useSupportLibrary = true
         applicationId "com.doubleq.xm6leefunz"
         minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
+        multiDexEnabled true  //防止方法数量超过65536导致错误
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        aaptOptions {
-            cruncherEnabled = false
-            useNewCruncher = false
-        }
-        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+//        aaptOptions {
+//            cruncherEnabled = false
+//            useNewCruncher = false
+//        }
+//        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
     buildTypes {
         release {
-//            minifyEnabled false
             minifyEnabled true  //是否代码混淆
-            zipAlignEnabled true
 //            multiDexEnabled true  //防止方法数量超过65536导致错误
             //移除无用的resource文件
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-    sourceSets {
-        main { res.srcDirs = ['src/main/res', 'src/main/res/color', 'src/main/res/menu'] }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
     }
+//    sourceSets {
+//        main { res.srcDirs = ['src/main/res', 'src/main/res/color', 'src/main/res/menu'] }
+//    }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:support-v4:27.+'
-    implementation 'com.android.support:design:27.1.1'
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude module: 'support-v4'
         exclude group: 'com.android.support'
         exclude group: 'org.greenrobot:eventbus:3.1.1'
     })
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.android.support:support-v4:27.+'
+    implementation 'com.android.support:design:27.+'
     implementation 'com.android.support:appcompat-v7:27.+'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
@@ -66,15 +78,31 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     implementation 'com.jungly:gridPasswordView:0.3'
     //    二维码
-    //    implementation files('libs/zxing.jar')
-    implementation files('libs/zixing-core-3.2.0.jar')
+//    implementation files('libs/zixing-core-3.2.0.jar')
     //    三级市联动PickerView
     implementation 'com.bigkoo:pickerview:2.1.0'
     implementation files('libs/alibaba-json-1.1.0.jar')
+//二维码
+    implementation files('libs/zxing.jar')
+
+//    蒲公英
+    implementation files('libs/pgyerSdk3.0.2.jar')
+//    implementation 'com.pgyersdk:sdk:3.0.2'
     //    implementation files('libs/volley.jar')
     implementation project(':utilslibrarybyzll')
     //    compile project(path: ':chat')
     implementation 'com.jude:easyrecyclerview:4.2.3'
     implementation project(':chat')
-    compile project(path: ':chat')
+    //    compile project(path: ':chat')
+    implementation project(':websocketlib')
+//    implementation project(':libswicthbutton')
+//    implementation files('libs/autobahn-0.5.0.jar')
+
+    implementation 'site.gemus:openingstartanimation:1.0.0' //在gradle中导入项目
+    implementation 'com.github.hotchemi:permissionsdispatcher:2.3.1'
+    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.1'
+
+//switchbutton
+    implementation 'com.github.zcweng:switch-button:0.0.3@aar'
+    implementation 'com.example.zhouwei.library:library:1.0.0'
 }

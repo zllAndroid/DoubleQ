@@ -1,9 +1,20 @@
-<?xml version="1.0"?><resources>    <!-- 顶部按钮栏高度 -->    <dimen name="pickerview_topbar_height">110.0dp</dimen>
+<?xml version="1.0"?><resources>    <dimen name="activity_horizontal_margin">40.0dp</dimen>
+    <dimen name="activity_vertical_margin">40.0dp</dimen>
+    <dimen name="content_horizontal_margin">25.0dp</dimen>
+    <dimen name="content_vertical_margin">25.0dp</dimen>
+    <dimen name="content_small">12.5dp</dimen>
+    <!-- 字体大小 -->    <dimen name="text_title">47.5sp</dimen>
+    <dimen name="text_subhead">42.5sp</dimen>
+    <dimen name="text_body">37.5sp</dimen>
+    <dimen name="text_caption">32.5sp</dimen>
+    <dimen name="line_height">2.5dp</dimen>
+    <!-- 顶部按钮栏高度 -->    <dimen name="pickerview_topbar_height">110.0dp</dimen>
     <!-- 顶部按钮padding -->    <dimen name="pickerview_topbar_padding">50.0dp</dimen>
     <!-- 顶部按钮文字大小 -->    <dimen name="pickerview_topbar_btn_textsize">42.5sp</dimen>
     <dimen name="pickerview_topbar_title_textsize">45.0sp</dimen>
     <!-- 选项文字大小 -->    <dimen name="pickerview_textsize">50.0sp</dimen>
     <dimen name="dp80">200.0dp</dimen>
+    <dimen name="dp81">202.5dp</dimen>
     <dimen name="dp65">162.5dp</dimen>
     <dimen name="dp200">500.0dp</dimen>
     <dimen name="dp280">700.0dp</dimen>
@@ -62,7 +73,8 @@
     <dimen name="sp22">55.0sp</dimen>
     <dimen name="sp20">50.0sp</dimen>
     <dimen name="sp30">75.0sp</dimen>
-    <dimen name="divider_height">1.25dp</dimen>
+    <dimen name="sp50">125.0sp</dimen>
+    <dimen name="divider_height">2.5dp</dimen>
     <dimen name="input_method_spacing">5.0px</dimen>
     <!-- 字体大小 -->    <dimen name="font_larger">50.0sp</dimen>
     <dimen name="font_large">45.0sp</dimen>
@@ -96,6 +108,4 @@
     <dimen name="dp70">175.0dp</dimen>
     <dimen name="dp18">45.0dp</dimen>
     <dimen name="dp9">22.5dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->    <dimen name="activity_horizontal_margin">40.0dp</dimen>
-    <dimen name="activity_vertical_margin">40.0dp</dimen>
 </resources>

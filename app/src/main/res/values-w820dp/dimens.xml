@@ -1,9 +1,20 @@
-<?xml version="1.0"?><resources>    <!-- 顶部按钮栏高度 -->    <dimen name="pickerview_topbar_height">112.64dp</dimen>
+<?xml version="1.0"?><resources>    <dimen name="activity_horizontal_margin">40.96dp</dimen>
+    <dimen name="activity_vertical_margin">40.96dp</dimen>
+    <dimen name="content_horizontal_margin">25.6dp</dimen>
+    <dimen name="content_vertical_margin">25.6dp</dimen>
+    <dimen name="content_small">12.8dp</dimen>
+    <!-- 字体大小 -->    <dimen name="text_title">48.64sp</dimen>
+    <dimen name="text_subhead">43.52sp</dimen>
+    <dimen name="text_body">38.4sp</dimen>
+    <dimen name="text_caption">33.28sp</dimen>
+    <dimen name="line_height">2.56dp</dimen>
+    <!-- 顶部按钮栏高度 -->    <dimen name="pickerview_topbar_height">112.64dp</dimen>
     <!-- 顶部按钮padding -->    <dimen name="pickerview_topbar_padding">51.2dp</dimen>
     <!-- 顶部按钮文字大小 -->    <dimen name="pickerview_topbar_btn_textsize">43.52sp</dimen>
     <dimen name="pickerview_topbar_title_textsize">46.08sp</dimen>
     <!-- 选项文字大小 -->    <dimen name="pickerview_textsize">51.2sp</dimen>
     <dimen name="dp80">204.8dp</dimen>
+    <dimen name="dp81">207.36dp</dimen>
     <dimen name="dp65">166.4dp</dimen>
     <dimen name="dp200">512.0dp</dimen>
     <dimen name="dp280">716.8000000000001dp</dimen>
@@ -62,7 +73,8 @@
     <dimen name="sp22">56.32sp</dimen>
     <dimen name="sp20">51.2sp</dimen>
     <dimen name="sp30">76.8sp</dimen>
-    <dimen name="divider_height">1.28dp</dimen>
+    <dimen name="sp50">128.0sp</dimen>
+    <dimen name="divider_height">2.56dp</dimen>
     <dimen name="input_method_spacing">5.12px</dimen>
     <!-- 字体大小 -->    <dimen name="font_larger">51.2sp</dimen>
     <dimen name="font_large">46.08sp</dimen>
@@ -96,6 +108,4 @@
     <dimen name="dp70">179.20000000000002dp</dimen>
     <dimen name="dp18">46.08dp</dimen>
     <dimen name="dp9">23.04dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->    <dimen name="activity_horizontal_margin">40.96dp</dimen>
-    <dimen name="activity_vertical_margin">40.96dp</dimen>
 </resources>

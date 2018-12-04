@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">(*^__^*)</string>
+    <string name="app_name">链讯</string>
+    <string name="phone_is_null">请输入您的手机号</string>
+    <string name="phone_is_error">请输入正确手机号格式</string>
+
+    <string name="init_cream_hold">摄像头未初始化，请稍后</string>
+    <string name="scan_sao">扫一扫</string>
+    <string name="scan_fail">扫码失败</string>
+    <string name="scan_success">扫描成功，即将打开该页面</string>
 </resources>

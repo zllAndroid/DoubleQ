@@ -25,6 +25,7 @@
     <dimen name="pickerview_textsize">20sp</dimen>
 
     <dimen name="dp80">80dp</dimen>
+    <dimen name="dp81">81dp</dimen>
     <dimen name="dp65">65dp</dimen>
     <dimen name="dp200">200dp</dimen>
     <dimen name="dp280">280dp</dimen>
@@ -84,9 +85,10 @@
     <dimen name="sp22">22sp</dimen>
     <dimen name="sp20">20sp</dimen>
     <dimen name="sp30">30sp</dimen>
+    <dimen name="sp50">50sp</dimen>
 
 
-    <dimen name="divider_height">0.5dp</dimen>
+    <dimen name="divider_height">1dp</dimen>
     <dimen name="input_method_spacing">2px</dimen>
 
 
