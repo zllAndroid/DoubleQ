@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,10 +20,13 @@ import com.doubleq.model.DataSetAbout;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_notice.NoticeAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_notice.NoticeDetailsActivity;
@@ -64,10 +68,12 @@ public class NoticeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
     RealmHomeHelper realmHelper;
+    RealmChatHelper realmChatHelper;
     @Override
     protected void initBaseView() {
         super.initBaseView();
         realmHelper = new RealmHomeHelper(this);
+        realmChatHelper = new RealmChatHelper(this);
         includeTopTvTital.setText("通知");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
 
@@ -106,6 +112,7 @@ public class NoticeActivity extends BaseActivity {
                     blackAdapter.delItem(positions);
                 }
                 ToastUtil.show("同意好友请求成功");
+                dealAgreeFriend();
                 break;
             case "refuseFriend":
                 if (blackAdapter!=null)
@@ -116,7 +123,42 @@ public class NoticeActivity extends BaseActivity {
                 break;
         }
     }
+
+    private void dealAgreeFriend() {
+        if (item!=null) {
+
+//            CusChatData cusRealmChatMsg = new CusChatData();
+//            cusRealmChatMsg.setCreated(TimeUtil.getTime());
+//            cusRealmChatMsg.setMessage("我们已经是好友了，快来聊一聊吧");
+//            cusRealmChatMsg.setMessageType("1");
+//            cusRealmChatMsg.setReceiveId(item.getSendUserId());
+//            cusRealmChatMsg.setSendId(SplitWeb.getUserId());
+//            cusRealmChatMsg.setUserMessageType(1);
+//            cusRealmChatMsg.setTotalId(item.getSendUserId()+SplitWeb.getUserId());
+//            realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
+
+
+//            final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
+//            cusJumpChatData.setHeadImg(item.getHeadImg());
+//            cusJumpChatData.setFriendId(item.getSendUserId());
+//            cusJumpChatData.setNickName(item.getNickName());
+//            cusJumpChatData.setMsg("我们已经是好友了，快来聊一聊吧");
+//            cusJumpChatData.setTime(TimeUtil.getTime());
+//            cusJumpChatData.setNum(0);
+//            realmHelper.addRealmMsg(cusJumpChatData);
+
+//            send(SplitWeb.privateSend(item.getSendUserId(),"我们已经是好友了，快来聊一聊吧",ChatActivity.messageType, TimeUtil.getTime()));
+//
+//            Intent intent = new Intent();
+//            intent.putExtra("message","我们已经是好友了，快来聊一聊吧");
+//            intent.putExtra("id",item.getSendUserId());
+//            intent.setAction("action.refreshMsgFragment");
+//            sendBroadcast(intent);
+        }
+    }
+
     NoticeAdapter blackAdapter =null;
+    DataNews.RecordBean.ListInfoBean item=null;
     public int positions;
     private void initAdapter() {
         blackAdapter = new NoticeAdapter(this,mList,mItemTouchListener);
@@ -127,7 +169,7 @@ public class NoticeActivity extends BaseActivity {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 positions=position;
-                DataNews.RecordBean.ListInfoBean item = (DataNews.RecordBean.ListInfoBean)adapter.getItem(position);
+                item = (DataNews.RecordBean.ListInfoBean)adapter.getItem(position);
                 String id = item.getId();
                 switch (view.getId())
                 {
@@ -153,14 +195,14 @@ public class NoticeActivity extends BaseActivity {
                         switch (item.getIsAgree())
                         {
                             case  "0":
-                                final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
-                                cusJumpChatData.setHeadImg(item.getHeadImg());
-                                cusJumpChatData.setFriendId(item.getId());
-                                cusJumpChatData.setNickName(item.getNickName());
-                                cusJumpChatData.setMsg("");
-                                cusJumpChatData.setTime(TimeUtil.getTime());
-                                cusJumpChatData.setNum(0);
-                                realmHelper.addRealmMsg(cusJumpChatData);
+//                                final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
+//                                cusJumpChatData.setHeadImg(item.getHeadImg());
+//                                cusJumpChatData.setFriendId(item.getSendUserId());
+//                                cusJumpChatData.setNickName(item.getNickName());
+//                                cusJumpChatData.setMsg("新添加的好友");
+//                                cusJumpChatData.setTime(TimeUtil.getTime());
+//                                cusJumpChatData.setNum(0);
+//                                realmHelper.addRealmMsg(cusJumpChatData);
 
                                 sendWeb(SplitWeb.agreeFriend(id));
                                 break;

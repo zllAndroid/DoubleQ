@@ -41,9 +41,11 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
 import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
+import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.main_code.about_login.FirstAddHeaderActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.CreatGroupChatAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.CreatGroupSeachAdapter;
@@ -285,6 +287,8 @@ public class CreatGroupChatActivity extends BaseActivity {
                 break;
 //                创建群成功
             case "createdUserGroup":
+                //     TODO 处理群信息页面，群主发送一条默认消息给该群（后台未添加该数据）
+//                send(SplitWeb.privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType, TimeUtil.getTime()));
                 DialogUtils.showDialogOne("群创建成功，快去聊天吧", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {

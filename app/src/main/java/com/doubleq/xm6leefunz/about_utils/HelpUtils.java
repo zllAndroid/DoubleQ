@@ -24,6 +24,8 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -42,8 +44,23 @@ import java.util.List;
 
 public class HelpUtils {
     public static Activity activity = AppManager.getAppManager().currentActivity();
+    public static Activity getACt() {
 
-
+        return AppManager.getAppManager().currentActivity();
+    }
+    // 判断网络连接状态
+    public static boolean isNetworkConnected(Context context) {
+        if (context != null) {
+            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo mNetworkInfo = mConnectivityManager
+                    .getActiveNetworkInfo();
+            if (mNetworkInfo != null) {
+                return mNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
 
     public static int getLocalVersion() {
         int localVersion = 0;

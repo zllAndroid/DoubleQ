@@ -2,6 +2,7 @@ package com.doubleq.xm6leefunz.about_chat.adapter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -51,7 +52,7 @@ public class ChatAdapter extends RecyclerArrayAdapter<DataJieShou.RecordBean> {
 
     public interface onItemClickListener {
         void onHeaderClick(int position);
-        void onConClick(View view,String conText);
+        void onConClick(View view, MotionEvent event, int position,String conText);
 
         void onImageClick(View view, int position);
 

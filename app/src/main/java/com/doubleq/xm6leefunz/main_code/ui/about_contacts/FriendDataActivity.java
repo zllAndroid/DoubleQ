@@ -26,6 +26,8 @@ import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.example.zhouwei.library.CustomPopWindow;
+import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -66,7 +68,7 @@ public class FriendDataActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-    String userId;
+    String FriendId;
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -75,8 +77,8 @@ public class FriendDataActivity extends BaseActivity {
         includeTopIvMore.setVisibility(View.VISIBLE);
         Intent intent = getIntent();
 //        DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = (DataLinkManList.RecordBean.FriendListBean.GroupListBean) intent.getSerializableExtra("groupListBean");
-         userId = intent.getStringExtra("id");
-        sendWeb(SplitWeb.getFriendInfo(userId));
+        FriendId = intent.getStringExtra("id");
+        sendWeb(SplitWeb.getFriendInfo(FriendId));
 
         realmHelper = new RealmHomeHelper(this);
 
@@ -84,7 +86,13 @@ public class FriendDataActivity extends BaseActivity {
         mView.findViewById(R.id.pop_tv_pingbi).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.show("点击了屏蔽");
+//                ToastUtil.show("点击了屏蔽");
+                DialogUtils.showDialog("是否屏蔽此好友？", new DialogUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+                        sendWebHaveDialog(SplitWeb.shieldFriend(FriendId,"2"),"正在屏蔽...","屏蔽成功");
+                    }
+                });
                 if (popWindow!=null)
                 popWindow.dissmiss();
             }
@@ -92,9 +100,15 @@ public class FriendDataActivity extends BaseActivity {
         mView.findViewById(R.id.pop_tv_del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.show("点击了删除");
+//                ToastUtil.show("点击了删除");
+                DialogUtils.showDialog("是否确定删除该好友？", new DialogUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+                        sendWebHaveDialog(SplitWeb.deleteFriend(FriendId),"正在删除...","删除成功");
+                    }
+                });
                 if (popWindow!=null)
-                popWindow.dissmiss();
+                    popWindow.dissmiss();
             }
         });
     }
@@ -108,6 +122,22 @@ public class FriendDataActivity extends BaseActivity {
 //            获取好友数据
             case "getFriendInfo":
                 initDataFriend(responseText);
+                break;
+            case "deleteFriend":
+                DialogUtils.showDialogOne("删除好友成功", new DialogUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+                        AppManager.getAppManager().finishActivity(FriendDataActivity.this);
+                    }
+                });
+                break;
+            case "shieldFriend":
+                DialogUtils.showDialogOne("屏蔽好友成功", new DialogUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+                        AppManager.getAppManager().finishActivity(FriendDataActivity.this);
+                    }
+                });
                 break;
         }
     }
@@ -126,6 +156,7 @@ public class FriendDataActivity extends BaseActivity {
                     .crossFade(1000).into(mIvHead);
             String signText= StrUtils.isEmpty(record.getPersonaSignature())?"暂未设置签名":record.getPersonaSignature();
             fdTvGesign.setText(signText);
+            fdTvFenzu.setText(record.getGroupName()+"");
             fdTvContant.setText( record.getWxSno());
             mTvName.setText( record.getNickName()+"("+record.getRemarkName()+")");
 
@@ -194,7 +225,7 @@ public class FriendDataActivity extends BaseActivity {
                 if (NoDoubleClickUtils.isDoubleClick()) {
                     Intent intent = new Intent(this, ChooseGroupActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("string",userId);
+                    bundle.putString("string",FriendId);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, AppConfig.FRIEND_DATA_GROUP_REQUEST);
                 }

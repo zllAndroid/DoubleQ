@@ -47,6 +47,8 @@
     <color name="tab_select">#1edec9</color>
     <color name="tab_select_nor">#999</color>
 
+    <color name="no_net_bac">#f9ceae</color>
+
     <color name="white">#fff</color>
     <color name="white_trans">#77ffffff</color>
     <!--<color name="trans">#ffffffff</color>-->

@@ -43,18 +43,39 @@ public class NotificationClickReceiver extends BroadcastReceiver {
                 context.sendBroadcast(intent3);
 //                }
                 break;
+//                群消息
+            case AppConfig.TYPE_CHAT_QUN:
+                //     CusJumpChatData cusJumpChatData = new CusJumpChatData();
+//                            cusJumpChatData.setFriendHeader(item.getHeadImg());
+//                            cusJumpChatData.setFriendId(item.getFriendId());
+//                            cusJumpChatData.setFriendName(item.getNickName());
+//                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                CusJumpChatData chatData = (CusJumpChatData)intent2.getSerializableExtra(AppConfig.TYPE_KEY_FRIEND);
+//                if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
+                    intent2.setClass(context, ChatActivity.class);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    Bundle bundle3 = new Bundle();
+                    bundle3.putSerializable(Constants.KEY_FRIEND_HEADER, chatData);
+                    intent2.putExtras(bundle3);
+                    context.startActivity(intent2);
+//                Intent intent0 = new Intent();
+//                intent0.putExtra("id",chatData.getFriendId());
+//                intent0.setAction("zllrefreshMsg");
+//                context.sendBroadcast(intent0);
+//                }
+                break;
             case AppConfig.TYPE_NOTICE:
                 intent2.setClass(context, NoticeActivity.class);
-                intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 context.startActivity(intent2);
-                if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
-                    Intent newIntent1 = new Intent(context, NoticeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(newIntent1);
-                }else
-                {
-                    Intent newIntent2 = new Intent(context, NoticeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    context.startActivity(newIntent2);
-                }
+//                if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
+//                    Intent newIntent1 = new Intent(context, NoticeActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                    context.startActivity(newIntent1);
+//                }else
+//                {
+//                    Intent newIntent2 = new Intent(context, NoticeActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    context.startActivity(newIntent2);
+//                }
                 break;
 
         }

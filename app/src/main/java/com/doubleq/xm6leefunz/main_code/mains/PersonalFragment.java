@@ -18,6 +18,8 @@ import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.doubleq.model.DataMyZiliao;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseFragment;
@@ -25,6 +27,8 @@ import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
+import com.doubleq.xm6leefunz.main_code.about_login.FirstAddHeaderActivity;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ConfirmPopWindow;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MineSetActivity;
@@ -33,6 +37,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccou
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.List;
@@ -119,11 +124,16 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     private void getHead() {
         GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
         List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
-        if (fileName!=null)
-            if (fileName.size()>0)
+            if (fileName!=null&&fileName.size()>0)
             {
                 String path=fileName.get(fileName.size()-1);
                 Glide.with(this).load(path)
+                        .bitmapTransform(new CropCircleTransformation(getActivity()))
+                        .thumbnail(0.1f)
+                        .into(mineIvPerson);
+            }else
+            {
+                Glide.with(this).load(R.drawable.first_head_nor)
                         .bitmapTransform(new CropCircleTransformation(getActivity()))
                         .thumbnail(0.1f)
                         .into(mineIvPerson);
@@ -151,11 +161,35 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                     }else {
                         mineTvSign.setText(record.getPersonaSignature());
                     }
+//                    GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
+                    List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
+                    if (fileName!=null&&fileName.size()>0)
+                    {
+                    }else
+                    {
+                        String headImg = record.getHeadImg();
+                        if (!StrUtils.isEmpty(headImg))
+                            Glide.with(this)
+                                    .load(headImg)
+                                    .downloadOnly(new SimpleTarget<File>() {
+                                        @Override
+                                        public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                                            File file = HeadFileUtils.saveHeadPath(getActivity(), resource);
+                                        }
+                                    });
+                        Glide.with(this).load(record.getHeadImg())
+                            .bitmapTransform(new CropCircleTransformation(getActivity()))
+                            .thumbnail(0.1f)
+                            .into(mineIvPerson);
+                    }
 //                    if (StrUtils.isEmpty(FilePath.getHeadPath()))
 //                    Glide.with(this).load(record.getHeadImg())
 //                            .bitmapTransform(new CropCircleTransformation(getActivity()))
 //                            .thumbnail(0.1f)
 //                            .into(mineIvPerson);
+
+
                     SplitWeb.USER_HEADER=record.getHeadImg();
                     SPUtils.put(getActivity(),"header",record.getHeadImg());
                     SPUtils.put(getActivity(),"name",record.getNickName());

@@ -10,12 +10,14 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -42,17 +44,20 @@ import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.AppData;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.MyApplication;
+import com.doubleq.xm6leefunz.about_base.web_base.MessageEvent;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
 import com.doubleq.xm6leefunz.about_chat.adapter.CommonFragmentPagerAdapter;
 import com.doubleq.xm6leefunz.about_chat.fragment.ChatEmotionFragment;
 import com.doubleq.xm6leefunz.about_chat.fragment.ChatFunctionFragment;
 import com.doubleq.xm6leefunz.about_chat.ui.StateButton;
+import com.doubleq.xm6leefunz.about_utils.DensityUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SoftKeyboardUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.about_utils.about_realm.RealmLinkManHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
@@ -60,6 +65,8 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
+import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -71,6 +78,8 @@ import com.rance.chatui.util.MediaManager;
 import com.rance.chatui.widget.NoScrollViewPager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -78,6 +87,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
@@ -144,17 +154,10 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_chat);
-//        ButterKnife.bind(this);
-//        setWindowStatusBarColor();
     }
 
     //        设置导航栏颜色
     public void initStateBar() {
-
-    }
-
-    public void setWindowStatusBarColor() {
 
     }
 
@@ -169,7 +172,7 @@ public class ChatActivity extends BaseActivity {
     RealmChatHelper realmHelper;
     RealmHomeHelper realmHomeHelper;
     HideControl hideControl;
-    //    RealmLinkManHelper  realmLink;
+        RealmLinkManHelper realmLink;
     CusJumpChatData cusJumpChatData;
     @Override
     protected void initBaseView() {
@@ -221,10 +224,6 @@ public class ChatActivity extends BaseActivity {
     private void initRealm() {
         List<CusChatData> cusRealmChatMsgs = realmHelper.queryAllRealmChat(FriendId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
-//            if (StrUtils.isEmpty(cusRealmChatMsgs.get(0).getMessage()))
-//            {
-//                return;
-//            }
             mList.clear();
             for (int i = 0; i < cusRealmChatMsgs.size(); i++) {
                 DataJieShou.RecordBean recordBean = new DataJieShou.RecordBean();
@@ -309,24 +308,6 @@ public class ChatActivity extends BaseActivity {
                 }
             }
         });
-//        emotionLayout.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-//            @Override
-//            public void onLayoutChange(View v,final int left,final int top,final int right,final int bottom,final int oldLeft,final int oldTop,final int oldRight,final int oldBottom) {
-//                if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
-//                    if (layoutManager!=null&&chatAdapter!=null)
-//                        layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-//                }
-//            }
-//        });
-//        emotionButton.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-//            @Override
-//            public void onLayoutChange(View v,final int left,final int top,final int right,final int bottom,final int oldLeft,final int oldTop,final int oldRight,final int oldBottom) {
-//                if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
-//                    if (layoutManager!=null&&chatAdapter!=null)
-//                        layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-//                }
-//            }
-//        });
         GlobalOnItemClickManagerUtils globalOnItemClickListener = GlobalOnItemClickManagerUtils.getInstance(this);
         globalOnItemClickListener.attachToEditText(editText);
         chatAdapter = new ChatAdapter(this);
@@ -334,6 +315,15 @@ public class ChatActivity extends BaseActivity {
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         chatList.setLayoutManager(layoutManager);
         chatList.setAdapter(chatAdapter);
+
+        chatAdapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(int position) {
+                return false;
+
+
+            }
+        });
         chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -410,7 +400,13 @@ public class ChatActivity extends BaseActivity {
         //选取screenHeight*2/3进行判断
         return screenHeight*2/3 > rect.bottom;
     }
+    //订阅方法，接收到服务器返回事件处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(DataJieShou.RecordBean messageInfo){
+        String ed = editText.getText().toString().trim();
+        send(SplitWeb.privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType, TimeUtil.getTime()));
 
+    }
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -480,7 +476,6 @@ public class ChatActivity extends BaseActivity {
                         SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME,(String)record2.getRequestTime());
                         if (Math.abs(i) < 5)
                         {
-//                            myTime="";
                             record2.setRequestTime("");
                         }
                     } catch (ParseException e) {
@@ -586,27 +581,8 @@ public class ChatActivity extends BaseActivity {
             }
             record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
             record.setType(Constants.CHAT_ITEM_TYPE_RIGHT);
-//            CusChatData cusRealmChatMsg = new CusChatData();
-//            cusRealmChatMsg.setCreated(TimeUtil.sf.format(new Date()));
-//            cusRealmChatMsg.setMessage(record.getMessage());
-//            cusRealmChatMsg.setMessageType(record.getMessageType());
-//            cusRealmChatMsg.setReceiveId(record.getFriendsId());
-//            cusRealmChatMsg.setSendId(record.getUserId());
-//            cusRealmChatMsg.setUserMessageType(record.getType());
-//            cusRealmChatMsg.setTotalId(record.getFriendsId()+ SplitWeb.USER_ID);
-
-//            realmHelper.addRealmChat(cusRealmChatMsg);
-//            Intent intent = new Intent();
-//            intent.putExtra("message",record.getMessage());
-//            intent.putExtra("id",record.getFriendsId());
-//            intent.setAction("action.refreshMsgFragment");
-//            sendBroadcast(intent);
-//            realmHomeHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
-//                    addChatRealm(record.getMessage());
             chatAdapter.add(record);
             chatAdapter.notifyDataSetChanged();
-//                    chatList.scrollToPosition(chatAdapter.getItemCount()-1);
-////                    chatList.scrollToPosition(chatAdapter.getCount()-1);
 //                    滑动到底部
             layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
         }
@@ -615,6 +591,8 @@ public class ChatActivity extends BaseActivity {
     Bitmap bitmap;
     CustomPopWindow popWindow=null;
     View view=null;
+
+    private int mPressedPos; // 被点击的位置
     /**
      * item点击事件
      */
@@ -624,10 +602,15 @@ public class ChatActivity extends BaseActivity {
 //            showPopWindows
             Toast.makeText(ChatActivity.this, "onHeaderClick", Toast.LENGTH_SHORT).show();
         }
+
         @Override
-        public void onConClick(View view,String msg) {
-            showPopWindows(view,msg);
-//            Toast.makeText(ChatActivity.this, "onHeaderClick", Toast.LENGTH_SHORT).show();
+        public void onConClick(View view, MotionEvent event, int position, String conText) {
+            mRawX = event.getRawX();
+            mRawY = event.getRawY();
+            mPressedPos = position;
+            Log.d("onConClick", "e.getRawX()横坐标=" + mRawX + ", e.getRawY()纵坐标=" + mRawY);
+            Log.d("onConClick", "position=" + position);
+            initPopWindow(view, position);
         }
 
         @Override
@@ -678,63 +661,6 @@ public class ChatActivity extends BaseActivity {
     protected void onStart() {
         super.onStart();
     }
-//    boolean isFirst = true;
-//
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void MessageEventBus(final MessageInfo messageInfo) {
-//        messageInfo.setHeader("http://img.dongqiudi.com/uploads/avatar/2014/10/20/8MCTb0WBFG_thumb_1413805282863.jpg");
-//        messageInfo.setType(Constants.CHAT_ITEM_TYPE_RIGHT);
-//        messageInfo.setSendState(Constants.CHAT_ITEM_SENDING);
-//        messageInfos.add(messageInfo);
-//        chatAdapter.add(messageInfo);
-//        chatList.scrollToPosition(chatAdapter.getCount() - 1);
-//        //                前两行是发送的消息
-//        messageInfo.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
-//        chatAdapter.notifyDataSetChanged();
-//        String ed = messageInfo.getContent();
-////        String string="{\"ctn\":\"IM\", \"mtn\":\"bindUid\",\"data\":[{\"user_id\":\"1\",\"msg\":\""+ed+"\"}]}";
-//        String string = "{\"ctn\":\"IM\", \"mtn\":\"chatUser\",\"data\":[{\"user_id\":\"500\",\"msg\":\"" + ed + "\"}]}";
-//        MyWebSocketService myWebSocketService = new MyWebSocketService();
-//        myWebSocketService.SetOnMsgListener(new MyWebSocketService.OnMsgListener() {
-//            @Override
-//            public void onMsg(String msg) {
-////                messageTv.setText(msg);
-//                MessageInfo message = new MessageInfo();
-//                WebChatResult webChatResult = JSON.parseObject(msg, WebChatResult.class);
-//                if (isFirst)
-//                    message.setContent("成功连接");
-//                else
-//                    message.setContent(webChatResult.getRecord().getMsg());
-//                isFirst = false;
-//                message.setType(Constants.CHAT_ITEM_TYPE_LEFT);
-//                message.setHeader("http://p1cpgl5ic.bkt.clouddn.com/lurongbai.png");
-//                messageInfos.add(message);
-//                chatAdapter.add(message);
-//                chatList.scrollToPosition(chatAdapter.getCount() - 1);
-//            }
-//            @Override
-//            public void onSuc(String msg) {
-////                Toast.makeText(MainActivity.this,"连接成功",Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//        new Handler().postDelayed(new Runnable() {
-//            public void run() {
-//                messageInfo.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
-//                chatAdapter.notifyDataSetChanged();
-//            }
-//        }, 2000);
-//        new Handler().postDelayed(new Runnable() {
-//            public void run() {
-//                MessageInfo message = new MessageInfo();
-//                message.setContent("这是模拟消息回复");
-//                message.setType(Constants.CHAT_ITEM_TYPE_LEFT);
-//                message.setHeader("http://tupian.enterdesk.com/2014/mxy/11/2/1/12.jpg");
-//                messageInfos.add(message);
-//                chatAdapter.add(message);
-//                chatList.scrollToPosition(chatAdapter.getCount() - 1);
-//            }
-//        }, 3000);
-//    }
 
     @Override
     public void onBackPressed() {
@@ -866,6 +792,77 @@ public class ChatActivity extends BaseActivity {
                 if (mPopWindow != null) {
                     mPopWindow.dismiss();
                 }
+            }
+        });
+    }
+
+
+    private float mRawX;
+    private float mRawY;
+
+    private PopupWindow mPopupWindow;
+    private View mPopContentView;
+    private void initPopWindow(final View selectedView, final int position) {
+        if (mPopContentView == null) {
+            mPopContentView = View.inflate(this, R.layout.popup, null);
+        }
+//        LinearLayout layoutDelete = (LinearLayout) mPopContentView.findViewById(R.id.layout_delete);
+        // 在popupWindow还没有弹出显示之前就测量获取其宽高（单位是px像素）
+        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        mPopContentView.measure(w, h);
+        int viewWidth = mPopContentView.getMeasuredWidth();//获取测量宽度px
+        int viewHeight = mPopContentView.getMeasuredHeight();//获取测量高度px
+        final int screenWidth = DensityUtil.getScreenWidth(this.getWindow().getDecorView().getContext());
+        final int screenHeight = DensityUtil.getScreenHeight(this.getWindow().getDecorView().getContext());
+        if (mPopupWindow == null) {
+            mPopupWindow = new PopupWindow(mPopContentView, viewWidth, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        }
+        mPopupWindow.setOutsideTouchable(true);
+//        mPopupWindow.setBackgroundDrawable(drawable);
+        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+        int offX = 0; // 可以自己调整偏移
+        int offY = 0; // 可以自己调整偏移
+        float rawX = mRawX;
+        float rawY = mRawY;
+        if (mRawX <= screenWidth / 2) {
+            rawX = mRawX -offX;
+            if (mRawY < screenHeight / 3) {
+                rawY = mRawY;
+                mPopupWindow.setAnimationStyle(R.style.pop_anim_left_top); //设置动画
+            } else {
+                rawY = mRawY - viewHeight - offY;
+                mPopupWindow.setAnimationStyle(R.style.pop_anim_left_bottom); //设置动画
+            }
+        } else {
+            rawX = mRawX - viewWidth ;
+            if (mRawY < screenHeight / 3) {
+                rawY = mRawY-100;
+                mPopupWindow.setAnimationStyle(R.style.pop_anim_right_top); //设置动画
+            } else {
+                rawY = mRawY - viewHeight;
+                mPopupWindow.setAnimationStyle(R.style.pop_anim_right_bottom); //设置动画
+            }
+        }
+        mPopupWindow.showAtLocation(this.getWindow().getDecorView(), Gravity.NO_GRAVITY, (int) rawX, (int) rawY);
+//        layoutDelete.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mPopupWindow.dismiss();
+//                if (mChatMessages.size() <= 0) {
+//                    return;
+//                } else {
+//                    mChatMessages.remove(position);
+//                    mChatDetailAdapter.notifyDataSetChanged();
+//                    Toast.makeText(MainActivity.this, "已删除此条聊天内容", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
+        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                selectedView.setSelected(false);
             }
         });
     }

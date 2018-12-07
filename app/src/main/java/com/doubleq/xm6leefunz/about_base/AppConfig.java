@@ -8,7 +8,10 @@ public class AppConfig {
     //    notification
 //     类型
     public static final String TYPE_NOTICE= "notice";//好友通知
+
     public static final String TYPE_CHAT= "chat_chat";//聊天通知
+    public static final String TYPE_CHAT_QUN= "chat_chat_qun";//聊天通知
+
     public static final String TYPE_KEY= "key_notifity";//聊天通知
     public static final String TYPE_KEY_FRIEND= "key_notifityfirend";//聊天通知
     public static final String INTENT_ACTION= "intent_notification";//聊天通知
@@ -16,14 +19,21 @@ public class AppConfig {
 
     public static final String CHAT_SEND_TIME= "chat_time_send";//聊天发送时间
     public static final String CHAT_SEND_TIME_REALM= "chat_time_send_realm";//聊天发送时间
+    public static final String CHAT_SEND_TIME_REALM_GROUP= "chat_time_send_realm_group";//聊天发送时间
     public static final String CHAT_RECEIVE_TIME= "chat_time_receive";//聊天发送时间
     public static final String CHAT_RECEIVE_TIME_REALM= "chat_time_receive";//聊天发送时间
+
+    public static final String CHAT_RECEIVE_TIME_REALM_GROUP= "chat_time_receive_group";//聊天群发送时间
+
+
+    public static final String LINKMAN_FRIEND_NUM= "friendNum";//联系人好友 界面的数量
 
 
 
 
 
     public static  String CHAT_FRIEND_ID= "friendid";
+    public static  String CHAT_GROUP_ID= "groupid";
 
     //好友分组请求码
     public static final int FRIEND_ADD_GROUP_REQUEST= 0x0;//AddGoodFriendActivity  页面的请求码

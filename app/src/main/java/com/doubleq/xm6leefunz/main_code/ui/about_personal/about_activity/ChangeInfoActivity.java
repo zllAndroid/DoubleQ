@@ -121,11 +121,17 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     private void setHeadForFile() {
         GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
         List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
-        if (fileName!=null)
-            if (fileName.size()>0)
+            if (fileName!=null&&fileName.size()>0)
             {
                 String path=fileName.get(fileName.size()-1);
                 Glide.with(this).load(path)
+                        .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
+                        .thumbnail(0.1f)
+                        .crossFade(1000)
+                        .into(changeinfoIvHead);
+            }else
+            {
+                Glide.with(this).load(R.drawable.first_head_nor)
                         .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
                         .thumbnail(0.1f)
                         .crossFade(1000)
@@ -225,6 +231,29 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     }else {
                         changeinfoTvSign.setText(record.getPersonaSignature());
                     }
+
+                    List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
+                    if (fileName!=null&&fileName.size()>0)
+                    {
+                    }else
+                    {
+                        String headImg = record.getHeadImg();
+                        if (!StrUtils.isEmpty(headImg))
+                            Glide.with(this)
+                                    .load(headImg)
+                                    .downloadOnly(new SimpleTarget<File>() {
+                                        @Override
+                                        public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                                            File file = HeadFileUtils.saveHeadPath(ChangeInfoActivity.this, resource);
+                                            Glide.with(ChangeInfoActivity.this).load(file)
+                                                    .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
+                                                    .thumbnail(0.1f)
+                                                    .into(changeinfoIvHead);
+                                        }
+                                    });
+
+                    }
                 }
                 break;
             case "upNickName"://修改昵称成功
@@ -247,7 +276,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                             .downloadOnly(new SimpleTarget<File>() {
                                 @Override
                                 public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，至于如何处理，或保存到SD，或上传，就不啰嗦了。。。
+//                                    这里拿到的resource就是下载好的文件，
                                     File file = HeadFileUtils.saveHeadPath(ChangeInfoActivity.this, resource);
                                 }
                             })
@@ -260,26 +289,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 break;
         }
     }
-
-    /**
-     * Glide 获得图片缓存路径
-     */
-    private String getImagePath(String imgUrl) {
-        String path = null;
-        FutureTarget<File> future = Glide.with(this)
-                .load(imgUrl)
-                .downloadOnly(Target.SIZE_ORIGINAL,Target.SIZE_ORIGINAL);
-        try {
-            File cacheFile = future.get();
-            path = cacheFile.getAbsolutePath();
-        } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
-        }
-        return path;
-    }
-
-
-
 
     private Bitmap photo;
 
@@ -313,21 +322,9 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 bitmapOptions.inSampleSize = be;
                 bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath(), bitmapOptions);
                 save = ImageUtils.saveBitmap(ChangeInfoActivity.this, bitmap);
-//                final Map<String, File> files = new HashMap<String, File>();
-//                files.put("file", save);
-////                UpLoadIdCard(requestCode,files,CAMERA_RESULT_Btn1);
-//                BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
-////                pdIvHead.setBackgroundResource(0);
-//                Glide.with(this).load(saveBitmap)
-//                        .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-//                        .crossFade(1000).into(changeinfoIvHead);
-//                Glide.with(ChangeInfoActivity.this).load(drawable.getBitmap()).;
-//                changeinfoIvHead.setImageBitmap(drawable.getBitmap());
-//                SendDataImg(files);
                 sendWeb(SplitWeb.upHeadImg(ImageUtils.GetStringByImageView(bitmap)));
             }
         }
-
         //		相册
         if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
@@ -337,94 +334,13 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             String imagePath = c.getString(columnIndex);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-//            File saveBitmap = null;
-//                saveBitmap = ImageUtils.saveFile(bitmap);
             save = ImageUtils.saveBitmap(ChangeInfoActivity.this, bitmap);
             final Map<String, File> files = new HashMap<String, File>();
             files.put("file", save);
             Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-
-//            Log.e(AppConstant.TAG,saveBitmap+"这个是图片的地址"+files);
-//            SendDataImg(files);
-//            mTvChange.setText("");
-//            changeinfoIvHead.setImageBitmap(bitmap);
             c.close();
-//            sendWeb(SplitWeb.upHeadImg(save));
-//            sendWeb(SplitWeb.upHeadImg("123"));
             sendWeb(SplitWeb.upHeadImg(ImageUtils.GetStringByImageView(bitmap)));
         }
-    }
-
-    private static String readString3( File file)
-    {
-        String str = "";
-        try
-        {
-            FileInputStream in = new FileInputStream(file);
-            // size  为字串的长度 ，这里一次性读完
-            int size = in.available();
-            byte[] buffer = new byte[size];
-            in.read(buffer);
-            in.close();
-            str = new String(buffer, "GB2312");
-        } catch(
-                IOException e)
-        {
-            // TODO Auto-generated catch block
-            return null;
-        }
-        return str;
-    }
-    private static String readString( File file)
-    {
-        StringBuffer str=new StringBuffer("");
-//        File file=new File(FILE_IN);
-        try {
-            FileReader fr=new FileReader(file);
-            int ch = 0;
-            while((ch = fr.read())!=-1 )
-            {
-                System.out.print((char)ch+" ");
-            }
-            fr.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            System.out.println("File reader出错");
-        }
-        return str.toString();
-    }
-    public String getXmlString( File xmlfile ) {
-        String xmlString;
-        byte[] strBuffer = null;
-        int flen = 0;
-//        File xmlfile = new File("/data/local/getHomePage.xml");
-        try {
-            InputStream in = new FileInputStream(xmlfile);
-            flen = (int) xmlfile.length();
-            strBuffer = new byte[flen];
-            in.read(strBuffer, 0, flen);
-        } catch (FileNotFoundException e) {
-// TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-// TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        xmlString = new String(strBuffer); //构建String时，可用byte[]类型，
-
-        return xmlString;
-    }
-    // 获取imageview的图片，并且转化为可传递的string
-    public static String GetStringByImageView( Bitmap bitmap){
-        // 从ImageView得到Bitmap对象
-//        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
-        // 把Bitmap转码成字符串
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 50,baos);
-        String imageBase64 = new String (Base64.encode(baos.toByteArray(), 0));
-        Log.e("imageBase64","data:image/jpg;base64,"+imageBase64);
-        return "data:image/jpg;base64,"+imageBase64;
     }
 
     String mTmpPath;

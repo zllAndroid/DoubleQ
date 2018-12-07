@@ -30,17 +30,17 @@ public class SplitWeb {
 
     public static String getUserHeader() {
 
-        USER_HEADER=(String ) SPUtils.get(HelpUtils.activity,"header","");
+        USER_HEADER=(String ) SPUtils.get(HelpUtils.getACt(),"header","");
         return USER_HEADER;
     }
     public static String getUserId() {
         if(StrUtils.isEmpty(USER_ID))
-            USER_ID=(String ) SPUtils.get(HelpUtils.activity,"userId","");
+            USER_ID=(String ) SPUtils.get(HelpUtils.getACt(),"userId","");
         return USER_ID;
     }
     public static String getNiName() {
 
-        NICK_NAME=(String ) SPUtils.get(HelpUtils.activity,"name","");
+        NICK_NAME=(String ) SPUtils.get(HelpUtils.getACt(),"name","");
 
         return NICK_NAME;
     }
@@ -355,6 +355,20 @@ public class SplitWeb {
         dealMap();
         map.put("groupId",group_id);
         String request = WebUrl.request("Contact", "searchDetailInfo", map);
+        return  request;
+    }
+//    删除好友接口
+    public  static  String deleteFriend(String friendsId){
+        dealMap();
+        map.put("friendsId",friendsId);
+        String request = WebUrl.request("Contact", "deleteFriend", map);
+        return  request;
+    }
+    public  static  String shieldFriend(String friendsId,String type){
+        dealMap();
+        map.put("friendsId",friendsId);
+        map.put("type",type);
+        String request = WebUrl.request("Contact", "shieldFriend", map);
         return  request;
     }
     //    首页

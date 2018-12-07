@@ -1,5 +1,25 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
+    <style name="pop_anim_right_bottom">
+        <item name="android:windowEnterAnimation">@anim/scale_pop_in_right_bottom</item>
+        <item name="android:windowExitAnimation">@anim/scale_pop_out_right_bottom</item>
+    </style>
+    <style name="pop_anim_left_bottom">
+        <item name="android:windowEnterAnimation">@anim/scale_pop_in_left_bottom</item>
+        <item name="android:windowExitAnimation">@anim/scale_pop_out_left_bottom</item>
+    </style>
+    <style name="pop_anim_left_top">
+        <item name="android:windowEnterAnimation">@anim/scale_pop_in_left_top</item>
+        <item name="android:windowExitAnimation">@anim/scale_pop_out_left_top</item>
+    </style>
+    <style name="pop_anim_right_top">
+        <item name="android:windowEnterAnimation">@anim/scale_pop_in_right_top</item>
+        <item name="android:windowExitAnimation">@anim/scale_pop_out_right_top</item>
+    </style>
+
+
+
+
     <style name="OverFlowMenuTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- 设置Menu菜单的背景色 -->
         <item name="android:itemBackground">@android:color/white</item>

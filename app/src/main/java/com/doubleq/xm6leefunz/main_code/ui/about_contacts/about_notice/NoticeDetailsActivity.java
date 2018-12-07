@@ -13,9 +13,12 @@ import com.doubleq.model.DataNoticeDetails;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataAddActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -55,10 +58,12 @@ public class NoticeDetailsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
     RealmHomeHelper realmHelper;
+    RealmChatHelper realmChatHelper;
     @Override
     protected void initBaseView() {
         super.initBaseView();
         realmHelper = new RealmHomeHelper(this);
+        realmChatHelper = new RealmChatHelper(this);
         includeTopTvTital.setText("好友资料");
         Intent intent = getIntent();
         item= (DataNews.RecordBean.ListInfoBean)intent.getSerializableExtra("id");
@@ -82,15 +87,15 @@ public class NoticeDetailsActivity extends BaseActivity {
                 break;
 //                同意
             case "agreeFriend":
-                final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
-                cusJumpChatData.setHeadImg(item.getHeadImg());
-                cusJumpChatData.setFriendId(item.getId());
-                cusJumpChatData.setNickName(item.getNickName());
-                cusJumpChatData.setMsg("");
-                cusJumpChatData.setTime(TimeUtil.getTime());
-                cusJumpChatData.setNum(0);
-                realmHelper.addRealmMsg(cusJumpChatData);
-
+//                final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
+//                cusJumpChatData.setHeadImg(item.getHeadImg());
+//                cusJumpChatData.setFriendId(item.getSendUserId());
+//                cusJumpChatData.setNickName(item.getNickName());
+//                cusJumpChatData.setMsg("新添加的好友");
+//                cusJumpChatData.setTime(TimeUtil.getTime());
+//                cusJumpChatData.setNum(0);
+//                realmHelper.addRealmMsg(cusJumpChatData);
+//                dealAgreeFriend();
                 DialogUtils.isShow();
                 DialogUtils.showDialogOne("同意好友请求成功", new DialogUtils.OnClickSureListener() {
                     @Override
@@ -117,7 +122,6 @@ public class NoticeDetailsActivity extends BaseActivity {
         }
 
     }
-
     private void initData(DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfo) {
         Glide.with(this).load(userDetailInfo.getHeadImg())
                 .bitmapTransform(new CropCircleTransformation(this))

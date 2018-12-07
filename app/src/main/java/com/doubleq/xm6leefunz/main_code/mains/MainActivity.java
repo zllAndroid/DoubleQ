@@ -20,9 +20,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.main_code.about_notification.GrayService;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -57,8 +59,32 @@ public class MainActivity extends BaseActivity {
             // 底部 tab 栏设置背景图片
             mTabHost.getTabWidget().setBackgroundResource(R.color.white);
         }
+//        刷新首页tab数量
         initBro();
+//          刷新联系人tab数量
+        initBroc();
+        int num = (int) SPUtils.get(this, AppConfig.LINKMAN_FRIEND_NUM, 0);
+        if (num>0)
+        {
+            Intent intent = new Intent();
+            intent.putExtra("num", num );
+            intent.setAction("action.addFriend");
+            sendBroadcast(intent);
+        }
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+
+            if (mRefreshBroadcastReceiver!=null)
+               this.unregisterReceiver(mRefreshBroadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * 更新新消息数量
      *
@@ -97,8 +123,12 @@ public class MainActivity extends BaseActivity {
         intentFilter.addAction("action.refreshMain");
         registerReceiver(mRefreshBroadcastReceiver, intentFilter);
     }
+    private void initBroc() {
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction("action.addFriend");
+        registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+    }
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -107,6 +137,10 @@ public class MainActivity extends BaseActivity {
                 String num = intent.getStringExtra("num");
 //                更新消息列表
                 updateMsgCount(0,Integer.valueOf(num));
+            }else  if (action.equals("action.addFriend"))
+            {
+                int num = intent.getIntExtra("num",0);
+                updateMsgCount(1,num);
             }
         }
     };

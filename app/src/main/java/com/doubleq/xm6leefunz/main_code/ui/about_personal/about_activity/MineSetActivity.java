@@ -79,7 +79,6 @@ public class MineSetActivity extends BaseActivity {
     private void cleanCaChe() {
         ACache mCache = ACache.get(this);
         String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
-        Log.e("asString", "清理缓存前asString=" + asString);
         DataCleanManager.clearAllCache(MyApplication.getAppContext());
         try {
             String totalCacheSize = DataCleanManager.getTotalCacheSize(MyApplication.getAppContext());
@@ -90,9 +89,7 @@ public class MineSetActivity extends BaseActivity {
         }
         ACache mCache2 = ACache.get(this);
         mCache2.put(AppAllKey.TOKEN_KEY, asString);
-        Log.e("asString", "清理缓存asString=" + asString);
         String asString2 = mCache.getAsString(AppAllKey.TOKEN_KEY);
-        Log.e("asString", "清理缓存asString2=" + asString2);
     }
 
     @OnClick({R.id.set_lin_pingbi,R.id.set_lin_share, R.id.set_lin_count, R.id.set_lin_yinsi, R.id.set_lin_message, R.id.set_lin_clear_cache, R.id.set_lin_versition, R.id.set_lin_about_me, R.id.set_btn_esc})
@@ -146,7 +143,7 @@ public class MineSetActivity extends BaseActivity {
                 break;
 //                版本升级
             case R.id.set_lin_versition:
-                ToastUtil.show("这里是关于我们");
+                ToastUtil.show("已经是最新版本");
                 break;
 
 //                关于我们界面

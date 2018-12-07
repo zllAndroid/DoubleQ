@@ -173,7 +173,7 @@ public class BaseActivity extends AppCompatActivity  {
                 case "privateSend":
                     DataJieShou dataJieShou = JSON.parseObject(data.toString(), DataJieShou.class);
                     DataJieShou.RecordBean record = dataJieShou.getRecord();
-                    realmHelper.updateMsg(record.getFriendsId()+SplitWeb.USER_ID,record.getMessage(),record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+                    realmHelper.updateMsg(record.getFriendsId()+SplitWeb.getUserId(),record.getMessage(),record.getRequestTime());//更新首页聊天界面数据（消息和时间）
                     receiveResultMsg(data.toString());
                     break;
 //                    添加好友通知
@@ -367,7 +367,7 @@ public class BaseActivity extends AppCompatActivity  {
         if (!SplitWeb.IS_CHAT.equals("1"))
         {
 //            不在聊天界面收到消息时候的处理
-            noChatUI(record);
+//            noChatUI(record);
 
         }else
         {

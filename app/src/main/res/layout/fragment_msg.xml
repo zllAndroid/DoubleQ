@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/msg_lin_top"
-   >
+    >
 
     <!--title bar-->
     <include layout="@layout/fragment_include_title_bar"/>
@@ -17,16 +17,45 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <!--无网络的布局显示-->
+        <LinearLayout
+            android:id="@+id/frag_home_lin_net"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp10"
+            android:visibility="gone"
+            android:background="@color/no_net_bac"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/no_net"
+                android:layout_marginLeft="@dimen/dp5"
+                android:layout_gravity="center_vertical"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="网络不给力，请检查网络设置"
+                android:textSize="@dimen/sp14"
+                android:layout_marginLeft="@dimen/dp5"
+                android:textColor="@color/gray333"
+                android:layout_weight="1"/>
+
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants">
+
+
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/frag_home_recyc"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fadingEdge="none"
                 />
+
         </RelativeLayout>
     </LinearLayout>
 

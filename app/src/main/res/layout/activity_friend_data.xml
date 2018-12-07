@@ -49,7 +49,7 @@
                     android:gravity="center"
                     android:layout_marginTop="@dimen/dp5"
                     android:textColor="@color/white"
-                    android:text="龙哥（张龙龙）"/>
+                    />
                 <TextView
                     android:id="@+id/fd_tv_contant"
                     android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                     android:gravity="center"
                     android:layout_marginTop="@dimen/dp5"
                     android:textColor="@color/white"
-                    android:text="5178886485"/>
+                    />
 
                 <LinearLayout
                     android:id="@+id/fd_lin_fenzu"
@@ -85,7 +85,7 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:textColor="@color/white"
-                        android:text="家人"/>
+                        />
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -107,7 +107,7 @@
                     android:gravity="center"
                     android:layout_marginTop="@dimen/dp5"
                     android:textColor="@color/white"
-                    android:text="生活来源于艺术，艺术创作人生"/>
+                   />
             </LinearLayout>
         </LinearLayout>
 

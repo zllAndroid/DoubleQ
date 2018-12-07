@@ -29,6 +29,7 @@ public  class CusHomeRealmData extends RealmObject {
     String friendId;//好友id
     //    消息类型  1 私聊   ，2群聊
     String type;
+    String userid;
     //    昵称
     String nickName;
     //    头像
@@ -43,6 +44,14 @@ public  class CusHomeRealmData extends RealmObject {
     String msg;
 
     public RealmList<CusChatData> chatMsgs;
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
 
     public String getTotalId() {
         return totalId;

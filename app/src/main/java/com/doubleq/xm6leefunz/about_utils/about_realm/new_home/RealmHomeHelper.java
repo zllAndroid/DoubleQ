@@ -19,6 +19,7 @@ import io.realm.Sort;
 
 public class RealmHomeHelper {
     public static final String FILE_NAME = "totalId";
+    public static final String USERID = "userid";
     public static final String TypeMsg = "1";
     public static final String TypeQun = "2";
 
@@ -33,12 +34,13 @@ public class RealmHomeHelper {
      */
     public void addRealmMsg(final CusJumpChatData realmMsg) {
         CusHomeRealmData homeRealmData =new CusHomeRealmData();
-//        CusHomeRealmData homeRealmData = mRealm.createObject(CusHomeRealmData.class,realmMsg.getFriendId()+SplitWeb.USER_ID);
+//        CusHomeRealmData homeRealmData = mRealm.createObject(CusHomeRealmData.class,realmMsg.getFriendId()+SplitWeb.getUserId());
         homeRealmData.setNickName(realmMsg.getFriendName());
         homeRealmData.setFriendId(realmMsg.getFriendId());
         homeRealmData.setHeadImg(realmMsg.getFriendHeader());
         homeRealmData.setType(TypeMsg);
-        homeRealmData.setTotalId(realmMsg.getFriendId()+SplitWeb.USER_ID);
+        homeRealmData.setUserid(SplitWeb.getUserId());
+        homeRealmData.setTotalId(realmMsg.getFriendId()+SplitWeb.getUserId());
 
         mRealm.beginTransaction();
 //        mRealm.copyToRealm(homeRealmData);//进来几次就添加几个
@@ -54,46 +56,49 @@ public class RealmHomeHelper {
             addRealmMsg( mList.get(i));
         }
     }
-
-    public void addRealmMsg(final CusHomeRealmData realmMsg) {
-
-            CusHomeRealmData homeRealmData = new CusHomeRealmData();
-//        CusHomeRealmData homeRealmData = mRealm.createObject(CusHomeRealmData.class,realmMsg.getFriendId()+SplitWeb.USER_ID);
-            homeRealmData.setNickName(realmMsg.getNickName());
-            homeRealmData.setFriendId(realmMsg.getFriendId());
-            homeRealmData.setHeadImg(realmMsg.getHeadImg());
-            homeRealmData.setMsg(realmMsg.getMsg());
-            homeRealmData.setTime(realmMsg.getTime());
-            homeRealmData.setType(TypeMsg);
-            int num = 0;
-            try {
-                num = homeRealmData.getNum();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            homeRealmData.setNum(num + 1);
-            homeRealmData.setTotalId(realmMsg.getFriendId() + SplitWeb.USER_ID);
-
-            mRealm.beginTransaction();
-        if ( isFriendMsg(realmMsg.getFriendId())) {
-//
-            mRealm.copyToRealmOrUpdate(homeRealmData);//有主键的情况下使用，添加更新
-//        queryAllRealmChat(realmMsg.getFriendId());
-        }else
-        {
-            mRealm.copyToRealm(homeRealmData);//进来几次就添加几个
+//添加群消息
+    public void addRealmMsgQun(final CusHomeRealmData homeRealmData) {
+        homeRealmData.setType(TypeQun);
+        homeRealmData.setUserid(SplitWeb.getUserId());
+        int num = 0;
+        try {
+            num = homeRealmData.getNum();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        homeRealmData.setNum(num + 1);
+        homeRealmData.setTotalId(homeRealmData.getFriendId() + SplitWeb.getUserId());
+
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(homeRealmData);//有主键的情况下使用，添加更新
+        mRealm.commitTransaction();
+    }
+//    添加好友消息
+    public void addRealmMsg(final CusHomeRealmData homeRealmData) {
+        homeRealmData.setType(TypeMsg);
+        homeRealmData.setUserid(SplitWeb.getUserId());
+        int num = 0;
+        try {
+            num = homeRealmData.getNum();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        homeRealmData.setNum(num + 1);
+        homeRealmData.setTotalId(homeRealmData.getFriendId() + SplitWeb.getUserId());
+
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(homeRealmData);//有主键的情况下使用，添加更新
         mRealm.commitTransaction();
     }
     public void insertaddRealmMsg(final CusJumpChatData realmMsg) {
         mRealm.beginTransaction();
         CusHomeRealmData homeRealmData = new CusHomeRealmData();
-//        CusHomeRealmData homeRealmData = mRealm.createObject(CusHomeRealmData.class,realmMsg.getFriendId()+SplitWeb.USER_ID);
+//        CusHomeRealmData homeRealmData = mRealm.createObject(CusHomeRealmData.class,realmMsg.getFriendId()+SplitWeb.getUserId());
         homeRealmData.setNickName(realmMsg.getFriendName());
         homeRealmData.setFriendId(realmMsg.getFriendId());
         homeRealmData.setHeadImg(realmMsg.getFriendHeader());
         homeRealmData.setType(TypeMsg);
-        homeRealmData.setTotalId(realmMsg.getFriendId()+SplitWeb.USER_ID);
+        homeRealmData.setTotalId(realmMsg.getFriendId()+SplitWeb.getUserId());
 //        mRealm.copyToRealm(homeRealmData);//进来几次就添加几个
         mRealm.insertOrUpdate(homeRealmData);//插入更新
         mRealm.commitTransaction();
@@ -102,13 +107,14 @@ public class RealmHomeHelper {
      * delete （删）
      */
     public void deleteRealmMsg(String friendId) {
-        CusHomeRealmData dog = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.USER_ID).findFirst();
+        CusHomeRealmData dog = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (dog!=null) {
             mRealm.beginTransaction();
             dog.deleteFromRealm();
             mRealm.commitTransaction();
         }
     }
+
     public void deleteAll() {
         final RealmResults<CusHomeRealmData> dogs=  mRealm.where(CusHomeRealmData.class).findAll();
         if (dogs!=null) {
@@ -122,7 +128,7 @@ public class RealmHomeHelper {
      * update （改） 消息和时间
      */
     public void updateMsg(String friendId, String msg, String time) {
-        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.USER_ID).findFirst();
+        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             realmMsg.setMsg(msg);
@@ -132,7 +138,7 @@ public class RealmHomeHelper {
         }
     }
     public void updateNum(String friendId) {
-        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.USER_ID).findFirst();
+        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             int num = 0;
@@ -147,7 +153,7 @@ public class RealmHomeHelper {
         }
     }
     public void updateNumZero(String friendId) {
-        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.USER_ID).findFirst();
+        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             realmMsg.setNum(0);
@@ -157,7 +163,7 @@ public class RealmHomeHelper {
     }
     public int queryNum(String friendId) {
         CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class)
-                .equalTo(FILE_NAME, friendId+SplitWeb.USER_ID)
+                .equalTo(FILE_NAME, friendId+SplitWeb.getUserId())
                 .findFirst();
         int num=0;
         num = realmMsg.getNum();
@@ -188,20 +194,34 @@ public class RealmHomeHelper {
 //        if (realmMsgs!=null)
 //            return realmMsgs;
         if (realmMsgs!=null)
-        return mRealm.copyFromRealm(realmMsgs);
+            return mRealm.copyFromRealm(realmMsgs);
+        else
+            return  null;
+    }
+    public List<CusHomeRealmData> queryAllmMsg() {
+        RealmResults<CusHomeRealmData> realmMsgs = mRealm.where(CusHomeRealmData.class).equalTo(USERID, SplitWeb.getUserId()).findAll();
+        /**
+         * 对查询结果，按Id进行排序，只能对查询结果进行排序
+         */
+        if (realmMsgs!=null) {
+            //增序排列
+            realmMsgs = realmMsgs.sort("time", Sort.DESCENDING);
+        }
+        if (realmMsgs!=null)
+            return mRealm.copyFromRealm(realmMsgs);
         else
             return  null;
     }
 
     /**
-     * 根据id查询所有聊天消息
+     * 根据id查询聊天消息
      * @return
      */
     public CusHomeRealmData queryAllRealmChat(String friendId) {
         CusHomeRealmData realmMsgs = mRealm.where(CusHomeRealmData.class)
-                .equalTo(FILE_NAME,friendId+SplitWeb.USER_ID)
+                .equalTo(FILE_NAME,friendId+SplitWeb.getUserId())
                 .findFirst();
-//        CusHomeRealmData realmMsgs = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME,friendId+SplitWeb.USER_ID).findFirst();
+//        CusHomeRealmData realmMsgs = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME,friendId+SplitWeb.getUserId()).findFirst();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
@@ -214,9 +234,9 @@ public class RealmHomeHelper {
     }
     public boolean isFriendMsg(String friendId) {
         CusHomeRealmData realmMsgs = mRealm.where(CusHomeRealmData.class)
-                .equalTo(FILE_NAME,friendId+SplitWeb.USER_ID)
+                .equalTo(FILE_NAME,friendId+SplitWeb.getUserId())
                 .findFirst();
-//        CusHomeRealmData realmMsgs = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME,friendId+SplitWeb.USER_ID).findFirst();
+//        CusHomeRealmData realmMsgs = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME,friendId+SplitWeb.getUserId()).findFirst();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */

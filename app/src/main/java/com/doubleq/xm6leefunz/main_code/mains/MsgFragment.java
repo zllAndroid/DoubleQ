@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,10 +30,13 @@ import com.doubleq.model.DataHomeMsgNew;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseFragment;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_broadcastreceiver.NetEvent;
+import com.doubleq.xm6leefunz.about_broadcastreceiver.NetReceiver;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.ChatNewsWindow;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.about_utils.NetUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataRealmMsg;
@@ -45,6 +49,10 @@ import com.doubleq.xm6leefunz.main_code.ui.about_message.about_message_adapter.M
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -76,8 +84,29 @@ public class MsgFragment extends BaseFragment {
         initRealmData();
 //        sendWeb(SplitWeb.getUserRelation());
         initReceiver();
+        initNetReceive();
+//        EventBus.getDefault().register(getActivity());
         return view;
     }
+    private NetReceiver mReceiver;
+    private void initNetReceive() {
+        mReceiver = new NetReceiver();
+        IntentFilter mFilter = new IntentFilter();
+        mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+        getActivity().registerReceiver(mReceiver, mFilter);
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(NetEvent event) {
+//        ToastUtil.show(""+event.isNet);
+        mLinNet.setVisibility(event.isNet ? View.GONE : View.VISIBLE);
+//        if (event.isNet)
+//        {
+//
+//        }
+
+//        setNetState(event.isNet());
+    }
+
     //广播接收消息推送
     private void initReceiver() {
         IntentFilter intentFilter = new IntentFilter();
@@ -98,7 +127,8 @@ public class MsgFragment extends BaseFragment {
     private void initRealmData() {
         realmHelper = new RealmHomeHelper(getActivity());
         if (mList.size()==0) {
-            List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
+            List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
+            Log.e("MyApplication","queryAllmMsg="+cusHomeRealmData.size());
             if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
                 mList.clear();
                 mList.addAll(cusHomeRealmData);
@@ -109,12 +139,7 @@ public class MsgFragment extends BaseFragment {
         }
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-
-    }
-
+    LinearLayout mLinNet;
     private void initFriend(final  View view) {
         view.findViewById(R.id.include_frag_img_add).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,11 +148,18 @@ public class MsgFragment extends BaseFragment {
             }
         });
         TextView tv_title = view.findViewById(R.id.include_frag_tv_title);
+        mLinNet = view.findViewById(R.id.frag_home_lin_net);
         tv_title.setText("消息");
         mRecyclerView = view.findViewById(R.id.frag_home_recyc);
         mLinTop = view.findViewById(R.id.msg_lin_top);
+        mLinNet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                设置网络
+                NetUtils.startToSettings(getActivity());
+            }
+        });
     }
-
     @Override
     public void onResume() {
         super.onResume();
@@ -150,12 +182,28 @@ public class MsgFragment extends BaseFragment {
             else  if (action.equals("zll.refreshMsgFragment"))
             {
                 Log.e("refreshMsg","--------------------------------------------------------------------------------------------------");
-                initRefresh(intent);
+//                initRefresh(intent);
+                refreshMsg(intent);
 
             }
             sendBroadcast();
         }
     };
+
+    private void refreshMsg(Intent intent) {
+        String id = intent.getStringExtra("id");
+        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
+        CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id );
+        Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
+        if ( mList.size()==0&&cusHomeRealmData.size()!=0)
+        {
+            mList.clear();
+            mList.addAll(cusHomeRealmData);
+            initAdapter();
+//                msgAdapter.notifyDataSetChanged();
+        }
+
+    }
 
     private void sendBroadcast() {
         if(msgAdapter!=null)
@@ -165,7 +213,6 @@ public class MsgFragment extends BaseFragment {
             intent2.putExtra("num", numData+"");
             intent2.setAction("action.refreshMain");
             getActivity().sendBroadcast(intent2);
-            Log.e("getNumData","getNumData="+numData+"-------------------------------------------");
 
         }
     }
@@ -192,7 +239,7 @@ public class MsgFragment extends BaseFragment {
             }
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
             CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id );
-
+            Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
             if ( mList.size()==0&&cusHomeRealmData.size()!=0)
             {
                 mList.clear();
@@ -220,7 +267,6 @@ public class MsgFragment extends BaseFragment {
                             msgAdapter.removeData(i);
                             msgAdapter.addData(homeRealmData);
 //                            realmHelper.deleteRealmMsg(id+SplitWeb.USER_ID);
-//                            realmHelper.addRealmMsg(mList.get(i));
                         }
                         return;
                     }
@@ -280,6 +326,13 @@ public class MsgFragment extends BaseFragment {
                     case R.id.item_msg_re:
 
                         if (item.getType().equals("1")) {
+
+                            //                            点击进入详情后，消息个数清零
+//                            mList.remove(position);
+                            item.setNum(0);
+                            realmHelper.updateNumZero(item.getFriendId());
+//                            mList.add(position,item);
+                            msgAdapter.notifyItemChanged(position);
                             // 好友
                             CusJumpChatData cusJumpChatData = new CusJumpChatData();
                             cusJumpChatData.setFriendHeader(item.getHeadImg());
@@ -287,12 +340,7 @@ public class MsgFragment extends BaseFragment {
                             cusJumpChatData.setFriendName(item.getNickName());
                             IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 
-//                            点击进入详情后，消息个数清零
-                            mList.remove(position);
-                            item.setNum(0);
-                            realmHelper.updateNumZero(item.getFriendId());
-                            mList.add(position,item);
-                            msgAdapter.notifyItemChanged(position);
+
                         }else {
                             //跳转群组
                             ToastUtil.show("点击了群组");
@@ -322,7 +370,14 @@ public class MsgFragment extends BaseFragment {
             e.printStackTrace();
         }
         try {
+            if (mRefreshBroadcastReceiver!=null)
             getActivity().unregisterReceiver(mRefreshBroadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (mReceiver!=null)
+            getActivity().unregisterReceiver(mReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }

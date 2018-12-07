@@ -61,7 +61,15 @@ public class AppManager {
      * 获取当前Activity（堆栈中最后一个压入的）
      */
     public AppCompatActivity currentActivity() {
-        return activityStack.lastElement();
+        if (activityStack!=null)
+            if (activityStack.size()>0) {
+                AppCompatActivity appCompatActivity = activityStack.get(activityStack.size() - 1);
+                return appCompatActivity;
+            }else
+            {
+                return activityStack.lastElement();
+            }
+        return null;
     }
 
     /**

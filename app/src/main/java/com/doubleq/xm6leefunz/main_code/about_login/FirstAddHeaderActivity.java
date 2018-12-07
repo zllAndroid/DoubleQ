@@ -28,13 +28,17 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.doubleq.model.DataSetHeader;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
+import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
@@ -141,22 +145,6 @@ public class FirstAddHeaderActivity extends BaseActivity {
                     return;
                 }
                 sendWebHaveDialog(SplitWeb.setHeadImg(name, imageBase64),"请稍等...","设置成功");
-//                NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-//                netWorkUtlis.setOnNetWork(SplitWeb.setHeadImg(name, "123"), new NetWorkUtlis.OnNetWork() {
-//                    @Override
-//                    public void onNetSuccess(String result) {
-//                        DialogUtils.showDialogOne("头像昵称设置成功", new DialogUtils.OnClickSureListener() {
-//                            @Override
-//                            public void onClickSure() {
-//                                IntentUtils.JumpFinishTo(MainActivity.class);
-//                                AppManager.getAppManager().finishActivity();
-//                                overridePendingTransition(0,0);
-//                            }
-//                        });
-//                    }
-//                });
-
-
                 break;
         }
     }
@@ -173,7 +161,21 @@ public class FirstAddHeaderActivity extends BaseActivity {
            SplitWeb.NICK_NAME= record.getNickName();
             SPUtils.put(this,"header",record.getHeadImg());
             SPUtils.put(this,"name",record.getNickName());
-
+//            把图片保存至本地文件
+            if (record!=null) {
+                String headImg = record.getHeadImg();
+                if (!StrUtils.isEmpty(headImg))
+                    Glide.with(this)
+                            .load(headImg)
+                            .downloadOnly(new SimpleTarget<File>() {
+                                @Override
+                                public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                                    File file = HeadFileUtils.saveHeadPath(FirstAddHeaderActivity.this, resource);
+                                }
+                            })
+                            ;
+            }
             DialogUtils.showDialogOne("头像昵称设置成功", new DialogUtils.OnClickSureListener() {
                 @Override
                 public void onClickSure() {

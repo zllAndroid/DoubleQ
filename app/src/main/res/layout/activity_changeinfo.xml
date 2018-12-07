@@ -101,6 +101,7 @@
                     android:textSize="@dimen/sp16"
                     android:textColor="@color/white"
                     android:layout_weight="1"
+                    android:gravity="right|center_vertical"
                     android:layout_gravity="center_horizontal"
                     />
 

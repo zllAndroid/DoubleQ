@@ -2,6 +2,7 @@ package com.doubleq.xm6leefunz.about_chat.adapter.holder;
 
 import android.graphics.Color;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -52,7 +53,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
     TextView chatItemVoiceTime;
     private ChatAdapter.onItemClickListener onItemClickListener;
     private Handler handler;
-
+    MotionEvent event;
     public ChatSendViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler) {
         super(parent, R.layout.item_chat_send);
         ButterKnife.bind(this, itemView);
@@ -84,12 +85,28 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
                 onItemClickListener.onHeaderClick(getDataPosition());
             }
         });
+
+
+        chatItemContentText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent e) {
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        event = e;
+                        break;
+                    default:
+                        break;
+                }
+                // 如果onTouch返回false,首先是onTouch事件的down事件发生，此时，如果长按，触发onLongClick事件；
+                // 然后是onTouch事件的up事件发生，up完毕，最后触发onClick事件。
+                return false;
+            }
+        });
         chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                onItemClickListener.onConClick(v,data.getMessage());
-
-                return false;
+                onItemClickListener.onConClick(v,event,getAdapterPosition(),data.getMessage());
+                return true;
             }
         });
 //        chatItemContentText.setTextIsSelectable(true);

@@ -1,6 +1,7 @@
 package com.doubleq.xm6leefunz.about_chat.adapter.holder;
 
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -48,7 +49,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
     TextView chatItemVoiceTime;
     private ChatAdapter.onItemClickListener onItemClickListener;
     private Handler handler;
-
+    MotionEvent event;
     public ChatAcceptViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler) {
         super(parent, R.layout.item_chat_accept);
         ButterKnife.bind(this, itemView);
@@ -56,7 +57,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
         this.handler = handler;
     }
     @Override
-    public void setData(DataJieShou.RecordBean data) {
+    public void setData(final DataJieShou.RecordBean data) {
         if (StrUtils.isEmpty(data.getRequestTime()))
         {
             chatItemDate.setVisibility(View.GONE);
@@ -68,7 +69,6 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
 
 //        chatItemDate.setText("上午 9:00"+data.getRequestTime());
 //        Glide.with(getContext()).load(ChatActivity.friendHeader).crossFade(1000).into(chatItemHeader);
-//        onConClick
         Glide.with(getContext()).load(ChatActivity.friendHeader)
                 .bitmapTransform(new CropCircleTransformation(getContext()))
                 .crossFade(1000).into(chatItemHeader);
@@ -76,6 +76,28 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
             @Override
             public void onClick(View v) {
                 onItemClickListener.onHeaderClick(getDataPosition());
+            }
+        });
+        chatItemContentText.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent e) {
+                switch (e.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        event = e;
+                        break;
+                    default:
+                        break;
+                }
+                // 如果onTouch返回false,首先是onTouch事件的down事件发生，此时，如果长按，触发onLongClick事件；
+                // 然后是onTouch事件的up事件发生，up完毕，最后触发onClick事件。
+                return true;
+            }
+        });
+        chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                onItemClickListener.onConClick(v,event,getAdapterPosition(),data.getMessage());
+                return false;
             }
         });
 //        chatItemContentText.setTextIsSelectable(true);
