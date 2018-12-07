@@ -8,6 +8,8 @@ public class CusJumpChatData implements Serializable{
     String friendName;
     String friendId;
 
+
+
     public String getFriendHeader() {
         return friendHeader;
     }
