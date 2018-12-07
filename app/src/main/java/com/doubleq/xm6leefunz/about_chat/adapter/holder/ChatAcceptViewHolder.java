@@ -75,7 +75,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemClickListener.onHeaderClick(getDataPosition());
+                onItemClickListener.onHeaderClick(getDataPosition(),Constants.CHAT_ITEM_TYPE_LEFT,data.getFriendsId());
             }
         });
         chatItemContentText.setOnTouchListener(new View.OnTouchListener() {

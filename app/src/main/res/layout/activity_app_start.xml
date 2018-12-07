@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:textColor="@color/gray333"
-        android:text="欢迎光临" />
+        android:text="欢迎使用本聊天工具" />
 </RelativeLayout>
 
 

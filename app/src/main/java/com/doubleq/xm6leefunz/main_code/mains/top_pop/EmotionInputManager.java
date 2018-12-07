@@ -274,6 +274,11 @@ public class EmotionInputManager {
         mEmotionLayout = emotionView;
         return this;
     }
+    boolean isCloseAnima;
+    public EmotionInputManager setEmotionView(boolean isCloseAnima) {
+        isCloseAnima = isCloseAnima;
+        return this;
+    }
 
     public EmotionInputManager setViewPager(ViewPager viewPager) {
         mViewPager = viewPager;
@@ -351,11 +356,12 @@ public class EmotionInputManager {
 
 
 
-    private void showSoftInput() {
+    public void showSoftInput() {
         mEditText.requestFocus();
         mEditText.post(new Runnable() {
             @Override
             public void run() {
+//                mInputManager.
                 mInputManager.showSoftInput(mEditText, 0);
             }
         });

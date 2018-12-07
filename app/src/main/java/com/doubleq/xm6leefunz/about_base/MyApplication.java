@@ -17,6 +17,7 @@ import com.doubleq.model.DataGroupChat;
 import com.doubleq.model.DataGroupSend;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.model.DataTuiAddFriend;
+import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
@@ -29,6 +30,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
@@ -39,6 +41,10 @@ import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
+import com.soubw.bean.JNoticeBean;
+import com.soubw.jnotice.JDefaultAdapter;
+import com.soubw.jnotice.JNotice;
+import com.soubw.jnotice.JNoticeAgent;
 import com.zll.websocket.ErrorResponse;
 import com.zll.websocket.IWebSocketPage;
 import com.zll.websocket.Response;
@@ -541,8 +547,26 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
         {
 //            TODO 弄成popwindow   弹框
-            ToastUtil.show("收到来自"+record.getFriendsName()+"的一条新消息");
+//            ToastUtil.show("收到来自"+record.getFriendsName()+"的一条新消息");
 
+            JNoticeAgent.setIsAutoDismiss(true);
+            JNoticeAgent.setAutoDismissTime(4000);
+            JNoticeAgent.setIsUseHomeKey(true);
+            JNoticeAgent.register(this);
+            JDefaultAdapter jDefaultAdapter = new JDefaultAdapter(this, R.layout.jnotice_adpter_item, null);
+            JNoticeAgent.getJNoticeAgent().setAdapter(jDefaultAdapter);
+            JNoticeAgent.addJNotice(new JNoticeBean(0,record.getFriendsName(),record.getMessage(),R.drawable.dou_logo));
+            jDefaultAdapter.setOnJNoticeListener(new JNotice.OnJNoticeListener() {
+                @Override
+                public void onItemClick(int position) {
+                    ToastUtil.show("点击了通知");
+                }
+
+                @Override
+                public void onDismissDingToast() {
+
+                }
+            });
         }else {
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {
@@ -582,8 +606,13 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
         {
 //            TODO 弄成popwindow   弹框
-            ToastUtil.show("收到来自"+record.getGroupName()+"的一条新消息");
-
+//            ToastUtil.show("收到来自"+record.getGroupName()+"的一条新消息");
+            JNoticeAgent.setIsAutoDismiss(true);
+            JNoticeAgent.setAutoDismissTime(5000);
+            JNoticeAgent.setIsUseHomeKey(true);
+            JNoticeAgent.register(this);
+            JNoticeAgent.getJNoticeAgent().setAdapter(new JDefaultAdapter(this, R.layout.jnotice_adpter_item, null));
+            JNoticeAgent.addJNotice(new JNoticeBean(1,record.getGroupName(),record.getMessage(),R.drawable.dou_logo));
         }else {
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {

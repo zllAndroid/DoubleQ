@@ -46,6 +46,7 @@ import com.doubleq.xm6leefunz.main_code.mains.top_pop.MsgChatWindow;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.MyDialogFragment;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.doubleq.xm6leefunz.main_code.ui.about_message.about_message_adapter.MsgAdapter;
+import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
@@ -340,12 +341,12 @@ public class MsgFragment extends BaseFragment {
                             cusJumpChatData.setFriendName(item.getNickName());
                             IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 
-
                         }else {
                             //跳转群组
                             ToastUtil.show("点击了群组");
                         }
                         break;
+//                        点击编辑，弹出聊天窗口
                     case R.id.item_tv_click_ok:
                         FragmentManager childFragmentManager = getChildFragmentManager();
                         MyDialogFragment myDialogFragment = new MyDialogFragment(item.getFriendId());

@@ -65,28 +65,11 @@ public class LoginActivity extends BaseActivity {
         screenWidth = displayMetrics.widthPixels;
         screenHeight = displayMetrics.heightPixels;
         includeTopTvTital.setText("登录");
-        initCaChe();
+        mCache = ACache.get(this);
         listenEnter();
     }
 
-    private void initCaChe() {
-        mCache = ACache.get(this);
-        if (mCache!=null){
-            String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
-            if (!StrUtils.isEmpty(asString))
-            {
-                Log.e("result","token信息"+asString.toString());
-                DataLogin.RecordBean dataLogin = JSON.parseObject(asString, DataLogin.RecordBean.class);
-                if (dataLogin!=null) {
-                    initSetData(dataLogin);
-//               自动登录
-                    sendWeb(SplitWeb.bindUid());
-                }
-//                IntentUtils.JumpFinishTo(MainActivity.class);
-//                sendText(SplitWeb.bindUid());
-            }
-        }
-    }
+
 
 
     private void initSetData(DataLogin.RecordBean dataLogin) {

@@ -48,11 +48,13 @@ import com.doubleq.xm6leefunz.about_base.web_base.MessageEvent;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
 import com.doubleq.xm6leefunz.about_chat.adapter.CommonFragmentPagerAdapter;
+import com.doubleq.xm6leefunz.about_chat.base_chat.SlidingActivity;
 import com.doubleq.xm6leefunz.about_chat.fragment.ChatEmotionFragment;
 import com.doubleq.xm6leefunz.about_chat.fragment.ChatFunctionFragment;
 import com.doubleq.xm6leefunz.about_chat.ui.StateButton;
 import com.doubleq.xm6leefunz.about_utils.DensityUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SoftKeyboardUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
@@ -63,6 +65,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
@@ -231,6 +234,7 @@ public class ChatActivity extends BaseActivity {
                 recordBean.setMessage(cusRealmChatMsgs.get(i).getMessage());
                 recordBean.setMessageType(cusRealmChatMsgs.get(i).getMessageType());
                 recordBean.setRequestTime(cusRealmChatMsgs.get(i).getCreated());
+                recordBean.setFriendsId(cusRealmChatMsgs.get(i).getReceiveId());
                 mList.add(recordBean);
             }
             chatAdapter.addAll(mList);
@@ -244,10 +248,6 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected boolean isChatActivity() {
-        return true;
-    }
 
     @Override
     protected int getLayoutView() {
@@ -597,10 +597,19 @@ public class ChatActivity extends BaseActivity {
      * item点击事件
      */
     private ChatAdapter.onItemClickListener itemClickListener = new ChatAdapter.onItemClickListener() {
+
         @Override
-        public void onHeaderClick(int position) {
-//            showPopWindows
-            Toast.makeText(ChatActivity.this, "onHeaderClick", Toast.LENGTH_SHORT).show();
+        public void onHeaderClick(int position, int type, String friendId) {
+            switch (type)
+            {
+                case Constants.CHAT_ITEM_TYPE_LEFT:
+                    IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",friendId);
+                    break;
+                case Constants.CHAT_ITEM_TYPE_RIGHT:
+//                    TODO 点击自己头像，显示自己的信息
+                    IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",SplitWeb.getUserId());
+                    break;
+            }
         }
 
         @Override

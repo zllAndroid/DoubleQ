@@ -51,7 +51,7 @@ public class ChatAdapter extends RecyclerArrayAdapter<DataJieShou.RecordBean> {
     }
 
     public interface onItemClickListener {
-        void onHeaderClick(int position);
+        void onHeaderClick(int position,int type,String friendId);
         void onConClick(View view, MotionEvent event, int position,String conText);
 
         void onImageClick(View view, int position);

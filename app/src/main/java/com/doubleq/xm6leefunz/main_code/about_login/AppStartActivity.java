@@ -12,13 +12,23 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.doubleq.model.DataLogin;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
+import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.WindowService;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -35,7 +45,7 @@ import site.gemus.openingstartanimation.OpeningStartAnimation;
 public class AppStartActivity extends BaseActivity {
 
     Timer timer = null;
-//    @BindView(R.id.appstart_lin)
+    //    @BindView(R.id.appstart_lin)
 //    LinearLayout appstartLin;
 //    @BindView(R.id.videoview)
 //    CustomVideoView videoview;
@@ -129,8 +139,8 @@ public class AppStartActivity extends BaseActivity {
 //            IntentUtils.JumpFinishTo(MainActivity.class);
 //            IntentUtils.JumpTo(LoginActivity.class);
 //            AppManager.getAppManager().finishActivity(AppStartActivity.this);
-            IntentUtils.JumpFinishTo(AppStartActivity.this,LoginActivity.class);
-            overridePendingTransition(0,0);
+            initCaChe();
+
             if (isClick) {
 //                IntentUtils.JumpFinishTo(MainActivity.class);
 //                openingStartAnimation.show(AppStartActivity.this);
@@ -155,7 +165,7 @@ public class AppStartActivity extends BaseActivity {
         if (timer != null)
             timer.cancel();
     }
-//    @OnClick(R.id.appstart_lin)
+    //    @OnClick(R.id.appstart_lin)
 //    public void onViewClicked() {
 //        if (timer != null) {
 //            timer.cancel();
@@ -169,12 +179,54 @@ public class AppStartActivity extends BaseActivity {
 //        openingStartAnimation.show(AppStartActivity.this);
         if (timer == null) {
             timer = new Timer();
-            timer.schedule(task, 1200);
+            timer.schedule(task, 1500);
         }
+
 //        ToastUtil.show("权限通过执行");
     }
+    private ACache mCache;
+    private void initCaChe() {
+        mCache = ACache.get(this);
+        if (mCache!=null){
+            String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
+            if (!StrUtils.isEmpty(asString))
+            {
+                Log.e("result","token信息"+asString.toString());
+                DataLogin.RecordBean dataLogin = JSON.parseObject(asString, DataLogin.RecordBean.class);
+                if (dataLogin!=null) {
+                    initSetData(dataLogin);
+//               自动登录
+                    sendWeb(SplitWeb.bindUid());
+                    return;
+                }
+            }
+        }
+        IntentUtils.JumpFinishTo(AppStartActivity.this,LoginActivity.class);
+        overridePendingTransition(0,0);
 
-//    @NeedsPermission(value = {Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, maxSdkVersion = 16)
+    }
+    @Override
+    public void receiveResultMsg(String responseText) {
+        super.receiveResultMsg(responseText);
+        String s = HelpUtils.backMethod(responseText);
+        if (s.equals("bindUid")) {
+            IntentUtils.JumpFinishTo(AppStartActivity.this,MainActivity.class);
+            overridePendingTransition(0,0);
+        }
+    }
+    private void initSetData(DataLogin.RecordBean dataLogin) {
+        SPUtils.put(HelpUtils.activity,"userId",dataLogin.getUserId());
+        SplitWeb.USER_TOKEN = dataLogin.getUserToken();
+        SplitWeb.MOBILE = dataLogin.getMobile();
+        SplitWeb.QR_CODE = dataLogin.getQrcode();
+        SplitWeb.NICK_NAME = dataLogin.getNickName();
+        SplitWeb.PERSON_SIGN = dataLogin.getPersonaSignature();
+        SplitWeb.QR_CODE = dataLogin.getQrcode();
+        SplitWeb.WX_SNO = dataLogin.getWxSno();
+        SplitWeb.USER_ID = dataLogin.getUserId();
+        SplitWeb.USER_HEADER = dataLogin.getHeadImg();
+    }
+    //    @NeedsPermission(value = {Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, maxSdkVersion = 16)
 //    void OnNeed() {
 //    }
 //
@@ -183,7 +235,7 @@ public class AppStartActivity extends BaseActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         AppStartActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
-   PermissionRequest requests =null;
+    PermissionRequest requests =null;
     @OnShowRationale({Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onshow(final permissions.dispatcher.PermissionRequest request) {
         requests=request;
@@ -208,7 +260,7 @@ public class AppStartActivity extends BaseActivity {
                     intent.setData(Uri.parse("package:" + getPackageName()));
                     intent.addCategory(Intent.CATEGORY_DEFAULT);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivityForResult(intent,0);
+                    startActivityForResult(intent,0);
 //                    startActivity(intent);
                 }
             }

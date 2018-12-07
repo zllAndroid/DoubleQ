@@ -2,6 +2,8 @@ package com.doubleq.xm6leefunz.main_code.mains.top_pop;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -46,10 +48,24 @@ public class MyDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CustomDialog);
+//        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.ActionBar.Custom);
+//        Dialog dialog = new Dialog(getActivity(), R.style.CustomDialog);
+//        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.CustomDialog);
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         //去出标题
-        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         mContentView = inflater.inflate(R.layout.pop_chat_home, container, false);
+        // 设置宽度为屏宽, 靠近屏幕底部。
+//        Window window =  getDialog().getWindow();
+//        WindowManager.LayoutParams lp = window.getAttributes();
+////        lp.dimAmount = 0.0f;
+//        lp.gravity = Gravity.BOTTOM; // 紧贴底部
+//        lp.width = WindowManager.LayoutParams.MATCH_PARENT; // 宽度持平
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT; // 宽度持平
+////        window.setBackgroundDrawableResource(android.R.color.transparent);
+//        window.setAttributes(lp);
+//        ColorDrawable dw = new ColorDrawable(0x00000000);
         initUI();
         return mContentView;
     }
@@ -72,8 +88,6 @@ public class MyDialogFragment extends DialogFragment {
         viewpager= mContentView.findViewById(R.id.viewpager);
         emotionLayout= mContentView.findViewById(R.id.emotion_layout);
 
-        editText.setFocusable(true);
-        editText.setFocusableInTouchMode(true);
         initWidget();
         mContentView.setOnTouchListener(new View.OnTouchListener() {
 
@@ -119,7 +133,7 @@ public class MyDialogFragment extends DialogFragment {
 //                .bindToVoiceButton(emotionVoice)
                 .bindToVoiceText(voiceText)
                 .build();
-
+        mDetector.showSoftInput();
         GlobalOnItemClickManagerUtils globalOnItemClickListener = GlobalOnItemClickManagerUtils.getInstance(getActivity());
         globalOnItemClickListener.attachToEditText(editText);
 //        chatAdapter = new ChatAdapter(mContext);
@@ -156,9 +170,12 @@ public class MyDialogFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
+        setStyle(DialogFragment.STYLE_NO_FRAME, R.style.TranslucentNoTitle);
+
         Window win = getDialog().getWindow();
         // 一定要设置Background，如果不设置，window属性设置无效
-        win.setBackgroundDrawable( new ColorDrawable(getResources().getColor(R.color.transparent)));
+//        win.setBackgroundDrawable( new ColorDrawable(getResources().getColor(R.color.transparent)));
+        getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics( dm );
         WindowManager.LayoutParams params = win.getAttributes();
@@ -166,6 +183,16 @@ public class MyDialogFragment extends DialogFragment {
         // 使用ViewGroup.LayoutParams，以便Dialog 宽度充满整个屏幕
         params.width =  ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        //        Window window =  getDialog().getWindow();
+//        WindowManager.LayoutParams lp = window.getAttributes();
+        params.dimAmount = 0.0f;
+//        lp.gravity = Gravity.BOTTOM; // 紧贴底部
+//        lp.width = WindowManager.LayoutParams.MATCH_PARENT; // 宽度持平
+//        lp.height = WindowManager.LayoutParams.WRAP_CONTENT; // 宽度持平
+////        window.setBackgroundDrawableResource(android.R.color.transparent);
+//        window.setAttributes(lp);
+//        ColorDrawable dw = new ColorDrawable(0x00000000);
         win.setAttributes(params);
     }
 

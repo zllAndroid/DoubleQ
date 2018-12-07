@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
+import com.doubleq.xm6leefunz.about_chat.base_chat.SlidingActivity;
 import com.doubleq.xm6leefunz.about_custom.CustomViewPager;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.add_friend.AddFriendsFragment;
 import com.doubleq.xm6leefunz.main_code.mains.LinkManFragment;
@@ -17,7 +18,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import butterknife.BindView;
 
 
-public class AddFriendActivity extends BaseActivity {
+public class AddFriendActivity extends SlidingActivity {
 
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;

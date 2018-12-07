@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -14,10 +15,14 @@ import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.EditCheckUtils;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
+import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MineSetActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
@@ -131,11 +136,20 @@ public class ChangeCodeActivity extends BaseActivity {
         String s = HelpUtils.backMethod(responseText);
         if (s.equals("upPassWordSms"))
         {
-            DialogUtils.showDialogOne("注册成功", new DialogUtils.OnClickSureListener() {
+            DialogUtils.showDialogOne("修改密码成功", new DialogUtils.OnClickSureListener() {
                 @Override
                 public void onClickSure() {
-                    AppManager.getAppManager().finishActivity();
+
+                    SplitWeb.USER_ID="";
+                    AppManager.getAppManager().finishAllActivity();
                     overridePendingTransition(0,0);
+                    Intent intent_recharge = new Intent(ChangeCodeActivity.this, LoginActivity.class);
+                    startActivity(intent_recharge);
+                    overridePendingTransition(0,0);
+                    ACache.get(ChangeCodeActivity.this).clear();
+                    SPUtils.clear(ChangeCodeActivity .this);
+//                    AppManager.getAppManager().finishActivity();
+//
                 }
             });
         }

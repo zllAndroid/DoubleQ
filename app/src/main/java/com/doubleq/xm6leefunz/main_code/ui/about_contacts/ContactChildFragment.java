@@ -115,14 +115,14 @@ public class ContactChildFragment extends BaseFragment {
     private Runnable runnable;
     private LinearLayout titleView;
     private LayoutInflater inflater;
-    RealmLinkManHelper realmHelper;
+//    RealmLinkManHelper realmHelper;
     RealmGroupHelper realmGroup;
 
     TextView mTvFriendNews;
     // 初始化好友列表
     private void initHome(View view) {
-        realmHelper = new RealmLinkManHelper(getActivity());
-        List<CusDataFriendRealm> cusDataFriendRealms = realmHelper.queryAllRealmMsg();
+//        realmHelper = new RealmLinkManHelper(getActivity());
+//        List<CusDataFriendRealm> cusDataFriendRealms = realmHelper.queryAllRealmMsg();
         letterBar = (LetterBar) view.findViewById(R.id.frag_letter_friend);
         tv_abc = (TextView) view.findViewById(R.id.tv_abc);
         inflater = LayoutInflater.from(getActivity());
@@ -310,7 +310,7 @@ public class ContactChildFragment extends BaseFragment {
         });
     }
     private void dealFriendRequestRealm() {
-        realmHelper.deleteAll();
+//        realmHelper.deleteAll();
         for(int i = 0; i < mlinkFriend.getGroupCount(); i++) {
             if (mFriendList.get(i).getType().equals("2")) {
                 if (mListView!=null)
@@ -342,7 +342,7 @@ public class ContactChildFragment extends BaseFragment {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    realmHelper.addFriend(cusDataFriendRealm);
+//                    realmHelper.addFriend(cusDataFriendRealm);
                 }
             }
         }

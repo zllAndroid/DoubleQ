@@ -82,7 +82,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemClickListener.onHeaderClick(getDataPosition());
+                onItemClickListener.onHeaderClick(getDataPosition(),Constants.CHAT_ITEM_TYPE_RIGHT,data.getUserId());
             }
         });
 
