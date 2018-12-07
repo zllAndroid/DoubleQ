@@ -29,6 +29,8 @@ public class YinSiActivity extends BaseActivity {
 
     @BindView(R.id.yinsi_switch_count)
     SwitchButton mSwitchCount;
+    @BindView(R.id.yinsi_switch_phone)
+    SwitchButton mSwitchPhone;
     @BindView(R.id.yinsi_switch_ercode)
     SwitchButton mSwitcherCode;
 
@@ -37,6 +39,7 @@ public class YinSiActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
     String isSno = "1";
+    String isPhone = "1";
     String isQrcode = "1";
     @Override
     protected void initBaseView() {
@@ -99,6 +102,18 @@ public class YinSiActivity extends BaseActivity {
                 }else{
                     isSno = "0";
 //                    ToastUtil.show("账号显示关闭");
+                }
+            }
+        });
+        mSwitchPhone.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                if(isChecked){
+                    isPhone = "1";
+//                    ToastUtil.show("手机号显示打开");
+                }else{
+                    isPhone = "0";
+//                    ToastUtil.show("手机号显示关闭");
                 }
             }
         });
