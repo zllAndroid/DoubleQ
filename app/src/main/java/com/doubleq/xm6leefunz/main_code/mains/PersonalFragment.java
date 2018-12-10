@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.main_code.mains;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -23,6 +24,8 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.doubleq.model.DataMyZiliao;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseFragment;
+import com.doubleq.xm6leefunz.about_chat.ChatActivity;
+import com.doubleq.xm6leefunz.about_chat.FullImageActivity;
 import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
@@ -36,6 +39,9 @@ import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.rance.chatui.enity.FullImageInfo;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -247,9 +253,29 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    @OnClick({R.id.include_frag_img_search, R.id.include_frag_img_add, R.id.mine_lin_person_info, R.id.mine_lin_share, R.id.mine_lin_set})
+    @OnClick({R.id.mine_iv_person,R.id.include_frag_img_search, R.id.include_frag_img_add, R.id.mine_lin_person_info, R.id.mine_lin_share, R.id.mine_lin_set})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            case R.id.mine_iv_person:
+                int location[] = new int[2];
+                view.getLocationOnScreen(location);
+                FullImageInfo fullImageInfo = new FullImageInfo();
+                fullImageInfo.setLocationX(location[0]);
+                fullImageInfo.setLocationY(location[1]);
+                fullImageInfo.setWidth(view.getWidth());
+                fullImageInfo.setHeight(view.getHeight());
+                GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
+                List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
+                if (fileName!=null&&fileName.size()>0)
+                {
+                    String path=fileName.get(fileName.size()-1);
+                    fullImageInfo.setImageUrl(path);
+                    EventBus.getDefault().postSticky(fullImageInfo);
+                    startActivity(new Intent(getActivity(), FullImageActivity.class));
+                    getActivity().overridePendingTransition(0, 0);
+                }
+
+                break;
             case R.id.include_frag_img_search:
                 break;
             case R.id.include_frag_img_add:

@@ -547,26 +547,26 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
         {
 //            TODO 弄成popwindow   弹框
-//            ToastUtil.show("收到来自"+record.getFriendsName()+"的一条新消息");
+            ToastUtil.show("收到来自"+record.getFriendsName()+"的一条新消息");
 
-            JNoticeAgent.setIsAutoDismiss(true);
-            JNoticeAgent.setAutoDismissTime(4000);
-            JNoticeAgent.setIsUseHomeKey(true);
-            JNoticeAgent.register(this);
-            JDefaultAdapter jDefaultAdapter = new JDefaultAdapter(this, R.layout.jnotice_adpter_item, null);
-            JNoticeAgent.getJNoticeAgent().setAdapter(jDefaultAdapter);
-            JNoticeAgent.addJNotice(new JNoticeBean(0,record.getFriendsName(),record.getMessage(),R.drawable.dou_logo));
-            jDefaultAdapter.setOnJNoticeListener(new JNotice.OnJNoticeListener() {
-                @Override
-                public void onItemClick(int position) {
-                    ToastUtil.show("点击了通知");
-                }
-
-                @Override
-                public void onDismissDingToast() {
-
-                }
-            });
+//            JNoticeAgent.setIsAutoDismiss(true);
+//            JNoticeAgent.setAutoDismissTime(4000);
+//            JNoticeAgent.setIsUseHomeKey(true);
+//            JNoticeAgent.register(this);
+//            JDefaultAdapter jDefaultAdapter = new JDefaultAdapter(this, R.layout.jnotice_adpter_item, null);
+//            JNoticeAgent.getJNoticeAgent().setAdapter(jDefaultAdapter);
+//            JNoticeAgent.addJNotice(new JNoticeBean(0,record.getFriendsName(),record.getMessage(),R.drawable.dou_logo));
+//            jDefaultAdapter.setOnJNoticeListener(new JNotice.OnJNoticeListener() {
+//                @Override
+//                public void onItemClick(int position) {
+//                    ToastUtil.show("点击了通知");
+//                }
+//
+//                @Override
+//                public void onDismissDingToast() {
+//
+//                }
+//            });
         }else {
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {
@@ -606,13 +606,13 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
         {
 //            TODO 弄成popwindow   弹框
-//            ToastUtil.show("收到来自"+record.getGroupName()+"的一条新消息");
-            JNoticeAgent.setIsAutoDismiss(true);
-            JNoticeAgent.setAutoDismissTime(5000);
-            JNoticeAgent.setIsUseHomeKey(true);
-            JNoticeAgent.register(this);
-            JNoticeAgent.getJNoticeAgent().setAdapter(new JDefaultAdapter(this, R.layout.jnotice_adpter_item, null));
-            JNoticeAgent.addJNotice(new JNoticeBean(1,record.getGroupName(),record.getMessage(),R.drawable.dou_logo));
+            ToastUtil.show("收到来自"+record.getGroupName()+"的一条新消息");
+//            JNoticeAgent.setIsAutoDismiss(true);
+//            JNoticeAgent.setAutoDismissTime(5000);
+//            JNoticeAgent.setIsUseHomeKey(true);
+//            JNoticeAgent.register(this);
+//            JNoticeAgent.getJNoticeAgent().setAdapter(new JDefaultAdapter(this, R.layout.jnotice_adpter_item, null));
+//            JNoticeAgent.addJNotice(new JNoticeBean(1,record.getGroupName(),record.getMessage(),R.drawable.dou_logo));
         }else {
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {

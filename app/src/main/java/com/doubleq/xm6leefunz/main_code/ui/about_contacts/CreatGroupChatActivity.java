@@ -36,6 +36,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.doubleq.model.DataBlack;
 import com.doubleq.model.DataCreatGroupChat;
+import com.doubleq.model.DataCreatGroupResult;
 import com.doubleq.model.DataLinkManList;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
@@ -270,6 +271,7 @@ public class CreatGroupChatActivity extends BaseActivity {
         return upperCase;
     }
     List<DataCreatGroupChat.RecordBean.FriendListBean> mFriendList = new ArrayList<>();
+    DataCreatGroupResult.RecordBean record1;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -285,17 +287,27 @@ public class CreatGroupChatActivity extends BaseActivity {
                         initAdapter(friend_list);
                 }
                 break;
+            case "groupSend":
+                if (record1!=null)
+                {
+                    DialogUtils.showDialogOne("群创建成功，快去聊天吧", new DialogUtils.OnClickSureListener() {
+                        @Override
+                        public void onClickSure() {
+//     TODO 应该跳转到群聊天界面
+                            AppManager.getAppManager().finishActivity();
+                        }
+                    });
+                }
+                break;
 //                创建群成功
             case "createdUserGroup":
-                //     TODO 处理群信息页面，群主发送一条默认消息给该群（后台未添加该数据）
-//                send(SplitWeb.privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType, TimeUtil.getTime()));
-                DialogUtils.showDialogOne("群创建成功，快去聊天吧", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-//     TODO 应该跳转到群聊天界面
-                        AppManager.getAppManager().finishActivity();
-                    }
-                });
+                DataCreatGroupResult dataCreatGroupResult=JSON.parseObject(responseText,DataCreatGroupResult.class);
+                record1 = dataCreatGroupResult.getRecord();
+                if (record1!=null)
+                {
+                    send(SplitWeb.groupSend(record1.getGroupOfId(),"群创建成功，快去聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+                }
+
 //                if (blackAdapter != null) {
 //                    blackAdapter.delItem(positions);
 //                }

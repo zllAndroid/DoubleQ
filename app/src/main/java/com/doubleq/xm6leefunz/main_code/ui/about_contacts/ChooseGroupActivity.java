@@ -146,7 +146,7 @@ public class ChooseGroupActivity extends BaseActivity {
         intent.putExtra(CHOOSE_NAME, item.getGroupName());
         intent.putExtra(CHOOSE_ID, item.getId());
         setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
-        AppManager.getAppManager().finishActivity();
+        AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
     }
 
     @Override

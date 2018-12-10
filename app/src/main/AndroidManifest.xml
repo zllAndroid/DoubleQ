@@ -156,6 +156,14 @@
             android:windowSoftInputMode="stateHidden|adjustResize">
 
         </activity>
+        <activity
+            android:name="com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity"
+            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+
+        </activity>
         <!-- configChanges   在很多时候我们不想在系统配置改变时重新加载activity-->
         <!--<activity-->
         <!--android:name="com.doubleq.xm6leefunz.about_chat.ChatActivity"-->

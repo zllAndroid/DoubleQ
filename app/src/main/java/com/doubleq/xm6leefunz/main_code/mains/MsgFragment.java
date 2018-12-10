@@ -164,7 +164,6 @@ public class MsgFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
     }
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
 
@@ -201,7 +200,6 @@ public class MsgFragment extends BaseFragment {
             mList.clear();
             mList.addAll(cusHomeRealmData);
             initAdapter();
-//                msgAdapter.notifyDataSetChanged();
         }
 
     }
@@ -315,24 +313,18 @@ public class MsgFragment extends BaseFragment {
         mRecyclerView.setAdapter(msgAdapter);
         msgAdapter.notifyDataSetChanged();
         sendBroadcast();
-
         msgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                Log.e("position","点击了"+position);
-//                bitmap=BitmapFactory.decodeResource(getActivity().getResources(),R.drawable.dou_logo );
                 final    CusHomeRealmData item = (CusHomeRealmData) adapter.getItem(position);
                 switch (view.getId())
                 {
                     case R.id.item_msg_re:
-
                         if (item.getType().equals("1")) {
-
                             //                            点击进入详情后，消息个数清零
 //                            mList.remove(position);
                             item.setNum(0);
                             realmHelper.updateNumZero(item.getFriendId());
-//                            mList.add(position,item);
                             msgAdapter.notifyItemChanged(position);
                             // 好友
                             CusJumpChatData cusJumpChatData = new CusJumpChatData();
@@ -351,8 +343,6 @@ public class MsgFragment extends BaseFragment {
                         FragmentManager childFragmentManager = getChildFragmentManager();
                         MyDialogFragment myDialogFragment = new MyDialogFragment(item.getFriendId());
                         myDialogFragment.show(childFragmentManager,"show");
-
-
 
 //                        chatWindow = new MsgChatWindow(getActivity(), item.getFriendId());
 //                        chatWindow.showAtLocation(mLinTop, Gravity.BOTTOM, 0,0);

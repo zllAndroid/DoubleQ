@@ -469,7 +469,20 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "addFriend", map);
         return  request;
     }
-
+    /**
+     * 聊天 用户在线群聊 - 给服务器发送消息
+     * @param groupId
+     * @return
+     */
+    public  static  String groupSend(String groupId,String message,String messageType,String requestTime){
+        dealMap();
+        map.put("groupId",groupId);
+        map.put("message",message);
+        map.put("messageType",messageType);
+        map.put("requestTime",requestTime);//发送的时间戳
+        String request = WebUrl.request("Chat", "groupSend", map);
+        return  request;
+    }
     /**
      * 聊天 用户在线私聊 - 给服务器发送消息
      * @param friendsId
@@ -484,6 +497,7 @@ public class SplitWeb {
         String request = WebUrl.request("Chat", "privateSend", map);
         return  request;
     }
+
     public  static  String messageObtain(String friendsId){
         dealMap();
         map.put("friendsId",friendsId);

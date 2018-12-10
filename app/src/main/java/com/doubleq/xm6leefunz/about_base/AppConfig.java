@@ -28,6 +28,11 @@ public class AppConfig {
 
     public static final String LINKMAN_FRIEND_NUM= "friendNum";//联系人好友 界面的数量
 
+//1文字 2图片 3表情 4文件
+    public static final String SEND_MESSAGE_TYPE_TEXT= "1";//消息类型
+    public static final String SEND_MESSAGE_TYPE_IMG= "2";//消息类型
+    public static final String SEND_MESSAGE_TYPE_EMONI= "3";//消息类型
+    public static final String SEND_MESSAGE_TYPE_FILE= "4";//消息类型
 
 
 

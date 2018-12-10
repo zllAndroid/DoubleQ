@@ -1,11 +1,10 @@
-package com.doubleq.xm6leefunz.about_chat;
+package com.doubleq.xm6leefunz.about_chat.chat_group;
 
 import android.annotation.SuppressLint;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -17,7 +16,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -32,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
@@ -41,14 +38,15 @@ import com.doubleq.model.DataChatHisList;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
-import com.doubleq.xm6leefunz.about_base.AppData;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.MyApplication;
-import com.doubleq.xm6leefunz.about_base.web_base.MessageEvent;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.ChatNewsWindow;
+import com.doubleq.xm6leefunz.about_chat.EmotionInputDetector;
+import com.doubleq.xm6leefunz.about_chat.FullImageActivity;
+import com.doubleq.xm6leefunz.about_chat.GlobalOnItemClickManagerUtils;
 import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
 import com.doubleq.xm6leefunz.about_chat.adapter.CommonFragmentPagerAdapter;
-import com.doubleq.xm6leefunz.about_chat.base_chat.SlidingActivity;
 import com.doubleq.xm6leefunz.about_chat.fragment.ChatEmotionFragment;
 import com.doubleq.xm6leefunz.about_chat.fragment.ChatFunctionFragment;
 import com.doubleq.xm6leefunz.about_chat.ui.StateButton;
@@ -61,15 +59,12 @@ import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.RealmLinkManHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
-import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -85,12 +80,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
@@ -99,7 +90,7 @@ import butterknife.BindView;
  * 作者：Rance on 2016/11/29 10:47
  * 邮箱：rance935@163.com
  */
-public class ChatActivity extends BaseActivity {
+public class ChatGroupActivity extends BaseActivity {
 
     @BindView(R.id.chat_list)
     EasyRecyclerView chatList;
@@ -170,8 +161,7 @@ public class ChatActivity extends BaseActivity {
     public static String messageType = "1";
     //    好友头像
     public static String friendHeader = "";
-    //    我的头像
-    public static String MyHeader = "";
+
     RealmChatHelper realmHelper;
     RealmHomeHelper realmHomeHelper;
     HideControl hideControl;
@@ -405,7 +395,7 @@ public class ChatActivity extends BaseActivity {
     public void onEvent(DataJieShou.RecordBean messageInfo){
         String ed = editText.getText().toString().trim();
         if (!StrUtils.isEmpty(ed)) {
-            send(SplitWeb.privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+            send(SplitWeb.privateSend(ChatGroupActivity.FriendId, ed, ChatGroupActivity.messageType, TimeUtil.getTime()));
         }else
         {
 
@@ -638,7 +628,7 @@ public class ChatActivity extends BaseActivity {
             fullImageInfo.setHeight(view.getHeight());
             fullImageInfo.setImageUrl(messageInfos.get(position).getImageUrl());
             EventBus.getDefault().postSticky(fullImageInfo);
-            startActivity(new Intent(ChatActivity.this, FullImageActivity.class));
+            startActivity(new Intent(ChatGroupActivity.this, FullImageActivity.class));
             overridePendingTransition(0, 0);
         }
 
@@ -701,9 +691,9 @@ public class ChatActivity extends BaseActivity {
                         if (chatWindow != null ) {
                             chatWindow.dismiss();
                             chatWindow=null;
-                            if ( SoftKeyboardUtils.isSoftShowing(ChatActivity.this))
+                            if ( SoftKeyboardUtils.isSoftShowing(ChatGroupActivity.this))
                             {
-                                SoftKeyboardUtils.showSoftKeyboard(ChatActivity.this);
+                                SoftKeyboardUtils.showSoftKeyboard(ChatGroupActivity.this);
 //                                SoftKeyboardUtils.showORhideSoftKeyboard(ChatActivity.this);
                             }
 
