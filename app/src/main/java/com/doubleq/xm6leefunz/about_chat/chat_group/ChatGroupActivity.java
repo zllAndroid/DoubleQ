@@ -47,6 +47,9 @@ import com.doubleq.xm6leefunz.about_chat.FullImageActivity;
 import com.doubleq.xm6leefunz.about_chat.GlobalOnItemClickManagerUtils;
 import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
 import com.doubleq.xm6leefunz.about_chat.adapter.CommonFragmentPagerAdapter;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.doubleq.xm6leefunz.about_chat.fragment.ChatEmotionFragment;
 import com.doubleq.xm6leefunz.about_chat.fragment.ChatFunctionFragment;
 import com.doubleq.xm6leefunz.about_chat.ui.StateButton;
@@ -86,10 +89,6 @@ import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 
-/**
- * 作者：Rance on 2016/11/29 10:47
- * 邮箱：rance935@163.com
- */
 public class ChatGroupActivity extends BaseActivity {
 
     @BindView(R.id.chat_list)
@@ -112,7 +111,6 @@ public class ChatGroupActivity extends BaseActivity {
     NoScrollViewPager viewpager;
     @BindView(R.id.emotion_layout)
     RelativeLayout emotionLayout;
-    //
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
     @BindView(R.id.chat_tv_show)
@@ -134,8 +132,7 @@ public class ChatGroupActivity extends BaseActivity {
 
     private ChatAdapter chatAdapter;
     private LinearLayoutManager layoutManager;
-    private List<MessageInfo> messageInfos;
-    private List<DataJieShou.RecordBean> messageList;
+
     //录音相关
     int animationRes = 0;
     int res = 0;
@@ -143,54 +140,45 @@ public class ChatGroupActivity extends BaseActivity {
     private ImageView animView;
     //    外来消息弹窗显示时间
     int showTime = 2000;
-//    private Intent websocketServiceIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
-    //        设置导航栏颜色
-    public void initStateBar() {
-
-    }
-
-    //    好友id
-    public static String FriendId = "";
-    //    消息类型
-    public static String messageType = "1";
-    //    好友头像
-    public static String friendHeader = "";
-
-    RealmChatHelper realmHelper;
+    RealmGroupChatHelper realmGroupChatHelper;
     RealmHomeHelper realmHomeHelper;
+
     HideControl hideControl;
-        RealmLinkManHelper realmLink;
-    CusJumpChatData cusJumpChatData;
+    CusJumpGroupChatData jumpGroupChatData;
+
+    public static  String groupId;
+
+    private List<MessageInfo> messageInfos;
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
         setAboutBar();
         SplitWeb.IS_CHAT = "1";
         realmHomeHelper = new RealmHomeHelper(this);
-        realmHelper = new RealmChatHelper(this);
+        realmGroupChatHelper = new RealmGroupChatHelper(this);
         hideControl = new HideControl();
         mChatTvShow.setBackgroundResource(R.color.chattrans);
 //        realmLink = new RealmLinkManHelper(this);
         Intent intent = getIntent();
-        cusJumpChatData = (CusJumpChatData) intent.getSerializableExtra(Constants.KEY_FRIEND_HEADER);
-        FriendId = cusJumpChatData.getFriendId();
+        jumpGroupChatData = (CusJumpGroupChatData) intent.getSerializableExtra(Constants.KEY_FRIEND_HEADER);
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
-        friendHeader = cusJumpChatData.getFriendHeader();
-        includeTopTvTital.setText("和" + cusJumpChatData.getFriendName() + "的聊天");
+        groupId = jumpGroupChatData.getGroupId();
+        includeTopTvTital.setText(jumpGroupChatData.getGroupName());
         initWidget();
 //        初始化数据库的聊天记录
         initRealm();
 //            通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
-        realmHomeHelper.updateNumZero(FriendId);
+        realmHomeHelper.updateNumZero(groupId);
         Intent intent2 = new Intent();
-        intent2.putExtra("message",FriendId);
-        intent2.putExtra("id",FriendId);
+        intent2.putExtra("message",groupId);
+        intent2.putExtra("id",groupId);
         intent2.setAction("zll.refreshMsgFragment");
         sendBroadcast(intent2);
     }
@@ -210,12 +198,12 @@ public class ChatGroupActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         SplitWeb.IS_CHAT = "00";
-        realmHelper.close();
+        realmGroupChatHelper.close();
         realmHomeHelper.close();
     }
     ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
     private void initRealm() {
-        List<CusChatData> cusRealmChatMsgs = realmHelper.queryAllRealmChat(FriendId);
+        List<CusGroupChatData> cusRealmChatMsgs = realmGroupChatHelper.queryAllGroupChat(groupId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
             mList.clear();
             for (int i = 0; i < cusRealmChatMsgs.size(); i++) {
@@ -224,7 +212,7 @@ public class ChatGroupActivity extends BaseActivity {
                 recordBean.setMessage(cusRealmChatMsgs.get(i).getMessage());
                 recordBean.setMessageType(cusRealmChatMsgs.get(i).getMessageType());
                 recordBean.setRequestTime(cusRealmChatMsgs.get(i).getCreated());
-                recordBean.setFriendsId(cusRealmChatMsgs.get(i).getReceiveId());
+                recordBean.setFriendsId(cusRealmChatMsgs.get(i).getFriendId());
                 mList.add(recordBean);
             }
             chatAdapter.addAll(mList);
@@ -234,7 +222,6 @@ public class ChatGroupActivity extends BaseActivity {
 
 
         } else {
-//            sendWeb(SplitWeb.messageObtain(FriendId));
         }
     }
 
@@ -395,7 +382,7 @@ public class ChatGroupActivity extends BaseActivity {
     public void onEvent(DataJieShou.RecordBean messageInfo){
         String ed = editText.getText().toString().trim();
         if (!StrUtils.isEmpty(ed)) {
-            send(SplitWeb.privateSend(ChatGroupActivity.FriendId, ed, ChatGroupActivity.messageType, TimeUtil.getTime()));
+            send(SplitWeb.groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
         }else
         {
 
@@ -408,43 +395,11 @@ public class ChatGroupActivity extends BaseActivity {
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
 //            发送消息返回
-            case "privateSend":
+            case "groupSend":
                 dealSendResult(responseText);
                 break;
-            case "messageObtain":
-                DataChatHisList dataChatHisList = JSON.parseObject(responseText, DataChatHisList.class);
-                DataChatHisList.RecordBean record1 = dataChatHisList.getRecord();
-                if (record1 != null) {
-                    List<DataChatHisList.RecordBean.MessageListBean> messageList = record1.getMessageList();
-//                    messageStoId
-                    if (messageList != null && messageList.size() != 0) {
-                        mList.clear();
-                        if (messageList.size()!=0)
-                        {
-                            String messageStoId = messageList.get(0).getMessageStoId();
-                            if (StrUtils.isEmpty(messageStoId))
-                            {
-//                        ToastUtil.show("列表为空");
-                                return;
-                            }
-                        }
-                        for (int i = 0; i < messageList.size(); i++) {
-                            DataJieShou.RecordBean recordBean = new DataJieShou.RecordBean();
-                            recordBean.setType(messageList.get(i).getUserMessageType());
-                            recordBean.setMessage(messageList.get(i).getMessage());
-                            recordBean.setMessageType(messageList.get(i).getMessageType());
-                            recordBean.setRequestTime(messageList.get(i).getCreated());
-                            mList.add(recordBean);
-                        }
-                        chatAdapter.addAll(mList);
-                        chatAdapter.notifyDataSetChanged();
-                        //    滑动到底部
-                        layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-                    }
-                }
-                break;
 //                接收消息返回
-            case "privateReceive":
+            case "groupReceive":
                 dealReceiverResult(responseText);
                 break;
         }
@@ -455,7 +410,7 @@ public class ChatGroupActivity extends BaseActivity {
         final DataJieShou.RecordBean record2 = dataJieShou1.getRecord();
         if (record2 != null) {
 //                    收到聊天页的此人的消息
-            if (record2.getFriendsId().equals(FriendId)) {
+            if (record2.getFriendsId().equals(groupId)) {
                 record2.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
                 record2.setType(Constants.CHAT_ITEM_TYPE_LEFT);
 //                CusChatData cusRealmChatMsg = new CusChatData();
@@ -501,14 +456,6 @@ public class ChatGroupActivity extends BaseActivity {
                 intent.setAction("zero.refreshMsgFragment");
                 sendBroadcast(intent);
             } else {
-//                        mChatTvShow.setText(record2.getFriendsName()+":"+record2.getMessage());
-//                view = LayoutInflater.from(this).inflate(R.layout.item_chat_new, null);
-//                TextView mTv = view.findViewById(R.id.item_tv_news);
-//                mTv.setText(record2.getFriendsName()+":"+record2.getMessage());
-//                chatWindow = new ChatNewsWindow(ChatActivity.this,record2.getFriendsName()+":"+record2.getMessage());
-//
-//                hideControl.resetHideTimer();
-//                hideControl.startHideTimer();
                 ToastUtil.show("收到一条来自"+record2.getFriendsName()+"的消息");
                 Intent intent = new Intent();
                 intent.putExtra("message",record2.getMessage());
@@ -526,25 +473,25 @@ public class ChatGroupActivity extends BaseActivity {
                 intent.setAction("action.refreshMsgFragment");
                 sendBroadcast(intent);
                 //APP在后台的时候处理接收到消息的事件
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            bitmap = Glide.with(MyApplication.getAppContext())
-                                    .load(record2.getHeadImg())
-                                    .asBitmap() //必须
-                                    .centerCrop()
-                                    .into(500, 500)
-                                    .get();
-                            NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-                            notificationUtils.sendNotification(cusJumpChatData, record2.getFriendsName(), record2.getMessage(), bitmap, AppConfig.TYPE_CHAT);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        } catch (ExecutionException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }).start();
+//                new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        try {
+//                            bitmap = Glide.with(MyApplication.getAppContext())
+//                                    .load(record2.getHeadImg())
+//                                    .asBitmap() //必须
+//                                    .centerCrop()
+//                                    .into(500, 500)
+//                                    .get();
+//                            NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+//                            notificationUtils.sendNotification(cusJumpChatData, record2.getFriendsName(), record2.getMessage(), bitmap, AppConfig.TYPE_CHAT);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        } catch (ExecutionException e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }).start();
             }
         }
     }

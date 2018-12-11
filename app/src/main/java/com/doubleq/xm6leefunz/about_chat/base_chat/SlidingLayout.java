@@ -60,6 +60,7 @@ public class SlidingLayout extends FrameLayout {
         mActivity = activity;
         ViewGroup decorView = (ViewGroup) mActivity.getWindow().getDecorView();
         View child = decorView.getChildAt(0);
+        child.setBackgroundColor(getResources().getColor(android.R.color.white));
         decorView.removeView(child);
         addView(child);
         decorView.addView(this);

@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.about_base;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -9,6 +10,7 @@ import android.os.Message;
 import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -43,6 +45,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.lang.reflect.Field;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
+import java.util.zip.Inflater;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -90,6 +93,13 @@ public class BaseActivityForResult extends AppCompatActivity  {
                 WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
         }
         initBeforeContentView();
+
+//        if (getLayoutView()!=0)
+//        {
+//            LayoutInflater  mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//            View mContentView = mInflater.inflate(getLayoutView(), null);
+//            mContentView.setBackgroundColor(getResources().getColor(android.R.color.white));
+//        }
         setContentView(getLayoutView());
         initStateBar();
         bind = ButterKnife.bind(this);
@@ -133,6 +143,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         EventBus.getDefault().register(this);
     }
     private void dealObs(String data) {
+
         //        判断返回成功的  字段
         String isSucess = HelpUtils.HttpIsSucess(data.toString());
         if (isSucess.equals(AppAllKey.CODE_OK)) {

@@ -61,6 +61,7 @@ public class BaseActivity extends BaseActivityForResult  {
         super.onCreate(savedInstanceState);
         if (isSupportSwipeBack()) {
             SlidingLayout rootView = new SlidingLayout(this);
+//            rootView.setBackgroundColor(getResources().getColor(android.R.color.white));
             rootView.bindActivity(this);
         }
     }

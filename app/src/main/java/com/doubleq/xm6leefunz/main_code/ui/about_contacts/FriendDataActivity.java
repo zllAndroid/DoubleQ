@@ -1,19 +1,21 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.doubleq.model.CusJumpChatData;
-import com.doubleq.model.DataLinkManList;
 import com.doubleq.model.DataMyFriend;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
@@ -24,24 +26,24 @@ import com.doubleq.xm6leefunz.about_chat.ChatNewsWindow;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
-import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * 位置：联系人-好友资料-界面（好友资料）
  */
-public class FriendDataActivity extends BaseActivity {
+public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow.OnAddContantClickListener {
 
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
@@ -63,6 +65,7 @@ public class FriendDataActivity extends BaseActivity {
     ImageView mIvHead;
     @BindView(R.id.gf_lin_top)
     LinearLayout mLinMain;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +97,7 @@ public class FriendDataActivity extends BaseActivity {
                     }
                 });
                 if (popWindow!=null)
-                popWindow.dissmiss();
+                    popWindow.dissmiss();
             }
         });
         mView.findViewById(R.id.pop_tv_del).setOnClickListener(new View.OnClickListener() {
@@ -139,6 +142,9 @@ public class FriendDataActivity extends BaseActivity {
                     }
                 });
                 break;
+            case "upNickName"://修改备注成功
+                mTvName.setText(contant);
+                break;
         }
     }
 
@@ -171,20 +177,20 @@ public class FriendDataActivity extends BaseActivity {
     }
     ChatNewsWindow chatWindow;
     CustomPopWindow popWindow;
-    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode, R.id.fd_iv_head, R.id.fd_tv_send_msg,R.id.fd_lin_fenzu})
+    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode, R.id.fd_iv_head, R.id.fd_tv_send_msg,R.id.fd_lin_fenzu,R.id.fd_lin_name})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 //            顶部点点点按钮
             case R.id.include_top_iv_more:
                 if (popWindow==null)
-                popWindow = new CustomPopWindow.PopupWindowBuilder(FriendDataActivity.this)
-                        .setView(mView)
-                        .setFocusable(true)
-                        .setOutsideTouchable(true)
-                        .size(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-                        .setAnimationStyle(R.style.AnimDown) // 添加自定义显示和消失动画
-                        .create()
-                        .showAsDropDown(includeTopIvMore,0,0);
+                    popWindow = new CustomPopWindow.PopupWindowBuilder(FriendDataActivity.this)
+                            .setView(mView)
+                            .setFocusable(true)
+                            .setOutsideTouchable(true)
+                            .size(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                            .setAnimationStyle(R.style.AnimDown) // 添加自定义显示和消失动画
+                            .create()
+                            .showAsDropDown(includeTopIvMore,0,0);
                 else
                     popWindow.showAsDropDown(includeTopIvMore,0,0);
 //                chatWindow = new ChatNewsWindow(FriendDataActivity.this,"123");
@@ -230,10 +236,22 @@ public class FriendDataActivity extends BaseActivity {
                     startActivityForResult(intent, AppConfig.FRIEND_DATA_GROUP_REQUEST);
                 }
                 break;
+//                修改备注
+            case R.id.fd_lin_name:
+                if (NoDoubleClickUtils.isDoubleClick())
+                    doChangeName();
+                break;
         }
     }
+    private void doChangeName() {
 
-String ids =null;
+        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(FriendDataActivity.this, "修改名字", mTvName.getText().toString().trim());
+        changeInfoWindow.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
+        changeInfoWindow.setOnAddpopClickListener(this);
+    }
+
+
+    String ids =null;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -249,5 +267,16 @@ String ids =null;
                 //设置结果显示框的显示数值
             }
         }
+    }
+
+    String contant = null;
+    @Override
+    public void onSure(String contant) {
+        this.contant = contant;
+        sendWeb(SplitWeb.upNickName(contant));
+    }
+    @Override
+    public void onCancle() {
+
     }
 }

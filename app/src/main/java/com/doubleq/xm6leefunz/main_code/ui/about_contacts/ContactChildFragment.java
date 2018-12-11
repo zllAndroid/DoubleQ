@@ -15,12 +15,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.doubleq.model.CusJumpChatData;
 import com.doubleq.model.DataLinkGroupList;
 import com.doubleq.model.DataLinkManList;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseFragment;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.ChatActivity;
+import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataFriendRealm;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataGroupRealm;
@@ -34,6 +38,7 @@ import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.rance.chatui.util.Constants;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -414,6 +419,12 @@ public class ContactChildFragment extends BaseFragment {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 String group_name = mGroupList.get(groupPosition).getGroupList().get(childPosition).getNickName();
+                DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
+                // 群聊
+                CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
+                cusJumpChatData.setGroupId(groupListBean.getGroupOfId());
+                cusJumpChatData.setGroupName(groupListBean.getNickName());
+                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 //                        ToastUtil.show("组别"+(groupPosition+1)+"点击了子"+group_name);
                 return false;
             }
