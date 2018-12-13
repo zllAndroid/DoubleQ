@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
@@ -10,10 +11,13 @@ import android.widget.TextView;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import butterknife.BindView;
@@ -82,7 +86,14 @@ public class ChangePwdActivity extends BaseActivity {
         DialogUtils.showDialogOne("修改密码成功", new DialogUtils.OnClickSureListener() {
             @Override
             public void onClickSure() {
-                AppManager.getAppManager().finishActivity();
+                SplitWeb.USER_ID="";
+                AppManager.getAppManager().finishAllActivity();
+                Intent intent_recharge = new Intent(ChangePwdActivity.this, LoginActivity.class);
+                startActivity(intent_recharge);
+                overridePendingTransition(0,0);
+                ACache.get(ChangePwdActivity.this).clear();
+                SPUtils.clear(ChangePwdActivity.this);
+//                AppManager.getAppManager().finishActivity();
             }
         });
     }

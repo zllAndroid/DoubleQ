@@ -14,6 +14,7 @@ import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.ChangePwdActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.CountAndSafeActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.LaBlackActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.NewsRemindActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.ShareSetActivity;
@@ -105,7 +106,7 @@ public class MineSetActivity extends BaseActivity {
 //                打开  密码设置  界面
             case R.id.set_lin_count:
                 if (NoDoubleClickUtils.isDoubleClick())
-                    IntentUtils.JumpTo(ChangePwdActivity.class);
+                    IntentUtils.JumpTo(CountAndSafeActivity.class);
                 break;
 
 //                打开 屏蔽设置  界面

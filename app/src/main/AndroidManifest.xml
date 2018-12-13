@@ -2,314 +2,283 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.doubleq.xm6leefunz">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.NFC" />
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" />        <!-- 使用照相机权限 -->
-    <uses-feature android:name="android.hardware.camera.autofocus" /><!-- 自动聚焦权限 -->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
 
+    <uses-feature android:name="android.hardware.camera" /> <!-- 使用照相机权限 -->
+    <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 自动聚焦权限 -->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
-    <!-- 必选-->
+    <!-- 必选 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 获取网络状态 -->
-    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络通信-->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE" />  <!-- 获取设备信息 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取MAC地址-->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络通信 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 获取设备信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取MAC地址 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 读写sdcard，storage等等 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 允许程序录制音频 -->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
-        android:name="com.doubleq.xm6leefunz.about_base.MyApplication"
+        android:name=".about_base.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/dou_logo"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-<!--蒲公英-->
+
+        <!-- 蒲公英 -->
         <provider
             android:name="com.pgyersdk.PgyerProvider"
             android:authorities="${applicationId}.com.pgyer.provider"
-            android:exported="false"/>
-        <activity android:name="com.pgyersdk.feedback.FeedbackActivity"/>
-        <!-- 必选-->
+            android:exported="false" />
+
+        <activity android:name="com.pgyersdk.feedback.FeedbackActivity" />
+        <!-- 必选 -->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="1a8593c430c539f80c0cc00c0354d164" >
-        </meta-data>
+            android:value="1a8593c430c539f80c0cc00c0354d164" />
 
-        <!--聊天的服务-->
-        <service android:name="com.zll.websocket.WebSocketService"/>
-        <receiver android:name="com.zll.websocket.NetworkChangedReceiver"/>
-        <!--首页-->
-        <service android:name=".main_code.mains.top_pop.WindowService"></service>
+        <!-- 聊天的服务 -->
+        <service android:name="com.zll.websocket.WebSocketService" />
+
+        <receiver android:name="com.zll.websocket.NetworkChangedReceiver" />
+        <!-- 首页 -->
+        <service android:name=".main_code.mains.top_pop.WindowService" />
+
         <activity
             android:name=".main_code.mains.MainActivity"
-            android:launchMode="singleTop"
-            >
-        </activity>
-
+            android:launchMode="singleTop" />
         <activity
             android:name=".main_code.popular_activity.GoH5Activity"
-            android:launchMode="singleTask"
-            >
-        </activity>
-        <!--朋友圈-->
+            android:launchMode="singleTask" />
+        <!-- 朋友圈 -->
         <activity
             android:name=".main_code.ui.about_discovery.FriendCircleActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--设置-->
+        <!-- 设置 -->
         <activity
             android:name=".main_code.ui.about_personal.about_activity.MineSetActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--我的账户-->
+        <!-- 我的账户 -->
         <activity
             android:name=".main_code.ui.about_personal.about_activity.MyAccountActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--修改个人资料-->
+        <!-- 修改个人资料 -->
         <activity
             android:name=".main_code.ui.about_personal.about_activity.ChangeInfoActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--android:windowSoftInputMode="stateVisible|adjustResize"-->
-        <!--android:windowSoftInputMode=”adjustPan”-->
-        <!--登录页-->
+        <!-- android:windowSoftInputMode="stateVisible|adjustResize" -->
+        <!-- android:windowSoftInputMode=”adjustPan” -->
+        <!-- 登录页 -->
         <activity
-            android:name="com.doubleq.xm6leefunz.main_code.about_login.LoginActivity"
+            android:name=".main_code.about_login.LoginActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan"
-            >
-        </activity>
-        <!--密码登录-->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 密码登录 -->
         <activity
-            android:name="com.doubleq.xm6leefunz.main_code.about_login.PwdLoginActivity"
+            android:name=".main_code.about_login.PwdLoginActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan"
-            >
-        </activity>
-        <!--注册-->
+            android:windowSoftInputMode="adjustPan" />
+        <!-- 注册 -->
         <activity
-            android:name="com.doubleq.xm6leefunz.main_code.about_login.RegisterActivity"
+            android:name=".main_code.about_login.RegisterActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan"
             android:theme="@style/SwipeBack.Transparent.Theme"
-            >
-        </activity>
-
+            android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name="com.doubleq.xm6leefunz.main_code.about_login.FirstAddHeaderActivity"
+            android:name=".main_code.about_login.FirstAddHeaderActivity"
             android:launchMode="singleTop"
-            android:windowSoftInputMode="adjustPan"
             android:theme="@style/SwipeBack.Transparent.Theme"
-            >
-        </activity>
+            android:windowSoftInputMode="adjustPan" />
 
-        <receiver
-            android:name=".main_code.about_notification.NotificationClickReceiver">
-        </receiver>
-        <!--欢迎页-->
+        <receiver android:name=".main_code.about_notification.NotificationClickReceiver" />
+        <!-- 欢迎页 -->
         <activity
-            android:name="com.doubleq.xm6leefunz.main_code.about_login.AppStartActivity"
+            android:name=".main_code.about_login.AppStartActivity"
             android:launchMode="singleTop"
-            android:parentActivityName=".main_code.mains.MainActivity"
-            >
+            android:parentActivityName=".main_code.mains.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--聊天大图显示-->
+        <!-- 聊天大图显示 -->
         <activity
-            android:name="com.doubleq.xm6leefunz.about_chat.FullImageActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
+            android:name=".about_chat.FullImageActivity"
             android:launchMode="singleTop"
-            />
-        <!--聊天界面-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 聊天界面 -->
         <activity
-            android:name="com.doubleq.xm6leefunz.about_chat.ChatActivity"
+            android:name=".about_chat.ChatActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize">
-
-        </activity>
+            android:windowSoftInputMode="stateHidden|adjustResize" />
         <activity
-            android:name="com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity"
+            android:name=".about_chat.chat_group.ChatGroupActivity"
             android:configChanges="orientation|keyboardHidden|navigation|screenSize"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize">
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <!-- configChanges   在很多时候我们不想在系统配置改变时重新加载activity -->
+        <!-- <activity -->
+        <!-- android:name="com.doubleq.xm6leefunz.about_chat.ChatActivity" -->
+        <!-- android:configChanges="orientation|keyboardHidden|navigation|screenSize" -->
+        <!-- android:launchMode="singleTop" -->
+        <!-- android:windowSoftInputMode="stateHidden|adjustPan" -->
+        <!-- android:theme="@style/SwipeBack.Transparent.Theme" /> -->
+        <!-- &lt;!&ndash;android:screenOrientation="portrait"&ndash;&gt; -->
+        <!-- android:windowSoftInputMode="stateHidden|adjustPan" -->
+        <!-- android:theme="@android:style/Theme.Translucent" /> -->
 
-        </activity>
-        <!-- configChanges   在很多时候我们不想在系统配置改变时重新加载activity-->
-        <!--<activity-->
-        <!--android:name="com.doubleq.xm6leefunz.about_chat.ChatActivity"-->
-        <!--android:configChanges="orientation|keyboardHidden|navigation|screenSize"-->
-        <!--android:launchMode="singleTop"-->
-        <!--android:windowSoftInputMode="stateHidden|adjustPan"-->
-        <!--android:theme="@style/SwipeBack.Transparent.Theme" />-->
-        <!--&lt;!&ndash;android:screenOrientation="portrait"&ndash;&gt;-->
-        <!--android:windowSoftInputMode="stateHidden|adjustPan"-->
-        <!--android:theme="@android:style/Theme.Translucent" />-->
 
-        <!--联系人-->
-        <!--创建群聊-->
+        <!-- 联系人 -->
+        <!-- 创建群聊 -->
         <activity
             android:name=".main_code.ui.about_contacts.CreatGroupChatActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
+            android:theme="@style/SwipeBack.Transparent.Theme" />
         <activity
-            android:name="com.doubleq.xm6leefunz.about_scan.ScanCodeActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
+            android:name=".about_scan.ScanCodeActivity"
             android:launchMode="singleTop"
-            />
-        <!--群二维码-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 群二维码 -->
         <activity
             android:name=".main_code.ui.about_contacts.about_top_add.QunCodeActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
+            android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <!--添加群的群资料页面-->
+        <!-- 添加群的群资料页面 -->
         <activity
             android:name=".main_code.ui.about_contacts.GroupDataAddActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--通知详情 -->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 通知详情 -->
         <activity
             android:name=".main_code.ui.about_contacts.about_notice.NoticeDetailsActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--搜索-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 搜索 -->
         <activity
             android:name=".main_code.ui.about_contacts.about_search.SearchActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--添加好友-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 添加好友 -->
         <activity
             android:name=".main_code.ui.about_contacts.about_add.AddGoodFriendActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--好友资料-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 好友资料 -->
         <activity
             android:name=".main_code.ui.about_contacts.FriendDataAddActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--好友资料-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 好友资料 -->
         <activity
             android:name=".main_code.ui.about_contacts.FriendDataActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--群聊成员-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 群聊成员 -->
         <activity
             android:name=".main_code.ui.about_contacts.GroupTeamActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
+            android:theme="@style/SwipeBack.Transparent.Theme" />
         <activity
             android:name=".main_code.ui.about_contacts.ChooseGroupActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--群聊资料-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 群聊资料 -->
         <activity
             android:name=".main_code.ui.about_contacts.GroupDetailsActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--添加-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 添加 -->
         <activity
             android:name=".main_code.ui.about_contacts.about_search.AddFriendActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--添加群详情（准备发送申请）-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 添加群详情（准备发送申请） -->
         <activity
             android:name=".main_code.ui.about_contacts.about_add.AddGoodGroupActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--通知-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 通知 -->
         <activity
             android:name=".main_code.ui.about_contacts.NoticeActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--分组管理-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 分组管理 -->
         <activity
             android:name=".main_code.ui.about_contacts.GroupManageActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
+            android:theme="@style/SwipeBack.Transparent.Theme" />
 
-     <!--设置子页面-->
+        <!-- 设置子页面 -->
 
-        <!--消息提醒-->
+
+        <!-- 消息提醒 -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.NewsRemindActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--分享设置-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 分享设置 -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.ShareSetActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--修改密码（密码修改）-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 修改密码（密码修改） -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.ChangePwdActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--拉黑-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 拉黑 -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.LaBlackActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--修改密码（短信修改）-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 修改密码（短信修改） -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.ChangeCodeActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-        <!--隐私-->
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 隐私 -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.YinSiActivity"
-            android:theme="@style/SwipeBack.Transparent.Theme"
             android:launchMode="singleTop"
-            />
-
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".main_code.ui.about_personal.about_set.ChangeBindOldActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
+        <activity android:name=".main_code.ui.about_personal.about_set.CountAndSafeActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
+        <activity android:name=".main_code.ui.about_personal.about_set.ChangeBindNewActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
     </application>
+
 </manifest>
