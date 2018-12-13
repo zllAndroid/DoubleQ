@@ -14,7 +14,9 @@ import com.bumptech.glide.Glide;
 import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
@@ -28,7 +30,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  */
-public class ChatGroupSendViewHolder extends BaseViewHolder<DataGroupChatResult.RecordBean> {
+public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
 
     @BindView(R.id.chat_item_date)
     TextView chatItemDate;
@@ -58,20 +60,20 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<DataGroupChatResult.
         this.handler = handler;
     }
     @Override
-    public void setData(final  DataGroupChatResult.RecordBean data) {
+    public void setData(final  CusGroupChatData data) {
 //        chatItemDate.setText("2018-08-08");
-        if (StrUtils.isEmpty(data.getRequestTime()))
+        if (StrUtils.isEmpty(data.getCreated()))
         {
             chatItemDate.setVisibility(View.GONE);
         }else
         {
-            chatItemDate.setText(TimeUtil.formatDisplayTime(data.getRequestTime(),null));
+            chatItemDate.setText(TimeUtil.formatDisplayTime(data.getCreated(),null));
             chatItemDate.setVisibility(View.VISIBLE);
         }
 //        chatItemDate.setText(data.getTime() != null ? data.getTime() : "");
 //        Glide.with(getContext()).load(SplitWeb.USER_HEADER).into(chatItemHeader);
 
-        Glide.with(getContext()).load(SplitWeb.USER_HEADER)
+        Glide.with(getContext()).load(FilePath.getUserNewHead(getContext()))
                 .bitmapTransform(new CropCircleTransformation(getContext()))
                 .crossFade(1000).into(chatItemHeader);
 
@@ -79,7 +81,7 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<DataGroupChatResult.
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onItemClickListener.onHeaderClick(getDataPosition(),Constants.CHAT_ITEM_TYPE_RIGHT,data.getUserId());
+                onItemClickListener.onHeaderClick(getDataPosition(),Constants.CHAT_ITEM_TYPE_RIGHT,data.getFriendId());
             }
         });
 

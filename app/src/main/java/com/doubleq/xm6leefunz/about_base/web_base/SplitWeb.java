@@ -6,6 +6,7 @@ import android.util.Log;
 import com.doubleq.xm6leefunz.about_base.SignForXm6leefun;
 import com.doubleq.xm6leefunz.about_base.SignForXm6leefunJava;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -16,6 +17,7 @@ import java.util.TreeMap;
 public class SplitWeb {
 
     public static String IS_CHAT= "00";
+    public static String IS_CHAT_GROUP= "33";
     public static String USER_TOKEN= "";
     public static String MOBILE= "";
     public static String WX_SNO= "";
@@ -35,7 +37,7 @@ public class SplitWeb {
     }
     public static String getUserId() {
         if(StrUtils.isEmpty(USER_ID))
-            USER_ID=(String ) SPUtils.get(HelpUtils.getACt(),"userId","");
+            USER_ID=(String ) SPUtils.get(HelpUtils.getACt(), AppAllKey.USER_ID_KEY,"");
         return USER_ID;
     }
     public static String getNiName() {
@@ -207,6 +209,14 @@ public class SplitWeb {
         dealMap();
         map.put("nickName",nickName);
         String request = WebUrl.request("PersonCenter", "upNickName", map);
+        return  request;
+    }
+//    修改备注
+    public  static  String friendRemarkName(String friendsId,String remarkName){
+        dealMap();
+        map.put("friendsId",friendsId);
+        map.put("remarkName",remarkName);
+        String request = WebUrl.request("Contact", "friendRemarkName", map);
         return  request;
     }
     static TreeMap<String, String> mapFile = new TreeMap<>();

@@ -18,6 +18,7 @@ import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
 import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MineSetActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
@@ -61,8 +62,9 @@ public class ChangeCodeActivity extends BaseActivity {
         includeTopIvBack.setVisibility(View.VISIBLE);
 //        给密码修改按钮添加下划线
         mTvYan.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        if (SplitWeb.MOBILE!=null)
-            changecodeTvCode.setText(SplitWeb.MOBILE);
+        String mPhone = (String)SPUtils.get(this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.MOBILE);
+        if (!StrUtils.isEmpty(mPhone))
+            changecodeTvCode.setText(mPhone);
     }
     @Override
     protected int getLayoutView() {

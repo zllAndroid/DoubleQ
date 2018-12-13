@@ -34,6 +34,8 @@ import com.doubleq.xm6leefunz.about_broadcastreceiver.NetEvent;
 import com.doubleq.xm6leefunz.about_broadcastreceiver.NetReceiver;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.ChatNewsWindow;
+import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.NetUtils;
@@ -236,7 +238,7 @@ public class MsgFragment extends BaseFragment {
             {
                 realmHelper = new RealmHomeHelper(getActivity());
             }
-            List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
+            List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
             CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id );
             Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
             if ( mList.size()==0&&cusHomeRealmData.size()!=0)
@@ -267,6 +269,7 @@ public class MsgFragment extends BaseFragment {
                             msgAdapter.addData(homeRealmData);
 //                            realmHelper.deleteRealmMsg(id+SplitWeb.USER_ID);
                         }
+                        Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
                         return;
                     }
                 }
@@ -320,7 +323,9 @@ public class MsgFragment extends BaseFragment {
                 switch (view.getId())
                 {
                     case R.id.item_msg_re:
+                        Log.e("item","type"+item.getType());
                         if (item.getType().equals("1")) {
+
                             //                            点击进入详情后，消息个数清零
 //                            mList.remove(position);
                             item.setNum(0);
@@ -335,7 +340,24 @@ public class MsgFragment extends BaseFragment {
 
                         }else {
                             //跳转群组
-                            ToastUtil.show("点击了群组");
+                            item.setNum(0);
+                            realmHelper.updateNumZero(item.getFriendId());
+                            msgAdapter.notifyItemChanged(position);
+//
+//                            CusJumpChatData cusJumpChatData = new CusJumpChatData();
+//                            cusJumpChatData.setFriendHeader(item.getHeadImg());
+//                            cusJumpChatData.setFriendId(item.getFriendId());
+//                            cusJumpChatData.setFriendName(item.getNickName());
+//                            realmHelper.addRealmMsgQun(cusJumpChatData);
+//                            realmHelper.addRealmMsg(cusJumpChatData);
+                            CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
+                            cusJumpGroupChatData.setGroupId(item.getFriendId());
+                            cusJumpGroupChatData.setGroupName(item.getNickName());
+                            IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
+
+
+
+
                         }
                         break;
 //                        点击编辑，弹出聊天窗口

@@ -6,7 +6,9 @@ import android.graphics.BitmapFactory;
 import android.os.Environment;
 import android.util.Log;
 
+import com.bumptech.glide.Glide;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,6 +17,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class FilePath {
     //    个人中心头像部分
@@ -49,6 +53,17 @@ public class FilePath {
             return pathandname.substring(start+1,end);
         }else{
             return null;
+        }
+    }
+    public static String getUserNewHead(Context context){
+        GlideCacheUtil.getInstance().clearImageAllCache(context);
+        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
+        if (fileName!=null&&fileName.size()>0)
+        {
+            String path=fileName.get(fileName.size()-1);
+            return path;
+        }else{
+            return "";
         }
     }
     public static List<String> getFilesAllName(String path) {

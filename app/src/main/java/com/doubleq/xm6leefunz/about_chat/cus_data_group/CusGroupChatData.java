@@ -9,10 +9,56 @@ public class CusGroupChatData  extends RealmObject {
     String friendId;
     String message;
     String imgHead;
-    String name;
+    String imgGroup;
+    String nameGroup;
+    String nameFriend;
     String messageType;//    消息类型 1文字 2图 3表情 4文件
     int  userMessageType; //1右 发送，2左 接收
     String  created; //    发送时间
+
+    int sendState;
+
+//   int type;
+
+    public int getSendState() {
+        return sendState;
+    }
+
+    public void setSendState(int sendState) {
+        this.sendState = sendState;
+    }
+
+//    public int getType() {
+//        return type;
+//    }
+//
+//    public void setType(int type) {
+//        this.type = type;
+//    }
+
+    public String getNameGroup() {
+        return nameGroup;
+    }
+
+    public void setNameGroup(String nameGroup) {
+        this.nameGroup = nameGroup;
+    }
+
+    public String getNameFriend() {
+        return nameFriend;
+    }
+
+    public void setNameFriend(String nameFriend) {
+        this.nameFriend = nameFriend;
+    }
+
+    public String getImgGroup() {
+        return imgGroup;
+    }
+
+    public void setImgGroup(String imgGroup) {
+        this.imgGroup = imgGroup;
+    }
 
     public int getUserMessageType() {
         return userMessageType;
@@ -70,13 +116,6 @@ public class CusGroupChatData  extends RealmObject {
         this.imgHead = imgHead;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
 
     public String getMessageType() {

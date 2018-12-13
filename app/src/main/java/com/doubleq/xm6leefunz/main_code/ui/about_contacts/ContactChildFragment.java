@@ -26,6 +26,8 @@ import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataFriendRealm;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataGroupRealm;
 import com.doubleq.xm6leefunz.about_utils.about_realm.RealmGroupHelper;
@@ -56,6 +58,8 @@ public class ContactChildFragment extends BaseFragment {
     View view;
     int typeWho;
     String url ="http://omyk3uve8.bkt.clouddn.com/cities.txt";
+
+    RealmHomeHelper realmHelper;
     ACache aCache;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -74,6 +78,7 @@ public class ContactChildFragment extends BaseFragment {
 //                初始化群组列表
                 view = inflater.inflate(R.layout.fragment_group,container,false);
                 initManage(view);
+                realmHelper = new RealmHomeHelper(getActivity());
             }
         }
 
@@ -424,6 +429,15 @@ public class ContactChildFragment extends BaseFragment {
                 CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
                 cusJumpChatData.setGroupId(groupListBean.getGroupOfId());
                 cusJumpChatData.setGroupName(groupListBean.getNickName());
+
+                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
+                cusHomeRealmData.setHeadImg(groupListBean.getHeadImg());
+                cusHomeRealmData.setFriendId(groupListBean.getGroupOfId());
+                cusHomeRealmData.setNickName(groupListBean.getNickName());
+                cusHomeRealmData.setNum(0);
+//            realmHelper.updateNum(record.getFriendsId());
+                realmHelper.addRealmMsgQun(cusHomeRealmData);
+
                 IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 //                        ToastUtil.show("组别"+(groupPosition+1)+"点击了子"+group_name);
                 return false;

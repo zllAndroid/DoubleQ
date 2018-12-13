@@ -11,6 +11,7 @@ public class AppAllKey {
     public static final String GOH5_ARTICAL_KEY= "artical_html";
     //登录返回的信息key
     public static final String TOKEN_KEY= "token_key";
+    public static final String USER_ID_KEY= "userId_key";
     public static final String SP_LOGIN_ACCOUNT= "account";
     public static final String SP_LOGIN_PSW= "password";
     public static final String SP_DOWN_RATE= "up_data";

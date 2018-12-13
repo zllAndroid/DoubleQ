@@ -215,7 +215,10 @@ public class AppStartActivity extends BaseActivity {
         }
     }
     private void initSetData(DataLogin.RecordBean dataLogin) {
-        SPUtils.put(HelpUtils.activity,"userId",dataLogin.getUserId());
+        if(!StrUtils.isEmpty(dataLogin.getUserId()))
+        SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
+        if(!StrUtils.isEmpty(dataLogin.getMobile()))
+            SPUtils.put(this, AppAllKey.SP_LOGIN_ACCOUNT,dataLogin.getMobile());
         SplitWeb.USER_TOKEN = dataLogin.getUserToken();
         SplitWeb.MOBILE = dataLogin.getMobile();
         SplitWeb.QR_CODE = dataLogin.getQrcode();

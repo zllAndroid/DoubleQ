@@ -73,7 +73,7 @@ public class LoginActivity extends BaseActivity {
 
 
     private void initSetData(DataLogin.RecordBean dataLogin) {
-        SPUtils.put(HelpUtils.activity,"userId",dataLogin.getUserId());
+        SPUtils.put(HelpUtils.activity,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
         SplitWeb.USER_TOKEN = dataLogin.getUserToken();
         SplitWeb.MOBILE = dataLogin.getMobile();
         SplitWeb.QR_CODE = dataLogin.getQrcode();

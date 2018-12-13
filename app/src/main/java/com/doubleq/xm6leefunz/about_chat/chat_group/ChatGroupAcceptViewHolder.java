@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -28,7 +29,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  * 作者：Rance on 2016/11/29 10:47
  * 邮箱：rance935@163.com
  */
-public class ChatGroupAcceptViewHolder extends BaseViewHolder<DataGroupChatResult.RecordBean> {
+public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> {
 
     @BindView(R.id.chat_item_date)
     TextView chatItemDate;
@@ -54,19 +55,18 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<DataGroupChatResul
         this.handler = handler;
     }
     @Override
-    public void setData(final DataGroupChatResult.RecordBean data) {
-        if (StrUtils.isEmpty(data.getRequestTime()))
+    public void setData(final CusGroupChatData data) {
+        if (StrUtils.isEmpty(data.getCreated()))
         {
             chatItemDate.setVisibility(View.GONE);
         }else
         {
-            chatItemDate.setText(TimeUtil.formatDisplayTime(data.getRequestTime(),null));
+            chatItemDate.setText(TimeUtil.formatDisplayTime(data.getCreated(),null));
             chatItemDate.setVisibility(View.VISIBLE);
         }
-
 //        chatItemDate.setText("上午 9:00"+data.getRequestTime());
 //        Glide.with(getContext()).load(ChatActivity.friendHeader).crossFade(1000).into(chatItemHeader);
-        Glide.with(getContext()).load(ChatActivity.friendHeader)
+        Glide.with(getContext()).load(data.getImgHead())
                 .bitmapTransform(new CropCircleTransformation(getContext()))
                 .crossFade(1000).into(chatItemHeader);
         chatItemHeader.setOnClickListener(new View.OnClickListener() {

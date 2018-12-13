@@ -32,9 +32,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.bumptech.glide.Glide;
-import com.doubleq.model.CusJumpChatData;
-import com.doubleq.model.DataChatHisList;
+import com.doubleq.model.DataGroupChatResult;
+import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
@@ -45,7 +44,6 @@ import com.doubleq.xm6leefunz.about_chat.ChatNewsWindow;
 import com.doubleq.xm6leefunz.about_chat.EmotionInputDetector;
 import com.doubleq.xm6leefunz.about_chat.FullImageActivity;
 import com.doubleq.xm6leefunz.about_chat.GlobalOnItemClickManagerUtils;
-import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
 import com.doubleq.xm6leefunz.about_chat.adapter.CommonFragmentPagerAdapter;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
@@ -56,13 +54,9 @@ import com.doubleq.xm6leefunz.about_chat.ui.StateButton;
 import com.doubleq.xm6leefunz.about_utils.DensityUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SoftKeyboardUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
-import com.doubleq.xm6leefunz.about_utils.about_realm.RealmLinkManHelper;
-import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
-import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.example.zhouwei.library.CustomPopWindow;
@@ -85,7 +79,6 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 
@@ -130,7 +123,7 @@ public class ChatGroupActivity extends BaseActivity {
     private ChatFunctionFragment chatFunctionFragment;
     private CommonFragmentPagerAdapter adapter;
 
-    private ChatAdapter chatAdapter;
+    private ChatGroupAdapter chatAdapter;
     private LinearLayoutManager layoutManager;
 
     //录音相关
@@ -160,7 +153,7 @@ public class ChatGroupActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         setAboutBar();
-        SplitWeb.IS_CHAT = "1";
+        SplitWeb.IS_CHAT_GROUP = "2";
         realmHomeHelper = new RealmHomeHelper(this);
         realmGroupChatHelper = new RealmGroupChatHelper(this);
         hideControl = new HideControl();
@@ -197,7 +190,7 @@ public class ChatGroupActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SplitWeb.IS_CHAT = "00";
+        SplitWeb.IS_CHAT_GROUP = "00";
         realmGroupChatHelper.close();
         realmHomeHelper.close();
     }
@@ -205,22 +198,19 @@ public class ChatGroupActivity extends BaseActivity {
     private void initRealm() {
         List<CusGroupChatData> cusRealmChatMsgs = realmGroupChatHelper.queryAllGroupChat(groupId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
-            mList.clear();
-            for (int i = 0; i < cusRealmChatMsgs.size(); i++) {
-                DataJieShou.RecordBean recordBean = new DataJieShou.RecordBean();
-                recordBean.setType(cusRealmChatMsgs.get(i).getUserMessageType());
-                recordBean.setMessage(cusRealmChatMsgs.get(i).getMessage());
-                recordBean.setMessageType(cusRealmChatMsgs.get(i).getMessageType());
-                recordBean.setRequestTime(cusRealmChatMsgs.get(i).getCreated());
-                recordBean.setFriendsId(cusRealmChatMsgs.get(i).getFriendId());
-                mList.add(recordBean);
-            }
-            chatAdapter.addAll(mList);
+//            mList.clear();
+//            for (int i = 0; i < cusRealmChatMsgs.size(); i++) {
+//                DataGroupChatResult.RecordBean recordBean = new DataGroupChatResult.RecordBean();
+//                recordBean.setMessageType(cusRealmChatMsgs.get(i).getUserMessageType());
+//                recordBean.setMessage(cusRealmChatMsgs.get(i).getMessage());
+//                recordBean.setRequestTime(cusRealmChatMsgs.get(i).getCreated());
+//                recordBean.setGroupId(cusRealmChatMsgs.get(i).getFriendId());
+//                mList.add(recordBean);
+//            }
+            chatAdapter.addAll(cusRealmChatMsgs);
             chatAdapter.notifyDataSetChanged();
             //    滑动到底部
             layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-
-
         } else {
         }
     }
@@ -287,7 +277,7 @@ public class ChatGroupActivity extends BaseActivity {
         });
         GlobalOnItemClickManagerUtils globalOnItemClickListener = GlobalOnItemClickManagerUtils.getInstance(this);
         globalOnItemClickListener.attachToEditText(editText);
-        chatAdapter = new ChatAdapter(this);
+        chatAdapter = new ChatGroupAdapter(this);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         chatList.setLayoutManager(layoutManager);
@@ -406,13 +396,13 @@ public class ChatGroupActivity extends BaseActivity {
     }
     ChatNewsWindow chatWindow = null;
     private void dealReceiverResult(String responseText) {
-        DataJieShou dataJieShou1 = JSON.parseObject(responseText, DataJieShou.class);
-        final DataJieShou.RecordBean record2 = dataJieShou1.getRecord();
+        DataGroupChatResult dataJieShou1 = JSON.parseObject(responseText, DataGroupChatResult.class);
+        final DataGroupChatResult.RecordBean record2 = dataJieShou1.getRecord();
         if (record2 != null) {
 //                    收到聊天页的此人的消息
-            if (record2.getFriendsId().equals(groupId)) {
-                record2.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
-                record2.setType(Constants.CHAT_ITEM_TYPE_LEFT);
+            if (record2.getGroupId().equals(groupId)) {
+//                record2.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
+//                record2.setType(Constants.CHAT_ITEM_TYPE_LEFT);
 //                CusChatData cusRealmChatMsg = new CusChatData();
 //                    realmHelper.addRealmChat(FriendId,msg,messageType,Constants.CHAT_ITEM_TYPE_RIGHT, TimeUtil.sf.format(new Date()));
 //                String myTime=record2.getRequestTime();
@@ -422,7 +412,6 @@ public class ChatGroupActivity extends BaseActivity {
                 }else {
                     try {
                         int i = TimeUtil.stringDaysBetween(record2.getRequestTime(),time);
-                        Log.e("stringDaysBetween","++++++++++++++++++++++++++++++++++++++++++++++"+i);
                         SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME,(String)record2.getRequestTime());
                         if (Math.abs(i) < 5)
                         {
@@ -432,15 +421,28 @@ public class ChatGroupActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
+                CusGroupChatData groupChatData = new CusGroupChatData();
+                groupChatData.setNameFriend(record2.getMemberName());
+                groupChatData.setNameGroup(record2.getGroupName());
+                groupChatData.setMessage(record2.getMessage());
+                groupChatData.setImgGroup(record2.getGroupHeadImg());
+                groupChatData.setImgHead(record2.getMemberHeadImg());
+                groupChatData.setGroupId(record2.getGroupId());
+                groupChatData.setFriendId(record2.getMemberId());
+                groupChatData.setGroupUserId(record2.getGroupId()+SplitWeb.getUserId());
+                groupChatData.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
+                groupChatData.setCreated(record2.getRequestTime());
+                groupChatData.setMessageType(record2.getMessageType());
+                groupChatData.setUserMessageType(Constants.CHAT_ITEM_TYPE_LEFT);
 //                cusRealmChatMsg.setCreated(myTime);
 //                cusRealmChatMsg.setMessage(record2.getMessage());
 //                cusRealmChatMsg.setMessageType(record2.getMessageType());
 //                cusRealmChatMsg.setReceiveId(record2.getFriendsId());
 //                cusRealmChatMsg.setSendId(record2.getUserId());
 //                cusRealmChatMsg.setUserMessageType(record2.getType());
-//                        realmHelper.addRealmChat(cusRealmChatMsg);
+//                realmGroupChatHelper.addRealmChat(groupChatData);
 //                    addChatRealm(record.getMessage());
-                chatAdapter.add(record2);
+                chatAdapter.add(groupChatData);
                 chatAdapter.notifyDataSetChanged();
 //                    滑动到底部
                 layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
@@ -452,14 +454,14 @@ public class ChatGroupActivity extends BaseActivity {
 //                }
                 Intent intent = new Intent();
                 intent.putExtra("message",record2.getMessage());
-                intent.putExtra("id",record2.getFriendsId());
+                intent.putExtra("id",record2.getGroupId());
                 intent.setAction("zero.refreshMsgFragment");
                 sendBroadcast(intent);
             } else {
-                ToastUtil.show("收到一条来自"+record2.getFriendsName()+"的消息");
+                ToastUtil.show("收到一条来自"+record2.getGroupName()+"的消息");
                 Intent intent = new Intent();
                 intent.putExtra("message",record2.getMessage());
-                intent.putExtra("id",record2.getFriendsId());
+                intent.putExtra("id",record2.getGroupId());
                 intent.setAction("action.refreshMsgFragment");
                 sendBroadcast(intent);
             }
@@ -469,7 +471,7 @@ public class ChatGroupActivity extends BaseActivity {
 
                 Intent intent = new Intent();
                 intent.putExtra("message",record2.getMessage());
-                intent.putExtra("id",record2.getFriendsId());
+                intent.putExtra("id",record2.getGroupId());
                 intent.setAction("action.refreshMsgFragment");
                 sendBroadcast(intent);
                 //APP在后台的时候处理接收到消息的事件
@@ -499,31 +501,37 @@ public class ChatGroupActivity extends BaseActivity {
 
 
     private void dealSendResult(String responseText) {
-        DataJieShou dataJieShou = JSON.parseObject(responseText, DataJieShou.class);
-        DataJieShou.RecordBean record = dataJieShou.getRecord();
+        DataGroupChatSend dataJieShou = JSON.parseObject(responseText, DataGroupChatSend.class);
+        DataGroupChatSend.RecordBean record = dataJieShou.getRecord();
         if (record != null) {
-            String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME,"");
+            String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME, "");
             if (StrUtils.isEmpty(time)) {
-                SPUtils.put(this,AppConfig.CHAT_SEND_TIME,(String)record.getRequestTime());
-            }else {
+                SPUtils.put(this, AppConfig.CHAT_SEND_TIME, (String) record.getRequestTime());
+            } else {
                 try {
-                    int i = TimeUtil.stringDaysBetween(record.getRequestTime(),time);
-                    Log.e("stringDaysBetween","++++++++++++++++++++++++++++++++++++++++++++++"+i);
-                    SPUtils.put(this,AppConfig.CHAT_SEND_TIME,(String)record.getRequestTime());
-                    if (Math.abs(i) < 5)
-                    {
+                    int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
+                    Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
+                    SPUtils.put(this, AppConfig.CHAT_SEND_TIME, (String) record.getRequestTime());
+                    if (Math.abs(i) < 5) {
                         record.setRequestTime("");
-                    }else {
+                    } else {
                         record.setRequestTime(record.getRequestTime());
-//                        SPUtils.put(this,AppConfig.CHAT_SEND_TIME,"");
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
-            record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
-            record.setType(Constants.CHAT_ITEM_TYPE_RIGHT);
-            chatAdapter.add(record);
+            CusGroupChatData groupChatData = new CusGroupChatData();
+            groupChatData.setMessage(record.getMessage());
+            groupChatData.setGroupId(record.getGroupId());
+            groupChatData.setFriendId(record.getUserId());
+            groupChatData.setGroupUserId(record.getGroupId()+SplitWeb.getUserId());
+            groupChatData.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
+            groupChatData.setCreated(record.getRequestTime());
+            groupChatData.setMessageType(record.getMessageType());
+//            groupChatData.setType(Constants.CHAT_ITEM_TYPE_RIGHT);
+            groupChatData.setUserMessageType(Constants.CHAT_ITEM_TYPE_RIGHT);
+            chatAdapter.add(groupChatData);
             chatAdapter.notifyDataSetChanged();
 //                    滑动到底部
             layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
@@ -538,7 +546,7 @@ public class ChatGroupActivity extends BaseActivity {
     /**
      * item点击事件
      */
-    private ChatAdapter.onItemClickListener itemClickListener = new ChatAdapter.onItemClickListener() {
+    private ChatGroupAdapter.onItemClickListener itemClickListener = new ChatGroupAdapter.onItemClickListener() {
 
         @Override
         public void onHeaderClick(int position, int type, String friendId) {

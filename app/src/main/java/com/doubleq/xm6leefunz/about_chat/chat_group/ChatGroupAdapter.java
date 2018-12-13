@@ -11,12 +11,15 @@ import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.about_chat.adapter.holder.ChatAcceptViewHolder;
 import com.doubleq.xm6leefunz.about_chat.adapter.holder.ChatSendViewHolder;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.rance.chatui.util.Constants;
 
-public class ChatGroupAdapter extends RecyclerArrayAdapter<DataGroupChatResult.RecordBean> {
+import java.util.List;
 
+public class ChatGroupAdapter extends RecyclerArrayAdapter<CusGroupChatData> {
+//    List<CusGroupChatData>
     private onItemClickListener onItemClickListener;
     public Handler handler;
 
@@ -43,7 +46,7 @@ public class ChatGroupAdapter extends RecyclerArrayAdapter<DataGroupChatResult.R
 
     @Override
     public int getViewType(int position) {
-        return getAllData().get(position).getType();
+        return getAllData().get(position).getUserMessageType();
     }
 
     public void addItemClickListener(onItemClickListener onItemClickListener) {

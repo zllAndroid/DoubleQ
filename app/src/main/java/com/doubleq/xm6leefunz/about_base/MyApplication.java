@@ -13,14 +13,14 @@ import com.bumptech.glide.Glide;
 import com.doubleq.model.CusJumpChatData;
 import com.doubleq.model.DataAddfriendSendRequest;
 import com.doubleq.model.DataAgreeFriend;
-import com.doubleq.model.DataGroupChat;
-import com.doubleq.model.DataGroupSend;
+import com.doubleq.model.DataGroupChatResult;
+import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.DataJieShou;
-import com.doubleq.model.DataTuiAddFriend;
-import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
@@ -30,21 +30,15 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
-import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
-import com.soubw.bean.JNoticeBean;
-import com.soubw.jnotice.JDefaultAdapter;
-import com.soubw.jnotice.JNotice;
-import com.soubw.jnotice.JNoticeAgent;
 import com.zll.websocket.ErrorResponse;
 import com.zll.websocket.IWebSocketPage;
 import com.zll.websocket.Response;
@@ -52,10 +46,7 @@ import com.zll.websocket.WebSocketService;
 import com.zll.websocket.WebSocketServiceConnectManager;
 import com.zll.websocket.WebSocketSetting;
 
-import org.greenrobot.eventbus.EventBus;
-
 import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -134,10 +125,12 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         Realm.setDefaultConfiguration(configuration);
 
         realmHelper = new RealmHomeHelper(this);
+        realmGroupChatHelper = new RealmGroupChatHelper(this);
         realmChatHelper = new RealmChatHelper(this);
     }
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
+    RealmGroupChatHelper realmGroupChatHelper;
     public static WebSocketServiceConnectManager getmConnectManager(){
         return mConnectManager;
     }
@@ -215,7 +208,6 @@ public class MyApplication extends Application  implements IWebSocketPage  {
     public  static  Response message;
     @Override
     public void onMessageResponse(Response message) {
-//        Log.e("MyApplication", "MyApplication" +message.getResponseText());
 //        onResult(message);
         this.message=message;
         if (reBind.equals("1"))
@@ -243,7 +235,8 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                     break;
 //                    接收群组消息
                 case "groupReceive":
-                    dealGroupReceiver(message.getResponseText());
+                    initGroupReceiveData(message.getResponseText());
+//                    dealGroupReceiver(message.getResponseText());
                     break;
 //                    群发送信息
                 case "groupSend":
@@ -260,27 +253,89 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                     break;
 //                    私聊发送消息
                 case "privateSend":
-//                    dealReceiver(message.getResponseText());
                     dealSend(message.getResponseText());
                     break;
             }
-
-
         }
+    }
 
+    private void initGroupReceiveData(String responseText) {
+        DataGroupChatResult dataGroupChat = JSON.parseObject(responseText, DataGroupChatResult.class);
+        final DataGroupChatResult.RecordBean record = dataGroupChat.getRecord();
+        if (record==null)
+            return;
+        AppConfig.CHAT_GROUP_ID = record.getGroupId();
+        String Mytime=record.getRequestTime();
+        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,"");
+        if (StrUtils.isEmpty(time)) {
+            SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,(String)record.getRequestTime());
+        }else {
+            try {
+                int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
+                MyLog.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
+                SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP, (String) record.getRequestTime());
+//                发送时间之间的间隔小于五分钟，则不显示时间
+                if (Math.abs(i) < 5) {
+//                    record.setRequestTime("");
+                    Mytime="";
+                }else {
+                    Mytime=record.getRequestTime();
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!SplitWeb.IS_CHAT_GROUP.equals("2"))
+        {
+//            不在聊天界面收到消息时候的处理
+            noGroupChatUI(record);
+        }
+        CusGroupChatData groupChatData = new CusGroupChatData();
+        groupChatData.setCreated(Mytime);
+        groupChatData.setFriendId(record.getMemberId());
+        groupChatData.setGroupId(record.getGroupId());
+        groupChatData.setGroupUserId(record.getGroupId()+SplitWeb.getUserId());
+        groupChatData.setImgHead(record.getMemberHeadImg());
+        groupChatData.setImgGroup(record.getGroupHeadImg());
+        groupChatData.setMessage(record.getMessage());
+        groupChatData.setNameGroup(record.getGroupName());
+        groupChatData.setNameFriend(record.getMemberName());
+        groupChatData.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
+        groupChatData.setUserMessageType(Constants.CHAT_ITEM_TYPE_LEFT);
+        groupChatData.setMessageType(record.getMessageType());
 
+        realmGroupChatHelper.addRealmChat(groupChatData);//更新群聊聊天数据
+        MyLog.e("realmGroupChatHelper","msg="+record.getMessage());
+        CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getGroupId());
+        if (homeRealmData!=null) {
+            realmHelper.updateMsg(record.getGroupId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+            realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
+        }
+        else
+        {
+            final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
+            cusJumpChatData.setHeadImg(record.getGroupHeadImg());
+            cusJumpChatData.setFriendId(record.getGroupId());
+            cusJumpChatData.setNickName(record.getGroupName());
+            cusJumpChatData.setMsg(record.getMessage());
+            cusJumpChatData.setTime(record.getRequestTime());
+
+            cusJumpChatData.setNum(0);
+//            realmHelper.updateNum(record.getFriendsId());
+            realmHelper.addRealmMsgQun(cusJumpChatData);
+        }
+        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
+        MyLog.e("MyApplication","queryAllmMsg="+cusHomeRealmData.size());
     }
 
     private void dealGroupSend(String message) {
-        DataGroupChat dataGroupSend = JSON.parseObject(message, DataGroupChat.class);
-        DataGroupChat.RecordBean record = dataGroupSend.getRecord();
+        DataGroupChatSend dataGroupSend = JSON.parseObject(message, DataGroupChatSend.class);
+        DataGroupChatSend.RecordBean record = dataGroupSend.getRecord();
         if (record != null) {
-            record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
-            record.setType(Constants.CHAT_ITEM_TYPE_RIGHT);
 
-            initMsgGroupSend(record);//发布广播更新首页的信息
+//            initMsgGroupSend(record);//发布广播更新首页的信息
 
-            CusChatData cusRealmChatMsg = new CusChatData();
+            CusGroupChatData cusRealmChatMsg = new CusGroupChatData();
             String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME_REALM_GROUP,"");
             if (StrUtils.isEmpty(time)) {
                 SPUtils.put(this,AppConfig.CHAT_SEND_TIME_REALM_GROUP,(String)record.getRequestTime());
@@ -300,12 +355,15 @@ public class MyApplication extends Application  implements IWebSocketPage  {
 //            cusRealmChatMsg.setCreated(TimeUtil.sf.format(new Date()));
             cusRealmChatMsg.setMessage(record.getMessage());
             cusRealmChatMsg.setMessageType(record.getMessageType());
-            cusRealmChatMsg.setReceiveId(record.getGroupId());
-            cusRealmChatMsg.setSendId(record.getUserId());
-            cusRealmChatMsg.setUserMessageType(record.getType());
-            cusRealmChatMsg.setTotalId(record.getGroupId() + SplitWeb.getUserId());
-            realmChatHelper.addRealmChat(cusRealmChatMsg);
+            cusRealmChatMsg.setGroupId(record.getGroupId());
+            cusRealmChatMsg.setGroupUserId(record.getGroupId()+SplitWeb.getUserId());
+//            cusRealmChatMsg.setSendId(record.getMemberId());
+            cusRealmChatMsg.setUserMessageType(Constants.CHAT_ITEM_TYPE_RIGHT);
+            cusRealmChatMsg.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
+            realmGroupChatHelper.addRealmChat(cusRealmChatMsg);
 
+            realmHelper.updateMsg(record.getGroupId(),record.getMessage(),record.getRequestTime());
+            realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
         }
     }
 
@@ -388,7 +446,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         sendBroadcast(intent);
         realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
     }
-    private void initMsgGroupSend( DataGroupChat.RecordBean record) {
+    private void initMsgGroupSend( DataGroupChatSend.RecordBean record) {
         Intent intent = new Intent();
         intent.putExtra("message", record.getMessage());
         intent.putExtra("id", record.getGroupId());
@@ -398,71 +456,6 @@ public class MyApplication extends Application  implements IWebSocketPage  {
     }
 
 
-    private void dealGroupReceiver(String message) {
-        DataGroupChat dataGroupChat = JSON.parseObject(message, DataGroupChat.class);
-        final DataGroupChat.RecordBean record = dataGroupChat.getRecord();
-        AppConfig.CHAT_GROUP_ID = record.getGroupId();
-        record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
-        record.setType(Constants.CHAT_ITEM_TYPE_LEFT);
-        CusChatData cusRealmChatMsg = new CusChatData();
-//            String format = TimeUtil.sf.format(new Date());
-//            cusRealmChatMsg.setCreated(format);
-        String Mytime=record.getRequestTime();
-        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,"");
-        if (StrUtils.isEmpty(time)) {
-            SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,(String)record.getRequestTime());
-        }else {
-            try {
-                int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
-                MyLog.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
-                SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP, (String) record.getRequestTime());
-                if (Math.abs(i) < 5) {
-//                    record.setRequestTime("");
-                    Mytime="";
-                }else {
-                    Mytime=record.getRequestTime();
-                }
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-        }
-        if (!SplitWeb.IS_CHAT.equals("1"))
-        {
-//            不在聊天界面收到消息时候的处理
-            noGroupChatUI(record);
-        }
-        cusRealmChatMsg.setCreated(Mytime);
-        cusRealmChatMsg.setMessage(record.getMessage());
-        cusRealmChatMsg.setMessageType(record.getMessageType());
-        cusRealmChatMsg.setReceiveId(record.getGroupId());
-        cusRealmChatMsg.setSendId(record.getUserId());
-        cusRealmChatMsg.setUserMessageType(record.getType());
-        cusRealmChatMsg.setTotalId(record.getGroupId()+SplitWeb.getUserId());
-
-        realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
-        MyLog.e("realmChatHelper","msg="+record.getMessage());
-
-        CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getGroupId());
-
-        if (homeRealmData!=null) {
-            realmHelper.updateMsg(record.getGroupId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
-            realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
-        }
-        else
-        {
-            final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
-            cusJumpChatData.setHeadImg(record.getGroupHeadImg());
-            cusJumpChatData.setFriendId(record.getGroupId());
-            cusJumpChatData.setNickName(record.getGroupName());
-            cusJumpChatData.setMsg(record.getMessage());
-            cusJumpChatData.setTime(record.getRequestTime());
-            cusJumpChatData.setNum(0);
-//            realmHelper.updateNum(record.getFriendsId());
-            realmHelper.addRealmMsgQun(cusJumpChatData);
-        }
-        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
-        MyLog.e("MyApplication","queryAllmMsg="+cusHomeRealmData.size());
-    }
 
     private void dealReceiver(String message) {
         DataJieShou dataJieShou = JSON.parseObject(message, DataJieShou.class);
@@ -530,6 +523,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
         Log.e("MyApplication","cusHomeRealmData="+cusHomeRealmData.size());
     }
+
     Bitmap bitmap;
     private void noChatUI(final DataJieShou.RecordBean record) {
         final CusJumpChatData cusJumpChatData = new CusJumpChatData();
@@ -590,7 +584,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             }).start();
         }
     }
-    private void noGroupChatUI(final DataGroupChat.RecordBean record) {
+    private void noGroupChatUI(final DataGroupChatResult.RecordBean record) {
         final CusJumpChatData cusJumpChatData = new CusJumpChatData();
         cusJumpChatData.setFriendHeader(record.getGroupHeadImg());
         cusJumpChatData.setFriendId(record.getGroupId());

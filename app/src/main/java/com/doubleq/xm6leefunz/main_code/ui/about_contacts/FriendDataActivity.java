@@ -142,7 +142,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                     }
                 });
                 break;
-            case "upNickName"://修改备注成功
+            case "friendRemarkName"://修改备注成功
                 mTvName.setText(contant);
                 break;
         }
@@ -273,7 +273,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
     @Override
     public void onSure(String contant) {
         this.contant = contant;
-        sendWeb(SplitWeb.upNickName(contant));
+        sendWeb(SplitWeb.friendRemarkName(FriendId,contant));
     }
     @Override
     public void onCancle() {
