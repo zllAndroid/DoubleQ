@@ -5,16 +5,16 @@ realm {
     syncEnabled = true
 }
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
         ndk {
-            abiFilters "arm64-v8a","armeabi", "armeabi-v7a", "x86", "mips", "mips64", "x86", "x86_64"
+            abiFilters "arm64-v8a", "armeabi", "armeabi-v7a", "x86", "mips", "mips64", "x86", "x86_64"
         }
         vectorDrawables.useSupportLibrary = true
         applicationId "com.doubleq.xm6leefunz"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 3
         versionName "1.1.0"
         multiDexEnabled true  //防止方法数量超过65536导致错误
@@ -53,16 +53,16 @@ dependencies {
     })
     implementation 'com.android.support:multidex:1.0.3'
 
-    implementation 'com.android.support:support-v4:27.+'
-    implementation 'com.android.support:design:27.+'
-    implementation 'com.android.support:appcompat-v7:27.+'
+    implementation 'com.android.support:support-v4:28.+'
+    implementation 'com.android.support:design:28.+'
+    implementation 'com.android.support:appcompat-v7:28.+'
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation 'com.ogaclejapan.smarttablayout:library:1.6.1@aar'
     //    Recycleview
-    implementation 'com.android.support:recyclerview-v7:27.+'
+    implementation 'com.android.support:recyclerview-v7:28.+'
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     //    Glide
     implementation 'com.github.bumptech.glide:glide:3.7.0'
