@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -26,6 +27,9 @@ import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+/**
+ * 更换绑定  新号码页面
+ */
 public class ChangeBindNewActivity extends BaseActivity {
 
     @BindView(R.id.include_top_iv_back)
@@ -82,7 +86,7 @@ public class ChangeBindNewActivity extends BaseActivity {
         }
         if (StrUtils.isEmpty(code)) {
             ToastUtil.show("验证码不得为空");
-            return;
+//            return;
         }
 //        sendWeb(SplitWeb.upPassWordSms(phone,code,psw));
     }
@@ -109,6 +113,7 @@ public class ChangeBindNewActivity extends BaseActivity {
     }
 
     private CountDownTimer timer =new CountDownTimer(60000, 1000) {
+        @SuppressLint("SetTextI18n")
         @Override
         public void onTick(long l) {
             mTvCode.setText((l / 1000) + "s");
