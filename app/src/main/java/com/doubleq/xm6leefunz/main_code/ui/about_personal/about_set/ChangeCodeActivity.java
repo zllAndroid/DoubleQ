@@ -55,6 +55,8 @@ public class ChangeCodeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
 
+
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
