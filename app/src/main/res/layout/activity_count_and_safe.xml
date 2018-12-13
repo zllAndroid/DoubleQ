@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mine_bac"
+    tools:context=".main_code.ui.about_personal.about_set.CountAndSafeActivity">
+
+    <include
+        layout="@layout/activity_include_title_bar"
+        />
+    <!--修改密码-->
+    <LinearLayout
+        android:id="@+id/count_lin_changePWD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/dp10"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/dp10"
+            android:text="修改密码" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp10"
+            app:srcCompat="@drawable/in_right" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/greyf3"
+        android:layout_height="@dimen/dp1"
+        />
+    <!--更换绑定-->
+    <LinearLayout
+        android:id="@+id/count_lin_changeBind"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/dp10"
+            android:text="更换绑定" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp10"
+            app:srcCompat="@drawable/in_right" />
+    </LinearLayout>
+</LinearLayout>
