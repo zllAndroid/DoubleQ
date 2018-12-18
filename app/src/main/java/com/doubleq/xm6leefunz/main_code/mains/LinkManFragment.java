@@ -15,9 +15,12 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseFragment;
 import com.doubleq.xm6leefunz.about_custom.CustomViewPager;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.ContactChildFragment;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_pop.PopAddWindow;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ConfirmPopWindow;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+
+import static com.doubleq.xm6leefunz.about_utils.IntentUtils.JumpTo;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +59,12 @@ public class LinkManFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));
+            }
+        });
+        view.findViewById(R.id.include_frag_img_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                JumpTo(SearchActivity.class);
             }
         });
 

@@ -5,9 +5,9 @@
 
     <LinearLayout
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_height="250dp"
         android:layout_gravity="center"
-        android:background="@drawable/dialog_background"
+        android:background="@drawable/bac_dialog"
         android:orientation="vertical">
 
         <TextView
@@ -20,16 +20,17 @@
         <TextView
             android:id="@+id/tv_dialog_message"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:gravity="center"
             android:text="message"
-            android:textColor="#333333"
+            android:layout_marginTop="100dp"
+            android:textColor="#666"
             android:textSize="16sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="#e8e8e8" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="1dp"-->
+            <!--android:background="#e8e8e8" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -41,25 +42,33 @@
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@null"
+                android:background="@drawable/bac_dialog_btn"
                 android:text="todo"
-                android:textColor="#EE6911"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
-            <View
-                android:id="@+id/view_dialog_button_divider"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:background="#e8e8e8" />
+            <!--<View-->
+                <!--android:id="@+id/view_dialog_button_divider"-->
+                <!--android:layout_width="1dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:background="#e8e8e8" />-->
 
             <Button
                 android:id="@+id/btn_dialog_negative"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@null"
+                android:background="@drawable/bac_dialog_btn"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="5dp"
                 android:text="cancel"
-                android:textColor="#EE6911"
+                android:textColor="@color/white"
                 android:textSize="16sp" />
 
         </LinearLayout>

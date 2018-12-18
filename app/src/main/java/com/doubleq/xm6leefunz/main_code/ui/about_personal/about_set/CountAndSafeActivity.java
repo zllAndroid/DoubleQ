@@ -9,6 +9,8 @@ import android.widget.TextView;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.about_count_and_safe.ChangeBindOldActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.about_count_and_safe.ChangePwdActivity;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 
 import butterknife.BindView;

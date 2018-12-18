@@ -46,6 +46,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.RealmHelper;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ConfirmPopWindow;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.MsgChatWindow;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.MyDialogFragment;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.doubleq.xm6leefunz.main_code.ui.about_message.about_message_adapter.MsgAdapter;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -148,6 +149,12 @@ public class MsgFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));
+            }
+        });
+        view.findViewById(R.id.include_frag_img_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentUtils.JumpTo(SearchActivity.class);
             }
         });
         TextView tv_title = view.findViewById(R.id.include_frag_tv_title);

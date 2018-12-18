@@ -43,7 +43,7 @@ public class SearchActivity extends BaseActivity {
     ImageView includeTopIvBack;
     @BindView(R.id.inclu_tv_right)
     TextView incluTvRight;
-//    @BindView(R.id.include_top2_lin)
+    //    @BindView(R.id.include_top2_lin)
 //    LinearLayout includeTop2Lin;
     @BindView(R.id.include_top_lin_back)
     LinearLayout includeTopLinBack;
@@ -65,6 +65,10 @@ public class SearchActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     //    @BindView(R.id.search_tv_empty)
 //    TextView searchTvEmpty;
+    /**
+     * 搜索关键字全部匹配的适配器
+     */
+    private SearchAdapter alterSearchAdapter = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +87,7 @@ public class SearchActivity extends BaseActivity {
 
 //        mRecyclerView.addHeaderView(footer);
     }
-
+//    监听软键盘的回车键
     private void listenEnter() {
         seachEdInput.setImeOptions(EditorInfo.IME_ACTION_SEND);
         seachEdInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -120,6 +124,7 @@ public class SearchActivity extends BaseActivity {
         }
     }
     List<DataSearch> mList =new ArrayList<>();
+//    List<DataSearch> keyWordList =new ArrayList<>();
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -218,5 +223,35 @@ public class SearchActivity extends BaseActivity {
             return;
         }
         sendWebHaveDialog(SplitWeb.searchInfo(edInput),"搜索中...","搜索成功");
+//        alterSearchAdapter.setText(edInput);
+//        doChangeColor(edInput);
     }
+
+//    private void doChangeColor(String text) {
+//        //  clear是必须的，不然只要改变EditText的数据，list 就会一直添加数据进来
+//        mList.clear();
+//        //  不需要匹配，把所有数据都传进来，不需要变色
+//        if (text.equals("")){
+////            mList.addAll(mList);
+//            //  防止匹配过文字之后点击删除按钮，字体仍然变色的问题
+//            searchAdapter.setText(null);
+////            refershUI();
+//            initadapter(mList);
+//            Log.e("search","---------mList_doChangeColor----0-----"+mList.size());
+//        }else {
+//            //  如果EditText里面有数据，则根据EditText里面的数据进行匹配，用contains判断是否包含该数据，包含的话则加入到list中
+//            for (DataSearch i : mList){
+//
+//                if (i.getName().contains(text) || i.getId().contains(text)){
+//                    mList.add(i);
+//                    Log.e("search","---------mList_doChangeColor----1----"+mList.size());
+////                    refershUI();
+//                }
+//            }
+//            //  设置要变色的关键字
+//            searchAdapter.setText(text);
+//            initadapter(mList);
+//        }
+//    }
+
 }

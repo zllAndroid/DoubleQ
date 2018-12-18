@@ -5,6 +5,8 @@
     <color name="ac_top">#1bd5c3</color>
     <color name="fg_top">#1bd5c3</color>
     <color name="fg_top_bac">#1edec9</color>
+    <color name="dialog_text">#27d5cf</color>
+
 
 
     <!--联系人-->

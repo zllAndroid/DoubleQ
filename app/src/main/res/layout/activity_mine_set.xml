@@ -262,17 +262,17 @@
     </LinearLayout>
     <Button
         android:id="@+id/set_btn_esc"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp250"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="@dimen/sp16"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:gravity="center"
         android:background="@drawable/btn_stroke_sel"
         android:paddingTop="@dimen/dp10"
         android:paddingBottom="@dimen/dp10"
         android:paddingLeft="@dimen/dp80"
         android:paddingRight="@dimen/dp80"
-        android:layout_marginTop="@dimen/dp50"
+        android:layout_marginTop="@dimen/dp80"
         android:text="退出登录" />
 </LinearLayout>

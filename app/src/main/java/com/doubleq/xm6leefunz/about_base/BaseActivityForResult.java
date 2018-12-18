@@ -1,25 +1,18 @@
 package com.doubleq.xm6leefunz.about_base;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.widget.SlidingPaneLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.doubleq.model.CusJumpChatData;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.model.DataNoticAddFriendNews;
 import com.doubleq.xm6leefunz.R;
@@ -28,8 +21,8 @@ import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_custom.loding.LoadingDialog;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
-import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.DialogExitUtils;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -43,10 +36,8 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.Field;
 import java.util.Stack;
 import java.util.concurrent.ExecutionException;
-import java.util.zip.Inflater;
 
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -272,6 +263,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         EventBus.getDefault().unregister(this);
 //        关闭弹窗
         DialogUtils.isShow();
+        DialogExitUtils.isShow();
     }
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)

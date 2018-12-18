@@ -1,7 +1,10 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.service.autofill.Dataset;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +28,12 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class SearchFriendAndGroupAdapter extends BaseQuickAdapter<DataSearch, BaseViewHolder> {
     Context context;
+    private List<DataSearch> list;
+    private String text;
     public SearchFriendAndGroupAdapter(Context context, List<DataSearch> data ) {
         super(R.layout.item_search, data);
         this.context=context;
+        this.list = data;
     }
 
     @Override
@@ -43,9 +49,9 @@ public class SearchFriendAndGroupAdapter extends BaseQuickAdapter<DataSearch, Ba
 //                    .error(R.drawable.mine_head)
 //                    .bitmapTransform(new CropCircleTransformation(AddGoodFriendActivity.this))
 //                    .crossFade(1000).into(fdaIvHead);
-            helper.setText(R.id.item_search_tv_type,"人");
+            helper.setText(R.id.item_search_tv_type,"好友");
         }
-        else
+        else if (item.getType().equals("2"))
         {
             Glide.with(context).load(item.getHeadImg())
                     .error(R.drawable.qun_head)
@@ -55,7 +61,15 @@ public class SearchFriendAndGroupAdapter extends BaseQuickAdapter<DataSearch, Ba
 //            Glide.with(context).load(item.getHeadImg())
 //                    .error(R.drawable.qun_head)
 //                    .into((ImageView) helper.getView(R.id.item_search_iv_head));
-            helper.setText(R.id.item_search_tv_type,"群");
+            helper.setText(R.id.item_search_tv_type,"群聊");
+        }
+        else
+        {
+            Glide.with(context).load(item.getHeadImg())
+                    .error(R.drawable.mine_head)
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .crossFade(1000).into((ImageView) helper.getView(R.id.item_search_iv_head));
+            helper.setText(R.id.item_search_tv_type,"聊天记录");
         }
 
         helper.setText(R.id.item_search_tv_name,item.getName());
@@ -72,6 +86,20 @@ public class SearchFriendAndGroupAdapter extends BaseQuickAdapter<DataSearch, Ba
     public void onBindViewHolder(BaseViewHolder holder, int positions) {
         super.onBindViewHolder(holder, positions);
 
+//        String name = list.get(positions).getName();
+//        String id = list.get(positions).getSno();
+//        /**
+//         * 如果没有进行搜索操作或者搜索之后点击了删除按钮，我们会在SearchActivity中把text质控并传递过来
+//         */
+//        if (text!=null){
+//            //  设置span
+//            SpannableString span_name = matcherSearchText(Color.rgb(39,213,207),name,text);
+//            SpannableString age = matcherSearchText(Color.rgb(39,213,207),id,text);
+//            holder.tv_name.setText(span_name);
+//        }else {
+//            holder.tv_name.setText(name);
+//            holder.tv_id.setText(id);
+//        }
     }
 
 //    @Override
@@ -96,5 +124,14 @@ public class SearchFriendAndGroupAdapter extends BaseQuickAdapter<DataSearch, Ba
 //            return new RecyclerAdapter.FootHolder(itemView);
 //        }
 //    }
+
+    public void setText(String text){this.text = text;}
+
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
+    }
+
+
 
 }

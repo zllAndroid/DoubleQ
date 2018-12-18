@@ -8,7 +8,7 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 
 
 /**
- * Created by Administrator on 2017/7/26.
+ * Created by Catherine on 2018/12/17.
  */
 
 public class DialogUtils {

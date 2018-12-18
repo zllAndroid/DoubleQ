@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/mine_bac"
+    tools:context=".about_chat.ChatSetActivity">
+
+    <include
+        layout="@layout/activity_include_title_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/app_theme"
+        android:orientation="vertical">
+        <ImageView
+            android:id="@+id/fd_iv_head"
+            android:layout_width="@dimen/dp60"
+            android:layout_height="@dimen/dp60"
+            app:srcCompat="@drawable/mine_head"
+            android:layout_gravity="center"
+            android:adjustViewBounds="true"
+            android:layout_marginTop="@dimen/dp40"
+            />
+
+        <LinearLayout
+            android:id="@+id/fd_lin_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/fd_tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp14"
+                android:gravity="center"
+                android:text="昵称"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:id="@+id/fd_tv_contant"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textSize="@dimen/sp14"
+                android:gravity="center"
+                android:text="(XXXXXXXXXX)"
+                android:textColor="@color/white"
+                />
+            <ImageView
+                android:id="@+id/fd_iv_qrcode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/dp5"
+                app:srcCompat="@drawable/qun_code"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/fd_tv_gesign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginBottom="@dimen/dp20"
+            android:text="暂无签名"
+            android:textColor="@color/white"
+            />
+    </LinearLayout>
+
+    <!--置顶聊天-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp10"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp15"
+            android:layout_gravity="center"
+            android:padding="@dimen/dp10"
+            android:layout_weight="1"
+            android:text="置顶聊天"/>
+        <com.suke.widget.SwitchButton
+            android:id="@+id/chatset_zhiding_chat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp10"
+            app:sb_show_indicator="false"
+            app:sb_uncheckcircle_color="@color/swi_nor"
+            app:sb_checked_color="@color/swi_select"
+            android:layout_gravity="center"
+            app:sb_checked="true"/>
+    </LinearLayout>
+    <View
+        style="@style/style_wei_line"
+        />
+
+    <!--消息免打扰-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/sp15"
+            android:layout_gravity="center"
+            android:padding="@dimen/dp10"
+            android:layout_weight="1"
+            android:text="消息免打扰"/>
+        <com.suke.widget.SwitchButton
+            android:id="@+id/chatset_msg_miandarao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp10"
+            app:sb_show_indicator="false"
+            app:sb_uncheckcircle_color="@color/swi_nor"
+            app:sb_checked_color="@color/swi_select"
+            android:layout_gravity="center"
+            app:sb_checked="true"/>
+    </LinearLayout>
+
+
+    <!--聊天记录-->
+    <LinearLayout
+        android:id="@+id/chatset_lin_chatHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/dp10"
+        android:background="@color/white"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/dp10"
+            android:text="聊天记录" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp10"
+            app:srcCompat="@drawable/in_right" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:background="@color/greyf3"
+        android:layout_height="@dimen/dp1"
+        />
+    <!--删除聊天记录-->
+    <LinearLayout
+        android:id="@+id/chatset_lin_del_chatHistory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:background="@color/white"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="@dimen/dp10"
+            android:text="删除聊天记录" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp10"
+            app:srcCompat="@drawable/in_right" />
+    </LinearLayout>
+
+
+
+</LinearLayout>

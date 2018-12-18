@@ -2,7 +2,6 @@ package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,13 +12,13 @@ import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.ChangePwdActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.CountAndSafeActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.LaBlackActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.NewsRemindActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.ShareSetActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.YinSiActivity;
 import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
+import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.DialogExitUtils;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -157,10 +156,26 @@ public class MineSetActivity extends BaseActivity {
 //                退出账号    回到登录界面
             case R.id.set_btn_esc:
                 if (NoDoubleClickUtils.isDoubleClick()) {
-                    DialogUtils.showDialog("确定退出本应用?", new DialogUtils.OnClickSureListener() {
+//                    DialogUtils.showDialog("确定退出本应用?", new DialogUtils.OnClickSureListener() {
+//                        @Override
+//                        public void onClickSure() {
+////                          realmHelper.deleteAll();
+//                            SplitWeb.USER_ID="";
+//                            AppManager.getAppManager().finishAllActivity();
+//                            Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
+//                            startActivity(intent_recharge);
+//                            overridePendingTransition(0,0);
+//                            ACache.get(MineSetActivity.this).clear();
+//                            SPUtils.clear(MineSetActivity.this);
+////                            if (AppStartActivity.serviceConnection!=null)
+////                            unbindService(AppStartActivity.serviceConnection);
+//
+//                        }
+//                    });
+                    DialogExitUtils.showDialog("仅退出帐号", "退出并删除帐号信息", new DialogExitUtils.OnClickSureListener() {
                         @Override
                         public void onClickSure() {
-//                            realmHelper.deleteAll();
+
                             SplitWeb.USER_ID="";
                             AppManager.getAppManager().finishAllActivity();
                             Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
@@ -168,9 +183,6 @@ public class MineSetActivity extends BaseActivity {
                             overridePendingTransition(0,0);
                             ACache.get(MineSetActivity.this).clear();
                             SPUtils.clear(MineSetActivity.this);
-//                            if (AppStartActivity.serviceConnection!=null)
-//                            unbindService(AppStartActivity.serviceConnection);
-
                         }
                     });
                 }

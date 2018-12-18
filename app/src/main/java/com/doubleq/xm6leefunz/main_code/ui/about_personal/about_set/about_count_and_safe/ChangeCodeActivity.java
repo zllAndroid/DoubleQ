@@ -1,4 +1,4 @@
-package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set;
+package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.about_count_and_safe;
 
 import android.content.Intent;
 import android.graphics.Paint;
@@ -16,7 +16,6 @@ import com.doubleq.xm6leefunz.about_utils.EditCheckUtils;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
 import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
-import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MineSetActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;

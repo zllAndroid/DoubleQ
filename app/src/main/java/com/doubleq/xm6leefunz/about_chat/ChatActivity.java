@@ -5,8 +5,6 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -14,12 +12,10 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -27,17 +23,13 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
@@ -46,18 +38,13 @@ import com.doubleq.model.DataChatHisList;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
-import com.doubleq.xm6leefunz.about_base.AppData;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.MyApplication;
-import com.doubleq.xm6leefunz.about_base.web_base.MessageEvent;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
 import com.doubleq.xm6leefunz.about_chat.adapter.CommonFragmentPagerAdapter;
-import com.doubleq.xm6leefunz.about_chat.base_chat.SlidingActivity;
 import com.doubleq.xm6leefunz.about_chat.fragment.ChatEmotionFragment;
 import com.doubleq.xm6leefunz.about_chat.fragment.ChatFunctionFragment;
-import com.doubleq.xm6leefunz.about_chat.softkey_help.ChatScreenUtils;
-import com.doubleq.xm6leefunz.about_chat.softkey_help.SoftKeyBoardListener;
 import com.doubleq.xm6leefunz.about_chat.ui.StateButton;
 import com.doubleq.xm6leefunz.about_utils.DensityUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
@@ -68,16 +55,12 @@ import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.RealmLinkManHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
-import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
-import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
-import com.projects.zll.utilslibrarybyzll.aboutsystem.ScreenUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -92,17 +75,15 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.lang.reflect.Method;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Stack;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+
+import static com.doubleq.xm6leefunz.about_utils.IntentUtils.JumpToHaveOne;
 
 /**
  * 作者：Rance on 2016/11/29 10:47
@@ -116,6 +97,10 @@ public class ChatActivity extends BaseActivity {
     ImageView emotionVoice;
     @BindView(R.id.include_top_iv_back)
     ImageView mIvBack;
+    @BindView(R.id.include_top_iv_more)
+    ImageView includeTopIvMore;
+    @BindView(R.id.inclu_tv_right)
+    TextView incluTvRight;
     @BindView(R.id.edit_text)
     EditText editText;
     @BindView(R.id.voice_text)
@@ -184,13 +169,13 @@ public class ChatActivity extends BaseActivity {
     RealmChatHelper realmHelper;
     RealmHomeHelper realmHomeHelper;
     HideControl hideControl;
-        RealmLinkManHelper realmLink;
+    RealmLinkManHelper realmLink;
     CusJumpChatData cusJumpChatData;
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
         setAboutBar();
-//        initSoft();
         SplitWeb.IS_CHAT = "1";
         realmHomeHelper = new RealmHomeHelper(this);
         realmHelper = new RealmChatHelper(this);
@@ -203,114 +188,26 @@ public class ChatActivity extends BaseActivity {
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
         friendHeader = cusJumpChatData.getFriendHeader();
         includeTopTvTital.setText("和" + cusJumpChatData.getFriendName() + "的聊天");
+        incluTvRight.setVisibility(View.GONE);
+        includeTopIvMore.setVisibility(View.VISIBLE);
+        includeTopIvMore.setImageResource(R.drawable.person);
+
         initWidget();
 //        初始化数据库的聊天记录
         initRealm();
 //            通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
         realmHomeHelper.updateNumZero(FriendId);
         Intent intent2 = new Intent();
-        intent2.putExtra("message",FriendId);
-        intent2.putExtra("id",FriendId);
+        intent2.putExtra("message", FriendId);
+        intent2.putExtra("id", FriendId);
+        Log.e("FriendId","---------------FriendId--------------"+FriendId);
         intent2.setAction("zll.refreshMsgFragment");
         sendBroadcast(intent2);
-
     }
 
-    /**
-     * 隐藏虚拟按键，并且全屏
-     */
-    protected void hideBottomUIMenu() {
-        //隐藏虚拟按键，并且全屏
-        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
-            View v = this.getWindow().getDecorView();
-            v.setSystemUiVisibility(View.GONE);
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            //for new api versions.
-            View decorView = getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-//                    | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE;
-            decorView.setSystemUiVisibility(uiOptions);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
-    }
-
-    /**
-     * 检查是否存在虚拟按键栏
-     *
-     * @param context
-     * @return
-     */
-    public static boolean hasNavBar(Context context) {
-        Resources res = context.getResources();
-        int resourceId = res.getIdentifier("config_showNavigationBar", "bool", "android");
-        if (resourceId != 0) {
-            boolean hasNav = res.getBoolean(resourceId);
-            // check override flag
-            String sNavBarOverride = getNavBarOverride();
-            if ("1".equals(sNavBarOverride)) {
-                hasNav = false;
-            } else if ("0".equals(sNavBarOverride)) {
-                hasNav = true;
-            }
-            return hasNav;
-        } else { // fallback
-            return !ViewConfiguration.get(context).hasPermanentMenuKey();
-        }
-    }
-
-    /**
-     * 判断虚拟按键栏是否重写
-     * @return
-     */
-    private static String getNavBarOverride() {
-        String sNavBarOverride = null;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            try {
-                Class c = Class.forName("android.os.SystemProperties");
-                Method m = c.getDeclaredMethod("get", String.class);
-                m.setAccessible(true);
-                sNavBarOverride = (String) m.invoke(null, "qemu.hw.mainkeys");
-            } catch (Throwable e) {
-            }
-        }
-        return sNavBarOverride;
-    }
-
-
-    Window win;//全局变量
-    private void initSoft() {
-        win = this.getWindow();
-        win.getDecorView().setPadding(0, 0, 0, ChatScreenUtils.getNavigationBarHeight(this));
-        WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.gravity = Gravity.BOTTOM;//设置对话框置底部显示
-        win.setAttributes(lp);
-        SoftKeyBoardListener.setListener(ChatActivity.this, new SoftKeyBoardListener.OnSoftKeyBoardChangeListener() {
-            @Override
-            public void keyBoardShow(int height) {
-                win.getDecorView().setPadding(0, 0, 0, height);
-                WindowManager.LayoutParams lp = win.getAttributes();
-                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                lp.gravity = Gravity.BOTTOM;//设置对话框置底部显示
-                win.setAttributes(lp);
-            }
-
-            @Override
-            public void keyBoardHide(int height) {
-                win.getDecorView().setPadding(0, 0, 0, ChatScreenUtils.getNavigationBarHeight(ChatActivity.this));
-                WindowManager.LayoutParams lp = win.getAttributes();
-                lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                lp.gravity = Gravity.BOTTOM;//设置对话框置底部显示
-                win.setAttributes(lp);
-            }
-        });
+    @OnClick(R.id.include_top_iv_more)
+    public void onViewClicked() {
+        JumpToHaveOne(ChatSetActivity.class,"FriendId",FriendId);
     }
 
     //设置状态栏的高度为负状态栏高度，因为xml 设置了 android:fitsSystemWindows="true",会占用一个状态栏的高度；
@@ -318,29 +215,11 @@ public class ChatActivity extends BaseActivity {
 //        获取状态栏的高度
         int statusBarHeight = WindowBugDeal.getStatusBarHeight(this);
         //这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
-        LinearLayout.LayoutParams layout=(LinearLayout.LayoutParams)mLinChatMain.getLayoutParams();
+        LinearLayout.LayoutParams layout = (LinearLayout.LayoutParams) mLinChatMain.getLayoutParams();
 //获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
-        layout.setMargins(0,-statusBarHeight,0,0);
+        layout.setMargins(0, -statusBarHeight, 0, 0);
 //设置button的新位置属性,left，top，right，bottom
         mLinChatMain.setLayoutParams(layout);
-    }
-
-    @Override
-    protected void initBeforeContentView() {
-        super.initBeforeContentView();
-        // 虚拟按键
-//        hideBottomUIMenu();
-        //显示虚拟按键
-        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) {
-            //低版本sdk
-            View v = getWindow().getDecorView();
-            v.setSystemUiVisibility(View.VISIBLE);
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            View decorView = getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);
-        }
-//        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
     }
 
     @Override
@@ -350,7 +229,9 @@ public class ChatActivity extends BaseActivity {
         realmHelper.close();
         realmHomeHelper.close();
     }
+
     ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
+
     private void initRealm() {
         List<CusChatData> cusRealmChatMsgs = realmHelper.queryAllRealmChat(FriendId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
@@ -409,12 +290,10 @@ public class ChatActivity extends BaseActivity {
                 .bindToVoiceText(voiceText)
                 .build();
 
-        GlobalOnItemClickManagerUtils globalOnItemClickListener = GlobalOnItemClickManagerUtils.getInstance(this);
-        globalOnItemClickListener.attachToEditText(editText);
         //获取屏幕高度
         screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
         //阀值设置为屏幕高度的1/3
-        keyHeight = screenHeight/3;
+        keyHeight = screenHeight / 3;
 //        mInputLin.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View v, MotionEvent event) {
@@ -428,30 +307,30 @@ public class ChatActivity extends BaseActivity {
 //        });
         mInputLinMain.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
-            public void onLayoutChange(View v,final int left,final int top,final int right,final int bottom,final int oldLeft,final int oldTop,final int oldRight,final int oldBottom) {
+            public void onLayoutChange(View v, final int left, final int top, final int right, final int bottom, final int oldLeft, final int oldTop, final int oldRight, final int oldBottom) {
 //                sofeDeal();
-                if (emotionLayout.isShown()||isSoftShowing())
-                {
-                    if (layoutManager!=null&&chatAdapter!=null)
+                if (emotionLayout.isShown() || isSoftShowing()) {
+                    if (layoutManager != null && chatAdapter != null)
                         layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
                 }
             }
         });
-
+        GlobalOnItemClickManagerUtils globalOnItemClickListener = GlobalOnItemClickManagerUtils.getInstance(this);
+        globalOnItemClickListener.attachToEditText(editText);
         chatAdapter = new ChatAdapter(this);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         chatList.setLayoutManager(layoutManager);
         chatList.setAdapter(chatAdapter);
 
-//        chatAdapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(int position) {
-//                return false;
-//
-//
-//            }
-//        });
+        chatAdapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(int position) {
+                return false;
+
+
+            }
+        });
         chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -462,8 +341,7 @@ public class ChatActivity extends BaseActivity {
                         chatAdapter.notifyDataSetChanged();
                         break;
                     case RecyclerView.SCROLL_STATE_DRAGGING:
-                        if (emotionLayout.isShown())
-                        {
+                        if (emotionLayout.isShown()) {
                             emotionLayout.setVisibility(View.GONE);
                         }
                         chatAdapter.handler.removeCallbacksAndMessages(null);
@@ -488,7 +366,7 @@ public class ChatActivity extends BaseActivity {
                 switch (event.getAction() & MotionEvent.ACTION_MASK) {
                     case MotionEvent.ACTION_DOWN: //手指按下
 //                        点击列表，软键盘或者表情列表存在，则关闭他们；
-                        if(isSoftShowing()||emotionLayout.isShown()){
+                        if (isSoftShowing() || emotionLayout.isShown()) {
                             emotionLayout.setVisibility(View.GONE);
                             chatAdapter.handler.removeCallbacksAndMessages(null);
                             mDetector.hideEmotionLayout(false);
@@ -510,36 +388,37 @@ public class ChatActivity extends BaseActivity {
     }
 
     private void sofeDeal() {
-        if(isSoftShowing()){
+        if (isSoftShowing()) {
 //                if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
-            if (layoutManager!=null&&chatAdapter!=null)
+            if (layoutManager != null && chatAdapter != null)
                 layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
         }
     }
 
-    public  boolean isSoftShowing() {
+    private boolean isSoftShowing() {
         //获取当前屏幕内容的高度
-        int screenHeight =getWindow().getDecorView().getHeight();
+        int screenHeight = getWindow().getDecorView().getHeight();
         //获取View可见区域的bottom
         Rect rect = new Rect();
         //DecorView即为activity的顶级view
         getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
         //考虑到虚拟导航栏的情况（虚拟导航栏情况下：screenHeight = rect.bottom + 虚拟导航栏高度）
         //选取screenHeight*2/3进行判断
-        return screenHeight*2/3 > rect.bottom;
+        return screenHeight * 2 / 3 > rect.bottom;
     }
+
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(DataJieShou.RecordBean messageInfo){
+    public void onEvent(DataJieShou.RecordBean messageInfo) {
         String ed = editText.getText().toString().trim();
         if (!StrUtils.isEmpty(ed)) {
             send(SplitWeb.privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
-        }else
-        {
+        } else {
 
         }
 
     }
+
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -557,11 +436,9 @@ public class ChatActivity extends BaseActivity {
 //                    messageStoId
                     if (messageList != null && messageList.size() != 0) {
                         mList.clear();
-                        if (messageList.size()!=0)
-                        {
+                        if (messageList.size() != 0) {
                             String messageStoId = messageList.get(0).getMessageStoId();
-                            if (StrUtils.isEmpty(messageStoId))
-                            {
+                            if (StrUtils.isEmpty(messageStoId)) {
 //                        ToastUtil.show("列表为空");
                                 return;
                             }
@@ -587,7 +464,9 @@ public class ChatActivity extends BaseActivity {
                 break;
         }
     }
+
     ChatNewsWindow chatWindow = null;
+
     private void dealReceiverResult(String responseText) {
         DataJieShou dataJieShou1 = JSON.parseObject(responseText, DataJieShou.class);
         final DataJieShou.RecordBean record2 = dataJieShou1.getRecord();
@@ -599,16 +478,15 @@ public class ChatActivity extends BaseActivity {
 //                CusChatData cusRealmChatMsg = new CusChatData();
 //                    realmHelper.addRealmChat(FriendId,msg,messageType,Constants.CHAT_ITEM_TYPE_RIGHT, TimeUtil.sf.format(new Date()));
 //                String myTime=record2.getRequestTime();
-                String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME,"");
+                String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME, "");
                 if (StrUtils.isEmpty(time)) {
-                    SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME,(String)record2.getRequestTime());
-                }else {
+                    SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME, (String) record2.getRequestTime());
+                } else {
                     try {
-                        int i = TimeUtil.stringDaysBetween(record2.getRequestTime(),time);
-                        Log.e("stringDaysBetween","++++++++++++++++++++++++++++++++++++++++++++++"+i);
-                        SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME,(String)record2.getRequestTime());
-                        if (Math.abs(i) < 5)
-                        {
+                        int i = TimeUtil.stringDaysBetween(record2.getRequestTime(), time);
+                        Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
+                        SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME, (String) record2.getRequestTime());
+                        if (Math.abs(i) < 5) {
                             record2.setRequestTime("");
                         }
                     } catch (ParseException e) {
@@ -634,8 +512,8 @@ public class ChatActivity extends BaseActivity {
 //                    realmHomeHelper.updateNumZero(record2.getFriendsId());//更新首页聊天界面数据（未读消息数目）
 //                }
                 Intent intent = new Intent();
-                intent.putExtra("message",record2.getMessage());
-                intent.putExtra("id",record2.getFriendsId());
+                intent.putExtra("message", record2.getMessage());
+                intent.putExtra("id", record2.getFriendsId());
                 intent.setAction("zero.refreshMsgFragment");
                 sendBroadcast(intent);
             } else {
@@ -647,20 +525,19 @@ public class ChatActivity extends BaseActivity {
 //
 //                hideControl.resetHideTimer();
 //                hideControl.startHideTimer();
-                ToastUtil.show("收到一条来自"+record2.getFriendsName()+"的消息");
+                ToastUtil.show("收到一条来自" + record2.getFriendsName() + "的消息");
                 Intent intent = new Intent();
-                intent.putExtra("message",record2.getMessage());
-                intent.putExtra("id",record2.getFriendsId());
+                intent.putExtra("message", record2.getMessage());
+                intent.putExtra("id", record2.getFriendsId());
                 intent.setAction("action.refreshMsgFragment");
                 sendBroadcast(intent);
             }
 
-            if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
-            {
+            if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
 
                 Intent intent = new Intent();
-                intent.putExtra("message",record2.getMessage());
-                intent.putExtra("id",record2.getFriendsId());
+                intent.putExtra("message", record2.getMessage());
+                intent.putExtra("id", record2.getFriendsId());
                 intent.setAction("action.refreshMsgFragment");
                 sendBroadcast(intent);
                 //APP在后台的时候处理接收到消息的事件
@@ -686,25 +563,25 @@ public class ChatActivity extends BaseActivity {
             }
         }
     }
-    String time=null;
+
+    String time = null;
 
 
     private void dealSendResult(String responseText) {
         DataJieShou dataJieShou = JSON.parseObject(responseText, DataJieShou.class);
         DataJieShou.RecordBean record = dataJieShou.getRecord();
         if (record != null) {
-            String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME,"");
+            String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME, "");
             if (StrUtils.isEmpty(time)) {
-                SPUtils.put(this,AppConfig.CHAT_SEND_TIME,(String)record.getRequestTime());
-            }else {
+                SPUtils.put(this, AppConfig.CHAT_SEND_TIME, (String) record.getRequestTime());
+            } else {
                 try {
-                    int i = TimeUtil.stringDaysBetween(record.getRequestTime(),time);
-                    Log.e("stringDaysBetween","++++++++++++++++++++++++++++++++++++++++++++++"+i);
-                    SPUtils.put(this,AppConfig.CHAT_SEND_TIME,(String)record.getRequestTime());
-                    if (Math.abs(i) < 5)
-                    {
+                    int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
+                    Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
+                    SPUtils.put(this, AppConfig.CHAT_SEND_TIME, (String) record.getRequestTime());
+                    if (Math.abs(i) < 5) {
                         record.setRequestTime("");
-                    }else {
+                    } else {
                         record.setRequestTime(record.getRequestTime());
 //                        SPUtils.put(this,AppConfig.CHAT_SEND_TIME,"");
                     }
@@ -722,8 +599,8 @@ public class ChatActivity extends BaseActivity {
     }
 
     Bitmap bitmap;
-    CustomPopWindow popWindow=null;
-    View view=null;
+    CustomPopWindow popWindow = null;
+    View view = null;
 
     private int mPressedPos; // 被点击的位置
     /**
@@ -733,14 +610,13 @@ public class ChatActivity extends BaseActivity {
 
         @Override
         public void onHeaderClick(int position, int type, String friendId) {
-            switch (type)
-            {
+            switch (type) {
                 case Constants.CHAT_ITEM_TYPE_LEFT:
-                    IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",friendId);
+                    IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", friendId);
                     break;
                 case Constants.CHAT_ITEM_TYPE_RIGHT:
 //                    TODO 点击自己头像，显示自己的信息
-                    IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",SplitWeb.getUserId());
+                    IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", SplitWeb.getUserId());
                     break;
             }
         }
@@ -811,6 +687,7 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
+
     public class HideControl {
         public final static int MSG_HIDE = 0x01;
 
@@ -826,11 +703,10 @@ public class ChatActivity extends BaseActivity {
                 super.handleMessage(msg);
                 switch (msg.what) {
                     case MSG_HIDE:
-                        if (chatWindow != null ) {
+                        if (chatWindow != null) {
                             chatWindow.dismiss();
-                            chatWindow=null;
-                            if ( SoftKeyboardUtils.isSoftShowing(ChatActivity.this))
-                            {
+                            chatWindow = null;
+                            if (SoftKeyboardUtils.isSoftShowing(ChatActivity.this)) {
                                 SoftKeyboardUtils.showSoftKeyboard(ChatActivity.this);
 //                                SoftKeyboardUtils.showORhideSoftKeyboard(ChatActivity.this);
                             }
@@ -880,13 +756,14 @@ public class ChatActivity extends BaseActivity {
         }
 
     }
+
     //    @Override
 //    protected void onDestroy() {
 //        super.onDestroy();
 //        EventBus.getDefault().removeStickyEvent(this);
 //        EventBus.getDefault().unregister(this);
 //    }
-    private void showPopWindows(View v,final String msg) {
+    private void showPopWindows(View v, final String msg) {
 
         /** pop view */
         View mPopView = LayoutInflater.from(this).inflate(R.layout.popup, null);
@@ -944,6 +821,7 @@ public class ChatActivity extends BaseActivity {
 
     private PopupWindow mPopupWindow;
     private View mPopContentView;
+
     private void initPopWindow(final View selectedView, final int position) {
         if (mPopContentView == null) {
             mPopContentView = View.inflate(this, R.layout.popup, null);
@@ -968,7 +846,7 @@ public class ChatActivity extends BaseActivity {
         float rawX = mRawX;
         float rawY = mRawY;
         if (mRawX <= screenWidth / 2) {
-            rawX = mRawX -offX;
+            rawX = mRawX - offX;
             if (mRawY < screenHeight / 3) {
                 rawY = mRawY;
                 mPopupWindow.setAnimationStyle(R.style.pop_anim_left_top); //设置动画
@@ -977,9 +855,9 @@ public class ChatActivity extends BaseActivity {
                 mPopupWindow.setAnimationStyle(R.style.pop_anim_left_bottom); //设置动画
             }
         } else {
-            rawX = mRawX - viewWidth ;
+            rawX = mRawX - viewWidth;
             if (mRawY < screenHeight / 3) {
-                rawY = mRawY-100;
+                rawY = mRawY - 100;
                 mPopupWindow.setAnimationStyle(R.style.pop_anim_right_top); //设置动画
             } else {
                 rawY = mRawY - viewHeight;

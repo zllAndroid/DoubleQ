@@ -19,7 +19,7 @@ public  class CustomDialog extends Dialog {
     private TextView mMessageTv;
     private Button mPositiveBtn;
     private Button mNegativeBtn;
-    private View mButtonDividerView;
+//    private View mButtonDividerView;
 
     private String message;
     private String positiveButtonText;
@@ -30,9 +30,9 @@ public  class CustomDialog extends Dialog {
         super(context);
     }
 
-    public CustomDialog(Context context, int theme) {
-        super(context, theme);
-    }
+//    public CustomDialog(Context context, int theme) {
+//        super(context, theme);
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +41,7 @@ public  class CustomDialog extends Dialog {
         mMessageTv = (TextView) findViewById(R.id.tv_dialog_message);
         mPositiveBtn = (Button) findViewById(R.id.btn_dialog_positive);
         mNegativeBtn = (Button) findViewById(R.id.btn_dialog_negative);
-        mButtonDividerView = findViewById(R.id.view_dialog_button_divider);
+//        mButtonDividerView = findViewById(R.id.view_dialog_button_divider);
 
         if (message != null) {
             mMessageTv.setText(message);
@@ -58,7 +58,7 @@ public  class CustomDialog extends Dialog {
             }
         } else {
             mPositiveBtn.setVisibility(View.GONE);
-            mButtonDividerView.setVisibility(View.GONE);
+//            mButtonDividerView.setVisibility(View.GONE);
         }
 
         if (negativeButtonText != null) {
@@ -73,7 +73,7 @@ public  class CustomDialog extends Dialog {
             }
         } else {
             mNegativeBtn.setVisibility(View.GONE);
-            mButtonDividerView.setVisibility(View.GONE);
+//            mButtonDividerView.setVisibility(View.GONE);
         }
 
     }
@@ -125,15 +125,13 @@ public  class CustomDialog extends Dialog {
             return setPositiveButton(context.getString(positiveButtonText), listener);
         }
 
-        public Builder setPositiveButton(String positiveButtonText,
-                                         OnClickListener listener) {
+        public Builder setPositiveButton(String positiveButtonText, OnClickListener listener) {
             this.positiveButtonText = positiveButtonText;
             this.positiveButtonClickListener = listener;
             return this;
         }
 
-        public Builder setNegativeButton(int negativeButtonText,
-                                         OnClickListener listener) {
+        public Builder setNegativeButton(int negativeButtonText, OnClickListener listener) {
             return setNegativeButton(context.getString(negativeButtonText), listener);
         }
 
@@ -152,7 +150,7 @@ public  class CustomDialog extends Dialog {
             }
             dialog.setCancelable(false);
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
             dialog.setMessage(message);
             dialog.setNegativeButtonText(negativeButtonText);
             dialog.setPositiveButtonText(positiveButtonText);

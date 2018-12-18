@@ -387,6 +387,7 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "deleteFriend", map);
         return  request;
     }
+//    屏蔽好友接口
     public  static  String shieldFriend(String friendsId,String type){
         dealMap();
         map.put("friendsId",friendsId);

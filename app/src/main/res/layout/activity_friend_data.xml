@@ -188,6 +188,21 @@
                 android:layout_margin="@dimen/dp30"
                 android:paddingRight="@dimen/dp30"
                 android:text="发送消息"/>
+            <TextView
+                android:id="@+id/fd_tv_send_call"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginTop="@dimen/dp5"
+                android:textColor="@color/white"
+                android:background="@drawable/btn_stroke_sel"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10"
+                android:paddingLeft="@dimen/dp30"
+                android:layout_margin="@dimen/dp30"
+                android:paddingRight="@dimen/dp30"
+                android:text="发送语音"/>
         </LinearLayout>
 
 

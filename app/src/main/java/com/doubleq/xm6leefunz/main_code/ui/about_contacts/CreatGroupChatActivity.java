@@ -23,7 +23,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -60,6 +62,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeI
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import java.io.File;
@@ -158,8 +161,6 @@ public class CreatGroupChatActivity extends BaseActivity {
     CreatGroupSeachAdapter mSeachAdapter;
     private ArrayList<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean> searchCityList = new ArrayList<>();
     private void initUI() {
-//        实时搜索把按钮隐藏
-        seachIvFind.setVisibility(View.GONE);
         mSeachAdapter = new CreatGroupSeachAdapter(CreatGroupChatActivity.this,searchCityList);
         seachRecyc.setAdapter(mSeachAdapter);
         //设置EditText文本监听事件
@@ -222,7 +223,25 @@ public class CreatGroupChatActivity extends BaseActivity {
 
             }
         });
+        listenEnter();
+
     }
+
+    private void listenEnter() {
+        seachEdInput.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        seachEdInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    //处理事件
+                    clickSearch();
+                }
+                return false;
+            }
+        });
+
+    }
+
     List<String> ABCList = new ArrayList<>();
     public void initABC2() {
         ABCList.clear();
@@ -378,9 +397,22 @@ public class CreatGroupChatActivity extends BaseActivity {
 
                 break;
             case R.id.seach_iv_find:
+                clickSearch();
                 break;
         }
     }
+
+    private void clickSearch() {
+        String edInput = seachEdInput.getText().toString().trim();
+        if (StrUtils.isEmpty(edInput))
+        {
+            DialogUtils.showDialog("搜索内容不能为空");
+            return;
+        }
+        sendWebHaveDialog(SplitWeb.searchInfo(edInput),"搜索中...","搜索成功");
+    }
+
+
     //为弹出窗口实现监听类
     public View.OnClickListener MyClick = new View.OnClickListener() {
         public void onClick(View v) {

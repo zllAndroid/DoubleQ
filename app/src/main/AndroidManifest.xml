@@ -256,7 +256,7 @@
             android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 修改密码（密码修改） -->
         <activity
-            android:name=".main_code.ui.about_personal.about_set.ChangePwdActivity"
+            android:name=".main_code.ui.about_personal.about_set.about_count_and_safe.ChangePwdActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 拉黑 -->
@@ -266,7 +266,7 @@
             android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 修改密码（短信修改） -->
         <activity
-            android:name=".main_code.ui.about_personal.about_set.ChangeCodeActivity"
+            android:name=".main_code.ui.about_personal.about_set.about_count_and_safe.ChangeCodeActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 隐私 -->
@@ -274,13 +274,19 @@
             android:name=".main_code.ui.about_personal.about_set.YinSiActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <activity android:name=".main_code.ui.about_personal.about_set.ChangeBindOldActivity"
+        <activity
+            android:name=".main_code.ui.about_personal.about_set.about_count_and_safe.ChangeBindOldActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
-        <activity android:name=".main_code.ui.about_personal.about_set.CountAndSafeActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity
+            android:name=".main_code.ui.about_personal.about_set.CountAndSafeActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
-        <activity android:name=".main_code.ui.about_personal.about_set.ChangeBindNewActivity"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity
+            android:name=".main_code.ui.about_personal.about_set.about_count_and_safe.ChangeBindNewActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".about_chat.ChatSetActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
     </application>

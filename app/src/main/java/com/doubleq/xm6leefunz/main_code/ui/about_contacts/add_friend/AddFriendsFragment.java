@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_scan.ScanCodeActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 
@@ -42,17 +43,18 @@ public class AddFriendsFragment extends Fragment {
     }
 
     private void initQun(View view) {
-
+//        搜索群
         view.findViewById(R.id.add_qun_lin_seach).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                IntentUtils.JumpTo(SearchActivity.class);
             }
         });
+//        扫一扫
         view.findViewById(R.id.add_qun_lin_scan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                IntentUtils.JumpTo(ScanCodeActivity.class);
             }
         });
     }
@@ -69,6 +71,7 @@ public class AddFriendsFragment extends Fragment {
         view.findViewById(R.id.add_friend_lin_scan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                IntentUtils.JumpTo(ScanCodeActivity.class);
             }
         });
 

@@ -50,7 +50,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="@dimen/sp14"
-                android:textColor="@color/app_theme"
                 android:layout_marginTop="@dimen/dp5"
                 android:text="23456"
                 />

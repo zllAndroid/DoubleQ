@@ -33,6 +33,7 @@ import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.main_code.about_login.FirstAddHeaderActivity;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ConfirmPopWindow;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MineSetActivity;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
@@ -69,6 +70,8 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
     ImageView mineIvPerson;
     @BindView(R.id.include_frag_img_add)
     ImageView mineIvAdd;
+//    @BindView(R.id.include_frag_img_search)
+//    ImageView mineIvSearch;
 
     public PersonalFragment() {
     }
@@ -277,6 +280,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
 
                 break;
             case R.id.include_frag_img_search:
+                IntentUtils.JumpTo(SearchActivity.class);
                 break;
             case R.id.include_frag_img_add:
                 new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));

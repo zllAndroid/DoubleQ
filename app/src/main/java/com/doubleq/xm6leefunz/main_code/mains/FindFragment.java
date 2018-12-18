@@ -11,7 +11,9 @@ import android.widget.TextView;
 
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseFragment;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ConfirmPopWindow;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_discovery.FriendCircleActivity;
 
 
@@ -44,6 +46,12 @@ public class FindFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));
+            }
+        });
+        view.findViewById(R.id.include_frag_img_search).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                IntentUtils.JumpTo(SearchActivity.class);
             }
         });
         //        朋友圈

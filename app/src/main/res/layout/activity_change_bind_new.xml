@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/set_xiugai_bac"
-    tools:context=".main_code.ui.about_personal.about_set.ChangeBindOldActivity">
+    tools:context=".main_code.ui.about_personal.about_set.about_count_and_safe.ChangeBindOldActivity">
 
     <include
         layout="@layout/activity_include_title_bar"/>

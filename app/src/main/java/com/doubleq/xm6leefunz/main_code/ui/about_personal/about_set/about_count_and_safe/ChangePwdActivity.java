@@ -1,4 +1,4 @@
-package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set;
+package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.about_count_and_safe;
 
 import android.content.Intent;
 import android.graphics.Paint;

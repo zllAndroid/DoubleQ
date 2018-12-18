@@ -1,16 +1,14 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -22,11 +20,9 @@ import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
-import com.doubleq.xm6leefunz.about_chat.ChatNewsWindow;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.example.zhouwei.library.CustomPopWindow;
@@ -35,6 +31,8 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.util.Constants;
+
+import java.sql.Struct;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -61,6 +59,8 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
     TextView fdTvGesign;
     @BindView(R.id.fd_tv_send_msg)
     TextView fdTvSendMsg;
+    @BindView(R.id.fd_tv_send_call)
+    TextView fdTvSendCall;
     @BindView(R.id.fd_iv_head)
     ImageView mIvHead;
     @BindView(R.id.gf_lin_top)
@@ -71,20 +71,21 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
+
     String FriendId;
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
         includeTopTvTital.setText("好友资料");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
+
         Intent intent = getIntent();
-//        DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = (DataLinkManList.RecordBean.FriendListBean.GroupListBean) intent.getSerializableExtra("groupListBean");
         FriendId = intent.getStringExtra("id");
         sendWeb(SplitWeb.getFriendInfo(FriendId));
 
         realmHelper = new RealmHomeHelper(this);
-
         mView = LayoutInflater.from(this).inflate(R.layout.pop_good_friend, null);
         mView.findViewById(R.id.pop_tv_pingbi).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,10 +94,10 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 DialogUtils.showDialog("是否屏蔽此好友？", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
-                        sendWebHaveDialog(SplitWeb.shieldFriend(FriendId,"2"),"正在屏蔽...","屏蔽成功");
+                        sendWebHaveDialog(SplitWeb.shieldFriend(FriendId, "2"), "正在屏蔽...", "屏蔽成功");
                     }
                 });
-                if (popWindow!=null)
+                if (popWindow != null)
                     popWindow.dissmiss();
             }
         });
@@ -107,21 +108,22 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 DialogUtils.showDialog("是否确定删除该好友？", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
-                        sendWebHaveDialog(SplitWeb.deleteFriend(FriendId),"正在删除...","删除成功");
+                        sendWebHaveDialog(SplitWeb.deleteFriend(FriendId), "正在删除...", "删除成功");
                     }
                 });
-                if (popWindow!=null)
+                if (popWindow != null)
                     popWindow.dissmiss();
             }
         });
     }
+
     RealmHomeHelper realmHelper;
+
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
         String method = HelpUtils.backMethod(responseText);
-        switch (method)
-        {
+        switch (method) {
 //            获取好友数据
             case "getFriendInfo":
                 initDataFriend(responseText);
@@ -149,40 +151,45 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
     }
 
     DataMyFriend.RecordBean dataRecord;
+
     private void initDataFriend(String responseText) {
 
         DataMyFriend dataMyFriend = JSON.parseObject(responseText, DataMyFriend.class);
 
         DataMyFriend.RecordBean record = dataMyFriend.getRecord();
-        if (record!=null)
-        {
-            dataRecord=record;
+        if (record != null) {
+            dataRecord = record;
             Glide.with(this).load(record.getHeadImg())
                     .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
                     .crossFade(1000).into(mIvHead);
-            String signText= StrUtils.isEmpty(record.getPersonaSignature())?"暂未设置签名":record.getPersonaSignature();
+            String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdTvGesign.setText(signText);
-            fdTvFenzu.setText(record.getGroupName()+"");
-            fdTvContant.setText( record.getWxSno());
-            mTvName.setText( record.getNickName()+"("+record.getRemarkName()+")");
+            fdTvFenzu.setText(record.getGroupName() + "");
+            fdTvContant.setText(record.getWxSno());
+//            String nameText = StrUtils.isEmpty(record.getRemarkName()) ? record.getNickName() : record.getRemarkName();
+//            mTvName.setText(nameText);
+            mTvName.setText(record.getNickName() + "(" + record.getRemarkName() + ")");
 
         }
 
 
     }
-    View  mView;
+
+    View mView;
+
     @Override
     protected int getLayoutView() {
         return R.layout.activity_friend_data;
     }
-    ChatNewsWindow chatWindow;
+
     CustomPopWindow popWindow;
-    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode, R.id.fd_iv_head, R.id.fd_tv_send_msg,R.id.fd_lin_fenzu,R.id.fd_lin_name})
+
+    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode, R.id.fd_iv_head, R.id.fd_tv_send_msg, R.id.fd_lin_fenzu, R.id.fd_lin_name,R.id.fd_tv_send_call})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 //            顶部点点点按钮
             case R.id.include_top_iv_more:
-                if (popWindow==null)
+                if (popWindow == null)
                     popWindow = new CustomPopWindow.PopupWindowBuilder(FriendDataActivity.this)
                             .setView(mView)
                             .setFocusable(true)
@@ -190,15 +197,13 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                             .size(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                             .setAnimationStyle(R.style.AnimDown) // 添加自定义显示和消失动画
                             .create()
-                            .showAsDropDown(includeTopIvMore,0,0);
+                            .showAsDropDown(includeTopIvMore, 0, 0);
                 else
-                    popWindow.showAsDropDown(includeTopIvMore,0,0);
-//                chatWindow = new ChatNewsWindow(FriendDataActivity.this,"123");
-//                chatWindow.showAtLocation(includeTopIvMore, Gravity.TOP, 0, includeTopIvMore.getHeight());
+                    popWindow.showAsDropDown(includeTopIvMore, 0, 0);
                 break;
 //                二维码按钮
             case R.id.fd_iv_qrcode:
-                if (dataRecord!=null) {
+                if (dataRecord != null) {
                     PersonData personData = new PersonData();
                     personData.setHeadImg(dataRecord.getHeadImg());
                     personData.setName(dataRecord.getNickName());
@@ -210,7 +215,6 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 break;
 //                头像按钮
             case R.id.fd_iv_head:
-
 
                 break;
 //                发送消息
@@ -231,7 +235,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 if (NoDoubleClickUtils.isDoubleClick()) {
                     Intent intent = new Intent(this, ChooseGroupActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("string",FriendId);
+                    bundle.putString("string", FriendId);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, AppConfig.FRIEND_DATA_GROUP_REQUEST);
                 }
@@ -241,42 +245,50 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 if (NoDoubleClickUtils.isDoubleClick())
                     doChangeName();
                 break;
+            case R.id.fd_tv_send_call:
+                if (NoDoubleClickUtils.isDoubleClick()) {
+
+                }
+                break;
         }
     }
+
     private void doChangeName() {
 
-        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(FriendDataActivity.this, "修改名字", mTvName.getText().toString().trim());
+        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(FriendDataActivity.this, "修改备注", mTvName.getText().toString().trim());
         changeInfoWindow.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindow.setOnAddpopClickListener(this);
     }
 
 
-    String ids =null;
+    String ids = null;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        intent.putExtra(ChooseGroupActivity.CHOOSE_NAME, item.getGroupName());
-//        intent.putExtra(ChooseGroupActivity.CHOOSE_ID, item.getId());
-//        setResult(2, intent);
         if (resultCode == AppConfig.FRIEND_ADD_GROUP_RESULT) {
             if (requestCode == AppConfig.FRIEND_DATA_GROUP_REQUEST) {
                 String name = data.getStringExtra(ChooseGroupActivity.CHOOSE_NAME);
                 String id = data.getStringExtra(ChooseGroupActivity.CHOOSE_ID);
                 fdTvFenzu.setText(name);
-                ids=id;
+                ids = id;
                 //设置结果显示框的显示数值
             }
         }
     }
 
     String contant = null;
+
     @Override
     public void onSure(String contant) {
         this.contant = contant;
-        sendWeb(SplitWeb.friendRemarkName(FriendId,contant));
+        sendWeb(SplitWeb.friendRemarkName(FriendId, contant));
     }
+
     @Override
     public void onCancle() {
 
     }
+
+
 }

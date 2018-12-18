@@ -98,7 +98,7 @@
         android:background="@color/bg_content"
         android:orientation="vertical"
         android:visibility="gone"
-     >
+        >
 
         <com.rance.chatui.widget.NoScrollViewPager
             android:id="@+id/viewpager"

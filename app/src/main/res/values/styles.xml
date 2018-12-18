@@ -17,7 +17,10 @@
         <item name="android:windowExitAnimation">@anim/scale_pop_out_right_top</item>
     </style>
 
-
+    <!--<style name="MyEditText" parent="Theme.AppCompat.Light">-->
+        <!--<item name="colorControlNormal">@color/greye5</item>-->
+        <!--<item name="colorControlActivated">@color/red</item>-->
+    <!--</style>-->
 
 
     <style name="OverFlowMenuTheme" parent="Theme.AppCompat.NoActionBar">
@@ -96,12 +99,26 @@
         <item name="android:windowNoTitle">true</item>
         <!--是否去除边框-->
         <item name="android:windowFrame">@null</item>
-
         <!--是否浮现在activity之上-->
         <item name="android:windowIsFloating">true</item>
         <!--是否模糊-->
         <item name="android:backgroundDimEnabled">false</item>
     </style>
+
+    <!--自定义退出登录dialog背景全透明无边框theme -->
+    <style name="CustomExitDialog" parent="android:style/Theme.Dialog">
+        <!--背景颜色及和透明程度-->
+        <item name="android:windowBackground">@android:color/holo_red_light</item>
+        <!--是否去除标题 -->
+        <item name="android:windowNoTitle">true</item>
+        <!--是否去除边框-->
+        <item name="android:windowFrame">@null</item>
+        <!--是否浮现在activity之上-->
+        <item name="android:windowIsFloating">true</item>
+        <!--是否模糊-->
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
 
     <style name="SwipeBack.Transparent.Theme" parent="AppTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
