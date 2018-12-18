@@ -56,6 +56,7 @@ public class EmotionInputDetector {
     private ViewPager mViewPager;
     private View mSendButton;
     private View mAddButton;
+    private View mEmotionButton;
     private Boolean isShowEmotion = false;
     private Boolean isShowAdd = false;
     private AudioRecoderUtils mAudioRecoderUtils;
@@ -126,33 +127,81 @@ public class EmotionInputDetector {
 
         return this;
     }
-
     public EmotionInputDetector bindToEmotionButton(View emotionButton) {
-        emotionButton.setOnClickListener(new View.OnClickListener() {
+        mEmotionButton=emotionButton;
+//        emotionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                if (mEmotionLayout.getVisibility()==View.VISIBLE) {
+//                if (mEmotionLayout.isShown()) {
+//                    if (isShowAdd) {
+//                        mViewPager.setCurrentItem(0);
+//                        isShowEmotion = true;
+//                        isShowAdd = false;
+//                    } else {
+//                        lockContentHeight();
+//                        hideEmotionLayout(true);
+//                        isShowEmotion = false;
+//                        unlockContentHeightDelayed();
+//                    }
+//                }
+//                else
+//                {
+//                    if (isSoftInputShown()) {
+//                        lockContentHeight();
+//                        hideEmotionLayout(true);
+//                        showEmotionLayout();
+//                        unlockContentHeightDelayed();
+//                    } else {
+//                        showEmotionLayout();
+//                    }
+//                    mViewPager.setCurrentItem(0);
+//                    isShowEmotion = true;
+//                }
+//            }
+//        });
+        mEmotionButton.requestFocus();
+        mEmotionButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View v) {
-                if (mEmotionLayout.isShown()) {
-                    if (isShowAdd) {
-                        mViewPager.setCurrentItem(0);
-                        isShowEmotion = true;
-                        isShowAdd = false;
-                    } else {
-                        lockContentHeight();
-                        hideEmotionLayout(true);
-                        isShowEmotion = false;
-                        unlockContentHeightDelayed();
-                    }
-                } else {
-                    if (isSoftInputShown()) {
-                        lockContentHeight();
-                        showEmotionLayout();
-                        unlockContentHeightDelayed();
-                    } else {
-                        showEmotionLayout();
-                    }
-                    mViewPager.setCurrentItem(0);
-                    isShowEmotion = true;
-                }
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_DOWN: //手指按下
+                        if (mEmotionLayout.getVisibility()==View.VISIBLE) {
+//                if (mEmotionLayout.isShown()) {
+                            if (isShowAdd) {
+                                mViewPager.setCurrentItem(0);
+                                isShowEmotion = true;
+                                isShowAdd = false;
+                            } else {
+                                lockContentHeight();
+                                hideEmotionLayout(true);
+                                isShowEmotion = false;
+                                unlockContentHeightDelayed();
+                            }
+                        } else {
+                            mViewPager.setCurrentItem(0);
+                            if (isSoftInputShown()) {
+                                lockContentHeight();
+                                showEmotionLayout();
+                                unlockContentHeightDelayed();
+                            } else {
+                                showEmotionLayout();
+                            }
+                            isShowEmotion = true;
+                        }
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_POINTER_UP:
+                        break;
+                    case MotionEvent.ACTION_POINTER_DOWN:
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        break;
+                } //end switch
+//                return mEmotionLayout.isShown();
+
+                return false;
             }
         });
         return this;
@@ -163,7 +212,8 @@ public class EmotionInputDetector {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mEmotionLayout.isShown()) {
+                if (mEmotionLayout.getVisibility()==View.VISIBLE) {
+//                if (mEmotionLayout.isShown()) {
                     if (isShowEmotion) {
                         mViewPager.setCurrentItem(1);
                         isShowAdd = true;
@@ -216,6 +266,7 @@ public class EmotionInputDetector {
         voiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 hideEmotionLayout(false);
                 hideSoftInput();
                 mVoiceText.setVisibility(mVoiceText.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
@@ -351,7 +402,7 @@ public class EmotionInputDetector {
     private void showEmotionLayout() {
         int softInputHeight = getSupportSoftInputHeight();
         if (softInputHeight == 0) {
-            softInputHeight = sp.getInt(SHARE_PREFERENCE_TAG, 100);
+            softInputHeight = sp.getInt(SHARE_PREFERENCE_TAG, 768);
         }
         mEmotionLayout.getLayoutParams().height = softInputHeight;
         mEmotionLayout.setVisibility(View.VISIBLE);
@@ -372,7 +423,6 @@ public class EmotionInputDetector {
      */
     private void lockContentHeight() {
         LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mContentView.getLayoutParams();
-//        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mContentView.getLayoutParams();
         params.height = mContentView.getHeight();
         params.weight = 0.0F;
     }
@@ -387,21 +437,40 @@ public class EmotionInputDetector {
     }
 
     private void showSoftInput() {
+        mEditText.setFocusable(true);
+        mEditText.setFocusableInTouchMode(true);
         mEditText.requestFocus();
-        mEditText.post(new Runnable() {
-            @Override
-            public void run() {
-                mInputManager.showSoftInput(mEditText, 0);
-            }
-        });
+        mEditText.findFocus();
+        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(mEditText, InputMethodManager.SHOW_FORCED);// 显示输入法
+//        mEditText.requestFocus();
+//        mEditText.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                mInputManager.showSoftInput(mEditText, 0);
+//            }
+//        });
     }
 
     public void hideSoftInput() {
+        mEditText.clearFocus();
+//        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(mActivity.getWindow().getDecorView().getWindowToken(), 0);
         mInputManager.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
     }
 
     private boolean isSoftInputShown() {
         return getSupportSoftInputHeight() != 0;
+    }
+    private boolean isSoftShowing() {
+        //获取当前屏幕内容的高度
+        int screenHeight = mActivity.getWindow().getDecorView().getHeight();
+        //获取View可见区域的bottom
+        Rect rect = new Rect();
+        mActivity.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
+        Log.e("getSoftButtonsBarHeight","结果="+(screenHeight - rect.bottom - getSoftButtonsBarHeight()));
+        return (screenHeight - rect.bottom - getSoftButtonsBarHeight())!= 0;
+//        return screenHeight - rect.bottom != 0;
     }
 
     private int getSupportSoftInputHeight() {

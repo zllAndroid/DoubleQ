@@ -55,8 +55,6 @@ public class ChangeCodeActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
     }
 
-
-
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -150,6 +148,7 @@ public class ChangeCodeActivity extends BaseActivity {
                     Intent intent_recharge = new Intent(ChangeCodeActivity.this, LoginActivity.class);
                     startActivity(intent_recharge);
                     overridePendingTransition(0,0);
+
                     ACache.get(ChangeCodeActivity.this).clear();
                     SPUtils.clear(ChangeCodeActivity .this);
 //                    AppManager.getAppManager().finishActivity();

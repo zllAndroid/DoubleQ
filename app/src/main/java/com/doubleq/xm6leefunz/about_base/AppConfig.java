@@ -93,6 +93,7 @@ public class AppConfig {
     public static final String CODE_SIGN_FAIL = "1003";
     public static final String CODE_LACK = "1004";
     public static final String CODE_TIMEOUT= "1007";
+    public static final String CODE_TOKEN_OUT= "9001";
     public static final String CODE_NO_METHOD= "1006";
 
 

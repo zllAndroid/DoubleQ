@@ -13,6 +13,8 @@ import com.bumptech.glide.Glide;
 import com.doubleq.model.CusJumpChatData;
 import com.doubleq.model.DataAddfriendSendRequest;
 import com.doubleq.model.DataAgreeFriend;
+import com.doubleq.model.DataCreatGroupResult;
+import com.doubleq.model.DataFriendPush;
 import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.DataJieShou;
@@ -185,17 +187,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
 
     @Override
     public void onConnectError(Throwable cause) {
-//        mConnectManager.onDestroy();
-//        mConnectManager.onDestroyService();
-//        initManagerService();
-//        mConnectManager.reconnect();
-//        mConnectManager.reBind(SplitWeb.bindUid());
         Log.e("WebSocketLib","---------------------------------onWantConnect---------------------------------------");
-//        mConnectManager.onDestroy();
-//        initManagerService();
-//
-//        sendText(SplitWeb.bindUid());
-
     }
 
     @Override
@@ -218,18 +210,17 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             {
                 isBind =false;
             }
-
-
         }
 //        接收消息时处理消息并存库
         String isSucess = HelpUtils.HttpIsSucess(message.getResponseText());
 //        Log.e("onEvent","activity"+messageEvent.getMessage());
         if (isSucess.equals(AppAllKey.CODE_OK)) {
 //            判断返回的方法名
+
             String s = HelpUtils.backMethod(message.getResponseText());
             switch (s)
             {
-                 //接收好友消息
+                //接收好友消息
                 case "privateReceive":
                     dealReceiver(message.getResponseText());
                     break;
@@ -247,9 +238,19 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                 case "addFriendSend":
                     dealFriend(message.getResponseText());
                     break;
+//                添加好友-离线推送通知接口(接收者)
+                case "addFriendPush":
+                    dealFriendPush(message.getResponseText());
+                    break;
 //                    对方同意我的好友请求,后推送接口
                 case "agreeFriendSend":
                     dealAgreeFriend(message.getResponseText());
+                    break;
+//                case "createdGroupSend":
+//                    CGS(message.getResponseText());
+//                    break;
+                case "createdUserGroup":
+                    CGS(message.getResponseText());
                     break;
 //                    私聊发送消息
                 case "privateSend":
@@ -257,6 +258,88 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                     break;
             }
         }
+    }
+
+    private void dealFriendPush(String responseText) {
+        DataFriendPush dataFriendPush = JSON.parseObject(responseText, DataFriendPush.class);
+        final   DataFriendPush.RecordBean record = dataFriendPush.getRecord();
+        final  List<DataFriendPush.RecordBean.MessageListBean> messageList = record.getMessageList();
+        for (int i = 0; i<messageList.size(); i++)
+        {
+            int num = (int)SPUtils.get(this, AppConfig.LINKMAN_FRIEND_NUM, 0);
+            SPUtils.put(this,AppConfig.LINKMAN_FRIEND_NUM,num+1);
+            Intent intent = new Intent();
+            intent.putExtra("num", num+1);
+            intent.setAction("action.addFriend");
+            sendBroadcast(intent);
+           final DataFriendPush.RecordBean.MessageListBean messageListBean = messageList.get(i);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        bitmap = Glide.with(MyApplication.getAppContext())
+                                .load(messageListBean.getHeadImg())
+                                .asBitmap() //必须
+                                .centerCrop()
+                                .into(500, 500)
+                                .get();
+                        NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+                        String remark = (!StrUtils.isEmpty(messageListBean.getRemark()))?messageListBean.getRemark():"没有备注";
+                        notificationUtils.sendNotification(messageListBean.getNickName()+"加您为好友", "备注："+remark,bitmap,AppConfig.TYPE_NOTICE);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+
+    }
+
+    private void CGS(String responseText) {
+        DataCreatGroupResult dataCreatGroupResult=JSON.parseObject(responseText,DataCreatGroupResult.class);
+        DataCreatGroupResult.RecordBean record = dataCreatGroupResult.getRecord();
+//        record1 = dataCreatGroupResult.getRecord();
+        if (record!=null)
+        {
+            sendText(SplitWeb.groupSend(record.getGroupOfId(),"群创建成功，快来聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+            final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
+            cusJumpChatData.setHeadImg(record.getGroupHeadImg());
+            cusJumpChatData.setFriendId(record.getGroupOfId());
+            cusJumpChatData.setNickName(record.getGroupNickName());
+            cusJumpChatData.setMsg("群创建成功，快来聊天吧");
+            cusJumpChatData.setTime(TimeUtil.getTime());
+            cusJumpChatData.setNum(0);
+            cusJumpChatData.setType(RealmHomeHelper.TypeQun);
+            realmHelper.addRealmMsg(cusJumpChatData);
+            Intent intent = new Intent();
+            intent.putExtra("message","群创建成功，快来聊天吧");
+            intent.putExtra("id",record.getGroupOfId());
+            intent.setAction("action.refreshMsgFragment");
+            sendBroadcast(intent);
+        }
+
+//        DataAgreeFriend dataAgreeFriend = JSON.parseObject(responseText, DataAgreeFriend.class);
+//        DataAgreeFriend.RecordBean record = dataAgreeFriend.getRecord();
+//        if (record!=null)
+//        {
+//            sendText(SplitWeb.groupSend(record.getFriendsId(),"我们已经是好友了，快来聊一聊吧", ChatActivity.messageType, TimeUtil.getTime()));
+//
+//            final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
+//            cusJumpChatData.setHeadImg(record.getHeadImg());
+//            cusJumpChatData.setFriendId(record.getFriendsId());
+//            cusJumpChatData.setNickName(record.getNickName());
+//            cusJumpChatData.setMsg("我们已经是好友了，快来聊一聊吧");
+//            cusJumpChatData.setTime(TimeUtil.getTime());
+//            cusJumpChatData.setNum(0);
+//            realmHelper.addRealmMsg(cusJumpChatData);
+//            Intent intent = new Intent();
+//            intent.putExtra("message","我们已经是好友了，快来聊一聊吧");
+//            intent.putExtra("id",record.getFriendsId());
+//            intent.setAction("action.refreshMsgFragment");
+//            sendBroadcast(intent);
+//        }
     }
 
     private void initGroupReceiveData(String responseText) {

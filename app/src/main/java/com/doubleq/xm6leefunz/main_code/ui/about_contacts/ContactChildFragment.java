@@ -268,9 +268,15 @@ public class ContactChildFragment extends BaseFragment {
                     for (int j=0;j<friend_list.size();j++)
                     {
                         String userId = friend_list.get(j).getGroupList().get(0).getUserId();
-                        if (StrUtils.isEmpty(userId))
+                        String groupName = friend_list.get(j).getGroupName();
+//                        if (StrUtils.isEmpty(groupName))
+//                        {
+////                            friend_list.remove(j);
+//                        }
+                        if (StrUtils.isEmpty(userId)||StrUtils.isEmpty(groupName))
                         {
                             friend_list.get(j).getGroupList().remove(0);
+                            friend_list.remove(j);
                         }
                     }
                 } catch (Exception e) {
@@ -375,9 +381,15 @@ public class ContactChildFragment extends BaseFragment {
                     for (int j=0;j<group_info_list.size();j++)
                     {
                         String userId = group_info_list.get(j).getGroupList().get(0).getGroupOfId();
-                        if (StrUtils.isEmpty(userId))
+                        String name = group_info_list.get(j).getGroupName();
+//                        if (StrUtils.isEmpty(userId))
+//                        {
+//                            group_info_list.get(j).getGroupList().remove(0);
+//                        }
+                        if (StrUtils.isEmpty(userId)||StrUtils.isEmpty(name))
                         {
                             group_info_list.get(j).getGroupList().remove(0);
+                            group_info_list.remove(j);
                         }
                     }
                 } catch (Exception e) {
@@ -395,7 +407,7 @@ public class ContactChildFragment extends BaseFragment {
 //                String json = JSON.toJSON(dataLinkGroupList).toString();
 //                aCache.remove(AppAllKey.GROUD_DATA);
 //                aCache.put(AppAllKey.GROUD_DATA,json);
-//                dealGroupRuquest();
+                dealGroupRuquest();
 //                initGroupAdapter();
                 if (mGroupAdapter!=null)
                     mGroupAdapter.notifyDataSetChanged();
@@ -482,7 +494,7 @@ public class ContactChildFragment extends BaseFragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-                realmGroup.addFriend(cusDataGroupRealm);
+//                realmGroup.addFriend(cusDataGroupRealm);
             }
         }
     }

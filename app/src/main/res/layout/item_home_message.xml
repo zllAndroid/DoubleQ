@@ -45,7 +45,8 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="@dimen/dp5"
                     android:layout_weight="1"
-                    android:maxLength="10"
+                    android:singleLine="true"
+                    android:layout_marginRight="@dimen/dp10"
                     android:ellipsize="end"
                     android:textSize="@dimen/sp13" />
             </LinearLayout>

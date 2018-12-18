@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 
 import com.alibaba.fastjson.JSON;
@@ -147,6 +148,13 @@ public class BaseActivityForResult extends AppCompatActivity  {
         //        判断返回成功的  字段
         String isSucess = HelpUtils.HttpIsSucess(data.toString());
         if (isSucess.equals(AppAllKey.CODE_OK)) {
+
+            String only = HelpUtils.backOnly(data.toString());
+            if (only.equals("1"))
+            {
+                sendWebHaveDialog(SplitWeb.bindUid(),"断线重连中...","重连成功");
+                return;
+            }
 //            判断返回的方法名
             String s = HelpUtils.backMethod(data.toString());
 //            父类全局处理
@@ -176,17 +184,25 @@ public class BaseActivityForResult extends AppCompatActivity  {
                     break;
             }
         }
+        
         else if (isSucess.equals("10086"))
         {
 //            返回的自定义判断 ，则重连（返回的字段不可预测）
             sendWeb(SplitWeb.coroutineUid());
+        }else  if (isSucess.equals("9001"))
+        {
+            errorResult(data.toString());
         }
         else {
             ToastUtil.show(isSucess);
+
         }
 //        如果打开弹窗加载显示，收到服务器的返回0.5秒后自动关闭（防止反应太快还没显示清楚就隐藏）
         if (isSendDialog)
             mHandler.sendEmptyMessageDelayed(LOAD_SUCCESS, 500);
+    }
+
+    public void errorResult(String s) {
     }
 
     public void initStateBar() {

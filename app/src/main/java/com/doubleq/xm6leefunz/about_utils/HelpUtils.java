@@ -125,6 +125,8 @@ public class HelpUtils {
 //                    });
                     return "1007";
 //                    break;
+                case AppConfig.CODE_TOKEN_OUT:
+                    return code;
                 default:
                     String msg = object.optString("msg").toString().trim();
                     return msg;
@@ -142,6 +144,19 @@ public class HelpUtils {
                 e.printStackTrace();
             }
             String code = object.optString("method").toString().trim();
+            return code;
+        }
+        return "参数错误";
+    }
+    public static String backOnly(String result){
+        if (!result.equals("")&&result!=null) {
+            JSONObject object = null;
+            try {
+                object = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String code = object.optString("only").toString().trim();
             return code;
         }
         return "参数错误";

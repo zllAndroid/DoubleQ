@@ -301,12 +301,13 @@ public class CreatGroupChatActivity extends BaseActivity {
                 break;
 //                创建群成功
             case "createdUserGroup":
-                DataCreatGroupResult dataCreatGroupResult=JSON.parseObject(responseText,DataCreatGroupResult.class);
-                record1 = dataCreatGroupResult.getRecord();
-                if (record1!=null)
-                {
-                    send(SplitWeb.groupSend(record1.getGroupOfId(),"群创建成功，快去聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
-                }
+//                在application处理
+//                DataCreatGroupResult dataCreatGroupResult=JSON.parseObject(responseText,DataCreatGroupResult.class);
+//                record1 = dataCreatGroupResult.getRecord();
+//                if (record1!=null)
+//                {
+//                    send(SplitWeb.groupSend(record1.getGroupOfId(),"群创建成功，快去聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+//                }
 
 //                if (blackAdapter != null) {
 //                    blackAdapter.delItem(positions);

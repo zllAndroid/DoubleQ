@@ -207,7 +207,12 @@ public class LoadingDialog implements FinishDrawListener {
         } else if (loadStyle == STYLE_LINE) {
             mCircleLoadView.setVisibility(View.VISIBLE);
             mIvGif.setVisibility(View.GONE);
-            mLoadingDialog.show();
+            try {
+                if (!mLoadingDialog.isShowing())
+                    mLoadingDialog.show();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 //            Log.e("show", "style_line");
         }
 //        原来

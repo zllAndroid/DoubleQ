@@ -214,9 +214,23 @@ public class AppStartActivity extends BaseActivity {
             overridePendingTransition(0,0);
         }
     }
+
+    @Override
+    public void errorResult(String s) {
+        super.errorResult(s);
+        String backMethod = HelpUtils.backMethod(s);
+        if (backMethod.equals("bindUid")) {
+            IntentUtils.JumpFinishTo(AppStartActivity.this,LoginActivity.class);
+            overridePendingTransition(0,0);
+        }
+
+    }
+
     private void initSetData(DataLogin.RecordBean dataLogin) {
         if(!StrUtils.isEmpty(dataLogin.getUserId()))
         SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
+        if(!StrUtils.isEmpty(dataLogin.getUserToken()))
+            SPUtils.put(this,AppAllKey.USER_Token,dataLogin.getUserToken());
         if(!StrUtils.isEmpty(dataLogin.getMobile()))
             SPUtils.put(this, AppAllKey.SP_LOGIN_ACCOUNT,dataLogin.getMobile());
         SplitWeb.USER_TOKEN = dataLogin.getUserToken();

@@ -40,6 +40,11 @@ public class SplitWeb {
             USER_ID=(String ) SPUtils.get(HelpUtils.getACt(), AppAllKey.USER_ID_KEY,"");
         return USER_ID;
     }
+    public static String getUserToken() {
+        if(StrUtils.isEmpty(USER_TOKEN))
+            USER_TOKEN= (String )SPUtils.get(HelpUtils.activity,AppAllKey.USER_Token,"");
+        return USER_TOKEN;
+    }
     public static String getNiName() {
 
         NICK_NAME=(String ) SPUtils.get(HelpUtils.getACt(),"name","");
@@ -64,9 +69,13 @@ public class SplitWeb {
     //   Http 正式
 //    public static String WebSocket_URL = "ws://192.168.4.133:9093";
 //    public static String URL = "http://192.168.4.133:9092/LoginController/";
-//    外网
+////    外网
+//    public static String WebSocket_URL = "ws://192.168.4.133:5053";
+//    public static String URL = "http://192.168.4.133:5052/LoginController/";
+
     public static String WebSocket_URL = "ws://119.23.229.66:9093";
     public static String URL = "http://119.23.229.66:9092/LoginController/";
+
     public static String loginIn(String mobile, String password){
         mList.clear();
         mList.add("sno="+mobile);
@@ -108,6 +117,7 @@ public class SplitWeb {
      * @return
      */
     public static String userIdParameter= "userId";
+    public static String userTokenParameter= "token";
 
     public  static  String bindUid(){
         dealMap();
@@ -121,6 +131,9 @@ public class SplitWeb {
         if(StrUtils.isEmpty(USER_ID))
             getUserId();
         map.put(userIdParameter,USER_ID);
+        if(StrUtils.isEmpty(USER_TOKEN))
+            getUserToken();
+        map.put(userTokenParameter,USER_TOKEN);
     }
 
     //注册时设置头像接口
@@ -211,7 +224,7 @@ public class SplitWeb {
         String request = WebUrl.request("PersonCenter", "upNickName", map);
         return  request;
     }
-//    修改备注
+    //    修改备注
     public  static  String friendRemarkName(String friendsId,String remarkName){
         dealMap();
         map.put("friendsId",friendsId);
@@ -367,7 +380,7 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "searchDetailInfo", map);
         return  request;
     }
-//    删除好友接口
+    //    删除好友接口
     public  static  String deleteFriend(String friendsId){
         dealMap();
         map.put("friendsId",friendsId);
