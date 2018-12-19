@@ -72,14 +72,14 @@ public class NotificationUtil extends ContextWrapper {
 //        PendingIntent pendingIntent =PendingIntent.getBroadcast(this, 0, intent, 0);
         PendingIntent pendingIntent =PendingIntent.getBroadcast(this, i++, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         return new NotificationCompat.Builder(getApplicationContext())
-                    .setContentTitle(title)
-                    .setContentText(content)
-                    .setSmallIcon(R.drawable.dou_logo)
-                    .setLargeIcon(bitmap)
+                .setContentTitle(title)
+                .setContentText(content)
+                .setSmallIcon(R.drawable.dou_logo)
+                .setLargeIcon(bitmap)
 //                .setFullScreenIntent(true);
-                    .setDefaults(Notification.DEFAULT_SOUND)
-                    .setContentIntent(pendingIntent)
-                    .setAutoCancel(true);
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
     }
     public void sendNotification(String title, String content,Bitmap bitmap,String type){
         if (Build.VERSION.SDK_INT>=26){
@@ -109,15 +109,23 @@ public class NotificationUtil extends ContextWrapper {
             intent.putExtra(AppConfig.TYPE_KEY, type);
             intent.putExtra(AppConfig.TYPE_KEY_FRIEND, cusJumpChatData);
             PendingIntent pendingIntent =PendingIntent.getBroadcast(this, i++, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-            Notification notification = getChannelNotification
-                    (title, content)
+//            Notification.Builder channelNotification = getChannelNotification(title, content);
+//            channelNotification.setLargeIcon(bitmap)
+//                    .setContentIntent(pendingIntent)
+//                    .setDefaults(Notification.DEFAULT_SOUND);
+
+            Notification notification = getChannelNotification(title, content)
                     .setLargeIcon(bitmap)
                     .setContentIntent(pendingIntent)
                     .setDefaults(Notification.DEFAULT_SOUND)
                     .build();
+            notification.ledOnMS = 5000; //闪光时间，毫秒
+
+
             getManager().notify(2,notification);
         }else{
             Notification notification = getNotification_25(cusJumpChatData,title, content,bitmap,type).build();
+            notification.ledOnMS = 5000; //闪光时间，毫秒
             getManager().notify(2,notification);
         }
     }

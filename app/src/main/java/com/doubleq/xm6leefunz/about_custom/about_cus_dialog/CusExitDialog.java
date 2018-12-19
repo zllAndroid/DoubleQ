@@ -51,6 +51,8 @@ public class CusExitDialog extends Dialog {
             radioButtonFirst.setText(message);
             radioButtonSecond.setText(message_second);
         }
+
+
         if (positiveButtonText != null){
             mPositiveBtn.setText(positiveButtonText);
             if (positiveButtonClickListener != null){

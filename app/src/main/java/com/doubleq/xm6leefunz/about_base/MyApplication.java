@@ -4,9 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.os.PowerManager;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.WindowManager;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
@@ -32,6 +34,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.main_code.about_notification.ScreenAndLockService;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
@@ -103,6 +106,8 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         // 程序终止的时候执行
         super.onTerminate();
         PgyCrashManager.unregister();
+//        Intent intent = new Intent(mContext,ScreenAndLockService.class);
+//        stopService(intent);
     }
     private void initManagerService() {
         //配置 WebSocket，必须在 WebSocket 服务启动前设置
@@ -272,7 +277,16 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             intent.putExtra("num", num+1);
             intent.setAction("action.addFriend");
             sendBroadcast(intent);
-           final DataFriendPush.RecordBean.MessageListBean messageListBean = messageList.get(i);
+
+//            Intent intent3 = new Intent(this,ScreenAndLockService.class);
+//            this.startService(intent3);
+//            PowerManager pm = (PowerManager)getSystemService(Context.POWER_SERVICE);
+//            PowerManager.WakeLock wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, this.getClass().getName());//持有唤醒锁
+////            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, this.getClass().getName());//持有唤醒锁
+//            wakeLock.setReferenceCounted(false);
+//            wakeLock.acquire(30*1000);//30s亮屏
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);//亮屏
+            final DataFriendPush.RecordBean.MessageListBean messageListBean = messageList.get(i);
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -296,7 +310,13 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         }
 
     }
-
+    //终止服务
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//        Intent intent = new Intent(mContext,ScreenAndLockService.class);
+//        stopService(intent);
+//    }
     private void CGS(String responseText) {
         DataCreatGroupResult dataCreatGroupResult=JSON.parseObject(responseText,DataCreatGroupResult.class);
         DataCreatGroupResult.RecordBean record = dataCreatGroupResult.getRecord();

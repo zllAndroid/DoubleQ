@@ -125,7 +125,7 @@ public class ContactChildFragment extends BaseFragment {
     private Runnable runnable;
     private LinearLayout titleView;
     private LayoutInflater inflater;
-//    RealmLinkManHelper realmHelper;
+    //    RealmLinkManHelper realmHelper;
     RealmGroupHelper realmGroup;
 
     TextView mTvFriendNews;
@@ -327,41 +327,42 @@ public class ContactChildFragment extends BaseFragment {
     }
     private void dealFriendRequestRealm() {
 //        realmHelper.deleteAll();
-        for(int i = 0; i < mlinkFriend.getGroupCount(); i++) {
-            if (mFriendList.get(i).getType().equals("2")) {
-                if (mListView!=null)
-                    mListView.expandGroup(i);
-                List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = mFriendList.get(i).getGroupList();
-                if (StrUtils.isEmpty(groupList.get(0).getUserId()))
-                {
-                    return;
-                }
-                for (int j=0;j<groupList.size();j++)
-                {
-                    CusDataFriendRealm cusDataFriendRealm = new CusDataFriendRealm();
-                    cusDataFriendRealm.setGroupId(groupList.get(j).getGroupId());
-                    cusDataFriendRealm.setChart(groupList.get(j).getChart());
-
-                    cusDataFriendRealm.setHeadImg(groupList.get(j).getHeadImg());
-
-                    cusDataFriendRealm.setGroupName(groupList.get(j).getGroupName());
-                    cusDataFriendRealm.setNickName(groupList.get(j).getNickName());
-
-                    cusDataFriendRealm.setMobile(groupList.get(j).getMobile());
-
-                    cusDataFriendRealm.setUserId(groupList.get(j).getUserId());
-
-                    cusDataFriendRealm.setWxSno(groupList.get(j).getWxSno());
-                    try {
-                        if (StrUtils.isEmpty(mFriendList.get(i).getGroupList().get(0).getUserId()))
-                            mFriendList.get(i).getGroupList().remove(0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        if (mlinkFriend!=null)
+            for(int i = 0; i < mlinkFriend.getGroupCount(); i++) {
+                if (mFriendList.get(i).getType().equals("2")) {
+                    if (mListView!=null)
+                        mListView.expandGroup(i);
+                    List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = mFriendList.get(i).getGroupList();
+                    if (StrUtils.isEmpty(groupList.get(0).getUserId()))
+                    {
+                        return;
                     }
+                    for (int j=0;j<groupList.size();j++)
+                    {
+                        CusDataFriendRealm cusDataFriendRealm = new CusDataFriendRealm();
+                        cusDataFriendRealm.setGroupId(groupList.get(j).getGroupId());
+                        cusDataFriendRealm.setChart(groupList.get(j).getChart());
+
+                        cusDataFriendRealm.setHeadImg(groupList.get(j).getHeadImg());
+
+                        cusDataFriendRealm.setGroupName(groupList.get(j).getGroupName());
+                        cusDataFriendRealm.setNickName(groupList.get(j).getNickName());
+
+                        cusDataFriendRealm.setMobile(groupList.get(j).getMobile());
+
+                        cusDataFriendRealm.setUserId(groupList.get(j).getUserId());
+
+                        cusDataFriendRealm.setWxSno(groupList.get(j).getWxSno());
+                        try {
+                            if (StrUtils.isEmpty(mFriendList.get(i).getGroupList().get(0).getUserId()))
+                                mFriendList.get(i).getGroupList().remove(0);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 //                    realmHelper.addFriend(cusDataFriendRealm);
+                    }
                 }
             }
-        }
     }
 
     /**
@@ -460,6 +461,7 @@ public class ContactChildFragment extends BaseFragment {
 
     private void dealGroupRuquest() {
         realmGroup.deleteAll();
+
         for(int i = 0; i < mGroupList.size(); i++) {
             if (mGroupList.get(i).getType().equals("2"))
             {

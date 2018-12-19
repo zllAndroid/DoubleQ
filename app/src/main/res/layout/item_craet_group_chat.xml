@@ -17,6 +17,7 @@
             android:layout_height="@dimen/dp30"
             android:button="@drawable/checkbox_selector_creat_group_chat"
             android:focusable="false"
+            android:clickable="false"
             android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/dp10"
             android:layout_gravity="center_vertical"
