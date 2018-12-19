@@ -311,8 +311,8 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             cusJumpChatData.setMsg("群创建成功，快来聊天吧");
             cusJumpChatData.setTime(TimeUtil.getTime());
             cusJumpChatData.setNum(0);
-            cusJumpChatData.setType(RealmHomeHelper.TypeQun);
-            realmHelper.addRealmMsg(cusJumpChatData);
+//            cusJumpChatData.setType(RealmHomeHelper.TypeQun);
+            realmHelper.addRealmMsgQun(cusJumpChatData);
             Intent intent = new Intent();
             intent.putExtra("message","群创建成功，快来聊天吧");
             intent.putExtra("id",record.getGroupOfId());

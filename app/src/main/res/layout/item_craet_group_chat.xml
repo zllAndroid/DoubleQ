@@ -5,6 +5,7 @@
     android:layout_height="wrap_content" >
 
     <LinearLayout
+        android:id="@+id/lin_check_choose"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -16,7 +17,8 @@
             android:layout_height="@dimen/dp30"
             android:button="@drawable/checkbox_selector_creat_group_chat"
             android:focusable="false"
-            android:layout_margin="@dimen/dp10"
+            android:gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp10"
             android:layout_gravity="center_vertical"
             />
 
@@ -26,7 +28,9 @@
             android:layout_height="@dimen/dp40"
             app:srcCompat="@drawable/mine_head"
             android:layout_gravity="center_vertical"
-            android:layout_margin="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp5"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginBottom="@dimen/dp10"
             />
         <TextView
             android:id="@+id/item_creat_tv_name"

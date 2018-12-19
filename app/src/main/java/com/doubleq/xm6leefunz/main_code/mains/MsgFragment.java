@@ -350,21 +350,10 @@ public class MsgFragment extends BaseFragment {
                             item.setNum(0);
                             realmHelper.updateNumZero(item.getFriendId());
                             msgAdapter.notifyItemChanged(position);
-//
-//                            CusJumpChatData cusJumpChatData = new CusJumpChatData();
-//                            cusJumpChatData.setFriendHeader(item.getHeadImg());
-//                            cusJumpChatData.setFriendId(item.getFriendId());
-//                            cusJumpChatData.setFriendName(item.getNickName());
-//                            realmHelper.addRealmMsgQun(cusJumpChatData);
-//                            realmHelper.addRealmMsg(cusJumpChatData);
                             CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
                             cusJumpGroupChatData.setGroupId(item.getFriendId());
                             cusJumpGroupChatData.setGroupName(item.getNickName());
                             IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
-
-
-
-
                         }
                         break;
 //                        点击编辑，弹出聊天窗口

@@ -89,6 +89,7 @@ public class CreatGroupChatAdapter extends BaseExpandableListAdapter {
         return convertView;
     }
     class ChildHolder {
+        LinearLayout mLinCheck;
         TextView mTvName;
         ImageView mIvHead;
         CheckBox mCheck;
@@ -104,15 +105,20 @@ public class CreatGroupChatAdapter extends BaseExpandableListAdapter {
         }
         return files;
     }
+    List<String> files = new ArrayList<>();
+    public List<String> getCheckString(){
+        return files;
+    }
 
     @Override
     public View getChildView(int groupPosition,final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ChildHolder holder;
+        final ChildHolder holder;
         final   DataCreatGroupChat.RecordBean.FriendListBean friendListBean = mDataList.get(groupPosition);
         if (convertView == null) {
             holder = new ChildHolder();
             convertView = LayoutInflater.from(context).inflate(
                     R.layout.item_craet_group_chat, null);
+            holder.mLinCheck = convertView.findViewById(R.id.lin_check_choose);
             holder.mTvName = convertView.findViewById(R.id.item_creat_tv_name);
             holder.mIvHead = convertView.findViewById(R.id.item_creat_iv_head);
             holder.mCheck = convertView.findViewById(R.id.item_creat_check);
@@ -128,15 +134,36 @@ public class CreatGroupChatAdapter extends BaseExpandableListAdapter {
                 .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
                 .into(holder.mIvHead);
         holder.mTvName.setText(groupListBean.getNickName());
-        holder.mCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        holder.mLinCheck.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                checkMap.put(groupListBean,isChecked);
-                if (mCheckedChangeListener != null){
-                    mCheckedChangeListener.onCheckedChanged(childPosition,buttonView,isChecked);
+            public void onClick(View view) {
+//                checkMap.put(groupListBean,holder.mCheck.isChecked());
+//                if (mCheckedChangeListener != null){
+//                    mCheckedChangeListener.onCheckedChanged(childPosition,holder.mCheck,holder.mCheck.isChecked());
+//                }
+                if (holder.mCheck.isChecked())
+                {
+                    holder.mCheck.setChecked(false);
+                    if (files.contains(groupListBean.getUserId()))
+                        files.remove(groupListBean.getUserId());
+                }else
+                {
+                    if (!files.contains(groupListBean.getUserId()))
+                        files.add(groupListBean.getUserId());
+                    holder.mCheck.setChecked(true);
                 }
             }
         });
+
+//        holder.mCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                checkMap.put(groupListBean,isChecked);
+//                if (mCheckedChangeListener != null){
+//                    mCheckedChangeListener.onCheckedChanged(childPosition,buttonView,isChecked);
+//                }
+//            }
+//        });
         if (checkMap.get(mDataList)!=null)
             holder.mCheck.setChecked(checkMap.get(friendListBean));
         return convertView;

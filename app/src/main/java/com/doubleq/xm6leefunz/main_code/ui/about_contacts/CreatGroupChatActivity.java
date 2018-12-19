@@ -45,8 +45,11 @@ import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
+import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.main_code.about_login.FirstAddHeaderActivity;
@@ -64,6 +67,7 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+import com.rance.chatui.util.Constants;
 
 import java.io.File;
 import java.io.IOException;
@@ -133,7 +137,6 @@ public class CreatGroupChatActivity extends BaseActivity {
     protected int getLayoutView() {
         return R.layout.activity_creat_group_chat;
     }
-
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -168,11 +171,9 @@ public class CreatGroupChatActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-
             @Override
             public void afterTextChanged(Editable s) {
                 //获取用户输入文本
@@ -213,14 +214,12 @@ public class CreatGroupChatActivity extends BaseActivity {
 //                mSeachAdapter.notifyItemRangeInserted(0,searchCityList.size());
 //                // scrollToPosition（0）作用是把列表移动到顶端
 //                seachRecyc.scrollToPosition(0);
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         mSeachAdapter.notifyDataSetChanged();
                     }
                 });
-
             }
         });
         listenEnter();
@@ -306,27 +305,32 @@ public class CreatGroupChatActivity extends BaseActivity {
                         initAdapter(friend_list);
                 }
                 break;
-            case "groupSend":
+//            case "groupSend":
+//                if (record1!=null)
+//                {
+//
+//                }
+//                break;
+//                创建群成功
+            case "createdUserGroup":
+//                在application处理
+                DataCreatGroupResult dataCreatGroupResult=JSON.parseObject(responseText,DataCreatGroupResult.class);
+                record1 = dataCreatGroupResult.getRecord();
                 if (record1!=null)
                 {
                     DialogUtils.showDialogOne("群创建成功，快去聊天吧", new DialogUtils.OnClickSureListener() {
                         @Override
                         public void onClickSure() {
 //     TODO 应该跳转到群聊天界面
-                            AppManager.getAppManager().finishActivity();
+                            CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
+                            cusJumpGroupChatData.setGroupId(record1.getGroupOfId());
+                            cusJumpGroupChatData.setGroupName(record1.getGroupNickName());
+                            IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
+                            AppManager.getAppManager().finishActivity(CreatGroupChatActivity.this);
                         }
                     });
-                }
-                break;
-//                创建群成功
-            case "createdUserGroup":
-//                在application处理
-//                DataCreatGroupResult dataCreatGroupResult=JSON.parseObject(responseText,DataCreatGroupResult.class);
-//                record1 = dataCreatGroupResult.getRecord();
-//                if (record1!=null)
-//                {
 //                    send(SplitWeb.groupSend(record1.getGroupOfId(),"群创建成功，快去聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
-//                }
+                }
 
 //                if (blackAdapter != null) {
 //                    blackAdapter.delItem(positions);
@@ -371,17 +375,34 @@ public class CreatGroupChatActivity extends BaseActivity {
                 break;
 //                点击确定
             case R.id.inclu_tv_right:
-                List<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean> checkData = creatGroupChatAdapter.getCheckData();
-                if (checkData.size()>0) {
+//                List<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean> checkData = creatGroupChatAdapter.getCheckData();
+////                if (checkData.size()>0) {
+//////                    String check[]= new String[checkData.size()];
+////                    String checkChat ="";
+////                    for (int i= 0;i<checkData.size();i++)
+////                    {
+////                        if (i==0)
+////                        {
+////                            checkChat+=checkData.get(i).getUserId();
+////                        }else {
+////                            checkChat+=","+checkData.get(i).getUserId();
+////                        }
+//////                        check[i]=checkData.get(i).getWx_sno();
+////                    }
+
+                List<String> checkString = creatGroupChatAdapter.getCheckString();
+
+
+                if (checkString.size()>0) {
 //                    String check[]= new String[checkData.size()];
                     String checkChat ="";
-                    for (int i= 0;i<checkData.size();i++)
+                    for (int i= 0;i<checkString.size();i++)
                     {
                         if (i==0)
                         {
-                            checkChat+=checkData.get(i).getUserId();
+                            checkChat+=checkString.get(i);
                         }else {
-                            checkChat+=","+checkData.get(i).getUserId();
+                            checkChat+=","+checkString.get(i);
                         }
 //                        check[i]=checkData.get(i).getWx_sno();
                     }

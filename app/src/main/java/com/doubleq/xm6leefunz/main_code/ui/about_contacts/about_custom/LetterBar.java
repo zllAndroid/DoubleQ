@@ -28,6 +28,8 @@ public class LetterBar  extends View
     private int index;
     private Paint mpaint2;
     private boolean isTouch=false;
+//    字体大小
+    int Text_Size=25;
     Context context;
     public LetterBar(Context context, AttributeSet attrs)
     {
@@ -61,14 +63,14 @@ public class LetterBar  extends View
         mpaint.setStyle(Paint.Style.FILL);
         mpaint.setStrokeWidth(10);
         mpaint.setTextAlign(Align.CENTER);
-        mpaint.setTextSize(50);
+        mpaint.setTextSize(Text_Size);
 		mpaint.setColor(context.getResources().getColor(R.color.gray666));
         //
         mpaint2 = new Paint();
         mpaint2.setStyle(Paint.Style.FILL);
         mpaint2.setStrokeWidth(10);
         mpaint2.setTextAlign(Align.CENTER);
-        mpaint2.setTextSize(50);
+        mpaint2.setTextSize(Text_Size);
         mpaint2.setColor(context.getResources().getColor(R.color.doubleq_theme));
 //        mpaint2.setColor(context.getResources().getColor(R.color.normal));
     }
@@ -83,12 +85,11 @@ public class LetterBar  extends View
 
         for (int i = 0; i < ABCList.size(); i++)
         {
-            canvas.drawText(ABCList.get(i), 0, height/ABCList.size()*i+5, mpaint);
+            canvas.drawText(ABCList.get(i), 0, Math.abs((height/ABCList.size()*i)-10), mpaint);
         }
         if (isTouch)
         {
-
-            canvas.drawText(ABCList.get(index), 0, height/ABCList.size()*index+5, mpaint2);
+            canvas.drawText(ABCList.get(index), 0, Math.abs((height/ABCList.size()*index)-10), mpaint2);
         }
 
         invalidate();
