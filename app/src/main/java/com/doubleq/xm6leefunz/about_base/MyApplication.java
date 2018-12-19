@@ -290,6 +290,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+
                     try {
                         bitmap = Glide.with(MyApplication.getAppContext())
                                 .load(messageListBean.getHeadImg())
