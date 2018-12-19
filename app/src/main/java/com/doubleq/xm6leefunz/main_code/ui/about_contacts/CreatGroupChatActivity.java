@@ -16,7 +16,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -35,33 +34,19 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.doubleq.model.DataBlack;
 import com.doubleq.model.DataCreatGroupChat;
 import com.doubleq.model.DataCreatGroupResult;
-import com.doubleq.model.DataLinkManList;
 import com.doubleq.xm6leefunz.R;
-import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
-import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
-import com.doubleq.xm6leefunz.about_utils.TimeUtil;
-import com.doubleq.xm6leefunz.main_code.about_login.FirstAddHeaderActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.CreatGroupChatAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.CreatGroupSeachAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.GroupTeamAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.SeachAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.Allcity;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.Cities;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_notice.NoticeAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -72,7 +57,6 @@ import com.rance.chatui.util.Constants;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -122,6 +106,8 @@ public class CreatGroupChatActivity extends BaseActivity {
     ExpandableListView mExList;
     @BindView(R.id.group_chat_lin_main)
     LinearLayout mLinMain;
+    @BindView(R.id.creat_chat_tv_yixuanze)
+    TextView creatChatTvYixuanze;
 
     private Runnable runnable;
     String mShare = "1";
@@ -137,6 +123,7 @@ public class CreatGroupChatActivity extends BaseActivity {
     protected int getLayoutView() {
         return R.layout.activity_creat_group_chat;
     }
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -148,7 +135,7 @@ public class CreatGroupChatActivity extends BaseActivity {
 //        mRecyclerView.setNestedScrollingEnabled(false);
 //        linearLayoutManager = new LinearLayoutManager(CreatGroupChatActivity.this);
 //        mRecyclerView.setLayoutManager(linearLayoutManager);
-        seachRecyc.setLayoutManager( new LinearLayoutManager(CreatGroupChatActivity.this));
+        seachRecyc.setLayoutManager(new LinearLayoutManager(CreatGroupChatActivity.this));
 //        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(GroupTeamActivity.this));
 //        sendWeb( SplitWeb.blackList());
         initGroup();
@@ -160,20 +147,24 @@ public class CreatGroupChatActivity extends BaseActivity {
 //        initHttp();
         sendWeb(SplitWeb.getGroupWebInfo());
     }
+
     //    private ArrayList<Allcity> allCityList = new ArrayList<Allcity>();
     CreatGroupSeachAdapter mSeachAdapter;
     private ArrayList<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean> searchCityList = new ArrayList<>();
+
     private void initUI() {
-        mSeachAdapter = new CreatGroupSeachAdapter(CreatGroupChatActivity.this,searchCityList);
+        mSeachAdapter = new CreatGroupSeachAdapter(CreatGroupChatActivity.this, searchCityList);
         seachRecyc.setAdapter(mSeachAdapter);
         //设置EditText文本监听事件
         seachEdInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 //获取用户输入文本
@@ -182,17 +173,14 @@ public class CreatGroupChatActivity extends BaseActivity {
                 seachLinList.setVisibility(View.VISIBLE);
                 groupLinList.setVisibility(View.GONE);
                 searchCityList.clear();
-                for (int a=0;a<mFriendList.size();a++)
-                {
+                for (int a = 0; a < mFriendList.size(); a++) {
                     List<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean> group_list = mFriendList.get(a).getGroupList();
-                    for (int b =0;b<group_list.size();b++)
-                    {
+                    for (int b = 0; b < group_list.size(); b++) {
                         String nick_name = group_list.get(b).getNickName();
-                        Log.e("searchCityList",nick_name+"---------输入------------->"+putStr);
-                        if (nick_name.contains(putStr))
-                        {
+                        Log.e("searchCityList", nick_name + "---------输入------------->" + putStr);
+                        if (nick_name.contains(putStr)) {
                             searchCityList.add(group_list.get(b));
-                            Log.e("searchCityList",nick_name+"---------jinlai------------->"+putStr);
+                            Log.e("searchCityList", nick_name + "---------jinlai------------->" + putStr);
                         }
                     }
                 }
@@ -242,6 +230,7 @@ public class CreatGroupChatActivity extends BaseActivity {
     }
 
     List<String> ABCList = new ArrayList<>();
+
     public void initABC2() {
         ABCList.clear();
 //        ABCList.add("");
@@ -277,6 +266,7 @@ public class CreatGroupChatActivity extends BaseActivity {
                     }
                 }
             }
+
             @Override
             public void onTouchUp() {
                 mTvAbc.postDelayed(runnable, 1000);
@@ -288,8 +278,10 @@ public class CreatGroupChatActivity extends BaseActivity {
         String upperCase = pinyin.substring(0, 1).toUpperCase();
         return upperCase;
     }
+
     List<DataCreatGroupChat.RecordBean.FriendListBean> mFriendList = new ArrayList<>();
     DataCreatGroupResult.RecordBean record1;
+
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -301,7 +293,7 @@ public class CreatGroupChatActivity extends BaseActivity {
                 if (record != null) {
                     List<DataCreatGroupChat.RecordBean.FriendListBean> friend_list = record.getFriendList();
                     mFriendList.addAll(friend_list);
-                    if (friend_list.size()>0)
+                    if (friend_list.size() > 0)
                         initAdapter(friend_list);
                 }
                 break;
@@ -314,10 +306,9 @@ public class CreatGroupChatActivity extends BaseActivity {
 //                创建群成功
             case "createdUserGroup":
 //                在application处理
-                DataCreatGroupResult dataCreatGroupResult=JSON.parseObject(responseText,DataCreatGroupResult.class);
+                DataCreatGroupResult dataCreatGroupResult = JSON.parseObject(responseText, DataCreatGroupResult.class);
                 record1 = dataCreatGroupResult.getRecord();
-                if (record1!=null)
-                {
+                if (record1 != null) {
                     DialogUtils.showDialogOne("群创建成功，快去聊天吧", new DialogUtils.OnClickSureListener() {
                         @Override
                         public void onClickSure() {
@@ -340,10 +331,11 @@ public class CreatGroupChatActivity extends BaseActivity {
                 break;
         }
     }
+
     CreatGroupChatAdapter creatGroupChatAdapter = null;
 
     private void initAdapter(List<DataCreatGroupChat.RecordBean.FriendListBean> friend_list) {
-        creatGroupChatAdapter = new CreatGroupChatAdapter(this,friend_list);
+        creatGroupChatAdapter = new CreatGroupChatAdapter(this, friend_list);
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mExList.setAdapter(creatGroupChatAdapter);
         mExList.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -355,13 +347,15 @@ public class CreatGroupChatActivity extends BaseActivity {
                 return true;
             }
         });
-        for(int i = 0; i < creatGroupChatAdapter.getGroupCount(); i++) {
+        for (int i = 0; i < creatGroupChatAdapter.getGroupCount(); i++) {
             mExList.expandGroup(i);
         }
         creatGroupChatAdapter.notifyDataSetChanged();
     }
+
     private PhotoPopWindow photoPopWindow = null;
-    @OnClick({R.id.seach_iv_close, R.id.seach_iv_find,R.id.inclu_tv_right,R.id.creat_chat_tv_head})
+
+    @OnClick({R.id.seach_iv_close, R.id.seach_iv_find, R.id.inclu_tv_right, R.id.creat_chat_tv_head})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.seach_iv_close:
@@ -375,44 +369,24 @@ public class CreatGroupChatActivity extends BaseActivity {
                 break;
 //                点击确定
             case R.id.inclu_tv_right:
-//                List<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean> checkData = creatGroupChatAdapter.getCheckData();
-////                if (checkData.size()>0) {
-//////                    String check[]= new String[checkData.size()];
-////                    String checkChat ="";
-////                    for (int i= 0;i<checkData.size();i++)
-////                    {
-////                        if (i==0)
-////                        {
-////                            checkChat+=checkData.get(i).getUserId();
-////                        }else {
-////                            checkChat+=","+checkData.get(i).getUserId();
-////                        }
-//////                        check[i]=checkData.get(i).getWx_sno();
-////                    }
-
                 List<String> checkString = creatGroupChatAdapter.getCheckString();
-
-
-                if (checkString.size()>0) {
+                if (checkString.size() > 0) {
 //                    String check[]= new String[checkData.size()];
-                    String checkChat ="";
-                    for (int i= 0;i<checkString.size();i++)
-                    {
-                        if (i==0)
-                        {
-                            checkChat+=checkString.get(i);
-                        }else {
-                            checkChat+=","+checkString.get(i);
+                    String checkChat = "";
+                    for (int i = 0; i < checkString.size(); i++) {
+                        if (i == 0) {
+                            checkChat += checkString.get(i);
+                        } else {
+                            checkChat += "," + checkString.get(i);
                         }
 //                        check[i]=checkData.get(i).getWx_sno();
                     }
 //                    String replace =Arrays.toString(check).replace("[", "").replace("]", "").replace(" ","");
                     String trim = mEdGroupName.getText().toString().trim();
-                    sendWebHaveDialog(SplitWeb.createdUserGroup(checkChat,trim,imageBase64)
-                            ,"创建中...","群聊创建成功");
+                    sendWebHaveDialog(SplitWeb.createdUserGroup(checkChat, trim, imageBase64)
+                            , "创建中...", "群聊创建成功");
 //                    sendWeb(SplitWeb.createdUserGroup(checkChat,"zll",""));
-                }else
-                {
+                } else {
                     ToastUtil.show("请选择群聊成员");
                 }
 
@@ -425,12 +399,11 @@ public class CreatGroupChatActivity extends BaseActivity {
 
     private void clickSearch() {
         String edInput = seachEdInput.getText().toString().trim();
-        if (StrUtils.isEmpty(edInput))
-        {
+        if (StrUtils.isEmpty(edInput)) {
             DialogUtils.showDialog("搜索内容不能为空");
             return;
         }
-        sendWebHaveDialog(SplitWeb.searchInfo(edInput),"搜索中...","搜索成功");
+        sendWebHaveDialog(SplitWeb.searchInfo(edInput), "搜索中...", "搜索成功");
     }
 
 
@@ -445,7 +418,7 @@ public class CreatGroupChatActivity extends BaseActivity {
                     break;
                 case R.id.btn_open_xaingce:
                     //	相册
-                    Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(i, RESULT_LOAD_IMAGE);
                     break;
                 default:
@@ -468,7 +441,8 @@ public class CreatGroupChatActivity extends BaseActivity {
     private File mPhotoFile;
     File save;
 
-    String imageBase64="";
+    String imageBase64 = "";
+
     /**
      * 调用相机以及相册的回调 获取的数据
      */
@@ -492,7 +466,7 @@ public class CreatGroupChatActivity extends BaseActivity {
 ////                UpLoadIdCard(requestCode,files,CAMERA_RESULT_Btn1);
 //                BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
 ////                pdIvHead.setBackgroundResource(0);
-                imageBase64=ImageUtils.GetStringByImageView(bitmap);
+                imageBase64 = ImageUtils.GetStringByImageView(bitmap);
                 Glide.with(this).load(save)
                         .bitmapTransform(new CropCircleTransformation(CreatGroupChatActivity.this))
                         .crossFade(1000).into(creatIvHead);
@@ -524,7 +498,7 @@ public class CreatGroupChatActivity extends BaseActivity {
 //            mTvChange.setText("");
 //            changeinfoIvHead.setImageBitmap(bitmap);
             c.close();
-            imageBase64=ImageUtils.GetStringByImageView(bitmap);
+            imageBase64 = ImageUtils.GetStringByImageView(bitmap);
             Glide.with(this).load(save)
                     .bitmapTransform(new CropCircleTransformation(CreatGroupChatActivity.this))
                     .crossFade(1000).into(creatIvHead);
@@ -533,12 +507,14 @@ public class CreatGroupChatActivity extends BaseActivity {
 //            sendWeb(SplitWeb.upHeadImg(ImageUtils.GetStringByImageView(bitmap)));
         }
     }
+
     String mTmpPath;
+
     /**
      * 7.0 拍照权限
      * 我是直接提取成一个方法了
      */
-    public void getPicturesFile(){
+    public void getPicturesFile() {
         mPhotoFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/chat_image/" + System.currentTimeMillis() + ".jpg");
         try {
             mPhotoFile.getParentFile().mkdirs();
@@ -554,7 +530,7 @@ public class CreatGroupChatActivity extends BaseActivity {
             //Android 7.0权限申请
             ContentValues contentValues = new ContentValues(1);
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(CreatGroupChatActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_RESULT);
+                ActivityCompat.requestPermissions(CreatGroupChatActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_RESULT);
             }
             contentValues.put(MediaStore.Images.Media.DATA, mTmpPath);
             Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);

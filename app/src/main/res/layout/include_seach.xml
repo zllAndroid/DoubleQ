@@ -26,8 +26,8 @@
 
             <ImageView
                 android:id="@+id/seach_iv_find"
-                android:layout_width="@dimen/dp20"
-                android:layout_height="@dimen/dp20"
+                android:layout_width="@dimen/dp15"
+                android:layout_height="@dimen/dp15"
                 android:layout_gravity="center_vertical"
                 app:srcCompat="@drawable/add_friend_find"
                 />

@@ -2,6 +2,7 @@ package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -10,6 +11,7 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.CusExitDialog;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.CountAndSafeActivity;
@@ -92,6 +94,7 @@ public class MineSetActivity extends BaseActivity {
         String asString2 = mCache.getAsString(AppAllKey.TOKEN_KEY);
     }
 
+
     @OnClick({R.id.set_lin_pingbi,R.id.set_lin_share, R.id.set_lin_count, R.id.set_lin_yinsi, R.id.set_lin_message, R.id.set_lin_clear_cache, R.id.set_lin_versition, R.id.set_lin_about_me, R.id.set_btn_esc})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -156,35 +159,36 @@ public class MineSetActivity extends BaseActivity {
 //                退出账号    回到登录界面
             case R.id.set_btn_esc:
                 if (NoDoubleClickUtils.isDoubleClick()) {
-//                    DialogUtils.showDialog("确定退出本应用?", new DialogUtils.OnClickSureListener() {
+//                    DialogExitUtils.setOnClickSureListener(new CusExitDialog.ClickSure(){
 //                        @Override
-//                        public void onClickSure() {
-////                          realmHelper.deleteAll();
-//                            SplitWeb.USER_ID="";
-//                            AppManager.getAppManager().finishAllActivity();
-//                            Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
-//                            startActivity(intent_recharge);
-//                            overridePendingTransition(0,0);
-//                            ACache.get(MineSetActivity.this).clear();
-//                            SPUtils.clear(MineSetActivity.this);
-////                            if (AppStartActivity.serviceConnection!=null)
-////                            unbindService(AppStartActivity.serviceConnection);
-//
+//                        public void clickSure(String checkedId) {
+//                            if (checkedId != null)
+//                                checkId = checkedId;
 //                        }
 //                    });
                     DialogExitUtils.showDialog("仅退出帐号", "退出并删除帐号信息", new DialogExitUtils.OnClickSureListener() {
                         @Override
-                        public void onClickSure() {
+                        public void onClickSure(String checkingId) {
+                            switch (checkingId){
+                                case "1":
+                                    ToastUtil.show("1");
+//                                    SplitWeb.USER_ID="";
+//                                    AppManager.getAppManager().finishAllActivity();
+//                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
+//                                    startActivity(intent_recharge);
+//                                    overridePendingTransition(0,0);
+//                                    ACache.get(MineSetActivity.this).clear();
+//                                    SPUtils.clear(MineSetActivity.this);
+                                    break;
+                                case "2":
+                                    ToastUtil.show("2");
+                                    break;
+                            }
 
-                            SplitWeb.USER_ID="";
-                            AppManager.getAppManager().finishAllActivity();
-                            Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
-                            startActivity(intent_recharge);
-                            overridePendingTransition(0,0);
-                            ACache.get(MineSetActivity.this).clear();
-                            SPUtils.clear(MineSetActivity.this);
                         }
                     });
+
+
                 }
                 break;
         }

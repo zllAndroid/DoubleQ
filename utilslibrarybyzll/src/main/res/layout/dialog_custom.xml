@@ -23,7 +23,7 @@
             android:layout_height="80dp"
             android:gravity="center"
             android:text="message"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="92dp"
             android:textColor="#666"
             android:textSize="16sp" />
 
@@ -33,19 +33,20 @@
             <!--android:background="#e8e8e8" />-->
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="50dp"
+            android:gravity="center"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_dialog_positive"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/bac_dialog_btn"
                 android:text="todo"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:textColor="@color/white"
@@ -59,13 +60,12 @@
 
             <Button
                 android:id="@+id/btn_dialog_negative"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
                 android:background="@drawable/bac_dialog_btn"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="30dp"
                 android:layout_marginBottom="5dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
                 android:text="cancel"
                 android:textColor="@color/white"

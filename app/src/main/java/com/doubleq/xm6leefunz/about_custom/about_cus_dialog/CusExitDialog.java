@@ -2,7 +2,9 @@ package com.doubleq.xm6leefunz.about_custom.about_cus_dialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
@@ -11,6 +13,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.doubleq.xm6leefunz.R;
+
+import io.realm.Case;
+
 public class CusExitDialog extends Dialog {
     private Button mPositiveBtn;
     private Button mNegativeBtn;
@@ -19,6 +24,8 @@ public class CusExitDialog extends Dialog {
     private RadioGroup radioGroup;
 
     private String message;
+
+
     private String message_second;
     private String positiveButtonText;
     private String negativeButtonText;
@@ -35,6 +42,7 @@ public class CusExitDialog extends Dialog {
     }
 
 
+    public static  String type ="1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +59,26 @@ public class CusExitDialog extends Dialog {
             radioButtonFirst.setText(message);
             radioButtonSecond.setText(message_second);
         }
+        radioButtonFirst.setChecked(true);
+        radioButtonSecond.setChecked(false);
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+                switch (checkedId){
+                   case R.id.radioBtn_one:
+                       type ="1";
+//                       onClickDialogSure.clickSure("1");
+                       Log.e("clickSure","++++++++++++++++++++++++checkedId"+111);
+                       break;
+                   case R.id.radioBtn_two:
+                       type ="2";
+//                       onClickDialogSure.clickSure("2");
+                       Log.e("clickSure","++++++++++++++++++++++++checkedId"+222);
+                       break;
+               }
+
+            }
+        });
 
 
         if (positiveButtonText != null){
@@ -81,18 +109,18 @@ public class CusExitDialog extends Dialog {
             mNegativeBtn.setVisibility(View.GONE);
         }
 
-        radioButtonFirst.setChecked(true);
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
-                if (checkedId == R.id.radioBtn_one) {
-                    radioButtonFirst.setChecked(true);
-                }
-                else if(checkedId == R.id.radioBtn_two){
-                    radioButtonSecond.setChecked(true);
-                }
-            }
-        });
+
+//        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(RadioGroup radioGroup, int checkedId) {
+//                if (checkedId == R.id.radioBtn_one) {
+//                    radioButtonFirst.setChecked(true);
+//                }
+//                else if(checkedId == R.id.radioBtn_two){
+//                    radioButtonSecond.setChecked(true);
+//                }
+//            }
+//        });
 
     }
 

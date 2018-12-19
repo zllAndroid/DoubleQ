@@ -2,8 +2,10 @@ package com.doubleq.xm6leefunz.about_custom.about_cus_dialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.util.Log;
 
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 
 /**
@@ -11,12 +13,17 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
  */
 
 public class DialogExitUtils {
+    private static String checkId;
+
     public interface OnClickSureListener {
-        void onClickSure();
+        void onClickSure(String checkedId);
     }
+
     public interface OnClickCancleListener {
         void onClickCancle();
     }
+
+
     static CusExitDialog CUS_EXIT_DIALOG =null;
     static  CusExitDialog.Builder  BUILDER=null;
 
@@ -35,76 +42,56 @@ public class DialogExitUtils {
         }
     }
 
-public static void isShow(){
-    try {
-        if (BUILDER != null)
-        {
-            BUILDER=null;
+    public static void isShow(){
+        try {
+            if (BUILDER != null)
+            {
+                BUILDER=null;
+            }
+            if (CUS_EXIT_DIALOG!=null) {
+                CUS_EXIT_DIALOG.cancel();
+                CUS_EXIT_DIALOG = null;
+                dialogs.dismiss();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (CUS_EXIT_DIALOG!=null) {
-            CUS_EXIT_DIALOG.cancel();
-            CUS_EXIT_DIALOG = null;
-            dialogs.dismiss();
-        }
-    } catch (Exception e) {
-        e.printStackTrace();
     }
-}
     public static void showDialog(String text,String text_second,OnClickSureListener onClickSureListener){
         haveShow();
         show(text,text_second,onClickSureListener);
     }
-   static DialogInterface dialogs =null;
-//    protected static void show(@NonNull final String text, final  OnClickSureListener listener,boolean isHaveTwo) {
-//
-//        if (BUILDER == null)
-//            BUILDER = new CusExitDialog.Builder(mContext());
-//
-//            BUILDER.setMessage(text);
-//            BUILDER.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialogs=dialog;
-//                    listener.onClickSure();
-//                    dialog.dismiss();
-//                }
-//            });
-//            if (isHaveTwo) {
-//                BUILDER.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        dialogInterface.dismiss();
-//                    }
-//                });
-//            }else
-//            {
-//                BUILDER.setPositiveButton(null,null);
-//            }
-//        custom();
-//    }
-
-    protected static void show(final String text, final String text_second, final  OnClickSureListener onClickSureListener) {
-
+    static DialogInterface dialogs =null;
+    protected static void show(final String text, final String text_second,final  OnClickSureListener onClickSureListener) {
+        CusExitDialog.type ="1";
         if (BUILDER == null)
             BUILDER = new CusExitDialog.Builder(mContext());
 
-            BUILDER.setMessage(text,text_second);
-            BUILDER.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-//                    onClickCancleListener.onClickCancle();
-                    dialogInterface.dismiss();
-                }
-            });
-            BUILDER.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    onClickSureListener.onClickSure();
-                    dialogs=dialog;
-                    dialog.dismiss();
-
-                }
-            });
+        BUILDER.setMessage(text,text_second);
+        BUILDER.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        BUILDER.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int var2) {
+                onClickSureListener.onClickSure(CusExitDialog.type);
+                dialogs = dialog;
+                dialog.dismiss();
+            }
+        });
+//            BUILDER.setPositiveButton("确定", new CusExitDialog.ClickSure() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which,String type) {
+////                    mClickSure.clickSure(checkId);
+//                    onClickSureListener.onClickSure(checkId);
+//                    dialogs = dialog;
+//                    dialog.dismiss();
+//
+//                }
+//            });
 
         custom();
     }
@@ -119,210 +106,6 @@ public static void isShow(){
         }
     }
 
-//    protected static void show(@NonNull final String text,final String text_second) {
-//
-//        if (BUILDER == null)
-//            BUILDER = new CusExitDialog.Builder(mContext());
-//            BUILDER.setMessage(text,text_second);
-//            BUILDER.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-////                    listener.onClickSure();
-//                    dialog.dismiss();
-//                    dialogs=dialog;
-//                }
-//            });
-//            BUILDER.setPositiveButton(null,null);
-//
-//        custom();
-//    }
-
-//    protected static void show(@NonNull final String text,String clickText) {
-//
-//        if (BUILDER == null)
-//            BUILDER = new CusExitDialog.Builder(mContext());
-//            BUILDER.setMessage(text);
-//            BUILDER.setNegativeButton(clickText, new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-////                    listener.onClickSure();
-//                    dialog.dismiss();
-//                    dialogs=dialog;
-//                }
-//            });
-//            BUILDER.setPositiveButton(null,null);
-//
-//        custom();
-//    }
-
-//    public static void getDialog(Context mc,String message,final  OnClickSureListener listener) {
-////        CustomDialog mDialog;
-////        CustomDialog.Builder  mBuilder;
-//        if (mBuilder==null)
-//        mBuilder = new CustomDialog.Builder(mc);
-//
-//        mBuilder.setMessage(message);
-//        mBuilder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                listener.onClickSure();
-//                dialog.dismiss();
-//            }
-//        });
-//        mBuilder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                dialogInterface.dismiss();
-//            }
-//        });
-//        if (mDialog==null)
-//            mDialog = mBuilder.create();
-//        if (!mDialog.isShowing()) {
-//            mDialog.setCancelable(false);
-//            mDialog.show();
-//        }
-////        mDialog = mBuilder.create();
-////        mDialog.setCancelable(false);
-////        mDialog.show();
-//    }
-//    public static void getDialogOne(Context mc,String message,final  OnClickSureListener listener) {
-////        CustomDialog mDialog;
-////        CustomDialog.Builder  mBuilder;
-//        if (mBuilder==null)
-//        mBuilder = new CustomDialog.Builder(mc);
-//        mBuilder.setMessage(message);
-//        mBuilder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                listener.onClickSure();
-//                dialog.dismiss();
-//            }
-//        });
-//        if (mDialog==null)
-//            mDialog = mBuilder.create();
-//        if (!mDialog.isShowing()) {
-//            mDialog.setCancelable(false);
-//            mDialog.show();
-//        }
-////        mDialog = mBuilder.create();
-////        mDialog.setCancelable(false);
-////        mDialog.show();
-//    }
-//    public static void getDialog(Context mc,String message,final  OnClickSureListener listener,final OnClickCancleListener onClickCancleListener) {
-////        CustomDialog mDialog;
-////        CustomDialog.Builder  mBuilder;
-//        if (mBuilder==null)
-//        mBuilder = new CustomDialog.Builder(mc);
-//        mBuilder.setMessage(message);
-//        mBuilder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                listener.onClickSure();
-//                dialog.dismiss();
-//            }
-//        });
-//        mBuilder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialogInterface, int i) {
-//                onClickCancleListener.onClickCancle();
-//                dialogInterface.dismiss();
-//            }
-//        });
-//        if (mDialog==null)
-//            mDialog = mBuilder.create();
-//        if (!mDialog.isShowing()) {
-//            mDialog.setCancelable(false);
-//            mDialog.show();
-//        }
-////        mDialog = mBuilder.create();
-////        mDialog.setCancelable(false);
-////        mDialog.show();
-//    }
-//    public static  DialogInterface dialogs =null;
-//    public static CustomDialog mDialog = null;
-//    public static void getDialogOneClick(Context mc,String message,final  OnClickSureListener listeners) {
-//        if (mDialog!=null&&mDialog.isShowing()&&dialogs!=null)
-//        {
-//            dialogs.dismiss();
-//        }
-////        CustomDialog.Builder  mBuilder;
-//        if (mBuilder==null)
-//        mBuilder = new CustomDialog.Builder(mc);
-//        mBuilder.setMessage(message);
-//        mBuilder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialogs=dialog;
-//                listeners.onClickSure();
-//                dialog.dismiss();
-//            }
-//        });
-//        if (mDialog==null)
-//            mDialog = mBuilder.create();
-//        if (!mDialog.isShowing()) {
-//            mDialog.setCancelable(false);
-//            mDialog.show();
-//        }
-////        if (mDialog==null) {
-////            mDialog = mBuilder.create();
-////            mDialog.setCancelable(false);
-////            mDialog.show();
-////        }else {
-////            try {
-////                mDialog.show();
-////            } catch (Exception e) {
-////                e.printStackTrace();
-////            }
-////        }
-//    }
-//    public static void getDialog( Context mc,String message,final boolean Isfinish) {
-////        CustomDialog mDialog;
-//        if (mBuilder==null)
-//        mBuilder = new CustomDialog.Builder(mc);
-//        mBuilder.setMessage(message);
-//        mBuilder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                if (Isfinish)
-//                {
-//                    AppManager.getAppManager().finishActivity();
-//                }
-//                dialog.dismiss();
-//
-//            }
-//        });
-//        if (mDialog==null)
-//            mDialog = mBuilder.create();
-//        if (!mDialog.isShowing()) {
-//            mDialog.setCancelable(false);
-//            mDialog.show();
-//        }
-////        mDialog = mBuilder.create();
-////        mDialog.setCancelable(false);
-////        mDialog.show();
-//    }
-//
-//    public static void getDialog(Context mc, String message) {
-////        CustomDialog mDialog;
-////        CustomDialog.Builder  mBuilder;
-//        if (mBuilder==null) {
-//            mBuilder = new CustomDialog.Builder(mc);
-//        }
-//            mBuilder.setMessage(message);
-//            mBuilder.setNegativeButton("确定", new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    dialog.dismiss();
-//                }
-//            });
-//            if (mDialog==null)
-//                mDialog = mBuilder.create();
-//            if (!mDialog.isShowing()) {
-//                mDialog.setCancelable(false);
-//                mDialog.show();
-//            }
-//
-//    }
     /**
      * 网络连接错误
      */
