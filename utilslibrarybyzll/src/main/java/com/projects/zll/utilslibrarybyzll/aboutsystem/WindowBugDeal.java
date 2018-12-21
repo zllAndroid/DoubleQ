@@ -3,8 +3,11 @@ package com.projects.zll.utilslibrarybyzll.aboutsystem;
 import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.os.Build;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.projects.zll.utilslibrarybyzll.R;
 
 /**
  * Created by Administrator on 2017/9/25 0025.
@@ -38,9 +41,14 @@ public class WindowBugDeal {
     public static void SetTop(Activity context){
         Resources rs = context.getResources();
         int id = rs.getIdentifier("config_showNavigationBar","bool","android");
-        if (id > 0)
-        {
+        if (id > 0) {
             context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//A
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                //添加变色标志
+                context.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+//导航栏颜色
+                context.getWindow().setNavigationBarColor(context.getResources().getColor(R.color.white));
+            }
         }
     }
 
@@ -67,6 +75,13 @@ public class WindowBugDeal {
         {
 			context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//A
             context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//B//
+//            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+//            {
+//                //添加变色标志
+//                context.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+////导航栏颜色
+//                context.getWindow().setNavigationBarColor(context.getResources().getColor(R.color.app_theme));
+//            }
         }
     }
 //    public static void SetTop(Activity context){

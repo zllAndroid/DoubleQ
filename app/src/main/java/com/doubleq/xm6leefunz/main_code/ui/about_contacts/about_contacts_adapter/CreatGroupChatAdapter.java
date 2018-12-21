@@ -138,9 +138,7 @@ public class CreatGroupChatAdapter extends BaseExpandableListAdapter {
             @Override
             public void onClick(View view) {
 //                checkMap.put(groupListBean,holder.mCheck.isChecked());
-//                if (mCheckedChangeListener != null){
-//                    mCheckedChangeListener.onCheckedChanged(childPosition,holder.mCheck,holder.mCheck.isChecked());
-//                }
+
                 if (holder.mCheck.isChecked())
                 {
                     holder.mCheck.setChecked(false);
@@ -151,6 +149,9 @@ public class CreatGroupChatAdapter extends BaseExpandableListAdapter {
                     if (!files.contains(groupListBean.getUserId()))
                         files.add(groupListBean.getUserId());
                     holder.mCheck.setChecked(true);
+                }
+                if (mCheckedChangeListener != null){
+                    mCheckedChangeListener.onCheckedChanged(groupListBean.getUserId(),holder.mCheck.isChecked());
                 }
             }
         });
@@ -175,12 +176,12 @@ public class CreatGroupChatAdapter extends BaseExpandableListAdapter {
     }
 
     private HashMap<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean,Boolean> checkMap = new HashMap<>();
-    private CheckedChangeListener mCheckedChangeListener;
-    public void setCheckedChangeListener(CheckedChangeListener checkedChangeListener){
+    private OnMyLinChangeListener mCheckedChangeListener;
+    public void setOnMyLinChangeListener(OnMyLinChangeListener checkedChangeListener){
         mCheckedChangeListener = checkedChangeListener;
     }
 
-    public interface CheckedChangeListener{
-        void onCheckedChanged(int position, CompoundButton buttonView, boolean isChecked);
+    public interface OnMyLinChangeListener{
+        void onCheckedChanged(String friendId, boolean isChecked);
     }
 }

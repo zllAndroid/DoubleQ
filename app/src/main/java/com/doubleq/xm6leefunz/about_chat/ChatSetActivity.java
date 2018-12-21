@@ -2,7 +2,6 @@ package com.doubleq.xm6leefunz.about_chat;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.doubleq.model.DataChatFriendInfo;
 import com.doubleq.model.DataMyFriend;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
@@ -24,6 +24,7 @@ import com.example.zhouwei.library.CustomPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.suke.widget.SwitchButton;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -48,6 +49,10 @@ public class ChatSetActivity extends BaseActivity {
     TextView fdTvGesign;
     @BindView(R.id.fd_iv_head)
     ImageView mIvHead;
+//    @BindView(R.id.chatset_zhiding_chat)
+//    SwitchButton chatsetZhidingChat;
+    @BindView(R.id.chatset_msg_miandarao)
+    SwitchButton chatsetMsgMiandarao;
 
 
     @Override
@@ -82,7 +87,6 @@ public class ChatSetActivity extends BaseActivity {
         Intent intent = getIntent();
         FriendId = intent.getStringExtra("FriendId");
         sendWeb(SplitWeb.getFriendInfo(FriendId));
-        Log.e("FriendId","---------------FriendId_chatSet--------------"+FriendId);
 
         realmHomeHelper = new RealmHomeHelper(this);
         mView = LayoutInflater.from(this).inflate(R.layout.pop_good_friend, null);
@@ -114,14 +118,13 @@ public class ChatSetActivity extends BaseActivity {
                     popWindow.dissmiss();
             }
         });
-
     }
 
     @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.include_top_iv_more:
-                if (popWindow == null)
+                if (popWindow == null) {
                     popWindow = new CustomPopWindow.PopupWindowBuilder(ChatSetActivity.this)
                             .setView(mView)
                             .setFocusable(true)
@@ -130,7 +133,7 @@ public class ChatSetActivity extends BaseActivity {
                             .setAnimationStyle(R.style.AnimDown) // 添加自定义显示和消失动画
                             .create()
                             .showAsDropDown(includeTopIvMore, 0, 0);
-                else
+                } else
                     popWindow.showAsDropDown(includeTopIvMore, 0, 0);
                 break;
             case R.id.fd_iv_qrcode:
@@ -176,13 +179,11 @@ public class ChatSetActivity extends BaseActivity {
         }
     }
 
-    DataMyFriend.RecordBean dataRecord;
+    DataChatFriendInfo.RecordBean dataRecord;
 
     private void initDataFriend(String responseText) {
-
-        DataMyFriend dataMyFriend = JSON.parseObject(responseText, DataMyFriend.class);
-
-        DataMyFriend.RecordBean record = dataMyFriend.getRecord();
+        DataChatFriendInfo dataChatFriendInfo = JSON.parseObject(responseText, DataChatFriendInfo.class);
+        DataChatFriendInfo.RecordBean record = dataChatFriendInfo.getRecord();
         if (record != null) {
             dataRecord = record;
             Glide.with(this).load(record.getHeadImg())
@@ -190,12 +191,12 @@ public class ChatSetActivity extends BaseActivity {
                     .crossFade(1000).into(mIvHead);
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdTvGesign.setText(signText);
-            fdTvContant.setText("("+record.getWxSno()+")");
+            fdTvContant.setText("(" + record.getWxSno() + ")");
 //            若有设置备注，仅显示备注；若无备注则显示昵称
-            String nameText = StrUtils.isEmpty(record.getRemarkName())?record.getNickName() : record.getRemarkName();
+            String nameText = StrUtils.isEmpty(record.getRemarkName()) ? record.getNickName() : record.getRemarkName();
             mTvName.setText(nameText);
 //            mTvName.setText(record.getNickName() + "(" + record.getRemarkName() + ")");
-
+            chatsetMsgMiandarao.setChecked(record.getShieldType().equals("2"));
         }
 
 

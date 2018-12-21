@@ -20,10 +20,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -40,7 +42,9 @@ import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.ChatNewsWindow;
+import com.doubleq.xm6leefunz.about_chat.ChatSetActivity;
 import com.doubleq.xm6leefunz.about_chat.EmotionInputDetector;
 import com.doubleq.xm6leefunz.about_chat.FullImageActivity;
 import com.doubleq.xm6leefunz.about_chat.GlobalOnItemClickManagerUtils;
@@ -81,6 +85,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.OnClick;
+
+import static com.doubleq.xm6leefunz.about_utils.IntentUtils.JumpToHaveOne;
 
 public class ChatGroupActivity extends BaseActivity {
 
@@ -116,6 +123,11 @@ public class ChatGroupActivity extends BaseActivity {
     LinearLayout mInputLin;
     @BindView(R.id.chat_lin_main)
     LinearLayout mLinChatMain;
+
+    @BindView(R.id.include_top_iv_more)
+    ImageView includeTopIvMore;
+    @BindView(R.id.inclu_tv_right)
+    TextView incluTvRight;
 
     private EmotionInputDetector mDetector;
     private ArrayList<Fragment> fragments;
@@ -174,7 +186,14 @@ public class ChatGroupActivity extends BaseActivity {
         intent2.putExtra("id",groupId);
         intent2.setAction("zll.refreshMsgFragment");
         sendBroadcast(intent2);
+        listenEnter();
+
+        incluTvRight.setVisibility(View.GONE);
+        includeTopIvMore.setVisibility(View.VISIBLE);
+        includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
     }
+
+
     //设置状态栏的高度为负状态栏高度，因为xml 设置了 android:fitsSystemWindows="true",会占用一个状态栏的高度；
     private void setAboutBar() {
 //        获取状态栏的高度
@@ -186,7 +205,30 @@ public class ChatGroupActivity extends BaseActivity {
 //设置button的新位置属性,left，top，right，bottom
         mLinChatMain.setLayoutParams(layout);
     }
-
+    private void listenEnter() {
+        editText.setSingleLine();
+        editText.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    //处理事件
+                    String ed = editText.getText().toString().trim();
+                    if (!StrUtils.isEmpty(ed)) {
+                        send(SplitWeb.groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+//                        send(SplitWeb.privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+                    }
+                }
+                return true;
+            }
+        });
+//        editText.setFocusable(true);
+//        editText.setFocusableInTouchMode(true);
+//        editText.requestFocus();
+//        InputMethodManager inputManager =
+//                (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        inputManager.showSoftInput(editText, 0);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -198,15 +240,6 @@ public class ChatGroupActivity extends BaseActivity {
     private void initRealm() {
         List<CusGroupChatData> cusRealmChatMsgs = realmGroupChatHelper.queryAllGroupChat(groupId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
-//            mList.clear();
-//            for (int i = 0; i < cusRealmChatMsgs.size(); i++) {
-//                DataGroupChatResult.RecordBean recordBean = new DataGroupChatResult.RecordBean();
-//                recordBean.setMessageType(cusRealmChatMsgs.get(i).getUserMessageType());
-//                recordBean.setMessage(cusRealmChatMsgs.get(i).getMessage());
-//                recordBean.setRequestTime(cusRealmChatMsgs.get(i).getCreated());
-//                recordBean.setGroupId(cusRealmChatMsgs.get(i).getFriendId());
-//                mList.add(recordBean);
-//            }
             chatAdapter.addAll(cusRealmChatMsgs);
             chatAdapter.notifyDataSetChanged();
             //    滑动到底部
@@ -214,7 +247,10 @@ public class ChatGroupActivity extends BaseActivity {
         } else {
         }
     }
-
+    @OnClick(R.id.include_top_iv_more)
+    public void onViewClicked() {
+        JumpToHaveOne(GroupChatDetailsActivity.class,AppConfig.GROUP_ID,groupId);
+    }
 
     @Override
     protected int getLayoutView() {
@@ -386,6 +422,11 @@ public class ChatGroupActivity extends BaseActivity {
         switch (method) {
 //            发送消息返回
             case "groupSend":
+                String ed = editText.getText().toString().trim();
+                if (!StrUtils.isEmpty(ed))
+                {
+                    editText.setText("");
+                }
                 dealSendResult(responseText);
                 break;
 //                接收消息返回

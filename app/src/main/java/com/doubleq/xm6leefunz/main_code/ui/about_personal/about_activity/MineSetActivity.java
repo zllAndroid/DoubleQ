@@ -13,6 +13,8 @@ import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.CusExitDialog;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.about_realm.RealmGroupHelper;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.CountAndSafeActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.LaBlackActivity;
@@ -55,11 +57,15 @@ public class MineSetActivity extends BaseActivity {
         return R.layout.activity_mine_set;
     }
     RealmHomeHelper realmHelper;
+    RealmChatHelper realmChatHelper;
+    RealmGroupHelper realmGroupHelper;
     @Override
     protected void initBaseView() {
         super.initBaseView();
 
         realmHelper = new RealmHomeHelper(this);
+        realmChatHelper = new RealmChatHelper(this);
+        realmGroupHelper = new RealmGroupHelper(this);
         includeTopTvTital.setText("设置");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         try {
@@ -171,17 +177,27 @@ public class MineSetActivity extends BaseActivity {
                         public void onClickSure(String checkingId) {
                             switch (checkingId){
                                 case "1":
-                                    ToastUtil.show("1");
-//                                    SplitWeb.USER_ID="";
-//                                    AppManager.getAppManager().finishAllActivity();
-//                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
-//                                    startActivity(intent_recharge);
-//                                    overridePendingTransition(0,0);
-//                                    ACache.get(MineSetActivity.this).clear();
-//                                    SPUtils.clear(MineSetActivity.this);
+//                                    ToastUtil.show("1");
+                                    SplitWeb.USER_ID="";
+                                    AppManager.getAppManager().finishAllActivity();
+                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
+                                    startActivity(intent_recharge);
+                                    overridePendingTransition(0,0);
+                                    ACache.get(MineSetActivity.this).clear();
+                                    SPUtils.clear(MineSetActivity.this);
                                     break;
                                 case "2":
-                                    ToastUtil.show("2");
+//                                    ToastUtil.show("2");
+                                    SplitWeb.USER_ID="";
+                                    AppManager.getAppManager().finishAllActivity();
+                                    Intent intent = new Intent(MineSetActivity.this, LoginActivity.class);
+                                    startActivity(intent);
+                                    overridePendingTransition(0,0);
+                                    ACache.get(MineSetActivity.this).clear();
+                                    SPUtils.clear(MineSetActivity.this);
+                                    realmHelper.deleteAll();
+                                    realmChatHelper.deleteAll();
+                                    realmGroupHelper.deleteAll();
                                     break;
                             }
 

@@ -2,6 +2,7 @@ package com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapte
 
 import android.content.Context;
 import android.util.Log;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
@@ -39,26 +40,55 @@ public class CreatGroupSeachAdapter extends BaseQuickAdapter<DataCreatGroupChat.
                 .crossFade(1000)
                 .into((ImageView) helper.getView(R.id.item_creat_iv_head));
         helper.setText(R.id.item_creat_tv_name,item.getNickName());
+
+
+    }
+    List<String> files = new ArrayList<>();
+    List<String> mList = new ArrayList<>();
+    public List<String> getCheckString(){
+        return files;
+    }
+    public void setChoose(List<String> mList){
+        this.mList.clear();
+        this.mList=mList;
+        notifyDataSetChanged();
     }
     private HashMap<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean,Boolean> checkMap = new HashMap<>();
     @Override
     public void onBindViewHolder(BaseViewHolder holder,final int positions) {
         super.onBindViewHolder(holder, positions);
-
-        CheckBox mCheck = holder.getView(R.id.item_creat_check);
         final   DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean groupListBean = searchCityList.get(positions);
-
-        mCheck.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                checkMap.put(groupListBean,isChecked);
-                if (mCheckedChangeListener != null){
-                    mCheckedChangeListener.onCheckedChanged(positions,buttonView,isChecked);
-                }
+        final  CheckBox mCheck = holder.getView(R.id.item_creat_check);
+//        如果列表已经选中，在搜索结果中包含这个结果，则显示选中，并加入
+        if ( mList.contains(groupListBean.getUserId())) {
+            mCheck.setChecked(true);
+            if (!files.contains(groupListBean.getUserId())) {
+                files.add(groupListBean.getUserId());
+//                mCheckedChangeListener.onCheckedChanged(groupListBean.getUserId(),mCheck.isChecked());
+            }else
+            {
+                mCheck.setChecked(false);
+                if (files.contains(groupListBean.getUserId()))
+                    files.remove(groupListBean.getUserId());
             }
-        });
-        if (checkMap.get(searchCityList)!=null)
-           mCheck.setChecked(checkMap.get(groupListBean));
+        }
+        holder.getView(R.id.lin_check_choose).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (mCheck.isChecked())
+                        {
+                            mCheck.setChecked(false);
+                            if (files.contains(groupListBean.getUserId()))
+                                files.remove(groupListBean.getUserId());
+                        }else
+                        {
+                            if (!files.contains(groupListBean.getUserId()))
+                                files.add(groupListBean.getUserId());
+                            mCheck.setChecked(true);
+                        }
+//                        mCheckedChangeListener.onCheckedChanged(groupListBean.getUserId(),mCheck.isChecked());
+                    }
+                });
     }
 
     public List<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean> getCheckData(){
@@ -72,12 +102,12 @@ public class CreatGroupSeachAdapter extends BaseQuickAdapter<DataCreatGroupChat.
         }
         return files;
     }
-    private CreatGroupSeachAdapter.CheckedChangeListener mCheckedChangeListener;
-    public void setCheckedChangeListener(CreatGroupSeachAdapter.CheckedChangeListener checkedChangeListener){
+    private CreatGroupSeachAdapter.OnMyCheckedChangeListener mCheckedChangeListener;
+    public void setCheckedChangeListener(CreatGroupSeachAdapter.OnMyCheckedChangeListener checkedChangeListener){
         mCheckedChangeListener = checkedChangeListener;
     }
 
-    public interface CheckedChangeListener{
-        void onCheckedChanged(int position, CompoundButton buttonView, boolean isChecked);
+    public interface OnMyCheckedChangeListener{
+        void onCheckedChanged(String friendId, boolean isChecked);
     }
 }

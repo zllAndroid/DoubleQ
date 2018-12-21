@@ -168,6 +168,10 @@
         <!-- 联系人 -->
         <!-- 创建群聊 -->
         <activity
+            android:name=".about_chat.chat_group.GroupChatDetailsActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity
             android:name=".main_code.ui.about_contacts.CreatGroupChatActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />

@@ -351,9 +351,10 @@ public class SplitWeb {
         return  request;
     }
     //    搜索好友接口
-    public  static  String searchInfo(String  wx_sno){
+    public  static  String searchInfo(String  wx_sno,String type){
         dealMap();
         map.put("wxSno",wx_sno);
+        map.put("type",type);
         String request = WebUrl.request("Contact", "searchInfo", map);
         return  request;
     }
@@ -491,6 +492,15 @@ public class SplitWeb {
         if (!StrUtils.isEmpty(remark_name))
             map.put("remarkName",remark_name);
         String request = WebUrl.request("Contact", "addFriend", map);
+        return  request;
+    }
+    public  static  String addGroupOf(String groupCode,String remark){
+        dealMap();
+        map.put("groupCode",groupCode);
+//        选择要放置的分组id
+        if (!StrUtils.isEmpty(remark))
+            map.put("remark",remark);
+        String request = WebUrl.request("Contact", "addGroupOf", map);
         return  request;
     }
     /**

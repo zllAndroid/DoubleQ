@@ -1,12 +1,16 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -65,6 +69,9 @@ public class SearchActivity extends BaseActivity {
     RecyclerView mRecyclerView;
     //    @BindView(R.id.search_tv_empty)
 //    TextView searchTvEmpty;
+    public  static  String SeacchKey="search_type";
+    public  static  String SeacchFriend="1";
+    public  static  String SeacchGroup="2";
     /**
      * 搜索关键字全部匹配的适配器
      */
@@ -73,10 +80,14 @@ public class SearchActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    String type;
     @Override
     protected void initBaseView() {
         super.initBaseView();
+        Intent intent = getIntent();
+        if (intent!=null)
+            type = intent.getStringExtra(SeacchKey);
+
         includeTopTvTital.setText("搜索");
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setNestedScrollingEnabled(false);
@@ -84,10 +95,14 @@ public class SearchActivity extends BaseActivity {
         LinearLayout footer=  (LinearLayout)LayoutInflater.from(this).inflate(R.layout.item_search_bot, null);
 //        监听软键盘的回车键
         listenEnter();
-
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        seachEdInput.setFocusable(true);
+        seachEdInput.setFocusableInTouchMode(true);
+        seachEdInput.requestFocus();
+        seachEdInput.findFocus();
 //        mRecyclerView.addHeaderView(footer);
     }
-//    监听软键盘的回车键
+    //    监听软键盘的回车键
     private void listenEnter() {
         seachEdInput.setImeOptions(EditorInfo.IME_ACTION_SEND);
         seachEdInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -100,7 +115,12 @@ public class SearchActivity extends BaseActivity {
                 return false;
             }
         });
-
+        seachEdInput.setFocusable(true);
+        seachEdInput.setFocusableInTouchMode(true);
+        seachEdInput.requestFocus();
+        InputMethodManager inputManager =
+                (InputMethodManager) seachEdInput.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.showSoftInput(seachEdInput, 0);
     }
 
     @Override
@@ -124,7 +144,7 @@ public class SearchActivity extends BaseActivity {
         }
     }
     List<DataSearch> mList =new ArrayList<>();
-//    List<DataSearch> keyWordList =new ArrayList<>();
+    //    List<DataSearch> keyWordList =new ArrayList<>();
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -222,7 +242,9 @@ public class SearchActivity extends BaseActivity {
             DialogUtils.showDialog("搜索内容不能为空");
             return;
         }
-        sendWebHaveDialog(SplitWeb.searchInfo(edInput),"搜索中...","搜索成功");
+        if (type==null)
+            type=SeacchFriend;
+        sendWebHaveDialog(SplitWeb.searchInfo(edInput,type),"搜索中...","搜索成功");
 //        alterSearchAdapter.setText(edInput);
 //        doChangeColor(edInput);
     }

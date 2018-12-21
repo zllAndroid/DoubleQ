@@ -25,6 +25,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -36,6 +37,7 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.doubleq.model.DataCreatGroupChat;
 import com.doubleq.model.DataCreatGroupResult;
+import com.doubleq.model.DataLinkManList;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
@@ -106,6 +108,8 @@ public class CreatGroupChatActivity extends BaseActivity {
     ExpandableListView mExList;
     @BindView(R.id.group_chat_lin_main)
     LinearLayout mLinMain;
+    @BindView(R.id.creat_chat_lin_top)
+    LinearLayout mLinTop;
     @BindView(R.id.creat_chat_tv_yixuanze)
     TextView creatChatTvYixuanze;
 
@@ -155,6 +159,8 @@ public class CreatGroupChatActivity extends BaseActivity {
     private void initUI() {
         mSeachAdapter = new CreatGroupSeachAdapter(CreatGroupChatActivity.this, searchCityList);
         seachRecyc.setAdapter(mSeachAdapter);
+        initListenSearch();
+
         //设置EditText文本监听事件
         seachEdInput.addTextChangedListener(new TextWatcher() {
             @Override
@@ -205,28 +211,39 @@ public class CreatGroupChatActivity extends BaseActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        if (creatGroupChatAdapter!=null)
+                        {
+//                            List<String> checkString= creatGroupChatAdapter.getCheckString();
+                            if (mList!=null&&mList.size()!=0)
+                                mSeachAdapter.setChoose(mList);
+                            Log.e("checkChat","mList="+mList.toString());
+                        }
+
                         mSeachAdapter.notifyDataSetChanged();
                     }
                 });
             }
         });
-        listenEnter();
-
     }
-
-    private void listenEnter() {
-        seachEdInput.setImeOptions(EditorInfo.IME_ACTION_SEND);
-        seachEdInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+    private void initListenSearch() {
+        List<String> checkSearch = mSeachAdapter.getCheckString();
+        if (creatGroupChatAdapter!=null) {
+            List<String> checkString1 = creatGroupChatAdapter.getCheckString();
+        }
+        mSeachAdapter.setCheckedChangeListener(new CreatGroupSeachAdapter.OnMyCheckedChangeListener() {
             @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    //处理事件
-                    clickSearch();
+            public void onCheckedChanged(String friendId, boolean isChecked) {
+                if (isChecked)
+                {
+
                 }
-                return false;
+
+
+
+
+
             }
         });
-
     }
 
     List<String> ABCList = new ArrayList<>();
@@ -278,7 +295,8 @@ public class CreatGroupChatActivity extends BaseActivity {
         String upperCase = pinyin.substring(0, 1).toUpperCase();
         return upperCase;
     }
-
+//    大列表选中的数据
+    List<String> mList = new ArrayList<>();
     List<DataCreatGroupChat.RecordBean.FriendListBean> mFriendList = new ArrayList<>();
     DataCreatGroupResult.RecordBean record1;
 
@@ -334,7 +352,7 @@ public class CreatGroupChatActivity extends BaseActivity {
 
     CreatGroupChatAdapter creatGroupChatAdapter = null;
 
-    private void initAdapter(List<DataCreatGroupChat.RecordBean.FriendListBean> friend_list) {
+    private void initAdapter(final List<DataCreatGroupChat.RecordBean.FriendListBean> friend_list) {
         creatGroupChatAdapter = new CreatGroupChatAdapter(this, friend_list);
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mExList.setAdapter(creatGroupChatAdapter);
@@ -350,12 +368,40 @@ public class CreatGroupChatActivity extends BaseActivity {
         for (int i = 0; i < creatGroupChatAdapter.getGroupCount(); i++) {
             mExList.expandGroup(i);
         }
+        creatGroupChatAdapter.setOnMyLinChangeListener(new CreatGroupChatAdapter.OnMyLinChangeListener() {
+            @Override
+            public void onCheckedChanged(String friendId, boolean isChecked) {
+                if (isChecked)
+                {
+                    if (!mList.contains(friendId))
+                    mList.add(friendId);
+                }else
+                {
+                    if (mList.contains(friendId))
+                        mList.remove(friendId);
+                }
+                List<String> checkString = creatGroupChatAdapter.getCheckString();
+
+                Log.e("checkChat","friendId="+friendId+isChecked+"++++"+mList.toString()+"---"+checkString.toString());
+            }
+        });
+//        mExList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+//            @Override
+//            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
+//                DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean groupListBean = friend_list.get(groupPosition).getGroupList().get(childPosition);
+////                String userId = mFriendList.get(groupPosition).getGroupList().get(childPosition).getUserId();
+////                IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",userId);
+//                Log.e("checkChat","groupListBean="+groupListBean.getNickName());
+//
+//                return false;
+//            }
+//        });
         creatGroupChatAdapter.notifyDataSetChanged();
     }
 
     private PhotoPopWindow photoPopWindow = null;
 
-    @OnClick({R.id.seach_iv_close, R.id.seach_iv_find, R.id.inclu_tv_right, R.id.creat_chat_tv_head})
+    @OnClick({R.id.seach_iv_close,  R.id.inclu_tv_right, R.id.creat_chat_tv_head})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.seach_iv_close:
@@ -381,6 +427,7 @@ public class CreatGroupChatActivity extends BaseActivity {
                         }
 //                        check[i]=checkData.get(i).getWx_sno();
                     }
+                    Log.e("checkChat","checkChat="+checkChat);
 //                    String replace =Arrays.toString(check).replace("[", "").replace("]", "").replace(" ","");
                     String trim = mEdGroupName.getText().toString().trim();
                     sendWebHaveDialog(SplitWeb.createdUserGroup(checkChat, trim, imageBase64)
@@ -391,22 +438,8 @@ public class CreatGroupChatActivity extends BaseActivity {
                 }
 
                 break;
-            case R.id.seach_iv_find:
-                clickSearch();
-                break;
         }
     }
-
-    private void clickSearch() {
-        String edInput = seachEdInput.getText().toString().trim();
-        if (StrUtils.isEmpty(edInput)) {
-            DialogUtils.showDialog("搜索内容不能为空");
-            return;
-        }
-        sendWebHaveDialog(SplitWeb.searchInfo(edInput), "搜索中...", "搜索成功");
-    }
-
-
     //为弹出窗口实现监听类
     public View.OnClickListener MyClick = new View.OnClickListener() {
         public void onClick(View v) {

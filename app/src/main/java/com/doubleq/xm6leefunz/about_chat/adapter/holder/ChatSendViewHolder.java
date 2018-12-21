@@ -15,7 +15,9 @@ import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
+import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
@@ -24,6 +26,8 @@ import com.rance.chatui.util.Constants;
 import com.rance.chatui.util.Utils;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,9 +78,20 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
 //        chatItemDate.setText(data.getTime() != null ? data.getTime() : "");
 //        Glide.with(getContext()).load(SplitWeb.USER_HEADER).into(chatItemHeader);
 
-        Glide.with(getContext()).load(SplitWeb.USER_HEADER)
-                .bitmapTransform(new CropCircleTransformation(getContext()))
-                .crossFade(1000).into(chatItemHeader);
+        GlideCacheUtil.getInstance().clearImageAllCache(getContext());
+        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
+        if (fileName!=null&&fileName.size()>0)
+        {
+            String path=fileName.get(fileName.size()-1);
+            Glide.with(getContext()).load(path)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
+                    .thumbnail(0.1f)
+                    .into(chatItemHeader);
+        }
+
+//        Glide.with(getContext()).load(SplitWeb.USER_HEADER)
+//                .bitmapTransform(new CropCircleTransformation(getContext()))
+//                .crossFade(1000).into(chatItemHeader);
 
 
         chatItemHeader.setOnClickListener(new View.OnClickListener() {

@@ -98,6 +98,7 @@ public class MsgFragment extends BaseFragment {
         IntentFilter mFilter = new IntentFilter();
         mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         getActivity().registerReceiver(mReceiver, mFilter);
+
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(NetEvent event) {

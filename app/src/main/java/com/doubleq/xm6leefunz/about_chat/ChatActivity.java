@@ -18,12 +18,16 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -203,6 +207,24 @@ public class ChatActivity extends BaseActivity {
         Log.e("FriendId","---------------FriendId--------------"+FriendId);
         intent2.setAction("zll.refreshMsgFragment");
         sendBroadcast(intent2);
+        listenEnter();
+    }
+    private void listenEnter() {
+        editText.setSingleLine();
+        editText.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    //处理事件
+                    String ed = editText.getText().toString().trim();
+                    if (!StrUtils.isEmpty(ed)) {
+                        send(SplitWeb.privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+                    }
+                }
+                return true;
+            }
+        });
     }
 
     @OnClick(R.id.include_top_iv_more)
@@ -426,6 +448,11 @@ public class ChatActivity extends BaseActivity {
         switch (method) {
 //            发送消息返回
             case "privateSend":
+                String ed = editText.getText().toString().trim();
+                if (!StrUtils.isEmpty(ed))
+                {
+                    editText.setText("");
+                }
                 dealSendResult(responseText);
                 break;
             case "messageObtain":

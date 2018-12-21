@@ -81,6 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp10"
+        android:visibility="gone"
         android:background="@color/white"
         android:orientation="horizontal">
         <TextView
@@ -100,7 +101,7 @@
             app:sb_uncheckcircle_color="@color/swi_nor"
             app:sb_checked_color="@color/swi_select"
             android:layout_gravity="center"
-            app:sb_checked="true"/>
+            app:sb_checked="false"/>
     </LinearLayout>
     <View
         style="@style/style_wei_line"
@@ -129,7 +130,7 @@
             app:sb_uncheckcircle_color="@color/swi_nor"
             app:sb_checked_color="@color/swi_select"
             android:layout_gravity="center"
-            app:sb_checked="true"/>
+            app:sb_checked="false"/>
     </LinearLayout>
 
 

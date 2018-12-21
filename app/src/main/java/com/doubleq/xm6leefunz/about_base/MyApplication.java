@@ -184,8 +184,12 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         Log.e("WebSocketLib","---------------------------------onConnected---------------------------------------");
         reBind ="0";
 //        添加重连机制，当连接成功后，重新绑定uid
-        if (!StrUtils.isEmpty(SplitWeb.getUserId())&&isBind)
-            sendText(SplitWeb.bindUid());
+        try {
+            if (!StrUtils.isEmpty(SplitWeb.getUserId())&&isBind)
+                sendText(SplitWeb.bindUid());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         reBind ="1";
 
     }

@@ -47,7 +47,7 @@ public class AddFriendsFragment extends Fragment {
         view.findViewById(R.id.add_qun_lin_seach).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtils.JumpTo(SearchActivity.class);
+                IntentUtils.JumpToHaveOne(SearchActivity.class,SearchActivity.SeacchKey,SearchActivity.SeacchGroup);
             }
         });
 //        扫一扫
@@ -64,7 +64,7 @@ public class AddFriendsFragment extends Fragment {
         view.findViewById(R.id.add_friend_lin_seach).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                IntentUtils.JumpTo(SearchActivity.class);
+                IntentUtils.JumpToHaveOne(SearchActivity.class,SearchActivity.SeacchKey,SearchActivity.SeacchFriend);
             }
         });
 //        扫一扫

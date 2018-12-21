@@ -21,6 +21,7 @@ import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
@@ -68,9 +69,6 @@ public class LoginActivity extends BaseActivity {
         mCache = ACache.get(this);
         listenEnter();
     }
-
-
-
 
     private void initSetData(DataLogin.RecordBean dataLogin) {
         SPUtils.put(HelpUtils.activity,AppAllKey.USER_ID_KEY,dataLogin.getUserId());

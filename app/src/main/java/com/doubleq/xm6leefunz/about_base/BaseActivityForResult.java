@@ -1,10 +1,12 @@
 package com.doubleq.xm6leefunz.about_base;
 
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
@@ -68,6 +70,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     String simpleName;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,12 +81,14 @@ public class BaseActivityForResult extends AppCompatActivity  {
         simpleName = getClass().getSimpleName();
         ScreenUtils.setWindowStatusBarColor(AppManager.getAppManager().currentActivity(),R.color.app_theme);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
 //            显示 内屏返回键
-            if (!simpleName.equals("MainActivity")) {
-                WindowBugDeal.checkDeviceHasNavigationBar(AppManager.getAppManager().currentActivity());
-            } else
-                WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
+//            if (!simpleName.equals("MainActivity")&&!simpleName.equals("LoginActivity")) {
+//                WindowBugDeal.checkDeviceHasNavigationBar(AppManager.getAppManager().currentActivity());
+//            } else
+//                WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
         }
+
         initBeforeContentView();
 
 //        if (getLayoutView()!=0)
