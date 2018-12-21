@@ -38,6 +38,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeI
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MineSetActivity;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
+import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.enity.FullImageInfo;

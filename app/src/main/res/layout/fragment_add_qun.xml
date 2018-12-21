@@ -50,7 +50,7 @@
                 android:layout_weight="1"
                 android:padding="@dimen/dp10"
                 android:textColor="@color/gray666"
-                android:text="扫一扫添加好友" />
+                android:text="扫一扫添加好友/群" />
 
             <ImageView
                 android:layout_width="wrap_content"

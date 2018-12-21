@@ -21,7 +21,7 @@
         android:height="@dimen/dp25"/><!-- 宽度和高度 -->
 
     <solid
-        android:color="@color/greycd_trans"/>
+        android:color="@color/black_trans"/>
 
     <!-- 描边，边框 -->
    <!--<stroke-->

@@ -2,7 +2,6 @@ package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,8 +30,6 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.util.Constants;
-
-import java.sql.Struct;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -65,6 +62,8 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
     ImageView mIvHead;
     @BindView(R.id.gf_lin_top)
     LinearLayout mLinMain;
+    @BindView(R.id.fd_tv_beizhu)
+    TextView fdTvBeizhu;
 
 
     @Override
@@ -115,6 +114,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                     popWindow.dissmiss();
             }
         });
+
     }
 
     RealmHomeHelper realmHelper;
@@ -145,7 +145,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 });
                 break;
             case "friendRemarkName"://修改备注成功
-                mTvName.setText(contant);
+                fdTvBeizhu.setText("(" + contant + ")");
                 break;
         }
     }
@@ -166,9 +166,10 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
             fdTvGesign.setText(signText);
             fdTvFenzu.setText(record.getGroupName() + "");
             fdTvContant.setText(record.getWxSno());
-//            String nameText = StrUtils.isEmpty(record.getRemarkName()) ? record.getNickName() : record.getRemarkName();
+            mTvName.setText(record.getNickName());
+            String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : "("+ record.getRemarkName() +")";
 //            mTvName.setText(nameText);
-            mTvName.setText(record.getNickName() + "(" + record.getRemarkName() + ")");
+            fdTvBeizhu.setText(beizhuText);
 
         }
 
@@ -184,7 +185,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
 
     CustomPopWindow popWindow;
 
-    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode, R.id.fd_iv_head, R.id.fd_tv_send_msg, R.id.fd_lin_fenzu, R.id.fd_lin_name,R.id.fd_tv_send_call})
+    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode, R.id.fd_iv_head, R.id.fd_tv_send_msg, R.id.fd_lin_fenzu, R.id.fd_lin_name, R.id.fd_tv_send_call})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 //            顶部点点点按钮
@@ -255,7 +256,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
 
     private void doChangeName() {
 
-        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(FriendDataActivity.this, "修改备注", mTvName.getText().toString().trim());
+        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(FriendDataActivity.this, "修改备注", fdTvBeizhu.getText().toString().trim());
         changeInfoWindow.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindow.setOnAddpopClickListener(this);
     }

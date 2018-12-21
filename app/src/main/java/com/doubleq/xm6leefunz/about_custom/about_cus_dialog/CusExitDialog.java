@@ -2,7 +2,6 @@ package com.doubleq.xm6leefunz.about_custom.about_cus_dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,8 +13,6 @@ import android.widget.RadioGroup;
 
 import com.doubleq.xm6leefunz.R;
 
-import io.realm.Case;
-
 public class CusExitDialog extends Dialog {
     private Button mPositiveBtn;
     private Button mNegativeBtn;
@@ -24,8 +21,6 @@ public class CusExitDialog extends Dialog {
     private RadioGroup radioGroup;
 
     private String message;
-
-
     private String message_second;
     private String positiveButtonText;
     private String negativeButtonText;
@@ -108,7 +103,6 @@ public class CusExitDialog extends Dialog {
         }else {
             mNegativeBtn.setVisibility(View.GONE);
         }
-
 
 //        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 //            @Override

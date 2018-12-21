@@ -388,7 +388,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             case "1"://账号
                 sendWeb(SplitWeb.upUserSno(contant));
                 break;
-            case "2"://签名、
+            case "2"://签名
                 sendWeb(SplitWeb.upPersonSign(contant));
                 break;
         }

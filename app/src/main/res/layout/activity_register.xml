@@ -153,7 +153,7 @@
                     android:layout_alignParentBottom="true"
                     android:layout_marginRight="@dimen/dp10"
                     android:layout_marginLeft="@dimen/dp10"
-                    android:layout_marginBottom="@dimen/dp100"
+                    android:layout_marginBottom="@dimen/dp50"
                     android:orientation="vertical">
                     <Button
                         android:id="@+id/reg_btn_login"
@@ -163,7 +163,7 @@
                         android:layout_gravity="center"
                         android:textSize="@dimen/sp16"
                         android:textColor="@color/white"
-                        android:background="@drawable/btn_shape_login_train"/>
+                        android:background="@drawable/login_btn_bac"/>
                 </LinearLayout>
             </RelativeLayout>
         <!--</LinearLayout>-->

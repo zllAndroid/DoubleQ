@@ -61,7 +61,15 @@
                 <!--android:drawablePadding="@dimen/dp5"-->
                 <!--android:layout_gravity="center_horizontal"-->
                 <!--/>-->
-
+                <TextView
+                    android:id="@+id/fd_tv_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/sp14"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:layout_gravity="center"
+                    />
                 <LinearLayout
                     android:id="@+id/fd_lin_name"
                     android:layout_width="wrap_content"
@@ -70,7 +78,7 @@
                     android:layout_gravity="center"
                     android:orientation="horizontal">
                     <TextView
-                        android:id="@+id/fd_tv_name"
+                        android:id="@+id/fd_tv_beizhu"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="@dimen/sp14"

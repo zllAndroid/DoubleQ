@@ -2,6 +2,9 @@ package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity;
 
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -14,6 +17,10 @@ import android.widget.Toast;
 
 import com.doubleq.xm6leefunz.R;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+
+import java.io.UnsupportedEncodingException;
+
+import javax.xml.transform.Templates;
 
 public class ChangeInfoWindow extends PopupWindow implements View.OnClickListener {
 
@@ -89,14 +96,28 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
         /**
          * 初始化View与监听器
          */
-        initView();
+        if (!StrUtils.isEmpty(title))
+        {
+            if (title.equals("修改备注")){
+                Log.e("beizhu","-----------initBeiZhuView--------------"+title);
+                initBeiZhuView();
+            }
+            else{
+                initView();
+                Log.e("beizhu","-----------initView--------------"+title);
+            }
+        }
+
     }
     EditText mEd;
+    EditText mEdBeizhu;
+    TextView mTvTitle;
     private void initView() {
         Button mBtnCancle = mContentView.findViewById(R.id.pop_btn_cancle);
         Button mBtnSure = mContentView.findViewById(R.id.pop_btn_sure);
-        TextView mTvTitle = mContentView.findViewById(R.id.pop_tv_title);
+        mTvTitle = mContentView.findViewById(R.id.pop_tv_title);
         mEd = mContentView.findViewById(R.id.pop_ed_contant);
+        mEdBeizhu = mContentView.findViewById(R.id.pop_ed_beizhu);
         mBtnCancle.setOnClickListener(this);
         mBtnSure.setOnClickListener(this);
         mTvTitle.setText(title);
@@ -105,6 +126,99 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             mEd.setSelection(mEd.getText().toString().length());
         }
     }
+    private void initBeiZhuView() {
+        Button mBtnCancle = mContentView.findViewById(R.id.pop_btn_cancle);
+        Button mBtnSure = mContentView.findViewById(R.id.pop_btn_sure);
+        mTvTitle = mContentView.findViewById(R.id.pop_tv_title);
+        mEd = mContentView.findViewById(R.id.pop_ed_contant);
+        mEdBeizhu = mContentView.findViewById(R.id.pop_ed_beizhu);
+
+        mBtnCancle.setOnClickListener(this);
+        mBtnSure.setOnClickListener(this);
+        mEd.setVisibility(View.GONE);
+        mEdBeizhu.setVisibility(View.VISIBLE);
+        Log.e("beizhu","-----------mContant--------------"+mContant+"+++++"+mContant.length());
+        if (!StrUtils.isEmpty(mContant)) {
+            mContant = mContant.substring(1,mContant.length()-1);
+            Log.e("beizhu","-----------mContant.substring--------------"+mContant+"+++++"+mContant.length());
+            mEdBeizhu.setText(mContant);
+            mEdBeizhu.setSelection(mEdBeizhu.getText().toString().length(),mEdBeizhu.getText().toString().length());
+            mEdBeizhu.addTextChangedListener(textWatcher);
+        }
+        int num=0;
+        try {
+            num= mContant.getBytes("gbk").length;
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        mTvTitle.setText("修改备注(" + (num) + "/" + MAX_NUM + ")");
+
+    }
+
+
+    private static final int MAX_NUM = 16;
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+
+//             统计字母数字个数
+            int count_num = 0;
+
+            //统计汉字的个数
+            int count_char =0;
+            for(int i=0;i<editable.length();i++){
+                String b=Character.toString(editable.charAt(i));
+//                char cs =editable.charAt(i);
+                String Reg="^[\u4e00-\u9fa5]{1}$";  //汉字的正规表达式
+                if(b.matches(Reg))
+                    count_char = count_char + 2;
+                else {
+                    count_num++;
+                }
+            }
+
+            int count;
+            count = count_num + count_char;
+
+            int num=0;
+            try {
+                num= mContant.getBytes("gbk").length;
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            if (num > MAX_NUM) {
+//                mTvTitle.setText("修改备注(" + count + "/" + MAX_NUM + ")");
+//                try {
+                    editable.delete(MAX_NUM,num);
+//                }
+//                catch (Exception ignored){
+//                }
+
+            }
+
+            else
+//            mEd.getText().toString()
+            mTvTitle.setText("修改备注(" + num + "/" + MAX_NUM + ")");
+//            Log.e("beizhu","+++++editable++++++"+editable.length());
+//            if (editable.length() > MAX_NUM) {
+//                editable.delete(MAX_NUM, editable.length());
+//            }
+//            mTvTitle.setText("修改备注(" + editable.length() + "/" + MAX_NUM + ")");
+
+
+        }
+    };
+
     @Override
     public void onClick(View view){
         int id = view.getId();
@@ -116,7 +230,12 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             break;
             case R.id.pop_btn_sure:{
                 dismiss();
-                onAddContantClickListener.onSure(mEd.getText().toString().trim());
+                if (!StrUtils.isEmpty(title)){
+                    if (title.equals("修改备注"))
+                        onAddContantClickListener.onSure(mEdBeizhu.getText().toString().trim());
+                    else
+                        onAddContantClickListener.onSure(mEd.getText().toString().trim());
+                }
             }
             break;
         }

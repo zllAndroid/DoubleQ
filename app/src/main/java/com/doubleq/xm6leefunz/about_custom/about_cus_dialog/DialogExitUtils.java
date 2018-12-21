@@ -2,10 +2,8 @@ package com.doubleq.xm6leefunz.about_custom.about_cus_dialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.util.Log;
 
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
-import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 
 /**

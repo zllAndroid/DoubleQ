@@ -20,6 +20,7 @@ import com.doubleq.model.DataNoticAddFriendNews;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.web_base.MessageEvent;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.DialogLoginUtils;
 import com.doubleq.xm6leefunz.about_custom.loding.LoadingDialog;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
@@ -271,6 +272,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //        关闭弹窗
         DialogUtils.isShow();
         DialogExitUtils.isShow();
+        DialogLoginUtils.isShow();
     }
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)

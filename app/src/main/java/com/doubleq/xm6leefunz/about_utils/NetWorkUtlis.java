@@ -7,7 +7,12 @@ import android.view.View;
 
 import com.android.volley.VolleyError;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
+import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.CusLoginDialog;
+import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.DialogLoginUtils;
 import com.doubleq.xm6leefunz.about_custom.loding.LoadingDialog;
+import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
+import com.doubleq.xm6leefunz.main_code.about_login.PwdLoginActivity;
+import com.doubleq.xm6leefunz.main_code.about_login.RegisterActivity;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -24,6 +29,7 @@ public class NetWorkUtlis {
 
 
     OnNetWork onNetWork = null;
+    OnNetWorkError onNetWorkError = null;
     Timer timerSuc=null;
     //    Context mContext;
     LoadingDialog.Speed speed = LoadingDialog.Speed.SPEED_TWO;
@@ -46,6 +52,10 @@ public class NetWorkUtlis {
     public  interface  OnNetWork {
         void onNetSuccess(String result);
 //        void onNetError(String msg);
+    }
+    public  interface  OnNetWorkError {
+//        void onNetSuccess(String result);
+        void onNetError(String msg);
     }
     /**
      *
@@ -102,6 +112,12 @@ public class NetWorkUtlis {
         this.url=url;
         initHttpFlower();
     }
+    public  void  setOnNetWork(String url,OnNetWork onNetWork,OnNetWorkError onNetWorkError)
+    {
+        this.onNetWorkError=onNetWorkError;
+        this.url=url;
+        initHttpPwdLogin();
+    }
     public  void  setOnNetWorkNormal(String url,OnNetWork onNetWork)
     {
         this.onNetWork=onNetWork;
@@ -115,8 +131,7 @@ public class NetWorkUtlis {
         loadText = "登陆中";
         initHttpFlower();
     }
-    Handler h =
-            new Handler() {
+    Handler h = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     switch (msg.what) {
@@ -172,29 +187,82 @@ public class NetWorkUtlis {
                 h.sendEmptyMessageDelayed(SAVE_YOU, 50);
                 MyLog.e("result","result----------=="+result);
                 final String sucess = HelpUtils.HttpIsSucess(result);
-                if (sucess.equals(AppConfig.CODE_OK))
-                {
-                    onNetWork.onNetSuccess(result);
-                }else if (sucess.equals(AppConfig.CODE_TIMEOUT))
-                {
-                    //超时
+                switch (sucess) {
+                    case AppConfig.CODE_OK:
+                        onNetWork.onNetSuccess(result);
+                        break;
+                    case AppConfig.CODE_TIMEOUT:
+                        //超时
 //                    h.sendEmptyMessageDelayed(LOAD_FAILED, delayedTime);
-                }else {
-                    ToastUtil.show(sucess);
+                        break;
+                    default:
+                        ToastUtil.show(sucess);
 //                    onNetWork.onNetSuccess("");
 //                    h.sendEmptyMessageDelayed(LOAD_FAILED, delayedTime);
+                        break;
                 }
 
             }
 
-            @Override
-            public void onError(VolleyError result) {
+        @Override
+        public void onError(VolleyError result) {
 //                Tip.getError(CommonParameter.ERROR);
-                h.sendEmptyMessageDelayed(LOAD_FAILED, delayedTime);
-                ToastUtil.show(AppConfig.ERROR);
+            h.sendEmptyMessageDelayed(LOAD_FAILED, delayedTime);
+            ToastUtil.show(AppConfig.ERROR);
+        }
+    });
+}
+    private void initHttpPwdLogin() {
+        final Activity activity = AppManager.getAppManager().currentActivity();
+        if ((ld != null))
+            ld.close();
+        ld = new LoadingDialog(activity);
+        ld.setLoadingText(loadText)
+                .setSuccessText("登录成功")
+                .setInterceptBack(intercept_back_event)
+                .setLoadSpeed(speed)
+                .setRepeatCount(repeatTime)
+//                .setDrawColor(Color.WHITE)
+                .setLoadStyle(style)
+                .show();
+        saveForThesePeopleWhoDoNotCallCloseAndUseInterceptBackMethod(intercept_back_event);
+//        Activity activity = AppManager.getAppManager().currentActivity();
+        MyLog.e("result","url----------=="+url);
+        VolleyRequest.RequestGet(activity,url, new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
+            @Override
+            public void onSuccess(final String result) {
+                h.sendEmptyMessageDelayed(SAVE_YOU, 50);
+                MyLog.e("result","result----------=="+result);
+                final String sucess = HelpUtils.HttpIsSucessLogin(result);
+                switch (sucess) {
+                    case AppConfig.CODE_OK:
+                        onNetWork.onNetSuccess(result);
+                        break;
+                    case AppConfig.CODE_TIMEOUT:
+                        //超时
+//                    h.sendEmptyMessageDelayed(LOAD_FAILED, delayedTime);
+                        break;
+                    case AppConfig.CODE_EPC:
+                        onNetWorkError.onNetError(result);
+                        break;
+                    default:
+
+                        ToastUtil.show(sucess);
+//                    onNetWork.onNetSuccess("");
+//                    h.sendEmptyMessageDelayed(LOAD_FAILED, delayedTime);
+                        break;
+                }
+
             }
-        });
-    }
+
+        @Override
+        public void onError(VolleyError result) {
+//                Tip.getError(CommonParameter.ERROR);
+            h.sendEmptyMessageDelayed(LOAD_FAILED, delayedTime);
+            ToastUtil.show(AppConfig.ERROR);
+        }
+    });
+}
     //默认加载
     private void initNormalHttp() {
         Activity activity = AppManager.getAppManager().currentActivity();
@@ -228,7 +296,7 @@ public class NetWorkUtlis {
         VolleyRequest.RequestGet(activity,url, new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
             @Override
             public void onSuccess(final String result) {
-                    onNetWork.onNetSuccess(result);
+                onNetWork.onNetSuccess(result);
             }
             @Override
             public void onError(VolleyError result) {

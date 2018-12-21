@@ -103,6 +103,33 @@ public class HelpUtils {
                 case AppConfig.CODE_OK:
                     return code;
                 case AppConfig.CODE_TIMEOUT:
+                    return "1007";
+//                    break;
+                case AppConfig.CODE_TOKEN_OUT:
+                    return code;
+                default:
+                    String msg = object.optString("msg").toString().trim();
+                    return msg;
+            }
+
+        }
+        return "10086";
+    }
+    public static String HttpIsSucessLogin(String result){
+        CustomDialog.Builder mBuilder;
+        if (!result.equals("")&&result!=null) {
+
+            JSONObject object = null;
+            try {
+                object = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String code = object.optString("code").toString().trim();
+            switch (code) {
+                case AppConfig.CODE_OK:
+                    return code;
+                case AppConfig.CODE_TIMEOUT:
 //                    final Activity activity = AppManager.getAppManager().currentActivity();
 //                    Tip.getDialogOne(activity, "登录超时，请重新登录...", new Tip.OnClickSureListener() {
 //                        @Override
@@ -126,6 +153,8 @@ public class HelpUtils {
                     return "1007";
 //                    break;
                 case AppConfig.CODE_TOKEN_OUT:
+                    return code;
+                case AppConfig.CODE_EPC:
                     return code;
                 default:
                     String msg = object.optString("msg").toString().trim();
