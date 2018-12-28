@@ -341,7 +341,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         if (isTopBack())
         {
             try {
-                findViewById(R.id.include_top_iv_back).setOnClickListener(new View.OnClickListener() {
+                findViewById(R.id.include_top_lin_newback).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         AppManager.getAppManager().finishActivity();

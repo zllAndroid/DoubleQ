@@ -179,6 +179,17 @@
             android:name=".about_scan.ScanCodeActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity
+            android:name=".about_chat.chat_group.FriendDataGroupMemberActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+
+
+        <!--群资料设置-->
+        <activity
+            android:name=".about_chat.chat_group.sub_group.GroupChatSetActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 群二维码 -->
         <activity
             android:name=".main_code.ui.about_contacts.about_top_add.QunCodeActivity"

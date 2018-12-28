@@ -54,7 +54,7 @@
                     android:layout_marginLeft="@dimen/dp10"
                     android:layout_marginTop="@dimen/dp5"
                     android:textColor="@color/gray999"
-                    android:text="填写验证信息："/>
+                    android:text="个人介绍："/>
 
 
                 <LinearLayout
@@ -74,7 +74,7 @@
                         android:ems="20"
                         android:maxLength="50"
                         android:minEms="50"
-                        android:hint="您好，我想加您为好友"
+                        android:hint="您好，我想进群."
                         android:inputType="textMultiLine"
                         android:maxLines="4"
                         android:minLines="4"
@@ -94,7 +94,7 @@
                     android:textSize="@dimen/sp14"
                     android:layout_margin="@dimen/dp10"
                     android:textColor="@color/gray999"
-                    android:text="设置备注及分组"/>
+                    android:text="设置群分组"/>
 
 
                 <LinearLayout
@@ -106,6 +106,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/dp10"
+                        android:visibility="gone"
                         android:background="@drawable/good_friend_beizhu_top"
                         android:orientation="horizontal">
                         <TextView
@@ -119,7 +120,7 @@
                             android:id="@+id/fda_ed_beizhu"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:gravity="center_vertical"
+                            android:gravity="center"
                             android:background="@null"
                             android:maxLength="8"
                             android:minEms="8"
@@ -133,7 +134,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="@dimen/dp10"
-                        android:background="@drawable/add_good_friend_bot"
+                        android:background="@drawable/good_friend_beizhu_top"
                         android:orientation="horizontal">
                         <TextView
                             android:layout_width="wrap_content"

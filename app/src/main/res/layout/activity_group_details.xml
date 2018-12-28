@@ -10,15 +10,14 @@
     <!--s搜索后添加群的群资料页面-->
     <include layout="@layout/activity_include_title_bar"/>
 
-
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <com.doubleq.xm6leefunz.about_custom.CusScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            >
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -101,16 +100,17 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="@dimen/dp10"
-                    android:paddingLeft="@dimen/dp10"
-                    android:paddingRight="@dimen/dp10"
-                    android:paddingBottom="@dimen/dp10"
-                    android:background="@color/white"
+
                     android:orientation="vertical">
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:layout_marginBottom="@dimen/dp5"
+                        android:paddingLeft="@dimen/dp10"
+                        android:paddingRight="@dimen/dp10"
+                        android:paddingBottom="@dimen/dp5"
+                        android:paddingTop="@dimen/dp5"
+                        android:background="@color/white"
                         >
                         <TextView
                             android:layout_width="match_parent"
@@ -137,48 +137,154 @@
                             android:layout_margin="@dimen/dp10"
                             />
                     </LinearLayout>
-                    <View
-                        style="@style/style_wei_line"
-                        />
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:layout_marginBottom="@dimen/dp5"
+                        android:orientation="vertical"
                         >
-                        <TextView
+                        <View
+                            style="@style/style_wei_line"
+                            />
+
+                        <LinearLayout
+                            android:id="@+id/group_details_lin_have_set"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:gravity="center_vertical"
-                            android:textColor="@color/gray666"
-                            android:textSize="@dimen/sp15"
-                            android:layout_weight="1"
-                            android:text="群公告"/>
-                        <ImageView
-                            android:layout_width="@dimen/dp20"
-                            android:layout_height="@dimen/dp20"
-                            android:adjustViewBounds="true"
-                            app:srcCompat="@drawable/in_right"
-                            android:layout_margin="@dimen/dp10"
+                            android:orientation="vertical"
+                            android:visibility="gone"
+                            >
+                            <!--<View-->
+                            <!--style="@style/style_wei_line"-->
+                            <!--android:layout_height="@dimen/dp10"-->
+                            <!--/>-->
+                            <!--群设置-->
+                            <LinearLayout android:id="@+id/group_details_lin_set"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingLeft="@dimen/dp10"
+                                android:paddingRight="@dimen/dp10"
+                                android:paddingBottom="@dimen/dp5"
+                                android:paddingTop="@dimen/dp5"
+                                android:layout_marginTop="@dimen/dp10"
+                                android:background="@color/white"
+                                >
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:textColor="@color/gray666"
+                                    android:textSize="@dimen/sp15"
+                                    android:layout_weight="1"
+                                    android:text="群设置"/>
+                                <ImageView
+                                    android:layout_width="@dimen/dp20"
+                                    android:layout_height="@dimen/dp20"
+                                    android:adjustViewBounds="true"
+                                    app:srcCompat="@drawable/in_right"
+                                    android:layout_margin="@dimen/dp10"
+                                    />
+                            </LinearLayout>
+                            <View
+                                style="@style/style_wei_line"
+                                />
+
+                            <LinearLayout
+                                android:id="@+id/group_details_lin_add_type"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingLeft="@dimen/dp10"
+                                android:paddingRight="@dimen/dp10"
+                                android:paddingBottom="@dimen/dp5"
+                                android:paddingTop="@dimen/dp5"
+                                android:background="@color/white"
+                                >
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:textColor="@color/gray666"
+                                    android:textSize="@dimen/sp15"
+                                    android:layout_weight="1"
+                                    android:text="加群方式"/>
+                                <ImageView
+                                    android:layout_width="@dimen/dp20"
+                                    android:layout_height="@dimen/dp20"
+                                    android:adjustViewBounds="true"
+                                    app:srcCompat="@drawable/in_right"
+                                    android:layout_margin="@dimen/dp10"
+                                    />
+                            </LinearLayout>
+
+                        </LinearLayout>
+                        <View
+                            style="@style/style_wei_line"
                             />
+
+                        <LinearLayout
+                            android:id="@+id/group_details_lin_group_notice"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            >
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal"
+                                android:paddingLeft="@dimen/dp10"
+                                android:paddingRight="@dimen/dp10"
+                                android:paddingBottom="@dimen/dp5"
+                                android:paddingTop="@dimen/dp5"
+                                android:background="@color/white"
+                                >
+                                <TextView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:gravity="center_vertical"
+                                    android:textColor="@color/gray666"
+                                    android:textSize="@dimen/sp15"
+
+                                    android:layout_weight="1"
+
+                                    android:text="群公告"/>
+                                <ImageView
+                                    android:layout_width="@dimen/dp20"
+                                    android:layout_height="@dimen/dp20"
+                                    android:adjustViewBounds="true"
+                                    app:srcCompat="@drawable/in_right"
+                                    android:layout_margin="@dimen/dp10"
+                                    />
+                            </LinearLayout>
+                            <TextView
+                                android:id="@+id/group_data_tv_gonggao"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center_vertical"
+                                android:gravity="left|top"
+                                android:textSize="@dimen/sp12"
+                                android:textColor="@color/gray666"
+                                android:lines="3"
+                                android:paddingLeft="@dimen/dp10"
+                                android:paddingRight="@dimen/dp10"
+                                android:background="@color/white"
+                                android:minLines="3"
+                                android:maxLines="3"
+                                android:ellipsize="end"
+                                android:layout_marginBottom="@dimen/dp5"
+                                android:text="暂无公告"
+                                />
+                        </LinearLayout>
+
+
+
+
+
                     </LinearLayout>
 
-                    <TextView
-                        android:id="@+id/group_data_tv_gonggao"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:gravity="left|top"
-                        android:textSize="@dimen/sp12"
-                        android:textColor="@color/gray666"
-                        android:lines="3"
-                        android:minLines="3"
-                        android:maxLines="3"
-                        android:ellipsize="end"
-                        android:layout_marginBottom="@dimen/dp5"
-                        android:text="暂无公告"
-                        />
 
                 </LinearLayout>
                 <LinearLayout
@@ -192,6 +298,7 @@
                     android:layout_marginBottom="@dimen/dp30"
                     >
                     <LinearLayout
+                        android:id="@+id/group_details_lin_chat_old"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
@@ -218,6 +325,7 @@
                         style="@style/style_wei_line"
                         />
                     <TextView
+                        android:id="@+id/group_details_lin_del_chat"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -255,7 +363,7 @@
                             app:sb_uncheckcircle_color="@color/swi_nor"
                             app:sb_checked_color="@color/swi_select"
                             android:layout_gravity="center"
-                            app:sb_checked="true"/>
+                            app:sb_checked="false"/>
                     </LinearLayout>
                     <View
                         style="@style/style_wei_line"
@@ -284,7 +392,7 @@
                             app:sb_uncheckcircle_color="@color/swi_nor"
                             app:sb_checked_color="@color/swi_select"
                             android:layout_gravity="center"
-                            app:sb_checked="true"/>
+                            app:sb_checked="false"/>
                     </LinearLayout>
                 </LinearLayout>
             </LinearLayout>

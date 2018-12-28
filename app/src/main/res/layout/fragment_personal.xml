@@ -93,6 +93,7 @@
                     android:layout_weight="1"
                     />
                 <ImageView
+                    android:id="@+id/mine_iv_qrcode"
                     android:layout_width="@dimen/dp30"
                     android:layout_height="@dimen/dp30"
                     android:padding="@dimen/dp5"

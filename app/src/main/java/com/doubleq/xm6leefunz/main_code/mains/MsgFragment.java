@@ -27,8 +27,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.doubleq.model.CusJumpChatData;
 import com.doubleq.model.DataHomeMsg;
 import com.doubleq.model.DataHomeMsgNew;
+import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseFragment;
+import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_broadcastreceiver.NetEvent;
 import com.doubleq.xm6leefunz.about_broadcastreceiver.NetReceiver;
@@ -39,6 +42,7 @@ import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.NetUtils;
+import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataRealmMsg;
@@ -46,6 +50,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.RealmHelper;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ConfirmPopWindow;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.MsgChatWindow;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.MyDialogFragment;
+import com.doubleq.xm6leefunz.main_code.mains.top_pop.data_bus.BusDataGroupOrFriend;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.doubleq.xm6leefunz.main_code.ui.about_message.about_message_adapter.MsgAdapter;
@@ -53,6 +58,7 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
+import com.zll.websocket.MyWebSocketService;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -327,7 +333,7 @@ public class MsgFragment extends BaseFragment {
         msgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                final    CusHomeRealmData item = (CusHomeRealmData) adapter.getItem(position);
+                item = (CusHomeRealmData) adapter.getItem(position);
                 switch (view.getId())
                 {
                     case R.id.item_msg_re:
@@ -359,8 +365,9 @@ public class MsgFragment extends BaseFragment {
                         break;
 //                        点击编辑，弹出聊天窗口
                     case R.id.item_tv_click_ok:
+                         type = item.getType();
                         FragmentManager childFragmentManager = getChildFragmentManager();
-                        MyDialogFragment myDialogFragment = new MyDialogFragment(item.getFriendId());
+                        MyDialogFragment myDialogFragment = new MyDialogFragment(item.getFriendId(),type);
                         myDialogFragment.show(childFragmentManager,"show");
 
 //                        chatWindow = new MsgChatWindow(getActivity(), item.getFriendId());
@@ -371,6 +378,21 @@ public class MsgFragment extends BaseFragment {
             }
         });
     }
+        CusHomeRealmData item;
+    //订阅方法，接收到服务器返回事件处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(BusDataGroupOrFriend messageInfo) {
+        if (!StrUtils.isEmpty(messageInfo.getMsg())&&item!=null) {
+            if (type.equals("1")) {
+                MyApplication.getmConnectManager().sendText(SplitWeb.privateSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
+            }
+            else {
+                MyApplication.getmConnectManager().sendText(SplitWeb.groupSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
+            }
+        }
+    }
+    String type="1";
+//
     @Override
     public void onDestroy() {
         super.onDestroy();

@@ -17,6 +17,7 @@ import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_add.AddGoodGroupActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_top_add.QunCodeActivity;
@@ -50,7 +51,6 @@ public class GroupDataAddActivity extends BaseActivity {
     RecyclerView groupDataRecyc;
     @BindView(R.id.group_data_tv_gonggao)
     TextView groupDataTvGonggao;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,11 +69,14 @@ public class GroupDataAddActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent!=null)
         {
-            String id = intent.getStringExtra(AppConfig.GROUP_ID);
-            if (!StrUtils.isEmpty(id))
-                sendWeb(SplitWeb.searchDetailInfo(id));
+            dataSearch = (DataSearch)intent.getSerializableExtra(AppConfig.GROUP_ADDKEY);
+            groupSno = intent.getStringExtra(AppConfig.GROUP_SNO);
+            if (dataSearch!=null)
+            if (!StrUtils.isEmpty(dataSearch.getId()))
+                sendWeb(SplitWeb.searchDetailInfo(dataSearch.getId()));
         }
     }
+    String groupSno;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -88,11 +91,10 @@ public class GroupDataAddActivity extends BaseActivity {
                     DataAddQunDetails.RecordBean.GroupDetailInfoBean groupInfo = record.getGroupDetailInfo();
                     if (groupInfo!=null)
                     {
-                        List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean> group_info = groupInfo.getGroupInfo();
-                        if (group_info.size()>0)
+                        DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean group_info = groupInfo.getGroupInfo();
+                        if (group_info!=null)
                         {
-                            DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean = group_info.get(0);
-                            initUI(groupInfoBean);
+                            initUI(group_info);
                         }
                         List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info = groupInfo.getGroupUserInfo();
                         if (group_user_info.size()>0)
@@ -142,12 +144,14 @@ public class GroupDataAddActivity extends BaseActivity {
         groupMemberAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean item = (DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean)adapter.getItem(position);
                 if (position==(mList2.size()-1))
                 {
 //                    点击跳转群成员列表
-                    IntentUtils.JumpTo(GroupTeamActivity.class);
+//                    IntentUtils.JumpToHaveOne(GroupTeamActivity.class, GroupTeamActivity.GROUP_ID, groupId);
+//                    IntentUtils.JumpTo(GroupTeamActivity.class);
                 }else {
-                    IntentUtils.JumpTo(FriendDataAddActivity.class);
+                    IntentUtils.JumpToHaveOne(FriendDataAddActivity.class,"id",item.getUserId());
                 }
             }
         });
@@ -170,9 +174,15 @@ public class GroupDataAddActivity extends BaseActivity {
             case R.id.group_data_iv_head:
                 break;
             case R.id.group_data_lin_intogrouplist:
-                IntentUtils.JumpTo(GroupTeamActivity.class);
+//                if (groupId!=null)
+//                    IntentUtils.JumpToHaveOne(GroupTeamActivity.class,GroupTeamActivity.GROUP_ID,groupId);
+//                IntentUtils.JumpTo(GroupTeamActivity.class);
                 break;
             case R.id.group_data_tv_addgroup:
+//                IntentUtils.JumpTo(GroupDataAddActivity.class);
+
+                IntentUtils.JumpToHaveObj(AddGoodGroupActivity.class, AppConfig.GROUP_ADDKEY,dataSearch);
+//                sendWeb(SplitWeb.addGroupOf(groupSno,""));
 
                 break;
             case R.id.group_data_tv_name:

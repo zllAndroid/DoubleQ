@@ -19,6 +19,8 @@ public class BaseFilePathUtils {
 
 //    用户个人头像保存位置
     private static String  headPath=appPath+ "chatHead/";
+//    联系人好友保存位置
+    private static String  ImgLinkFriend=appPath+ "imgLinkFriend/";
 
     //    本应用的文件保存地址
 //    private static  String getAppPath(){
@@ -33,10 +35,21 @@ public class BaseFilePathUtils {
         }
         return  headPath;
     }
+//    获取用户头像地址
     public  static  String getHeadPaths(){
 //        File file = new File(getAbsPath() + SplitWeb.getUserId() + "head.jpg");
 //        if (file.exists())
         return headPath+System.currentTimeMillis()+"-"+SplitWeb.getUserId() + "head.jpg";
+    }
+    public  static  String getLinkFriendPaths(String friendId,String time){
+//        File file = new File(getAbsPath() + SplitWeb.getUserId() + "head.jpg");
+//        if (file.exists())
+        return ImgLinkFriend+time+"-"+friendId+ ".jpg";
+    }
+    public  static  String getLinkGroupPaths(String friendId,String time){
+//        File file = new File(getAbsPath() + SplitWeb.getUserId() + "head.jpg");
+//        if (file.exists())
+        return ImgLinkFriend+time+"-"+friendId+ ".jpg";
     }
 
 }

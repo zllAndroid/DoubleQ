@@ -63,6 +63,7 @@ import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
@@ -411,9 +412,7 @@ public class ChatGroupActivity extends BaseActivity {
             send(SplitWeb.groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
         }else
         {
-
         }
-
     }
     @Override
     public void receiveResultMsg(String responseText) {
@@ -598,7 +597,8 @@ public class ChatGroupActivity extends BaseActivity {
                     break;
                 case Constants.CHAT_ITEM_TYPE_RIGHT:
 //                    TODO 点击自己头像，显示自己的信息
-                    IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",SplitWeb.getUserId());
+                    IntentUtils.JumpTo(ChangeInfoActivity.class);
+//                    IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",SplitWeb.getUserId());
                     break;
             }
         }

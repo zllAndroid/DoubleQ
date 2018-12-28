@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.doubleq.xm6leefunz.R;
@@ -48,7 +49,8 @@ public class ChangeCodeActivity extends BaseActivity {
     EditText changecodeEdNewPsw;
     @BindView(R.id.changecode_tv_code)
     TextView mTvCode;
-
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout mLin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,7 @@ public class ChangeCodeActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         includeTopTvTital.setText("修改密码");
-        includeTopIvBack.setVisibility(View.VISIBLE);
+        mLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
 //        给密码修改按钮添加下划线
         mTvYan.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         String mPhone = (String)SPUtils.get(this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.MOBILE);

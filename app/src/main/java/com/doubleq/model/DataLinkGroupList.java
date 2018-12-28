@@ -142,6 +142,15 @@ public class DataLinkGroupList {
                 private String groupQrcode;
                 private String groupSno;
                 private String groupName;
+                private String modified;
+
+                public String getModified() {
+                    return modified;
+                }
+
+                public void setModified(String modified) {
+                    this.modified = modified;
+                }
 
                 public String getGroupOfId() {
                     return groupOfId;

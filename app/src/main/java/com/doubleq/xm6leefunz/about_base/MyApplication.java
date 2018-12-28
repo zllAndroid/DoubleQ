@@ -441,7 +441,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         DataGroupChatSend.RecordBean record = dataGroupSend.getRecord();
         if (record != null) {
 
-//            initMsgGroupSend(record);//发布广播更新首页的信息
+            initMsgGroupSend(record);//发布广播更新首页的信息
 
             CusGroupChatData cusRealmChatMsg = new CusGroupChatData();
             String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME_REALM_GROUP,"");
@@ -470,8 +470,8 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             cusRealmChatMsg.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
             realmGroupChatHelper.addRealmChat(cusRealmChatMsg);
 
-            realmHelper.updateMsg(record.getGroupId(),record.getMessage(),record.getRequestTime());
-            realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
+//            realmHelper.updateMsg(record.getGroupId(),record.getMessage(),record.getRequestTime());
+//            realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
         }
     }
 

@@ -13,14 +13,13 @@ import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 
 
 /**
- * A simple {@link Fragment} subclass.
+ * 添加好友/群
  */
 public class AddFriendsFragment extends Fragment {
 
     public AddFriendsFragment() {
     }
     View view;
-    String url ="http://omyk3uve8.bkt.clouddn.com/cities.txt";
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = getArguments();

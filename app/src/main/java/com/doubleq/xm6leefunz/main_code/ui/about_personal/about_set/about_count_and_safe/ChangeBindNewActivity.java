@@ -7,6 +7,7 @@ import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.doubleq.xm6leefunz.R;
@@ -42,7 +43,8 @@ public class ChangeBindNewActivity extends BaseActivity {
     EditText changebindEdPhone;
     @BindView(R.id.changebind_ed_new_code)
     EditText changebindEdCode;
-
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout mLin;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +54,8 @@ public class ChangeBindNewActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         includeTopTvTital.setText("更换绑定");
-        includeTopIvBack.setVisibility(View.VISIBLE);
+//        includeTopIvBack.setVisibility(View.VISIBLE);
+        mLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
     }
 
     @Override

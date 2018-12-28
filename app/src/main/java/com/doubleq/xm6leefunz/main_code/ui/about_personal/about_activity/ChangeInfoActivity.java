@@ -117,26 +117,26 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         setHeadForFile();
         sendWeb(SplitWeb.personalCenter());
     }
-//    从文件中设置头像
+    //    从文件中设置头像
     private void setHeadForFile() {
         GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
         List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
-            if (fileName!=null&&fileName.size()>0)
-            {
-                String path=fileName.get(fileName.size()-1);
-                Glide.with(this).load(path)
-                        .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-                        .thumbnail(0.1f)
-                        .crossFade(1000)
-                        .into(changeinfoIvHead);
-            }else
-            {
-                Glide.with(this).load(R.drawable.first_head_nor)
-                        .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-                        .thumbnail(0.1f)
-                        .crossFade(1000)
-                        .into(changeinfoIvHead);
-            }
+        if (fileName!=null&&fileName.size()>0)
+        {
+            String path=fileName.get(fileName.size()-1);
+            Glide.with(this).load(path)
+                    .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
+                    .thumbnail(0.1f)
+                    .crossFade(1000)
+                    .into(changeinfoIvHead);
+        }else
+        {
+            Glide.with(this).load(R.drawable.first_head_nor)
+                    .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
+                    .thumbnail(0.1f)
+                    .crossFade(1000)
+                    .into(changeinfoIvHead);
+        }
     }
 
     //0 修改昵称   1 修改账号 2 修改个签
@@ -160,8 +160,10 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     doChangeSign();
                 break;
             case R.id.changeinfo_lin_count:
-                if (NoDoubleClickUtils.isDoubleClick())
-                    doChangeCount();
+                String up_sno_num = record.getUpSnoNum();
+                if (up_sno_num.equals("1"))
+                    if (NoDoubleClickUtils.isDoubleClick())
+                        doChangeCount();
                 break;
         }
     }
@@ -207,6 +209,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             }
         }
     };
+    DataMyZiliao.RecordBean record;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -214,7 +217,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         switch (method) {
             case "personalCenter":
                 DataMyZiliao dataMyZiliao = JSON.parseObject(responseText, DataMyZiliao.class);
-                final   DataMyZiliao.RecordBean record = dataMyZiliao.getRecord();
+                record = dataMyZiliao.getRecord();
                 if (record != null) {
                     String up_sno_num = record.getUpSnoNum();
 //                    int visibility = changeinfoIvWrite.getVisibility();
@@ -271,16 +274,16 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 if (dataSetHeadResult!=null) {
                     String headImg = dataSetHeadResult.getRecord().getHeadImg();
                     if (!StrUtils.isEmpty(headImg))
-                    Glide.with(this)
-                            .load(headImg)
-                            .downloadOnly(new SimpleTarget<File>() {
-                                @Override
-                                public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+                        Glide.with(this)
+                                .load(headImg)
+                                .downloadOnly(new SimpleTarget<File>() {
+                                    @Override
+                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
 //                                    这里拿到的resource就是下载好的文件，
-                                    File file = HeadFileUtils.saveHeadPath(ChangeInfoActivity.this, resource);
-                                }
-                            })
-                           ;
+                                        File file = HeadFileUtils.saveHeadPath(ChangeInfoActivity.this, resource);
+                                    }
+                                })
+                                ;
                 }
                 Glide.with(this).load(save)
                         .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))

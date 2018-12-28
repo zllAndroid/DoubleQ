@@ -5,6 +5,11 @@ package com.doubleq.xm6leefunz.about_base;
  */
 
 public class AppConfig {
+//    保存图片位置
+public static final String TYPE_FRIEND= "friendimg";//好友头像
+public static final String TYPE_GROUP= "groupimg";//群组头像
+
+
     //    notification
 //     类型
     public static final String TYPE_NOTICE= "notice";//好友通知
@@ -50,6 +55,8 @@ public class AppConfig {
 
 
     public static final String GROUP_ID= "group_id";
+    public static final String GROUP_ADDKEY= "group_key";
+    public static final String GROUP_SNO= "group_sno";
     public static final String LodingNormal= "0";
     public static final String LodingFlower= "1";
     public static final String LodingFlowerHaveResult= "3";

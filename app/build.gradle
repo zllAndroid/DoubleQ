@@ -16,7 +16,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 3
-        versionName "1.1.1"
+        versionName "1.1.2"
         multiDexEnabled true  //防止方法数量超过65536导致错误
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        aaptOptions {
@@ -106,4 +106,6 @@ dependencies {
 //switchbutton
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
     implementation 'com.example.zhouwei.library:library:1.0.0'
+
+//    implementation 'com.hgDendi:expandable-recyclerview-adapter:1.0.1'
 }

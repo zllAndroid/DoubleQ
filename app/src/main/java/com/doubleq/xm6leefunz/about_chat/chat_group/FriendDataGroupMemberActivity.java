@@ -1,4 +1,4 @@
-package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
+package com.doubleq.xm6leefunz.about_chat.chat_group;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,16 +8,18 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.doubleq.model.DataGroupMemberInfo;
 import com.doubleq.model.DataMyFriend;
 import com.doubleq.model.DataScanFirendRequest;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_add.AddGoodFriendActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
-import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -26,9 +28,9 @@ import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
- * 位置：好友资料界面  (添加)
+ * 位置：群成员详情
  */
-public class FriendDataAddActivity extends BaseActivity {
+public class FriendDataGroupMemberActivity extends BaseActivity {
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
     @BindView(R.id.include_top_iv_more)
@@ -44,6 +46,9 @@ public class FriendDataAddActivity extends BaseActivity {
     @BindView(R.id.fda_tv_sign)
     TextView fdaTvSign;
 
+
+    public  static  final  String  FRIENG_ID_KEY="friendId";
+    public  static  final  String  GROUP_ID_KEY="groupId";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,19 +62,22 @@ public class FriendDataAddActivity extends BaseActivity {
         includeTopIvMore.setVisibility(View.GONE);
         Intent intent = getIntent();
         if (intent!=null) {
-            dataSearch = (DataSearch) intent.getSerializableExtra("dataSearch");
-            if (dataSearch!=null) {
-                mTvName.setText(dataSearch.getName());
-                fdaTvNum.setText(dataSearch.getSno());
-                fdaTvSign.setText(dataSearch.getName());
-                Glide.with(this).load(dataSearch.getHeadImg())
-                        .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
-                        .crossFade(1000).into(mIvHead);
-            }else {
-                String id = intent.getStringExtra("id");
-                sendWebHaveDialog(SplitWeb.addFriendQrCode(id),"搜索好友信息中...","获取成功");
+//            dataSearch = (DataSearch) intent.getSerializableExtra("dataSearch");
+//            if (dataSearch!=null) {
+//                mTvName.setText(dataSearch.getName());
+//                fdaTvNum.setText(dataSearch.getSno());
+//                fdaTvSign.setText(dataSearch.getName());
+//                Glide.with(this).load(dataSearch.getHeadImg())
+//                        .bitmapTransform(new CropCircleTransformation(FriendDataGroupMemberActivity.this))
+//                        .crossFade(1000).into(mIvHead);
+//            }else {
+                String friendId = intent.getStringExtra(FRIENG_ID_KEY);
+                String groupId = intent.getStringExtra(GROUP_ID_KEY);
+
+                sendWeb(SplitWeb.getGroupMemberInfo(friendId,groupId));
+//                sendWebHaveDialog(SplitWeb.getGroupMemberInfo(friendId,groupId),"搜索好友信息中...","获取成功");
 //                sendWebHaveDialog(SplitWeb.getFriendInfo(id),"搜索好友信息中...","获取成功");
-            }
+//            }
         }
     }
     @Override
@@ -81,6 +89,10 @@ public class FriendDataAddActivity extends BaseActivity {
             case "getFriendInfo":
                 initDataFriend(responseText);
                 break;
+            case "getGroupMemberInfo":
+
+                initDataMember(responseText);
+                break;
             case "addFriendQrCode":
                 DataScanFirendRequest dataScanFirendRequest = JSON.parseObject(responseText, DataScanFirendRequest.class);
                 DataScanFirendRequest.RecordBean record = dataScanFirendRequest.getRecord();
@@ -91,7 +103,7 @@ public class FriendDataAddActivity extends BaseActivity {
                     String signText= StrUtils.isEmpty(record.getPersonaSignature())?"暂未签名":record.getPersonaSignature();
                     fdaTvSign.setText(signText);
                     Glide.with(this).load(record.getHeadImg())
-                            .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
+                            .bitmapTransform(new CropCircleTransformation(FriendDataGroupMemberActivity.this))
                             .crossFade(1000).into(mIvHead);
 
                     dataSearch=  new DataSearch();
@@ -104,6 +116,25 @@ public class FriendDataAddActivity extends BaseActivity {
         }
 
     }
+
+    private void initDataMember(String responseText) {
+//        DataGroupMemberInfo
+        DataGroupMemberInfo dataGroupMemberInfo = JSON.parseObject(responseText, DataGroupMemberInfo.class);
+        DataGroupMemberInfo.RecordBean record = dataGroupMemberInfo.getRecord();
+        if (record!=null)
+        {
+            mTvName.setText(record.getNickName());
+            fdaTvNum.setText(record.getWxSno());
+//            String signText= StrUtils.isEmpty(record.get())?"暂未签名":record.getPersonaSignature();
+//            fdaTvSign.setText(signText);
+            Glide.with(this).load(record.getHeadImg())
+                    .bitmapTransform(new CropCircleTransformation(FriendDataGroupMemberActivity.this))
+                    .crossFade(1000).into(mIvHead);
+        }
+
+
+    }
+
     DataMyFriend.RecordBean dataRecord;
     private void initDataFriend(String responseText) {
 
@@ -113,7 +144,7 @@ public class FriendDataAddActivity extends BaseActivity {
         if (record != null) {
             dataRecord = record;
             Glide.with(this).load(record.getHeadImg())
-                    .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
+                    .bitmapTransform(new CropCircleTransformation(FriendDataGroupMemberActivity.this))
                     .crossFade(1000).into(mIvHead);
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdaTvSign.setText(signText);

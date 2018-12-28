@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.doubleq.xm6leefunz.R;
@@ -27,6 +28,8 @@ import butterknife.OnClick;
 public class ChangePwdActivity extends BaseActivity {
     @BindView(R.id.include_top_iv_back)
     ImageView includeTopIvBack;
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout mLin;
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
     @BindView(R.id.changepwd_tv_yanzhengma)
@@ -47,7 +50,8 @@ public class ChangePwdActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         includeTopTvTital.setText("修改密码");
-        includeTopIvBack.setVisibility(View.VISIBLE);
+//        mLin.setBackgroundColor(0);
+        mLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         mTvYan.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
     }
 

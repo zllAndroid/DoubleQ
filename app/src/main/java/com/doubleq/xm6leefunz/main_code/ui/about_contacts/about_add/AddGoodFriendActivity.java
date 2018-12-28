@@ -62,6 +62,7 @@ public class AddGoodFriendActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         includeTopTvTital.setText("添加好友");
+
         incluTvRight.setVisibility(View.VISIBLE);
         incluTvRight.setText("发送");
         Intent intent = getIntent();

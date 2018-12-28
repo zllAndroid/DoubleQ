@@ -171,6 +171,15 @@ public class DataLinkManList  implements Serializable{
                 private String groupName;
                 private String isSnoShow;
                 private String isMobileShow;
+                private String modified;
+
+                public String getModified() {
+                    return modified;
+                }
+
+                public void setModified(String modified) {
+                    this.modified = modified;
+                }
 
                 public String getUserId() {
                     return userId;

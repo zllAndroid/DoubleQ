@@ -59,7 +59,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class PersonalFragment extends BaseFragment implements View.OnClickListener {
+public class PersonalFragment extends BaseFragment  {
 
     @BindView(R.id.include_frag_tv_title)
     TextView includeFragTvTitle;
@@ -208,44 +208,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    private void showNoticePopWindow() {
-        View contentView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_notice_popwindow, null);
-        mNoticePopWindow = new PopupWindow(contentView);
-        mNoticePopWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        mNoticePopWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-        TextView tv_vibration = contentView.findViewById(R.id.frag_tv_popwindow_vibration);
-        TextView tv_voice = contentView.findViewById(R.id.frag_tv_popwindow_voice);
-        TextView tv_del_group = contentView.findViewById(R.id.frag_tv_popwindow_del_group);
-        tv_vibration.setOnClickListener(this);
-        tv_voice.setOnClickListener(this);
-        tv_del_group.setOnClickListener(this);
 
-        mNoticePopWindow.setBackgroundDrawable(new ColorDrawable());
-        mNoticePopWindow.setOutsideTouchable(true);
-        mNoticePopWindow.showAsDropDown(mineIvAdd);
-    }
-
-    @Override
-    public void onClick(View view) {
-        int id = view.getId();
-        switch (id) {
-            case R.id.frag_tv_popwindow_vibration: {
-                mNoticePopWindow.dismiss();
-                Toast.makeText(this.getActivity(), "点击了“震动”", Toast.LENGTH_SHORT).show();
-            }
-            break;
-            case R.id.frag_tv_popwindow_voice: {
-                mNoticePopWindow.dismiss();
-                Toast.makeText(this.getActivity(), "点击了“声音”", Toast.LENGTH_SHORT).show();
-            }
-            break;
-            case R.id.frag_tv_popwindow_del_group: {
-                mNoticePopWindow.dismiss();
-                Toast.makeText(this.getActivity(), "点击了“删除群组”", Toast.LENGTH_SHORT).show();
-            }
-            break;
-        }
-    }
 
     @Override
     public void onDestroyView() {
@@ -257,7 +220,7 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
         }
     }
 
-    @OnClick({R.id.mine_iv_person,R.id.include_frag_img_search, R.id.include_frag_img_add, R.id.mine_lin_person_info, R.id.mine_lin_share, R.id.mine_lin_set})
+    @OnClick({R.id.mine_iv_qrcode,R.id.mine_iv_person,R.id.include_frag_img_search, R.id.include_frag_img_add, R.id.mine_lin_person_info, R.id.mine_lin_share, R.id.mine_lin_set})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.mine_iv_person:
@@ -291,9 +254,10 @@ public class PersonalFragment extends BaseFragment implements View.OnClickListen
                 IntentUtils.JumpTo(ChangeInfoActivity.class);
                 break;
             case R.id.mine_lin_share:
-//                IntentUtils.JumpTo(MyAccountActivity.class);
                 IntentUtils.JumpTo(MyAccountActivity.class);
-//                startActivity(new Intent(getActivity(), MyAccountActivity.class));
+                break;
+            case R.id.mine_iv_qrcode:
+                IntentUtils.JumpTo(MyAccountActivity.class);
                 break;
             case R.id.mine_lin_set:
                 IntentUtils.JumpTo(MineSetActivity.class);

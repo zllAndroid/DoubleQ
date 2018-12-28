@@ -24,7 +24,9 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataAddActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupDataAddActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -37,6 +39,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.doubleq.xm6leefunz.about_utils.IntentUtils.JumpToHaveOne;
+
 //搜索好友界面
 public class SearchActivity extends BaseActivity {
 
@@ -95,11 +100,7 @@ public class SearchActivity extends BaseActivity {
         LinearLayout footer=  (LinearLayout)LayoutInflater.from(this).inflate(R.layout.item_search_bot, null);
 //        监听软键盘的回车键
         listenEnter();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        seachEdInput.setFocusable(true);
-        seachEdInput.setFocusableInTouchMode(true);
-        seachEdInput.requestFocus();
-        seachEdInput.findFocus();
+
 //        mRecyclerView.addHeaderView(footer);
     }
     //    监听软键盘的回车键
@@ -115,12 +116,18 @@ public class SearchActivity extends BaseActivity {
                 return false;
             }
         });
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         seachEdInput.setFocusable(true);
         seachEdInput.setFocusableInTouchMode(true);
         seachEdInput.requestFocus();
-        InputMethodManager inputManager =
-                (InputMethodManager) seachEdInput.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputManager.showSoftInput(seachEdInput, 0);
+        seachEdInput.findFocus();
+
+//        seachEdInput.setFocusable(true);
+//        seachEdInput.setFocusableInTouchMode(true);
+//        seachEdInput.requestFocus();
+//        InputMethodManager inputManager =
+//                (InputMethodManager) seachEdInput.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+//        inputManager.showSoftInput(seachEdInput, 0);
     }
 
     @Override
@@ -172,6 +179,7 @@ public class SearchActivity extends BaseActivity {
                                 dataSearch.setName(seachGroupInfoBean.getGroupName());
                                 dataSearch.setSno(seachGroupInfoBean.getGroupSno());
                                 dataSearch.setQrcode(seachGroupInfoBean.getGroupQrcode());
+                                dataSearch.setIsRelation(seachGroupInfoBean.getIsRelation());
 //                                2代表群组
                                 dataSearch.setType("2");
                                 mList.add(dataSearch);
@@ -189,6 +197,7 @@ public class SearchActivity extends BaseActivity {
                                 dataSearch.setName(seachGroupInfoBean.getNickName());
                                 dataSearch.setSno(seachGroupInfoBean.getWxSno());
                                 dataSearch.setQrcode(seachGroupInfoBean.getQrcode());
+                                dataSearch.setIsRelation(seachGroupInfoBean.getIsRelation());
 //                                1代表好友
                                 dataSearch.setType("1");
                                 mList.add(dataSearch);
@@ -205,11 +214,7 @@ public class SearchActivity extends BaseActivity {
                         seachLinList.setVisibility(View.GONE);
                     }
                 }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    seachLinNoSearch.setVisibility(View.VISIBLE);
-//                    seachLinList.setVisibility(View.GONE);
-//                }
+                getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
                 break;
         }
     }
@@ -222,11 +227,24 @@ public class SearchActivity extends BaseActivity {
                 DataSearch item =(DataSearch) adapter.getItem(position);
                 if (item.getType().equals("1"))
                 {
+                    if (item.getIsRelation().equals("1"))
                     IntentUtils.JumpToHaveObj(FriendDataAddActivity.class,"dataSearch",item);
+                    else
+                    {
+                        IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",item.getId());
+                    }
                 }else
                 {
 //                    添加群
-                    IntentUtils.JumpToHaveOne(GroupDataAddActivity.class, AppConfig.GROUP_ID,item.getId());
+                    if (item.getIsRelation().equals("1"))
+//                    未添加过该群，跳转未添加的群详情，部分信息看不到
+                         IntentUtils.JumpToHaveObj(GroupDataAddActivity.class, AppConfig.GROUP_ADDKEY,item);
+                    else
+                    {
+//                        添加过该群，跳转群详情
+                        JumpToHaveOne(GroupChatDetailsActivity.class,AppConfig.GROUP_ID,item.getId());
+//                        IntentUtils.JumpToHaveOne(GroupDataAddActivity.class, AppConfig.GROUP_ID,item.getId());
+                    }
                 }
 //                ToastUtil.show("好友");
             }

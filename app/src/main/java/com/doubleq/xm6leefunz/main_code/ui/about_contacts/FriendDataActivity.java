@@ -170,10 +170,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
             String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : "("+ record.getRemarkName() +")";
 //            mTvName.setText(nameText);
             fdTvBeizhu.setText(beizhuText);
-
         }
-
-
     }
 
     View mView;

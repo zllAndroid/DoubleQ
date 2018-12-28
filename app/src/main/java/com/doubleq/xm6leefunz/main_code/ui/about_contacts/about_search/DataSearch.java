@@ -10,6 +10,15 @@ public class DataSearch  implements Serializable{
 //    好友还是群组类型
     private String type;
     private String qrcode;
+    private String isRelation;
+
+    public String getIsRelation() {
+        return isRelation;
+    }
+
+    public void setIsRelation(String isRelation) {
+        this.isRelation = isRelation;
+    }
 
     public String getQrcode() {
         return qrcode;

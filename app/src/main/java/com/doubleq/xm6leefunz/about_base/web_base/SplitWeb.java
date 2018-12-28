@@ -350,6 +350,21 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "addFriendQrCode", map);
         return  request;
     }
+//    获取群成员资料信息
+    public  static  String getGroupMemberInfo(String memberId,String groupOfId){
+        dealMap();
+        map.put("memberId",memberId);
+        map.put("groupOfId",groupOfId);
+        String request = WebUrl.request("Contact", "getGroupMemberInfo", map);
+        return  request;
+    }
+//    获取群成员列表
+    public  static  String getGroupMemberList(String groupOfId){
+        dealMap();
+        map.put("groupOfId",groupOfId);
+        String request = WebUrl.request("Contact", "getGroupMemberList", map);
+        return  request;
+    }
     //    搜索好友接口
     public  static  String searchInfo(String  wx_sno,String type){
         dealMap();

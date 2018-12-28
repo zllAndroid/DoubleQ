@@ -26,6 +26,7 @@ import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.main_code.mains.top_pop.data_bus.BusDataGroupOrFriend;
 import com.rance.chatui.R;
 import com.rance.chatui.enity.MessageInfo;
 import com.rance.chatui.util.AudioRecoderUtils;
@@ -181,13 +182,14 @@ public class EmotionInputManager {
                 mSendButton.setVisibility(View.GONE);
                 String ed = mEditText.getText().toString().trim();
 //                BaseActivity.send(SplitWeb.privateSend(firendIds,ed,"1", TimeUtil.getTime()));
-                MyApplication.getmConnectManager().sendText(SplitWeb.privateSend(firendIds,ed,"1", TimeUtil.getTime()));
-//                DataJieShou.RecordBean messageInfo = new DataJieShou.RecordBean();
+//                MyApplication.getmConnectManager().sendText(SplitWeb.privateSend(firendIds,ed,"1", TimeUtil.getTime()));
+                BusDataGroupOrFriend messageInfo = new BusDataGroupOrFriend();
+                messageInfo.setMsg(ed);
 ////                MyWebSocketService.sendMsg(SplitWeb.privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType));
 //                messageInfo.setMessageType(Constants.CHAT_TEXT);
 //                messageInfo.setMessage(ed);
 ////                messageInfo.set
-//                EventBus.getDefault().post(messageInfo);
+                EventBus.getDefault().post(messageInfo);
                 mEditText.setText("");
             }
         });

@@ -16,6 +16,7 @@ import com.doubleq.model.DataLinkTotal;
 import com.doubleq.model.linkman.group_manager.DataContactsManage;
 import com.doubleq.model.linkman.group_manager.DataContactsManageChild;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.util.List;
@@ -23,13 +24,14 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class LinkFriendAdapter extends BaseExpandableListAdapter {
-
+    RealmLinkFriendHelper realmLinkFriendHelper;
     Context context;
     List<DataLinkManList.RecordBean.FriendListBean> mGroupList;
     public LinkFriendAdapter( Context context,List<DataLinkManList.RecordBean.FriendListBean> mGroupList
     ) {
-        this.mGroupList = mGroupList;
         this.context = context;
+        this.mGroupList = mGroupList;
+        realmLinkFriendHelper = new RealmLinkFriendHelper(context);
     }
     @Override
     public int getGroupCount() {
@@ -121,11 +123,20 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
 
 //            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);
         if (!StrUtils.isEmpty(groupListBean.getUserId())) {
-            Glide.with(context)
-                    .load(groupListBean.getHeadImg())
-                    .error(R.drawable.img_personal_head)
-                    .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
-                    .into(holder.img_contacts_child_head);
+            String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(groupListBean.getUserId());
+            if (imgPath!=null) {
+                Glide.with(context)
+                        .load(imgPath)
+                        .error(R.drawable.img_personal_head)
+                        .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                        .into(holder.img_contacts_child_head);
+            }else {
+                Glide.with(context)
+                        .load(groupListBean.getHeadImg())
+                        .error(R.drawable.img_personal_head)
+                        .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                        .into(holder.img_contacts_child_head);
+            }
             holder.tv_contacts_child_name.setText(groupListBean.getNickName());
         }else {
 //            delItem(groupPosition);

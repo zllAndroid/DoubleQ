@@ -32,6 +32,13 @@ public class FilePath {
     private static  String getPath(){
         return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+SplitWeb.getUserId()+"/";
     }
+    public static  String getLinkImgPath(){
+        File file = new File(getAbsPath()+"imgLinkFriend/");
+        if (!file.exists()){
+            file.getParentFile().mkdirs();
+        }
+        return  getAbsPath()+"imgLinkFriend/";
+    }
     public  static  String getHeadPath(){
 //        File file = new File(getAbsPath() + "/chatHead/");
         File file = new File(getHeadPaths());

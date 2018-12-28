@@ -39,8 +39,10 @@ public class MyDialogFragment extends DialogFragment {
 ////        // Required empty public constructor
 ////    }
     String friend;
-    public MyDialogFragment(String friend) {
+    String type;
+    public MyDialogFragment(String friend,String type) {
         this.friend=friend;
+        this.type=type;
         // Required empty public constructor
     }
 

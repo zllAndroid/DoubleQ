@@ -126,6 +126,15 @@ public class DataSearchResult {
             private String groupName;
             private String groupHeadImg;
             private String groupQrcode;
+            private String isRelation;
+
+            public String getIsRelation() {
+                return isRelation;
+            }
+
+            public void setIsRelation(String isRelation) {
+                this.isRelation = isRelation;
+            }
 
             public String getGroupQrcode() {
                 return groupQrcode;
@@ -205,6 +214,15 @@ public class DataSearchResult {
             private String nickName;
             private String headImg;
             private String qrcode;
+            private String isRelation;
+
+            public String getIsRelation() {
+                return isRelation;
+            }
+
+            public void setIsRelation(String isRelation) {
+                this.isRelation = isRelation;
+            }
 
             public String getQrcode() {
                 return qrcode;

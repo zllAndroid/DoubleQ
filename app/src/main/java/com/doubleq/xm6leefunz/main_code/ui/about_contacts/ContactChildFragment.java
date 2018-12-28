@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,35 +14,47 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.doubleq.model.CusJumpChatData;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.doubleq.model.DataLinkGroupList;
 import com.doubleq.model.DataLinkManList;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseFragment;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
-import com.doubleq.xm6leefunz.about_chat.ChatActivity;
+import com.doubleq.xm6leefunz.about_broadcastreceiver.NetEvent;
 import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
+import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
+import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
+import com.doubleq.xm6leefunz.about_utils.about_realm.RealmLinkManHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataFriendRealm;
-import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataGroupRealm;
 import com.doubleq.xm6leefunz.about_utils.about_realm.RealmGroupHelper;
-import com.doubleq.xm6leefunz.about_utils.about_realm.RealmLinkManHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.LinkFriendAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.LinkGroupAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.util.Constants;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 
 /**
@@ -57,7 +68,6 @@ public class ContactChildFragment extends BaseFragment {
     }
     View view;
     int typeWho;
-    String url ="http://omyk3uve8.bkt.clouddn.com/cities.txt";
 
     RealmHomeHelper realmHelper;
     ACache aCache;
@@ -81,7 +91,6 @@ public class ContactChildFragment extends BaseFragment {
                 realmHelper = new RealmHomeHelper(getActivity());
             }
         }
-
         return view;
     }
 
@@ -127,11 +136,12 @@ public class ContactChildFragment extends BaseFragment {
     private LayoutInflater inflater;
     //    RealmLinkManHelper realmHelper;
     RealmGroupHelper realmGroup;
+    RealmLinkFriendHelper realmLinkFriendHelper;
 
     TextView mTvFriendNews;
     // 初始化好友列表
     private void initHome(View view) {
-//        realmHelper = new RealmLinkManHelper(getActivity());
+        realmLinkFriendHelper = new RealmLinkFriendHelper(getActivity());
 //        List<CusDataFriendRealm> cusDataFriendRealms = realmHelper.queryAllRealmMsg();
         letterBar = (LetterBar) view.findViewById(R.id.frag_letter_friend);
         tv_abc = (TextView) view.findViewById(R.id.tv_abc);
@@ -186,23 +196,57 @@ public class ContactChildFragment extends BaseFragment {
     List<DataLinkManList.RecordBean.FriendListBean> mFriendList=new ArrayList<>();
     //    好友适配器
     LinkFriendAdapter mlinkFriend=null;
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onEventMainThread(NetEvent event) {
+//        if (!event.isNet)
+//        {
+//            initNoNet();
+//        }
+//    }
     @Override
     public void onResume() {
         super.onResume();
         //判断是好友还是群组页面，0好友，1群组
+        initResume();
+    }
+
+    private void initNoNet() {
         switch (typeWho)
         {
             case  0:
 //                判断是否缓存，是则取出使用，否则去请求
-//        if (aCache!=null)
-//        {
-//            String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
-//            if (!StrUtils.isEmpty(asString))
-//            {
-//                initDataFriend(asString);
-//                return;
-//            }
-//        }
+                if (aCache!=null)
+                {
+                    String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
+                    if (!StrUtils.isEmpty(asString))
+                    {
+                        initDataFriend(asString,false);
+//                        return;
+                    }
+                }
+//                预先设置适配器，以便显示头部布局
+//                initFriendAdapter();
+//                sendWeb(SplitWeb.getFriendList());
+                break;
+            case 1:
+                if (aCache!=null)
+                {
+                    String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
+                    if (!StrUtils.isEmpty(asString))
+                    {
+                        initDataGroup(asString);
+//                        return;
+                    }
+                }
+//                initGroupAdapter();
+//                sendWeb(SplitWeb.getGroupManage());
+                break;
+        }
+    }
+    private void initResume() {
+        switch (typeWho)
+        {
+            case  0:
 //                预先设置适配器，以便显示头部布局
                 initFriendAdapter();
 //                if (mlinkFriend==null)
@@ -213,20 +257,21 @@ public class ContactChildFragment extends BaseFragment {
                 sendWeb(SplitWeb.getFriendList());
                 break;
             case 1:
-//        if (aCache!=null)
-//        {
-//            String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
-//            if (!StrUtils.isEmpty(asString))
-//            {
-//                initDataGroup(asString);
-//                return;
-//            }
-//        }
+//                if (aCache!=null)
+//                {
+//                    String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
+//                    if (!StrUtils.isEmpty(asString))
+//                    {
+//                        initDataGroup(asString);
+//                        return;
+//                    }
+//                }
                 initGroupAdapter();
                 sendWeb(SplitWeb.getGroupManage());
                 break;
         }
     }
+
     //群组数据
     List<DataLinkGroupList.RecordBean.GroupInfoListBean> mGroupList = new ArrayList<>();
     /**
@@ -241,7 +286,20 @@ public class ContactChildFragment extends BaseFragment {
         {
 //            获取好友列表
             case "getFriendList":
-                initDataFriend(responseText);
+                DataLinkManList dataLinkManList = JSON.parseObject(responseText, DataLinkManList.class);
+                String verificationMD5Type = dataLinkManList.getVerificationMD5Type();
+                //                判断是否缓存，是则取出使用，否则去请求
+//                if (aCache!=null)
+//                {
+//                    String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
+//
+//                    if (!StrUtils.isEmpty(asString)&&verificationMD5Type.equals(""))
+//                    {
+//                        initDataFriend(asString,false);
+//                        return;
+//                    }
+//                }
+                initDataFriend(responseText,true);
                 break;
 
 //            获取群组列表
@@ -254,42 +312,119 @@ public class ContactChildFragment extends BaseFragment {
      * 好友列表数据处理
      * @param responseText
      */
-    private void initDataFriend(String responseText) {
-        DataLinkManList dataLinkManList = JSON.parseObject(responseText, DataLinkManList.class);
-        DataLinkManList.RecordBean record = dataLinkManList.getRecord();
-        if (record!=null)
+    DataLinkManList.RecordBean record;
+    private void initDataFriend(String responseText,boolean isWs) {
+        List<DataLinkManList.RecordBean.FriendListBean> friend_list;
+        if (isWs) {
+            DataLinkManList dataLinkManList = JSON.parseObject(responseText, DataLinkManList.class);
+             record = dataLinkManList.getRecord();
+              friend_list = record.getFriendList();
+        }else
         {
-            final List<DataLinkManList.RecordBean.FriendListBean> friend_list = record.getFriendList();
-            final int size = friend_list.size();
-            mFriendList.clear();
-            if (friend_list.size()>0)
-            {
-                try {
-                    String userId = friend_list.get(0).getGroupList().get(0).getUserId();
-                    String groupName = friend_list.get(0).getGroupName();
-                    if (friend_list.get(0).getType().equals("1")) {
+             friend_list = JSON.parseArray(responseText, DataLinkManList.RecordBean.FriendListBean.class);
+//            JSON.parseArray()
+        }
+        if (friend_list.size()>0)
+        {
+            initFriendRecord( friend_list,isWs);
+        }
+    }
+    //好友record部分的解析
+    private void initFriendRecord(List<DataLinkManList.RecordBean.FriendListBean> friend_list,boolean isWs) {
+//        final List<DataLinkManList.RecordBean.FriendListBean> friend_list = record.getFriendList();
+        mFriendList.clear();
+        if (friend_list.size()>0)
+        {
+            try {
+                for (int i = 0; i<friend_list.size(); i++)
+                {
+                    String userId = friend_list.get(i).getGroupList().get(0).getUserId();
+                    String groupName = friend_list.get(i).getGroupName();
+                    if (friend_list.get(i).getType().equals("1"))
+                    {
                         if (StrUtils.isEmpty(userId)) {
-                            friend_list.get(0).getGroupList().remove(0);
+                            friend_list.get(i).getGroupList().remove(0);
                         }
                         if (StrUtils.isEmpty(groupName)) {
-                            friend_list.remove(0);
+                            friend_list.remove(i);
                         }
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    dealFriendRealm(friend_list, i);
                 }
-                mFriendList.addAll(friend_list);
-                String json = JSON.toJSON(dataLinkManList).toString();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            mFriendList.addAll(friend_list);
+            if(isWs) {
+                String json = JSON.toJSON(record).toString();
                 aCache.remove(AppAllKey.FRIEND_DATA);
-                aCache.put(AppAllKey.FRIEND_DATA,json);
-                dealFriendRequestRealm();
-//                initFriendAdapter();
-                if (mlinkFriend!=null)
-                    mlinkFriend.notifyDataSetChanged();
-//                initFriendAdapter();
+                aCache.put(AppAllKey.FRIEND_DATA, json);
+            }
+            dealFriendRequestRealm();
+            if (mlinkFriend!=null)
+                mlinkFriend.notifyDataSetChanged();
+        }
+    }
+
+    private void dealFriendRealm(List<DataLinkManList.RecordBean.FriendListBean> friend_list, int i) {
+        if (friend_list.get(i).getType().equals("2"))
+        {
+            List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friend_list.get(i).getGroupList();
+
+            for (int j=0;j<groupList.size();j++)
+            {
+                final String modified = groupList.get(j).getModified();
+                final String friendId = groupList.get(j).getUserId();
+                final String headImg = groupList.get(j).getHeadImg();
+//                            GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
+//                            List<String> fileName = FilePath.getFilesAllName(FilePath.getLinkImgPath());
+//                            if (fileName!=null&&fileName.size()>0)
+//                            {
+//                                String path=fileName.get(fileName.size()-1);
+//
+//                            }
+//                            boolean b = realmLinkFriendHelper.queryIsLinkFriend(friendId);
+                CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(friendId);
+                if (cusDataLinkFriend!=null)
+                {
+                    String time = cusDataLinkFriend.getTime();
+                    if (!modified.equals(time))
+                    {
+                        if (!StrUtils.isEmpty(headImg))
+                            Glide.with(this)
+                                    .load(headImg)
+                                    .downloadOnly(new SimpleTarget<File>() {
+                                        @Override
+                                        public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                                            File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND,friendId,modified);
+                                            realmLinkFriendHelper.updateHeadPath(friendId,file.toString(),headImg,modified);
+                                        }
+                                    });
+                    }
+                }else {
+                    if (!StrUtils.isEmpty(headImg))
+                        Glide.with(this)
+                                .load(headImg)
+                                .downloadOnly(new SimpleTarget<File>() {
+                                    @Override
+                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                                        File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_FRIEND,friendId,modified);
+                                        CusDataLinkFriend linkFriend = new CusDataLinkFriend();
+                                        linkFriend.setHeadImg(headImg);
+                                        linkFriend.setFriendId(friendId);
+                                        linkFriend.setTime(modified);
+                                        linkFriend.setImgPath(file.toString());
+                                        linkFriend.setWhoType("1");
+                                        realmLinkFriendHelper.addRealmLinkFriend(linkFriend);
+                                    }
+                                });
+                }
             }
         }
     }
+
     //    好友分组适配器
     private void initFriendAdapter() {
         if (mlinkFriend==null)
@@ -317,8 +452,6 @@ public class ContactChildFragment extends BaseFragment {
 
                 String userId = mFriendList.get(groupPosition).getGroupList().get(childPosition).getUserId();
                 IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",userId);
-//                        IntentUtils.JumpToHaveObj(FriendDataActivity.class,"groupListBean",groupListBean);
-//                                IntentUtils.JumpTo(FriendDataActivity.class);
                 return false;
             }
         });
@@ -377,16 +510,23 @@ public class ContactChildFragment extends BaseFragment {
             if (group_info_list.size()>0)
             {
                 try {
-                        String userId = group_info_list.get(0).getGroupList().get(0).getGroupOfId();
-                        String name = group_info_list.get(0).getGroupName();
-
-                        if (StrUtils.isEmpty(userId))
-                        {
-                            group_info_list.get(0).getGroupList().remove(0);
-                        }
-                    if (StrUtils.isEmpty(name))
+                    for (int i = 0; i<group_info_list.size(); i++)
                     {
-                        group_info_list.remove(0);
+                        String userId = group_info_list.get(i).getGroupList().get(0).getGroupOfId();
+                        String groupName = group_info_list.get(i).getGroupName();
+                        if (group_info_list.get(i).getType().equals("1"))
+                        {
+                            if (StrUtils.isEmpty(userId)) {
+                                group_info_list.get(i).getGroupList().remove(0);
+                            }
+                            if (StrUtils.isEmpty(groupName)) {
+                                group_info_list.remove(i);
+                            }
+                        }
+
+                        dealGroupRealm(group_info_list,i);
+
+
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -404,12 +544,63 @@ public class ContactChildFragment extends BaseFragment {
 //                aCache.remove(AppAllKey.GROUD_DATA);
 //                aCache.put(AppAllKey.GROUD_DATA,json);
                 dealGroupRuquest();
-//                initGroupAdapter();
                 if (mGroupAdapter!=null)
                     mGroupAdapter.notifyDataSetChanged();
             }
         }
     }
+
+    private void dealGroupRealm(List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list,int i) {
+        if (group_info_list.get(i).getType().equals("2"))
+        {
+            List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
+
+            for (int j=0;j<groupList.size();j++)
+            {
+                final String modified = groupList.get(j).getModified();
+                final String friendId = groupList.get(j).getGroupOfId();
+                final String headImg = groupList.get(j).getHeadImg();
+                CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(friendId);
+                if (cusDataLinkFriend!=null)
+                {
+                    String time = cusDataLinkFriend.getTime();
+                    if (!modified.equals(time))
+                    {
+                        if (!StrUtils.isEmpty(headImg))
+                            Glide.with(this)
+                                    .load(headImg)
+                                    .downloadOnly(new SimpleTarget<File>() {
+                                        @Override
+                                        public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                                            File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_FRIEND,friendId,modified);
+                                            realmLinkFriendHelper.updateHeadPath(friendId,file.toString(),headImg,modified);
+                                        }
+                                    });
+                    }
+                }else {
+                    if (!StrUtils.isEmpty(headImg))
+                        Glide.with(this)
+                                .load(headImg)
+                                .downloadOnly(new SimpleTarget<File>() {
+                                    @Override
+                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                                        File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_FRIEND,friendId,modified);
+                                        CusDataLinkFriend linkFriend = new CusDataLinkFriend();
+                                        linkFriend.setHeadImg(headImg);
+                                        linkFriend.setFriendId(friendId);
+                                        linkFriend.setTime(modified);
+                                        linkFriend.setImgPath(file.toString());
+                                        linkFriend.setWhoType("2");
+                                        realmLinkFriendHelper.addRealmLinkFriend(linkFriend);
+                                    }
+                                });
+                }
+            }
+        }
+    }
+
     LinkGroupAdapter mGroupAdapter=null;
     private void initGroupAdapter() {
         if (mGroupAdapter==null)
@@ -445,7 +636,6 @@ public class ContactChildFragment extends BaseFragment {
                 cusHomeRealmData.setNum(0);
 //            realmHelper.updateNum(record.getFriendsId());
                 realmHelper.addRealmMsgQun(cusHomeRealmData);
-
                 IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 //                        ToastUtil.show("组别"+(groupPosition+1)+"点击了子"+group_name);
                 return false;
@@ -552,7 +742,7 @@ public class ContactChildFragment extends BaseFragment {
             }
         });
     }
-    public void initABC2()
+    public void initABCByGroup()
     {
         ABCList.clear();
         for (char i='A';i<='Z';i++)
@@ -631,7 +821,7 @@ public class ContactChildFragment extends BaseFragment {
             }
         });
         //显示右边字母列表
-        initABC2();
+        initABCByGroup();
         initGroupAdapter();
 //        initAdapterGroup();
     }

@@ -13,11 +13,14 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.doubleq.model.DataGroupManage;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.add_friend.FenZuFriendPopWindow;
+import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import java.util.List;
 
@@ -25,7 +28,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * we
+ * 申请入群后进入确认发送页面
  */
 public class AddGoodGroupActivity extends BaseActivity {
 
@@ -39,14 +42,14 @@ public class AddGoodGroupActivity extends BaseActivity {
     TextView fdaTvName;
     @BindView(R.id.fda_ed_yanzheng)
     EditText fdaEdYanzheng;
-    @BindView(R.id.fda_ed_beizhu)
-    EditText fdaEdBeizhu;
+//    @BindView(R.id.fda_ed_beizhu)
+//    EditText fdaEdBeizhu;
     @BindView(R.id.fda_tv_group)
     TextView fdaTvGroup;
     @BindView(R.id.fda_lin_main)
     LinearLayout mLinMain;
 
-    public static String DataKey = "addfriend";
+    public static String DataKey = "addgroup";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +64,7 @@ public class AddGoodGroupActivity extends BaseActivity {
         incluTvRight.setText("发送");
         Intent intent = getIntent();
         if (intent != null) {
-             dataSearch = (DataSearch) intent.getSerializableExtra(DataKey);
+             dataSearch = (DataSearch) intent.getSerializableExtra(AppConfig.GROUP_ADDKEY);
 //            dataSearch.getHead_img()
             if (dataSearch==null)
                 return;
@@ -76,9 +79,10 @@ public class AddGoodGroupActivity extends BaseActivity {
 //点击发送
     @OnClick(R.id.inclu_tv_right)
     public void onSend() {
+        ToastUtil.show("我点击了发送");
         String yanzheng = fdaEdYanzheng.getText().toString().trim();
-        String remark = fdaEdBeizhu.getText().toString().trim();
-        sendWeb(SplitWeb.addFriend(dataSearch.getSno(),ids,yanzheng,remark));
+//        String remark = fdaEdBeizhu.getText().toString().trim();
+        sendWeb(SplitWeb.addGroupOf(dataSearch.getSno(),yanzheng));
     }
 //点击分组
     @OnClick(R.id.fda_tv_group)
@@ -111,8 +115,8 @@ public class AddGoodGroupActivity extends BaseActivity {
                     });
                 }
                 break;
-            case "addFriend":
-
+            case "addGroupOf":
+                DialogUtils.showDialog("申请入群成功");
                 break;
             default:
                 break;

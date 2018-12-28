@@ -76,4 +76,25 @@
 
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/seach_lin_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:descendantFocusability="blocksDescendants">
+            <!--<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView-->
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/seach_recyc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fadingEdge="none"
+                />
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>
