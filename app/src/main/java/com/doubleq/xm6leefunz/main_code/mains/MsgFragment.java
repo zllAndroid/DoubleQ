@@ -51,6 +51,7 @@ import com.doubleq.xm6leefunz.main_code.mains.top_pop.ConfirmPopWindow;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.MsgChatWindow;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.MyDialogFragment;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.data_bus.BusDataGroupOrFriend;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.doubleq.xm6leefunz.main_code.ui.about_message.about_message_adapter.MsgAdapter;
@@ -134,12 +135,12 @@ public class MsgFragment extends BaseFragment {
     }
 
     RealmHomeHelper realmHelper;
-    MsgChatWindow chatWindow = null;
+    RealmLinkFriendHelper realmLinkFriendHelper;
     private void initRealmData() {
         realmHelper = new RealmHomeHelper(getActivity());
+        realmLinkFriendHelper = new RealmLinkFriendHelper(getActivity());
         if (mList.size()==0) {
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
-            Log.e("MyApplication","queryAllmMsg="+cusHomeRealmData.size());
             if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
                 mList.clear();
                 mList.addAll(cusHomeRealmData);

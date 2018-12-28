@@ -196,13 +196,13 @@ public class ContactChildFragment extends BaseFragment {
     List<DataLinkManList.RecordBean.FriendListBean> mFriendList=new ArrayList<>();
     //    好友适配器
     LinkFriendAdapter mlinkFriend=null;
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onEventMainThread(NetEvent event) {
-//        if (!event.isNet)
-//        {
-//            initNoNet();
-//        }
-//    }
+    @Subscribe(threadMode = ThreadMode.BACKGROUND)
+    public void onEventMainThread(NetEvent event) {
+        if (!event.isNet)
+        {
+            initNoNet();
+        }
+    }
     @Override
     public void onResume() {
         super.onResume();

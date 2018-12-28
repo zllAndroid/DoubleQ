@@ -42,6 +42,9 @@ public static final String TYPE_GROUP= "groupimg";//群组头像
 
 
 
+    public static  String GROUPER_ESC= "grouper_esc";
+
+
     public static  String CHAT_FRIEND_ID= "friendid";
     public static  String CHAT_GROUP_ID= "groupid";
 
@@ -55,6 +58,11 @@ public static final String TYPE_GROUP= "groupimg";//群组头像
 
 
     public static final String GROUP_ID= "group_id";
+
+    public static final String GROUP_TYPE= "group_type";
+    public static final String GROUP_QUZHU= "grouper";
+    public static final String GROUP_MEMBER= "group_member";
+
     public static final String GROUP_ADDKEY= "group_key";
     public static final String GROUP_SNO= "group_sno";
     public static final String LodingNormal= "0";

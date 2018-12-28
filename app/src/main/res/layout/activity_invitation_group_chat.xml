@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/group_chat_lin_main"
+    >
+    <include layout="@layout/activity_include_title_bar"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="@dimen/dp5"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/dp15"
+            android:layout_marginRight="@dimen/dp10"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/seach_iv_find"
+                android:layout_width="@dimen/dp15"
+                android:layout_height="@dimen/dp15"
+                android:layout_gravity="center_vertical"
+                app:srcCompat="@drawable/add_friend_find"
+                />
+            <EditText
+                android:id="@+id/seach_ed_input"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:textSize="@dimen/sp14"
+                android:hint="搜索"
+
+                android:textColor="@color/gray666"
+                android:layout_margin="@dimen/dp8"
+                android:background="@null"
+                android:inputType="text" />
+
+            <ImageView
+                android:id="@+id/seach_iv_close"
+                android:layout_width="@dimen/dp20"
+                android:layout_height="@dimen/dp20"
+                android:layout_gravity="center_vertical"
+                android:visibility="gone"
+                app:srcCompat="@drawable/seach_close"
+                android:layout_marginRight="@dimen/dp10"
+                />
+        </LinearLayout>
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_marginLeft="@dimen/dp15"-->
+        <!--android:layout_marginRight="@dimen/dp15"-->
+        <!--android:background="@color/greye5"/>-->
+
+        <View
+            style="@style/style_wei_line"
+            android:layout_marginRight="@dimen/dp15"
+            android:layout_marginLeft="@dimen/dp15"
+            />
+
+    </LinearLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:id="@+id/group_lin_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:descendantFocusability="blocksDescendants">
+                    <ExpandableListView
+                        android:id="@+id/creat_exlist_friend"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:divider="@null"
+                        android:groupIndicator="@null"
+                        android:layout_weight="1"
+                        android:scrollbars="none"
+                        android:background="@color/white">
+                    </ExpandableListView>
+                </RelativeLayout>
+            </LinearLayout>
+
+
+            <com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar
+                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp30"
+                android:id="@+id/group_team_letter"
+                android:layout_alignParentRight="true"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_abc"
+            android:layout_height="@dimen/dp100"
+            android:layout_width="@dimen/dp100"
+            android:visibility="gone"
+            android:textSize="@dimen/sp50"
+            android:textColor="@color/white"
+            android:hint="A"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:background="@drawable/btn_stroke_sel"
+            />
+    </RelativeLayout>
+</LinearLayout>

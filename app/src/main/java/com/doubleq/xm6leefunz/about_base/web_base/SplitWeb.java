@@ -411,6 +411,22 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "shieldFriend", map);
         return  request;
     }
+//    退出群聊
+    public  static  String outGroupChat(String groupOfId){
+        dealMap();
+        map.put("groupOfId",groupOfId);
+        String request = WebUrl.request("Contact", "outGroupChat", map);
+        return  request;
+    }
+//    群主转让群接口
+    public  static  String transferGroupOf(String groupOfId,String transferUserId){
+        dealMap();
+        map.put("groupOfId",groupOfId);
+//        要转让给群成员的user_id
+        map.put("transferUserId",transferUserId);
+        String request = WebUrl.request("Contact", "outGroupChat", map);
+        return  request;
+    }
     //    首页
     public  static  String getUserRelation(){
         dealMap();

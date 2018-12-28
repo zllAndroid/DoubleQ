@@ -190,6 +190,17 @@
             android:name=".about_chat.chat_group.sub_group.GroupChatSetActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!--邀请或删除群成员-->
+        <activity
+            android:name=".about_chat.chat_group.sub_group.InvitationGroupChatActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+
+        <!--退出群聊-->
+        <activity
+            android:name=".about_chat.chat_group.sub_group.GrouperEscActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 群二维码 -->
         <activity
             android:name=".main_code.ui.about_contacts.about_top_add.QunCodeActivity"

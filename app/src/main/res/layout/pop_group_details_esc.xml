@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:background="@color/black_trans"
+    >
+    <View
+        android:id="@+id/pop_v_cancle"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/open_layout"
+        />
+    <LinearLayout
+        android:id="@+id/open_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        >
+
+        <TextView
+            android:id="@+id/pop_btn_esc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray666"
+            android:text="退出群聊"
+            android:padding="@dimen/dp10"
+            android:gravity="center"
+            android:textSize="@dimen/sp18"
+            android:background="@color/grayf4"
+            />
+        <!--<TextView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="@dimen/dp8"-->
+        <!--android:background="@color/grayeee"-->
+        <!--/>-->
+        <TextView
+            android:id="@+id/pop_btn_cancle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray666"
+            android:text="取消"
+            android:gravity="center"
+            android:background="@null"
+            android:textSize="@dimen/sp18"
+            android:padding="@dimen/dp10"
+            />
+    </LinearLayout>
+</RelativeLayout>

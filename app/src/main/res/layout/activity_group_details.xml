@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/add_bg"
+    android:id="@+id/group_details_lin_main"
     android:orientation="vertical"
     >
     <!--s搜索后添加群的群资料页面-->
@@ -35,7 +36,7 @@
                         android:id="@+id/group_data_iv_head"
                         android:layout_width="@dimen/dp60"
                         android:layout_height="@dimen/dp60"
-                        app:srcCompat="@drawable/mine_head"
+                        app:srcCompat="@drawable/qun_head"
                         android:layout_gravity="center"
                         android:adjustViewBounds="true"
                         android:layout_margin="@dimen/dp10"
@@ -51,7 +52,7 @@
                         android:textColor="@color/white"
                         android:textSize="@dimen/sp14"
                         android:layout_marginBottom="@dimen/dp5"
-                        android:text="龙哥(张龙龙)"/>
+                        android:text=""/>
 
                 </LinearLayout>
                 <LinearLayout
@@ -122,13 +123,14 @@
                             android:layout_weight="1"
                             android:text="我的群名片"/>
                         <TextView
+                            android:id="@+id/group_data_tv_mine_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_vertical"
                             android:gravity="center_vertical"
                             android:textColor="@color/gray666"
                             android:textSize="@dimen/sp15"
-                            android:text="android"/>
+                            />
                         <ImageView
                             android:layout_width="@dimen/dp20"
                             android:layout_height="@dimen/dp20"
@@ -142,9 +144,9 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         >
-                        <View
-                            style="@style/style_wei_line"
-                            />
+                        <!--<View-->
+                            <!--style="@style/style_wei_line"-->
+                            <!--/>-->
 
                         <LinearLayout
                             android:id="@+id/group_details_lin_have_set"

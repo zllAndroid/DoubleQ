@@ -131,71 +131,6 @@ public class GroupTeamActivity extends BaseActivity {
     //    private ArrayList<Allcity> allCityList = new ArrayList<Allcity>();
     SeachAdapter mSeachAdapter;
     private ArrayList<Allcity> searchCityList = new ArrayList<Allcity>();
-//    private void initUI() {
-////        实时搜索把按钮隐藏
-//        seachIvFind.setVisibility(View.GONE);
-//
-//
-//        mSeachAdapter = new SeachAdapter(GroupTeamActivity.this,searchCityList);
-//        seachRecyc.setAdapter(mSeachAdapter);
-//        //设置EditText文本监听事件
-//        seachEdInput.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//            }
-//
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                //获取用户输入文本
-//                String putStr = seachEdInput.getText().toString();
-//                //搜索的Listview显示
-//                seachLinList.setVisibility(View.VISIBLE);
-//                groupLinList.setVisibility(View.GONE);
-//                searchCityList.clear();
-//                for (int i = 0; i < allCusList.size(); i++) {
-//                    //判断输入的文本首字母  第一中文是否一致
-//                    String name = allCusList.get(i).getName();
-//                    Log.e("searchCityList",name+"---------输入------------->"+putStr);
-////                    if (name.indexOf(putStr)!=-1)
-//                    if (name.contains(putStr))
-//                    {
-//                        Log.e("searchCityList",name+"-----进来了----输入------------->"+putStr);
-//                        searchCityList.add(allCusList.get(i));
-//                    }
-////                    if (allCusList.get(i).getPinyin().startsWith(putStr)
-////                            || allCusList.get(i).getName().startsWith(putStr)) {
-////                        searchCityList.add(allCusList.get(i));
-////                    }
-//                }
-//
-//                //为搜索布局的显示隐藏
-//                if (searchCityList.size() == 0) {
-//                    seachLinNoSearch.setVisibility(View.VISIBLE);
-//                } else {
-//                    seachLinNoSearch.setVisibility(View.GONE);
-//                }
-//
-//                //输入框为空时，返回城市列表
-//                if ("".equals(putStr)) {
-//                    searchCityList.clear();
-//                    seachLinList.setVisibility(View.GONE);
-//                    seachLinNoSearch.setVisibility(View.GONE);
-//                    groupLinList.setVisibility(View.VISIBLE);
-//                }
-//                //RecyclerView列表进行批量UI数据更新
-////                mSeachAdapter.notifyItemRangeInserted(0,searchCityList.size());
-////                // scrollToPosition（0）作用是把列表移动到顶端
-////                seachRecyc.scrollToPosition(0);
-//
-//
-//                mSeachAdapter.notifyDataSetChanged();
-//            }
-//        });
-//    }
 
     private ArrayList<DataGroupMember.RecordBean.MemberListBean> allCusList = new ArrayList<>();
 
@@ -293,28 +228,6 @@ public class GroupTeamActivity extends BaseActivity {
         });
     }
 
-    NoticeAdapter blackAdapter = null;
     public int positions;
 
-
-    NoticeAdapter.ItemTouchListener mItemTouchListener = new NoticeAdapter.ItemTouchListener() {
-        @Override
-        public void onLeftMenuClick(View view, int positions, String WaybillNum) {
-            ToastUtil.show("点击了删除");
-            blackAdapter.delItem(positions);
-
-        }
-    };
-
-
-//    @OnClick({R.id.seach_iv_close, R.id.seach_iv_find})
-//    public void onViewClicked(View view) {
-//        switch (view.getId()) {
-//            case R.id.seach_iv_close:
-////                seachEdInput.setText("");
-//                break;
-//            case R.id.seach_iv_find:
-//                break;
-//        }
-//    }
 }

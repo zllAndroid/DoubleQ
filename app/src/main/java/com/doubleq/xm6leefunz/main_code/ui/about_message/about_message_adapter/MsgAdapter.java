@@ -12,6 +12,8 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataRealmMsg;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -26,11 +28,13 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolder> {
     Context context;
     public List<CusHomeRealmData> data;
+    RealmLinkFriendHelper realmLinkFriendHelper;
     public MsgAdapter(Context context, List<CusHomeRealmData> data, ItemTouchListener mItemTouchListener) {
         super(R.layout.item_home_message, data);
         this.data=data;
         this.context=context;
         this.mItemTouchListener=mItemTouchListener;
+        realmLinkFriendHelper = new RealmLinkFriendHelper(context);
     }
     public void addData(CusHomeRealmData cusData) {
         data.add(0, cusData);
@@ -53,9 +57,21 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
     }
     @Override
     protected void convert(BaseViewHolder helper, CusHomeRealmData item) {
-        Glide.with(context).load(item.getHeadImg())
-                .bitmapTransform(new CropCircleTransformation(context))
-                .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+//        CusDataLinkFriend linkFriend = realmLinkFriendHelper.queryLinkFriend(item.getFriendId());
+        String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+        if (imgPath!=null)
+        {
+            Glide.with(context).load(imgPath)
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .error(R.drawable.qun_head)
+                    .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+        }else
+        {
+            Glide.with(context).load(item.getHeadImg())
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .error(R.drawable.qun_head)
+                    .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+        }
         helper.setText(R.id.item_tv_name,item.getNickName());
         helper.setText(R.id.item_tv_msg,item.getMsg());
         helper.setText(R.id.item_tv_time, TimeUtil.formatDisplayTime(item.getTime(),null));
