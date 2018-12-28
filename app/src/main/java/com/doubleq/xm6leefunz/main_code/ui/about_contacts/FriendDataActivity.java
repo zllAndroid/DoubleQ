@@ -2,6 +2,7 @@ package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -168,6 +169,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
             fdTvContant.setText(record.getWxSno());
             mTvName.setText(record.getNickName());
             String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : "("+ record.getRemarkName() +")";
+            Log.e("remarkName","----------remarkName----------"+beizhuText);
 //            mTvName.setText(nameText);
             fdTvBeizhu.setText(beizhuText);
         }

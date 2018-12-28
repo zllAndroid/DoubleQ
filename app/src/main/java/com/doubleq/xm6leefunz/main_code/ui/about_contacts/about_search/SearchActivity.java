@@ -198,6 +198,7 @@ public class SearchActivity extends BaseActivity {
                                 dataSearch.setSno(seachGroupInfoBean.getWxSno());
                                 dataSearch.setQrcode(seachGroupInfoBean.getQrcode());
                                 dataSearch.setIsRelation(seachGroupInfoBean.getIsRelation());
+                                dataSearch.setSign(seachGroupInfoBean.getPersonaSignature());
 //                                1代表好友
                                 dataSearch.setType("1");
                                 mList.add(dataSearch);

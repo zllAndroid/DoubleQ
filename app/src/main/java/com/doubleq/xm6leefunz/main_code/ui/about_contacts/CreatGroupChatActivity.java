@@ -295,7 +295,7 @@ public class CreatGroupChatActivity extends BaseActivity {
         String upperCase = pinyin.substring(0, 1).toUpperCase();
         return upperCase;
     }
-//    大列表选中的数据
+    //    大列表选中的数据
     List<String> mList = new ArrayList<>();
     List<DataCreatGroupChat.RecordBean.FriendListBean> mFriendList = new ArrayList<>();
     DataCreatGroupResult.RecordBean record1;
@@ -374,14 +374,18 @@ public class CreatGroupChatActivity extends BaseActivity {
                 if (isChecked)
                 {
                     if (!mList.contains(friendId))
-                    mList.add(friendId);
+                        mList.add(friendId);
                 }else
                 {
                     if (mList.contains(friendId))
                         mList.remove(friendId);
                 }
+                creatChatTvYixuanze.setText("已选择"+mList.size()+"人");
+                if (mList.size()>0)
+                    creatChatTvYixuanze.setTextColor(getResources().getColor(R.color.app_theme));
+                else
+                    creatChatTvYixuanze.setTextColor(getResources().getColor(R.color.gray999));
                 List<String> checkString = creatGroupChatAdapter.getCheckString();
-
                 Log.e("checkChat","friendId="+friendId+isChecked+"++++"+mList.toString()+"---"+checkString.toString());
             }
         });

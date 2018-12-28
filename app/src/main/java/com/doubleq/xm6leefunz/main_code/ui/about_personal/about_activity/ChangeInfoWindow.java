@@ -1,8 +1,10 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,9 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.doubleq.xm6leefunz.R;
+import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 
 import javax.xml.transform.Templates;
 
@@ -98,65 +102,73 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
          */
         if (!StrUtils.isEmpty(title))
         {
-            if (title.equals("修改备注")){
-                Log.e("beizhu","-----------initBeiZhuView--------------"+title);
-                initBeiZhuView();
-            }
-            else{
-                initView();
-                Log.e("beizhu","-----------initView--------------"+title);
-            }
+            initView();
         }
 
     }
     EditText mEd;
-    EditText mEdBeizhu;
     TextView mTvTitle;
+    TextView mTvMax;
+    private static final int BEIZHU_MAX_NUM = 10;
+    private static final int COUNT_MAX_NUM = 12;
+    private static final int SIGN_MAX_NUM = 20;
+    private static int MAX_NUM = 0;
     private void initView() {
         Button mBtnCancle = mContentView.findViewById(R.id.pop_btn_cancle);
         Button mBtnSure = mContentView.findViewById(R.id.pop_btn_sure);
         mTvTitle = mContentView.findViewById(R.id.pop_tv_title);
+        mTvMax = mContentView.findViewById(R.id.pop_tv_max);
         mEd = mContentView.findViewById(R.id.pop_ed_contant);
-        mEdBeizhu = mContentView.findViewById(R.id.pop_ed_beizhu);
+
         mBtnCancle.setOnClickListener(this);
         mBtnSure.setOnClickListener(this);
         mTvTitle.setText(title);
-        if (!StrUtils.isEmpty(mContant)) {
+
+        if (title.equals("修改备注") ){
+            mTvMax.setText(mContant.length()-2 + " / " + BEIZHU_MAX_NUM);
+            InputFilter[] filter = {new InputFilter.LengthFilter(10)};
+            mEd.setFilters(filter);
+        }
+        else if (title.equals("修改名字")){
+            mTvMax.setText(mContant.length() + " / " + BEIZHU_MAX_NUM);
+            InputFilter[] filter = {new InputFilter.LengthFilter(10)};
+            mEd.setFilters(filter);
+        }
+        else if (title.equals("修改账号")){
+            mTvMax.setText("0 / " + COUNT_MAX_NUM);
+            InputFilter[] filter = {new InputFilter.LengthFilter(12)};
+            mEd.setFilters(filter);
+        }
+        else if (title.equals("修改个性签名")){
+            mTvMax.setText(mContant.length() + " / " + SIGN_MAX_NUM);
+            InputFilter[] filter = {new InputFilter.LengthFilter(20)};
+            mEd.setFilters(filter);
+        }
+
+        if (title.equals("修改备注")){
+            char chars[] = mContant.toCharArray();
+            String string = "";
+            for (int i = 1;i<mContant.length()-1;i++)
+            {
+                string = string + chars[i];
+            }
+            mEd.setText(string);
+            mEd.setSelection(mEd.getText().toString().length());
+            mEd.addTextChangedListener(textWatcher);
+        }
+        else if (title.equals("修改账号")){
+            mEd.setText("");
+            mEd.setSelection(mEd.getText().toString().length());
+            mEd.addTextChangedListener(textWatcher);
+        }
+        else if (!StrUtils.isEmpty(mContant)) {
             mEd.setText(mContant);
             mEd.setSelection(mEd.getText().toString().length());
+            mEd.addTextChangedListener(textWatcher);
         }
     }
-    private void initBeiZhuView() {
-        Button mBtnCancle = mContentView.findViewById(R.id.pop_btn_cancle);
-        Button mBtnSure = mContentView.findViewById(R.id.pop_btn_sure);
-        mTvTitle = mContentView.findViewById(R.id.pop_tv_title);
-        mEd = mContentView.findViewById(R.id.pop_ed_contant);
-        mEdBeizhu = mContentView.findViewById(R.id.pop_ed_beizhu);
 
-        mBtnCancle.setOnClickListener(this);
-        mBtnSure.setOnClickListener(this);
-        mEd.setVisibility(View.GONE);
-        mEdBeizhu.setVisibility(View.VISIBLE);
-        Log.e("beizhu","-----------mContant--------------"+mContant+"+++++"+mContant.length());
-        if (!StrUtils.isEmpty(mContant)) {
-            mContant = mContant.substring(1,mContant.length()-1);
-            Log.e("beizhu","-----------mContant.substring--------------"+mContant+"+++++"+mContant.length());
-            mEdBeizhu.setText(mContant);
-            mEdBeizhu.setSelection(mEdBeizhu.getText().toString().length(),mEdBeizhu.getText().toString().length());
-            mEdBeizhu.addTextChangedListener(textWatcher);
-        }
-        int num=0;
-        try {
-            num= mContant.getBytes("gbk").length;
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        mTvTitle.setText("修改备注(" + (num) + "/" + MAX_NUM + ")");
-
-    }
-
-
-    private static final int MAX_NUM = 16;
+    String string;
     TextWatcher textWatcher = new TextWatcher() {
         @Override
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -171,51 +183,29 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
         @Override
         public void afterTextChanged(Editable editable) {
 
-//             统计字母数字个数
-            int count_num = 0;
-
-            //统计汉字的个数
-            int count_char =0;
-            for(int i=0;i<editable.length();i++){
-                String b=Character.toString(editable.charAt(i));
-//                char cs =editable.charAt(i);
-                String Reg="^[\u4e00-\u9fa5]{1}$";  //汉字的正规表达式
-                if(b.matches(Reg))
-                    count_char = count_char + 2;
-                else {
-                    count_num++;
+            if (title.equals("修改备注") || title.equals("修改名字"))
+                MAX_NUM = BEIZHU_MAX_NUM;
+            else if (title.equals("修改账号")){
+                MAX_NUM = COUNT_MAX_NUM;
+                if (editable.length() > 0) {
+                    for (int i = 0; i < editable.length(); i++) {
+                        char c = editable.charAt(i);
+                        if (c >= 0x4e00 && c <= 0X9fff) { // 根据字节码判断
+                            // 如果是中文，则清除输入的字符，否则保留
+                            editable.delete(i,i+1);
+                        }
+                    }
+                    string = editable.toString().replace(" ","");
+                    Log.e("modifyCount","-------------------------"+string);
                 }
             }
+            else if (title.equals("修改个性签名"))
+                MAX_NUM = SIGN_MAX_NUM;
 
-            int count;
-            count = count_num + count_char;
-
-            int num=0;
-            try {
-                num= mContant.getBytes("gbk").length;
-            } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
+            if (editable.length() > MAX_NUM) {
+                editable.delete(MAX_NUM, editable.length());
             }
-            if (num > MAX_NUM) {
-//                mTvTitle.setText("修改备注(" + count + "/" + MAX_NUM + ")");
-//                try {
-                    editable.delete(MAX_NUM,num);
-//                }
-//                catch (Exception ignored){
-//                }
-
-            }
-
-            else
-//            mEd.getText().toString()
-            mTvTitle.setText("修改备注(" + num + "/" + MAX_NUM + ")");
-//            Log.e("beizhu","+++++editable++++++"+editable.length());
-//            if (editable.length() > MAX_NUM) {
-//                editable.delete(MAX_NUM, editable.length());
-//            }
-//            mTvTitle.setText("修改备注(" + editable.length() + "/" + MAX_NUM + ")");
-
-
+            mTvMax.setText(editable.length() + " / " + MAX_NUM);
         }
     };
 
@@ -231,8 +221,14 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             case R.id.pop_btn_sure:{
                 dismiss();
                 if (!StrUtils.isEmpty(title)){
-                    if (title.equals("修改备注"))
-                        onAddContantClickListener.onSure(mEdBeizhu.getText().toString().trim());
+                    if (title.equals("修改账号")){
+                        DialogUtils.showDialog("账号只能修改一次，\n确定要修改为“"+ string +"”吗？", new DialogUtils.OnClickSureListener() {
+                            @Override
+                            public void onClickSure() {
+                                onAddContantClickListener.onSure(string);
+                            }
+                        });
+                    }
                     else
                         onAddContantClickListener.onSure(mEd.getText().toString().trim());
                 }

@@ -2,6 +2,7 @@ package com.doubleq.xm6leefunz.about_chat.chat_group;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,6 +20,8 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.AddGroupWayActivity;
+import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.EditGroupCardActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.GroupChatSetActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.GrouperEscActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.InvitationGroupChatActivity;
@@ -69,6 +72,8 @@ public class GroupChatDetailsActivity extends BaseActivity {
     LinearLayout mLinMain;
     @BindView(R.id.group_data_tv_mine_name)
     TextView groupDataTvMineName;
+    @BindView(R.id.group_data_lin_myGroupCard)
+    LinearLayout groupDataLinMyGroupCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -297,7 +302,7 @@ public class GroupChatDetailsActivity extends BaseActivity {
 
     CustomPopWindow popWindow;
 
-    @OnClick({R.id.group_data_iv_head, R.id.group_data_lin_intogrouplist, R.id.group_data_tv_name, R.id.include_top_iv_more})
+    @OnClick({R.id.group_data_iv_head, R.id.group_data_lin_intogrouplist, R.id.group_data_tv_name, R.id.include_top_iv_more,R.id.group_data_lin_myGroupCard})
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.group_data_iv_head:
@@ -322,7 +327,15 @@ public class GroupChatDetailsActivity extends BaseActivity {
                 else
                     popWindow.showAsDropDown(mLinMain, 0, 0);
                 break;
+            case R.id.group_data_lin_myGroupCard:
+                startActivityForResult(new Intent(GroupChatDetailsActivity.this,EditGroupCardActivity.class),1);
         }
+    }
+    String result;
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        result = data.getExtras().getString("myGroupCard");
+        groupDataTvMineName.setText(result);
     }
 
     @OnClick({R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat})
@@ -332,7 +345,7 @@ public class GroupChatDetailsActivity extends BaseActivity {
                 IntentUtils.JumpToHaveOne(GroupChatSetActivity.class, "id", groupId);
                 break;
             case R.id.group_details_lin_add_type:
-
+                IntentUtils.JumpTo(AddGroupWayActivity.class);
                 break;
             case R.id.group_details_lin_group_notice:
 
