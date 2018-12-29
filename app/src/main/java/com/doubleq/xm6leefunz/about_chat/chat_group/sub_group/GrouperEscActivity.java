@@ -66,8 +66,7 @@ public class GrouperEscActivity extends BaseActivity {
                 DialogUtils.showDialogOne("退出群聊成功", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
-                        AppManager.getAppManager().finishActivity(GrouperEscActivity.class);
-                        AppManager.getAppManager().finishActivity(ChatGroupActivity.class);
+                        AppManager.getAppManager().finishActivity(GrouperEscActivity.this);
                     }
                 });
                 break;

@@ -1,69 +1,33 @@
 package com.doubleq.xm6leefunz.about_chat.chat_group.sub_group;
 
-import android.Manifest;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.bumptech.glide.Glide;
 import com.doubleq.model.DataCreatGroupChat;
-import com.doubleq.model.DataCreatGroupResult;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
-import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.about_intent_data.IntentDataInvitation;
-import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
-import com.doubleq.xm6leefunz.about_utils.ImageUtils;
-import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.CreatGroupChatAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.CreatGroupSeachAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar;
-import com.doubleq.xm6leefunz.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
-import com.rance.chatui.util.Constants;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 //位置：邀请好友进群
 public class InvitationGroupChatActivity extends BaseActivity {
@@ -78,14 +42,14 @@ public class InvitationGroupChatActivity extends BaseActivity {
 
     @BindView(R.id.group_team_letter)
     LetterBar mLetterBar;
-
-
-
-
     @BindView(R.id.creat_exlist_friend)
     ExpandableListView mExList;
-
-
+    @BindView(R.id.invitation_lin_nodata)
+    LinearLayout invitationLinNodata;
+    @BindView(R.id.invitation_tv_nodata)
+    TextView invitationTvNodata;
+    @BindView(R.id.invitation_lin_list)
+    LinearLayout invitationLinList;
     private Runnable runnable;
 
     @Override
@@ -99,30 +63,35 @@ public class InvitationGroupChatActivity extends BaseActivity {
         return R.layout.activity_invitation_group_chat;
     }
 
+    String groupId;
+    String groupType;
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        Intent intent = getIntent();
-        if (intent!=null)
-        {
-            IntentDataInvitation dataInvitation = (IntentDataInvitation)intent.getSerializableExtra(AppConfig.GROUP_ID);
-            String groupTital = dataInvitation.getGroupTital();
-            includeTopTvTital.setText(groupTital);
-
-
-        }
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         includeTopTvRight.setVisibility(View.VISIBLE);
         includeTopTvRight.setText("确定");
-        initGroup();
+        Intent intent = getIntent();
+        if (intent != null) {
+            IntentDataInvitation dataInvitation = (IntentDataInvitation) intent.getSerializableExtra(AppConfig.GROUP_ID);
+            String groupTital = dataInvitation.getGroupTital();
+            includeTopTvTital.setText(groupTital);
+            groupType = dataInvitation.getGroupType();
+            groupId = dataInvitation.getGroupId();
+            initABC2();
+//           邀请
+            if (AppConfig.GROUP_QUZHU.equals(groupType)) {
+                sendWeb(SplitWeb.groupInvitationfFriend(groupId));
+            } else {
+//                删除
+                sendWeb(SplitWeb.getGroupWebInfo());
+            }
+        }
     }
 
-    private void initGroup() {
-        initABC2();
-//        initHttp();
-        sendWeb(SplitWeb.getGroupWebInfo());
-    }
     List<String> ABCList = new ArrayList<>();
+
     public void initABC2() {
         ABCList.clear();
 //        ABCList.add("");
@@ -170,7 +139,8 @@ public class InvitationGroupChatActivity extends BaseActivity {
         String upperCase = pinyin.substring(0, 1).toUpperCase();
         return upperCase;
     }
-//    大列表选中的数据
+
+    //    大列表选中的数据
     List<String> mList = new ArrayList<>();
     List<DataCreatGroupChat.RecordBean.FriendListBean> mFriendList = new ArrayList<>();
 
@@ -179,34 +149,48 @@ public class InvitationGroupChatActivity extends BaseActivity {
         super.receiveResultMsg(responseText);
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
+            case "groupInvitationfFriend":
             case "getGroupWebInfo":
                 DataCreatGroupChat dataCreatGroupChat = JSON.parseObject(responseText, DataCreatGroupChat.class);
                 DataCreatGroupChat.RecordBean record = dataCreatGroupChat.getRecord();
                 if (record != null) {
                     List<DataCreatGroupChat.RecordBean.FriendListBean> friend_list = record.getFriendList();
-                    mFriendList.addAll(friend_list);
-                    if (friend_list.size() > 0)
-                        initAdapter(friend_list);
+                    if (friend_list.size() > 0) {
+                        if (StrUtils.isEmpty(friend_list.get(0).getGroupName())) {
+                            friend_list.remove(0);
+                        }
+                        mFriendList.addAll(friend_list);
+                        if (mFriendList.size() == 0) {
+                            invitationLinNodata.setVisibility(View.VISIBLE);
+                            invitationTvNodata.setText("暂无新成员数据");
+                            invitationLinList.setVisibility(View.GONE);
+                        } else {
+                            invitationLinNodata.setVisibility(View.GONE);
+                            invitationLinList.setVisibility(View.VISIBLE);
+                            initAdapter(friend_list);
+                        }
+                    }
+
                 }
                 break;
-            case "createdUserGroup":
-//                在application处理
-//                DataCreatGroupResult dataCreatGroupResult = JSON.parseObject(responseText, DataCreatGroupResult.class);
-//                record1 = dataCreatGroupResult.getRecord();
-//                if (record1 != null) {
-//                    DialogUtils.showDialogOne("群创建成功，快去聊天吧", new DialogUtils.OnClickSureListener() {
-//                        @Override
-//                        public void onClickSure() {
-////     TODO 应该跳转到群聊天界面
-//                            CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
-//                            cusJumpGroupChatData.setGroupId(record1.getGroupOfId());
-//                            cusJumpGroupChatData.setGroupName(record1.getGroupNickName());
-//                            IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
-//                            AppManager.getAppManager().finishActivity(InvitationGroupChatActivity.this);
-//                        }
-//                    });
-////                    send(SplitWeb.groupSend(record1.getGroupOfId(),"群创建成功，快去聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
-//                }
+//                邀请入群
+            case "groupInvitationf":
+                DialogUtils.showDialogOne("邀请群成员成功", new DialogUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+                        AppManager.getAppManager().finishActivity(InvitationGroupChatActivity.this);
+                    }
+                });
+
+                break;
+            case "delGroupMember":
+                DialogUtils.showDialogOne("删除群成员成功", new DialogUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+                        AppManager.getAppManager().finishActivity(InvitationGroupChatActivity.this);
+                    }
+                });
+
                 break;
         }
     }
@@ -232,18 +216,17 @@ public class InvitationGroupChatActivity extends BaseActivity {
         creatGroupChatAdapter.setOnMyLinChangeListener(new CreatGroupChatAdapter.OnMyLinChangeListener() {
             @Override
             public void onCheckedChanged(String friendId, boolean isChecked) {
-                if (isChecked)
-                {
+                if (isChecked) {
                     if (!mList.contains(friendId))
-                    mList.add(friendId);
-                }else
-                {
+                        mList.add(friendId);
+                } else {
                     if (mList.contains(friendId))
                         mList.remove(friendId);
                 }
                 List<String> checkString = creatGroupChatAdapter.getCheckString();
 
-                Log.e("checkChat","friendId="+friendId+isChecked+"++++"+mList.toString()+"---"+checkString.toString());
+
+                Log.e("checkChat", "friendId=" + friendId + isChecked + "++++" + mList.toString() + "---" + checkString.toString());
             }
         });
 //        mExList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -260,7 +243,7 @@ public class InvitationGroupChatActivity extends BaseActivity {
         creatGroupChatAdapter.notifyDataSetChanged();
     }
 
-    @OnClick({R.id.seach_iv_close,  R.id.inclu_tv_right})
+    @OnClick({R.id.seach_iv_close, R.id.inclu_tv_right})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 //                点击确定
@@ -275,12 +258,16 @@ public class InvitationGroupChatActivity extends BaseActivity {
                         } else {
                             checkChat += "," + checkString.get(i);
                         }
-//                        check[i]=checkData.get(i).getWx_sno();
                     }
-//                    sendWebHaveDialog(SplitWeb.createdUserGroup(checkChat, imageBase64)
-//                            , "创建中...", "群聊创建成功");
+                    if (groupType.equals(AppConfig.GROUP_QUZHU)) {
+                        sendWebHaveDialog(SplitWeb.groupInvitationf(groupId, checkChat)
+                                , "邀请中...", "邀请好友入群成功");
+                    } else {
+                        sendWebHaveDialog(SplitWeb.delGroupMember(groupId, checkChat)
+                                , "删除中...", "删除群成员成功");
+                    }
                 } else {
-                    ToastUtil.show("请选择邀请的成员");
+                    ToastUtil.show("请选择成员");
                 }
                 break;
         }

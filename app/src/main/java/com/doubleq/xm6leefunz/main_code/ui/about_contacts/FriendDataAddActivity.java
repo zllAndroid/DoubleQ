@@ -27,7 +27,7 @@ import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
- * 位置：好友资料界面  (添加)
+ * 位置：好友资料界面  (添加)  还未添加的页面
  */
 public class FriendDataAddActivity extends BaseActivity {
     @BindView(R.id.include_top_tv_tital)

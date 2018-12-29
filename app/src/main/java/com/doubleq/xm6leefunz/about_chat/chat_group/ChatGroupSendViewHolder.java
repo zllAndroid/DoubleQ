@@ -121,6 +121,17 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.GONE);
                     break;
+
+                case Constants.CHAT_NOTICE:
+                    chatItemDate.setText(data.getMessage(),null);
+                    chatItemDate.setVisibility(View.VISIBLE);
+                    chatItemVoice.setVisibility(View.GONE);
+                    chatItemContentText.setVisibility(View.GONE);
+                    chatItemHeader.setVisibility(View.GONE);
+                    chatItemLayoutContent.setVisibility(View.GONE);
+                    chatItemVoiceTime.setVisibility(View.GONE);
+                    chatItemContentImage.setVisibility(View.GONE);
+                    break;
                 case Constants.CHAT_PICTURE:
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemLayoutContent.setVisibility(View.GONE);

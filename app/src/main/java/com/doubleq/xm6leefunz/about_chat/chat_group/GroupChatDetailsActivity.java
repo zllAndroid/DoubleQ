@@ -98,9 +98,17 @@ public class GroupChatDetailsActivity extends BaseActivity {
             if (!StrUtils.isEmpty(groupId))
                 sendWeb(SplitWeb.searchDetailInfo(groupId));
         }
-
         initRightPop();
-
+    }
+boolean isFirst=false ;
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isFirst) {
+            if (!StrUtils.isEmpty(groupId))
+                sendWeb(SplitWeb.searchDetailInfo(groupId));
+        }
+        isFirst=true;
     }
 
     View mView;
