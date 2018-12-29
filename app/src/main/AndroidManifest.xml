@@ -244,10 +244,10 @@
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 群聊资料 -->
-        <activity
-            android:name=".main_code.ui.about_contacts.GroupDetailsActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!--<activity-->
+            <!--android:name=".main_code.ui.about_contacts.GroupDetailsActivity"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:theme="@style/SwipeBack.Transparent.Theme" />-->
         <!-- 添加 -->
         <activity
             android:name=".main_code.ui.about_contacts.about_search.AddFriendActivity"

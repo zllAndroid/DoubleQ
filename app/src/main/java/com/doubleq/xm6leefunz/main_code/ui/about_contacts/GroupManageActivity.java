@@ -72,12 +72,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
         {
             includeTopTvTital.setText("群组分组管理");
         }
-
-
-
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
-        includeTopTvRight.setVisibility(View.VISIBLE);
-
 
 //        mRecyclerView.setHasFixedSize(true);
 //        mRecyclerView.setNestedScrollingEnabled(false);
@@ -195,8 +190,14 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
         ItemTouchHelper.Callback callback = new MyItemTouchHelperCallback(new CallbackItemTouch() {
             @Override
             public void itemTouchOnMove(int oldPosition, int newPosition) {
-                group_info.add(newPosition, group_info.remove(oldPosition));// change position
-                blackAdapter.notifyItemMoved(oldPosition, newPosition); //notifies changes in adapter, in this case use the notifyItemMoved
+
+                try {
+                    group_info.add(newPosition, group_info.remove(oldPosition));// change position
+                    blackAdapter.notifyItemMoved(oldPosition, newPosition); //notifies changes in adapter, in this case use the notifyItemMoved
+                    includeTopTvRight.setVisibility(View.VISIBLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         });// create MyItemTouchHelperCallback
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback); // Create ItemTouchHelper and pass with parameter the MyItemTouchHelperCallback

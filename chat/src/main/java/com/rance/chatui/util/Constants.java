@@ -17,6 +17,7 @@ public class Constants {
     public static final String CHAT_PICTURE = "2";
     public static final String CHAT_EMOTION = "3";
     public static final String CHAT_FILE= "4";
+    public static final String CHAT_NOTICE= "6";
 //    key  传入的key
     public static final String KEY_FRIEND_HEADER= "header";
     public static final String KEY_FRIEND_ID= "friendid";

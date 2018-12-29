@@ -9,7 +9,26 @@
     >
     <include layout="@layout/activity_include_title_bar"/>
 
+    <LinearLayout
+        android:id="@+id/invitation_lin_nodata"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp120"
+        android:background="@color/grayeee"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/invitation_tv_nodata"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray666"
+            android:textSize="@dimen/sp16"
+            android:gravity="center"
+            android:text="暂无新成员数据"
+            android:background="@color/grayeee"
+            android:layout_gravity="center"
+            />
 
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -74,57 +93,63 @@
 
     </LinearLayout>
 
-
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/invitation_lin_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         >
-        <LinearLayout
-            android:id="@+id/group_lin_list"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            >
             <LinearLayout
+                android:id="@+id/group_lin_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <RelativeLayout
+                android:orientation="horizontal">
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:descendantFocusability="blocksDescendants">
-                    <ExpandableListView
-                        android:id="@+id/creat_exlist_friend"
+                    android:background="@color/white"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+                    <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:divider="@null"
-                        android:groupIndicator="@null"
-                        android:layout_weight="1"
-                        android:scrollbars="none"
-                        android:background="@color/white">
-                    </ExpandableListView>
-                </RelativeLayout>
+                        android:descendantFocusability="blocksDescendants">
+                        <ExpandableListView
+                            android:id="@+id/creat_exlist_friend"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:divider="@null"
+                            android:groupIndicator="@null"
+                            android:layout_weight="1"
+                            android:scrollbars="none"
+                            android:background="@color/white">
+                        </ExpandableListView>
+                    </RelativeLayout>
+                </LinearLayout>
+
+
+                <com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar
+                    android:layout_height="wrap_content"
+                    android:layout_width="@dimen/dp30"
+                    android:id="@+id/group_team_letter"
+                    android:layout_alignParentRight="true"/>
             </LinearLayout>
-
-
-            <com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar
-                android:layout_height="wrap_content"
-                android:layout_width="@dimen/dp30"
-                android:id="@+id/group_team_letter"
-                android:layout_alignParentRight="true"/>
-        </LinearLayout>
-        <TextView
-            android:id="@+id/tv_abc"
-            android:layout_height="@dimen/dp100"
-            android:layout_width="@dimen/dp100"
-            android:visibility="gone"
-            android:textSize="@dimen/sp50"
-            android:textColor="@color/white"
-            android:hint="A"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:background="@drawable/btn_stroke_sel"
-            />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/tv_abc"
+                android:layout_height="@dimen/dp100"
+                android:layout_width="@dimen/dp100"
+                android:visibility="gone"
+                android:textSize="@dimen/sp50"
+                android:textColor="@color/white"
+                android:hint="A"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:background="@drawable/btn_stroke_sel"
+                />
+        </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

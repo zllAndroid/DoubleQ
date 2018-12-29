@@ -379,6 +379,30 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "getGroupWebInfo", map);
         return  request;
     }
+
+//    邀请入群
+    public  static  String groupInvitationf(String groupId,String friendIds){
+        dealMap();
+        map.put("groupId",groupId);
+        map.put("friendIds",friendIds);
+        String request = WebUrl.request("Contact", "groupInvitationf", map);
+        return  request;
+    }
+//    邀请好友入群 列表接口
+    public  static  String groupInvitationfFriend(String groupId){
+        dealMap();
+        map.put("groupId",groupId);
+        String request = WebUrl.request("Contact", "groupInvitationfFriend", map);
+        return  request;
+    }
+    public  static  String delGroupMember(String groupOfId,String userIds){
+        dealMap();
+        map.put("groupOfId",groupOfId);
+        map.put("userIds",userIds);
+
+        String request = WebUrl.request("Contact", "groupInvitationf", map);
+        return  request;
+    }
     public  static  String createdUserGroup(String fromUserIds,String groupName,String groupImg){
         dealMap();
         map.put("fromUserIds",fromUserIds);

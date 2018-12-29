@@ -67,6 +67,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeI
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -251,6 +252,7 @@ public class ChatGroupActivity extends BaseActivity {
     @OnClick(R.id.include_top_iv_more)
     public void onViewClicked() {
         JumpToHaveOne(GroupChatDetailsActivity.class,AppConfig.GROUP_ID,groupId);
+        AppManager.getAppManager().finishActivity(ChatGroupActivity.this);
     }
 
     @Override
