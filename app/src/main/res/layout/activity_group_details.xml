@@ -72,8 +72,7 @@
                         android:textColor="@color/gray666"
                         android:layout_marginBottom="@dimen/dp5"
                         android:drawableRight="@drawable/in_right"
-                        android:layout_marginRight="@dimen/dp5"
-                        android:text="群聊成员(3)"/>
+                        android:text="群聊成员(0)"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -84,7 +83,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:descendantFocusability="blocksDescendants">
-                            <!--<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView-->
 
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/group_data_recyc"

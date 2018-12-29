@@ -330,7 +330,6 @@ public class CreatGroupChatActivity extends BaseActivity {
                     DialogUtils.showDialogOne("群创建成功，快去聊天吧", new DialogUtils.OnClickSureListener() {
                         @Override
                         public void onClickSure() {
-//     TODO 应该跳转到群聊天界面
                             CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
                             cusJumpGroupChatData.setGroupId(record1.getGroupOfId());
                             cusJumpGroupChatData.setGroupName(record1.getGroupNickName());

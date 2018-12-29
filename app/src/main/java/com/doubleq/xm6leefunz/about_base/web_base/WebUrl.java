@@ -21,7 +21,6 @@ public class WebUrl {
         JSONArray objects = new JSONArray();
         long l = System.currentTimeMillis()/1000;
         String s=treemap.toString();
-
         Iterator titer=treemap.entrySet().iterator();
         String data="";
         while(titer.hasNext()){

@@ -58,19 +58,19 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
     @Override
     protected void convert(BaseViewHolder helper, CusHomeRealmData item) {
 //        CusDataLinkFriend linkFriend = realmLinkFriendHelper.queryLinkFriend(item.getFriendId());
-        String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(item.getFriendId());
-        if (imgPath!=null)
-        {
-            Glide.with(context).load(imgPath)
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .error(R.drawable.qun_head)
-                    .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
-        }else
-        {
-            Glide.with(context).load(item.getHeadImg())
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .error(R.drawable.qun_head)
-                    .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+        if (!StrUtils.isEmpty(item.getFriendId())) {
+            String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+            if (imgPath != null) {
+                Glide.with(context).load(imgPath)
+                        .bitmapTransform(new CropCircleTransformation(context))
+                        .error(R.drawable.qun_head)
+                        .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+            } else {
+                Glide.with(context).load(item.getHeadImg())
+                        .bitmapTransform(new CropCircleTransformation(context))
+                        .error(R.drawable.qun_head)
+                        .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+            }
         }
         helper.setText(R.id.item_tv_name,item.getNickName());
         helper.setText(R.id.item_tv_msg,item.getMsg());

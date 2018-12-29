@@ -152,7 +152,7 @@
                             android:textColor="@color/gray999"
                             android:layout_weight="1"
                             android:drawableRight="@drawable/in_right"
-                            android:text="家人"/>
+                            android:hint="点击选择设置群分组"/>
 
                     </LinearLayout>
                 </LinearLayout>

@@ -18,8 +18,10 @@ import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.FriendGroupListActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.add_friend.FenZuFriendPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import java.util.List;
@@ -65,7 +67,6 @@ public class AddGoodGroupActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null) {
              dataSearch = (DataSearch) intent.getSerializableExtra(AppConfig.GROUP_ADDKEY);
-//            dataSearch.getHead_img()
             if (dataSearch==null)
                 return;
             Glide.with(this).load(dataSearch.getHeadImg()).error(R.drawable.mine_head).into(fdaIvHead);
@@ -79,47 +80,46 @@ public class AddGoodGroupActivity extends BaseActivity {
 //点击发送
     @OnClick(R.id.inclu_tv_right)
     public void onSend() {
-        ToastUtil.show("我点击了发送");
         String yanzheng = fdaEdYanzheng.getText().toString().trim();
-//        String remark = fdaEdBeizhu.getText().toString().trim();
         sendWeb(SplitWeb.addGroupOf(dataSearch.getSno(),yanzheng));
     }
 //点击分组
     @OnClick(R.id.fda_tv_group)
     public void onGroup() {
-        sendWeb(SplitWeb.groupManageInfo("1"));
+        Intent intent = new Intent(this, FriendGroupListActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putString(AppConfig.KEY_FRIEND_GROUP, AppConfig.VALUE_GROUP);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, AppConfig.GROUP_ADD_GROUP_REQUEST);
     }
-    List<DataGroupManage.RecordBean.GroupInfoBean> group_info;
     String ids=null;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
-            case "groupManageInfo":
-                DataGroupManage dataGroupManage = JSON.parseObject(responseText, DataGroupManage.class);
-                DataGroupManage.RecordBean record = dataGroupManage.getRecord();
-                group_info = record.getGroupInfo();
-
-                if (record != null && group_info.size() > 0) {
-//                    FenZuFriendPopWindow
-                    FenZuFriendPopWindow changeInfoWindowsign = new FenZuFriendPopWindow(AddGoodGroupActivity.this, group_info);
-                    changeInfoWindowsign.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
-                    changeInfoWindowsign.setOnClickWhoListener(new FenZuFriendPopWindow.OnClickWhoListener() {
-                        @Override
-                        public void WhoListener(String msg, String id) {
-                            fdaTvGroup.setText(msg);
-                            ids=id;
-                        }
-
-                    });
-                }
-                break;
             case "addGroupOf":
-                DialogUtils.showDialog("申请入群成功");
+                DialogUtils.showDialogOne("申请入群成功,等待群主确认", new DialogUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+                        AppManager.getAppManager().finishActivity(AddGoodGroupActivity.this);
+                    }
+                });
                 break;
-            default:
-                break;
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == AppConfig.FRIEND_ADD_GROUP_RESULT) {
+            if (requestCode == AppConfig.GROUP_ADD_GROUP_REQUEST) {
+//            if (requestCode == AppConfig.FRIEND_ADD_GROUP_REQUEST) {
+                String name = data.getStringExtra(FriendGroupListActivity.CHOOSE_NAME);
+                String id = data.getStringExtra(FriendGroupListActivity.CHOOSE_ID);
+                fdaTvGroup.setText(name);
+                ids=id;
+                //设置结果显示框的显示数值
+            }
         }
     }
 }

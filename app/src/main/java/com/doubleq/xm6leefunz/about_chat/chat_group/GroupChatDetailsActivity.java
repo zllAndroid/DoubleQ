@@ -28,6 +28,7 @@ import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.InvitationGroupCha
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.about_intent_data.IntentDataInvitation;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupTeamActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberQunzhuAdapter;
@@ -188,8 +189,15 @@ boolean isFirst=false ;
                 DialogUtils.showDialogOne("退出群聊成功", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
+
+                        RealmHomeHelper realmHomeHelper = new RealmHomeHelper(GroupChatDetailsActivity.this);
+                        realmHomeHelper.deleteRealmMsg(groupId);
+                        Intent intent2 = new Intent();
+                        intent2.putExtra("id",groupId);
+                        intent2.setAction("del.refreshMsgFragment");
+                        sendBroadcast(intent2);
                         AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
-                        AppManager.getAppManager().finishActivity(ChatGroupActivity.class);
+//                        AppManager.getAppManager().finishActivity(ChatGroupActivity.class);
                     }
                 });
 

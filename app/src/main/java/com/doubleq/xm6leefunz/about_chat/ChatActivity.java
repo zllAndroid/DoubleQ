@@ -205,8 +205,7 @@ public class ChatActivity extends BaseActivity {
         Intent intent2 = new Intent();
         intent2.putExtra("message", FriendId);
         intent2.putExtra("id", FriendId);
-        Log.e("FriendId","---------------FriendId--------------"+FriendId);
-        intent2.setAction("zll.refreshMsgFragment");
+        intent2.setAction("zero.refreshMsgFragment");
         sendBroadcast(intent2);
         listenEnter();
     }
@@ -249,8 +248,21 @@ public class ChatActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         SplitWeb.IS_CHAT = "00";
+
+        try {
+            realmHomeHelper.updateNumZero(FriendId);
+            Intent intent2 = new Intent();
+            intent2.putExtra("message", FriendId);
+            intent2.putExtra("id", FriendId);
+            intent2.setAction("zero.refreshMsgFragment");
+            sendBroadcast(intent2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         realmHelper.close();
         realmHomeHelper.close();
+
     }
 
     ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
