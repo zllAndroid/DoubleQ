@@ -215,6 +215,15 @@ public class DataSearchResult {
             private String headImg;
             private String qrcode;
             private String isRelation;
+            private String personaSignature;
+
+            public String getPersonaSignature() {
+                return personaSignature;
+            }
+
+            public void setPersonaSignature(String personaSignature) {
+                this.personaSignature = personaSignature;
+            }
 
             public String getIsRelation() {
                 return isRelation;

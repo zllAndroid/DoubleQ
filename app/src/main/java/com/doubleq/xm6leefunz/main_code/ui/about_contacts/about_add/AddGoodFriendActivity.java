@@ -3,6 +3,7 @@ package com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_add;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -88,6 +89,7 @@ public class AddGoodFriendActivity extends BaseActivity {
     public void onSend() {
         String yanzheng = fdaEdYanzheng.getText().toString().trim();
         String remark = fdaEdBeizhu.getText().toString().trim();
+        Log.e("remark","------------------------"+remark);
         sendWeb(SplitWeb.addFriend(dataSearch.getSno(),ids,yanzheng,remark));
     }
     //点击分组

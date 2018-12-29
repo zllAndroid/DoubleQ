@@ -19,6 +19,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearc
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import butterknife.BindView;
@@ -61,7 +62,7 @@ public class FriendDataAddActivity extends BaseActivity {
             if (dataSearch!=null) {
                 mTvName.setText(dataSearch.getName());
                 fdaTvNum.setText(dataSearch.getSno());
-                fdaTvSign.setText(dataSearch.getName());
+                fdaTvSign.setText(StrUtils.isEmpty(dataSearch.getSign())?"暂未设置签名":dataSearch.getSign());
                 Glide.with(this).load(dataSearch.getHeadImg())
                         .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
                         .crossFade(1000).into(mIvHead);

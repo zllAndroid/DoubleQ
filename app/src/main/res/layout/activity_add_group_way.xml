@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
             <RadioGroup
-                android:id="@+id/share_radioGroup"
+                android:id="@+id/add_radioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -32,7 +32,7 @@
                     android:button="@null"
                     android:background="@color/transparent"
                     android:padding="@dimen/dp10"
-                    android:text="允许分享" />
+                    android:text="允许加入" />
                 <View
                     style="@style/style_wei_line"
                     />
@@ -44,7 +44,7 @@
                     android:button="@null"
                     android:background="@color/transparent"
                     android:padding="@dimen/dp10"
-                    android:text="需要验证" />
+                    android:text="需要经过我同意" />
                 <View
                     style="@style/style_wei_line"
                     />
@@ -56,44 +56,9 @@
                     android:button="@null"
                     android:background="@color/transparent"
                     android:padding="@dimen/dp10"
-                    android:text="禁止被分享" />
+                    android:text="禁止加入" />
             </RadioGroup>
         </LinearLayout>
-
-        <!--<CheckBox-->
-        <!--android:id="@+id/share_checkbox1"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:button="@null"-->
-        <!--android:drawableRight="@drawable/addr_check"-->
-        <!--android:padding="@dimen/dp10"-->
-        <!--android:text="允许分享"-->
-        <!--android:checked="true"-->
-        <!--android:textSize="@dimen/sp15" />-->
-        <!--<View-->
-        <!--style="@style/style_wei_line"-->
-        <!--/>-->
-        <!--<CheckBox-->
-        <!--android:id="@+id/share_checkbox2"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:button="@null"-->
-        <!--android:drawableRight="@drawable/addr_check"-->
-        <!--android:padding="@dimen/dp10"-->
-        <!--android:text="需要验证"-->
-        <!--android:textSize="@dimen/sp15" />-->
-        <!--<View-->
-        <!--style="@style/style_wei_line"-->
-        <!--/>-->
-        <!--<CheckBox-->
-        <!--android:id="@+id/share_checkbox3"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:button="@null"-->
-        <!--android:drawableRight="@drawable/addr_check"-->
-        <!--android:padding="@dimen/dp10"-->
-        <!--android:text="禁止被分享"-->
-        <!--android:textSize="@dimen/sp15" />-->
 
         <LinearLayout
             android:layout_width="match_parent"
