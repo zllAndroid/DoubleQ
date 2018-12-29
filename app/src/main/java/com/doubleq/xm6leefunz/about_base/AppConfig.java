@@ -10,8 +10,14 @@ public static final String TYPE_FRIEND= "friendimg";//好友头像
 public static final String TYPE_GROUP= "groupimg";//群组头像
 
 
+//    群/好友分组列表  传参
+public static final String KEY_FRIEND_GROUP= "friend_group";
+public static final String VALUE_FRIEND= "1";//"friend";
+public static final String VALUE_GROUP= "2";//"group";
+
+
     //    notification
-//     类型
+    //     类型
     public static final String TYPE_NOTICE= "notice";//好友通知
 
     public static final String TYPE_CHAT= "chat_chat";//聊天通知
@@ -49,7 +55,10 @@ public static final String TYPE_GROUP= "groupimg";//群组头像
     public static  String CHAT_GROUP_ID= "groupid";
 
     //好友分组请求码
+    public static final int GROUP_ADD_GROUP_REQUEST= 0x4;//AddGoodFriendActivity  页面的请求码
+
     public static final int FRIEND_ADD_GROUP_REQUEST= 0x0;//AddGoodFriendActivity  页面的请求码
+
     public static final int FRIEND_DATA_GROUP_REQUEST=0x1;//FriendDataActivity 页面的请求码
 
     public static final int FRIEND_ADD_GROUP_RESULT=0x3;//AddGoodFriendActivity

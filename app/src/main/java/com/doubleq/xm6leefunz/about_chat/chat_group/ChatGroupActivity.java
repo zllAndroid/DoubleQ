@@ -186,7 +186,7 @@ public class ChatGroupActivity extends BaseActivity {
         Intent intent2 = new Intent();
         intent2.putExtra("message",groupId);
         intent2.putExtra("id",groupId);
-        intent2.setAction("zll.refreshMsgFragment");
+        intent2.setAction("zero.refreshMsgFragment");
         sendBroadcast(intent2);
         listenEnter();
 
@@ -235,6 +235,17 @@ public class ChatGroupActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         SplitWeb.IS_CHAT_GROUP = "00";
+        try {
+            realmHomeHelper.updateNumZero(groupId);
+            Intent intent2 = new Intent();
+            intent2.putExtra("message",groupId);
+            intent2.putExtra("id",groupId);
+            intent2.setAction("zero.refreshMsgFragment");
+            sendBroadcast(intent2);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         realmGroupChatHelper.close();
         realmHomeHelper.close();
     }

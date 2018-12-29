@@ -132,6 +132,9 @@ public class MsgFragment extends BaseFragment {
         IntentFilter intentFilter3 = new IntentFilter();
         intentFilter3.addAction("zero.refreshMsgFragment");
         getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter3);
+        IntentFilter intentFilter4 = new IntentFilter();
+        intentFilter4.addAction("del.refreshMsgFragment");
+        getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter4);
     }
 
     RealmHomeHelper realmHelper;
@@ -198,14 +201,28 @@ public class MsgFragment extends BaseFragment {
             }
             else  if (action.equals("zll.refreshMsgFragment"))
             {
-                Log.e("refreshMsg","--------------------------------------------------------------------------------------------------");
-//                initRefresh(intent);
                 refreshMsg(intent);
-
             }
-            sendBroadcast();
+            else  if (action.equals("del.refreshMsgFragment"))
+            {
+                initDel(intent);
+            }
+//            sendBroadcast();
         }
     };
+
+    private void initDel(Intent intent) {
+        String id = intent.getStringExtra("id");
+        realmHelper.deleteRealmMsg(id);
+        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
+        Log.e("home","initDel="+cusHomeRealmData.size());
+        if (cusHomeRealmData.size()!=0)
+        {
+            mList.clear();
+            mList.addAll(cusHomeRealmData);
+            initAdapter();
+        }
+    }
 
     private void refreshMsg(Intent intent) {
         String id = intent.getStringExtra("id");
@@ -234,7 +251,6 @@ public class MsgFragment extends BaseFragment {
     }
 
     private void initZeroNum(Intent intent) {
-        String message = intent.getStringExtra("message");
         String id = intent.getStringExtra("id");
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id);
         if (homeRealmData!=null) {
@@ -299,23 +315,6 @@ public class MsgFragment extends BaseFragment {
         }
     }
 
-//    /**
-//     * 接收到后台的消息显示
-//     * @param responseText
-//     */
-//    @Override
-//    public void receiveResultMsg(String responseText) {
-//        super.receiveResultMsg(responseText);
-//        String method = HelpUtils.backMethod(responseText);
-//        switch (method)
-//        {
-////            获取用户 消息列表
-//            case "getUserRelation":
-//                initData(responseText);
-//                break;
-////
-//        }
-//    }
 
     List<CusHomeRealmData> mList =new ArrayList<>();
 

@@ -328,43 +328,23 @@ public class MyApplication extends Application  implements IWebSocketPage  {
 //        record1 = dataCreatGroupResult.getRecord();
         if (record!=null)
         {
-            sendText(SplitWeb.groupSend(record.getGroupOfId(),"群创建成功，快来聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+//            sendText(SplitWeb.groupSend(record.getGroupOfId(),"群创建成功，快来聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
             final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
             cusJumpChatData.setHeadImg(record.getGroupHeadImg());
             cusJumpChatData.setFriendId(record.getGroupOfId());
             cusJumpChatData.setNickName(record.getGroupNickName());
-            cusJumpChatData.setMsg("群创建成功，快来聊天吧");
+            cusJumpChatData.setMsg("我新建了一个群");
             cusJumpChatData.setTime(TimeUtil.getTime());
             cusJumpChatData.setNum(0);
 //            cusJumpChatData.setType(RealmHomeHelper.TypeQun);
             realmHelper.addRealmMsgQun(cusJumpChatData);
             Intent intent = new Intent();
-            intent.putExtra("message","群创建成功，快来聊天吧");
+            intent.putExtra("message","我新建了一个群");
             intent.putExtra("id",record.getGroupOfId());
             intent.setAction("action.refreshMsgFragment");
             sendBroadcast(intent);
         }
 
-//        DataAgreeFriend dataAgreeFriend = JSON.parseObject(responseText, DataAgreeFriend.class);
-//        DataAgreeFriend.RecordBean record = dataAgreeFriend.getRecord();
-//        if (record!=null)
-//        {
-//            sendText(SplitWeb.groupSend(record.getFriendsId(),"我们已经是好友了，快来聊一聊吧", ChatActivity.messageType, TimeUtil.getTime()));
-//
-//            final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
-//            cusJumpChatData.setHeadImg(record.getHeadImg());
-//            cusJumpChatData.setFriendId(record.getFriendsId());
-//            cusJumpChatData.setNickName(record.getNickName());
-//            cusJumpChatData.setMsg("我们已经是好友了，快来聊一聊吧");
-//            cusJumpChatData.setTime(TimeUtil.getTime());
-//            cusJumpChatData.setNum(0);
-//            realmHelper.addRealmMsg(cusJumpChatData);
-//            Intent intent = new Intent();
-//            intent.putExtra("message","我们已经是好友了，快来聊一聊吧");
-//            intent.putExtra("id",record.getFriendsId());
-//            intent.setAction("action.refreshMsgFragment");
-//            sendBroadcast(intent);
-//        }
     }
 
     private void initGroupReceiveData(String responseText) {

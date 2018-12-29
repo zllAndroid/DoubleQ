@@ -219,6 +219,11 @@
             android:name=".main_code.ui.about_contacts.about_search.SearchActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!--分组选择列表-->
+        <activity
+            android:name=".main_code.ui.about_contacts.about_search.FriendGroupListActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 添加好友 -->
         <activity
             android:name=".main_code.ui.about_contacts.about_add.AddGoodFriendActivity"
