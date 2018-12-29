@@ -13,6 +13,7 @@ import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupTeamActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -37,6 +38,7 @@ public class GrouperEscActivity extends BaseActivity {
     }
 
     String  groupId = null;
+    String  groupName = null;
 
     @Override
     protected void initBaseView() {
@@ -45,6 +47,7 @@ public class GrouperEscActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null) {
             groupId=intent.getStringExtra(AppConfig.GROUPER_ESC);
+            groupName=intent.getStringExtra(AppConfig.GROUPER_NAME);
         }
     }
 
@@ -79,7 +82,7 @@ public class GrouperEscActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.group_esc_tv_zhuanrang:
-
+                IntentUtils.JumpToHaveTwo(ZhuanRangGroupActivity.class, ZhuanRangGroupActivity.GROUP_ID, groupId,ZhuanRangGroupActivity.GROUP_NAME,groupName);
 
                 break;
             case R.id.group_esc_tv_jiesan:

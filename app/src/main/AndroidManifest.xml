@@ -187,13 +187,13 @@
             android:name=".about_chat.chat_group.sub_group.GroupChatSetActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--邀请或删除群成员-->
+        <!-- 邀请或删除群成员 -->
         <activity
             android:name=".about_chat.chat_group.sub_group.InvitationGroupChatActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <!--退出群聊-->
+        <!-- 退出群聊 -->
         <activity
             android:name=".about_chat.chat_group.sub_group.GrouperEscActivity"
             android:launchMode="singleTop"
@@ -323,8 +323,17 @@
             android:name=".about_chat.ChatSetActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <activity android:name=".about_chat.chat_group.sub_group.AddGroupWayActivity" />
-        <activity android:name=".about_chat.chat_group.sub_group.EditGroupCardActivity"></activity>
+        <activity
+            android:name=".about_chat.chat_group.sub_group.AddGroupWayActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity
+            android:name=".about_chat.chat_group.sub_group.EditGroupCardActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".about_chat.chat_group.sub_group.ZhuanRangGroupActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
     </application>
 
 </manifest>

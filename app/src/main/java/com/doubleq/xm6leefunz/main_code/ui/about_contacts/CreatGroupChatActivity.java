@@ -238,10 +238,6 @@ public class CreatGroupChatActivity extends BaseActivity {
 
                 }
 
-
-
-
-
             }
         });
     }

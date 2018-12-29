@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <include layout="@layout/activity_include_title_bar"/>
+    <!--<include layout="@layout/include_seach"/>-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+        <LinearLayout
+            android:id="@+id/group_lin_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <ExpandableListView
+                    android:id="@+id/group_team_expan"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:divider="@null"
+                    android:groupIndicator="@null"
+                    android:scrollbars="none"
+                    android:background="@color/white">
+                </ExpandableListView>
+                <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:descendantFocusability="blocksDescendants">-->
+                <!--&lt;!&ndash;<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView&ndash;&gt;-->
+                <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/group_team_recyc"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:fadingEdge="none"-->
+                <!--/>-->
+                <!--</RelativeLayout>-->
+            </LinearLayout>
+
+
+            <com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar
+                android:layout_height="wrap_content"
+                android:layout_width="@dimen/dp30"
+                android:id="@+id/group_team_letter"
+                android:layout_alignParentRight="true"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/tv_abc"
+            android:layout_height="@dimen/dp100"
+            android:layout_width="@dimen/dp100"
+            android:visibility="gone"
+            android:textSize="@dimen/sp50"
+            android:textColor="@color/white"
+            android:hint="A"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:background="@drawable/btn_stroke_sel"
+            />
+    </RelativeLayout>
+</LinearLayout>

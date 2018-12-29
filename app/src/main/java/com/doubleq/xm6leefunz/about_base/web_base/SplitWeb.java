@@ -365,6 +365,13 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "getGroupMemberList", map);
         return  request;
     }
+//    获取群主转让群成员列表
+    public  static  String getTransterGroupMemberInfo(String groupOfId){
+        dealMap();
+        putData("groupOfId",groupOfId);
+        String request = WebUrl.request("Contact", "getTransterGroupMemberInfo", map);
+        return  request;
+    }
     //    搜索好友接口
     public  static  String searchInfo(String  wx_sno,String type){
         dealMap();
@@ -492,7 +499,14 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "refuseFriend", map);
         return  request;
     }
-
+    //设置群名片接口
+    public static String setGroupCarteModify(String groupofId,String carteName){
+        dealMap();
+        putData("groupOfId",groupofId);
+        putData("carteName",carteName);
+        String request = WebUrl.request("Contact", "setGroupCarteModify", map);
+        return request;
+    }
 
     /**
      * 用户分组管理接口

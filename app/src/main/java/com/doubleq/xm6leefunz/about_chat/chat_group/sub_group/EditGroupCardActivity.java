@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.about_chat.chat_group.sub_group;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -10,7 +11,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
+import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -32,6 +39,10 @@ public class EditGroupCardActivity extends BaseActivity {
     @BindView(R.id.edit_groupCard_iv_clear)
     ImageView editGroupCardIvClear;
 
+    String groupofId;
+    String userId;
+    String carteName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +63,10 @@ public class EditGroupCardActivity extends BaseActivity {
 
         editGroupCardEt.addTextChangedListener(textWatcher);
         editGroupCardEt.setSelection(editGroupCardEt.getText().toString().length());
+        Intent intent_groupofId = getIntent();
+        if (intent_groupofId!=null)
+            groupofId = intent_groupofId.getStringExtra("groupofId");
+
     }
 
     private TextWatcher textWatcher = new TextWatcher() {
@@ -82,7 +97,23 @@ public class EditGroupCardActivity extends BaseActivity {
 
     @OnClick(R.id.inclu_tv_right)
     public void onViewClicked() {
+        if (groupofId!=null)
+        sendWeb(SplitWeb.setGroupCarteModify(groupofId, editGroupCardEt.getText().toString()));
+        else
+            ToastUtil.show("系统故障");
+    }
 
-
+    @Override
+    public void receiveResultMsg(String responseText) {
+        super.receiveResultMsg(responseText);
+        String method = HelpUtils.backMethod(responseText);
+        switch (method) {
+            case "setGroupCarteModify":
+                Intent intent = new Intent();
+                intent.putExtra("myGroupCard",editGroupCardEt.getText().toString());
+                setResult(AppConfig.EDIT_GROUP_CARD_RESULT,intent);
+                AppManager.getAppManager().finishActivity();
+                break;
+        }
     }
 }

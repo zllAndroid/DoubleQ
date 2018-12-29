@@ -45,10 +45,13 @@ public static final String VALUE_GROUP= "2";//"group";
     public static final String SEND_MESSAGE_TYPE_EMONI= "3";//消息类型
     public static final String SEND_MESSAGE_TYPE_FILE= "4";//消息类型
 
-
+    //修改群名片
+    public static final int EDIT_GROUP_CARD_REQUEST= 0x2;//EditGroupCardActivity  页面的请求码
+    public static final int EDIT_GROUP_CARD_RESULT=0x5;//返回给EditGroupCardActivity
 
 
     public static  String GROUPER_ESC= "grouper_esc";
+    public static  String GROUPER_NAME= "grouper_name";
 
 
     public static  String CHAT_FRIEND_ID= "friendid";

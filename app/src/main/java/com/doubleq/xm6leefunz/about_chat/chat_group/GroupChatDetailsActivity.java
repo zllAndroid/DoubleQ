@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,8 @@ public class GroupChatDetailsActivity extends BaseActivity {
 
     DataSearch dataSearch = null;
     static String groupId;
+    static String groupName;
+    static String groupofId;
 
     @Override
     protected void initBaseView() {
@@ -123,7 +126,7 @@ boolean isFirst=false ;
                 if (popWindow != null)
                     popWindow.dissmiss();
                 if (isGrouper) {
-                    IntentUtils.JumpToHaveOne(GrouperEscActivity.class, AppConfig.GROUPER_ESC, groupId);
+                    IntentUtils.JumpToHaveTwo(GrouperEscActivity.class, AppConfig.GROUPER_ESC, groupId,AppConfig.GROUPER_NAME,groupName);
                     AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
                 } else {
                     DialogUtils.showDialog("是否确认退出群聊", new DialogUtils.OnClickSureListener() {
@@ -344,21 +347,30 @@ boolean isFirst=false ;
                     popWindow.showAsDropDown(mLinMain, 0, 0);
                 break;
             case R.id.group_data_lin_myGroupCard:
-                startActivityForResult(new Intent(GroupChatDetailsActivity.this,EditGroupCardActivity.class),1);
+                Intent intent = new Intent(GroupChatDetailsActivity.this, EditGroupCardActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("groupofId",groupId);
+                intent.putExtras(bundle);
+                startActivityForResult(intent,AppConfig.EDIT_GROUP_CARD_REQUEST);
         }
     }
     String result;
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        result = data.getExtras().getString("myGroupCard");
-        groupDataTvMineName.setText(result);
+        if (resultCode == AppConfig.EDIT_GROUP_CARD_RESULT){
+            if (requestCode == AppConfig.EDIT_GROUP_CARD_REQUEST){
+                result = data.getExtras().getString("myGroupCard");
+                Log.e("myGroupCard","-----------------------------"+result);
+                groupDataTvMineName.setText(result);
+            }
+        }
     }
 
     @OnClick({R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.group_details_lin_set:
-                IntentUtils.JumpToHaveOne(GroupChatSetActivity.class, "id", groupId);
+                IntentUtils.JumpToHaveOne(GroupChatSetActivity.class, "groupId", groupId);
                 break;
             case R.id.group_details_lin_add_type:
                 IntentUtils.JumpTo(AddGroupWayActivity.class);
