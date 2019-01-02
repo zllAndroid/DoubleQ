@@ -22,7 +22,9 @@ import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.example.zhouwei.library.CustomPopWindow;
@@ -73,6 +75,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
     }
 
     String FriendId;
+    String esc;
 
     @Override
     protected void initBaseView() {
@@ -83,9 +86,15 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
 
         Intent intent = getIntent();
         FriendId = intent.getStringExtra("id");
+        esc = intent.getStringExtra("esc");
         sendWeb(SplitWeb.getFriendInfo(FriendId));
 
+
         realmHelper = new RealmHomeHelper(this);
+        realmChatHelper = new RealmChatHelper(this);
+        realmLinkFriendHelper = new RealmLinkFriendHelper(this);
+
+
         mView = LayoutInflater.from(this).inflate(R.layout.pop_good_friend, null);
         mView.findViewById(R.id.pop_tv_pingbi).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +128,8 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
     }
 
     RealmHomeHelper realmHelper;
+    RealmChatHelper realmChatHelper;
+    RealmLinkFriendHelper realmLinkFriendHelper;
 
     @Override
     public void receiveResultMsg(String responseText) {
@@ -133,7 +144,17 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 DialogUtils.showDialogOne("删除好友成功", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
+                        realmHelper.deleteRealmMsg(FriendId);
+                        realmChatHelper.deleteRealmMsg(FriendId);
+                        Intent intent2 = new Intent();
+                        intent2.putExtra("id",FriendId);
+                        intent2.setAction("del.refreshMsgFragment");
+                        sendBroadcast(intent2);
                         AppManager.getAppManager().finishActivity(FriendDataActivity.this);
+                        if (esc.equals("esc"))
+                        {
+                            AppManager.getAppManager().finishActivity(ChatActivity.class);
+                        }
                     }
                 });
                 break;
@@ -160,9 +181,20 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
         DataMyFriend.RecordBean record = dataMyFriend.getRecord();
         if (record != null) {
             dataRecord = record;
-            Glide.with(this).load(record.getHeadImg())
-                    .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
-                    .crossFade(1000).into(mIvHead);
+
+            String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(FriendId);
+            if (imgPath!=null) {
+                Glide.with(this).load(imgPath)
+                        .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
+                        .crossFade(1000).into(mIvHead);
+            }else
+            {
+                Glide.with(this).load(record.getHeadImg())
+                        .error(R.drawable.mine_head)
+                        .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
+                        .crossFade(1000).into(mIvHead);
+            }
+
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdTvGesign.setText(signText);
             fdTvFenzu.setText(record.getGroupName() + "");

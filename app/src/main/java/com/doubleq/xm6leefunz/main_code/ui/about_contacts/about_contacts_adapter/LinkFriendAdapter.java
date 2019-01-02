@@ -11,6 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.doubleq.model.DataLinkManList;
 import com.doubleq.model.DataLinkTotal;
 import com.doubleq.model.linkman.group_manager.DataContactsManage;
@@ -106,7 +109,7 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
     ImageView img_parent_toright;
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        LinkFriendAdapter.ChildHolder holder;
+        final  LinkFriendAdapter.ChildHolder holder;
         if (convertView == null) {
             holder = new LinkFriendAdapter.ChildHolder();
             convertView = LayoutInflater.from(context).inflate(
@@ -119,7 +122,7 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (LinkFriendAdapter.ChildHolder) convertView.getTag();
         }
-        DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
+     final    DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
 
 //            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);
         if (!StrUtils.isEmpty(groupListBean.getUserId())) {
@@ -127,13 +130,30 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
             if (imgPath!=null) {
                 Glide.with(context)
                         .load(imgPath)
-                        .error(R.drawable.img_personal_head)
+                        .error(R.drawable.mine_head)
+                        .listener(new RequestListener<String, GlideDrawable>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                                加载错误时，加载网络图片
+                                realmLinkFriendHelper.deleteRealmFriend(groupListBean.getUserId());
+                                Glide.with(context).load(groupListBean.getHeadImg())
+                                        .error(R.drawable.mine_head)
+                                        .bitmapTransform(new CropCircleTransformation(context))
+                                        .crossFade(1000) .into(holder.img_contacts_child_head);
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                return false;
+                            }
+                        })
                         .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
                         .into(holder.img_contacts_child_head);
             }else {
                 Glide.with(context)
                         .load(groupListBean.getHeadImg())
-                        .error(R.drawable.img_personal_head)
+                        .error(R.drawable.mine_head)
                         .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
                         .into(holder.img_contacts_child_head);
             }

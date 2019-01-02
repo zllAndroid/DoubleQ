@@ -17,6 +17,7 @@ import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
@@ -66,7 +67,8 @@ public class ChatSetActivity extends BaseActivity {
     }
 
     String FriendId;
-    RealmHomeHelper realmHomeHelper;
+    RealmHomeHelper realmHelper;
+    RealmChatHelper realmChatHelper;
     View mView;
     CustomPopWindow popWindow;
 
@@ -88,7 +90,8 @@ public class ChatSetActivity extends BaseActivity {
         FriendId = intent.getStringExtra("FriendId");
         sendWeb(SplitWeb.getFriendInfo(FriendId));
 
-        realmHomeHelper = new RealmHomeHelper(this);
+        realmHelper = new RealmHomeHelper(this);
+        realmChatHelper = new RealmChatHelper(this);
         mView = LayoutInflater.from(this).inflate(R.layout.pop_good_friend, null);
         mView.findViewById(R.id.pop_tv_pingbi).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,7 +166,14 @@ public class ChatSetActivity extends BaseActivity {
                 DialogUtils.showDialogOne("删除好友成功", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
+                        realmHelper.deleteRealmMsg(FriendId);
+                        realmChatHelper.deleteRealmMsg(FriendId);
+                        Intent intent2 = new Intent();
+                        intent2.putExtra("id",FriendId);
+                        intent2.setAction("del.refreshMsgFragment");
+                        sendBroadcast(intent2);
                         AppManager.getAppManager().finishActivity(ChatSetActivity.this);
+                        AppManager.getAppManager().finishActivity(ChatActivity.class);
                     }
                 });
                 break;

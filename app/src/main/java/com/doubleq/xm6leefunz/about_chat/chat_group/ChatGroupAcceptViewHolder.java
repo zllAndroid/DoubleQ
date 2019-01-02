@@ -1,6 +1,10 @@
 package com.doubleq.xm6leefunz.about_chat.chat_group;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,17 +13,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataJieShou;
+import com.rance.chatui.R;
+import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
-import com.rance.chatui.R;
 import com.rance.chatui.util.Constants;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
+
+import javax.sql.DataSource;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +39,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  * 邮箱：rance935@163.com
  */
 public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> {
-
+    public static final String TAG = "ChatGroupAcceptViewHolder";
     @BindView(R.id.chat_item_date)
     TextView chatItemDate;
     @BindView(R.id.chat_item_header)
@@ -54,6 +63,23 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
     }
+//    RequestListener mRequestListener = new RequestListener() {
+//        @SuppressLint("LongLogTag")
+//        @Override
+//        public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) {
+//            Log.e("ChatGroupAcceptViewHolder", "onException: " + e.toString()+"  model:"+model+" isFirstResource: "+isFirstResource);
+//            chatItemHeader.setImageResource(R.drawable.qun_head);
+//            return false;
+//        }
+//
+//        @SuppressLint("LongLogTag")
+//        @Override
+//        public boolean onResourceReady(Object resource, Object model, Target target, boolean isFromMemoryCache, boolean isFirstResource) {
+//            Log.e("ChatGroupAcceptViewHolder",  "model:"+model+" isFirstResource: "+isFirstResource);
+//            return false;
+//        }
+//
+//    };
     @Override
     public void setData(final CusGroupChatData data) {
         if (StrUtils.isEmpty(data.getCreated()))
@@ -66,7 +92,13 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
         }
 //        chatItemDate.setText("上午 9:00"+data.getRequestTime());
 //        Glide.with(getContext()).load(ChatActivity.friendHeader).crossFade(1000).into(chatItemHeader);
+//        Glide.with(MyApplication.getAppContext()).load(data.getImgHead())
+//                .error(R.drawable.mine_head)
+////                .listener(mRequestListener)
+//                .into(chatItemHeader);
+
         Glide.with(getContext()).load(data.getImgHead())
+                .error(R.drawable.mine_head)
                 .bitmapTransform(new CropCircleTransformation(getContext()))
                 .crossFade(1000).into(chatItemHeader);
         chatItemHeader.setOnClickListener(new View.OnClickListener() {

@@ -8,6 +8,7 @@ public class AppConfig {
 //    保存图片位置
 public static final String TYPE_FRIEND= "friendimg";//好友头像
 public static final String TYPE_GROUP= "groupimg";//群组头像
+public static final String TYPE_GROUP_CHAT= "groupimgchat";//群组群成员头像
 
 
 //    群/好友分组列表  传参

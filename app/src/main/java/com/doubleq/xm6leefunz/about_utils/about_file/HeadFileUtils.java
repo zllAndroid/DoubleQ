@@ -52,6 +52,45 @@ public class HeadFileUtils {
             case AppConfig.TYPE_GROUP :
                 url=  BaseFilePathUtils.getLinkGroupPaths(id,time);
                 break;
+            case AppConfig.TYPE_GROUP_CHAT :
+                url=  BaseFilePathUtils.getGroupChatHeadPaths(id,time);
+                break;
+        }
+        if (url!=null) {
+            File mFileHead = new File(url);
+            try {
+                mFileHead.getParentFile().mkdirs();
+                mFileHead.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            FilePath.copyFile(resource.getPath(), mFileHead.getPath());
+//        bitmap = BitmapFactory.decodeFile(mFileHead.getPath(), bitmapOptions);
+//        File fileHead = ImageUtils.saveBitmap(mContext, bitmap);
+            if (mFileHead != null)
+                return mFileHead;
+            else
+                return null;
+        }else
+            return null;
+    }
+    public  static File saveImgPathForGroupId(File resource,String type,String id,String time){
+        BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
+        Bitmap bitmap ;
+        bitmapOptions.inJustDecodeBounds = false;
+        int be = (int) (bitmapOptions.outHeight / (float) 200);
+        if (be <= 0)
+            be = 1;
+        bitmapOptions.inSampleSize = be;
+        String url = null;
+        switch (type)
+        {
+            case AppConfig.TYPE_FRIEND :
+                url=  BaseFilePathUtils.getLinkFriendPaths(id,time);
+                break;
+            case AppConfig.TYPE_GROUP :
+                url=  BaseFilePathUtils.getLinkGroupPaths(id,time);
+                break;
         }
         if (url!=null) {
             File mFileHead = new File(url);

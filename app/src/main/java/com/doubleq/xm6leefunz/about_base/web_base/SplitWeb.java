@@ -455,7 +455,7 @@ public class SplitWeb {
         putData("groupOfId",groupOfId);
 //        要转让给群成员的user_id
         putData("transferUserId",transferUserId);
-        String request = WebUrl.request("Contact", "outGroupChat", map);
+        String request = WebUrl.request("Contact", "transferGroupOf", map);
         return  request;
     }
     //    首页

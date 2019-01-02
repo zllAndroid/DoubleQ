@@ -16,7 +16,6 @@
         android:textColor="@color/white"
         android:textSize="10sp"
         android:padding="3dp"
-        android:text="qwe"
         android:layout_gravity="center"
         android:gravity="center" />
     <!--<TextView-->

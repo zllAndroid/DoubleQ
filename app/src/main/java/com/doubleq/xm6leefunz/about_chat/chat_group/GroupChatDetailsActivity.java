@@ -1,6 +1,7 @@
 package com.doubleq.xm6leefunz.about_chat.chat_group;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -15,12 +16,16 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.doubleq.model.DataAddQunDetails;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.chat_group.group_realm.CusDataGroupChat;
+import com.doubleq.xm6leefunz.about_chat.chat_group.group_realm.RealmGroupChatHeaderHelper;
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.AddGroupWayActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.EditGroupCardActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.GroupChatSetActivity;
@@ -29,10 +34,12 @@ import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.InvitationGroupCha
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.about_intent_data.IntentDataInvitation;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupTeamActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberQunzhuAdapter;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_top_add.QunCodeActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
@@ -41,6 +48,7 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,6 +84,7 @@ public class GroupChatDetailsActivity extends BaseActivity {
     TextView groupDataTvMineName;
     @BindView(R.id.group_data_lin_myGroupCard)
     LinearLayout groupDataLinMyGroupCard;
+    private RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +105,11 @@ public class GroupChatDetailsActivity extends BaseActivity {
         groupDataRecyc.setHasFixedSize(true);
         groupDataRecyc.setNestedScrollingEnabled(false);
         groupDataRecyc.setLayoutManager(new GridLayoutManager(this, 5));
+
+
+        realmGroupChatHeaderHelper = new RealmGroupChatHeaderHelper(this);
+
+
         Intent intent = getIntent();
         if (intent != null) {
             groupId = intent.getStringExtra(AppConfig.GROUP_ID);
@@ -104,7 +118,7 @@ public class GroupChatDetailsActivity extends BaseActivity {
         }
         initRightPop();
     }
-boolean isFirst=false ;
+    boolean isFirst=false ;
     @Override
     protected void onResume() {
         super.onResume();
@@ -175,6 +189,7 @@ boolean isFirst=false ;
                             isGrouper = identityType.equals("3") ? false : true;
                             List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info = group_detail_info.getGroupUserInfo();
                             if (group_user_info.size() > 0) {
+                                initListHead(group_user_info);
                                 initAdapter(group_user_info, isGrouper);
                             }
                         }
@@ -205,6 +220,56 @@ boolean isFirst=false ;
                 });
 
                 break;
+        }
+    }
+//存储头像到本地
+    private void initListHead(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info) {
+        for (int i=0;i<group_user_info.size();i++)
+        {
+            final  String headImg = group_user_info.get(i).getHeadImg();
+            final  String friendId = group_user_info.get(i).getUserId();
+            final String modified = group_user_info.get(i).getModified();
+//            group_user_info.get(i).get
+            CusDataGroupChat cusDataGroupChat = realmGroupChatHeaderHelper.queryGroupChat(groupId);
+            if (cusDataGroupChat!=null)
+            {
+                String time = cusDataGroupChat.getTime();
+                if (time!=null)
+                if (!modified.equals(time))
+                {
+                    if (!StrUtils.isEmpty(headImg))
+                        Glide.with(this)
+                                .load(headImg)
+                                .downloadOnly(new SimpleTarget<File>() {
+                                    @Override
+                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                                        File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_GROUP_CHAT,friendId,modified);
+                                        realmGroupChatHeaderHelper.updateHeadPath(friendId,file.toString(),headImg,modified);
+                                    }
+                                });
+                }
+            }else {
+                if (!StrUtils.isEmpty(headImg))
+                    Glide.with(this)
+                            .load(headImg)
+                            .downloadOnly(new SimpleTarget<File>() {
+                                @Override
+                                public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                                    File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_GROUP_CHAT,friendId,modified);
+                                    CusDataGroupChat linkFriend = new CusDataGroupChat();
+                                    linkFriend.setHeadImg(headImg);
+                                    linkFriend.setFriendId(friendId);
+                                    linkFriend.setTime(modified);
+                                    linkFriend.setImgPath(file.toString());
+                                    realmGroupChatHeaderHelper.addRealmGroupChat(linkFriend);
+                                }
+                            });
+            }
+
+
+
         }
     }
 
@@ -292,6 +357,12 @@ boolean isFirst=false ;
                             IntentUtils.JumpToHaveTwo(FriendDataGroupMemberActivity.class, FriendDataGroupMemberActivity.FRIENG_ID_KEY, item.getUserId(), FriendDataGroupMemberActivity.GROUP_ID_KEY, groupId);
                             break;
                         case "2":
+                            ImageView imageView = view.findViewById(R.id.item_iv_group_member_head);
+
+
+                            imageView.setDrawingCacheEnabled(true);
+                            Bitmap bitmap=imageView.getDrawingCache();
+                            imageView.setDrawingCacheEnabled(false);
 //                            好友，跳转好友界面
                             IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", item.getUserId());
                             break;

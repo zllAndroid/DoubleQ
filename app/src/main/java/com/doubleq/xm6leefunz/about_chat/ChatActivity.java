@@ -650,7 +650,7 @@ public class ChatActivity extends BaseActivity {
         public void onHeaderClick(int position, int type, String friendId) {
             switch (type) {
                 case Constants.CHAT_ITEM_TYPE_LEFT:
-                    IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", friendId);
+                    IntentUtils.JumpToHaveTwo(FriendDataActivity.class, "id", friendId,"esc","esc");
                     break;
                 case Constants.CHAT_ITEM_TYPE_RIGHT:
 //                    TODO 点击自己头像，显示自己的信息

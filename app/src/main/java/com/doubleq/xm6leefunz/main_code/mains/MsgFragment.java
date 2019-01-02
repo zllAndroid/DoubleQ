@@ -207,13 +207,13 @@ public class MsgFragment extends BaseFragment {
             {
                 initDel(intent);
             }
-//            sendBroadcast();
+            sendBroadcast();
         }
     };
 
     private void initDel(Intent intent) {
         String id = intent.getStringExtra("id");
-        realmHelper.deleteRealmMsg(id);
+//        realmHelper.deleteRealmMsg(id);
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
         Log.e("home","initDel="+cusHomeRealmData.size());
         if (cusHomeRealmData.size()!=0)

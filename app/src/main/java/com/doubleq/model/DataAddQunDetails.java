@@ -323,6 +323,15 @@ public class DataAddQunDetails {
                 private String qrcode;
                 private String carteName;
                 private String isRelation;
+                private String modified;
+
+                public String getModified() {
+                    return modified;
+                }
+
+                public void setModified(String modified) {
+                    this.modified = modified;
+                }
 
                 public String getUserId() {
                     return userId;

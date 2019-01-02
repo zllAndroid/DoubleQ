@@ -13,6 +13,7 @@ import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupTeamActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -69,6 +70,12 @@ public class GrouperEscActivity extends BaseActivity {
                 DialogUtils.showDialogOne("退出群聊成功", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
+                        RealmHomeHelper realmHomeHelper = new RealmHomeHelper(GrouperEscActivity.this);
+                        realmHomeHelper.deleteRealmMsg(groupId);
+                        Intent intent2 = new Intent();
+                        intent2.putExtra("id",groupId);
+                        intent2.setAction("del.refreshMsgFragment");
+                        sendBroadcast(intent2);
                         AppManager.getAppManager().finishActivity(GrouperEscActivity.this);
                     }
                 });

@@ -6,6 +6,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.doubleq.xm6leefunz.R;
@@ -50,25 +53,50 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         {
             for (int i=0;i<data.size();i++)
             {
-                 num += data.get(i).getNum();
+                num += data.get(i).getNum();
             }
         }
         return  num;
     }
     @Override
-    protected void convert(BaseViewHolder helper, CusHomeRealmData item) {
+    protected void convert(final BaseViewHolder helper, final CusHomeRealmData item) {
 //        CusDataLinkFriend linkFriend = realmLinkFriendHelper.queryLinkFriend(item.getFriendId());
         if (!StrUtils.isEmpty(item.getFriendId())) {
             String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+           final int errorImg;
+            if (item.getType().equals("1"))
+            {
+                errorImg=R.drawable.mine_head;
+            }else
+            {
+                errorImg=R.drawable.qun_head;
+            }
             if (imgPath != null) {
                 Glide.with(context).load(imgPath)
+                        .error(errorImg)
                         .bitmapTransform(new CropCircleTransformation(context))
-                        .error(R.drawable.qun_head)
+                        .listener(new RequestListener<String, GlideDrawable>() {
+                            @Override
+                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                                加载错误时，加载网络图片
+                                realmLinkFriendHelper.deleteRealmFriend(item.getFriendId());
+                                Glide.with(context).load(item.getHeadImg())
+                                        .error(errorImg)
+                                        .bitmapTransform(new CropCircleTransformation(context))
+                                        .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+                                return false;
+                            }
+
+                            @Override
+                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                return false;
+                            }
+                        })
                         .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
             } else {
                 Glide.with(context).load(item.getHeadImg())
+                        .error(errorImg)
                         .bitmapTransform(new CropCircleTransformation(context))
-                        .error(R.drawable.qun_head)
                         .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
             }
         }

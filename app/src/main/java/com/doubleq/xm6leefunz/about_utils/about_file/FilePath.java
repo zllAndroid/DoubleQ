@@ -30,7 +30,7 @@ public class FilePath {
         return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+ SplitWeb.getUserId()+"/";
     }
     private static  String getPath(){
-        return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/"+SplitWeb.getUserId()+"/";
+        return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+SplitWeb.getUserId()+"/";
     }
     public static  String getLinkImgPath(){
         File file = new File(getAbsPath()+"imgLinkFriend/");

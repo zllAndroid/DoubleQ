@@ -11,15 +11,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.doubleq.model.DataGroupChatResult;
-import com.doubleq.model.DataJieShou;
-import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.rance.chatui.R;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
-import com.rance.chatui.R;
 import com.rance.chatui.util.Constants;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
@@ -74,6 +71,7 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
 //        Glide.with(getContext()).load(SplitWeb.USER_HEADER).into(chatItemHeader);
 
         Glide.with(getContext()).load(FilePath.getUserNewHead(getContext()))
+                .error(R.drawable.mine_head)
                 .bitmapTransform(new CropCircleTransformation(getContext()))
                 .crossFade(1000).into(chatItemHeader);
 
