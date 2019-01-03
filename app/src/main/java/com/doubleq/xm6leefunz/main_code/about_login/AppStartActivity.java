@@ -196,7 +196,10 @@ public class AppStartActivity extends BaseActivity {
                 if (dataLogin!=null) {
                     initSetData(dataLogin);
 //               自动登录
-                    sendWeb(SplitWeb.bindUid());
+//                    sendWeb(SplitWeb.bindUid());
+                    IntentUtils.JumpFinishTo(AppStartActivity.this,MainActivity.class);
+                    overridePendingTransition(0,0);
+
                     return;
                 }
             }

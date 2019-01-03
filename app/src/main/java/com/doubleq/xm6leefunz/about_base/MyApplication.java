@@ -20,6 +20,8 @@ import com.doubleq.model.DataFriendPush;
 import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.DataJieShou;
+import com.doubleq.model.off_line_msg.DataOffLineChat;
+import com.doubleq.model.off_line_msg.DataOffLineGroupChat;
 import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
@@ -175,7 +177,6 @@ public class MyApplication extends Application  implements IWebSocketPage  {
     public void reconnect() {
         mConnectManager.reconnect();
 //        Log.e("WebSocketLib","----------------------调用-----------reconnect---------------------------------------");
-//        sendText(SplitWeb.bindUid());
     }
     String  reBind ="0";
     boolean  isBind =true;
@@ -265,7 +266,204 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                 case "privateSend":
                     dealSend(message.getResponseText());
                     break;
+//                    用户在线私聊 - 离线消息
+                case "messagePush":
+                    dealOffLineChat(message.getResponseText());
+                    break;
+
+//                    用户在线群聊 - 离线消息
+                case "messageGroupPush":
+                    dealOffLineGroupChat(message.getResponseText());
+                    break;
             }
+        }
+    }
+
+    private void dealOffLineGroupChat(String responseText) {
+        DataOffLineGroupChat dataOffLineGroupChat = JSON.parseObject(responseText, DataOffLineGroupChat.class);
+        DataOffLineGroupChat.RecordBean record = dataOffLineGroupChat.getRecord();
+        if (record!=null) {
+            List<DataOffLineGroupChat.RecordBean.MessageListBean> messageList = record.getMessageList();
+            if (messageList.size()>0)
+                for (int i=0;i<messageList.size();i++)
+                {
+                    initOffLineGroupChat(messageList.get(i));
+                }
+        }
+    }
+
+    private void initOffLineGroupChat(DataOffLineGroupChat.RecordBean.MessageListBean record) {
+        AppConfig.CHAT_GROUP_ID = record.getGroupId();
+        String Mytime=record.getRequestTime();
+        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,"");
+        if (StrUtils.isEmpty(time)) {
+            SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,(String)record.getRequestTime());
+        }else {
+            try {
+                int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
+                MyLog.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
+                SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP, (String) record.getRequestTime());
+//                发送时间之间的间隔小于五分钟，则不显示时间
+                if (Math.abs(i) < 5) {
+//                    record.setRequestTime("");
+                    Mytime="";
+                }else {
+                    Mytime=record.getRequestTime();
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!SplitWeb.IS_CHAT_GROUP.equals("2"))
+        {
+//            不在聊天界面收到消息时候的处理
+            noGroupChatUIOffLine(record);
+        }
+        CusGroupChatData groupChatData = new CusGroupChatData();
+        groupChatData.setCreated(Mytime);
+        groupChatData.setFriendId(record.getMemberId());
+        groupChatData.setGroupId(record.getGroupId());
+        groupChatData.setGroupUserId(record.getGroupId()+SplitWeb.getUserId());
+        groupChatData.setImgHead(record.getMemberHeadImg());
+        groupChatData.setImgGroup(record.getGroupHeadImg());
+        groupChatData.setMessage(record.getMessage());
+        groupChatData.setNameGroup(record.getGroupName());
+        groupChatData.setNameFriend(record.getMemberName());
+        groupChatData.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
+        groupChatData.setUserMessageType(Constants.CHAT_ITEM_TYPE_LEFT);
+        groupChatData.setMessageType(record.getMessageType());
+
+        realmGroupChatHelper.addRealmChat(groupChatData);//更新群聊聊天数据
+        MyLog.e("realmGroupChatHelper","msg="+record.getMessage());
+        CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getGroupId());
+        if (homeRealmData!=null) {
+            realmHelper.updateMsg(record.getGroupId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+            realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
+        }
+        else
+        {
+            final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
+            cusJumpChatData.setHeadImg(record.getGroupHeadImg());
+            cusJumpChatData.setFriendId(record.getGroupId());
+            cusJumpChatData.setNickName(record.getGroupName());
+            cusJumpChatData.setMsg(record.getMessage());
+            cusJumpChatData.setTime(record.getRequestTime());
+
+            cusJumpChatData.setNum(0);
+//            realmHelper.updateNum(record.getFriendsId());
+            realmHelper.addRealmMsgQun(cusJumpChatData);
+        }
+    }
+
+    private void dealOffLineChat(String responseText) {
+        DataOffLineChat dataOffLineChat = JSON.parseObject(responseText, DataOffLineChat.class);
+
+        DataOffLineChat.RecordBean record = dataOffLineChat.getRecord();
+        List<DataOffLineChat.RecordBean.MessageListBean> messageList = record.getMessageList();
+        if (messageList.size()>0)
+            for (int i=0;i<messageList.size();i++)
+            {
+                initListItem(messageList.get(i));
+            }
+    }
+    private void initListItem(final  DataOffLineChat.RecordBean.MessageListBean record) {
+        AppConfig.CHAT_FRIEND_ID = record.getFriendsId();
+        record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
+        record.setType(Constants.CHAT_ITEM_TYPE_LEFT);
+        CusChatData cusRealmChatMsg = new CusChatData();
+//            String format = TimeUtil.sf.format(new Date());
+//            cusRealmChatMsg.setCreated(format);
+        String Mytime=record.getRequestTime();
+        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM,"");
+        if (StrUtils.isEmpty(time)) {
+            SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM,(String)record.getRequestTime());
+        }else {
+            try {
+                int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
+                Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
+                SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM, (String) record.getRequestTime());
+                if (Math.abs(i) < 5) {
+//                    record.setRequestTime("");
+                    Mytime="";
+                }else {
+                    Mytime=record.getRequestTime();
+//                    SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM, "");
+                }
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        if (!SplitWeb.IS_CHAT.equals("1"))
+            dealList(record);
+        cusRealmChatMsg.setCreated(Mytime);
+        cusRealmChatMsg.setMessage(record.getMessage());
+        cusRealmChatMsg.setMessageType(record.getMessageType());
+        cusRealmChatMsg.setReceiveId(record.getFriendsId());
+        cusRealmChatMsg.setSendId(record.getUserId());
+        cusRealmChatMsg.setUserMessageType(record.getType());
+        cusRealmChatMsg.setTotalId(record.getFriendsId()+SplitWeb.getUserId());
+
+        realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
+        Log.e("realmChatHelper","msg="+record.getMessage());
+
+        CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getFriendsId());
+
+        if (homeRealmData!=null) {
+            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+            realmHelper.updateNum(record.getFriendsId());//更新首页聊天界面数据（未读消息数目）
+        }
+        else
+        {
+            final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
+            cusJumpChatData.setHeadImg(record.getHeadImg());
+            cusJumpChatData.setFriendId(record.getFriendsId());
+            cusJumpChatData.setNickName(record.getNickName());
+            cusJumpChatData.setMsg(record.getMessage());
+            cusJumpChatData.setTime(record.getRequestTime());
+            cusJumpChatData.setNum(0);
+//            realmHelper.updateNum(record.getFriendsId());
+            realmHelper.addRealmMsg(cusJumpChatData);
+        }
+    }
+
+    private void dealList(final  DataOffLineChat.RecordBean.MessageListBean record) {
+        final CusJumpChatData cusJumpChatData = new CusJumpChatData();
+        cusJumpChatData.setFriendHeader(record.getHeadImg());
+        cusJumpChatData.setFriendId(record.getFriendsId());
+        cusJumpChatData.setFriendName(record.getNickName());
+
+//        发送广播更新首页
+        Intent intent = new Intent();
+        intent.putExtra("message",record.getMessage());
+        intent.putExtra("id",record.getFriendsId());
+        intent.setAction("action.refreshMsgFragment");
+        sendBroadcast(intent);
+//在前台的时候处理接收到消息的事件
+        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
+        {
+//            TODO 弄成popwindow   弹框
+            ToastUtil.show("收到来自"+record.getNickName()+"的一条新消息");
+        }else {
+            //APP在后台的时候处理接收到消息的事件
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        bitmap = Glide.with(MyApplication.getAppContext())
+                                .load(record.getHeadImg())
+                                .asBitmap() //必须
+                                .centerCrop()
+                                .into(500, 500)
+                                .get();
+                        NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+                        notificationUtils.sendNotification(cusJumpChatData, record.getNickName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
         }
     }
 
@@ -412,8 +610,6 @@ public class MyApplication extends Application  implements IWebSocketPage  {
 //            realmHelper.updateNum(record.getFriendsId());
             realmHelper.addRealmMsgQun(cusJumpChatData);
         }
-        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
-        MyLog.e("MyApplication","queryAllmMsg="+cusHomeRealmData.size());
     }
 
     private void dealGroupSend(String message) {
@@ -608,8 +804,6 @@ public class MyApplication extends Application  implements IWebSocketPage  {
 //            realmHelper.updateNum(record.getFriendsId());
             realmHelper.addRealmMsg(cusJumpChatData);
         }
-        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
-        Log.e("MyApplication","cusHomeRealmData="+cusHomeRealmData.size());
     }
 
     Bitmap bitmap;
@@ -695,6 +889,46 @@ public class MyApplication extends Application  implements IWebSocketPage  {
 //            JNoticeAgent.register(this);
 //            JNoticeAgent.getJNoticeAgent().setAdapter(new JDefaultAdapter(this, R.layout.jnotice_adpter_item, null));
 //            JNoticeAgent.addJNotice(new JNoticeBean(1,record.getGroupName(),record.getMessage(),R.drawable.dou_logo));
+        }else {
+            //APP在后台的时候处理接收到消息的事件
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        bitmap = Glide.with(MyApplication.getAppContext())
+                                .load(record.getGroupHeadImg())
+                                .asBitmap() //必须
+                                .centerCrop()
+                                .into(500, 500)
+                                .get();
+                        NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+                        notificationUtils.sendNotification(cusJumpChatData, record.getGroupName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        }
+    }
+    private void noGroupChatUIOffLine(final DataOffLineGroupChat.RecordBean.MessageListBean record) {
+        final CusJumpChatData cusJumpChatData = new CusJumpChatData();
+        cusJumpChatData.setFriendHeader(record.getGroupHeadImg());
+        cusJumpChatData.setFriendId(record.getGroupId());
+        cusJumpChatData.setFriendName(record.getGroupName());
+
+//        发送广播更新首页
+        Intent intent = new Intent();
+        intent.putExtra("message",record.getMessage());
+        intent.putExtra("id",record.getGroupId());
+        intent.setAction("action.refreshMsgFragment");
+        sendBroadcast(intent);
+//在前台的时候处理接收到消息的事件
+        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
+        {
+//            TODO 弄成popwindow   弹框
+            ToastUtil.show("收到来自"+record.getGroupName()+"的一条新消息");
         }else {
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {

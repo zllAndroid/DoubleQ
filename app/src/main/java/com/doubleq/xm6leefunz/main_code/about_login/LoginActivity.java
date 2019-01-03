@@ -51,7 +51,6 @@ public class LoginActivity extends BaseActivity {
 //    @Override
 //    public void onServiceBindSuccess() {
 //        super.onServiceBindSuccess();
-//        Log.e("bindUid", "----------onServiceBindSuccess--------------------------------------");
 //    }
     public static int screenWidth;
     public static int screenHeight;

@@ -115,7 +115,6 @@ public class MsgFragment extends BaseFragment {
 //        {
 //
 //        }
-
 //        setNetState(event.isNet());
     }
 
@@ -207,6 +206,8 @@ public class MsgFragment extends BaseFragment {
             {
                 initDel(intent);
             }
+            if (mRecyclerView!=null)
+                mRecyclerView.smoothScrollToPosition(0);
             sendBroadcast();
         }
     };
@@ -298,6 +299,7 @@ public class MsgFragment extends BaseFragment {
 //                            mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
                             msgAdapter.removeData(i);
                             msgAdapter.addData(homeRealmData);
+                            mRecyclerView.smoothScrollToPosition(0);
 //                            realmHelper.deleteRealmMsg(id+SplitWeb.USER_ID);
                         }
                         Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
@@ -329,6 +331,7 @@ public class MsgFragment extends BaseFragment {
             msgAdapter = new MsgAdapter(getActivity(),mList,mItemTouchListener);
         mRecyclerView.setAdapter(msgAdapter);
         msgAdapter.notifyDataSetChanged();
+        mRecyclerView.smoothScrollToPosition(0);
         sendBroadcast();
         msgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
@@ -345,6 +348,7 @@ public class MsgFragment extends BaseFragment {
                             item.setNum(0);
                             realmHelper.updateNumZero(item.getFriendId());
                             msgAdapter.notifyItemChanged(position);
+                            mRecyclerView.smoothScrollToPosition(0);
                             // 好友
                             CusJumpChatData cusJumpChatData = new CusJumpChatData();
                             cusJumpChatData.setFriendHeader(item.getHeadImg());
@@ -357,6 +361,7 @@ public class MsgFragment extends BaseFragment {
                             item.setNum(0);
                             realmHelper.updateNumZero(item.getFriendId());
                             msgAdapter.notifyItemChanged(position);
+                            mRecyclerView.smoothScrollToPosition(0);
                             CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
                             cusJumpGroupChatData.setGroupId(item.getFriendId());
                             cusJumpGroupChatData.setGroupName(item.getNickName());
@@ -365,7 +370,7 @@ public class MsgFragment extends BaseFragment {
                         break;
 //                        点击编辑，弹出聊天窗口
                     case R.id.item_tv_click_ok:
-                         type = item.getType();
+                        type = item.getType();
                         FragmentManager childFragmentManager = getChildFragmentManager();
                         MyDialogFragment myDialogFragment = new MyDialogFragment(item.getFriendId(),type);
                         myDialogFragment.show(childFragmentManager,"show");
@@ -378,7 +383,7 @@ public class MsgFragment extends BaseFragment {
             }
         });
     }
-        CusHomeRealmData item;
+    CusHomeRealmData item;
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(BusDataGroupOrFriend messageInfo) {
@@ -392,7 +397,7 @@ public class MsgFragment extends BaseFragment {
         }
     }
     String type="1";
-//
+    //
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -403,13 +408,13 @@ public class MsgFragment extends BaseFragment {
         }
         try {
             if (mRefreshBroadcastReceiver!=null)
-            getActivity().unregisterReceiver(mRefreshBroadcastReceiver);
+                getActivity().unregisterReceiver(mRefreshBroadcastReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
             if (mReceiver!=null)
-            getActivity().unregisterReceiver(mReceiver);
+                getActivity().unregisterReceiver(mReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }

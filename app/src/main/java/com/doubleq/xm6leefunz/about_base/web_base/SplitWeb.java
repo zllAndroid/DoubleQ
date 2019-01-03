@@ -613,7 +613,4 @@ public class SplitWeb {
         String request = WebUrl.request("Chat", "messageObtain", map);
         return  request;
     }
-//    TreeMap<String, String> map = new TreeMap<>();
-//    putData(userIdParameter,userInfo.getUser_id());
-//    String request = WebUrl.request("Ws", "bindUid", map);
 }

@@ -14,10 +14,8 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.doubleq.model.DataGroupMember;
-import com.doubleq.model.DataLinkManList;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_chat.chat_group.group_realm.RealmGroupChatHeaderHelper;
-import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.util.List;
 
