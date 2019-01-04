@@ -91,9 +91,11 @@ public class LinkGroupAdapter extends BaseExpandableListAdapter {
                 img_parent_toright.setImageResource(R.drawable.to_right);
                 tv_contacts_parent_name.setTextColor(context.getResources().getColor(R.color.grey555));
             }
+            mLinManage.setBackgroundColor(context.getResources().getColor(R.color.white));
         }else {
             img_parent_toright.setVisibility(View.GONE);
-            mLinManage.setBackgroundColor(context.getResources().getColor(R.color.grayeee));
+            tv_contacts_parent_name.setTextColor(context.getResources().getColor(R.color.app_theme));
+            mLinManage.setBackgroundColor(context.getResources().getColor(R.color.linkfriend_bac));
         }
         return convertView;
     }

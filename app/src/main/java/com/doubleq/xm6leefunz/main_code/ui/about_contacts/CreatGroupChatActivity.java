@@ -96,8 +96,8 @@ public class CreatGroupChatActivity extends BaseActivity {
     RecyclerView seachRecyc;
     @BindView(R.id.seach_lin_list)
     LinearLayout seachLinList;
-    @BindView(R.id.group_lin_list)
-    LinearLayout groupLinList;
+//    @BindView(R.id.group_lin_list)
+//    LinearLayout groupLinList;
 
     //    未搜索到东西
     @BindView(R.id.seach_tv_noSearch)
@@ -177,7 +177,6 @@ public class CreatGroupChatActivity extends BaseActivity {
                 String putStr = seachEdInput.getText().toString();
                 //搜索的Listview显示
                 seachLinList.setVisibility(View.VISIBLE);
-                groupLinList.setVisibility(View.GONE);
                 searchCityList.clear();
                 for (int a = 0; a < mFriendList.size(); a++) {
                     List<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean> group_list = mFriendList.get(a).getGroupList();
@@ -202,7 +201,6 @@ public class CreatGroupChatActivity extends BaseActivity {
                     searchCityList.clear();
                     seachLinList.setVisibility(View.GONE);
                     seachLinNoSearch.setVisibility(View.GONE);
-                    groupLinList.setVisibility(View.VISIBLE);
                 }
                 //RecyclerView列表进行批量UI数据更新
 //                mSeachAdapter.notifyItemRangeInserted(0,searchCityList.size());
@@ -376,10 +374,15 @@ public class CreatGroupChatActivity extends BaseActivity {
                         mList.remove(friendId);
                 }
                 creatChatTvYixuanze.setText("已选择"+mList.size()+"人");
-                if (mList.size()>0)
+                if (mList.size()>0) {
+                    creatChatTvYixuanze.setVisibility(View.VISIBLE);
                     creatChatTvYixuanze.setTextColor(getResources().getColor(R.color.app_theme));
-                else
+
+                }
+                else {
+                    creatChatTvYixuanze.setVisibility(View.INVISIBLE);
                     creatChatTvYixuanze.setTextColor(getResources().getColor(R.color.gray999));
+                }
                 List<String> checkString = creatGroupChatAdapter.getCheckString();
                 Log.e("checkChat","friendId="+friendId+isChecked+"++++"+mList.toString()+"---"+checkString.toString());
             }

@@ -44,39 +44,37 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
     @Override
     public void onBindViewHolder(final BaseViewHolder helper, int positions) {
         super.onBindViewHolder(helper, positions);
-
-       final DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean item = searchCityList.get(positions);
-            String imgPath = realmGroupChatHeaderHelper.queryGroupChatReturnImgPath(item.getUserId());
-            if (imgPath!=null) {
-                Glide.with(context)
-                        .load(imgPath)
-                        .error(R.drawable.mine_head)
-                        .listener(new RequestListener<String, GlideDrawable>() {
-                            @Override
-                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+        final DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean item = searchCityList.get(positions);
+        String imgPath = realmGroupChatHeaderHelper.queryGroupChatReturnImgPath(item.getUserId());
+        if (imgPath!=null) {
+            Glide.with(context)
+                    .load(imgPath)
+                    .error(R.drawable.mine_head)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
 //                                加载错误时，加载网络图片
-                                realmGroupChatHeaderHelper.deleteRealmFriend(item.getUserId());
-                                Glide.with(context).load(item.getHeadImg())
-                                        .error(R.drawable.mine_head)
-                                        .bitmapTransform(new CropCircleTransformation(context))
-                                        .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                return false;
-                            }
-                        })
-                        .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
-                        .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
-            }else {
-                Glide.with(context)
-                        .load(item.getHeadImg())
-                        .error(R.drawable.mine_head)
-                        .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
-                        .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
-            }
+                            realmGroupChatHeaderHelper.deleteRealmFriend(item.getUserId());
+                            Glide.with(context).load(item.getHeadImg())
+                                    .error(R.drawable.mine_head)
+                                    .bitmapTransform(new CropCircleTransformation(context))
+                                    .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_group_member_head));
+                            return false;
+                        }
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
+                    .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                    .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
+        }else {
+            Glide.with(context)
+                    .load(item.getHeadImg())
+                    .error(R.drawable.mine_head)
+                    .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                    .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
+        }
 //            Glide.with(context).load(item.getHeadImg())
 //                .bitmapTransform(new CropCircleTransformation(context))
 //                .crossFade(1000)
@@ -129,6 +127,6 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
         } else {
             helper.getView(R.id.item_tv_group_member_name).setVisibility(View.GONE);
         }
-            helper.setText(R.id.item_tv_group_member_name, howType);
+        helper.setText(R.id.item_tv_group_member_name, howType);
     }
 }

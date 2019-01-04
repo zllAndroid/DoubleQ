@@ -103,16 +103,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             >
-            <LinearLayout
-                android:id="@+id/group_lin_list"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@color/white"
-                    android:layout_weight="1"
                     android:orientation="vertical">
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -124,7 +118,6 @@
                             android:layout_height="match_parent"
                             android:divider="@null"
                             android:groupIndicator="@null"
-                            android:layout_weight="1"
                             android:scrollbars="none"
                             android:background="@color/white">
                         </ExpandableListView>
@@ -137,7 +130,6 @@
                     android:layout_width="@dimen/dp30"
                     android:id="@+id/group_team_letter"
                     android:layout_alignParentRight="true"/>
-            </LinearLayout>
             <TextView
                 android:id="@+id/tv_abc"
                 android:layout_height="@dimen/dp100"

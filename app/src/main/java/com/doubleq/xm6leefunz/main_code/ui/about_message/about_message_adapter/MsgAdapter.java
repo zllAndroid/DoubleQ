@@ -47,6 +47,9 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         data.remove(position);
         notifyItemRemoved(position);  //删除
     }
+    public void notifyPosition(int position) {
+        notifyItemRemoved(position);
+    }
     public int getNumData() {
         int num=0;
         if (data!=null&&data.size()>0)

@@ -84,8 +84,8 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
         {
             String path=fileName.get(fileName.size()-1);
             Glide.with(getContext()).load(path)
+                    .dontAnimate()
                     .bitmapTransform(new CropCircleTransformation(getContext()))
-                    .thumbnail(0.1f)
                     .into(chatItemHeader);
         }
 

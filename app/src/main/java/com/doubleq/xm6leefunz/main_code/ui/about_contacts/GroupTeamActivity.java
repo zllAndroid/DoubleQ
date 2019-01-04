@@ -69,8 +69,8 @@ public class GroupTeamActivity extends BaseActivity {
 //    RecyclerView seachRecyc;
 //    @BindView(R.id.seach_lin_list)
 //    LinearLayout seachLinList;
-    @BindView(R.id.group_lin_list)
-    LinearLayout groupLinList;
+//    @BindView(R.id.group_lin_list)
+//    LinearLayout groupLinList;
 
     //    未搜索到东西
 //    @BindView(R.id.seach_tv_noSearch)

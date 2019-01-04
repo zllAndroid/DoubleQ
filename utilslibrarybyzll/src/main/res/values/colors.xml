@@ -29,6 +29,7 @@
     <color name="common_bg">#eeeeee</color>
     <color name="common_divider">#303341</color>
     <color name="common_transparent">#00000000</color>
+    <color name="linkfriend_bac">#e5faf9</color>
 
 
     <color name="minute_grayLine">#2D3945</color>

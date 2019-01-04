@@ -180,14 +180,18 @@ public class MyApplication extends Application  implements IWebSocketPage  {
     }
     String  reBind ="0";
     boolean  isBind =true;
+    boolean  isFirst =true;
     @Override
     public void onConnected() {
         Log.e("WebSocketLib","---------------------------------onConnected---------------------------------------");
         reBind ="0";
 //        添加重连机制，当连接成功后，重新绑定uid
         try {
-            if (!StrUtils.isEmpty(SplitWeb.getUserId())&&isBind)
+//            if (!StrUtils.isEmpty(SplitWeb.getUserId())) {
+            if (!StrUtils.isEmpty(SplitWeb.getUserId()))
+            {
                 sendText(SplitWeb.bindUid());
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

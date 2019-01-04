@@ -96,7 +96,9 @@ public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
 //        }else {
 //            tv_contacts_parent_name.setText(mTotalList.get(groupPosition).getChart());
             img_parent_toright.setVisibility(View.GONE);
-            mLinManage.setBackgroundColor(context.getResources().getColor(R.color.grayeee));
+        tv_contacts_parent_name.setTextColor(context.getResources().getColor(R.color.app_theme));
+        mLinManage.setBackgroundColor(context.getResources().getColor(R.color.linkfriend_bac));
+//            mLinManage.setBackgroundColor(context.getResources().getColor(R.color.grayeee));
 //        }
         return convertView;
     }

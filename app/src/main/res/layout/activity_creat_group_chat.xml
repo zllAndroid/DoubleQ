@@ -114,7 +114,7 @@
                     android:hint="填写群名称(最多十个字)"
                     />
                 <View
-                  style="@style/style_wei_line"
+                    style="@style/style_wei_line"
                     />
                 <TextView
                     android:id="@+id/creat_chat_tv_yixuanze"
@@ -122,6 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp12"
+                    android:visibility="invisible"
                     android:textColor="@color/gray999"
                     android:text="已选择0人"/>
             </LinearLayout>
@@ -187,43 +188,35 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/white"
-                android:layout_weight="1"
-                android:orientation="vertical">
-                <RelativeLayout
+                android:descendantFocusability="blocksDescendants">
+                <!--<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView-->
+                <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/group_team_recyc"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:fadingEdge="none"-->
+                <!--/>-->
+                <ExpandableListView
+                    android:id="@+id/creat_exlist_friend"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:descendantFocusability="blocksDescendants">
-                    <!--<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView-->
-                    <!--<android.support.v7.widget.RecyclerView-->
-                        <!--android:id="@+id/group_team_recyc"-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="match_parent"-->
-                        <!--android:fadingEdge="none"-->
-                        <!--/>-->
-                    <ExpandableListView
-                        android:id="@+id/creat_exlist_friend"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:divider="@null"
-                        android:groupIndicator="@null"
-                        android:layout_weight="1"
-                        android:scrollbars="none"
-                        android:background="@color/white">
-                    </ExpandableListView>
-                </RelativeLayout>
-            </LinearLayout>
-
-
-            <com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar
-                android:layout_height="wrap_content"
-                android:layout_width="@dimen/dp30"
-                android:id="@+id/group_team_letter"
-                android:layout_alignParentRight="true"/>
+                    android:divider="@null"
+                    android:groupIndicator="@null"
+                    android:layout_weight="1"
+                    android:scrollbars="none"
+                    android:background="@color/white">
+                </ExpandableListView>
+            </RelativeLayout>
         </LinearLayout>
+
+        <com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar
+            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp30"
+            android:id="@+id/group_team_letter"
+            android:layout_alignParentRight="true"/>
         <TextView
             android:id="@+id/tv_abc"
             android:layout_height="@dimen/dp100"

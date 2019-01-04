@@ -89,7 +89,6 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
         tv_contacts_parent_name.setText(mGroupList.get(groupPosition).getGroupName());
         if (mGroupList.get(groupPosition).getType().equals("1"))
         {
-
             if (isExpanded) {
                 img_parent_toright.setImageResource(R.drawable.to_down);
                 tv_contacts_parent_name.setTextColor(context.getResources().getColor(R.color.doubleq_msg_num));
@@ -97,10 +96,12 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
                 img_parent_toright.setImageResource(R.drawable.to_right);
                 tv_contacts_parent_name.setTextColor(context.getResources().getColor(R.color.grey555));
             }
+            mLinManage.setBackgroundColor(context.getResources().getColor(R.color.white));
         }else {
 //            tv_contacts_parent_name.setText(mTotalList.get(groupPosition).getChart());
             img_parent_toright.setVisibility(View.GONE);
-            mLinManage.setBackgroundColor(context.getResources().getColor(R.color.grayeee));
+            tv_contacts_parent_name.setTextColor(context.getResources().getColor(R.color.app_theme));
+            mLinManage.setBackgroundColor(context.getResources().getColor(R.color.linkfriend_bac));
         }
         return convertView;
     }

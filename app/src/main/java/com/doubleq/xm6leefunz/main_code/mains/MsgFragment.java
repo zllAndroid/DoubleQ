@@ -257,10 +257,79 @@ public class MsgFragment extends BaseFragment {
         if (homeRealmData!=null) {
             realmHelper.updateNumZero(id);//更新首页聊天界面数据（未读消息数目）
         }
-        initRefresh(intent);
+        String message = intent.getStringExtra("message");
+        if (!StrUtils.isEmpty(message)) {
+            if (realmHelper == null) {
+                realmHelper = new RealmHomeHelper(getActivity());
+            }
+            List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
+            mList.clear();
+            Log.e("MyApplication", "Refresh=" + cusHomeRealmData.size());
+            if (mList.size() == 0 && cusHomeRealmData.size() != 0) {
+                mList.addAll(cusHomeRealmData);
+                initAdapter();
+//                msgAdapter.notifyDataSetChanged();
+            }
+//            initRefreshZero(intent);
 
+        }
     }
 
+    private void initRefreshZero(Intent intent) {
+        String message = intent.getStringExtra("message");
+        String id = intent.getStringExtra("id");
+        if (!StrUtils.isEmpty(message))
+        {
+            if (realmHelper==null)
+            {
+                realmHelper = new RealmHomeHelper(getActivity());
+            }
+            List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
+            CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id );
+            Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
+            if ( mList.size()==0&&cusHomeRealmData.size()!=0)
+            {
+                mList.clear();
+                mList.addAll(cusHomeRealmData);
+                initAdapter();
+//                msgAdapter.notifyDataSetChanged();
+            }
+//            if (mList.contains(id+SplitWeb.USER_ID+""))
+            if (mList.size()!=0)
+                for (int i=0;i<mList.size();i++)
+                {
+                    if (mList.get(i).getTotalId().equals(id+SplitWeb.getUserId()+""))
+                    {
+                        if (i==0)
+                        {
+                            mList.remove(0);
+                            mList.add(0,homeRealmData);
+                            msgAdapter.notifyItemChanged(0);
+
+                            return;
+                        }
+                        if (msgAdapter!=null)
+                        {
+//                            mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
+                            msgAdapter.removeData(i);
+                            msgAdapter.addData(homeRealmData);
+                            mRecyclerView.smoothScrollToPosition(0);
+//                            realmHelper.deleteRealmMsg(id+SplitWeb.USER_ID);
+                        }
+                        Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
+                        return;
+                    }
+                }
+//            if (homeRealmData!=null) {
+//                msgAdapter.addData(homeRealmData);
+//                msgAdapter.notifyItemChanged(0);
+//            }
+//            else
+//            {
+//                mList.add(0,homeRealmData);
+//            }
+        }
+    }
     private void initRefresh(Intent intent) {
         String message = intent.getStringExtra("message");
         String id = intent.getStringExtra("id");
@@ -344,7 +413,6 @@ public class MsgFragment extends BaseFragment {
                         if (item.getType().equals("1")) {
 
                             //                            点击进入详情后，消息个数清零
-//                            mList.remove(position);
                             item.setNum(0);
                             realmHelper.updateNumZero(item.getFriendId());
                             msgAdapter.notifyItemChanged(position);

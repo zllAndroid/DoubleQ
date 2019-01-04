@@ -9,11 +9,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
+import com.doubleq.xm6leefunz.about_chat.chat_group.group_realm.RealmGroupChatHeaderHelper;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
@@ -50,11 +55,14 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
     private ChatAdapter.onItemClickListener onItemClickListener;
     private Handler handler;
     MotionEvent event;
+
+    RealmLinkFriendHelper realmLinkFriendHelper;
     public ChatAcceptViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler) {
         super(parent, R.layout.item_chat_accept);
         ButterKnife.bind(this, itemView);
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
+        realmLinkFriendHelper = new RealmLinkFriendHelper(getContext());
     }
     @Override
     public void setData(final DataJieShou.RecordBean data) {
@@ -69,9 +77,47 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
 
 //        chatItemDate.setText("上午 9:00"+data.getRequestTime());
 //        Glide.with(getContext()).load(ChatActivity.friendHeader).crossFade(1000).into(chatItemHeader);
-        Glide.with(getContext()).load(ChatActivity.friendHeader)
-                .bitmapTransform(new CropCircleTransformation(getContext()))
-                .crossFade(1000).into(chatItemHeader);
+
+
+//        Glide.with(getContext()).load(ChatActivity.friendHeader)
+//                .dontAnimate()
+//                .bitmapTransform(new CropCircleTransformation(getContext()))
+//                .crossFade(1000).into(chatItemHeader);
+
+        String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
+        if (imgPath!=null) {
+            Glide.with(getContext())
+                    .load(imgPath)
+                    .dontAnimate()
+                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+                    .listener(new RequestListener<String, GlideDrawable>() {
+                        @Override
+                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//                                加载错误时，加载网络图片
+                            realmLinkFriendHelper.deleteRealmFriend(data.getFriendsId());
+                            Glide.with(getContext()).load(data.getHeadImg())
+                                    .dontAnimate()
+                                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+                                    .bitmapTransform(new CropCircleTransformation(getContext()))
+                                    .crossFade(1000).into((chatItemHeader));
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            return false;
+                        }
+                    })
+                    .bitmapTransform(new CropCircleTransformation(getContext())).crossFade(1000)
+                    .into(chatItemHeader);
+        }else {
+            Glide.with(getContext())
+                    .load(data.getHeadImg())
+                    .dontAnimate()
+                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+                    .bitmapTransform(new CropCircleTransformation(getContext())).crossFade(1000)
+                    .into(chatItemHeader);
+        }
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

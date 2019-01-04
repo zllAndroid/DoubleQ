@@ -82,10 +82,15 @@ public class CreatGroupChatAdapter extends BaseExpandableListAdapter {
         tv_contacts_parent_name = convertView.findViewById(R.id.frag_tv_contact_m_parent_name);
         mLinManage = convertView.findViewById(R.id.cusmanage_lin_top);
         img_parent_toright = convertView.findViewById(R.id.frag_img_contact_toright);
-        tv_contacts_parent_name.setText(mDataList.get(groupPosition).getGroupName());
+        if (mDataList.get(groupPosition).getGroupName().equals("~"))
+        {
+            tv_contacts_parent_name.setText("#");
+        }else {
+            tv_contacts_parent_name.setText(mDataList.get(groupPosition).getGroupName());
+        }
         img_parent_toright.setVisibility(View.GONE);
-        mLinManage.setBackgroundColor(context.getResources().getColor(R.color.grayeee));
         tv_contacts_parent_name.setTextColor(context.getResources().getColor(R.color.app_theme));
+        mLinManage.setBackgroundColor(context.getResources().getColor(R.color.linkfriend_bac));
         return convertView;
     }
     class ChildHolder {

@@ -40,8 +40,6 @@ public class ZhuanRangGroupActivity extends BaseActivity {
     ExpandableListView mExpanList;
     @BindView(R.id.group_team_letter)
     LetterBar mLetterBar;
-    @BindView(R.id.group_lin_list)
-    LinearLayout groupLinList;
 
     private Runnable runnable;
 
@@ -75,7 +73,6 @@ public class ZhuanRangGroupActivity extends BaseActivity {
             groupName = intent.getStringExtra(GROUP_NAME);
             if (groupId != null){
                 sendWeb(SplitWeb.getTransterGroupMemberInfo(groupId));
-                sendWeb(SplitWeb.searchDetailInfo(groupId));
             }
         }
     }
@@ -199,9 +196,7 @@ public class ZhuanRangGroupActivity extends BaseActivity {
                 return true;
             }
         });
-
     }
-
     public int positions;
 
 }
