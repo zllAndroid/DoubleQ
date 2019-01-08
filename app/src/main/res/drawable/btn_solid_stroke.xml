@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <!-- 圆角 -->
+    <corners
+        android:radius="@dimen/dp8"
+        android:topLeftRadius="@dimen/dp8"
+        android:topRightRadius="@dimen/dp8"
+        android:bottomLeftRadius="@dimen/dp8"
+        android:bottomRightRadius="@dimen/dp8"/><!-- 设置圆角半径 -->
+    <!-- 间隔 -->
+    <padding
+        android:left="@dimen/dp1"
+        android:top="@dimen/dp1"
+        android:right="@dimen/dp1"
+        android:bottom="@dimen/dp1"/><!-- 各方向的间隔 -->
+
+    <!-- 大小 -->
+    <size
+        android:width="@dimen/dp30"
+        android:height="@dimen/dp25"/><!-- 宽度和高度 -->
+
+    <solid
+        android:color="@color/app_theme"/>
+
+    <!-- 描边，边框 -->
+   <stroke
+        android:width="@dimen/divider_height"
+        android:color="@color/white"
+        />
+
+</shape>
+
+    <!-- 描边虚线
+    android:dashWidth="1dp"
+           android:dashGap="2dp"
+       <solid 填充
+
+           android:color="@android:color/white"/>
+
+           渐变
+       <gradient
+           android:startColor="@android:color/white"
+           android:centerColor="@android:color/black"
+           android:endColor="@android:color/black"
+           android:useLevel="true"
+           android:angle="45"
+           android:type="radial"
+           android:centerX="0"
+           android:centerY="0"
+           android:gradientRadius="90"/>
+     -->

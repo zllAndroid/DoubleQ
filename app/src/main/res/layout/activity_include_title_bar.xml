@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/include_top_lin_back"
+    android:background="@color/fg_top_bac"
+    android:orientation="vertical"
+    >
+    <View
+        android:id="@+id/include_top_margin10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp25"
+        android:background="@color/ac_top"
+        android:visibility="gone"
+        />
+
+    <LinearLayout
+        android:id="@+id/include_top_lin_background"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ac_top"
+        android:orientation="horizontal"
+        >
+        <LinearLayout
+            android:id="@+id/include_top_lin_newback"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:descendantFocusability="blocksDescendants"
+            >
+            <ImageView
+                android:id="@+id/include_top_iv_back"
+                android:layout_width="@dimen/dp40"
+                android:layout_height="@dimen/dp40"
+                android:layout_gravity="center_vertical"
+                android:padding="@dimen/dp10"
+                android:clickable="false"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/to_left"
+                android:focusable="false"
+                />
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/include_top_tv_tital"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:text="标题"
+            android:maxEms="6"
+            android:ellipsize="end"
+            android:textColor="@color/white"
+            android:textSize="@dimen/sp18" />
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+
+            >
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="right"
+                android:orientation="vertical"
+                >
+                <ImageView
+                    android:id="@+id/include_top_iv_more"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/dp40"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/dp10"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/friend_data_top_andsoon" />
+                <TextView
+                    android:id="@+id/inclu_tv_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:padding="@dimen/dp10"
+                    android:textColor="@color/white"
+                    android:visibility="invisible"
+                    android:text="保存"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

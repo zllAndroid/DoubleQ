@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/open_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        >
+
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="选择上传方式"
+            android:background="@null"
+            android:padding="10dp"
+            android:textColor="@color/gray666"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp1"
+            android:background="@color/graye5"
+            />
+
+        <Button
+            android:id="@+id/btn_open_cramre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="拍照"
+            android:background="@null"
+            android:textColor="@color/gray666"
+            android:padding="@dimen/dp10"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp1"
+            android:background="@color/grayeee"
+            />
+        <Button
+            android:id="@+id/btn_open_xaingce"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray666"
+            android:text="相册"
+            android:background="@null"
+            android:padding="@dimen/dp10"
+            android:textStyle="bold"
+            />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp8"
+            android:background="@color/grayeee"
+            />
+        <Button
+            android:id="@+id/btn_open_cancle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray666"
+            android:text="取消"
+            android:background="@null"
+            android:padding="@dimen/dp10"
+            android:textStyle="bold"
+            />
+    </LinearLayout>
+</RelativeLayout>

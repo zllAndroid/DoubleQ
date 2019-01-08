@@ -1,0 +1,15 @@
+<?xml version="1.0"?><resources>    <dimen name="dp9">20.25dp</dimen>
+    <dimen name="dp5">11.25dp</dimen>
+    <dimen name="activity_horizontal_margin">36.0dp</dimen>
+    <dimen name="activity_vertical_margin">36.0dp</dimen>
+    <dimen name="content_horizontal_margin">22.5dp</dimen>
+    <dimen name="content_vertical_margin">22.5dp</dimen>
+    <dimen name="content_small">11.25dp</dimen>
+    <!-- 字体大小 -->    <dimen name="text_title">36.0sp</dimen>
+    <dimen name="text_subhead">29.25sp</dimen>
+    <dimen name="text_body">18.0sp</dimen>
+    <dimen name="text_caption">29.25sp</dimen>
+    <dimen name="line_height">2.25dp</dimen>
+    <dimen name="dp50">112.5dp</dimen>
+    <dimen name="dp40">90.0dp</dimen>
+</resources>

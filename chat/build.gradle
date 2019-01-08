@@ -1,0 +1,39 @@
+//apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
+ext {
+    PUBLISH_GROUP_ID = 'com.rance.chatui'
+    PUBLISH_ARTIFACT_ID = 'chat'
+    PUBLISH_VERSION = '0.1.0'
+}
+android {
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
+
+    defaultConfig {
+//        applicationId "com.rance.chatui"
+        minSdkVersion 16
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    sourceSets { main { res.srcDirs = ['src/main/res', 'src/main/res/layout'] } }
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:28.+'
+    //    compile 'com.android.support:design:24.2.1'
+    //    compile 'com.android.support:support-v4:24.2.1'
+    //    implementation 'com.jakewharton:butterknife:7.0.1'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    //    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    //    implementation files('libs/autobahn-0.5.0.jar')
+    //    implementation files('libs/alibaba-json-1.1.0.jar')
+}

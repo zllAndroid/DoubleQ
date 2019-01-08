@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="text_enabled">#FFFFFFFF</color>
+    <color name="text_disabled">#90c9f2</color>
+
+    <color name="success_stroke_color">#A5DC86</color>
+    <color name="green">#00ff00</color>
+    <color name="app_theme_trans">#33000000</color>
+    <color name="app_theme_trans00">#0000</color>
+    <color name="app_gray_word">#bfbfbf</color>
+    <color name="app_theme">#079de8</color>
+    <color name="app_theme_trans66">#66079de8</color>
+    <!--<color name="app_theme">#0099e6</color>-->
+    <color name="transparency">#00000000</color>
+    <color name="gray333">#333</color>
+    <color name="gray666">#666</color>
+    <color name="gray_trans666">#66666666</color>
+    <color name="transeee">#55999999</color>
+    <color name="gray999">#999</color>
+    <color name="graye5">#e5e5e5</color>
+    <color name="grayeee">#e5e5e5</color>
+    <color name="grayf4">#f4f4f4</color>
+    <color name="line_color_gray">#e1e1e1</color>
+    <color name="darkblue">#00008B</color><!--暗蓝色 -->
+    <color name="navy">#000080</color><!--海军色 -->
+    <color name="black">#000000</color>
+    <color name="common_white">#FFFFFF</color>
+    <color name="common_black">#000000</color>
+    <color name="common_bg">#eeeeee</color>
+    <color name="common_divider">#303341</color>
+    <color name="common_transparent">#00000000</color>
+    <color name="linkfriend_bac">#e5faf9</color>
+
+
+    <color name="minute_grayLine">#2D3945</color>
+    <color name="minute_blue">#00D0FC</color>
+    <color name="minute_yellow">#E7B448</color>
+    <color name="minute_black">#101419</color>
+    <color name="minute_jizhun">#7F9976</color>
+    <color name="minute_zhoutv">#858D93</color>
+    <color name="marker_bg">#1C232E</color>
+
+
+
+    <color name="bg_yellow">#FFE100</color>
+    <color name="home_tab_bg">#262733</color>
+    <color name="home_tab_text">#194B70</color>
+    <color name="home_page_bg">#1E1E26</color>
+    <color name="transparent_black">#40000000</color>
+    <color name="transparent_black2">#80000000</color>
+
+    <color name="mine_label_txt">#A7ADBC</color>
+    <color name="dialog_avatar_bg">#262127</color>
+
+    <color name="btn_black_pressed_bg">#2E2C31</color>
+    <color name="edit_text_underline">#2F3241</color>
+    <color name="info_item_subtitle">#5F5D6A</color>
+
+    <color name="info_tab_select">#194B70</color>
+    <!--辅助文字色，用于稍微弱些的文字表现。info_tab_unselect改名为text_grey_light-->
+    <color name="text_grey_light">#A7ADBC</color>
+
+    <color name="text_red">#FC0544</color>
+    <color name="text_green">#51FFB9</color>
+    <color name="text_grey">#5E5E6A</color>
+    <color name="text_blue">#118CDE</color>
+    <color name="text_orange">#FCAE05</color>
+
+    <color name="btn_blue">#118CDE</color>
+    <color name="btn_blue_pressed">#0070BB</color>
+    <color name="btn_grey_ripple">#545359</color>
+
+    <color name="label_etf_bg">#2C2C37</color>
+
+    <color name="ma5">#823E66</color>
+    <color name="grayb5">#b5b5b5</color>
+    <color name="ma10">#B99C7A</color>
+    <color name="ma20">#3C7193</color>
+    <color name="colorPrimary">#ff6060</color>
+    <color name="colorPrimaryDark">#ff6060</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="white">#FFFFFF</color>
+    <color name="translucent">#50000000</color>
+    <!--透明-->
+    <color name="transparent">#00000000</color>
+    <color name="windowbackcolor">#f4f4f4</color>
+    <color name="color_333333">#333333</color>
+    <color name="color_666666">#666666</color>
+    <color name="color_444444">#444444</color>
+    <color name="color_ff4545">#ff4545</color>
+    <color name="color_000">#88000000</color>
+    <color name="color_dddddd">#eeeeee</color>
+    <color name="color_cccccc">#cccccc</color>
+    <color name="color_34b39d">#34b39d</color>
+    <color name="color_ffbf50">#ffbf50</color>
+    <color name="color_fafafa">#fafafa</color>
+    <!--半透明-->
+    <color name="halftransparent">#66000000</color>
+    <color name="color_blue">#2369d8</color>
+    <color name="color_999999">#999999</color>
+    <color name="pickerview_timebtn_pre">#c2daf5</color>
+    <color name="pickerview_bg_topbar">#f5f5f5</color>
+    <color name="pickerview_topbar_title">#000000</color>
+    <color name="pickerview_wheelview_textcolor_out">#a8a8a8</color>
+    <color name="pickerview_wheelview_textcolor_center">#2a2a2a</color>
+    <color name="pickerview_wheelview_textcolor_divider">#d5d5d5</color>
+    <color name="gray">#aeaeae</color>
+    <!--覆盖颜色-->
+    <color name="bgColor_overlay">#60000000</color>
+    <color name="multiple_image_select_primaryDark">@color/colorPrimary</color>
+
+    <color name="color_ffdc50">#ffdc50</color>
+
+    <color name="startcolor">#ff973b</color>
+    <color name="middlecolor">#ff4040</color>
+    <color name="endcolor">#ff4040</color>
+    <color name="defaultbgColor">#ffc2c2</color>
+    <color name="strokeColor">#ff5050</color>
+    <color name="color_ffd943">#ffd943</color>
+    <color name="color_4170f5">#4170f5</color>
+
+    <color name="titleColor">#19ACCA</color>
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#18ACCA</color>
+
+
+</resources>

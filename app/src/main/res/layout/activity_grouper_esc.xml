@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grayeee"
+    android:id="@+id/group_set_lin_main"
+    android:orientation="vertical"
+    >
+    <include layout="@layout/activity_include_title_bar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/group_set_lin_change_head"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp120"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_solid_stroke_white"
+            android:layout_marginTop="@dimen/dp15"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
+            android:orientation="horizontal">
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp16"
+                android:text="你将失去与他们的联系"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp50"
+            android:layout_marginLeft="@dimen/dp50"
+
+
+            >
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray999"
+                android:textSize="@dimen/sp12"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="你是群主，请选择转让或解散群，建议转让"/>
+            <TextView
+                android:id="@+id/group_esc_tv_zhuanrang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp16"
+                android:background="@drawable/btn_solid_stroke"
+                android:padding="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp20"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="转让"/>
+            <TextView
+                android:id="@+id/group_esc_tv_jiesan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp16"
+                android:background="@drawable/btn_solid_stroke_red"
+                android:padding="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp20"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="解散"/>
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

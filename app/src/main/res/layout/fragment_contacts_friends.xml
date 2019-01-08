@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+
+<LinearLayout
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    xmlns:cus="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/relativeLayout2">
+        <ExpandableListView
+            android:id="@+id/frag_listview_contacts_manage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:divider="@null"
+            android:groupIndicator="@null"
+            android:background="@color/white">
+        </ExpandableListView>
+        <ListView android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/frag_listview_contacts_manage"
+            android:id="@+id/list_city">
+        </ListView>
+
+        <TextView
+            android:layout_height="@dimen/dp100"
+            android:layout_width="@dimen/dp100"
+            android:id="@+id/tv_abc"
+            android:visibility="gone"
+            android:textSize="@dimen/sp50"
+            android:textColor="@color/white"
+            android:hint="A"
+            android:gravity="center"
+            android:background="@drawable/btn_stroke_sel"
+           />
+
+        <com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar
+            android:layout_height="wrap_content"
+            android:layout_width="@dimen/dp30"
+            android:id="@+id/customView1"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/relativeLayout1">
+
+        <ImageView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:id="@+id/imageView1"
+            android:src="@drawable/ic_search"/>
+
+        <EditText
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:id="@+id/edit_search"
+            android:inputType="textPersonName"
+            android:layout_toRightOf="@+id/imageView1"
+            android:ems="10"/>
+
+        <ListView
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/imageView1"
+            android:id="@+id/list_search"
+            android:visibility="gone"
+            android:background="#ffffff">
+        </ListView>
+
+
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_below="@+id/edit_search"
+            android:id="@+id/layout_noSearch"
+            android:visibility="gone"
+            android:background="#60c0c0c0">
+
+            <TextView android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:id="@+id/textView1"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_marginTop="52dp"
+                android:text="抱歉未搜索到该城市"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentTop="true"/>
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+</LinearLayout>
