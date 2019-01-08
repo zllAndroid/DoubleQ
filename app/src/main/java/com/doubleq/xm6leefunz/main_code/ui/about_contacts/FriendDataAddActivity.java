@@ -1,13 +1,11 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -19,7 +17,6 @@ import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.doubleq.xm6leefunz.about_utils.ZXingUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_add.AddGoodFriendActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
@@ -50,6 +47,8 @@ public class FriendDataAddActivity extends BaseActivity {
     TextView fdaTvSign;
     @BindView(R.id.data_iv_qrcode)
     ImageView dataIvQrcode;
+    @BindView(R.id.include_top_lin_back)
+    LinearLayout includeTopLinBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +57,7 @@ public class FriendDataAddActivity extends BaseActivity {
 
     DataSearch dataSearch = null;
     String type = "1";
+//    public static final String FRIENG_ID_KEY = "friendId";
 
     @Override
     protected void initBaseView() {
@@ -65,8 +65,11 @@ public class FriendDataAddActivity extends BaseActivity {
         includeTopTvTital.setText("好友资料");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.GONE);
+        includeTopLinBack.setBackgroundColor(getResources().getColor(R.color.app_theme));
+
         Intent intent = getIntent();
         if (intent != null) {
+//            String friendId = intent.getStringExtra(FRIENG_ID_KEY);
             dataSearch = (DataSearch) intent.getSerializableExtra("dataSearch");
             if (dataSearch != null) {
                 mTvName.setText(dataSearch.getName());
@@ -116,7 +119,7 @@ public class FriendDataAddActivity extends BaseActivity {
 
     }
 
-    DataMyFriend.RecordBean dataRecord;
+//    DataMyFriend.RecordBean dataRecord;
 
     private void initDataFriend(String responseText) {
 
@@ -124,7 +127,7 @@ public class FriendDataAddActivity extends BaseActivity {
 
         DataMyFriend.RecordBean record = dataMyFriend.getRecord();
         if (record != null) {
-            dataRecord = record;
+//            dataRecord = record;
             Glide.with(this).load(record.getHeadImg())
                     .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
                     .crossFade(1000).into(mIvHead);
@@ -160,9 +163,9 @@ public class FriendDataAddActivity extends BaseActivity {
                         personData.setScanTital("扫一扫,添加" + dataSearch.getName() + "为好友");
                         personData.setTital("好友二维码");
 
-                        if (dataSearch.getId() != null){
+                        if (dataSearch.getId() != null) {
                             String string = type + "_xm6leefun_" + dataSearch.getId();
-                            Log.e("qrcode","----------FriendDataAddActivity--------------"+string);
+                            Log.e("qrcode", "----------FriendDataAddActivity--------------" + string);
                             personData.setQrCode(string);
                         }
                         IntentUtils.JumpToHaveObj(MyAccountActivity.class, MyAccountActivity.TITAL_NAME, personData);

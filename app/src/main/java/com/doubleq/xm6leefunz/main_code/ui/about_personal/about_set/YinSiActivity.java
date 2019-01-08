@@ -18,7 +18,9 @@ import com.suke.widget.SwitchButton;
 
 import butterknife.BindView;
 
-//隐私设置界面
+/**
+ * 隐私设置界面
+ */
 public class YinSiActivity extends BaseActivity {
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;

@@ -67,7 +67,7 @@ public class GrouperEscActivity extends BaseActivity {
                 DialogUtils.showDialog("申请入群成功");
                 break;
             case "outGroupChat":
-                DialogUtils.showDialogOne("退出群聊成功", new DialogUtils.OnClickSureListener() {
+                DialogUtils.showDialogOne("已解散该群", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
                         RealmHomeHelper realmHomeHelper = new RealmHomeHelper(GrouperEscActivity.this);

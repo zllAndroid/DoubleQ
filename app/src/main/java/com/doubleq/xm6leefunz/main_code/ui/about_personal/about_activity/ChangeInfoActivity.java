@@ -16,8 +16,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.util.Base64;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,35 +24,27 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.FutureTarget;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.doubleq.model.DataMyZiliao;
 import com.doubleq.model.DataSetHeadResult;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
-import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
-import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
+import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -88,6 +78,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     @BindView(R.id.changeinfo_top_lin)
     LinearLayout mLinMain;
     Unbinder bind = null;
+    @BindView(R.id.include_top_lin_back)
+    LinearLayout includeTopLinBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,23 +106,23 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         super.initBaseView();
         includeTopIvBack.setVisibility(View.VISIBLE);
         includeTopTvTital.setText("我的资料");
+        includeTopLinBack.setBackgroundColor(getResources().getColor(R.color.app_theme));
         setHeadForFile();
         sendWeb(SplitWeb.personalCenter());
     }
+
     //    从文件中设置头像
     private void setHeadForFile() {
         GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
-        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
-        if (fileName!=null&&fileName.size()>0)
-        {
-            String path=fileName.get(fileName.size()-1);
+        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
+        if (fileName != null && fileName.size() > 0) {
+            String path = fileName.get(fileName.size() - 1);
             Glide.with(this).load(path)
                     .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
                     .thumbnail(0.1f)
                     .crossFade(1000)
                     .into(changeinfoIvHead);
-        }else
-        {
+        } else {
             Glide.with(this).load(R.drawable.first_head_nor)
                     .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
                     .thumbnail(0.1f)
@@ -167,6 +159,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 break;
         }
     }
+
     //修改个签
     private void doChangeSign() {
         isChangeName = "2";
@@ -174,6 +167,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         changeInfoWindowsign.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindowsign.setOnAddpopClickListener(this);
     }
+
     //修改账号
     private void doChangeCount() {
         isChangeName = "1";
@@ -181,6 +175,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         changeInfoWindowsign.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindowsign.setOnAddpopClickListener(this);
     }
+
     //修改昵称
     private void doChangeName() {
 
@@ -210,6 +205,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         }
     };
     DataMyZiliao.RecordBean record;
+
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -228,18 +224,15 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     }
                     changeinfoTvName.setText(record.getNickName());
                     changeinfoTvCount.setText(record.getWxSno());
-                    if (StrUtils.isEmpty(record.getPersonaSignature()))
-                    {
+                    if (StrUtils.isEmpty(record.getPersonaSignature())) {
                         changeinfoTvSign.setHint("暂未签名");
-                    }else {
+                    } else {
                         changeinfoTvSign.setText(record.getPersonaSignature());
                     }
 
-                    List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
-                    if (fileName!=null&&fileName.size()>0)
-                    {
-                    }else
-                    {
+                    List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
+                    if (fileName != null && fileName.size() > 0) {
+                    } else {
                         String headImg = record.getHeadImg();
                         if (!StrUtils.isEmpty(headImg))
                             Glide.with(this)
@@ -271,7 +264,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 break;
             case "upHeadImg":
                 DataSetHeadResult dataSetHeadResult = JSON.parseObject(responseText, DataSetHeadResult.class);
-                if (dataSetHeadResult!=null) {
+                if (dataSetHeadResult != null) {
                     String headImg = dataSetHeadResult.getRecord().getHeadImg();
                     if (!StrUtils.isEmpty(headImg))
                         Glide.with(this)
@@ -307,6 +300,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 
     private File mPhotoFile;
     File save;
+
     /**
      * 调用相机以及相册的回调 获取的数据
      */
@@ -347,11 +341,12 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     }
 
     String mTmpPath;
+
     /**
      * 7.0 拍照权限
      * 我是直接提取成一个方法了
      */
-    public void getPicturesFile(){
+    public void getPicturesFile() {
         mPhotoFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/chat_image/" + System.currentTimeMillis() + ".jpg");
         try {
             mPhotoFile.getParentFile().mkdirs();
@@ -367,7 +362,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             //Android 7.0权限申请
             ContentValues contentValues = new ContentValues(1);
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(ChangeInfoActivity.this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_RESULT);
+                ActivityCompat.requestPermissions(ChangeInfoActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, CAMERA_RESULT);
             }
             contentValues.put(MediaStore.Images.Media.DATA, mTmpPath);
             Uri uri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
@@ -378,13 +373,14 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             startActivityForResult(intent, CAMERA_RESULT);
         }
     }
-    String contant =null;
+
+    String contant = null;
+
     //修改签名等的回调按钮
     @Override
     public void onSure(String contant) {
-        this.contant=contant;
-        switch (isChangeName)
-        {
+        this.contant = contant;
+        switch (isChangeName) {
             case "0"://昵称
                 sendWeb(SplitWeb.upNickName(contant));
                 break;

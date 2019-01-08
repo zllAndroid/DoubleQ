@@ -1,9 +1,6 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -25,7 +22,6 @@ import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.doubleq.xm6leefunz.about_utils.ZXingUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
@@ -73,6 +69,8 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
     TextView fdTvBeizhu;
     @BindView(R.id.fd_iv_qrcode)
     ImageView fdIvQrcode;
+    @BindView(R.id.include_top_lin_back)
+    LinearLayout includeTopLinBack;
 
 
     @Override
@@ -90,6 +88,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
         includeTopTvTital.setText("好友资料");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
+        includeTopLinBack.setBackgroundColor(getResources().getColor(R.color.app_theme));
 
         Intent intent = getIntent();
         FriendId = intent.getStringExtra("id");
@@ -158,7 +157,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                         intent2.setAction("del.refreshMsgFragment");
                         sendBroadcast(intent2);
                         AppManager.getAppManager().finishActivity(FriendDataActivity.this);
-                        if (esc!=null&&esc.equals("esc")) {
+                        if (esc != null && esc.equals("esc")) {
                             AppManager.getAppManager().finishActivity(ChatActivity.class);
                         }
                     }
@@ -246,9 +245,9 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                     personData.setName(dataRecord.getNickName());
                     personData.setScanTital("扫一扫,添加" + dataRecord.getNickName() + "为好友");
                     personData.setTital("好友二维码");
-                    if (FriendId != null){
+                    if (FriendId != null) {
                         String string = type + "_xm6leefun_" + FriendId;
-                        Log.e("qrcode","----------FriendDataActivity--------------"+string);
+                        Log.e("qrcode", "----------FriendDataActivity--------------" + string);
 //                        Bitmap bitmap = ZXingUtils.createQRImage(string,300,300);
 //                        Drawable drawable = new BitmapDrawable(bitmap);
 //                        Log.e("qrcode","-------record.getQrcode()---------"+drawable);

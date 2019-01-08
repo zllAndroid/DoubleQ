@@ -37,6 +37,7 @@ import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataAddActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupTeamActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberQunzhuAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
@@ -350,25 +351,28 @@ public class GroupChatDetailsActivity extends BaseActivity {
                 } else {
                     //好友关系 1是未添加 2是已添加
                     //群成员关系  1是未添加 2是已添加 3是自己
-                    switch (item.getIsRelation()) {
-                        case "1":
-//                            跳转陌生人显示界面
-                            IntentUtils.JumpToHaveTwo(FriendDataGroupMemberActivity.class, FriendDataGroupMemberActivity.FRIENG_ID_KEY, item.getUserId(), FriendDataGroupMemberActivity.GROUP_ID_KEY, groupId);
-                            break;
-                        case "2":
-                            ImageView imageView = view.findViewById(R.id.item_iv_group_member_head);
-
-
-                            imageView.setDrawingCacheEnabled(true);
-                            Bitmap bitmap=imageView.getDrawingCache();
-                            imageView.setDrawingCacheEnabled(false);
-//                            好友，跳转好友界面
-                            IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", item.getUserId());
-                            break;
-                        case "3":
-                            // 自己，跳转个人资料界面
-                            IntentUtils.JumpTo(ChangeInfoActivity.class);
-                            break;
+                    if (item != null) {
+                        Log.e("Relation","-----------------------"+item.getIsRelation());
+                        switch (item.getIsRelation()) {
+                            case "1":
+    //                            跳转陌生人显示界面
+                                IntentUtils.JumpToHaveTwo(FriendDataGroupMemberActivity.class, FriendDataGroupMemberActivity.FRIENG_ID_KEY, item.getUserId(), FriendDataGroupMemberActivity.GROUP_ID_KEY, groupId);
+                                break;
+                            case "2":
+    //                            ImageView imageView = view.findViewById(R.id.item_iv_group_member_head);
+    //
+    //
+    //                            imageView.setDrawingCacheEnabled(true);
+    //                            Bitmap bitmap=imageView.getDrawingCache();
+    //                            imageView.setDrawingCacheEnabled(false);
+    //                            好友，跳转好友界面
+                                IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", item.getUserId());
+                                break;
+                            case "3":
+                                // 自己，跳转个人资料界面
+                                IntentUtils.JumpTo(ChangeInfoActivity.class);
+                                break;
+                        }
                     }
                 }
             }
