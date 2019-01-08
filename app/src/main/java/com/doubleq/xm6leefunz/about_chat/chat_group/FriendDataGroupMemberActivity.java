@@ -30,6 +30,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * 位置：群成员详情
+ * zll
  */
 public class FriendDataGroupMemberActivity extends BaseActivity {
     @BindView(R.id.include_top_tv_tital)
