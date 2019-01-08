@@ -16,6 +16,7 @@ import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_add.AddGoodFriendActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
@@ -29,7 +30,6 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  * 位置：群成员详情
- * zll
  */
 public class FriendDataGroupMemberActivity extends BaseActivity {
     @BindView(R.id.include_top_tv_tital)
@@ -50,6 +50,8 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
 
     public  static  final  String  FRIENG_ID_KEY="friendId";
     public  static  final  String  GROUP_ID_KEY="groupId";
+    public  static  final  String  IS_FRIEND="2";
+    public  static  final  String  NOT_FRIEND="1";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,10 +74,11 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
 //                        .bitmapTransform(new CropCircleTransformation(FriendDataGroupMemberActivity.this))
 //                        .crossFade(1000).into(mIvHead);
 //            }else {
-                String friendId = intent.getStringExtra(FRIENG_ID_KEY);
-                String groupId = intent.getStringExtra(GROUP_ID_KEY);
+            String friendId = intent.getStringExtra(FRIENG_ID_KEY);
+            String groupId = intent.getStringExtra(GROUP_ID_KEY);
 
-                sendWeb(SplitWeb.getGroupMemberInfo(friendId,groupId));
+            sendWeb(SplitWeb.getGroupMemberInfo(friendId,groupId));
+            sendWeb(SplitWeb.addFriendQrCode(friendId));
 //                sendWebHaveDialog(SplitWeb.getGroupMemberInfo(friendId,groupId),"搜索好友信息中...","获取成功");
 //                sendWebHaveDialog(SplitWeb.getFriendInfo(id),"搜索好友信息中...","获取成功");
 //            }
@@ -113,6 +116,8 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
                     dataSearch.setId(record.getFriendId());
                     dataSearch.setHeadImg(record.getHeadImg());
                 }
+
+
                 break;
         }
 
@@ -157,6 +162,7 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
 //            fdTvBeizhu.setText(beizhuText);
         }
     }
+
     @Override
     protected int getLayoutView() {
         return R.layout.activity_friend_data_add;
@@ -190,7 +196,12 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
 //                发送消息
             case R.id.fda_tv_send_msg:
                 if (NoDoubleClickUtils.isDoubleClick())
-                    IntentUtils.JumpToHaveObj(AddGoodFriendActivity.class, AddGoodFriendActivity.DataKey,dataSearch);
+                    if (dataSearch.getIsRelation().equals(IS_FRIEND))
+                        IntentUtils.JumpToHaveObj(AddGoodFriendActivity.class, AddGoodFriendActivity.DataKey,dataSearch);
+
+                    else
+                        IntentUtils.JumpToHaveObj(FriendDataActivity.class, AddGoodFriendActivity.DataKey,dataSearch);
+
                 break;
         }
     }
