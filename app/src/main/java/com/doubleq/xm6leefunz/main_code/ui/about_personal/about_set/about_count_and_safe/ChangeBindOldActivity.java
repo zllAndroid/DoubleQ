@@ -3,6 +3,7 @@ package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.about_count
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
