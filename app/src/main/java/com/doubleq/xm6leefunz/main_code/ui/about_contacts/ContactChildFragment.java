@@ -249,6 +249,7 @@ public class ContactChildFragment extends BaseFragment {
             case  0:
 //                预先设置适配器，以便显示头部布局
                 initFriendAdapter();
+
 //                if (mlinkFriend==null)
 //                 mlinkFriend = new LinkFriendAdapter(getActivity(),mFriendList);
 //                 mListView.setAdapter(mlinkFriend);

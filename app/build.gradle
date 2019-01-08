@@ -96,6 +96,7 @@ dependencies {
     //    compile project(path: ':chat')
     implementation project(':websocketlib')
     implementation project(':jnotice')
+    implementation project(':libLoading')
 //    implementation project(':libswicthbutton')
 //    implementation files('libs/autobahn-0.5.0.jar')
 

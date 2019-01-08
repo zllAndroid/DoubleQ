@@ -48,7 +48,6 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
     @BindView(R.id.fda_tv_sign)
     TextView fdaTvSign;
 
-
     public  static  final  String  FRIENG_ID_KEY="friendId";
     public  static  final  String  GROUP_ID_KEY="groupId";
     public  static  final  String  IS_FRIEND="2";

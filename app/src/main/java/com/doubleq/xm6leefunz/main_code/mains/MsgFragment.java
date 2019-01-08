@@ -85,7 +85,6 @@ public class MsgFragment extends BaseFragment {
     View view =null;
     RecyclerView mRecyclerView;
     LinearLayout mLinTop;
-    Intent intent_service;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        if (view==null) {
@@ -168,7 +167,7 @@ public class MsgFragment extends BaseFragment {
         view.findViewById(R.id.include_frag_img_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IntentUtils.JumpTo(SearchActivity.class);
+                IntentUtils.JumpTo(LoadDataActivity.class);
             }
         });
         TextView tv_title = view.findViewById(R.id.include_frag_tv_title);
@@ -450,7 +449,7 @@ public class MsgFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        getActivity().stopService(intent_service);
+//        getActivity().stopService(intent_service);
 //        try {
 //            if (mRefreshBroadcastReceiver!=null)
 //                getActivity().unregisterReceiver(mRefreshBroadcastReceiver);
