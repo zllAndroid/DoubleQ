@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    >
+    <include layout="@layout/activity_include_title_bar"/>
+    <LinearLayout
+        android:id="@+id/edit_groupCard_lin_seach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/btn_shape_login_nor"
+        android:layout_margin="@dimen/dp10"
+        >
+        <EditText
+            android:id="@+id/edit_groupCard_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp10"
+            android:layout_weight="1"
+            android:background="@null"
+            android:drawablePadding="@dimen/dp10"
+            android:textColor="@color/gray666"/>
+        <ImageView
+            android:id="@+id/edit_groupCard_iv_clear"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:layout_gravity="center"
+            android:padding="@dimen/dp5"
+            android:visibility="invisible"
+            android:layout_marginRight="@dimen/dp10"
+            android:src="@drawable/seach_close"
+            />
+    </LinearLayout>
+
+</LinearLayout>

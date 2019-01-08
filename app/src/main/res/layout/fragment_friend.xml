@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <ExpandableListView
+        android:id="@+id/frag_exlist_friend"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:groupIndicator="@null"
+        android:layout_weight="1"
+        android:background="@color/white">
+    </ExpandableListView>
+    <com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar
+        android:layout_height="wrap_content"
+        android:layout_width="@dimen/dp30"
+        android:id="@+id/frag_letter_friend"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:layout_height="@dimen/dp100"
+        android:layout_width="@dimen/dp100"
+        android:id="@+id/tv_abc"
+        android:visibility="gone"
+        android:textSize="@dimen/sp50"
+        android:textColor="@color/white"
+        android:hint="A"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:background="@drawable/btn_stroke_sel"
+        />
+</RelativeLayout>

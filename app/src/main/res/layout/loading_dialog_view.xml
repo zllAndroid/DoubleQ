@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/dialog_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/dialog_bg"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/lv_iv_gif"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+         />
+
+    <com.doubleq.xm6leefunz.about_custom.loding.LVCircularRing
+        android:id="@+id/lv_circularring"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone" />
+
+    <com.doubleq.xm6leefunz.about_custom.loding.LoadCircleView
+        android:id="@+id/lcv_circleload"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="visible" />
+
+    <com.doubleq.xm6leefunz.about_custom.loding.RightDiaView
+        android:id="@+id/rdv_right"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone" />
+
+    <com.doubleq.xm6leefunz.about_custom.loding.WrongDiaView
+        android:id="@+id/wv_wrong"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/loading_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="15sp" />
+
+</LinearLayout>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_gravity="center"
+    android:id="@+id/first_lin_main"
+    android:background="@drawable/login_bac"
+    >
+    <include
+        layout="@layout/login_include_title_bar"
+        />
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_marginRight="@dimen/dp45"
+        android:layout_marginLeft="@dimen/dp45"
+        android:layout_marginTop="@dimen/dp60"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+            <RelativeLayout
+                android:id="@+id/first_re_head"
+                android:layout_width="@dimen/dp120"
+                android:layout_height="@dimen/dp80"
+                android:layout_gravity="center"
+                >
+                <ImageView
+                    android:id="@+id/first_iv_head"
+                    android:layout_width="@dimen/dp80"
+                    android:layout_height="@dimen/dp80"
+                    android:layout_gravity="center"
+                    android:layout_centerInParent="true"
+                    app:srcCompat="@drawable/first_head_nor"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="@dimen/dp5"
+                    android:layout_marginRight="@dimen/dp5"
+                    android:paddingLeft="@dimen/dp3"
+                    android:paddingRight="@dimen/dp3"
+                    android:background="@drawable/first_head_text_bac"
+                    android:text="设置头像"
+                    android:textSize="@dimen/sp10"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    />
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_marginTop="@dimen/dp5"-->
+                    <!--android:layout_marginRight="@dimen/dp8"-->
+                    <!--app:srcCompat="@drawable/first_head_text_bac"/>-->
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp30"
+                android:orientation="vertical">
+                <EditText
+                    android:id="@+id/first_ed_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:textCursorDrawable="@null"
+                    android:hint="昵称"
+                    android:minEms="16"
+                    android:maxLength="16"
+                    android:textColor="@color/white"
+                    android:inputType="textPersonName"
+                    android:textColorHint="@color/white"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp1"
+                    android:layout_marginTop="@dimen/dp5"
+                    android:background="@color/white"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="@dimen/dp10"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginBottom="@dimen/dp50"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/first_btn_sure"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="确定"
+                android:layout_gravity="center"
+                android:textSize="@dimen/sp16"
+                android:textColor="@color/white"
+                android:background="@drawable/login_btn_bac"/>
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

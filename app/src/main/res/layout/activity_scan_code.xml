@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <include layout="@layout/activity_include_title_bar" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/include_top_lin_back"
+        android:layout_weight="1">
+
+        <SurfaceView
+            android:id="@+id/preview_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+           />
+
+        <com.doubleq.xm6leefunz.about_scan.camera_view.ViewfinderView
+            android:id="@+id/viewfinder_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+             />
+
+        <CheckBox
+            android:id="@+id/scan_check_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/dp50"
+            android:drawableLeft="@drawable/scan_check_open_flashlight"
+           />
+
+        <!--<include layout="@layout/include_subactivity_top"-->
+        <!--/>-->
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dp50"
+    android:orientation="vertical"
+    android:layout_marginBottom="@dimen/dp5"
+    android:id="@+id/lin_main_tabs"
+    android:padding="@dimen/dp2" >
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/img_main_tab"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp30"
+            android:adjustViewBounds="true"
+            android:layout_gravity="center"
+            android:layout_centerHorizontal="true"
+            android:paddingTop="@dimen/dp5" />
+        <ImageView
+            android:id="@+id/img_main_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:layout_gravity="top"
+            android:layout_alignRight="@+id/img_main_tab"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="@dimen/dp2"
+            app:srcCompat="@drawable/main_bac_point"
+            android:visibility="gone"
+            />
+        <RelativeLayout
+            android:id="@+id/main_re_num"
+            android:layout_width="@dimen/dp15"
+            android:layout_height="@dimen/dp15"
+            android:layout_toRightOf="@+id/img_main_tab"
+            android:layout_marginRight="@dimen/dp5"
+            android:visibility="gone"
+            android:gravity="center">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/main_bac_num"
+                android:layout_centerInParent="true"
+                />
+            <TextView
+                android:id="@+id/main_tv_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/sp10"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                />
+        </RelativeLayout>
+        <!--<TextView-->
+            <!--android:id="@+id/main_tv_num"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/main_bac_num"-->
+            <!--android:text="3"-->
+            <!--android:layout_toRightOf="@+id/img_main_tab"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:gravity="center"-->
+            <!--android:layout_marginRight="@dimen/dp2"-->
+            <!--/>-->
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/tv_main_tab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/dp2"
+        android:textSize="@dimen/sp10"
+        android:layout_marginBottom="@dimen/dp2"
+        android:textColor="@drawable/text_message_selector"
+        >
+
+    </TextView>
+
+</LinearLayout>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bac_pop_add_friend"
+    android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/pop_tv_del"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp15"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:layout_marginBottom="@dimen/dp10"
+            android:text="删除好友"
+            android:textSize="@dimen/sp14" />
+        <TextView
+            android:id="@+id/pop_tv_pingbi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            android:text="屏蔽好友"
+            android:layout_marginBottom="@dimen/dp10"
+            android:textSize="@dimen/sp14" />
+
+
+
+</LinearLayout>

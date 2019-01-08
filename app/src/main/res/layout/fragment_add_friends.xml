@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="@color/add_bg"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+    <LinearLayout
+        android:id="@+id/add_friend_lin_seach"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/btn_shape_login_nor"
+        android:layout_margin="@dimen/dp10"
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/add_friend_find"
+            android:padding="@dimen/dp10"
+            android:text="账号/昵称/群"
+            android:drawablePadding="@dimen/dp10"
+            android:textColor="@color/gray999"/>
+
+
+    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/add_friend_lin_scan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:background="@color/white"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/dp20"
+                android:layout_height="@dimen/dp20"
+                android:layout_marginLeft="@dimen/dp10"
+                app:srcCompat="@drawable/add_friend_scan"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/dp10"
+                android:textColor="@color/gray666"
+                android:text="扫一扫添加好友/群" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp10"
+                app:srcCompat="@drawable/in_right" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>
