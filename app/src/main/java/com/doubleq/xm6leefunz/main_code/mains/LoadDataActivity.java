@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
+import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 
 import app.dinus.com.loadingdrawable.LoadingView;
@@ -30,6 +31,8 @@ public class LoadDataActivity extends BaseActivity {
         super.initBaseView();
         ElectricFanLoadingRenderer.Builder builder = new ElectricFanLoadingRenderer.Builder(this);
         electricFanView.setLoadingRenderer(builder.build());
+
+        sendWeb(SplitWeb.getFriendList());
     }
 
     @Override
@@ -62,7 +65,10 @@ public class LoadDataActivity extends BaseActivity {
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
         String method = HelpUtils.backMethod(responseText);
-        if (method.equals("setHeadImg")) {
+        if (method.equals("getFriendList")) {
+
+
+
         }
     }
 

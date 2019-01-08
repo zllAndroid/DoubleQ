@@ -76,12 +76,10 @@ import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.RealmResults;
 
 /**
- * A simple {@link Fragment} subclass.
+ *  MsgFragment   首页消息界面
  */
 public class MsgFragment extends BaseFragment {
-    public MsgFragment() {
-    }
-
+    public MsgFragment() {}
     View view =null;
     RecyclerView mRecyclerView;
     LinearLayout mLinTop;
@@ -92,37 +90,21 @@ public class MsgFragment extends BaseFragment {
 //        }
         initFriend(view);
         initRealmData();
-//        sendWeb(SplitWeb.getUserRelation());
-//        MsgService msgService = new MsgService();
-////        intent_service = new Intent(getActivity(), MsgService.class);
-////        getActivity().startService(intent_service);
-//        msgService.setOnServiceBackMethod(getActivity(),this);
         initReceiver();
         initNetReceive();
 
         return view;
     }
-    //    @Override
-//    public void onBackMethod(String method,Intent intent) {
-//        dealMsgBroReceiver(intent);
-//    }
     private NetReceiver mReceiver;
     private void initNetReceive() {
         mReceiver = new NetReceiver();
         IntentFilter mFilter = new IntentFilter();
         mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
         getActivity().registerReceiver(mReceiver, mFilter);
-
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(NetEvent event) {
-//        ToastUtil.show(""+event.isNet);
         mLinNet.setVisibility(event.isNet ? View.GONE : View.VISIBLE);
-//        if (event.isNet)
-//        {
-//
-//        }
-//        setNetState(event.isNet());
     }
     IntentFilter intentFilter;
     //广播接收消息推送
@@ -208,7 +190,6 @@ public class MsgFragment extends BaseFragment {
         else if (action.equals("zero.refreshMsgFragment"))
         {
             initZeroNum(intent);
-//                initRefresh(intent);
         }
         else  if (action.equals("zll.refreshMsgFragment"))
         {
@@ -224,8 +205,6 @@ public class MsgFragment extends BaseFragment {
     }
 
     private void initDel(Intent intent) {
-        String id = intent.getStringExtra("id");
-//        realmHelper.deleteRealmMsg(id);
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
         Log.e("home","initDel="+cusHomeRealmData.size());
         if (cusHomeRealmData.size()!=0)
@@ -235,7 +214,6 @@ public class MsgFragment extends BaseFragment {
             initAdapter();
         }
     }
-
     private void refreshMsg(Intent intent) {
         String id = intent.getStringExtra("id");
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
@@ -247,7 +225,6 @@ public class MsgFragment extends BaseFragment {
             mList.addAll(cusHomeRealmData);
             initAdapter();
         }
-
     }
     int num=-1;
     private void sendBroadcast() {
@@ -263,10 +240,6 @@ public class MsgFragment extends BaseFragment {
                 intent2.setAction("action.refreshMain");
                 getActivity().sendBroadcast(intent2);
             }
-
-
-
-
         }
     }
 
@@ -288,7 +261,6 @@ public class MsgFragment extends BaseFragment {
 //                msgAdapter.notifyDataSetChanged();
             }
 //            initRefreshZero(intent);
-
         }
     }
 

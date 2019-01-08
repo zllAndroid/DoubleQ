@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">链讯</string>
+    <string name="app_name">信风</string>
     <string name="phone_is_null">请输入您的手机号</string>
     <string name="phone_is_error">请输入正确手机号格式</string>
 
