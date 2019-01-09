@@ -236,6 +236,21 @@ public class BaseActivityForResult extends AppCompatActivity  {
         saveForThesePeopleWhoDoNotCallCloseAndUseInterceptBackMethod(intercept_back_event);
         MyApplication.getmConnectManager().sendText(text);
     }
+    protected void sendWebHaveData(String loadText,String loadSuccessText) {
+        if ((ld != null))
+            ld.close();
+        ld = new LoadingDialog(this);
+        ld.setLoadingText(loadText)
+                .setSuccessText(loadSuccessText)
+                .setInterceptBack(intercept_back_event)
+                .setLoadSpeed(speed)
+                .setRepeatCount(repeatTime)
+//                .setDrawColor(Color.WHITE)
+                .setLoadStyle(style)
+                .show();
+        saveForThesePeopleWhoDoNotCallCloseAndUseInterceptBackMethod(intercept_back_event);
+//        MyApplication.getmConnectManager().sendText(text);
+    }
     private void saveForThesePeopleWhoDoNotCallCloseAndUseInterceptBackMethod(boolean intercept_back_event) {
         if (intercept_back_event) {
             mHandler.sendEmptyMessageDelayed(LOAD_FAILED, closeTime);

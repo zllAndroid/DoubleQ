@@ -63,7 +63,7 @@ public class ElectricFanLoadingRenderer extends LoadingRenderer {
 
     private static final String PERCENTAGE_100 = "100%";
 
-    private static final long ANIMATION_DURATION = 7333;
+    private static final long ANIMATION_DURATION = 5000;
 
     private static final int LEAF_COUNT = 28;
     private static final int DEGREE_180 = 180;

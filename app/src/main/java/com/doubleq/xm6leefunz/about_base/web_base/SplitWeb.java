@@ -431,7 +431,7 @@ public class SplitWeb {
         putData("groupOfId",groupOfId);
         putData("userIds",userIds);
 
-        String request = WebUrl.request("Contact", "groupInvitationf", map);
+        String request = WebUrl.request("Contact", "delGroupMember", map);
         return  request;
     }
     public  static  String createdUserGroup(String fromUserIds,String groupName,String groupImg){

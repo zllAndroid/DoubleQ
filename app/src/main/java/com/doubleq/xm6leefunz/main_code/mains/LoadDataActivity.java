@@ -1,7 +1,10 @@
 package com.doubleq.xm6leefunz.main_code.mains;
 
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
 
 import com.alibaba.fastjson.JSON;
 import com.doubleq.model.DataLinkGroupList;
@@ -9,6 +12,7 @@ import com.doubleq.model.DataLinkManList;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
+import com.doubleq.xm6leefunz.about_base.web_base.MessageEvent;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
@@ -16,6 +20,11 @@ import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Timer;
 
 import app.dinus.com.loadingdrawable.LoadingView;
 import app.dinus.com.loadingdrawable.render.LoadingRenderer;
@@ -40,12 +49,15 @@ public class LoadDataActivity extends BaseActivity {
         super.initBaseView();
         aCache =  ACache.get(this);
         ElectricFanLoadingRenderer.Builder builder = new ElectricFanLoadingRenderer.Builder(this);
-        electricFanView.setLoadingRenderer(builder.build());
+//        electricFanView.setLoadingRenderer(builder.build());
 
+//        sendWebHaveData("获取数据中...","获取成功");
         sendWeb(SplitWeb.getFriendList());
         sendWeb(SplitWeb.getGroupManage());
-    }
+        timer.start();
 
+    }
+    int durlation=5000;
     @Override
     protected void initBeforeContentView() {
         super.initBeforeContentView();
@@ -73,10 +85,57 @@ public class LoadDataActivity extends BaseActivity {
     }
     boolean isFriend=false;
     boolean isGroup=false;
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent messageEvent){
+        String responseText = messageEvent.getMessage();
+        String isSucess = HelpUtils.HttpIsSucess(responseText);
+        if (isSucess.equals(AppAllKey.CODE_OK)) {
 
-    @Override
-    public void receiveResultMsg(String responseText) {
-        super.receiveResultMsg(responseText);
+            dealDataMsg(responseText);
+        }
+
+//        if (timer == null) {
+//            timer = new Timer();
+//            timer.schedule(task, 1500);
+//        }
+    }
+    private CountDownTimer timer =new CountDownTimer(durlation, 1000) {
+        @Override
+        public void onTick(long l) {
+//            regTvSendCode.setBackgroundResource(R.drawable.btn_stroke_nor_b5);
+        }
+        @Override
+        public void onFinish() {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                electricFanView.stopNestedScroll();
+            }
+            if (isFriend&&isGroup)
+            {
+                IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);
+                overridePendingTransition(0,0);
+//                new Handler().postDelayed(new Runnable(){
+//
+//                    public void run() {
+//
+////                      mHandler.sendEmptyMessageDelayed(LOAD_SUCCESS, 500);
+//                        IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);
+//                        overridePendingTransition(0,0);
+//                    }
+//
+//                }, 7333);
+
+            }
+//            try {
+//                regTvSendCode.setEnabled(true);
+//                regTvSendCode.setClickable(true);
+//                regTvSendCode.setText("获取验证码");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//            regTvSendCode.setBackgroundResource(R.drawable.btn_stroke_sel);
+        }
+    };
+    private void dealDataMsg(String responseText) {
         String method = HelpUtils.backMethod(responseText);
         String md5 = HelpUtils.backMD5(responseText);
         if (!StrUtils.isEmpty(md5))
@@ -108,12 +167,15 @@ public class LoadDataActivity extends BaseActivity {
                 aCache.put(AppAllKey.GROUD_DATA, json_group);
                 break;
         }
-        if (isFriend&&isGroup)
-        {
-            IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);
-            overridePendingTransition(0,0);
-        }
-
+//        if (isFriend&&isGroup)
+//            new Handler().postDelayed(new Runnable(){
+//                public void run() {
+//                    mHandler.sendEmptyMessageDelayed(LOAD_SUCCESS, 500);
+//                    IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);
+//                    overridePendingTransition(0,0);
+//                }
+//
+//            }, 2000);
     }
 
 }
