@@ -199,7 +199,6 @@ public class AppStartActivity extends BaseActivity {
 //                    sendWeb(SplitWeb.bindUid());
                     IntentUtils.JumpFinishTo(AppStartActivity.this,MainActivity.class);
                     overridePendingTransition(0,0);
-
                     return;
                 }
             }
@@ -208,26 +207,26 @@ public class AppStartActivity extends BaseActivity {
         overridePendingTransition(0,0);
 
     }
-    @Override
-    public void receiveResultMsg(String responseText) {
-        super.receiveResultMsg(responseText);
-        String s = HelpUtils.backMethod(responseText);
-        if (s.equals("bindUid")) {
-            IntentUtils.JumpFinishTo(AppStartActivity.this,MainActivity.class);
-            overridePendingTransition(0,0);
-        }
-    }
-
-    @Override
-    public void errorResult(String s) {
-        super.errorResult(s);
-        String backMethod = HelpUtils.backMethod(s);
-        if (backMethod.equals("bindUid")) {
-            IntentUtils.JumpFinishTo(AppStartActivity.this,LoginActivity.class);
-            overridePendingTransition(0,0);
-        }
-
-    }
+//    @Override
+//    public void receiveResultMsg(String responseText) {
+//        super.receiveResultMsg(responseText);
+//        String s = HelpUtils.backMethod(responseText);
+//        if (s.equals("bindUid")) {
+//            IntentUtils.JumpFinishTo(AppStartActivity.this,MainActivity.class);
+//            overridePendingTransition(0,0);
+//        }
+//    }
+//
+//    @Override
+//    public void errorResult(String s) {
+//        super.errorResult(s);
+//        String backMethod = HelpUtils.backMethod(s);
+//        if (backMethod.equals("bindUid")) {
+//            IntentUtils.JumpFinishTo(AppStartActivity.this,LoginActivity.class);
+//            overridePendingTransition(0,0);
+//        }
+//
+//    }
 
     private void initSetData(DataLogin.RecordBean dataLogin) {
         if(!StrUtils.isEmpty(dataLogin.getUserId()))

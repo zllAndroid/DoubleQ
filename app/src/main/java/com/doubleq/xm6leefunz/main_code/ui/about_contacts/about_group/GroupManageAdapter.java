@@ -36,7 +36,7 @@ public class GroupManageAdapter extends BaseQuickAdapter<DataGroupManage.RecordB
 //                .bitmapTransform(new CropCircleTransformation(context))
 //                .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
         helper.setText(R.id.item_group_tv_groupname,item.getGroupName());
-        helper.addOnClickListener(R.id.item_group_iv_del).addOnClickListener(R.id.item_group_iv_move);
+        helper.addOnClickListener(R.id.item_group_iv_del).addOnClickListener(R.id.item_group_iv_move).addOnClickListener(R.id.item_group_tv_groupname);
     }
 
     //添加数据

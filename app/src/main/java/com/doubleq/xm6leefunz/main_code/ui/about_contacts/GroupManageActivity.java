@@ -64,7 +64,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
     protected void initBaseView() {
         super.initBaseView();
         Intent intent = getIntent();
-         type = intent.getStringExtra(ManagerType);
+        type = intent.getStringExtra(ManagerType);
         if (type.equals("1"))
         {
             includeTopTvTital.setText("好友分组管理");
@@ -155,6 +155,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                     ToastUtil.show("默认分组不可删除与修改");
                     return;
                 }
+                RecyclerView recyclerView = mRecyclerView;
                 switch (view.getId()) {
                     case R.id.item_group_iv_del:
                         DialogUtils.showDialog("是否删除此分组", new DialogUtils.OnClickSureListener() {
@@ -168,8 +169,12 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                                 }
                             }
                         });
+
                         break;
                     case R.id.item_group_iv_move:
+
+                        break;
+                    case R.id.item_group_tv_groupname:
                         isAddOrChange = "1";
                         ChangeInfoWindow changeInfoWindowsign = new ChangeInfoWindow(GroupManageActivity.this, "修改分组", item.getGroupName());
                         changeInfoWindowsign.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/white"
     android:orientation="horizontal"
-   >
+    >
 
     <ImageView
         android:id="@+id/item_group_iv_del"
@@ -16,15 +16,16 @@
         android:src="@drawable/fenzu_del" />
 
 
-        <TextView
-            android:id="@+id/item_group_tv_groupname"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Android"
-            android:textSize="@dimen/sp16"
-            android:layout_weight="1"
-            android:textColor="@color/gray333" />
+    <TextView
+        android:id="@+id/item_group_tv_groupname"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Android"
+        android:padding="@dimen/dp8"
+        android:textSize="@dimen/sp16"
+        android:layout_weight="1"
+        android:textColor="@color/gray333" />
 
     <ImageView
         android:id="@+id/item_group_iv_move"
