@@ -77,7 +77,7 @@ public class FriendDataAddActivity extends BaseActivity {
                 fdaTvSign.setText(StrUtils.isEmpty(dataSearch.getSign()) ? "暂未设置签名" : dataSearch.getSign());
                 Glide.with(this).load(dataSearch.getHeadImg())
                         .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
-                        .crossFade(1000).into(mIvHead);
+                        .into(mIvHead);
             } else {
                 String id = intent.getStringExtra("id");
                 Log.e("scan_id", "-------------------------" + id);
@@ -106,7 +106,7 @@ public class FriendDataAddActivity extends BaseActivity {
                     fdaTvSign.setText(signText);
                     Glide.with(this).load(record.getHeadImg())
                             .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
-                            .crossFade(1000).into(mIvHead);
+                            .into(mIvHead);
 
                     dataSearch = new DataSearch();
                     dataSearch.setSno(record.getWxSno());
@@ -130,7 +130,7 @@ public class FriendDataAddActivity extends BaseActivity {
 //            dataRecord = record;
             Glide.with(this).load(record.getHeadImg())
                     .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
-                    .crossFade(1000).into(mIvHead);
+                    .into(mIvHead);
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdaTvSign.setText(signText);
 //            fdaTvFenzu.setText(record.getGroupName() + "");

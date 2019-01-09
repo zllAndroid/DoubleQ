@@ -17,6 +17,7 @@ import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.EditCheckUtils;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
+import com.doubleq.xm6leefunz.main_code.mains.LoadDataActivity;
 import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -75,7 +76,6 @@ public class LoginActivity extends BaseActivity {
             loginEdPhone.setText(phone);
             loginEdPhone.setSelection(phone.length());//将光标移至文字末尾
         }
-
         mCache = ACache.get(this);
         listenEnter();
     }
@@ -129,9 +129,8 @@ public class LoginActivity extends BaseActivity {
         String s = HelpUtils.backMethod(responseText);
         if (s.equals("bindUid")) {
             if (!isFirst) {
-                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
-//                IntentUtils.JumpTo(MainActivity.class);
-//                AppManager.getAppManager().finishActivity(LoginActivity.this);
+                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+//                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
             }
             else
                 IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);

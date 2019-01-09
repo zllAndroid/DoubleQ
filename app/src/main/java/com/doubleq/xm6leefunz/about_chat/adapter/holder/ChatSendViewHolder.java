@@ -91,7 +91,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
 
 //        Glide.with(getContext()).load(SplitWeb.USER_HEADER)
 //                .bitmapTransform(new CropCircleTransformation(getContext()))
-//                .crossFade(1000).into(chatItemHeader);
+//                .into(chatItemHeader);
 
 
         chatItemHeader.setOnClickListener(new View.OnClickListener() {

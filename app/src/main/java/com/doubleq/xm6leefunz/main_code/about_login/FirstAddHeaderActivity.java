@@ -37,6 +37,7 @@ import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
+import com.doubleq.xm6leefunz.main_code.mains.LoadDataActivity;
 import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.changephoto.PhotoPopWindow;
@@ -124,7 +125,8 @@ public class FirstAddHeaderActivity extends BaseActivity {
             case R.id.include_top_tv_right:
                 if (NoDoubleClickUtils.isDoubleClick())
                 {
-                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);
+                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
+//                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);
                 }
                 break;
             case R.id.first_re_head:
@@ -179,7 +181,8 @@ public class FirstAddHeaderActivity extends BaseActivity {
             DialogUtils.showDialogOne("头像昵称设置成功", new DialogUtils.OnClickSureListener() {
                 @Override
                 public void onClickSure() {
-                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);
+                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
+//                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);
 //                AppManager.getAppManager().finishActivity();
                     overridePendingTransition(0,0);
                 }
@@ -244,7 +247,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
 //                changeinfoIvHead
                 Glide.with(this).load(saveBitmap)
                         .bitmapTransform(new CropCircleTransformation(FirstAddHeaderActivity.this))
-                        .crossFade(1000).into(firstIvHead);
+                       .into(firstIvHead);
 //                Glide.with(ChangeInfoActivity.this).load(drawable.getBitmap()).;
 //                changeinfoIvHead.setImageBitmap(drawable.getBitmap());
 //                SendDataImg(files);
@@ -268,10 +271,10 @@ public class FirstAddHeaderActivity extends BaseActivity {
             Drawable drawable = new BitmapDrawable(getResources(), bitmap);
             Glide.with(this).load(save)
                     .bitmapTransform(new CropCircleTransformation(FirstAddHeaderActivity.this))
-                    .crossFade(1000).into(firstIvHead);
+                   .into(firstIvHead);
             //                Glide.with(this).load(saveBitmap)
 //                        .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-//                        .crossFade(1000).into(changeinfoIvHead);
+//                        .into(changeinfoIvHead);
 //
 //            Log.e(AppConstant.TAG,saveBitmap+"这个是图片的地址"+files);
 //            SendDataImg(files);

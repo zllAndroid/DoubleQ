@@ -30,7 +30,7 @@ public class SearchFriendAndGroupAdapter222 extends BaseQuickAdapter<DataSearch,
             Glide.with(context).load(item.getHeadImg())
                     .error(R.drawable.mine_head)
                     .bitmapTransform(new CropCircleTransformation(context))
-                    .crossFade(1000).into((ImageView) helper.getView(R.id.item_search_iv_head));
+                   .into((ImageView) helper.getView(R.id.item_search_iv_head));
 //                    .into((ImageView) helper.getView(R.id.item_search_iv_head));
 //            Glide.with(this).load(dataSearch.getHeadImg())
 //                    .error(R.drawable.mine_head)
@@ -43,7 +43,7 @@ public class SearchFriendAndGroupAdapter222 extends BaseQuickAdapter<DataSearch,
             Glide.with(context).load(item.getHeadImg())
                     .error(R.drawable.qun_head)
                     .bitmapTransform(new CropCircleTransformation(context))
-                    .crossFade(1000).into((ImageView) helper.getView(R.id.item_search_iv_head));
+                  .into((ImageView) helper.getView(R.id.item_search_iv_head));
 
 //            Glide.with(context).load(item.getHeadImg())
 //                    .error(R.drawable.qun_head)

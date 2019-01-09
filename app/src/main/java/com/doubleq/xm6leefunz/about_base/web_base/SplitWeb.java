@@ -403,6 +403,13 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "getGroupWebInfo", map);
         return  request;
     }
+//    删除群成员列表
+    public  static  String delGroupMemberList(String groupId){
+        dealMap();
+        putData("groupId",groupId);
+        String request = WebUrl.request("Contact", "delGroupMemberList", map);
+        return  request;
+    }
 
     //    邀请入群
     public  static  String groupInvitationf(String groupId,String friendIds){

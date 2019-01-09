@@ -20,6 +20,7 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.main_code.mains.LoadDataActivity;
 import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.WindowService;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -195,10 +196,14 @@ public class AppStartActivity extends BaseActivity {
                 DataLogin.RecordBean dataLogin = JSON.parseObject(asString, DataLogin.RecordBean.class);
                 if (dataLogin!=null) {
                     initSetData(dataLogin);
-//               自动登录
-//                    sendWeb(SplitWeb.bindUid());
-                    IntentUtils.JumpFinishTo(AppStartActivity.this,MainActivity.class);
-                    overridePendingTransition(0,0);
+                    String asFriend = mCache.getAsString(AppAllKey.FRIEND_DATA);
+                    if (StrUtils.isEmpty(asFriend))
+                    {
+                        IntentUtils.JumpFinishTo(AppStartActivity.this, LoadDataActivity.class);
+                    }else {
+                        IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
+                    }
+                    overridePendingTransition(0, 0);
                     return;
                 }
             }
@@ -230,7 +235,7 @@ public class AppStartActivity extends BaseActivity {
 
     private void initSetData(DataLogin.RecordBean dataLogin) {
         if(!StrUtils.isEmpty(dataLogin.getUserId()))
-        SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
+            SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
         if(!StrUtils.isEmpty(dataLogin.getUserToken()))
             SPUtils.put(this,AppAllKey.USER_Token,dataLogin.getUserToken());
         if(!StrUtils.isEmpty(dataLogin.getMobile()))

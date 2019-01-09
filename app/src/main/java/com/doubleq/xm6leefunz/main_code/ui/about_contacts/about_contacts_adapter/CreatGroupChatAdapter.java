@@ -136,7 +136,7 @@ public class CreatGroupChatAdapter extends BaseExpandableListAdapter {
         Glide.with(context)
                 .load(groupListBean.getHeadImg())
                 .error(R.drawable.img_personal_head)
-                .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                .bitmapTransform(new CropCircleTransformation(context))
                 .into(holder.mIvHead);
         holder.mTvName.setText(groupListBean.getNickName());
         holder.mLinCheck.setOnClickListener(new View.OnClickListener() {

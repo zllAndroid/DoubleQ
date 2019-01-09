@@ -34,7 +34,7 @@ public class HomeMsgAdapter extends BaseQuickAdapter<CusDataRealmMsg, BaseViewHo
     protected void convert(BaseViewHolder helper, CusDataRealmMsg item) {
         Glide.with(context).load(item.getHeadImg())
                 .bitmapTransform(new CropCircleTransformation(context))
-                .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+                .into((ImageView) helper.getView(R.id.item_iv_head));
         helper.setText(R.id.item_tv_name,item.getNickName());
         helper.addOnClickListener(R.id.item_tv_click_ok);
         helper.addOnClickListener(R.id.item_msg_re);

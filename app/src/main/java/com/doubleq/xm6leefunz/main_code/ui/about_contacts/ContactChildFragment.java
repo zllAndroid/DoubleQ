@@ -97,6 +97,8 @@ public class ContactChildFragment extends BaseFragment {
     private void initBroc() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("action.addFriend");
+        intentFilter.addAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+        intentFilter.addAction(AppConfig.LINK_FRIEND_DEL_ACTION);
         getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
     }
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
@@ -104,15 +106,22 @@ public class ContactChildFragment extends BaseFragment {
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (action.equals("action.addFriend"))
+            switch (action)
             {
-                int num = intent.getIntExtra("num",0);
-                if (num>0)
-                {
-                    mTvFriendNews.setVisibility(View.VISIBLE);
-                    mTvFriendNews.setText(num+"");
-                }else
-                    mTvFriendNews.setVisibility(View.INVISIBLE);
+                case "action.addFriend":
+                    int num = intent.getIntExtra("num",0);
+                    if (num>0)
+                    {
+                        mTvFriendNews.setVisibility(View.VISIBLE);
+                        mTvFriendNews.setText(num+"");
+                    }else
+                        mTvFriendNews.setVisibility(View.INVISIBLE);
+                    break;
+                case AppConfig.LINK_FRIEND_ADD_ACTION:
+
+                    break;
+                case AppConfig.LINK_FRIEND_DEL_ACTION:
+                    break;
             }
         }
     };
@@ -234,7 +243,7 @@ public class ContactChildFragment extends BaseFragment {
                     String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
                     if (!StrUtils.isEmpty(asString))
                     {
-                        initDataGroup(asString);
+                        initDataGroup(asString,false);
 //                        return;
                     }
                 }
@@ -247,27 +256,31 @@ public class ContactChildFragment extends BaseFragment {
         switch (typeWho)
         {
             case  0:
+
 //                预先设置适配器，以便显示头部布局
                 initFriendAdapter();
-
-//                if (mlinkFriend==null)
-//                 mlinkFriend = new LinkFriendAdapter(getActivity(),mFriendList);
-//                 mListView.setAdapter(mlinkFriend);
-//                 mlinkFriend.notifyDataSetChanged();
-//                initFriendAdapter(friend_list);
+                if (aCache!=null)
+                {
+                    String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
+                    if (!StrUtils.isEmpty(asString))
+                    {
+                        initDataFriend(asString,false);
+                        return;
+                    }
+                }
                 sendWeb(SplitWeb.getFriendList());
                 break;
             case 1:
-//                if (aCache!=null)
-//                {
-//                    String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
-//                    if (!StrUtils.isEmpty(asString))
-//                    {
-//                        initDataGroup(asString);
-//                        return;
-//                    }
-//                }
                 initGroupAdapter();
+                if (aCache!=null)
+                {
+                    String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
+                    if (!StrUtils.isEmpty(asString))
+                    {
+                        initDataGroup(asString,false);
+                        return;
+                    }
+                }
                 sendWeb(SplitWeb.getGroupManage());
                 break;
         }
@@ -305,7 +318,7 @@ public class ContactChildFragment extends BaseFragment {
 
 //            获取群组列表
             case "getGroupManage":
-                initDataGroup(responseText);
+                initDataGroup(responseText,true);
                 break;
         }
     }
@@ -319,12 +332,11 @@ public class ContactChildFragment extends BaseFragment {
         if (isWs) {
             DataLinkManList dataLinkManList = JSON.parseObject(responseText, DataLinkManList.class);
              record = dataLinkManList.getRecord();
-              friend_list = record.getFriendList();
         }else
         {
-             friend_list = JSON.parseArray(responseText, DataLinkManList.RecordBean.FriendListBean.class);
-//            JSON.parseArray()
+            record = JSON.parseObject(responseText, DataLinkManList.RecordBean.class);
         }
+        friend_list = record.getFriendList();
         if (friend_list.size()>0)
         {
             initFriendRecord( friend_list,isWs);
@@ -428,9 +440,11 @@ public class ContactChildFragment extends BaseFragment {
 
     //    好友分组适配器
     private void initFriendAdapter() {
-        if (mlinkFriend==null)
-            mlinkFriend = new LinkFriendAdapter(getActivity(),mFriendList);
-        mListView.setAdapter(mlinkFriend);
+        if (mlinkFriend==null) {
+            mlinkFriend = new LinkFriendAdapter(getActivity(), mFriendList);
+            mListView.setAdapter(mlinkFriend);
+        }
+
         mlinkFriend.notifyDataSetChanged();
         mListView.setGroupIndicator(null);
         mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
@@ -458,41 +472,11 @@ public class ContactChildFragment extends BaseFragment {
         });
     }
     private void dealFriendRequestRealm() {
-//        realmHelper.deleteAll();
         if (mlinkFriend!=null)
             for(int i = 0; i < mlinkFriend.getGroupCount(); i++) {
                 if (mFriendList.get(i).getType().equals("2")) {
                     if (mListView!=null)
                         mListView.expandGroup(i);
-//                    List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = mFriendList.get(i).getGroupList();
-//                    if (StrUtils.isEmpty(groupList.get(0).getUserId()))
-//                    {
-//                        return;
-//                    }
-//                    for (int j=0;j<groupList.size();j++)
-//                    {
-//                        CusDataFriendRealm cusDataFriendRealm = new CusDataFriendRealm();
-//                        cusDataFriendRealm.setGroupId(groupList.get(j).getGroupId());
-////                        cusDataFriendRealm.setChart(groupList.get(j).getChart());
-//
-//                        cusDataFriendRealm.setHeadImg(groupList.get(j).getHeadImg());
-//
-//                        cusDataFriendRealm.setGroupName(groupList.get(j).getGroupName());
-//                        cusDataFriendRealm.setNickName(groupList.get(j).getNickName());
-//
-//                        cusDataFriendRealm.setMobile(groupList.get(j).getMobile());
-//
-//                        cusDataFriendRealm.setUserId(groupList.get(j).getUserId());
-//
-//                        cusDataFriendRealm.setWxSno(groupList.get(j).getWxSno());
-////                        try {
-////                            if (StrUtils.isEmpty(mFriendList.get(i).getGroupList().get(0).getUserId()))
-////                                mFriendList.get(i).getGroupList().remove(i);
-////                        } catch (Exception e) {
-////                            e.printStackTrace();
-////                        }
-////                    realmHelper.addFriend(cusDataFriendRealm);
-//                    }
                 }
             }
     }
@@ -501,9 +485,15 @@ public class ContactChildFragment extends BaseFragment {
      * 群组列表数据处理
      * @param responseText
      */
-    private void initDataGroup(String responseText) {
-        DataLinkGroupList dataLinkGroupList = JSON.parseObject(responseText, DataLinkGroupList.class);
-        DataLinkGroupList.RecordBean record1 = dataLinkGroupList.getRecord();
+    private void initDataGroup(String responseText,boolean isWs) {
+        DataLinkGroupList.RecordBean record1;
+        if (isWs) {
+            DataLinkGroupList dataLinkGroupList = JSON.parseObject(responseText, DataLinkGroupList.class);
+            record1 = dataLinkGroupList.getRecord();
+        }
+        else {
+            record1 = JSON.parseObject(responseText, DataLinkGroupList.RecordBean.class);
+        }
         if (record1!=null)
         {
             final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record1.getGroupInfoList();
@@ -533,17 +523,11 @@ public class ContactChildFragment extends BaseFragment {
                     e.printStackTrace();
                 }
                 mGroupList.addAll(group_info_list);
-//                for(int i = 0; i <mGroupList.size(); i++) {
-//                    if (mGroupList.get(i).getType().equals("2"))
-//                    {
-//                        if (mExListView!=null)
-//                            mExListView.expandGroup(i);
-//                    }
-//
-//                }
-//                String json = JSON.toJSON(dataLinkGroupList).toString();
-//                aCache.remove(AppAllKey.GROUD_DATA);
-//                aCache.put(AppAllKey.GROUD_DATA,json);
+                if(isWs) {
+                    String json = JSON.toJSON(record1).toString();
+                    aCache.remove(AppAllKey.GROUD_DATA);
+                    aCache.put(AppAllKey.GROUD_DATA, json);
+                }
                 dealGroupRuquest();
                 if (mGroupAdapter!=null)
                     mGroupAdapter.notifyDataSetChanged();

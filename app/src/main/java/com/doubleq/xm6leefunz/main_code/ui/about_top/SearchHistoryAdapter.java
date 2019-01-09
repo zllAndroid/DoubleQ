@@ -59,7 +59,8 @@ public class SearchHistoryAdapter extends BaseQuickAdapter<CusDataSearchRecord, 
             Glide.with(context).load(item.getImg())
                     .error(R.drawable.mine_head)
                     .bitmapTransform(new CropCircleTransformation(context))
-                    .crossFade(1000).into(mIvImg);
+//                    .crossFade(1000)
+                    .into(mIvImg);
         }
 
 //        if (item.getType().equals("1"))
@@ -80,7 +81,7 @@ public class SearchHistoryAdapter extends BaseQuickAdapter<CusDataSearchRecord, 
 //            Glide.with(context).load(item.getHeadImg())
 //                    .error(R.drawable.qun_head)
 //                    .bitmapTransform(new CropCircleTransformation(context))
-//                    .crossFade(1000).into((ImageView) helper.getView(R.id.item_search_iv_head));
+//                    .into((ImageView) helper.getView(R.id.item_search_iv_head));
 //
 ////            Glide.with(context).load(item.getHeadImg())
 ////                    .error(R.drawable.qun_head)

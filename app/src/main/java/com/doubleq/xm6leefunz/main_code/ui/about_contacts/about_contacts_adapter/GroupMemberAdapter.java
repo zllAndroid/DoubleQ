@@ -54,7 +54,7 @@ public class GroupMemberAdapter extends BaseQuickAdapter<DataAddQunDetails.Recor
             DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean item = searchCityList.get(positions);
             Glide.with(context).load(item.getHeadImg())
                     .bitmapTransform(new CropCircleTransformation(context))
-                    .crossFade(1000)
+
                     .error(R.drawable.mine_head)
                     .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
             if (isShowName) {
@@ -67,7 +67,7 @@ public class GroupMemberAdapter extends BaseQuickAdapter<DataAddQunDetails.Recor
            {
                Glide.with(context).load(R.drawable.more_and_more)
                        .bitmapTransform(new CropCircleTransformation(context))
-                       .crossFade(1000)
+
                        .error(R.drawable.more_and_more)
                        .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
                if (isShowName) {

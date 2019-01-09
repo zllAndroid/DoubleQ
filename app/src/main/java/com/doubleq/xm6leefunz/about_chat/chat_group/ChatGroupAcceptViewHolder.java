@@ -96,7 +96,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
             chatItemDate.setVisibility(View.VISIBLE);
         }
 //        chatItemDate.setText("上午 9:00"+data.getRequestTime());
-//        Glide.with(getContext()).load(ChatActivity.friendHeader).crossFade(1000).into(chatItemHeader);
+//        Glide.with(getContext()).load(ChatActivity.friendHeader).into(chatItemHeader);
 //        Glide.with(MyApplication.getAppContext()).load(data.getImgHead())
 //                .error(R.drawable.mine_head)
 ////                .listener(mRequestListener)
@@ -106,7 +106,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
 //                .error(R.drawable.mine_head)
 //                .dontAnimate()
 //                .bitmapTransform(new CropCircleTransformation(getContext()))
-//                .crossFade(1000).into(chatItemHeader);
+//                .into(chatItemHeader);
 
         String imgPath = realmGroupChatHeaderHelper.queryGroupChatReturnImgPath(data.getFriendId());
         if (imgPath!=null) {
@@ -123,7 +123,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                                     .dontAnimate()
                                     .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
                                     .bitmapTransform(new CropCircleTransformation(getContext()))
-                                    .crossFade(1000).into((chatItemHeader));
+                                    .into((chatItemHeader));
                             return false;
                         }
 
@@ -132,14 +132,14 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                             return false;
                         }
                     })
-                    .bitmapTransform(new CropCircleTransformation(getContext())).crossFade(1000)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(chatItemHeader);
         }else {
             Glide.with(getContext())
                     .load(data.getImgHead())
                     .dontAnimate()
                     .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-                    .bitmapTransform(new CropCircleTransformation(getContext())).crossFade(1000)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(chatItemHeader);
         }
 

@@ -110,7 +110,7 @@ public class TransferGroupMemberAdapter extends BaseExpandableListAdapter {
             Glide.with(context)
                     .load(groupListBean.getHeadImg())
                     .error(R.drawable.img_personal_head)
-                    .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                    .bitmapTransform(new CropCircleTransformation(context))
                     .into(holder.img_contacts_child_head);
             holder.tv_contacts_child_name.setText(groupListBean.getNickName());
         }else {

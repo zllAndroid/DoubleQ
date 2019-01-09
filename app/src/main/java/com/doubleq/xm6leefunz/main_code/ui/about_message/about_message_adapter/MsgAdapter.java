@@ -95,12 +95,14 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
 //                                return false;
 //                            }
 //                        })
-                        .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+//                        .crossFade(1000)
+                        .into((ImageView) helper.getView(R.id.item_iv_head));
             } else {
                 Glide.with(context).load(item.getHeadImg())
                         .error(errorImg)
                         .bitmapTransform(new CropCircleTransformation(context))
-                        .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+//                        .crossFade(1000)
+                        .into((ImageView) helper.getView(R.id.item_iv_head));
             }
         }
         helper.setText(R.id.item_tv_name,item.getNickName());

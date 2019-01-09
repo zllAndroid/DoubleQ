@@ -177,6 +177,19 @@ public class HelpUtils {
         }
         return "参数错误";
     }
+    public static String backMD5(String result){
+        if (!result.equals("")&&result!=null) {
+            JSONObject object = null;
+            try {
+                object = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String code = object.optString("verificationMD5Type").toString().trim();
+            return code;
+        }
+        return "";
+    }
     public static String backOnly(String result){
         if (!result.equals("")&&result!=null) {
             JSONObject object = null;

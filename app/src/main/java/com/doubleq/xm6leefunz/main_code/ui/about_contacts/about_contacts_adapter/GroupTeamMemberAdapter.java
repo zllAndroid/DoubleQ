@@ -135,7 +135,7 @@ public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
                             Glide.with(context).load(groupListBean.getHeadImg())
                                     .error(R.drawable.mine_head)
                                     .bitmapTransform(new CropCircleTransformation(context))
-                                    .crossFade(1000).into((ImageView) holder.img_contacts_child_head);
+                                   .into((ImageView) holder.img_contacts_child_head);
                             return false;
                         }
 
@@ -144,13 +144,13 @@ public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
                             return false;
                         }
                     })
-                    .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                    .bitmapTransform(new CropCircleTransformation(context))
                     .into((ImageView) holder.img_contacts_child_head);
         }else {
             Glide.with(context)
                     .load(groupListBean.getHeadImg())
                     .error(R.drawable.mine_head)
-                    .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                    .bitmapTransform(new CropCircleTransformation(context))
                     .into((ImageView) holder.img_contacts_child_head);
         }
 //            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);

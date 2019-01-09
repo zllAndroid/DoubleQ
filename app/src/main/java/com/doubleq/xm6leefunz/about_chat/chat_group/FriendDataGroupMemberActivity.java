@@ -85,7 +85,7 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
 //                fdaTvSign.setText(dataSearch.getName());
 //                Glide.with(this).load(dataSearch.getHeadImg())
 //                        .bitmapTransform(new CropCircleTransformation(FriendDataGroupMemberActivity.this))
-//                        .crossFade(1000).into(mIvHead);
+//                        .into(mIvHead);
 //            }else {
             String friendId = intent.getStringExtra(FRIENG_ID_KEY);
             String groupId = intent.getStringExtra(GROUP_ID_KEY);
@@ -121,7 +121,7 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
                     fdaTvSign.setText(signText);
                     Glide.with(this).load(record.getHeadImg())
                             .bitmapTransform(new CropCircleTransformation(FriendDataGroupMemberActivity.this))
-                            .crossFade(1000).into(mIvHead);
+                            .into(mIvHead);
 
                     dataSearch = new DataSearch();
                     dataSearch.setSno(record.getWxSno());
@@ -147,7 +147,7 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
 //            fdaTvSign.setText(signText);
             Glide.with(this).load(record.getHeadImg())
                     .bitmapTransform(new CropCircleTransformation(FriendDataGroupMemberActivity.this))
-                    .crossFade(1000).into(mIvHead);
+                    .into(mIvHead);
         }
 
 
@@ -164,7 +164,7 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
             dataRecord = record;
             Glide.with(this).load(record.getHeadImg())
                     .bitmapTransform(new CropCircleTransformation(FriendDataGroupMemberActivity.this))
-                    .crossFade(1000).into(mIvHead);
+                    .into(mIvHead);
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdaTvSign.setText(signText);
 //            fdaTvFenzu.setText(record.getGroupName() + "");

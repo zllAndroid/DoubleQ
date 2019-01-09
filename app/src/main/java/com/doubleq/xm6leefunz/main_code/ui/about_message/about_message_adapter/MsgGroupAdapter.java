@@ -27,7 +27,6 @@ public class MsgGroupAdapter extends BaseQuickAdapter<DataMsgGroup,BaseViewHolde
     {
         Glide.with(context).load(item.getMsg_g_image())
                 .bitmapTransform(new CropCircleTransformation(context))
-                .crossFade(1000)
                 .into((ImageView) helper.getView(R.id.frag_img_msg_g_head));
         helper.setText(R.id.frag_img_msg_g_name,item.getMsg_g_name());
         helper.setText(R.id.frag_img_msg_g_contants,item.getMsg_g_contants());

@@ -58,7 +58,7 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
                             Glide.with(context).load(item.getHeadImg())
                                     .error(R.drawable.mine_head)
                                     .bitmapTransform(new CropCircleTransformation(context))
-                                    .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_group_member_head));
+                                   .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
                             return false;
                         }
                         @Override
@@ -66,13 +66,13 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
                             return false;
                         }
                     })
-                    .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                    .bitmapTransform(new CropCircleTransformation(context))
                     .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
         }else {
             Glide.with(context)
                     .load(item.getHeadImg())
                     .error(R.drawable.mine_head)
-                    .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                    .bitmapTransform(new CropCircleTransformation(context))
                     .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
         }
 //            Glide.with(context).load(item.getHeadImg())
@@ -119,7 +119,7 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
         }
         Glide.with(context).load(img)
                 .bitmapTransform(new CropCircleTransformation(context))
-                .crossFade(1000)
+
                 .error(img)
                 .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
         if (isShowName) {

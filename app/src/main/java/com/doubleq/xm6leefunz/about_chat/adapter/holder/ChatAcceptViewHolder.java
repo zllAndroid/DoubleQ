@@ -84,7 +84,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
 //        Glide.with(getContext()).load(ChatActivity.friendHeader)
 //                .dontAnimate()
 //                .bitmapTransform(new CropCircleTransformation(getContext()))
-//                .crossFade(1000).into(chatItemHeader);
+//               .into(chatItemHeader);
 
         String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
         if (imgPath!=null) {
@@ -101,7 +101,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
 //                                    .dontAnimate()
 //                                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
 //                                    .bitmapTransform(new CropCircleTransformation(getContext()))
-//                                    .crossFade(1000).into((chatItemHeader));
+//                                   .into((chatItemHeader));
 //                            return false;
 //                        }
 //                        @Override
@@ -109,14 +109,14 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
 //                            return false;
 //                        }
 //                    })
-                    .bitmapTransform(new CropCircleTransformation(getContext())).crossFade(1000)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(chatItemHeader);
         }else {
             Glide.with(getContext())
                     .load(data.getHeadImg())
                     .dontAnimate()
                     .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-                    .bitmapTransform(new CropCircleTransformation(getContext())).crossFade(1000)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(chatItemHeader);
         }
         chatItemHeader.setOnClickListener(new View.OnClickListener() {

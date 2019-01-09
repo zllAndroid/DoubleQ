@@ -77,7 +77,7 @@ public class AddGoodFriendActivity extends BaseActivity {
             Glide.with(this).load(dataSearch.getHeadImg())
                     .error(R.drawable.mine_head)
                     .bitmapTransform(new CropCircleTransformation(AddGoodFriendActivity.this))
-                    .crossFade(1000).into(fdaIvHead);
+                    .into(fdaIvHead);
             fdaTvName.setText(dataSearch.getName());
         }
     }

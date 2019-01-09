@@ -81,11 +81,11 @@ public class QunCodeActivity extends BaseActivity {
                 qrcodeTvName.setText(record.getNickName());
                 Glide.with(this).load(record.getHeadImg())
                         .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
-                        .crossFade(1000).into(qrcodeIvHead);
+                       .into(qrcodeIvHead);
                 urlCode= record.getQrcode();
                 Glide.with(this).load(record.getQrcode())
 //                        .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
-                        .crossFade(1000).into(qrcodeIvQrcode);
+                      .into(qrcodeIvQrcode);
             }
         }
     }

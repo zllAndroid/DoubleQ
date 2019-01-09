@@ -161,7 +161,8 @@ public class GroupDataAddActivity extends BaseActivity {
         Glide.with(this).load(groupInfoBean.getGroupHeadImg())
                 .bitmapTransform(new CropCircleTransformation(GroupDataAddActivity.this))
                 .error(R.drawable.qun_head)
-                .crossFade(1000).into(groupDataIvHead);
+//                .crossFade(1000)
+                .into(groupDataIvHead);
         groupDataTvName.setText(groupInfoBean.getGroupName());
     }
     @Override

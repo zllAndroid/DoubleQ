@@ -62,7 +62,6 @@
         <meta-data
             android:name="PGYER_APPID"
             android:value="1a8593c430c539f80c0cc00c0354d164" />
-        <service android:name="com.doubleq.xm6leefunz.main_code.mains.MsgService" />
         <!-- 聊天的服务 -->
         <service android:name="com.zll.websocket.WebSocketService" />
 

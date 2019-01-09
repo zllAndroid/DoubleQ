@@ -384,7 +384,7 @@ public class GroupChatDetailsActivity extends BaseActivity {
         Glide.with(this).load(groupInfoBean.getGroupHeadImg())
                 .bitmapTransform(new CropCircleTransformation(GroupChatDetailsActivity.this))
                 .error(R.drawable.qun_head)
-                .crossFade(1000).into(groupDataIvHead);
+                .into(groupDataIvHead);
         groupDataTvName.setText(groupInfoBean.getGroupName());
     }
 

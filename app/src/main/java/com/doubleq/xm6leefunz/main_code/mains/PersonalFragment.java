@@ -108,7 +108,7 @@ public class PersonalFragment extends BaseFragment  {
 //        getHead();
 //        Glide.with(this).load(record.getHead_img())
 //                .bitmapTransform(new CropCircleTransformation(getActivity()))
-//                .crossFade(1000).into(mineIvPerson);
+//               .into(mineIvPerson);
 //        Glide.with(this).load(R.drawable.login_bac)
 ////                    .asBitmap()
 //                .bitmapTransform(new CropCircleTransformation(getActivity()))
@@ -118,7 +118,7 @@ public class PersonalFragment extends BaseFragment  {
 
 //            Glide.with(getActivity()).load(FilePath.getHeadPath())
 //                    .bitmapTransform(new CropCircleTransformation(getActivity())
-//                    .crossFade(1000).into(mineIvPerson);
+//                   .into(mineIvPerson);
     }
     @Override
     public void onResume() {

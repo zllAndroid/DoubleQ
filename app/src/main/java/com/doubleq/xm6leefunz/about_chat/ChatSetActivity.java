@@ -214,7 +214,7 @@ public class ChatSetActivity extends BaseActivity {
             dataRecord = record;
             Glide.with(this).load(record.getHeadImg())
                     .bitmapTransform(new CropCircleTransformation(ChatSetActivity.this))
-                    .crossFade(1000).into(mIvHead);
+                   .into(mIvHead);
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdTvGesign.setText(signText);
             fdTvContant.setText("(" + record.getWxSno() + ")");

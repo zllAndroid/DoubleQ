@@ -73,7 +73,7 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
         Glide.with(getContext()).load(FilePath.getUserNewHead(getContext()))
                 .error(R.drawable.mine_head)
                 .bitmapTransform(new CropCircleTransformation(getContext()))
-                .crossFade(1000).into(chatItemHeader);
+               .into(chatItemHeader);
 
 
         chatItemHeader.setOnClickListener(new View.OnClickListener() {

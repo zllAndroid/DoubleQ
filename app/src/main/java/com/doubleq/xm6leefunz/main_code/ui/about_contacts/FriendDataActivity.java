@@ -191,12 +191,12 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
             if (imgPath != null) {
                 Glide.with(this).load(imgPath)
                         .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
-                        .crossFade(1000).into(mIvHead);
+                       .into(mIvHead);
             } else {
                 Glide.with(this).load(record.getHeadImg())
                         .error(R.drawable.mine_head)
                         .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
-                        .crossFade(1000).into(mIvHead);
+                      .into(mIvHead);
             }
 
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();

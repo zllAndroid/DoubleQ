@@ -113,7 +113,7 @@ public class ContactFriendAdapter extends BaseExpandableListAdapter {
         }
         DataContactsFriendChild dataContactsFriendChild = fList.get(groupPosition).getDataContactsFriendChildList().get(childPosition);
         Glide.with(context).load(R.drawable.img_personal_head)
-                .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                .bitmapTransform(new CropCircleTransformation(context))
                 .into(holder.img_contacts_child_head);
         holder.tv_contacts_child_name.setText(dataContactsFriendChild.getTv_child_name_f());
         holder.tv_contacts_child_state.setText(dataContactsFriendChild.getTv_child_state_f());

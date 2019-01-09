@@ -35,7 +35,7 @@ public class NoticeAdapter extends BaseQuickAdapter<DataNews.RecordBean.ListInfo
     protected void convert(BaseViewHolder helper,DataNews.RecordBean.ListInfoBean item) {
         Glide.with(context).load(item.getHeadImg())
                 .bitmapTransform(new CropCircleTransformation(context))
-                .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
+                .into((ImageView) helper.getView(R.id.item_iv_head));
         helper.setText(R.id.item_tv_name,item.getNickName());
         TextView mTvClick = helper.getView(R.id.item_tv_click_ok);
         switch (item.getIsAgree())

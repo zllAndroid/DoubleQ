@@ -27,7 +27,6 @@ public class MsgFriendAdapter extends BaseQuickAdapter<DataMsgFriend,BaseViewHol
     {
         Glide.with(context).load(item.getMsg_f_image())
                 .bitmapTransform(new CropCircleTransformation(context))
-                .crossFade(1000)
                 .into((ImageView) helper.getView(R.id.frag_img_msg_f_head));
         helper.setText(R.id.frag_img_msg_f_name,item.getMsg_f_name());
         helper.setText(R.id.frag_img_msg_f_contants,item.getMsg_f_contants());

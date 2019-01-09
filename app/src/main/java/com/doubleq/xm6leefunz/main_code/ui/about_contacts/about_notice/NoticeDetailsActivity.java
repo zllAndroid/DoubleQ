@@ -126,7 +126,7 @@ public class NoticeDetailsActivity extends BaseActivity {
         Glide.with(this).load(userDetailInfo.getHeadImg())
                 .bitmapTransform(new CropCircleTransformation(this))
                 .error(R.drawable.mine_head)
-                .crossFade(1000).into(mIvHead);
+               .into(mIvHead);
         mTvName.setText(userDetailInfo.getNickName());
         noticeTvRemark.setText("备注:"+userDetailInfo.getRemark());
     }

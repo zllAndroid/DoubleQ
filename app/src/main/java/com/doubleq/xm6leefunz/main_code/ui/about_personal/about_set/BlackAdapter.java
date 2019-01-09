@@ -30,7 +30,7 @@ public class BlackAdapter extends BaseQuickAdapter<DataBlack.RecordBean, BaseVie
     protected void convert(BaseViewHolder helper, DataBlack.RecordBean item) {
         Glide.with(context).load(item.getHeadImg())
                 .bitmapTransform(new CropCircleTransformation(context))
-                .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_black));
+                .into((ImageView) helper.getView(R.id.item_iv_black));
         helper.setText(R.id.item_tv_name,item.getNickName());
         helper.addOnClickListener(R.id.item_tv_click_del);
 

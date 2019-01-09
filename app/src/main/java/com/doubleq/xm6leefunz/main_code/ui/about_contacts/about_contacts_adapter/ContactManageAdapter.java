@@ -110,7 +110,7 @@ public class ContactManageAdapter extends BaseExpandableListAdapter {
         }
         DataContactsManageChild dataContactsManageChild = mList.get(groupPosition).getDataContactsManageChildList().get(childPosition);
         Glide.with(context).load(R.drawable.img_personal_head)
-                .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
+                .bitmapTransform(new CropCircleTransformation(context))
                 .into(holder.img_contacts_child_head);
         holder.tv_contacts_child_name.setText(dataContactsManageChild.getTv_child_name_m());
         holder.tv_contacts_child_state.setText(dataContactsManageChild.getTv_child_state_m());

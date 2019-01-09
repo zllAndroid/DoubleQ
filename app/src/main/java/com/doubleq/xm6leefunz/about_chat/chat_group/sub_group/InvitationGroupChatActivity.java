@@ -85,7 +85,7 @@ public class InvitationGroupChatActivity extends BaseActivity {
                 sendWeb(SplitWeb.groupInvitationfFriend(groupId));
             } else {
 //                删除
-                sendWeb(SplitWeb.getGroupWebInfo());
+                sendWeb(SplitWeb.delGroupMemberList(groupId));
             }
         }
     }
@@ -150,7 +150,7 @@ public class InvitationGroupChatActivity extends BaseActivity {
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
             case "groupInvitationfFriend":
-            case "getGroupWebInfo":
+            case "delGroupMemberList":
                 DataCreatGroupChat dataCreatGroupChat = JSON.parseObject(responseText, DataCreatGroupChat.class);
                 DataCreatGroupChat.RecordBean record = dataCreatGroupChat.getRecord();
                 if (record != null) {

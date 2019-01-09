@@ -65,7 +65,7 @@ public class MyAccountActivity extends BaseActivity {
                 Glide.with(this).load(personData.getHeadImg())
                         .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
                         .error(R.drawable.mine_head)
-                        .crossFade(1000).into(qrcodeIvHead);
+                      .into(qrcodeIvHead);
 
                 String string = personData.getQrCode();
 //                String string = type + "_xm6leefun_" + userId;
@@ -73,8 +73,6 @@ public class MyAccountActivity extends BaseActivity {
                 Bitmap bitmap = ZXingUtils.createQRImage(string,300,300);
                 Drawable drawable = new BitmapDrawable(bitmap);
                 Log.e("qrcode","-------record.getQrcode()000---------"+drawable);
-//                Glide.with(this).load(drawable)
-//                        .crossFade(1000).into(qrcodeIvQrcode);
                 qrcodeIvQrcode.setBackground(drawable);
                 includeTopTvTital.setText(personData.getTital());
                 return;
@@ -93,7 +91,7 @@ public class MyAccountActivity extends BaseActivity {
                 qrcodeTvName.setText(record.getNickName());
                 Glide.with(this).load(record.getHeadImg())
                         .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
-                        .crossFade(1000).into(qrcodeIvHead);
+                       .into(qrcodeIvHead);
 
                 String string = type + "_xm6leefun_" + SplitWeb.getUserId();
                 Log.e("qrcode","----------string--------------"+string);
@@ -102,9 +100,6 @@ public class MyAccountActivity extends BaseActivity {
                 Log.e("qrcode","-------record.getQrcode()---------"+drawable);
                 qrcodeIvQrcode.setBackground(drawable);
 
-//                Glide.with(this).load(record.getQrcode())
-////                        .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
-//                        .crossFade(1000).into(qrcodeIvQrcode);
                 Log.e("record.getQrcode()","----------------"+record.getQrcode());
             }
         }

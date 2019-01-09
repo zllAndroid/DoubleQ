@@ -183,7 +183,7 @@ public class GroupNoticeActivity extends BaseActivity {
                             Glide.with(this).load(memberInfoBean.getHeadImg())
                                     .bitmapTransform(new CropCircleTransformation(GroupNoticeActivity.this))
                                     .error(R.drawable.qun_head)
-                                    .crossFade(1000).into(acIvHead);
+                                    .into(acIvHead);
                             Log.e("acTvTime", "++++++++++++++++++++++++++++" + acTvTime.getText());
                             Log.e("acTvName", "++++++++++++++++++++++++++++" + acTvName.getText());
                         }

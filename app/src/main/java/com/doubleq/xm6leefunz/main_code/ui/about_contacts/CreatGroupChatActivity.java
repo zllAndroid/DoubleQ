@@ -504,7 +504,7 @@ public class CreatGroupChatActivity extends BaseActivity {
                 imageBase64 = ImageUtils.GetStringByImageView(bitmap);
                 Glide.with(this).load(save)
                         .bitmapTransform(new CropCircleTransformation(CreatGroupChatActivity.this))
-                        .crossFade(1000).into(creatIvHead);
+                        .into(creatIvHead);
 //                Glide.with(ChangeInfoActivity.this).load(drawable.getBitmap()).;
 //                changeinfoIvHead.setImageBitmap(drawable.getBitmap());
 //                SendDataImg(files);
@@ -536,7 +536,7 @@ public class CreatGroupChatActivity extends BaseActivity {
             imageBase64 = ImageUtils.GetStringByImageView(bitmap);
             Glide.with(this).load(save)
                     .bitmapTransform(new CropCircleTransformation(CreatGroupChatActivity.this))
-                    .crossFade(1000).into(creatIvHead);
+                    .into(creatIvHead);
 //            sendWeb(SplitWeb.upHeadImg(save));
 //            sendWeb(SplitWeb.upHeadImg("123"));
 //            sendWeb(SplitWeb.upHeadImg(ImageUtils.GetStringByImageView(bitmap)));
