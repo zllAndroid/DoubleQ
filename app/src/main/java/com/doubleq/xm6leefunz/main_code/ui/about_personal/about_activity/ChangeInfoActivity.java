@@ -78,8 +78,10 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     @BindView(R.id.changeinfo_top_lin)
     LinearLayout mLinMain;
     Unbinder bind = null;
-    @BindView(R.id.include_top_lin_back)
-    LinearLayout includeTopLinBack;
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout includeTopLinBackground;
+//    @BindView(R.id.include_top_lin_back)
+//    LinearLayout includeTopLinBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +108,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         super.initBaseView();
         includeTopIvBack.setVisibility(View.VISIBLE);
         includeTopTvTital.setText("我的资料");
-        includeTopLinBack.setBackgroundColor(getResources().getColor(R.color.app_theme));
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
         setHeadForFile();
         sendWeb(SplitWeb.personalCenter());
     }

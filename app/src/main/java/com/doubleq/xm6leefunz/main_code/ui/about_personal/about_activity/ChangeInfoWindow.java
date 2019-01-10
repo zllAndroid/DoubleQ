@@ -167,7 +167,8 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 break;
             }
             case "修改分组":
-            case "增加分组": {
+            case "增加分组":
+            case "修改群名":{
                 if (mContant.length() > FENZU_MAX_NUM) {
                     mTvMax.setText(FENZU_MAX_NUM + " / " + FENZU_MAX_NUM);
                     mEd.setText(mContant.substring(0, FENZU_MAX_NUM));
@@ -217,6 +218,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 case "修改名字":
                 case "修改分组":
                 case "增加分组":
+                case "修改群名":
                     MAX_NUM = BEIZHU_MAX_NUM;
                     break;
                 case "修改账号":

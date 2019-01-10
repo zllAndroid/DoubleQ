@@ -309,45 +309,47 @@
             android:name=".main_code.ui.about_personal.about_set.YinSiActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--帐号与安全-->
+        <!-- 帐号与安全 -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.CountAndSafeActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--更换绑定（原号码）-->
+        <!-- 更换绑定（原号码） -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.about_count_and_safe.ChangeBindOldActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--更换绑定（新号码）-->
+        <!-- 更换绑定（新号码） -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.about_count_and_safe.ChangeBindNewActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--好友聊天选项-->
+        <!-- 好友聊天选项 -->
         <activity
             android:name=".about_chat.ChatSetActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--加群方式-->
+        <!-- 加群方式 -->
         <activity
             android:name=".about_chat.chat_group.sub_group.AddGroupWayActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--修改群名片-->
+        <!-- 修改群名片 -->
         <activity
             android:name=".about_chat.chat_group.sub_group.EditGroupCardActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--转让群-->
+        <!-- 转让群 -->
         <activity
             android:name=".about_chat.chat_group.sub_group.ZhuanRangGroupActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!--群公告-->
-        <activity android:name=".about_chat.chat_group.sub_group.GroupNoticeActivity"
+        <!-- 群公告 -->
+        <activity
+            android:name=".about_chat.chat_group.sub_group.GroupNoticeActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".main_code.mains.TestActivity"></activity>
     </application>
 
 </manifest>

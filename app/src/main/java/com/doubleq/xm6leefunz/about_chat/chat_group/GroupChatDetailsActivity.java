@@ -1,11 +1,11 @@
 package com.doubleq.xm6leefunz.about_chat.chat_group;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +37,12 @@ import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataAddActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupTeamActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberQunzhuAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_top_add.QunCodeActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -58,9 +57,11 @@ import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
- * 位置：群聊详情
+ * 位置：群聊资料
  */
-public class GroupChatDetailsActivity extends BaseActivity {
+public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfoWindow.OnAddContantClickListener {
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout includeTopLinBackground;
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
     @BindView(R.id.inclu_tv_right)
@@ -69,8 +70,6 @@ public class GroupChatDetailsActivity extends BaseActivity {
     ImageView includeTopIvMore;
     @BindView(R.id.group_data_iv_head)
     ImageView groupDataIvHead;
-    @BindView(R.id.group_data_tv_name)
-    TextView groupDataTvName;
     @BindView(R.id.group_data_tv_chatnum)
     TextView groupDataTvChatnum;
     @BindView(R.id.group_data_recyc)
@@ -87,6 +86,15 @@ public class GroupChatDetailsActivity extends BaseActivity {
     LinearLayout groupDataLinMyGroupCard;
     @BindView(R.id.group_details_lin_group_notice)
     LinearLayout groupDetailsLinGroupNotice;
+    @BindView(R.id.group_details_tv_group_id)
+    TextView groupDetailsTvGroupId;
+    @BindView(R.id.group_details_iv_edit)
+    ImageView groupDetailsIvEdit;
+    @BindView(R.id.group_details_lin_name)
+    LinearLayout groupDetailsLinName;
+    @BindView(R.id.group_details_tv_name)
+    TextView groupDetailsTvName;
+
     private RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
 
     @Override
@@ -104,6 +112,8 @@ public class GroupChatDetailsActivity extends BaseActivity {
         includeTopTvTital.setText("群聊资料");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
+
         groupDataRecyc.setHasFixedSize(true);
         groupDataRecyc.setNestedScrollingEnabled(false);
         groupDataRecyc.setLayoutManager(new GridLayoutManager(this, 5));
@@ -113,13 +123,17 @@ public class GroupChatDetailsActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null) {
             groupId = intent.getStringExtra(AppConfig.GROUP_ID);
-            if (!StrUtils.isEmpty(groupId))
+            if (!StrUtils.isEmpty(groupId)){
+//                IntentUtils.JumpToHaveOne(GroupTeamActivity.class,"groupId",groupId);
                 sendWeb(SplitWeb.searchDetailInfo(groupId));
+            }
         }
         initRightPop();
+
     }
 
     boolean isFirst = false;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -184,10 +198,19 @@ public class GroupChatDetailsActivity extends BaseActivity {
                     if (group_detail_info != null) {
                         DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfo = group_detail_info.getGroupInfo();
                         DataAddQunDetails.RecordBean.GroupDetailInfoBean.UserInfoBean userInfo = group_detail_info.getUserInfo();
+                        groupDetailsTvGroupId.setText("(" + groupInfo.getGroupSno() + ")");
                         if (userInfo != null) {
                             initUserInfo(userInfo);
                             String identityType = userInfo.getIdentityType();
                             isGrouper = identityType.equals("3") ? false : true;
+                            Log.e("isGrouper","------------------------"+isGrouper);
+                            if (isGrouper) {
+                                groupDetailsIvEdit.setVisibility(View.VISIBLE);
+                                groupDetailsLinName.setClickable(true);
+                            } else {
+                                groupDetailsIvEdit.setVisibility(View.GONE);
+                                groupDetailsLinName.setClickable(false);
+                            }
                             List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info = group_detail_info.getGroupUserInfo();
                             if (group_user_info.size() > 0) {
                                 initListHead(group_user_info);
@@ -220,36 +243,38 @@ public class GroupChatDetailsActivity extends BaseActivity {
                 });
 
                 break;
+
+            case "":
+
+                break;
         }
     }
-//存储头像到本地
+
+    //存储头像到本地
     private void initListHead(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info) {
-        for (int i=0;i<group_user_info.size();i++)
-        {
-            final  String headImg = group_user_info.get(i).getHeadImg();
-            final  String friendId = group_user_info.get(i).getUserId();
+        for (int i = 0; i < group_user_info.size(); i++) {
+            final String headImg = group_user_info.get(i).getHeadImg();
+            final String friendId = group_user_info.get(i).getUserId();
             final String modified = group_user_info.get(i).getModified();
 //            group_user_info.get(i).get
             CusDataGroupChat cusDataGroupChat = realmGroupChatHeaderHelper.queryGroupChat(groupId);
-            if (cusDataGroupChat!=null)
-            {
+            if (cusDataGroupChat != null) {
                 String time = cusDataGroupChat.getTime();
-                if (time!=null)
-                if (!modified.equals(time))
-                {
-                    if (!StrUtils.isEmpty(headImg))
-                        Glide.with(this)
-                                .load(headImg)
-                                .downloadOnly(new SimpleTarget<File>() {
-                                    @Override
-                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+                if (time != null)
+                    if (!modified.equals(time)) {
+                        if (!StrUtils.isEmpty(headImg))
+                            Glide.with(this)
+                                    .load(headImg)
+                                    .downloadOnly(new SimpleTarget<File>() {
+                                        @Override
+                                        public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
 //                                    这里拿到的resource就是下载好的文件，
-                                        File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_GROUP_CHAT,friendId,modified);
-                                        realmGroupChatHeaderHelper.updateHeadPath(friendId,file.toString(),headImg,modified);
-                                    }
-                                });
-                }
-            }else {
+                                            File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_GROUP_CHAT, friendId, modified);
+                                            realmGroupChatHeaderHelper.updateHeadPath(friendId, file.toString(), headImg, modified);
+                                        }
+                                    });
+                    }
+            } else {
                 if (!StrUtils.isEmpty(headImg))
                     Glide.with(this)
                             .load(headImg)
@@ -257,7 +282,7 @@ public class GroupChatDetailsActivity extends BaseActivity {
                                 @Override
                                 public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
 //                                    这里拿到的resource就是下载好的文件，
-                                    File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_GROUP_CHAT,friendId,modified);
+                                    File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_GROUP_CHAT, friendId, modified);
                                     CusDataGroupChat linkFriend = new CusDataGroupChat();
                                     linkFriend.setHeadImg(headImg);
                                     linkFriend.setFriendId(friendId);
@@ -267,9 +292,6 @@ public class GroupChatDetailsActivity extends BaseActivity {
                                 }
                             });
             }
-
-
-
         }
     }
 
@@ -352,20 +374,20 @@ public class GroupChatDetailsActivity extends BaseActivity {
                     //好友关系 1是未添加 2是已添加
                     //群成员关系  1是未添加 2是已添加 3是自己
                     if (item != null) {
-                        Log.e("Relation","-----------------------"+item.getIsRelation());
+                        Log.e("Relation", "-----------------------" + item.getIsRelation());
                         switch (item.getIsRelation()) {
                             case "1":
-    //                            跳转陌生人显示界面
+                                //                            跳转陌生人显示界面
                                 IntentUtils.JumpToHaveTwo(FriendDataGroupMemberActivity.class, FriendDataGroupMemberActivity.FRIENG_ID_KEY, item.getUserId(), FriendDataGroupMemberActivity.GROUP_ID_KEY, groupId);
                                 break;
                             case "2":
-    //                            ImageView imageView = view.findViewById(R.id.item_iv_group_member_head);
-    //
-    //
-    //                            imageView.setDrawingCacheEnabled(true);
-    //                            Bitmap bitmap=imageView.getDrawingCache();
-    //                            imageView.setDrawingCacheEnabled(false);
-    //                            好友，跳转好友界面
+                                //                            ImageView imageView = view.findViewById(R.id.item_iv_group_member_head);
+                                //
+                                //
+                                //                            imageView.setDrawingCacheEnabled(true);
+                                //                            Bitmap bitmap=imageView.getDrawingCache();
+                                //                            imageView.setDrawingCacheEnabled(false);
+                                //                            好友，跳转好友界面
                                 IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", item.getUserId());
                                 break;
                             case "3":
@@ -385,7 +407,7 @@ public class GroupChatDetailsActivity extends BaseActivity {
                 .bitmapTransform(new CropCircleTransformation(GroupChatDetailsActivity.this))
                 .error(R.drawable.qun_head)
                 .into(groupDataIvHead);
-        groupDataTvName.setText(groupInfoBean.getGroupName());
+        groupDetailsTvName.setText(groupInfoBean.getGroupName());
     }
 
     @Override
@@ -395,7 +417,7 @@ public class GroupChatDetailsActivity extends BaseActivity {
 
     CustomPopWindow popWindow;
 
-    @OnClick({R.id.group_data_iv_head, R.id.group_data_lin_intogrouplist, R.id.group_data_tv_name, R.id.include_top_iv_more, R.id.group_data_lin_myGroupCard,
+    @OnClick({R.id.group_data_iv_head, R.id.group_data_lin_intogrouplist, R.id.include_top_iv_more, R.id.group_data_lin_myGroupCard,
             R.id.group_details_lin_group_notice})
     public void onViewClick(View view) {
         switch (view.getId()) {
@@ -404,9 +426,6 @@ public class GroupChatDetailsActivity extends BaseActivity {
             case R.id.group_data_lin_intogrouplist:
                 if (groupId != null)
                     IntentUtils.JumpToHaveOne(GroupTeamActivity.class, GroupTeamActivity.GROUP_ID, groupId);
-                break;
-            case R.id.group_data_tv_name:
-                IntentUtils.JumpTo(QunCodeActivity.class);
                 break;
             case R.id.include_top_iv_more:
                 if (popWindow == null)
@@ -436,7 +455,7 @@ public class GroupChatDetailsActivity extends BaseActivity {
                 bundle_notice.putString("groupId", groupId);
                 bundle_notice.putBoolean("isGrouper", isGrouper);
                 if (groupDataTvGonggao != null)
-                    bundle_notice.putString("content",groupDataTvGonggao.getText().toString());
+                    bundle_notice.putString("content", groupDataTvGonggao.getText().toString());
                 intent_notice.putExtras(bundle_notice);
                 startActivityForResult(intent_notice, AppConfig.EDIT_GROUP_NOTICE_REQUEST);
                 break;
@@ -444,6 +463,7 @@ public class GroupChatDetailsActivity extends BaseActivity {
     }
 
     String result;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == AppConfig.EDIT_GROUP_CARD_RESULT) {
@@ -456,7 +476,8 @@ public class GroupChatDetailsActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat})
+    @OnClick({R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat,
+            R.id.include_top_iv_zhuanfa, R.id.group_details_iv_qrcode, R.id.group_details_lin_name, R.id.group_data_iv_head})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.group_details_lin_set:
@@ -474,6 +495,51 @@ public class GroupChatDetailsActivity extends BaseActivity {
             case R.id.group_details_lin_del_chat:
 
                 break;
+            case R.id.include_top_iv_zhuanfa:
+
+                break;
+            case R.id.group_details_iv_qrcode:
+                IntentUtils.JumpTo(QunCodeActivity.class);
+                break;
+            case R.id.group_details_lin_name:
+                doChangeName();
+                break;
+            case R.id.group_data_iv_head:
+
+                break;
         }
     }
+
+    // 修改群名
+    private void doChangeName() {
+        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(GroupChatDetailsActivity.this, "修改群名", groupDetailsTvName.getText().toString().trim());
+        changeInfoWindow.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
+        changeInfoWindow.setOnAddpopClickListener(this);
+
+    }
+
+    String contant = null;
+    //0 修改群名   1 修改群头像
+    String isChangeName = "0";
+
+    @Override
+    public void onSure(String contant) {
+        this.contant = contant;
+        switch (isChangeName) {
+            case "0":  //群名
+                sendWeb(SplitWeb.upNickName(contant));
+                break;
+            case "1":  //群头像
+                sendWeb(SplitWeb.upUserSno(contant));
+                break;
+
+        }
+    }
+
+    @Override
+    public void onCancle() {
+
+    }
+
+
 }

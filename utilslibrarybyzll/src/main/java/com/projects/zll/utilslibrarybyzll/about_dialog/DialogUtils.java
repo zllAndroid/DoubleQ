@@ -39,6 +39,7 @@ public class DialogUtils {
             }
             if (CUS_DIALOG!=null) {
                 CUS_DIALOG.cancel();
+                CUS_DIALOG.dismiss();
                 CUS_DIALOG = null;
                 dialogs.dismiss();
             }

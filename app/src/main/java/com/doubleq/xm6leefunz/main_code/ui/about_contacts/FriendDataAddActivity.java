@@ -47,8 +47,10 @@ public class FriendDataAddActivity extends BaseActivity {
     TextView fdaTvSign;
     @BindView(R.id.data_iv_qrcode)
     ImageView dataIvQrcode;
-    @BindView(R.id.include_top_lin_back)
-    LinearLayout includeTopLinBack;
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout includeTopLinBackground;
+//    @BindView(R.id.include_top_lin_back)
+//    LinearLayout includeTopLinBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +67,7 @@ public class FriendDataAddActivity extends BaseActivity {
         includeTopTvTital.setText("好友资料");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.GONE);
-        includeTopLinBack.setBackgroundColor(getResources().getColor(R.color.app_theme));
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
 
         Intent intent = getIntent();
         if (intent != null) {

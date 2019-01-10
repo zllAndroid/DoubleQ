@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
@@ -19,14 +20,21 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.doubleq.model.DataAddQunDetails;
 import com.doubleq.model.DataBlack;
 import com.doubleq.model.DataGroupMember;
+import com.doubleq.model.DataLinkManList;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.chat_group.FriendDataGroupMemberActivity;
+import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.InvitationGroupChatActivity;
+import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.about_intent_data.IntentDataInvitation;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberQunzhuAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.GroupTeamAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.GroupTeamMemberAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.SeachAdapter;
@@ -34,6 +42,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.Allcity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.Cities;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_notice.NoticeAdapter;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import java.util.ArrayList;
@@ -78,6 +87,7 @@ public class GroupTeamActivity extends BaseActivity {
 //    @BindView(R.id.seach_lin_noSearch)
 //    RelativeLayout seachLinNoSearch;
 
+    public static final String FRIENG_ID_KEY = "friendId";
     private Runnable runnable;
     String mShare = "1";
 
@@ -112,10 +122,11 @@ public class GroupTeamActivity extends BaseActivity {
         initIntent();
     }
     public  static  String GROUP_ID="groupId";
+    String groupId;
     private void initIntent() {
         Intent intent = getIntent();
         if (intent!=null) {
-            String groupId = intent.getStringExtra(GROUP_ID);
+            groupId = intent.getStringExtra(GROUP_ID);
             if (groupId != null)
                 sendWeb(SplitWeb.getGroupMemberList(groupId));
         }
@@ -210,8 +221,9 @@ public class GroupTeamActivity extends BaseActivity {
     }
 
     private void initGroupTeamAdapter() {
-        GroupTeamMemberAdapter groupTeamAdapter = new GroupTeamMemberAdapter(GroupTeamActivity.this, allCusList);
+        final GroupTeamMemberAdapter groupTeamAdapter = new GroupTeamMemberAdapter(GroupTeamActivity.this, allCusList);
         mExpanList.setAdapter(groupTeamAdapter);
+
         groupTeamAdapter.notifyDataSetChanged();
         for (int i=0; i<allCusList.size(); i++)
         {
@@ -226,8 +238,38 @@ public class GroupTeamActivity extends BaseActivity {
                 return true;
             }
         });
-    }
+        mExpanList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+//                DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = mFriendList.get(groupPosition).getGroupList().get(childPosition);
 
+                String memberId = allCusList.get(groupPosition).getGroupList().get(childPosition).getMemberId();
+//                DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean item = (DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean) adapter.getItem(position);
+                DataGroupMember.RecordBean.MemberListBean.GroupListBean item = (DataGroupMember.RecordBean.MemberListBean.GroupListBean) groupTeamAdapter.getChild(groupPosition,childPosition);
+                //好友关系 1是未添加 2是已添加
+                //群成员关系  1是未添加 2是已添加 3是自己
+                if (item != null) {
+                    Log.e("Relation", "-----------------------" + item.getIsRelation());
+                    switch (item.getIsRelation()) {
+                        case 1:
+//                            跳转陌生人显示界面
+                            IntentUtils.JumpToHaveTwo(FriendDataGroupMemberActivity.class, FriendDataGroupMemberActivity.FRIENG_ID_KEY, memberId, FriendDataGroupMemberActivity.GROUP_ID_KEY, groupId);
+                            break;
+                        case 2:
+                            IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", memberId);
+                            break;
+                        case 3:
+                            // 自己，跳转个人资料界面
+                            IntentUtils.JumpTo(ChangeInfoActivity.class);
+                            break;
+                    }
+                }
+//                IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",memberId);
+                return false;
+            }
+        });
+
+    }
     public int positions;
 
 }

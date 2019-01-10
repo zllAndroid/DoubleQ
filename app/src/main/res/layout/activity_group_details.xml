@@ -41,18 +41,61 @@
                         android:adjustViewBounds="true"
                         android:layout_margin="@dimen/dp10"
                         />
-                    <TextView
-                        android:id="@+id/group_data_tv_name"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:gravity="center"
-                        android:drawableRight="@drawable/qun_code"
-                        android:drawablePadding="@dimen/dp5"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/sp14"
-                        android:layout_marginBottom="@dimen/dp5"
-                        android:text=""/>
+                        android:layout_marginBottom="@dimen/dp10"
+                        android:layout_gravity="center">
+                        <ImageView
+                            android:id="@+id/group_details_iv_qrcode"
+                            android:layout_width="@dimen/dp30"
+                            android:layout_height="@dimen/dp30"
+                            android:src="@drawable/qun_code"
+                            android:layout_marginTop="@dimen/dp5"
+                            android:layout_marginLeft="@dimen/dp15"/>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:orientation="vertical">
+                            <LinearLayout
+                                android:id="@+id/group_details_lin_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:orientation="horizontal">
+                                <TextView
+                                    android:id="@+id/group_details_tv_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textColor="@color/white"
+                                    android:textSize="@dimen/sp14"
+                                    android:text=""/>
+                                <ImageView
+                                    android:id="@+id/group_details_iv_edit"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="@dimen/dp5"
+                                    android:layout_gravity="center"
+                                    android:src="@drawable/change_icon"/>
+
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/group_details_tv_group_id"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:gravity="center"
+                                android:textColor="@color/white"
+                                android:visibility="gone"
+                                android:textSize="@dimen/sp14"
+                                android:text=""/>
+                        </LinearLayout>
+                    </RelativeLayout>
+
 
                 </LinearLayout>
                 <LinearLayout
@@ -144,8 +187,8 @@
                         android:orientation="vertical"
                         >
                         <!--<View-->
-                            <!--style="@style/style_wei_line"-->
-                            <!--/>-->
+                        <!--style="@style/style_wei_line"-->
+                        <!--/>-->
 
                         <LinearLayout
                             android:id="@+id/group_details_lin_have_set"
@@ -249,7 +292,6 @@
                                     android:textColor="@color/gray666"
                                     android:textSize="@dimen/sp15"
                                     android:layout_weight="1"
-
                                     android:text="群公告"/>
                                 <ImageView
                                     android:layout_width="@dimen/dp20"

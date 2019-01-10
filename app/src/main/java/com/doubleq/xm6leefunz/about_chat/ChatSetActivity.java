@@ -1,27 +1,23 @@
 package com.doubleq.xm6leefunz.about_chat;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.doubleq.model.DataChatFriendInfo;
-import com.doubleq.model.DataMyFriend;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.doubleq.xm6leefunz.about_utils.ZXingUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
@@ -55,10 +51,16 @@ public class ChatSetActivity extends BaseActivity {
     TextView fdTvGesign;
     @BindView(R.id.fd_iv_head)
     ImageView mIvHead;
-//    @BindView(R.id.chatset_zhiding_chat)
+    //    @BindView(R.id.chatset_zhiding_chat)
 //    SwitchButton chatsetZhidingChat;
     @BindView(R.id.chatset_msg_miandarao)
     SwitchButton chatsetMsgMiandarao;
+    @BindView(R.id.fd_iv_qrcode)
+    ImageView fdIvQrcode;
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout includeTopLinBackground;
+//    @BindView(R.id.include_top_lin_back)
+//    LinearLayout includeTopLinBack;
 
 
     @Override
@@ -78,6 +80,7 @@ public class ChatSetActivity extends BaseActivity {
     CustomPopWindow popWindow;
 
     String type = "1";
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -91,7 +94,7 @@ public class ChatSetActivity extends BaseActivity {
         includeTopTopTvTitle.setText("聊天设置");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
-
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
         Intent intent = getIntent();
         FriendId = intent.getStringExtra("FriendId");
         sendWeb(SplitWeb.getFriendInfo(FriendId));
@@ -153,9 +156,9 @@ public class ChatSetActivity extends BaseActivity {
                     personData.setScanTital("扫一扫,添加" + dataRecord.getNickName() + "为好友");
                     personData.setTital("好友二维码");
 
-                    if (FriendId != null){
+                    if (FriendId != null) {
                         String string = type + "_xm6leefun_" + FriendId;
-                        Log.e("qrcode","----------chatSetActivity--------------"+string);
+                        Log.e("qrcode", "----------chatSetActivity--------------" + string);
 //                        Bitmap bitmap = ZXingUtils.createQRImage(string,300,300);
 //                        Drawable drawable = new BitmapDrawable(bitmap);
 //                        Log.e("qrcode","-------record.getQrcode()---------"+drawable);
@@ -185,7 +188,7 @@ public class ChatSetActivity extends BaseActivity {
                         realmHelper.deleteRealmMsg(FriendId);
                         realmChatHelper.deleteRealmMsg(FriendId);
                         Intent intent2 = new Intent();
-                        intent2.putExtra("id",FriendId);
+                        intent2.putExtra("id", FriendId);
                         intent2.setAction("del.refreshMsgFragment");
                         sendBroadcast(intent2);
                         AppManager.getAppManager().finishActivity(ChatSetActivity.this);
@@ -214,7 +217,7 @@ public class ChatSetActivity extends BaseActivity {
             dataRecord = record;
             Glide.with(this).load(record.getHeadImg())
                     .bitmapTransform(new CropCircleTransformation(ChatSetActivity.this))
-                   .into(mIvHead);
+                    .into(mIvHead);
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdTvGesign.setText(signText);
             fdTvContant.setText("(" + record.getWxSno() + ")");
@@ -223,8 +226,10 @@ public class ChatSetActivity extends BaseActivity {
             mTvName.setText(nameText);
 //            mTvName.setText(record.getNickName() + "(" + record.getRemarkName() + ")");
             chatsetMsgMiandarao.setChecked(record.getShieldType().equals("2"));
+            if (dataRecord.getIsQrcodeShow().equals("0")) {  // 0为不显示
+                fdIvQrcode.setVisibility(View.GONE);
+            } else
+                fdIvQrcode.setVisibility(View.VISIBLE);
         }
-
-
     }
 }

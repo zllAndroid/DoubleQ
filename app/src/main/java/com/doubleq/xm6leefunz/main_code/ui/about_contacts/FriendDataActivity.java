@@ -69,8 +69,10 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
     TextView fdTvBeizhu;
     @BindView(R.id.fd_iv_qrcode)
     ImageView fdIvQrcode;
-    @BindView(R.id.include_top_lin_back)
-    LinearLayout includeTopLinBack;
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout includeTopLinBackground;
+//    @BindView(R.id.include_top_lin_back)
+//    LinearLayout includeTopLinBack;
 
 
     @Override
@@ -88,7 +90,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
         includeTopTvTital.setText("好友资料");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
-        includeTopLinBack.setBackgroundColor(getResources().getColor(R.color.app_theme));
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
 
         Intent intent = getIntent();
         FriendId = intent.getStringExtra("id");
@@ -204,10 +206,9 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
             fdTvFenzu.setText(record.getGroupName() + "");
             fdTvContant.setText(record.getWxSno());
             mTvName.setText(record.getNickName());
-            if (dataRecord.getIsQrcodeShow().equals("0")){  // 0为不显示
+            if (dataRecord.getIsQrcodeShow().equals("0")) {  // 0为不显示
                 fdIvQrcode.setVisibility(View.GONE);
-            }
-            else
+            } else
                 fdIvQrcode.setVisibility(View.VISIBLE);
             String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : "(" + record.getRemarkName() + ")";
             Log.e("remarkName", "----------remarkName----------" + beizhuText);
