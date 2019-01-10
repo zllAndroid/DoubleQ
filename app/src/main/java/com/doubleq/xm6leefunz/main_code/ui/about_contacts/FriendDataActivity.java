@@ -191,12 +191,12 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
             if (imgPath != null) {
                 Glide.with(this).load(imgPath)
                         .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
-                       .into(mIvHead);
+                        .into(mIvHead);
             } else {
                 Glide.with(this).load(record.getHeadImg())
                         .error(R.drawable.mine_head)
                         .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
-                      .into(mIvHead);
+                        .into(mIvHead);
             }
 
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
@@ -204,6 +204,11 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
             fdTvFenzu.setText(record.getGroupName() + "");
             fdTvContant.setText(record.getWxSno());
             mTvName.setText(record.getNickName());
+            if (dataRecord.getIsQrcodeShow().equals("0")){  // 0为不显示
+                fdIvQrcode.setVisibility(View.GONE);
+            }
+            else
+                fdIvQrcode.setVisibility(View.VISIBLE);
             String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : "(" + record.getRemarkName() + ")";
             Log.e("remarkName", "----------remarkName----------" + beizhuText);
 //            mTvName.setText(nameText);

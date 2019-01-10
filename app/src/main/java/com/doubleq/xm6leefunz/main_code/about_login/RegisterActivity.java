@@ -2,6 +2,7 @@ package com.doubleq.xm6leefunz.main_code.about_login;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -110,10 +111,20 @@ public class RegisterActivity extends BaseActivity {
             ToastUtil.show("密码不得为空");
             return;
         }
-        if (psw.length()<6) {
-            ToastUtil.show("密码至少为六位");
+
+        boolean b = StrUtils.validatePassword(psw);
+        Log.e("validatePassword","我是否满足="+b+"");
+        if (!b) {
+//            ToastUtil.show("满足");
+            DialogUtils.showDialog("密码至少要包括:\n字母、数字、标点符号\n的其中两项,长度为6-20位");
             return;
         }
+
+//        if (phone.equals(psw)){
+//            DialogUtils.showDialog("密码不能与会员名相同");
+//            return;
+//        }
+
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
         netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower, SplitWeb.register(phone,psw,code), new NetWorkUtlis.OnNetWork() {
             @Override

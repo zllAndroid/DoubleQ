@@ -1,14 +1,17 @@
 package com.doubleq.model;
 
 public class DataMyFriend {
+
     /**
      * code : 200
      * msg : 成功
      * method : getFriendInfo
-     * record : {"email":"","friendId":"e0816099-d1d3-b20d-e114-fd56a192cc20","groupName":"家人","headImg":"http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLBTpm03G0z7G0uxs2P66uAtVFjQV7vM8OqeOZsBe1qnsED2cmpf5UF7jGPIVkOV5Q2EcCDBhV7ib9w/132","mobile":"18065283780","nickName":"海大胖","personaSignature":"","remarkName":"海大胖","wxSno":"b6cb0d083b77b4d0aaccdee78883a06e"}
+     * record : {"email":"","friendId":"9a36-9ec1-412","groupName":"暂无","headImg":"http://doubleq.oss-cn-beijing.aliyuncs.com/logo/154502986970112.png","isMobileShow":"1","isQrcodeShow":"1","isSnoShow":"1","mobile":"18065283783","nickName":"888","personaSignature":"","qrcode":"http://www.xm6leefun.cn:40005/default/img/099a65388eb7e84987228d795bee52b5.png","remarkName":"888","shieldType":"1","status":"1","wxSno":"44146cff4c640ac148bce839c929fac4"}
      * api_key : 20180903
-     * sign : 968B064B32258C7FF87580C1C470FD50
-     * timestamp : 1539765170
+     * sign : 0C61EAB038723E4C1AC83BC62322BEA5
+     * timestamp : 1545199462
+     * only : 1
+     * verificationMD5Type : 1
      */
 
     private int code;
@@ -18,6 +21,8 @@ public class DataMyFriend {
     private String api_key;
     private String sign;
     private int timestamp;
+    private int only;
+    private String verificationMD5Type;
 
     public int getCode() {
         return code;
@@ -75,38 +80,56 @@ public class DataMyFriend {
         this.timestamp = timestamp;
     }
 
+    public int getOnly() {
+        return only;
+    }
+
+    public void setOnly(int only) {
+        this.only = only;
+    }
+
+    public String getVerificationMD5Type() {
+        return verificationMD5Type;
+    }
+
+    public void setVerificationMD5Type(String verificationMD5Type) {
+        this.verificationMD5Type = verificationMD5Type;
+    }
+
     public static class RecordBean {
         /**
          * email :
-         * friendId : e0816099-d1d3-b20d-e114-fd56a192cc20
-         * groupName : 家人
-         * headImg : http://thirdwx.qlogo.cn/mmopen/ajNVdqHZLLBTpm03G0z7G0uxs2P66uAtVFjQV7vM8OqeOZsBe1qnsED2cmpf5UF7jGPIVkOV5Q2EcCDBhV7ib9w/132
-         * mobile : 18065283780
-         * nickName : 海大胖
+         * friendId : 9a36-9ec1-412
+         * groupName : 暂无
+         * headImg : http://doubleq.oss-cn-beijing.aliyuncs.com/logo/154502986970112.png
+         * isMobileShow : 1
+         * isQrcodeShow : 1
+         * isSnoShow : 1
+         * mobile : 18065283783
+         * nickName : 888
          * personaSignature :
-         * remarkName : 海大胖
-         * wxSno : b6cb0d083b77b4d0aaccdee78883a06e
+         * qrcode : http://www.xm6leefun.cn:40005/default/img/099a65388eb7e84987228d795bee52b5.png
+         * remarkName : 888
+         * shieldType : 1
+         * status : 1
+         * wxSno : 44146cff4c640ac148bce839c929fac4
          */
 
         private String email;
         private String friendId;
         private String groupName;
         private String headImg;
+        private String isMobileShow;
+        private String isQrcodeShow;
+        private String isSnoShow;
         private String mobile;
         private String nickName;
         private String personaSignature;
-        private String remarkName;
-        private String wxSno;
-
-        public String getQrcode() {
-            return qrcode;
-        }
-
-        public void setQrcode(String qrcode) {
-            this.qrcode = qrcode;
-        }
-
         private String qrcode;
+        private String remarkName;
+        private String shieldType;
+        private String status;
+        private String wxSno;
 
         public String getEmail() {
             return email;
@@ -140,6 +163,30 @@ public class DataMyFriend {
             this.headImg = headImg;
         }
 
+        public String getIsMobileShow() {
+            return isMobileShow;
+        }
+
+        public void setIsMobileShow(String isMobileShow) {
+            this.isMobileShow = isMobileShow;
+        }
+
+        public String getIsQrcodeShow() {
+            return isQrcodeShow;
+        }
+
+        public void setIsQrcodeShow(String isQrcodeShow) {
+            this.isQrcodeShow = isQrcodeShow;
+        }
+
+        public String getIsSnoShow() {
+            return isSnoShow;
+        }
+
+        public void setIsSnoShow(String isSnoShow) {
+            this.isSnoShow = isSnoShow;
+        }
+
         public String getMobile() {
             return mobile;
         }
@@ -164,12 +211,36 @@ public class DataMyFriend {
             this.personaSignature = personaSignature;
         }
 
+        public String getQrcode() {
+            return qrcode;
+        }
+
+        public void setQrcode(String qrcode) {
+            this.qrcode = qrcode;
+        }
+
         public String getRemarkName() {
             return remarkName;
         }
 
         public void setRemarkName(String remarkName) {
             this.remarkName = remarkName;
+        }
+
+        public String getShieldType() {
+            return shieldType;
+        }
+
+        public void setShieldType(String shieldType) {
+            this.shieldType = shieldType;
+        }
+
+        public String getStatus() {
+            return status;
+        }
+
+        public void setStatus(String status) {
+            this.status = status;
         }
 
         public String getWxSno() {

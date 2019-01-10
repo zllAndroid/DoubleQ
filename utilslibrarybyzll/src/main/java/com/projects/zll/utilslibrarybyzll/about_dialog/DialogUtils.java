@@ -50,6 +50,7 @@ public class DialogUtils {
         try {
             if (CUS_DIALOG!=null&&CUS_DIALOG.isShowing()&&dialogs!=null)
             {
+                CUS_DIALOG.dismiss();
                 dialogs.dismiss();
             }
         } catch (Exception e) {

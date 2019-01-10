@@ -46,6 +46,10 @@ public class GroupManageAdapter extends BaseQuickAdapter<DataGroupManage.RecordB
         //必须调用这行代码
         notifyItemRangeChanged(position, data.size());
     }
+    public void notifyData() {
+        //必须调用这行代码
+        notifyDataSetChanged();
+    }
     @Override
     public int getItemCount() {
         if (data == null){

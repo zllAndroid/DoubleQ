@@ -125,55 +125,58 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
         mBtnSure.setOnClickListener(this);
         mTvTitle.setText(title);
 
-        if (title.equals("修改备注") ){
-            if (mContant.length()-2 > BEIZHU_MAX_NUM){
-                mTvMax.setText(BEIZHU_MAX_NUM + " / " + BEIZHU_MAX_NUM);
-                mEd.setText(mContant.substring(0,BEIZHU_MAX_NUM-2));
+        switch (title) {
+            case "修改备注": {
+                if (mContant.length() - 2 > BEIZHU_MAX_NUM) {
+                    mTvMax.setText(BEIZHU_MAX_NUM + " / " + BEIZHU_MAX_NUM);
+                    mEd.setText(mContant.substring(0, BEIZHU_MAX_NUM - 2));
+                } else
+                    mTvMax.setText(mContant.length() - 2 + " / " + BEIZHU_MAX_NUM);
+                InputFilter[] filter = {new InputFilter.LengthFilter(10)};
+                mEd.setFilters(filter);
+                break;
             }
-            else
-                mTvMax.setText(mContant.length()-2 + " / " + BEIZHU_MAX_NUM);
-            InputFilter[] filter = {new InputFilter.LengthFilter(10)};
-            mEd.setFilters(filter);
-        }
-        else if (title.equals("修改名字")){
-            if (mContant.length() > BEIZHU_MAX_NUM){
-                mTvMax.setText(BEIZHU_MAX_NUM + " / " + BEIZHU_MAX_NUM);
-                mEd.setText(mContant.substring(0,BEIZHU_MAX_NUM));
+            case "修改名字": {
+                if (mContant.length() > BEIZHU_MAX_NUM) {
+                    mTvMax.setText(BEIZHU_MAX_NUM + " / " + BEIZHU_MAX_NUM);
+                    mEd.setText(mContant.substring(0, BEIZHU_MAX_NUM));
+                } else
+                    mTvMax.setText(mContant.length() + " / " + BEIZHU_MAX_NUM);
+                InputFilter[] filter = {new InputFilter.LengthFilter(10)};
+                mEd.setFilters(filter);
+                break;
             }
-            else
-                mTvMax.setText(mContant.length() + " / " + BEIZHU_MAX_NUM);
-            InputFilter[] filter = {new InputFilter.LengthFilter(10)};
-            mEd.setFilters(filter);
-        }
-        else if (title.equals("修改账号")){
-            if (mContant.length() > COUNT_MAX_NUM){
-                mTvMax.setText(COUNT_MAX_NUM + " / " + COUNT_MAX_NUM);
-                mEd.setText(mContant.substring(0,COUNT_MAX_NUM));
+            case "修改账号": {
+                if (mContant.length() > COUNT_MAX_NUM) {
+                    mTvMax.setText(COUNT_MAX_NUM + " / " + COUNT_MAX_NUM);
+                    mEd.setText(mContant.substring(0, COUNT_MAX_NUM));
+                } else
+                    mTvMax.setText("0 / " + COUNT_MAX_NUM);
+                InputFilter[] filter = {new InputFilter.LengthFilter(12)};
+                mEd.setFilters(filter);
+                break;
             }
-            else
-                mTvMax.setText("0 / " + COUNT_MAX_NUM);
-            InputFilter[] filter = {new InputFilter.LengthFilter(12)};
-            mEd.setFilters(filter);
-        }
-        else if (title.equals("修改个性签名")){
-            if (mContant.length() > SIGN_MAX_NUM){
-                mTvMax.setText(SIGN_MAX_NUM + " / " + SIGN_MAX_NUM);
-                mEd.setText(mContant.substring(0,SIGN_MAX_NUM));
+            case "修改个性签名": {
+                if (mContant.length() > SIGN_MAX_NUM) {
+                    mTvMax.setText(SIGN_MAX_NUM + " / " + SIGN_MAX_NUM);
+                    mEd.setText(mContant.substring(0, SIGN_MAX_NUM));
+                } else
+                    mTvMax.setText(mContant.length() + " / " + SIGN_MAX_NUM);
+                InputFilter[] filter = {new InputFilter.LengthFilter(20)};
+                mEd.setFilters(filter);
+                break;
             }
-            else
-                mTvMax.setText(mContant.length() + " / " + SIGN_MAX_NUM);
-            InputFilter[] filter = {new InputFilter.LengthFilter(20)};
-            mEd.setFilters(filter);
-        }
-        else if (title.equals("修改分组") || title.equals("增加分组")){
-            if (mContant.length() > FENZU_MAX_NUM){
-                mTvMax.setText(FENZU_MAX_NUM + " / " + FENZU_MAX_NUM);
-                mEd.setText(mContant.substring(0,FENZU_MAX_NUM));
+            case "修改分组":
+            case "增加分组": {
+                if (mContant.length() > FENZU_MAX_NUM) {
+                    mTvMax.setText(FENZU_MAX_NUM + " / " + FENZU_MAX_NUM);
+                    mEd.setText(mContant.substring(0, FENZU_MAX_NUM));
+                } else
+                    mTvMax.setText(mContant.length() + " / " + FENZU_MAX_NUM);
+                InputFilter[] filter = {new InputFilter.LengthFilter(10)};
+                mEd.setFilters(filter);
+                break;
             }
-            else
-                mTvMax.setText(mContant.length() + " / " + FENZU_MAX_NUM);
-            InputFilter[] filter = {new InputFilter.LengthFilter(10)};
-            mEd.setFilters(filter);
         }
 
         if (title.equals("修改备注")){
@@ -182,7 +185,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             mEd.setSelection(mEd.getText().toString().length());
             mEd.addTextChangedListener(textWatcher);
         }
-        else if (title.equals("修改账号")){
+        else if (title.equals("修改账号") || title.equals("增加分组")){
             mEd.setText("");
             mEd.setSelection(mEd.getText().toString().length());
             mEd.addTextChangedListener(textWatcher);
@@ -209,24 +212,31 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
         @Override
         public void afterTextChanged(Editable editable) {
 
-            if (title.equals("修改备注") || title.equals("修改名字") || title.equals("修改分组") || title.equals("增加分组"))
-                MAX_NUM = BEIZHU_MAX_NUM;
-            else if (title.equals("修改账号")){
-                MAX_NUM = COUNT_MAX_NUM;
-                if (editable.length() > 0) {
-                    for (int i = 0; i < editable.length(); i++) {
-                        char c = editable.charAt(i);
-                        if (c >= 0x4e00 && c <= 0X9fff) { // 根据字节码判断
-                            // 如果是中文，则清除输入的字符，否则保留
-                            editable.delete(i,i+1);
+            switch (title) {
+                case "修改备注":
+                case "修改名字":
+                case "修改分组":
+                case "增加分组":
+                    MAX_NUM = BEIZHU_MAX_NUM;
+                    break;
+                case "修改账号":
+                    MAX_NUM = COUNT_MAX_NUM;
+                    if (editable.length() > 0) {
+                        for (int i = 0; i < editable.length(); i++) {
+                            char c = editable.charAt(i);
+                            if (c >= 0x4e00 && c <= 0X9fff) { // 根据字节码判断
+                                // 如果是中文，则清除输入的字符，否则保留
+                                editable.delete(i, i + 1);
+                            }
                         }
+                        string = editable.toString().replace(" ", "");
+                        Log.e("modifyCount", "-------------------------" + string);
                     }
-                    string = editable.toString().replace(" ","");
-                    Log.e("modifyCount","-------------------------"+string);
-                }
+                    break;
+                case "修改个性签名":
+                    MAX_NUM = SIGN_MAX_NUM;
+                    break;
             }
-            else if (title.equals("修改个性签名"))
-                MAX_NUM = SIGN_MAX_NUM;
 
             if (editable.length() > MAX_NUM) {
                 editable.delete(MAX_NUM, editable.length());

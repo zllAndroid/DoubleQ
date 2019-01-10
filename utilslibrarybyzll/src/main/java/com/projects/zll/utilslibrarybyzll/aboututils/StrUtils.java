@@ -2,6 +2,7 @@ package com.projects.zll.utilslibrarybyzll.aboututils;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.VolleyError;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -28,7 +29,7 @@ public class StrUtils {
 
 	/**
 	 * 判断给定字符串是否空白串。 空白串是指由空格、制表符、回车符、换行符组成的字符串 若输入字符串为null或空字符串，返回true
-	 * 
+	 *
 	 * @param input
 	 * @return boolean
 	 */
@@ -80,10 +81,10 @@ public class StrUtils {
 			try {
 				JSONObject object = null;
 				try {
-                    object = new JSONObject(result);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+					object = new JSONObject(result);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 				String code = object.optString("code").toString().trim();
 				return code;
 			} catch (Exception e) {
@@ -94,7 +95,7 @@ public class StrUtils {
 	}
 	/**
 	 * 判断是不是一个合法的电子邮件地址
-	 * 
+	 *
 	 * @param email
 	 * @return
 	 */
@@ -106,7 +107,7 @@ public class StrUtils {
 
 	/**
 	 * 字符串转整数
-	 * 
+	 *
 	 * @param str
 	 * @param defValue
 	 * @return
@@ -121,7 +122,7 @@ public class StrUtils {
 
 	/**
 	 * 对象转整数
-	 * 
+	 *
 	 * @param obj
 	 * @return 转换异常返回 0
 	 */
@@ -135,7 +136,7 @@ public class StrUtils {
 
 	/**
 	 * 对象转整数
-	 * 
+	 *
 	 * @author ccy
 	 * @param obj
 	 * @return 转换异常返回 0
@@ -150,7 +151,7 @@ public class StrUtils {
 
 	/**
 	 * 对象转整数
-	 * 
+	 *
 	 * @author ccy
 	 * @param obj
 	 * @return 转换异常返回 0
@@ -165,7 +166,7 @@ public class StrUtils {
 
 	/**
 	 * 字符串转布尔值
-	 * 
+	 *
 	 * @param b
 	 * @return 转换异常返回 false
 	 */
@@ -179,7 +180,7 @@ public class StrUtils {
 
 	/**
 	 * 将一个InputStream流转换成字符串
-	 * 
+	 *
 	 * @param is
 	 * @return
 	 */
@@ -217,38 +218,38 @@ public class StrUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * @Title: isNullOrEmpty <br>
 	 * @description: 判断是否为null或空值 <br>
 	 * @param str
 	 * @return boolean <br>
-	 * 
+	 *
 	 * @author limingliang <br>
 	 * @date 2014年6月11日-上午10:53:03 <br>
-	 * 
+	 *
 	 */
 	public static boolean isNullOrEmpty(String str) {
 		return str == null || str.trim().length() == 0;
 	}
 
 	/**
-	 * 
+	 *
 	 * @Title: getString <br>
 	 * @description: 判断字符串是否为空，为空则返回一个空值，不为空则返回原字符串 <br>
 	 * @param str
 	 *            待判断字符串<br>
 	 * @return String 判断后的字符串<br>
-	 * 
+	 *
 	 * @author limingliang <br>
 	 * @date 2014年6月11日-上午10:54:21 <br>
-	 * 
+	 *
 	 */
 	public static String getString(String str) {
 		return str == null ? "" : str;
 	}
 
 	/**
-	 * 
+	 *
 	 * <b>@Description:<b>判断是不是合法手机 手机号码<br/>
 	 * <b>@param handset <b>@return<b>boolean<br/>
 	 * <b>@Author:<b>ccy<br/>
@@ -277,7 +278,7 @@ public class StrUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * <b>@Description:<b>判断输入的字符串是否为纯汉字<br/>
 	 * <b>@param str <b>@return<b>boolean<br/>
 	 * <b>@Author:<b>ccy<br/>
@@ -289,7 +290,7 @@ public class StrUtils {
 	}
 
 	/**
-	 * 
+	 *
 	 * <b>@Description:<b>检验密码是否合格<br/>
 	 * <b>@param str <b>@return<b>boolean<br/>
 	 * <b>@Author:<b>ccy<br/>
@@ -299,14 +300,17 @@ public class StrUtils {
 		if (StrUtils.isEmpty(password)) {
 			return false;
 		}
-		Pattern p = Pattern.compile("^[a-zA-Z0-9!@#$%^&*()_+-=]{6,16}$");
+//		Pattern p = Pattern.compile("^[a-zA-Z0-9!@#$%^&*()_+-=]{8,16}$");
+		Pattern p = Pattern.compile("^(?![0-9])(?![0-9]+$)(?![a-zA-Z]+$)[a-zA-Z0-9!@#$%^&*()_+-=]{6,20}$");
 		Matcher m = p.matcher(password);
-		return m.find();
+		boolean b = m.find();
+		Log.e("validatePassword","------------------"+b);
+		return b;
 	}
 
 	/**
-	 * 
-	 * <b>@Description:<b>检验密码是否合格<br/>
+	 *
+	 * <b>@Description:<b>检验姓名是否合格<br/>
 	 * <b>@param name <b>@return<b>boolean<br/>
 	 * <b>@Author:<b>ccy<br/>
 	 * <b>@Since:<b>2014-8-8-上午10:16:36<br/>

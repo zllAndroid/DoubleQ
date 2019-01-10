@@ -26,11 +26,14 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.CallbackIt
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.GroupManageAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.MyItemTouchHelperCallback;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
+import com.doubleq.xm6leefunz.main_code.ui.about_pop.PopAddWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
@@ -83,7 +86,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 
     //    public List<DataBlack.RecordBean> record =null;
     List<DataGroupManage.RecordBean.GroupInfoBean> group_info;
-
+    boolean isChange=false;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -92,10 +95,18 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
             case "groupManageInfo":
                 DataGroupManage dataGroupManage = JSON.parseObject(responseText, DataGroupManage.class);
                 DataGroupManage.RecordBean record = dataGroupManage.getRecord();
+                mListGroupInfo.clear();
+                if (record==null) {
+                    return;
+                }
                 group_info = record.getGroupInfo();
-
-                if (record != null && group_info.size() > 0) {
-                    initAdapter(group_info);
+                if (group_info.size() > 0) {
+                    mListGroupInfo.addAll(group_info);
+                    if (isChange)
+                    {
+                        blackAdapter.notifyData();
+                    }else
+                    initAdapter();
                 }
                 break;
             case "moveGroupSort":
@@ -116,10 +127,12 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                         break;
 //                        添加
                     case "2":
+                        isChange=true;
                         sendWeb(SplitWeb.groupManageInfo(type));
                         break;
 //                        改
                     case "3":
+                        isChange=true;
                         sendWeb(SplitWeb.groupManageInfo(type));
                         break;
                 }
@@ -133,9 +146,9 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
     String item_type = "1";
     GroupManageAdapter blackAdapter = null;
     public int positions;
-
-    private void initAdapter(final List<DataGroupManage.RecordBean.GroupInfoBean> group_info) {
-        blackAdapter = new GroupManageAdapter(this, group_info);
+    List<DataGroupManage.RecordBean.GroupInfoBean> mListGroupInfo =new ArrayList<>();
+    private void initAdapter() {
+        blackAdapter = new GroupManageAdapter(this, mListGroupInfo);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(blackAdapter);
         blackAdapter.notifyDataSetChanged();
@@ -155,7 +168,6 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                     ToastUtil.show("默认分组不可删除与修改");
                     return;
                 }
-                RecyclerView recyclerView = mRecyclerView;
                 switch (view.getId()) {
                     case R.id.item_group_iv_del:
                         DialogUtils.showDialog("是否删除此分组", new DialogUtils.OnClickSureListener() {
@@ -181,8 +193,8 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                         changeInfoWindowsign.setOnAddpopClickListener(new ChangeInfoWindow.OnAddContantClickListener() {
                             @Override
                             public void onSure(String contant) {
-                                item_type = "2";
-                                sendWeb(SplitWeb.addFriendGroup(type, "2", contant, item.getId()));//增加
+                                item_type = "3";
+                                sendWeb(SplitWeb.addFriendGroup(type, "2", contant, item.getId()));//修改分组  type = 2
                             }
                             @Override
                             public void onCancle() {
@@ -195,18 +207,24 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
         ItemTouchHelper.Callback callback = new MyItemTouchHelperCallback(new CallbackItemTouch() {
             @Override
             public void itemTouchOnMove(int oldPosition, int newPosition) {
-
-                try {
-                    group_info.add(newPosition, group_info.remove(oldPosition));// change position
-                    blackAdapter.notifyItemMoved(oldPosition, newPosition); //notifies changes in adapter, in this case use the notifyItemMoved
-                    includeTopTvRight.setVisibility(View.VISIBLE);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                //交换位置
+                Collections.swap(group_info, oldPosition, newPosition);
+                Log.e("position",oldPosition+"--------------------------"+newPosition);
+                //刷新adapter
+                blackAdapter.notifyItemMoved(oldPosition, newPosition);
+                includeTopTvRight.setVisibility(View.VISIBLE);
+//                try {
+//                    group_info.add(newPosition, group_info.remove(oldPosition));// change position
+//                    blackAdapter.notifyItemMoved(oldPosition, newPosition); //notifies changes in adapter, in this case use the notifyItemMoved
+//                    includeTopTvRight.setVisibility(View.VISIBLE);
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
             }
-        });// create MyItemTouchHelperCallback
+        });
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback); // Create ItemTouchHelper and pass with parameter the MyItemTouchHelperCallback
         touchHelper.attachToRecyclerView(mRecyclerView); // Attach ItemTouchHelper to RecyclerView
+
     }
 
     @Override
@@ -229,10 +247,11 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
         switch (isAddOrChange) {
             case "0"://增加
                 item_type = "2";
-                sendWeb(SplitWeb.addFriendGroup(type, "1", contant, ""));//增加
+                sendWeb(SplitWeb.addFriendGroup(type, "1", contant, ""));//增加分组  type = 1
+                blackAdapter.notifyDataSetChanged();
                 break;
             case "1"://修改
-//                在 155行写 修改后触发事件
+//                在 190行写 修改后触发事件
 //                sendWeb(SplitWeb.upUserSno(contant));
                 break;
         }

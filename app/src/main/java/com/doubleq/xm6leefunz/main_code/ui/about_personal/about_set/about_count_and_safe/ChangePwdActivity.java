@@ -3,15 +3,18 @@ package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.about_count
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.doubleq.model.DataMyZiliao;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -21,6 +24,7 @@ import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -76,34 +80,57 @@ public class ChangePwdActivity extends BaseActivity {
             DialogUtils.showDialog("确认新密码不得为空");
             return;
         }
+
         if (!surePwd.equals(newPwd)) {
             DialogUtils.showDialog("两次密码输入不一致");
             return;
         }
+
+        boolean b = StrUtils.validatePassword(newPwd);
+        Log.e("validatePassword","我是否满足="+b+"");
+        if (!b) {
+//            ToastUtil.show("满足");
+            DialogUtils.showDialog("密码至少要包括:\n字母、数字、标点符号\n的其中两项,长度为6-20位");
+            return;
+        }
+
+//        DataMyZiliao.RecordBean recordBean = new DataMyZiliao.RecordBean();
+//        String phone = recordBean.getMobile();
+//        if (phone.equals(newPwd)){
+//            DialogUtils.showDialog("密码不能与会员名相同");
+//            return;
+//        }
+
         sendWeb(SplitWeb.upPassWord(oldPwd,newPwd,surePwd));
+
     }
 
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
-
-        DialogUtils.showDialogOne("修改密码成功", new DialogUtils.OnClickSureListener() {
-            @Override
-            public void onClickSure() {
-                SplitWeb.USER_ID="";
-                AppManager.getAppManager().finishAllActivity();
-                String mPhone = (String)SPUtils.get(ChangePwdActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.MOBILE);
-                if (!StrUtils.isEmpty(mPhone))
-                    IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",mPhone);
+        String method = HelpUtils.backMethod(responseText);
+        switch (method){
+            case "upPassWord":
+                DialogUtils.showDialogOne("修改密码成功", new DialogUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+                        SplitWeb.USER_ID="";
+                        AppManager.getAppManager().finishAllActivity();
+                        String mPhone = (String)SPUtils.get(ChangePwdActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.MOBILE);
+                        if (!StrUtils.isEmpty(mPhone))
+                            IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",mPhone);
 
 //                Intent intent_recharge = new Intent(ChangePwdActivity.this, LoginActivity.class);
 //                startActivity(intent_recharge);
 //                overridePendingTransition(0,0);
-                ACache.get(ChangePwdActivity.this).clear();
-                SPUtils.clear(ChangePwdActivity.this);
+                        ACache.get(ChangePwdActivity.this).clear();
+                        SPUtils.clear(ChangePwdActivity.this);
 //                AppManager.getAppManager().finishActivity();
-            }
-        });
+                    }
+                });
+                break;
+        }
+
     }
 
     @OnClick({R.id.changepwd_tv_yanzhengma, R.id.changepwd_btn_sure})
