@@ -57,11 +57,11 @@ import butterknife.Unbinder;
 public class BaseActivity extends BaseActivityForResult  {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initBeforeContentView() {
+        super.initBeforeContentView();
         if (isSupportSwipeBack()) {
             SlidingLayout rootView = new SlidingLayout(this);
-//            rootView.setBackgroundColor(getResources().getColor(android.R.color.white));
+//            rootView.setBackgroundColor(getResources().getColor(R.color.trans));
             rootView.bindActivity(this);
         }
     }

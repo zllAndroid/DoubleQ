@@ -147,9 +147,7 @@ public class LoadDataActivity extends BaseActivity {
                 {
                     return;
                 }
-                String json = JSON.toJSON(record).toString();
-                aCache.remove(AppAllKey.FRIEND_DATA);
-                aCache.put(AppAllKey.FRIEND_DATA, json);
+
                 dealFriendData(record);
 //                sendWeb(SplitWeb.getGroupManage());
                 isFriend=true;
@@ -162,9 +160,7 @@ public class LoadDataActivity extends BaseActivity {
                 {
                     return;
                 }
-                String json_group = JSON.toJSON(record_group).toString();
-                aCache.remove(AppAllKey.GROUD_DATA);
-                aCache.put(AppAllKey.GROUD_DATA, json_group);
+
                 dealGroupData(record_group);
                 isGroup=true;
                 break;
@@ -190,6 +186,10 @@ public class LoadDataActivity extends BaseActivity {
                     if (group_info_list.get(i).getType().equals("2"))
                         dealGroupRealm(group_info_list, i);
                 }
+            String json_group = JSON.toJSON(record_group).toString();
+            aCache.remove(AppAllKey.GROUD_DATA);
+            aCache.put(AppAllKey.GROUD_DATA, json_group);
+
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
@@ -271,6 +271,9 @@ public class LoadDataActivity extends BaseActivity {
                 }
                 dealFriendRealm(friendList, i);
             }
+        String json = JSON.toJSON(record).toString();
+        aCache.remove(AppAllKey.FRIEND_DATA);
+        aCache.put(AppAllKey.FRIEND_DATA, json);
     }
 
     private void dealFriendRealm(List<DataLinkManList.RecordBean.FriendListBean> friendList, int i) {

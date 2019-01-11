@@ -37,7 +37,6 @@ public class WindowBugDeal {
         }
     }
 
-
     public static void SetTop(Activity context){
         Resources rs = context.getResources();
         int id = rs.getIdentifier("config_showNavigationBar","bool","android");
@@ -48,6 +47,7 @@ public class WindowBugDeal {
                 context.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
 //导航栏颜色
                 context.getWindow().setNavigationBarColor(context.getResources().getColor(R.color.white));
+//                context.getWindow().setStatusBarColor(context.getResources().getColor(R.color.app_theme));
             }
         }
     }
@@ -73,8 +73,10 @@ public class WindowBugDeal {
         int id = rs.getIdentifier("config_showNavigationBar","bool","android");
         if (id > 0)
         {
-			context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//A
             context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//B//
+            context.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION );
+//			context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//A
+//            context.getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);//B//
 //            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 //            {
 //                //添加变色标志

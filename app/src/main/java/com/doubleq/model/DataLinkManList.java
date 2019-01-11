@@ -163,6 +163,7 @@ public class DataLinkManList  implements Serializable{
                 private String userId;
                 private String groupId;
                 private String nickName;
+                private String remarkName;
                 private String status;
                 private String shieldType;
                 private String wxSno;
@@ -172,6 +173,14 @@ public class DataLinkManList  implements Serializable{
                 private String isSnoShow;
                 private String isMobileShow;
                 private String modified;
+
+                public String getRemarkName() {
+                    return remarkName;
+                }
+
+                public void setRemarkName(String remarkName) {
+                    this.remarkName = remarkName;
+                }
 
                 public String getModified() {
                     return modified;

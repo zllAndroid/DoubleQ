@@ -477,36 +477,36 @@ public class ChatActivity extends BaseActivity {
                 }
                 dealSendResult(responseText);
                 break;
-            case "messageObtain":
-                DataChatHisList dataChatHisList = JSON.parseObject(responseText, DataChatHisList.class);
-                DataChatHisList.RecordBean record1 = dataChatHisList.getRecord();
-                if (record1 != null) {
-                    List<DataChatHisList.RecordBean.MessageListBean> messageList = record1.getMessageList();
-//                    messageStoId
-                    if (messageList != null && messageList.size() != 0) {
-                        mList.clear();
-                        if (messageList.size() != 0) {
-                            String messageStoId = messageList.get(0).getMessageStoId();
-                            if (StrUtils.isEmpty(messageStoId)) {
-//                        ToastUtil.show("列表为空");
-                                return;
-                            }
-                        }
-                        for (int i = 0; i < messageList.size(); i++) {
-                            DataJieShou.RecordBean recordBean = new DataJieShou.RecordBean();
-                            recordBean.setType(messageList.get(i).getUserMessageType());
-                            recordBean.setMessage(messageList.get(i).getMessage());
-                            recordBean.setMessageType(messageList.get(i).getMessageType());
-                            recordBean.setRequestTime(messageList.get(i).getCreated());
-                            mList.add(recordBean);
-                        }
-                        chatAdapter.addAll(mList);
-                        chatAdapter.notifyDataSetChanged();
-                        //    滑动到底部
-                        layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-                    }
-                }
-                break;
+//            case "messageObtain":
+//                DataChatHisList dataChatHisList = JSON.parseObject(responseText, DataChatHisList.class);
+//                DataChatHisList.RecordBean record1 = dataChatHisList.getRecord();
+//                if (record1 != null) {
+//                    List<DataChatHisList.RecordBean.MessageListBean> messageList = record1.getMessageList();
+////                    messageStoId
+//                    if (messageList != null && messageList.size() != 0) {
+//                        mList.clear();
+//                        if (messageList.size() != 0) {
+//                            String messageStoId = messageList.get(0).getMessageStoId();
+//                            if (StrUtils.isEmpty(messageStoId)) {
+////                        ToastUtil.show("列表为空");
+//                                return;
+//                            }
+//                        }
+//                        for (int i = 0; i < messageList.size(); i++) {
+//                            DataJieShou.RecordBean recordBean = new DataJieShou.RecordBean();
+//                            recordBean.setType(messageList.get(i).getUserMessageType());
+//                            recordBean.setMessage(messageList.get(i).getMessage());
+//                            recordBean.setMessageType(messageList.get(i).getMessageType());
+//                            recordBean.setRequestTime(messageList.get(i).getCreated());
+//                            mList.add(recordBean);
+//                        }
+//                        chatAdapter.addAll(mList);
+//                        chatAdapter.notifyDataSetChanged();
+//                        //    滑动到底部
+//                        layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
+//                    }
+//                }
+//                break;
 //                接收消息返回
             case "privateReceive":
                 dealReceiverResult(responseText);

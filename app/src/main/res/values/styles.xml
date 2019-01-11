@@ -127,6 +127,7 @@
     <style name="SwipeBack.Transparent.Theme" parent="AppTheme">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowTranslucentStatus" tools:ignore="NewApi">true</item>
         <item name="android:windowAnimationStyle">@style/Animation.SlidingBack</item>
         <item name="android:actionBarStyle">@style/ActionBar.Custom</item>
     </style>

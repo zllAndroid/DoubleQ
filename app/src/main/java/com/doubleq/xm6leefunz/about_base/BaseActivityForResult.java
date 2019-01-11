@@ -1,11 +1,13 @@
 package com.doubleq.xm6leefunz.about_base;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.ColorInt;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
@@ -27,6 +29,7 @@ import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.DialogExitUtils;
+import com.doubleq.xm6leefunz.about_utils.windowStatusBar;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -79,13 +82,31 @@ public class BaseActivityForResult extends AppCompatActivity  {
         AppManager.getAppManager().addActivity(this);
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         simpleName = getClass().getSimpleName();
-        ScreenUtils.setWindowStatusBarColor(AppManager.getAppManager().currentActivity(),R.color.app_theme);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//        ScreenUtils.setWindowStatusBarColor(AppManager.getAppManager().currentActivity(),R.color.red);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+
+            //添加变色标志
+//           getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+////导航栏颜色
+//           getWindow().setNavigationBarColor(getResources().getColor(com.projects.zll.utilslibrarybyzll.R.color.white));
+//          getWindow().setStatusBarColor(getResources().getColor(com.projects.zll.utilslibrarybyzll.R.color.app_theme));
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            Window window = getWindow();
+//
+////设置修改状态栏
+////            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+//
+////设置状态栏的颜色，和你的app主题或者标题栏颜色设置一致就ok了
+//            window.setStatusBarColor(getResources().getColor(R.color.app_theme));
             WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
+//            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 0);
+            //            //透明导航栏
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 //            显示 内屏返回键
-//            if (!simpleName.equals("MainActivity")&&!simpleName.equals("LoginActivity")) {
+//            if (!simpleName.equals("MainActivity")) {
 //                WindowBugDeal.checkDeviceHasNavigationBar(AppManager.getAppManager().currentActivity());
 //            } else
 //                WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
@@ -141,6 +162,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         initBaseView();
         EventBus.getDefault().register(this);
     }
+
     private void dealObs(String data) {
 
         //        判断返回成功的  字段
@@ -386,14 +408,14 @@ public class BaseActivityForResult extends AppCompatActivity  {
     private void isGone() {
         View mtv;
         mtv = (View) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_margin10);
-          // 设置状态栏高度
+        // 设置状态栏高度
         int statusBarHeight = WindowBugDeal.getStatusBarHeight(this);
         //这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
         LinearLayout.LayoutParams layout=(LinearLayout.LayoutParams)mtv.getLayoutParams();
-       //获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
+        //获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
 //        layout.setMargins(0,-statusBarHeight,0,0);
         layout.height=statusBarHeight;
-      //设置button的新位置属性,left，top，right，bottom
+        //设置button的新位置属性,left，top，right，bottom
         mtv.setLayoutParams(layout);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

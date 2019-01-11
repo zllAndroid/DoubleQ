@@ -198,13 +198,13 @@ public class AppStartActivity extends BaseActivity {
                     initSetData(dataLogin);
                     String asFriend = mCache.getAsString(AppAllKey.FRIEND_DATA);
 
-                    IntentUtils.JumpFinishTo(AppStartActivity.this, LoadDataActivity.class);
-//                    if (StrUtils.isEmpty(asFriend))
-//                    {
-//                        IntentUtils.JumpFinishTo(AppStartActivity.this, LoadDataActivity.class);
-//                    }else {
-//                        IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
-//                    }
+//                    IntentUtils.JumpFinishTo(AppStartActivity.this, LoadDataActivity.class);
+                    if (StrUtils.isEmpty(asFriend))
+                    {
+                        IntentUtils.JumpFinishTo(AppStartActivity.this, LoadDataActivity.class);
+                    }else {
+                        IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
+                    }
                     overridePendingTransition(0, 0);
                     return;
                 }

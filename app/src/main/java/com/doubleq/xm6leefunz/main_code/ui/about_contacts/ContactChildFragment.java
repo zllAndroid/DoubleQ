@@ -183,6 +183,9 @@ public class ContactChildFragment extends BaseFragment {
         initFriendAdapter();
 //        广播
         initBroc();
+        initFriendWs();
+
+
     }
     //    这是好友数据源
     List<DataLinkManList.RecordBean.FriendListBean> mFriendList=new ArrayList<>();
@@ -200,7 +203,7 @@ public class ContactChildFragment extends BaseFragment {
     public void onResume() {
         super.onResume();
         //判断是好友还是群组页面，0好友，1群组
-        initResume();
+//        initResume();
     }
 
     private void initNoNet() {
@@ -243,31 +246,39 @@ public class ContactChildFragment extends BaseFragment {
 
 //                预先设置适配器，以便显示头部布局
                 initFriendAdapter();
-                if (aCache!=null)
-                {
-                    String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
-                    if (!StrUtils.isEmpty(asString))
-                    {
-                        initDataFriend(asString,false);
-                        return;
-                    }
-                }
-                sendWeb(SplitWeb.getFriendList());
+                initFriendWs();
                 break;
             case 1:
                 initGroupAdapter();
-                if (aCache!=null)
-                {
-                    String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
-                    if (!StrUtils.isEmpty(asString))
-                    {
-                        initDataGroup(asString,false);
-                        return;
-                    }
-                }
-                sendWeb(SplitWeb.getGroupManage());
+                initGroupWs();
                 break;
         }
+    }
+
+    private void initGroupWs() {
+        if (aCache!=null)
+        {
+            String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
+            if (!StrUtils.isEmpty(asString))
+            {
+                initDataGroup(asString,false);
+                return;
+            }
+        }
+        sendWeb(SplitWeb.getGroupManage());
+    }
+
+    private void initFriendWs() {
+        if (aCache!=null)
+        {
+            String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
+            if (!StrUtils.isEmpty(asString))
+            {
+                initDataFriend(asString,false);
+                return;
+            }
+        }
+        sendWeb(SplitWeb.getFriendList());
     }
 
     //群组数据
@@ -583,7 +594,16 @@ public class ContactChildFragment extends BaseFragment {
                 cusHomeRealmData.setFriendId(groupListBean.getGroupOfId());
                 cusHomeRealmData.setNickName(groupListBean.getNickName());
                 cusHomeRealmData.setNum(0);
-                realmHelper.addRealmMsgQun(cusHomeRealmData);
+
+                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupListBean.getGroupOfId());
+                if (cusHomeRealmData1!=null)
+                {
+                    realmHelper.updateNumZero(groupListBean.getGroupOfId());
+                }else
+                {
+                    realmHelper.addRealmMsgQun(cusHomeRealmData);
+                }
+
                 IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 //                        ToastUtil.show("组别"+(groupPosition+1)+"点击了子"+group_name);
                 return false;
@@ -605,6 +625,10 @@ public class ContactChildFragment extends BaseFragment {
 
     public String getFirstABC(String pinyin)
     {
+        if(pinyin.length()==0)
+        {
+            return pinyin;
+        }
         String upperCase = pinyin.substring(0,1).toUpperCase();
         return upperCase;
     }
@@ -747,6 +771,7 @@ public class ContactChildFragment extends BaseFragment {
         //显示右边字母列表
         initABCByGroup();
         initGroupAdapter();
+        initGroupWs();
 //        initAdapterGroup();
     }
 

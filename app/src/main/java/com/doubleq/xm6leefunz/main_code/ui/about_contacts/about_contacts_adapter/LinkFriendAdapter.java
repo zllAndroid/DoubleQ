@@ -161,7 +161,14 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
                         .bitmapTransform(new CropCircleTransformation(context))
                         .into(holder.img_contacts_child_head);
             }
-            holder.tv_contacts_child_name.setText(groupListBean.getNickName());
+            String name =groupListBean.getNickName();
+            if(!StrUtils.isEmpty(groupListBean.getRemarkName()))
+            {
+                name=name+" ("+groupListBean.getRemarkName()+")";
+
+            }
+                holder.tv_contacts_child_name.setText(name);
+
         }else {
 //            delItem(groupPosition);
         }

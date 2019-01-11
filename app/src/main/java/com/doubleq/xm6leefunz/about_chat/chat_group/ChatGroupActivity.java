@@ -187,7 +187,7 @@ public class ChatGroupActivity extends BaseActivity {
 //        初始化数据库的聊天记录
         initRealm();
 //            通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
-//        realmHomeHelper.updateNumZero(groupId);
+        realmHomeHelper.updateNumZero(groupId);
 //        Intent intent2 = new Intent();
 //        intent2.putExtra("message",groupId);
 //        intent2.putExtra("id",groupId);
