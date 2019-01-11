@@ -363,6 +363,9 @@ public class ChatActivity extends BaseActivity {
         chatAdapter = new ChatAdapter(this);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        layoutManager.setRecycleChildrenOnDetach(true);//复用RecycledViewPool
+//        chatList.setHasFixedSize(true);
         chatList.setLayoutManager(layoutManager);
         chatList.setAdapter(chatAdapter);
 

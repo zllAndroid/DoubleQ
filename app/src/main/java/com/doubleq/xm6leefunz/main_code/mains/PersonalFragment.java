@@ -23,6 +23,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.doubleq.model.DataMyZiliao;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseFragment;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.FullImageActivity;
@@ -96,16 +97,17 @@ public class PersonalFragment extends BaseFragment  {
     }
     private void initUI() {
         includeFragTvTitle.setText("个人中心");
-
-//        if (!StrUtils.isEmpty(SplitWeb.NICK_NAME))
-//        {
-//            mineTvName.setText(SplitWeb.NICK_NAME);
-//        }
-//        if (!StrUtils.isEmpty(SplitWeb.PERSON_SIGN))
-//        {
-//            mineTvSign.setText(SplitWeb.PERSON_SIGN);
-//        }
-//        getHead();
+        String name = SplitWeb.getName();
+        String sign = SplitWeb.getSign();
+        if (!StrUtils.isEmpty(name))
+        {
+            mineTvName.setText(name);
+        }
+        if (!StrUtils.isEmpty(sign))
+        {
+            mineTvSign.setText(sign);
+        }
+        getHead();
 //        Glide.with(this).load(record.getHead_img())
 //                .bitmapTransform(new CropCircleTransformation(getActivity()))
 //               .into(mineIvPerson);
@@ -126,27 +128,27 @@ public class PersonalFragment extends BaseFragment  {
 //        if (!StrUtils.isEmpty(FilePath.getHeadPath()))
 //        mineIvPerson.setBackgroundResource(0);
 //        Glide.get(getActivity()).clearMemory();//清理内存缓存 可以在UI主线程中进行
-        getHead();
 
-        sendWeb(SplitWeb.personalCenter());
+
     }
 
     private void getHead() {
         GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
+        List<String> fileName = FilePath.getFilesAllName(FilePath.myHeadImg);
             if (fileName!=null&&fileName.size()>0)
             {
                 String path=fileName.get(fileName.size()-1);
                 Glide.with(this).load(path)
                         .bitmapTransform(new CropCircleTransformation(getActivity()))
-                        .thumbnail(0.1f)
+//                        .thumbnail(0.1f)
                         .into(mineIvPerson);
             }else
             {
-                Glide.with(this).load(R.drawable.first_head_nor)
-                        .bitmapTransform(new CropCircleTransformation(getActivity()))
-                        .thumbnail(0.1f)
-                        .into(mineIvPerson);
+                sendWeb(SplitWeb.personalCenter());
+//                Glide.with(this).load(R.drawable.first_head_nor)
+//                        .bitmapTransform(new CropCircleTransformation(getActivity()))
+////                        .thumbnail(0.1f)
+//                        .into(mineIvPerson);
             }
     }
 
@@ -162,17 +164,17 @@ public class PersonalFragment extends BaseFragment  {
                 DataMyZiliao.RecordBean record= dataMyZiliao.getRecord();
                 if (record!=null)
                 {
-                    if (record.getNickName()!=null){
-                        mineTvName.setText(record.getNickName());
-                        userId = SplitWeb.getUserId();
-                    }
-//                    String signText=StrUtils.isEmpty(record.getPersonaSignature())?"暂未签名":"";
-                    if (StrUtils.isEmpty(record.getPersonaSignature()))
-                    {
-                        mineTvSign.setHint("暂未签名");
-                    }else {
-                        mineTvSign.setText(record.getPersonaSignature());
-                    }
+//                    if (record.getNickName()!=null){
+//                        mineTvName.setText(record.getNickName());
+//                        userId = SplitWeb.getUserId();
+//                    }
+////                    String signText=StrUtils.isEmpty(record.getPersonaSignature())?"暂未签名":"";
+//                    if (StrUtils.isEmpty(record.getPersonaSignature()))
+//                    {
+//                        mineTvSign.setHint("暂未签名");
+//                    }else {
+//                        mineTvSign.setText(record.getPersonaSignature());
+//                    }
 //                    GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
                     List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
                     if (fileName!=null&&fileName.size()>0)
@@ -188,12 +190,13 @@ public class PersonalFragment extends BaseFragment  {
                                         public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
 //                                    这里拿到的resource就是下载好的文件，
                                             File file = HeadFileUtils.saveHeadPath(getActivity(), resource);
+                                            Glide.with(getActivity()).load(file)
+                                                    .bitmapTransform(new CropCircleTransformation(getActivity()))
+//                            .thumbnail(0.1f)
+                                                    .into(mineIvPerson);
                                         }
                                     });
-                        Glide.with(this).load(record.getHeadImg())
-                            .bitmapTransform(new CropCircleTransformation(getActivity()))
-                            .thumbnail(0.1f)
-                            .into(mineIvPerson);
+
                     }
 //                    if (StrUtils.isEmpty(FilePath.getHeadPath()))
 //                    Glide.with(this).load(record.getHeadImg())
@@ -202,9 +205,9 @@ public class PersonalFragment extends BaseFragment  {
 //                            .into(mineIvPerson);
 
 
-                    SplitWeb.USER_HEADER=record.getHeadImg();
-                    SPUtils.put(getActivity(),"header",record.getHeadImg());
-                    SPUtils.put(getActivity(),"name",record.getNickName());
+//                    SplitWeb.USER_HEADER=record.getHeadImg();
+//                    SPUtils.put(getActivity(),"header",record.getHeadImg());
+//                    SPUtils.put(getActivity(),"name",record.getNickName());
                 }
                 break;
         }

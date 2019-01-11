@@ -7,6 +7,10 @@ import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.GroupNoticeActivit
  */
 
 public class AppConfig {
+//昵称 账号、签名
+public static final String TYPE_NAME= "name";//
+public static final String TYPE_NO= "no";//
+public static final String TYPE_SIGN= "sign";//
 
 //    保存图片位置
 public static final String TYPE_FRIEND= "friendimg";//好友头像

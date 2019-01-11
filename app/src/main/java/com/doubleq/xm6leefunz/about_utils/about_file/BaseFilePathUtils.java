@@ -21,6 +21,7 @@ public class BaseFilePathUtils {
     private static String  headPath=appPath+ "chatHead/";
 //    联系人好友保存位置
     private static String  ImgLinkFriend=appPath+ "imgLinkFriend/";
+    private static String  ImgLinkGroup=appPath+ "imgLinkGroup/";
     private static String  ImgGroupChat=appPath+ "imgGroupChat/";
 
     //    本应用的文件保存地址

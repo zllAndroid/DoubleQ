@@ -22,15 +22,30 @@
         android:background="@drawable/ac_top"
         android:orientation="horizontal"
         >
-        <LinearLayout
-            android:id="@+id/include_top_lin_newback"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:descendantFocusability="blocksDescendants"
-            >
-            <ImageView
+        <!--<RelativeLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1">-->
+            <!--<ImageView-->
+                <!--android:id="@+id/include_top_iv_back"-->
+                <!--android:layout_width="@dimen/dp40"-->
+                <!--android:layout_height="@dimen/dp40"-->
+                <!--android:layout_gravity="center_vertical"-->
+                <!--android:padding="@dimen/dp10"-->
+                <!--android:clickable="false"-->
+                <!--android:adjustViewBounds="true"-->
+                <!--app:srcCompat="@drawable/to_left"-->
+                <!--android:focusable="false"-->
+                <!--/>-->
+            <LinearLayout
+                android:id="@+id/include_top_lin_newback"
+                android:layout_width="0dp"
+                android:layout_height="@dimen/dp45"
+                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:descendantFocusability="blocksDescendants"
+                >
+                <ImageView
                 android:id="@+id/include_top_iv_back"
                 android:layout_width="@dimen/dp40"
                 android:layout_height="@dimen/dp40"
@@ -42,7 +57,10 @@
                 android:focusable="false"
                 />
 
-        </LinearLayout>
+            </LinearLayout>
+        <!--</RelativeLayout>-->
+
+
 
 
         <TextView
@@ -53,6 +71,7 @@
             android:gravity="center"
             android:text="标题"
             android:maxEms="6"
+            android:minEms="6"
             android:ellipsize="end"
             android:textColor="@color/white"
             android:textSize="@dimen/sp18" />

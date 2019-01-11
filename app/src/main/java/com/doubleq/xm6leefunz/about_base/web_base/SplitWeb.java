@@ -3,6 +3,7 @@ package com.doubleq.xm6leefunz.about_base.web_base;
 
 import android.util.Log;
 
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.SignForXm6leefun;
 import com.doubleq.xm6leefunz.about_base.SignForXm6leefunJava;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
@@ -40,6 +41,16 @@ public class SplitWeb {
             USER_ID=(String ) SPUtils.get(HelpUtils.activity, AppAllKey.USER_ID_KEY,"");
         return USER_ID;
     }
+    public static String getName() {
+        if(StrUtils.isEmpty(NICK_NAME)&&HelpUtils.activity!=null)
+            NICK_NAME=(String )SPUtils.get(HelpUtils.activity, AppConfig.TYPE_NAME,"");
+        return NICK_NAME;
+    }
+    public static String getSign() {
+        if(StrUtils.isEmpty(PERSON_SIGN)&&HelpUtils.activity!=null)
+            PERSON_SIGN=(String )SPUtils.get(HelpUtils.activity, AppConfig.TYPE_SIGN,"");
+        return PERSON_SIGN;
+    }
     public static String getUserToken() {
         if(StrUtils.isEmpty(USER_TOKEN))
             USER_TOKEN= (String )SPUtils.get(HelpUtils.activity,AppAllKey.USER_Token,"");
@@ -72,9 +83,11 @@ public class SplitWeb {
 //    外网
 //    public static String WebSocket_URL = "ws://192.168.4.133:5053";
 //    public static String URL = "http://192.168.4.133:5052/LoginController/";
-
-    public static String WebSocket_URL = "ws://119.23.229.66:9093";
-    public static String URL = "http://119.23.229.66:9092/LoginController/";
+//192.168.4.48
+    public static String WebSocket_URL = "ws://192.168.4.48:9093";
+    public static String URL = "http://192.168.4.48:9092/LoginController/";
+//    public static String WebSocket_URL = "ws://119.23.229.66:9093";
+//    public static String URL = "http://119.23.229.66:9092/LoginController/";
 
     public static String loginIn(String mobile, String password){
         mList.clear();
@@ -403,7 +416,7 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "getGroupWebInfo", map);
         return  request;
     }
-//    删除群成员列表
+    //    删除群成员列表
     public  static  String delGroupMemberList(String groupId){
         dealMap();
         putData("groupId",groupId);

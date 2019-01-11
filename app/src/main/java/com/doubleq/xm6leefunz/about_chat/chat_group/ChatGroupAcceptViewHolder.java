@@ -59,16 +59,17 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
     private ChatGroupAdapter.onItemClickListener onItemClickListener;
     private Handler handler;
     MotionEvent event;
-
+    boolean isScrolling;
     RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
-    public ChatGroupAcceptViewHolder(ViewGroup parent, ChatGroupAdapter.onItemClickListener onItemClickListener, Handler handler) {
+    public ChatGroupAcceptViewHolder(ViewGroup parent, ChatGroupAdapter.onItemClickListener onItemClickListener, Handler handler,boolean isScrolling) {
         super(parent, R.layout.item_chat_accept);
         ButterKnife.bind(this, itemView);
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
+        this.isScrolling = isScrolling;
         realmGroupChatHeaderHelper = new RealmGroupChatHeaderHelper(getContext());
     }
-//    RequestListener mRequestListener = new RequestListener() {
+    //    RequestListener mRequestListener = new RequestListener() {
 //        @SuppressLint("LongLogTag")
 //        @Override
 //        public boolean onException(Exception e, Object model, Target target, boolean isFirstResource) {
@@ -95,52 +96,40 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
             chatItemDate.setText(TimeUtil.formatDisplayTime(data.getCreated(),null));
             chatItemDate.setVisibility(View.VISIBLE);
         }
-//        chatItemDate.setText("上午 9:00"+data.getRequestTime());
-//        Glide.with(getContext()).load(ChatActivity.friendHeader).into(chatItemHeader);
-//        Glide.with(MyApplication.getAppContext()).load(data.getImgHead())
-//                .error(R.drawable.mine_head)
-////                .listener(mRequestListener)
-//                .into(chatItemHeader);
-
-//        Glide.with(getContext()).load(data.getImgHead())
-//                .error(R.drawable.mine_head)
-//                .dontAnimate()
-//                .bitmapTransform(new CropCircleTransformation(getContext()))
-//                .into(chatItemHeader);
-
         String imgPath = realmGroupChatHeaderHelper.queryGroupChatReturnImgPath(data.getFriendId());
-        if (imgPath!=null) {
+        if (imgPath!=null&&isScrolling) {
             Glide.with(getContext())
                     .load(imgPath)
                     .dontAnimate()
                     .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-//                                加载错误时，加载网络图片
-                            realmGroupChatHeaderHelper.deleteRealmFriend(data.getFriendId());
-                            Glide.with(getContext()).load(data.getImgHead())
-                                    .dontAnimate()
-                                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-                                    .bitmapTransform(new CropCircleTransformation(getContext()))
-                                    .into((chatItemHeader));
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            return false;
-                        }
-                    })
+//                    .listener(new RequestListener<String, GlideDrawable>() {
+//                        @Override
+//                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+////                                加载错误时，加载网络图片
+//                            realmGroupChatHeaderHelper.deleteRealmFriend(data.getFriendId());
+//                            Glide.with(getContext()).load(data.getImgHead())
+//                                    .dontAnimate()
+//                                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+//                                    .bitmapTransform(new CropCircleTransformation(getContext()))
+//                                    .into((chatItemHeader));
+//                            return false;
+//                        }
+//
+//                        @Override
+//                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                            return false;
+//                        }
+//                    })
                     .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(chatItemHeader);
         }else {
-            Glide.with(getContext())
-                    .load(data.getImgHead())
-                    .dontAnimate()
-                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
-                    .into(chatItemHeader);
+            chatItemHeader.setImageResource(com.doubleq.xm6leefunz.R.drawable.mine_head);
+//            Glide.with(getContext())
+//                    .load(data.getImgHead())
+//                    .dontAnimate()
+//                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+//                    .bitmapTransform(new CropCircleTransformation(getContext()))
+//                    .into(chatItemHeader);
         }
 
 
@@ -224,7 +213,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                     chatItemVoiceTime.setVisibility(View.VISIBLE);
                     chatItemContentImage.setVisibility(View.GONE);
                     chatItemVoiceTime.setText("文件");
-    //                chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
+                    //                chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
                     chatItemLayoutContent.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

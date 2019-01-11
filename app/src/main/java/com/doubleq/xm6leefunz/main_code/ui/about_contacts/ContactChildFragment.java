@@ -26,21 +26,16 @@ import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_broadcastreceiver.NetEvent;
 import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
-import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
-import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
-import com.doubleq.xm6leefunz.about_utils.about_realm.RealmLinkManHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.about_utils.about_realm.RealmGroupHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.LinkFriendAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.LinkGroupAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
-import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
@@ -62,13 +57,12 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  */
 public class ContactChildFragment extends BaseFragment {
 
-    private ExpandableListView mListView;
-    private ExpandableListView mExListView;
+    private ExpandableListView mExListViewFriend;
+    private ExpandableListView mExListViewGroup;
     public ContactChildFragment() {
     }
     View view;
     int typeWho;
-
     RealmHomeHelper realmHelper;
     ACache aCache;
     @Override
@@ -77,23 +71,23 @@ public class ContactChildFragment extends BaseFragment {
         typeWho = bundle.getInt("position");
         String text = (String) bundle.get("text");
         aCache =  ACache.get(getActivity());
+        realmLinkFriendHelper = new RealmLinkFriendHelper(getActivity());
+        realmHelper = new RealmHomeHelper(getActivity());
         if (view==null) {
             if (typeWho == 0) {
 //                初始化好友列表
                 view = inflater.inflate(R.layout.fragment_friend, container, false);
-                initHome(view);
+                initFriendUI(view);
             }
             else if (typeWho == 1)
             {
 //                初始化群组列表
                 view = inflater.inflate(R.layout.fragment_group,container,false);
-                initManage(view);
-                realmHelper = new RealmHomeHelper(getActivity());
+                initGroupUI(view);
             }
         }
         return view;
     }
-
     private void initBroc() {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("action.addFriend");
@@ -138,45 +132,36 @@ public class ContactChildFragment extends BaseFragment {
     }
 
     private TextView tv_abc;
+    private TextView tv_abc_group;
     private LetterBar letterBar;
     private LetterBar mManaBar;
     private Runnable runnable;
     private LinearLayout titleView;
     private LayoutInflater inflater;
-    //    RealmLinkManHelper realmHelper;
-    RealmGroupHelper realmGroup;
     RealmLinkFriendHelper realmLinkFriendHelper;
 
     TextView mTvFriendNews;
     // 初始化好友列表
-    private void initHome(View view) {
-        realmLinkFriendHelper = new RealmLinkFriendHelper(getActivity());
-//        List<CusDataFriendRealm> cusDataFriendRealms = realmHelper.queryAllRealmMsg();
+    private void initFriendUI(View view) {
+
         letterBar = (LetterBar) view.findViewById(R.id.frag_letter_friend);
         tv_abc = (TextView) view.findViewById(R.id.tv_abc);
         inflater = LayoutInflater.from(getActivity());
-        mListView = view.findViewById(R.id.frag_exlist_friend);
+        mExListViewFriend = view.findViewById(R.id.frag_exlist_friend);
         titleView = (LinearLayout) inflater.inflate(R.layout.item_friend_header, null);//得到头部的布局
-        mListView.addHeaderView(titleView);//添加头部
+        mExListViewFriend.addHeaderView(titleView);//添加头部
         mTvFriendNews = titleView.findViewById(R.id.link_tv_friend_news);
         int num = (int)SPUtils.get(getActivity(), AppConfig.LINKMAN_FRIEND_NUM, 0);
         if (num>0)
         {
             mTvFriendNews.setVisibility(View.VISIBLE);
             mTvFriendNews.setText(num+"");
-//            Intent intent = new Intent();
-//            intent.putExtra("num", num );
-//            intent.setAction("action.addFriend");
-//            getActivity().sendBroadcast(intent);
         }else
             mTvFriendNews.setVisibility(View.INVISIBLE);
         titleView.findViewById(R.id.link_lin_news).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SPUtils.put(getActivity(), AppConfig.LINKMAN_FRIEND_NUM,0);
-//                mTvFriendNews.setVisibility(View.INVISIBLE);
-//                int num = (int)SPUtils.get(getActivity(), AppConfig.LINKMAN_FRIEND_NUM, 0);
-//                SPUtils.put(getActivity(),AppConfig.LINKMAN_FRIEND_NUM,num+1);
                 Intent intent = new Intent();
                 intent.putExtra("num", 0);
                 intent.setAction("action.addFriend");
@@ -192,8 +177,6 @@ public class ContactChildFragment extends BaseFragment {
                 IntentUtils.JumpToHaveOne(GroupManageActivity.class,GroupManageActivity.ManagerType,"1");
             }
         });
-
-
 //        初始化右边导航字母
         initABC();
 //        初始化好友分组适配器
@@ -209,6 +192,7 @@ public class ContactChildFragment extends BaseFragment {
     public void onEventMainThread(NetEvent event) {
         if (!event.isNet)
         {
+//            无网络默认显示缓存
             initNoNet();
         }
     }
@@ -300,19 +284,14 @@ public class ContactChildFragment extends BaseFragment {
         {
 //            获取好友列表
             case "getFriendList":
-                DataLinkManList dataLinkManList = JSON.parseObject(responseText, DataLinkManList.class);
-                String verificationMD5Type = dataLinkManList.getVerificationMD5Type();
-                //                判断是否缓存，是则取出使用，否则去请求
-//                if (aCache!=null)
+//                String md5 = HelpUtils.backMD5(responseText);
+//                String  spMd5 = (String) SPUtils.get(getActivity(), AppConfig.KEY_MD5, "");
+//                if (md5.equals(spMd5)&&StrUtils.isEmpty(spMd5))
 //                {
-//                    String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
 //
-//                    if (!StrUtils.isEmpty(asString)&&verificationMD5Type.equals(""))
-//                    {
-//                        initDataFriend(asString,false);
-//                        return;
-//                    }
 //                }
+//                if (!StrUtils.isEmpty(md5))
+//                    SPUtils.put(getActivity(), AppConfig.KEY_MD5,md5);
                 initDataFriend(responseText,true);
                 break;
 
@@ -331,7 +310,7 @@ public class ContactChildFragment extends BaseFragment {
         List<DataLinkManList.RecordBean.FriendListBean> friend_list;
         if (isWs) {
             DataLinkManList dataLinkManList = JSON.parseObject(responseText, DataLinkManList.class);
-             record = dataLinkManList.getRecord();
+            record = dataLinkManList.getRecord();
         }else
         {
             record = JSON.parseObject(responseText, DataLinkManList.RecordBean.class);
@@ -383,57 +362,32 @@ public class ContactChildFragment extends BaseFragment {
         if (friend_list.get(i).getType().equals("2"))
         {
             List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friend_list.get(i).getGroupList();
-
-            for (int j=0;j<groupList.size();j++)
-            {
+            for (int j=0;j<groupList.size();j++) {
                 final String modified = groupList.get(j).getModified();
                 final String friendId = groupList.get(j).getUserId();
                 final String headImg = groupList.get(j).getHeadImg();
-//                            GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-//                            List<String> fileName = FilePath.getFilesAllName(FilePath.getLinkImgPath());
-//                            if (fileName!=null&&fileName.size()>0)
-//                            {
-//                                String path=fileName.get(fileName.size()-1);
-//
-//                            }
-//                            boolean b = realmLinkFriendHelper.queryIsLinkFriend(friendId);
                 CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(friendId);
-                if (cusDataLinkFriend!=null)
+                if (StrUtils.isEmpty(headImg))
                 {
-                    String time = cusDataLinkFriend.getTime();
-                    if (!modified.equals(time))
-                    {
-                        if (!StrUtils.isEmpty(headImg))
-                            Glide.with(this)
-                                    .load(headImg)
-                                    .downloadOnly(new SimpleTarget<File>() {
-                                        @Override
-                                        public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                                            File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND,friendId,modified);
-                                            realmLinkFriendHelper.updateHeadPath(friendId,file.toString(),headImg,modified);
-                                        }
-                                    });
-                    }
-                }else {
-                    if (!StrUtils.isEmpty(headImg))
-                        Glide.with(this)
-                                .load(headImg)
-                                .downloadOnly(new SimpleTarget<File>() {
-                                    @Override
-                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                                        File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_FRIEND,friendId,modified);
-                                        CusDataLinkFriend linkFriend = new CusDataLinkFriend();
-                                        linkFriend.setHeadImg(headImg);
-                                        linkFriend.setFriendId(friendId);
-                                        linkFriend.setTime(modified);
-                                        linkFriend.setImgPath(file.toString());
-                                        linkFriend.setWhoType("1");
-                                        realmLinkFriendHelper.addRealmLinkFriend(linkFriend);
-                                    }
-                                });
+                    return;
                 }
+                if (cusDataLinkFriend!=null) {
+
+                    String time = cusDataLinkFriend.getTime();
+                    if ( modified!=null&&!modified.equals(time))
+                    {
+                        setGlideData(true,true,modified, friendId, headImg);
+                    }
+//                boolean equals = modified.equals(time);
+//                setGlideData(!equals,false,modified, friendId, headImg);
+                }else {
+                    setGlideData(false,true,modified, friendId, headImg);
+                }
+//                if (cusDataLinkFriend != null&&!StrUtils.isEmpty(headImg)) {
+//                    String time = cusDataLinkFriend.getTime();
+//                    boolean equals = modified.equals(time);
+//                    setGlideData(!equals,true,modified, friendId, headImg);
+//                }
             }
         }
     }
@@ -442,12 +396,12 @@ public class ContactChildFragment extends BaseFragment {
     private void initFriendAdapter() {
         if (mlinkFriend==null) {
             mlinkFriend = new LinkFriendAdapter(getActivity(), mFriendList);
-            mListView.setAdapter(mlinkFriend);
+            mExListViewFriend.setAdapter(mlinkFriend);
         }
 
         mlinkFriend.notifyDataSetChanged();
-        mListView.setGroupIndicator(null);
-        mListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+        mExListViewFriend.setGroupIndicator(null);
+        mExListViewFriend.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
@@ -460,11 +414,10 @@ public class ContactChildFragment extends BaseFragment {
             }
         });
 
-        mListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        mExListViewFriend.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = mFriendList.get(groupPosition).getGroupList().get(childPosition);
-
                 String userId = mFriendList.get(groupPosition).getGroupList().get(childPosition).getUserId();
                 IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",userId);
                 return false;
@@ -475,8 +428,8 @@ public class ContactChildFragment extends BaseFragment {
         if (mlinkFriend!=null)
             for(int i = 0; i < mlinkFriend.getGroupCount(); i++) {
                 if (mFriendList.get(i).getType().equals("2")) {
-                    if (mListView!=null)
-                        mListView.expandGroup(i);
+                    if (mExListViewFriend!=null)
+                        mExListViewFriend.expandGroup(i);
                 }
             }
     }
@@ -514,10 +467,7 @@ public class ContactChildFragment extends BaseFragment {
                                 group_info_list.remove(i);
                             }
                         }
-
                         dealGroupRealm(group_info_list,i);
-
-
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -546,53 +496,67 @@ public class ContactChildFragment extends BaseFragment {
                 final String friendId = groupList.get(j).getGroupOfId();
                 final String headImg = groupList.get(j).getHeadImg();
                 CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(friendId);
-                if (cusDataLinkFriend!=null)
+                if (StrUtils.isEmpty(headImg))
                 {
-                    String time = cusDataLinkFriend.getTime();
-                    if (!modified.equals(time))
-                    {
-                        if (!StrUtils.isEmpty(headImg))
-                            Glide.with(this)
-                                    .load(headImg)
-                                    .downloadOnly(new SimpleTarget<File>() {
-                                        @Override
-                                        public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                                            File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_FRIEND,friendId,modified);
-                                            realmLinkFriendHelper.updateHeadPath(friendId,file.toString(),headImg,modified);
-                                        }
-                                    });
-                    }
-                }else {
-                    if (!StrUtils.isEmpty(headImg))
-                        Glide.with(this)
-                                .load(headImg)
-                                .downloadOnly(new SimpleTarget<File>() {
-                                    @Override
-                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                                        File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_FRIEND,friendId,modified);
-                                        CusDataLinkFriend linkFriend = new CusDataLinkFriend();
-                                        linkFriend.setHeadImg(headImg);
-                                        linkFriend.setFriendId(friendId);
-                                        linkFriend.setTime(modified);
-                                        linkFriend.setImgPath(file.toString());
-                                        linkFriend.setWhoType("2");
-                                        realmLinkFriendHelper.addRealmLinkFriend(linkFriend);
-                                    }
-                                });
+                    return;
                 }
+                if (cusDataLinkFriend!=null) {
+
+                    String time = cusDataLinkFriend.getTime();
+                    if ( modified!=null&&!modified.equals(time))
+                    {
+                        setGlideData(true,false,modified, friendId, headImg);
+                    }
+//                boolean equals = modified.equals(time);
+//                setGlideData(!equals,false,modified, friendId, headImg);
+                }else {
+                    setGlideData(false,false,modified, friendId, headImg);
+                }
+//                if (cusDataLinkFriend!=null) {
+//                    String time = cusDataLinkFriend.getTime();
+//                    if (StrUtils.isEmpty(headImg))
+//                    {
+//                        return;
+//                    }
+//                    boolean equals = modified.equals(time);
+//                    setGlideData(!equals,false,modified, friendId, headImg);
+//                }
             }
         }
     }
-
+    private void setGlideData(final boolean isSame,final boolean isFriend,final String modified, final String friendId, final String headImg) {
+        Glide.with(this)
+                .load(headImg)
+                .downloadOnly(new SimpleTarget<File>() {
+                    @Override
+                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, friendId, modified);
+                        if (isSame)
+                            realmLinkFriendHelper.updateHeadPath(friendId, file.toString(), headImg, modified);
+                        else
+                        {
+                            CusDataLinkFriend linkFriend = new CusDataLinkFriend();
+                            linkFriend.setHeadImg(headImg);
+                            linkFriend.setFriendId(friendId);
+                            linkFriend.setTime(modified);
+                            linkFriend.setImgPath(file.toString());
+                            if (isFriend)
+                                linkFriend.setWhoType("1");
+                            else
+                                linkFriend.setWhoType("2");
+                            realmLinkFriendHelper.addRealmLinkFriend(linkFriend);
+                        }
+                    }
+                });
+    }
     LinkGroupAdapter mGroupAdapter=null;
     private void initGroupAdapter() {
         if (mGroupAdapter==null)
             mGroupAdapter = new LinkGroupAdapter(getActivity(),mGroupList);
-        mExListView.setAdapter(mGroupAdapter);
-        mExListView.setGroupIndicator(null);
-        mExListView.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
+        mExListViewGroup.setAdapter(mGroupAdapter);
+        mExListViewGroup.setGroupIndicator(null);
+        mExListViewGroup.setOnGroupClickListener(new ExpandableListView.OnGroupClickListener() {
             @Override
             public boolean onGroupClick(ExpandableListView parent, View v,
                                         int groupPosition, long id) {
@@ -604,7 +568,7 @@ public class ContactChildFragment extends BaseFragment {
                     return false;
             }
         });
-        mExListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        mExListViewGroup.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 String group_name = mGroupList.get(groupPosition).getGroupList().get(childPosition).getNickName();
@@ -619,7 +583,6 @@ public class ContactChildFragment extends BaseFragment {
                 cusHomeRealmData.setFriendId(groupListBean.getGroupOfId());
                 cusHomeRealmData.setNickName(groupListBean.getNickName());
                 cusHomeRealmData.setNum(0);
-//            realmHelper.updateNum(record.getFriendsId());
                 realmHelper.addRealmMsgQun(cusHomeRealmData);
                 IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 //                        ToastUtil.show("组别"+(groupPosition+1)+"点击了子"+group_name);
@@ -630,44 +593,13 @@ public class ContactChildFragment extends BaseFragment {
     }
 
     private void dealGroupRuquest() {
-//        realmGroup.deleteAll();
         if (mGroupAdapter!=null)
             for(int i = 0; i < mGroupList.size(); i++) {
                 if (mGroupList.get(i).getType().equals("2"))
                 {
-                    if (mExListView!=null)
-                        mExListView.expandGroup(i);
+                    if (mExListViewGroup!=null)
+                        mExListViewGroup.expandGroup(i);
                 }
-//                List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = mGroupList.get(i).getGroupList();
-//                if (StrUtils.isEmpty(groupList.get(0).getGroupOfId()))
-//                {
-//                    return;
-//                }
-//                for (int j=0;j<groupList.size();j++)
-//                {
-//                    CusDataGroupRealm cusDataGroupRealm = new CusDataGroupRealm();
-//                    cusDataGroupRealm.setGroupId(groupList.get(j).getGroupOfId());
-//                    cusDataGroupRealm.setChart(groupList.get(j).getGroupName());
-//
-//                    cusDataGroupRealm.setHeadImg(groupList.get(j).getHeadImg());
-//
-//                    cusDataGroupRealm.setGroupName(groupList.get(j).getGroupName());
-//
-//                    cusDataGroupRealm.setNickName(groupList.get(j).getNickName());
-//
-////                cusDataGroupRealm.setMobile(groupList.get(j).getMobile());
-////
-////                cusDataGroupRealm.setUserId(groupList.get(j).getUserId());
-////
-////                cusDataGroupRealm.setWxSno(groupList.get(j).getWxSno());
-////                    try {
-////                        if (StrUtils.isEmpty(mGroupList.get(i).getGroupList().get(0).getGroupOfId()))
-////                            mGroupList.get(i).getGroupList().remove(0);
-////                    } catch (Exception e) {
-////                        e.printStackTrace();
-////                    }
-////                realmGroup.addFriend(cusDataGroupRealm);
-//                }
             }
     }
 
@@ -699,9 +631,13 @@ public class ContactChildFragment extends BaseFragment {
                 tv_abc.removeCallbacks(runnable);
                 tv_abc.setVisibility(View.VISIBLE);
                 tv_abc.setText(letter);
+                if (tv_abc_group!=null)
+                {
+                    tv_abc_group.setVisibility(View.INVISIBLE);
+                }
                 if (letter.equals("⇧"))
                 {
-                    mListView.setSelection(0);
+                    mExListViewFriend.setSelection(0);
                     return;
                 }
                 for (int i = 0; i < mFriendList.size(); i++) {
@@ -715,7 +651,7 @@ public class ContactChildFragment extends BaseFragment {
                             firstLetter="#";
                         }
                         if (letter.equals(firstLetter)) {
-                            mListView.setSelectedGroup(i);
+                            mExListViewFriend.setSelectedGroup(i);
                             break;
                         }
                     }
@@ -723,7 +659,7 @@ public class ContactChildFragment extends BaseFragment {
             }
             @Override
             public void onTouchUp() {
-                tv_abc.postDelayed(runnable, 1000);
+                tv_abc.postDelayed(runnable, 500);
             }
         });
     }
@@ -739,18 +675,22 @@ public class ContactChildFragment extends BaseFragment {
         {
             public void run()
             {
-                tv_abc.setVisibility(View.INVISIBLE);
+                tv_abc_group.setVisibility(View.INVISIBLE);
             }
         };
         mManaBar.setonTouchLetterListener(new LetterBar.onTouchLetterListener() {
             @Override
             public void onTouuchDown(String letter) {
-                tv_abc.removeCallbacks(runnable);
-                tv_abc.setVisibility(View.VISIBLE);
-                tv_abc.setText(letter);
+                tv_abc_group.removeCallbacks(runnable);
+                tv_abc_group.setVisibility(View.VISIBLE);
+                tv_abc_group.setText(letter);
+                if (tv_abc!=null)
+                {
+                    tv_abc.setVisibility(View.INVISIBLE);
+                }
                 if (letter.equals("⇧"))
                 {
-                    mExListView.setSelection(0);
+                    mExListViewGroup.setSelection(0);
                     return;
                 }
                 try {
@@ -765,7 +705,7 @@ public class ContactChildFragment extends BaseFragment {
                                 firstLetter="#";
                             }
                             if (letter.equals(firstLetter)) {
-                                mExListView.setSelectedGroup(i);
+                                mExListViewGroup.setSelectedGroup(i);
                                 break;
                             }
                         }
@@ -776,20 +716,19 @@ public class ContactChildFragment extends BaseFragment {
             }
             @Override
             public void onTouchUp() {
-                tv_abc.postDelayed(runnable, 1000);
+                tv_abc_group.postDelayed(runnable, 500);
             }
         });
     }
 
-    private void initManage(View view) {
-        realmGroup= new RealmGroupHelper(getActivity());
+    private void initGroupUI(View view) {
         inflater = LayoutInflater.from(getActivity());
         titleView = (LinearLayout) inflater.inflate(R.layout.item_linkman_header, null);//得到头部的布局
         mManaBar = (LetterBar) view.findViewById(R.id.mana_let);
-        mExListView = view.findViewById(R.id.frag_listview_mana);
-        tv_abc = (TextView) view.findViewById(R.id.tv_abc);
+        mExListViewGroup = view.findViewById(R.id.frag_listview_mana);
+        tv_abc_group = (TextView) view.findViewById(R.id.tv_abc);
 //        mCities_list = (ListView) footView.findViewById(R.id.list_city);
-        mExListView.addHeaderView(titleView);//添加头部
+        mExListViewGroup.addHeaderView(titleView);//添加头部
 
         titleView.findViewById(R.id.link_lin_news).setOnClickListener(new View.OnClickListener() {
             @Override

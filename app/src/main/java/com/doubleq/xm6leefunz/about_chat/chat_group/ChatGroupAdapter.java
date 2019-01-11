@@ -27,18 +27,22 @@ public class ChatGroupAdapter extends RecyclerArrayAdapter<CusGroupChatData> {
         super(context);
         handler = new Handler();
     }
+    protected boolean isScrolling = false;
+    public void setScrolling(boolean scrolling) {
+        isScrolling = scrolling;
+    }
     @Override
     public BaseViewHolder OnCreateViewHolder(ViewGroup parent, int viewType) {
         BaseViewHolder viewHolder = null;
         switch (viewType) {
             case Constants.CHAT_ITEM_TYPE_LEFT:
-                viewHolder = new ChatGroupAcceptViewHolder(parent, onItemClickListener, handler);
+                viewHolder = new ChatGroupAcceptViewHolder(parent, onItemClickListener, handler,isScrolling);
                 break;
             case Constants.CHAT_ITEM_TYPE_RIGHT:
                 viewHolder = new ChatGroupSendViewHolder(parent, onItemClickListener, handler);
                 break;
                 default:
-                    viewHolder = new ChatGroupAcceptViewHolder(parent, onItemClickListener, handler);
+                    viewHolder = new ChatGroupAcceptViewHolder(parent, onItemClickListener, handler,isScrolling);
                     break;
         }
         return viewHolder;

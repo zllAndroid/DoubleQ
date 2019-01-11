@@ -58,11 +58,14 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
     private ChatAdapter.onItemClickListener onItemClickListener;
     private Handler handler;
     MotionEvent event;
-    public ChatSendViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler) {
+
+    protected boolean isScrolling = false;
+    public ChatSendViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler,boolean isScrolling) {
         super(parent, R.layout.item_chat_send);
         ButterKnife.bind(this, itemView);
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
+        this.isScrolling = isScrolling;
     }
     @Override
     public void setData(final  DataJieShou.RecordBean data) {

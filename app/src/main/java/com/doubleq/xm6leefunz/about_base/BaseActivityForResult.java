@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -356,12 +357,21 @@ public class BaseActivityForResult extends AppCompatActivity  {
         if (isTopBack())
         {
             try {
-                findViewById(R.id.include_top_lin_newback).setOnClickListener(new View.OnClickListener() {
+//                findViewById(R.id.include_top_lin_newback).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        AppManager.getAppManager().finishActivity();
+//                    }
+//                });
+                findViewById(R.id.include_top_lin_newback).setOnTouchListener(new View.OnTouchListener() {
                     @Override
-                    public void onClick(View view) {
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
                         AppManager.getAppManager().finishActivity();
+
+                        return false;
                     }
                 });
+
                 isGone();
             } catch (Exception e) {
                 e.printStackTrace();

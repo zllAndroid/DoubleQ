@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.EditCheckUtils;
@@ -83,6 +84,10 @@ public class LoginActivity extends BaseActivity {
     private void initSetData(DataLogin.RecordBean dataLogin) {
         SPUtils.put(HelpUtils.activity,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
         SPUtils.put(HelpUtils.activity,AppAllKey.USER_Token,dataLogin.getUserToken());
+
+        SPUtils.put(HelpUtils.activity, AppConfig.TYPE_NAME,dataLogin.getNickName());
+        SPUtils.put(HelpUtils.activity,AppConfig.TYPE_NO,dataLogin.getWxSno());
+        SPUtils.put(HelpUtils.activity,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
         SplitWeb.USER_TOKEN = dataLogin.getUserToken();
         SplitWeb.MOBILE = dataLogin.getMobile();
         SplitWeb.QR_CODE = dataLogin.getQrcode();

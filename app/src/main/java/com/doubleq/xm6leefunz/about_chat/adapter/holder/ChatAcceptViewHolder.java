@@ -57,14 +57,14 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
     MotionEvent event;
 
 
-
+    protected boolean isScrolling = false;
     RealmLinkFriendHelper realmLinkFriendHelper;
-    public ChatAcceptViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler) {
+    public ChatAcceptViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler,boolean isScrolling ) {
         super(parent, R.layout.item_chat_accept);
-        ButterKnife.bind(this,
-                 itemView);
+        ButterKnife.bind(this,itemView);
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
+        this.isScrolling = isScrolling;
         realmLinkFriendHelper = new RealmLinkFriendHelper(getContext());
     }
     @Override
@@ -77,17 +77,8 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
             chatItemDate.setText(TimeUtil.formatDisplayTime(data.getRequestTime(),null));
             chatItemDate.setVisibility(View.VISIBLE);
         }
-
-
-
-
-//        Glide.with(getContext()).load(ChatActivity.friendHeader)
-//                .dontAnimate()
-//                .bitmapTransform(new CropCircleTransformation(getContext()))
-//               .into(chatItemHeader);
-
         String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
-        if (imgPath!=null) {
+        if (imgPath!=null&&isScrolling) {
             Glide.with(getContext())
                     .load(imgPath)
                     .dontAnimate()
@@ -112,12 +103,13 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
                     .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(chatItemHeader);
         }else {
-            Glide.with(getContext())
-                    .load(data.getHeadImg())
-                    .dontAnimate()
-                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
-                    .into(chatItemHeader);
+            chatItemHeader.setImageResource(com.doubleq.xm6leefunz.R.drawable.mine_head);
+//            Glide.with(getContext())
+//                    .load(data.getHeadImg())
+//                    .dontAnimate()
+//                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+//                    .bitmapTransform(new CropCircleTransformation(getContext()))
+//                    .into(chatItemHeader);
         }
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override

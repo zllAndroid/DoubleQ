@@ -16,8 +16,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -335,7 +337,39 @@ public class ChatGroupActivity extends BaseActivity {
         chatAdapter = new ChatGroupAdapter(this);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+
+        layoutManager.setRecycleChildrenOnDetach(true);//复用RecycledViewPool
         chatList.setLayoutManager(layoutManager);
+
+        chatList.setRefreshingColorResources(R.color.red);
+        chatList.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+//                chatList.setRefreshing(false);
+                ToastUtil.show("刷新");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        chatList.setRefreshing(false);
+                    }
+                },2000);
+            }
+        });
+        // 外部对RecyclerView设置监听
+        chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                // 查看源码可知State有三种状态：SCROLL_STATE_IDLE（静止）、SCROLL_STATE_DRAGGING（上升）、SCROLL_STATE_SETTLING（下落）
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) { // 滚动静止时才加载图片资源，极大提升流畅度
+                    chatAdapter.setScrolling(false);
+                    chatAdapter.notifyDataSetChanged(); // notify调用后onBindViewHolder会响应调用
+                } else
+                    chatAdapter.setScrolling(true);
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+        });
+
+
         chatList.setAdapter(chatAdapter);
 
         chatAdapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
@@ -349,9 +383,9 @@ public class ChatGroupActivity extends BaseActivity {
         chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+
                 switch (newState) {
                     case RecyclerView.SCROLL_STATE_IDLE:
-
                         chatAdapter.handler.removeCallbacksAndMessages(null);
                         chatAdapter.notifyDataSetChanged();
                         break;

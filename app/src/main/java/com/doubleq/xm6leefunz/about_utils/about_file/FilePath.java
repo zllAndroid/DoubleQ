@@ -21,17 +21,32 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class FilePath {
+
+    public  static  String appPath =Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/";
+    public  static  String appFilePath =appPath+SplitWeb.getUserId()+"/";
+    public  static  String myHeadImg =appFilePath+"chatHead/";
+    public  static  String LinkImgPath =appFilePath+"imgLinkFriend/";
+
     //    个人中心头像部分
     public  static  String getAbsPath(){
-        File file = new File(getPath());
+        File file = new File(appFilePath);
         if (!file.exists()){
             file.getParentFile().mkdirs();
         }
-        return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+ SplitWeb.getUserId()+"/";
+//        File file = new File(getPath());
+        return  appFilePath;
     }
     private static  String getPath(){
-        return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+SplitWeb.getUserId()+"/";
+        File file = new File(appPath);
+        if (!file.exists()){
+            file.getParentFile().mkdirs();
+        }
+        return  appPath;
     }
+//    private static  String getPathUser(){
+//
+//        return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+SplitWeb.getUserId()+"/";
+//    }
     public static  String getLinkImgPath(){
         File file = new File(getAbsPath()+"imgLinkFriend/");
         if (!file.exists()){
