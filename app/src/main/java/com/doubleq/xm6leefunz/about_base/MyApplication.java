@@ -758,8 +758,6 @@ public class MyApplication extends Application  implements IWebSocketPage  {
 
 
     private void dealReceiver(String message) {
-//        Notify();
-
         DataJieShou dataJieShou = JSON.parseObject(message, DataJieShou.class);
         final DataJieShou.RecordBean record = dataJieShou.getRecord();
         AppConfig.CHAT_FRIEND_ID = record.getFriendsId();
@@ -839,114 +837,76 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         intent.setAction("action.refreshMsgFragment");
         sendBroadcast(intent);
 
-//        PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
-//        boolean screenOn = pm.isScreenOn();
-//        if (!screenOn) {
-//            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-//            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-//            wl.acquire(10000); // 点亮屏幕
-//            wl.release(); // 释放
-//        }
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    bitmap = Glide.with(MyApplication.getAppContext())
-//                            .load(record.getHeadImg())
-//                            .asBitmap() //必须
-//                            .centerCrop()
-//                            .into(500, 500)
-//                            .get();
-//                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-//                    notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
+        PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
+        boolean screenOn = pm.isScreenOn();
+        if (!screenOn) {
+            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
+            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
+            wl.acquire(10000); // 点亮屏幕
+            wl.release(); // 释放
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    bitmap = Glide.with(MyApplication.getAppContext())
+                            .load(record.getHeadImg())
+                            .asBitmap() //必须
+                            .centerCrop()
+                            .into(500, 500)
+                            .get();
+                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+                    notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
 
 
 //在前台的时候处理接收到消息的事件
-        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
-        {
-//            TODO 弄成popwindow   弹框
-            ToastUtil.show("收到来自"+record.getFriendsName()+"的一条新消息");
-
-        }
-        else {
-
-//            Intent intent1 = new Intent();
-//            intent1.putExtra("test_msg",record.getMessage());
-//            intent1.putExtra("test_id",record.getFriendsId());
-//            intent1.setAction("action.test");
-//            sendBroadcast(intent1);
-
-
-            //APP在后台的时候处理接收到消息的事件
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        bitmap = Glide.with(MyApplication.getAppContext())
-                                .load(record.getHeadImg())
-                                .asBitmap() //必须
-                                .centerCrop()
-                                .into(500, 500)
-                                .get();
-                        NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-                        notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-        }
-    }
-//    private void Notify(final DataGroupChatResult.RecordBean record) {
-////        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-////            NotificationChannel channel = new NotificationChannel("110", "bob", NotificationManager.IMPORTANCE_HIGH);
-////            NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-////            manager.createNotificationChannel(channel);
-////            Notification.Builder builder = new Notification.Builder(this);
-////            //创建通知时指定channelID
-////            builder.setChannelId("110");
-////            builder.setShowWhen(true);
-////            builder.setDefaults(Notification.DEFAULT_ALL);
-////            builder.setAutoCancel(true);
-////            Intent intent = new Intent();
-////            intent.setClass(getApplicationContext(), TestActivity.class);
-////            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-////            startActivity(intent);
-////        } else {
-////            Notification.Builder messageNotification = new Notification.Builder(this);
-////            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-////                messageNotification.setShowWhen(true);
-////            }
-////            messageNotification.setWhen(System.currentTimeMillis());
-////            messageNotification.setDefaults(Notification.DEFAULT_ALL);
-////            messageNotification.setAutoCancel(true);
-////            Intent intent = new Intent();
-////            intent.setClass(getApplicationContext(), TestActivity.class);
-////            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
-////            startActivity(intent);
-////
-////        }
-//
-//        PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
-//        boolean screenOn = pm.isScreenOn();
-//        if (!screenOn) {
-//            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-//            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-//            wl.acquire(10000); // 点亮屏幕
-//            wl.release(); // 释放
+//        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
+//        {
+////            TODO 弄成popwindow   弹框
+//            ToastUtil.show("收到来自"+record.getFriendsName()+"的一条新消息");
 //
 //        }
-//    }
+
+//        else {
+//
+////            Intent intent1 = new Intent();
+////            intent1.putExtra("test_msg",record.getMessage());
+////            intent1.putExtra("test_id",record.getFriendsId());
+////            intent1.setAction("action.test");
+////            sendBroadcast(intent1);
+//
+//
+//            //APP在后台的时候处理接收到消息的事件
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    try {
+//                        bitmap = Glide.with(MyApplication.getAppContext())
+//                                .load(record.getHeadImg())
+//                                .asBitmap() //必须
+//                                .centerCrop()
+//                                .into(500, 500)
+//                                .get();
+//                        NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+//                        notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    } catch (ExecutionException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }).start();
+//        }
+    }
 
 
     private void noGroupChatUI(final DataGroupChatResult.RecordBean record) {
@@ -961,40 +921,55 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         intent.putExtra("id",record.getGroupId());
         intent.setAction("action.refreshMsgFragment");
         sendBroadcast(intent);
+        setGroupNotify(record, cusJumpChatData);
 //在前台的时候处理接收到消息的事件
-        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
-        {
-//            TODO 弄成popwindow   弹框
-            ToastUtil.show("收到来自"+record.getGroupName()+"的一条新消息");
-//            JNoticeAgent.setIsAutoDismiss(true);
-//            JNoticeAgent.setAutoDismissTime(5000);
-//            JNoticeAgent.setIsUseHomeKey(true);
-//            JNoticeAgent.register(this);
-//            JNoticeAgent.getJNoticeAgent().setAdapter(new JDefaultAdapter(this, R.layout.jnotice_adpter_item, null));
-//            JNoticeAgent.addJNotice(new JNoticeBean(1,record.getGroupName(),record.getMessage(),R.drawable.dou_logo));
-        }else {
-            //APP在后台的时候处理接收到消息的事件
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        bitmap = Glide.with(MyApplication.getAppContext())
-                                .load(record.getGroupHeadImg())
-                                .asBitmap() //必须
-                                .centerCrop()
-                                .into(500, 500)
-                                .get();
-                        NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-                        notificationUtils.sendNotification(cusJumpChatData, record.getGroupName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }).start();
-        }
+//        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
+//        {
+////            TODO 弄成popwindow   弹框
+//            ToastUtil.show("收到来自"+record.getGroupName()+"的一条新消息");
+////            JNoticeAgent.setIsAutoDismiss(true);
+////            JNoticeAgent.setAutoDismissTime(5000);
+////            JNoticeAgent.setIsUseHomeKey(true);
+////            JNoticeAgent.register(this);
+////            JNoticeAgent.getJNoticeAgent().setAdapter(new JDefaultAdapter(this, R.layout.jnotice_adpter_item, null));
+////            JNoticeAgent.addJNotice(new JNoticeBean(1,record.getGroupName(),record.getMessage(),R.drawable.dou_logo));
+//        }else {
+//
+//        }
     }
+
+    private void setGroupNotify(final DataGroupChatResult.RecordBean record, final CusJumpChatData cusJumpChatData) {
+        PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
+        boolean screenOn = pm.isScreenOn();
+        if (!screenOn) {
+            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
+            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
+            wl.acquire(10000); // 点亮屏幕
+            wl.release(); // 释放
+        }
+
+        //APP在后台的时候处理接收到消息的事件
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    bitmap = Glide.with(MyApplication.getAppContext())
+                            .load(record.getGroupHeadImg())
+                            .asBitmap() //必须
+                            .centerCrop()
+                            .into(500, 500)
+                            .get();
+                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+                    notificationUtils.sendNotification(cusJumpChatData, record.getGroupName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
     private void noGroupChatUIOffLine(final DataOffLineGroupChat.RecordBean.MessageListBean record) {
         final CusJumpChatData cusJumpChatData = new CusJumpChatData();
         cusJumpChatData.setFriendHeader(record.getGroupHeadImg());
