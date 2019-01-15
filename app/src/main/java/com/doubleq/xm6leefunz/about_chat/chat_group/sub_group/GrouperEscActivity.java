@@ -33,10 +33,10 @@ public class GrouperEscActivity extends BaseActivity {
     TextView incluTvRight;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     String  groupId = null;
     String  groupName = null;
@@ -77,6 +77,7 @@ public class GrouperEscActivity extends BaseActivity {
                         intent2.setAction("del.refreshMsgFragment");
                         sendBroadcast(intent2);
                         AppManager.getAppManager().finishActivity(GrouperEscActivity.this);
+                        AppManager.getAppManager().finishActivity(ChatGroupActivity.class);
                     }
                 });
                 break;
