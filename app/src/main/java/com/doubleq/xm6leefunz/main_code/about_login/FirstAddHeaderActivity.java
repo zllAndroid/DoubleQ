@@ -32,6 +32,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.doubleq.model.DataSetHeader;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
@@ -162,7 +163,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
            SplitWeb.USER_HEADER= record.getHeadImg();
            SplitWeb.NICK_NAME= record.getNickName();
             SPUtils.put(this,"header",record.getHeadImg());
-            SPUtils.put(this,"name",record.getNickName());
+            SPUtils.put(this, AppConfig.TYPE_NAME,record.getNickName());
 //            把图片保存至本地文件
             if (record!=null) {
                 String headImg = record.getHeadImg();
