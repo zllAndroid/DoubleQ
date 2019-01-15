@@ -641,6 +641,7 @@ public class ChatGroupActivity extends BaseActivity {
             switch (type)
             {
                 case Constants.CHAT_ITEM_TYPE_LEFT:
+                    Log.e("onHeaderClick","friendId="+friendId);
                     IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",friendId);
                     break;
                 case Constants.CHAT_ITEM_TYPE_RIGHT:

@@ -63,12 +63,7 @@ public class NotificationClickReceiver extends BroadcastReceiver {
 //                            cusJumpChatData.setFriendId(item.getFriendId());
 //                            cusJumpChatData.setFriendName(item.getNickName());
 //                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
-
-
-
 //                CusJumpChatData chatData = (CusJumpChatData)intent2.getSerializableExtra(AppConfig.TYPE_KEY_FRIEND);
-//
-//
 //                CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
 //                cusJumpGroupChatData.setGroupId(chatData.getFriendId());
 //                cusJumpGroupChatData.setGroupName(chatData.getFriendName());

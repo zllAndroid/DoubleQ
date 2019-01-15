@@ -643,6 +643,7 @@ public class ChatActivity extends BaseActivity {
         public void onHeaderClick(int position, int type, String friendId) {
             switch (type) {
                 case Constants.CHAT_ITEM_TYPE_LEFT:
+
                     IntentUtils.JumpToHaveTwo(FriendDataActivity.class, "id", friendId,"esc","esc");
                     break;
                 case Constants.CHAT_ITEM_TYPE_RIGHT:

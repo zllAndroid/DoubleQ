@@ -311,6 +311,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         DialogUtils.isShow();
         DialogExitUtils.isShow();
         DialogLoginUtils.isShow();
+        AppManager.getAppManager().finishActivity(this);
     }
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)

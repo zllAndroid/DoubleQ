@@ -88,7 +88,7 @@ public class AppManager {
     public void finishActivity(Class<?> cls) {
         for (AppCompatActivity activity : activityStack) {
             if (activity.getClass().equals(cls)) {
-                activityStack.remove(activity);
+//                activityStack.remove(activity);
                 finishActivity(activity);
             }
         }
@@ -140,7 +140,7 @@ public class AppManager {
     public void finishAllExceptCurrentActivity(AppCompatActivity activity) {
         for (int i = 0, size = activityStack.size(); i < size; i++) {
             if (null != activityStack.get(i)&& activity != activityStack.get(i)) {
-                activityStack.get(i).finish();
+//                activityStack.get(i).finish();
                 activityStack.remove(activityStack.get(i));
             }
         }

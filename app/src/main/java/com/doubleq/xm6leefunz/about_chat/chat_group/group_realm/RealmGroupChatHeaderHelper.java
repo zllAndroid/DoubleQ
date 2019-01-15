@@ -104,7 +104,7 @@ public class RealmGroupChatHeaderHelper {
         CusDataGroupChat realmMsgs = mRealm.where(CusDataGroupChat.class)
                 .equalTo(FILE_NAME,(friendId+SplitWeb.getUserId()))
                 .findFirst();
-        MyLog.e("CusDataGroupChat","CusDataGroupChat="+friendId+"userid="+SplitWeb.getUserId());
+//        MyLog.e("CusDataGroupChat","CusDataGroupChat="+friendId+"userid="+SplitWeb.getUserId());
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */

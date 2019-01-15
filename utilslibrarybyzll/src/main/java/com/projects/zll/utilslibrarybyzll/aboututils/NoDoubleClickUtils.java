@@ -1,7 +1,6 @@
 package com.projects.zll.utilslibrarybyzll.aboututils;
 
 
-import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 
 /**
  * 多次点击控制  工具类

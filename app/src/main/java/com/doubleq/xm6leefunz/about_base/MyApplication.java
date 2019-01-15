@@ -196,7 +196,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
 //        添加重连机制，当连接成功后，重新绑定uid
         try {
 //            if (!StrUtils.isEmpty(SplitWeb.getUserId())) {
-            String userId = SplitWeb.getUserId();
+//            String userId = SplitWeb.getUserId();
 
 
             if (!StrUtils.isEmpty(SplitWeb.getUserId()))
@@ -410,6 +410,9 @@ public class MyApplication extends Application  implements IWebSocketPage  {
 //        SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM, (String) record.getRequestTime());
         if (!SplitWeb.IS_CHAT.equals("1"))
             dealList(record);
+        else {
+
+        }
         cusRealmChatMsg.setCreated(Mytime);
         cusRealmChatMsg.setMessage(record.getMessage());
         cusRealmChatMsg.setMessageType(record.getMessageType());

@@ -233,7 +233,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                         intent2.setAction("del.refreshMsgFragment");
                         sendBroadcast(intent2);
                         AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
-//                        AppManager.getAppManager().finishActivity(ChatGroupActivity.class);
+                        AppManager.getAppManager().finishActivity(ChatGroupActivity.class);
+                        overridePendingTransition(0,0);
                     }
                 });
 
