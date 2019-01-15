@@ -130,10 +130,15 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 if (mContant.length() - 2 > BEIZHU_MAX_NUM) {
                     mTvMax.setText(BEIZHU_MAX_NUM + " / " + BEIZHU_MAX_NUM);
                     mEd.setText(mContant.substring(0, BEIZHU_MAX_NUM - 2));
-                } else
-                    mTvMax.setText(mContant.length() - 2 + " / " + BEIZHU_MAX_NUM);
-                InputFilter[] filter = {new InputFilter.LengthFilter(10)};
-                mEd.setFilters(filter);
+                } else{
+                    if (mContant.trim().equals("暂未设置备注"))
+                        mTvMax.setText("0 / " + BEIZHU_MAX_NUM);
+                    else{
+                        mTvMax.setText(mContant.length() - 2 + " / " + BEIZHU_MAX_NUM);
+                        InputFilter[] filter = {new InputFilter.LengthFilter(10)};
+                        mEd.setFilters(filter);
+                    }
+                }
                 break;
             }
             case "修改名字": {
@@ -179,12 +184,17 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 break;
             }
         }
-
+        String s;
         if (title.equals("修改备注")){
-            String s = mContant.substring(1,mContant.length()-1);
-            mEd.setText(s);
-            mEd.setSelection(mEd.getText().toString().length());
-            mEd.addTextChangedListener(textWatcher);
+            if (mContant.trim().equals("暂未设置备注"))
+                mEd.setText("");
+            else{
+                s = mContant.substring(1,mContant.length()-1);
+                mEd.setText(s);
+                mEd.setSelection(mEd.getText().toString().length());
+                mEd.addTextChangedListener(textWatcher);
+            }
+
         }
         else if (title.equals("修改账号") || title.equals("增加分组")){
             mEd.setText("");

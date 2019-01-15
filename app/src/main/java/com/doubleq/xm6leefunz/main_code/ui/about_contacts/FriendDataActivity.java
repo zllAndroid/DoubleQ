@@ -75,10 +75,10 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
 //    LinearLayout includeTopLinBack;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     String FriendId;
     String esc;
