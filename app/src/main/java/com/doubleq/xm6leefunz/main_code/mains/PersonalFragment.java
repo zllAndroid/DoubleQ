@@ -226,7 +226,7 @@ public class PersonalFragment extends BaseFragment  {
     }
 
     @OnClick({R.id.mine_iv_qrcode,R.id.mine_iv_person,R.id.include_frag_img_search, R.id.include_frag_img_add, R.id.mine_lin_person_info,
-            R.id.mine_lin_share, R.id.mine_lin_set,R.id.mine_lin_test})
+            R.id.mine_lin_share, R.id.mine_lin_set})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.mine_iv_person:
@@ -268,9 +268,9 @@ public class PersonalFragment extends BaseFragment  {
             case R.id.mine_lin_set:
                 IntentUtils.JumpTo(MineSetActivity.class);
                 break;
-            case R.id.mine_lin_test:
-                IntentUtils.JumpTo(TestActivity.class);
-                break;
+//            case R.id.mine_lin_test:
+//                IntentUtils.JumpTo(TestActivity.class);
+//                break;
         }
     }
 }

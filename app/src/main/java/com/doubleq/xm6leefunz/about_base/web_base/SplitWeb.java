@@ -88,7 +88,8 @@ public class SplitWeb {
 //    public static String WebSocket_URL = "ws://192.168.4.55:9093";
 //    public static String URL = "http://192.168.4.55:9092/LoginController/";
 
-
+//    public static String WebSocket_URL = "ws://192.168.4.48:9093";
+//    public static String URL = "http://192.168.4.48:9092/LoginController/";
 //    public static String WebSocket_URL = "ws://119.23.229.66:9093";
 //    public static String URL = "http://119.23.229.66:9092/LoginController/";
 

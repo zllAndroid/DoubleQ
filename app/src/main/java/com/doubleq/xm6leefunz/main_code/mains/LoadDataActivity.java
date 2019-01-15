@@ -130,7 +130,6 @@ public class LoadDataActivity extends BaseActivity {
 //                }, 7333);
 
             }
-
         }
     };
     private void dealDataMsg(String responseText) {
@@ -172,17 +171,18 @@ public class LoadDataActivity extends BaseActivity {
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record_group.getGroupInfoList();
         if (group_info_list.size()>0) {
 //            try {
-                for (int i = 0; i < group_info_list.size(); i++) {
-                    String userId = group_info_list.get(i).getGroupList().get(0).getGroupOfId();
-                    String groupName = group_info_list.get(i).getGroupName();
-                    if (group_info_list.get(i).getType().equals("1")) {
-                        if (StrUtils.isEmpty(userId)) {
-                            group_info_list.get(i).getGroupList().remove(0);
-                        }
-                        if (StrUtils.isEmpty(groupName)) {
-                            group_info_list.remove(i);
-                        }
+            for (int i = 0; i < group_info_list.size(); i++) {
+                String userId = group_info_list.get(i).getGroupList().get(0).getGroupOfId();
+                String groupName = group_info_list.get(i).getGroupName();
+                if (group_info_list.get(i).getType().equals("1")) {
+                    if (StrUtils.isEmpty(userId)) {
+                        group_info_list.get(i).getGroupList().remove(0);
                     }
+                    if (StrUtils.isEmpty(groupName)) {
+                        group_info_list.remove(i);
+                    }
+                }
+                if (group_info_list.size()>0)
                     if (group_info_list.get(i).getType().equals("2"))
                         dealGroupRealm(group_info_list, i);
                 }
@@ -198,32 +198,33 @@ public class LoadDataActivity extends BaseActivity {
 
     private void dealGroupRealm(List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
-        for (int j=0;j<groupList.size();j++)
-        {
-            final String modified = groupList.get(j).getModified();
-            final String friendId = groupList.get(j).getGroupOfId();
-            final String headImg = groupList.get(j).getHeadImg();
-            CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(friendId);
-            if (StrUtils.isEmpty(headImg))
+        if (groupList.size()>0)
+            for (int j=0;j<groupList.size();j++)
             {
-                return;
-            }
-            if (cusDataLinkFriend!=null) {
-
-                String time = cusDataLinkFriend.getTime();
-                if (modified!=null&&!modified.equals(time))
+                final String modified = groupList.get(j).getModified();
+                final String friendId = groupList.get(j).getGroupOfId();
+                final String headImg = groupList.get(j).getHeadImg();
+                CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(friendId);
+                if (StrUtils.isEmpty(headImg))
                 {
-                    setGlideData(true,false,modified, friendId, headImg);
+                    return;
                 }
-                else {
-                    setGlideData(true,false,modified, friendId, headImg);
-                }
+                if (cusDataLinkFriend!=null) {
+
+                    String time = cusDataLinkFriend.getTime();
+                    if (modified!=null&&!modified.equals(time))
+                    {
+                        setGlideData(true,false,modified, friendId, headImg);
+                    }
+                    else {
+                        setGlideData(true,false,modified, friendId, headImg);
+                    }
 //                boolean equals = modified.equals(time);
 //                setGlideData(!equals,false,modified, friendId, headImg);
-            }else {
-                setGlideData(false,false,modified, friendId, headImg);
+                }else {
+                    setGlideData(false,false,modified, friendId, headImg);
+                }
             }
-        }
     }
 
     private void setGlideData(final boolean isSame,final boolean isFriend,final String modified, final String friendId, final String headImg) {
@@ -269,7 +270,8 @@ public class LoadDataActivity extends BaseActivity {
                         friendList.remove(i);
                     }
                 }
-                dealFriendRealm(friendList, i);
+                if (friendList.size()>0)
+                    dealFriendRealm(friendList, i);
             }
         String json = JSON.toJSON(record).toString();
         aCache.remove(AppAllKey.FRIEND_DATA);
@@ -280,30 +282,30 @@ public class LoadDataActivity extends BaseActivity {
         if (friendList.get(i).getType().equals("2"))
         {
             List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
-
-            for (int j=0;j<groupList.size();j++) {
-                final String modified = groupList.get(j).getModified();
-                final String friendId = groupList.get(j).getUserId();
-                final String headImg = groupList.get(j).getHeadImg();
-                CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(friendId);
-                if (StrUtils.isEmpty(headImg))
-                {
-                    return;
-                }
-                if (cusDataLinkFriend!=null) {
-
-                    String time = cusDataLinkFriend.getTime();
-                    if ( !modified.equals(time))
+            if (groupList.size()>0)
+                for (int j=0;j<groupList.size();j++) {
+                    final String modified = groupList.get(j).getModified();
+                    final String friendId = groupList.get(j).getUserId();
+                    final String headImg = groupList.get(j).getHeadImg();
+                    CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(friendId);
+                    if (StrUtils.isEmpty(headImg))
                     {
-                        setGlideData(true,true,modified, friendId, headImg);
+                        return;
+                    }
+                    if (cusDataLinkFriend!=null) {
+
+                        String time = cusDataLinkFriend.getTime();
+                        if ( !modified.equals(time))
+                        {
+                            setGlideData(true,true,modified, friendId, headImg);
+                        }else {
+                            setGlideData(false,true,modified, friendId, headImg);
+                        }
+//                boolean equals = modified.equals(time);
+//                setGlideData(!equals,false,modified, friendId, headImg);
                     }else {
                         setGlideData(false,true,modified, friendId, headImg);
                     }
-//                boolean equals = modified.equals(time);
-//                setGlideData(!equals,false,modified, friendId, headImg);
-                }else {
-                    setGlideData(false,true,modified, friendId, headImg);
-                }
 //                if (cusDataLinkFriend != null) {
 //                    if (StrUtils.isEmpty(headImg)) {
 //                        return;
@@ -312,7 +314,7 @@ public class LoadDataActivity extends BaseActivity {
 //                    boolean equals = modified.equals(time);
 //                    setGlideData(!equals,true,modified, friendId, headImg);
 //                }
-            }
+                }
         }
     }
 }

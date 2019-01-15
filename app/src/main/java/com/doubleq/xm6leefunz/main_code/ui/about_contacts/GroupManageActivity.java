@@ -106,7 +106,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                     {
                         blackAdapter.notifyData();
                     }else
-                    initAdapter();
+                        initAdapter();
                 }
                 break;
             case "moveGroupSort":
@@ -248,7 +248,8 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
             case "0"://增加
                 item_type = "2";
                 sendWeb(SplitWeb.addFriendGroup(type, "1", contant, ""));//增加分组  type = 1
-                blackAdapter.notifyDataSetChanged();
+                if(blackAdapter != null)
+                    blackAdapter.notifyDataSetChanged();
                 break;
             case "1"://修改
 //                在 190行写 修改后触发事件

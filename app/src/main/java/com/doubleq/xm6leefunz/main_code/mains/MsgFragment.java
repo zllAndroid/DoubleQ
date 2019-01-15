@@ -115,6 +115,7 @@ public class MsgFragment extends BaseFragment {
             intentFilter.addAction("zll.refreshMsgFragment");
             intentFilter.addAction("zero.refreshMsgFragment");
             intentFilter.addAction("del.refreshMsgFragment");
+            intentFilter.addAction("action.dialog");
             getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
         }
     }
@@ -198,6 +199,9 @@ public class MsgFragment extends BaseFragment {
         else  if (action.equals("del.refreshMsgFragment"))
         {
             initDel(intent);
+        }
+        else if (action.equals("action_dialog")){
+
         }
         if (mRecyclerView!=null)
             mRecyclerView.smoothScrollToPosition(0);
@@ -430,9 +434,12 @@ public class MsgFragment extends BaseFragment {
         try {
             if (mReceiver!=null)
                 getActivity().unregisterReceiver(mReceiver);
+            if (mRefreshBroadcastReceiver!=null)
+                getActivity().unregisterReceiver(mRefreshBroadcastReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
     MsgAdapter.ItemTouchListener mItemTouchListener = new MsgAdapter.ItemTouchListener() {
         @Override

@@ -278,8 +278,8 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                         realmHelper.addRealmMsg(cusJumpChatData);
 
                         if (esc != null && esc.equals("esc")) {
-                            AppManager.getAppManager().finishActivity(ChatActivity.class);
-                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+//                            AppManager.getAppManager().finishActivity(ChatActivity.class);
+//                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
                             AppManager.getAppManager().finishActivity(FriendDataActivity.this);
                         }else
                         IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);

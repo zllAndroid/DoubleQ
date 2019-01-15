@@ -2,18 +2,13 @@ package com.doubleq.xm6leefunz.about_base;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Build;
 import android.os.PowerManager;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.WindowManager;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
@@ -33,6 +28,7 @@ import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.MathUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
@@ -249,6 +245,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                 case "privateReceive":
                     MsgFragment.isZero=true;
                     dealReceiver(message.getResponseText());
+//                    dealReceiverShow(message.getResponseText());
                     break;
 //                    接收群组消息
                 case "groupReceive":
@@ -294,6 +291,56 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                     break;
             }
         }
+    }
+
+    private void dealReceiverShow(String responseText) {
+        PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
+        boolean screenOn = pm.isScreenOn();
+//        @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
+//        wl.acquire(10000); // 点亮屏幕
+//        wl.release(); // 释放
+//        IntentUtils.JumpToHaveOne(TestActivity.class,"message",responseText);
+
+        if (!screenOn) {
+            Log.e("screenOn","--------------------------"+ !screenOn);
+//            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
+//            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
+//            wl.acquire(10000); // 点亮屏幕
+//            wl.release(); // 释放
+            IntentUtils.JumpToHaveOne(TestActivity.class,"message",responseText);
+        }
+
+        /*
+           PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
+        boolean screenOn = pm.isScreenOn();
+        if (!screenOn) {
+            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
+            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
+            wl.acquire(10000); // 点亮屏幕
+            wl.release(); // 释放
+        }
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    bitmap = Glide.with(MyApplication.getAppContext())
+                            .load(record.getHeadImg())
+                            .asBitmap() //必须
+                            .centerCrop()
+                            .into(500, 500)
+                            .get();
+                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+                    notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+         */
     }
 
     private void dealOffLineGroupChat(String responseText) {
@@ -856,36 +903,35 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         intent.setAction("action.refreshMsgFragment");
         sendBroadcast(intent);
 
-//        PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
-//        boolean screenOn = pm.isScreenOn();
-//        if (!screenOn) {
-//            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-//            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-//            wl.acquire(10000); // 点亮屏幕
-//            wl.release(); // 释放
-//        }
-
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    bitmap = Glide.with(MyApplication.getAppContext())
-//                            .load(record.getHeadImg())
-//                            .asBitmap() //必须
-//                            .centerCrop()
-//                            .into(500, 500)
-//                            .get();
-//                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-//                    notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-
-
+        PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
+        boolean screenOn = pm.isScreenOn();
+        if (!screenOn) {
+            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
+            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
+            wl.acquire(10000); // 点亮屏幕
+            wl.release(); // 释放
+        }
+        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
+            //APP在后台的时候处理接收到消息的事件
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        bitmap = Glide.with(MyApplication.getAppContext())
+                                .load(record.getHeadImg())
+                                .asBitmap() //必须
+                                .centerCrop()
+                                .into(500, 500)
+                                .get();
+                        NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+                        notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
 
 //在前台的时候处理接收到消息的事件
 //        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))

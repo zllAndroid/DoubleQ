@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.FrameLayout;
 import android.widget.Scroller;
 
 import com.doubleq.xm6leefunz.R;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 
 /**
  * Created by chenyan.wang on 2015/10/29.
@@ -19,7 +21,7 @@ import com.doubleq.xm6leefunz.R;
 public class SlidingLayout extends FrameLayout {
     // 页面边缘阴影的宽度默认值
     private static final int SHADOW_WIDTH = 16;
-    private Activity mActivity;
+    private AppCompatActivity mActivity;
     private Scroller mScroller;
     // 页面边缘的阴影图
     private Drawable mLeftShadow;
@@ -56,7 +58,7 @@ public class SlidingLayout extends FrameLayout {
     /**
      * 绑定Activity
      */
-    public void bindActivity(Activity activity) {
+    public void bindActivity(AppCompatActivity activity) {
         mActivity = activity;
         ViewGroup decorView = (ViewGroup) mActivity.getWindow().getDecorView();
         View child = decorView.getChildAt(0);
@@ -168,7 +170,8 @@ public class SlidingLayout extends FrameLayout {
             scrollTo(mScroller.getCurrX(), 0);
             postInvalidate();
         } else if (-getScrollX() >= getWidth()) {
-            mActivity.finish();
+            AppManager.getAppManager().finishActivity(mActivity);
+//            mActivity.finish();
         }
     }
 

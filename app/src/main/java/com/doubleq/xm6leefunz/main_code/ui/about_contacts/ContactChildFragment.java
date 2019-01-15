@@ -403,7 +403,7 @@ public class ContactChildFragment extends BaseFragment {
         }
     }
 
-    //    好友分组适配器
+    //    好友适配器
     private void initFriendAdapter() {
         if (mlinkFriend==null) {
             mlinkFriend = new LinkFriendAdapter(getActivity(), mFriendList);

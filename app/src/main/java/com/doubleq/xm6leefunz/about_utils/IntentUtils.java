@@ -23,7 +23,7 @@ public class IntentUtils {
      *
      * @param phoneNum
      */
-    public static AppCompatActivity activity =   AppManager.getAppManager().currentActivity();
+    public static Activity activity =   AppManager.getAppManager().currentActivity();
     public static void call(String phoneNum) {
         Intent intent = new Intent();
         // 启动电话程序

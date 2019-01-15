@@ -351,7 +351,7 @@
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
         <activity android:name=".main_code.mains.TestActivity"
-            android:launchMode="singleTop"
+            android:launchMode="standard"
             android:theme="@style/SwipeBack.Transparent.Theme"/>
     </application>
 
