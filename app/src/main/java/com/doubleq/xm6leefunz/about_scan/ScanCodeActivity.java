@@ -109,9 +109,27 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
             }
         }
     }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        includeTopTvTital.setText(getResources().getString(R.string.scan_sao));
+////        mRealmHelper = new RealmHelper(this);
+//        surfaceView_width = surfaceView.getWidth();
+//        surfaceView_height = surfaceView.getHeight();
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+//        {
+//            ScanCodeActivityPermissionsDispatcher.takeScanWithCheck(this);
+//        }
+//        else
+//        {
+//            initScan();
+//        }
+//    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void initBaseView() {
+        super.initBaseView();
         includeTopTvTital.setText(getResources().getString(R.string.scan_sao));
 //        mRealmHelper = new RealmHelper(this);
         surfaceView_width = surfaceView.getWidth();
@@ -126,6 +144,7 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
             initScan();
         }
     }
+
     @Override
     public int getLayoutView() {
         return R.layout.activity_scan_code;
@@ -159,8 +178,8 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
             }else {
 //              final   String substring = qrCode.substring(10);
                 Log.e("qrCode","----------qrCode------------"+qrCode);
-              final   String substring = qrCode.substring(qrCode.indexOf("xm6leefun_"));
-              final   String sub = substring.substring(10);
+              final   String substring = qrCode.substring(qrCode.indexOf("_xm6leefun_"));
+              final   String sub = substring.substring(11);
                 Log.e("qrCode","----------substring------------" + substring);
                 Log.e("qrCode","----------sub------------" + sub);
                 DialogUtils.showDialog("扫描成功，是否添加此好友？", new DialogUtils.OnClickSureListener() {

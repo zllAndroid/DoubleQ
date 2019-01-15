@@ -20,8 +20,11 @@ import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
+import com.doubleq.xm6leefunz.about_chat.FullImageActivity;
+import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
@@ -32,7 +35,12 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.rance.chatui.enity.FullImageInfo;
 import com.rance.chatui.util.Constants;
+
+import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -265,7 +273,24 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 break;
 //                头像按钮
             case R.id.fd_iv_head:
-
+                int location[] = new int[2];
+                view.getLocationOnScreen(location);
+                FullImageInfo fullImageInfo = new FullImageInfo();
+                fullImageInfo.setLocationX(location[0]);
+                fullImageInfo.setLocationY(location[1]);
+                fullImageInfo.setWidth(view.getWidth());
+                fullImageInfo.setHeight(view.getHeight());
+                GlideCacheUtil.getInstance().clearImageAllCache(this);
+                String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(FriendId);
+//                List<String> fileName = FilePath.getLinkImgPath();
+                if (imgPath!=null)
+                {
+//                    String path=fileName.get(fileName.size()-1);
+                    fullImageInfo.setImageUrl(imgPath);
+                    EventBus.getDefault().postSticky(fullImageInfo);
+                    startActivity(new Intent(this, FullImageActivity.class));
+                    this.overridePendingTransition(0, 0);
+                }
                 break;
 //                发送消息
             case R.id.fd_tv_send_msg:
