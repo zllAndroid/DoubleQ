@@ -730,6 +730,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         DataAgreeFriend.RecordBean record = dataAgreeFriend.getRecord();
         if (record!=null)
         {
+            Log.e("getFriendsId","record.getFriendsId()"+record.getFriendsId());
             sendText(SplitWeb.privateSend(record.getFriendsId(),"我们已经是好友了，快来聊一聊吧", ChatActivity.messageType, TimeUtil.getTime()));
 
             final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();

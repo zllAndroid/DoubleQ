@@ -29,6 +29,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.doubleq.model.DataMyZiliao;
 import com.doubleq.model.DataSetHeadResult;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
@@ -36,8 +37,10 @@ import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
+import com.doubleq.xm6leefunz.main_code.mains.PersonalFragment;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.io.File;
@@ -83,10 +86,10 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //    @BindView(R.id.include_top_lin_back)
 //    LinearLayout includeTopLinBack;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected int getLayoutView() {
@@ -255,16 +258,30 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 }
                 break;
             case "upNickName"://修改昵称成功
+                PersonalFragment.isChange=true;
+                SPUtils.put(HelpUtils.activity, AppConfig.TYPE_NAME,contant);
+                SplitWeb.NICK_NAME = contant;
+//                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_NO,dataLogin.getWxSno());
+//                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
+//                SplitWeb.PERSON_SIGN = dataLogin.getPersonaSignature();
+//                SplitWeb.WX_SNO = dataLogin.getWxSno();
+
                 changeinfoTvName.setText(contant);
                 break;
             case "upPersonSign":
+                PersonalFragment.isChange=true;
+                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_SIGN,contant);
+                SplitWeb.PERSON_SIGN = contant;
                 changeinfoTvSign.setText(contant);
                 break;
             case "upUserSno":
+                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_NO,contant);
+                SplitWeb.WX_SNO = contant;
                 changeinfoIvWrite.setVisibility(View.GONE);
                 changeinfoTvCount.setText(contant);
                 break;
             case "upHeadImg":
+                PersonalFragment.isChangeHead=true;
                 DataSetHeadResult dataSetHeadResult = JSON.parseObject(responseText, DataSetHeadResult.class);
                 if (dataSetHeadResult != null) {
                     String headImg = dataSetHeadResult.getRecord().getHeadImg();

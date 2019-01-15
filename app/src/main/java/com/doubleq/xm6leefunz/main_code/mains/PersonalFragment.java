@@ -97,17 +97,9 @@ public class PersonalFragment extends BaseFragment  {
     }
     private void initUI() {
         includeFragTvTitle.setText("个人中心");
-        String name = SplitWeb.getName();
-        String sign = SplitWeb.getSign();
-        if (!StrUtils.isEmpty(name))
-        {
-            mineTvName.setText(name);
-        }
-        if (!StrUtils.isEmpty(sign))
-        {
-            mineTvSign.setText(sign);
-        }
+        initName();
         getHead();
+
 //        Glide.with(this).load(record.getHead_img())
 //                .bitmapTransform(new CropCircleTransformation(getActivity()))
 //               .into(mineIvPerson);
@@ -122,9 +114,38 @@ public class PersonalFragment extends BaseFragment  {
 //                    .bitmapTransform(new CropCircleTransformation(getActivity())
 //                   .into(mineIvPerson);
     }
+
+    private void initName() {
+        String name = SplitWeb.getName();
+        String sign = SplitWeb.getSign();
+        if (!StrUtils.isEmpty(name))
+        {
+            mineTvName.setText(name);
+        }
+        if (!StrUtils.isEmpty(sign))
+        {
+            mineTvSign.setText(sign);
+        }
+    }
+
+    public  static  boolean isChange=false;
+    public  static  boolean isChangeHead=false;
+
     @Override
     public void onResume() {
         super.onResume();
+
+        if (isChange)
+        {
+            initName();
+        }
+        if (isChangeHead)
+        {
+            getHead();
+        }
+
+        isChange=false;
+        isChangeHead=false;
 //        if (!StrUtils.isEmpty(FilePath.getHeadPath()))
 //        mineIvPerson.setBackgroundResource(0);
 //        Glide.get(getActivity()).clearMemory();//清理内存缓存 可以在UI主线程中进行
@@ -135,21 +156,21 @@ public class PersonalFragment extends BaseFragment  {
     private void getHead() {
         GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
         List<String> fileName = FilePath.getFilesAllName(FilePath.myHeadImg);
-            if (fileName!=null&&fileName.size()>0)
-            {
-                String path=fileName.get(fileName.size()-1);
-                Glide.with(this).load(path)
-                        .bitmapTransform(new CropCircleTransformation(getActivity()))
+        if (fileName!=null&&fileName.size()>0)
+        {
+            String path=fileName.get(fileName.size()-1);
+            Glide.with(this).load(path)
+                    .bitmapTransform(new CropCircleTransformation(getActivity()))
 //                        .thumbnail(0.1f)
-                        .into(mineIvPerson);
-            }else
-            {
-                sendWeb(SplitWeb.personalCenter());
+                    .into(mineIvPerson);
+        }else
+        {
+            sendWeb(SplitWeb.personalCenter());
 //                Glide.with(this).load(R.drawable.first_head_nor)
 //                        .bitmapTransform(new CropCircleTransformation(getActivity()))
 ////                        .thumbnail(0.1f)
 //                        .into(mineIvPerson);
-            }
+        }
     }
 
     String userId;
