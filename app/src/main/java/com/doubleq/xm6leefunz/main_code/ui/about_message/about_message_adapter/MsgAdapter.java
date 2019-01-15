@@ -78,24 +78,6 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                 Glide.with(context).load(imgPath)
                         .error(errorImg)
                         .bitmapTransform(new CropCircleTransformation(context))
-//                        .listener(new RequestListener<String, GlideDrawable>() {
-//                            @Override
-//                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-////                                加载错误时，加载网络图片
-//                                realmLinkFriendHelper.deleteRealmFriend(item.getFriendId());
-//                                Glide.with(context).load(item.getHeadImg())
-//                                        .error(errorImg)
-//                                        .bitmapTransform(new CropCircleTransformation(context))
-//                                        .crossFade(1000).into((ImageView) helper.getView(R.id.item_iv_head));
-//                                return false;
-//                            }
-//
-//                            @Override
-//                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                                return false;
-//                            }
-//                        })
-//                        .crossFade(1000)
                         .into((ImageView) helper.getView(R.id.item_iv_head));
             } else {
                 Glide.with(context).load(item.getHeadImg())

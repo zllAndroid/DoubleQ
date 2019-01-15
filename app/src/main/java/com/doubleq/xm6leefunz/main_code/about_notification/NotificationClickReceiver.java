@@ -12,6 +12,9 @@ import com.doubleq.model.CusJumpChatData;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
+import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.NoticeActivity;
@@ -26,47 +29,55 @@ public class NotificationClickReceiver extends BroadcastReceiver {
         switch (string)
         {
             case AppConfig.TYPE_CHAT:
+                intent2.setClass(context, MainActivity.class);
+                context.startActivity(intent2);
+
+
                 //     CusJumpChatData cusJumpChatData = new CusJumpChatData();
 //                            cusJumpChatData.setFriendHeader(item.getHeadImg());
 //                            cusJumpChatData.setFriendId(item.getFriendId());
 //                            cusJumpChatData.setFriendName(item.getNickName());
 //                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
-                CusJumpChatData cusJumpChatData = (CusJumpChatData)intent2.getSerializableExtra(AppConfig.TYPE_KEY_FRIEND);
-//                if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
-                    intent2.setClass(context, ChatActivity.class);
-                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable(Constants.KEY_FRIEND_HEADER, cusJumpChatData);
-                    intent2.putExtras(bundle);
-                    context.startActivity(intent2);
-                Intent intent3 = new Intent();
-                intent3.putExtra("id",cusJumpChatData.getFriendId());
-                intent3.setAction("zllrefreshMsg");
-                context.sendBroadcast(intent3);
+//                CusJumpChatData cusJumpChatData = (CusJumpChatData)intent2.getSerializableExtra(AppConfig.TYPE_KEY_FRIEND);
+////                if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
+//                    intent2.setClass(context, ChatActivity.class);
+////                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    Bundle bundle = new Bundle();
+//                    bundle.putSerializable(Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+//                    intent2.putExtras(bundle);
+//                    context.startActivity(intent2);
+//                Intent intent3 = new Intent();
+//                intent3.putExtra("id",cusJumpChatData.getFriendId());
+//                intent3.setAction("zllrefreshMsg");
+//                context.sendBroadcast(intent3);
 //                wakeUpAndUnlock(context);
 
 //                }
                 break;
 //                群消息
             case AppConfig.TYPE_CHAT_QUN:
+                intent2.setClass(context, MainActivity.class);
+                context.startActivity(intent2);
                 //     CusJumpChatData cusJumpChatData = new CusJumpChatData();
 //                            cusJumpChatData.setFriendHeader(item.getHeadImg());
 //                            cusJumpChatData.setFriendId(item.getFriendId());
 //                            cusJumpChatData.setFriendName(item.getNickName());
 //                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
-                CusJumpChatData chatData = (CusJumpChatData)intent2.getSerializableExtra(AppConfig.TYPE_KEY_FRIEND);
-//                if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
-                    intent2.setClass(context, ChatActivity.class);
-                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    Bundle bundle3 = new Bundle();
-                    bundle3.putSerializable(Constants.KEY_FRIEND_HEADER, chatData);
-                    intent2.putExtras(bundle3);
-                    context.startActivity(intent2);
-//                Intent intent0 = new Intent();
-//                intent0.putExtra("id",chatData.getFriendId());
-//                intent0.setAction("zllrefreshMsg");
-//                context.sendBroadcast(intent0);
-//                }
+
+
+
+//                CusJumpChatData chatData = (CusJumpChatData)intent2.getSerializableExtra(AppConfig.TYPE_KEY_FRIEND);
+//
+//
+//                CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
+//                cusJumpGroupChatData.setGroupId(chatData.getFriendId());
+//                cusJumpGroupChatData.setGroupName(chatData.getFriendName());
+//
+//                    intent2.setClass(context, ChatGroupActivity.class);
+//                    Bundle bundle3 = new Bundle();
+//                    bundle3.putSerializable(Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
+//                    intent2.putExtras(bundle3);
+//                    context.startActivity(intent2);
                 break;
             case AppConfig.TYPE_NOTICE:
                 intent2.setClass(context, NoticeActivity.class);

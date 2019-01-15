@@ -6,11 +6,11 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class TimeUtil {
-   public static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-public  static  String getTime()
-{
-    return  sf.format(new Date());
-}
+    public static SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public  static  String getTime()
+    {
+        return  sf.format(new Date());
+    }
 
     /**
      * 24小时制转化成12小时制
@@ -37,6 +37,18 @@ public  static  String getTime()
      * @throws java.text.ParseException
      */
     public static int stringDaysBetween(String smdate, String bdate)
+            throws ParseException, java.text.ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(sdf.parse(smdate));
+        long time1 = cal.getTimeInMillis();
+        cal.setTime(sdf.parse(bdate));
+        long time2 = cal.getTimeInMillis();
+        long between_days = (time2 - time1) / (1000 * 60);
+//        long between_days = (time2 - time1) / (1000 * 3600 * 24);
+        return Integer.parseInt(String.valueOf(between_days));
+    }
+    public static int stringDaysBetweenOld(String smdate, String bdate)
             throws ParseException, java.text.ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();

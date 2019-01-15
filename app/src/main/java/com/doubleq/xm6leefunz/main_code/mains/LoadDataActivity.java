@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
@@ -48,10 +49,6 @@ public class LoadDataActivity extends BaseActivity {
     @BindView(R.id.electric_fan_view)
     LoadingView electricFanView;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     ACache aCache;
     RealmLinkFriendHelper realmLinkFriendHelper;
@@ -109,12 +106,14 @@ public class LoadDataActivity extends BaseActivity {
         @Override
         public void onTick(long l) {
 //            regTvSendCode.setBackgroundResource(R.drawable.btn_stroke_nor_b5);
+            Log.e("CountDownTimer","onTick="+l+"");
         }
         @Override
         public void onFinish() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 electricFanView.stopNestedScroll();
             }
+            Log.e("CountDownTimer","onFinish="+durlation+"");
             if (isFriend&&isGroup)
             {
                 IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);
@@ -131,6 +130,7 @@ public class LoadDataActivity extends BaseActivity {
 //                }, 7333);
 
             }
+
         }
     };
     private void dealDataMsg(String responseText) {

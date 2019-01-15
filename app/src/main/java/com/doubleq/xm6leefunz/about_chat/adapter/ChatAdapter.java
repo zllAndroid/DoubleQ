@@ -19,10 +19,12 @@ public class ChatAdapter extends RecyclerArrayAdapter<DataJieShou.RecordBean> {
 
     private onItemClickListener onItemClickListener;
     public Handler handler;
+    public Context context;
 
     public ChatAdapter(Context context) {
         super(context);
         handler = new Handler();
+        this.context=context;
     }
     protected boolean isScrolling = false;
     public void setScrolling(boolean scrolling) {
@@ -34,13 +36,13 @@ public class ChatAdapter extends RecyclerArrayAdapter<DataJieShou.RecordBean> {
         BaseViewHolder viewHolder = null;
         switch (viewType) {
             case Constants.CHAT_ITEM_TYPE_LEFT:
-                viewHolder = new ChatAcceptViewHolder(parent, onItemClickListener, handler,isScrolling);
+                viewHolder = new ChatAcceptViewHolder(parent, onItemClickListener, handler,isScrolling,context);
                 break;
             case Constants.CHAT_ITEM_TYPE_RIGHT:
                 viewHolder = new ChatSendViewHolder(parent, onItemClickListener, handler,isScrolling);
                 break;
                 default:
-                    viewHolder = new ChatAcceptViewHolder(parent, onItemClickListener, handler,isScrolling);
+                    viewHolder = new ChatAcceptViewHolder(parent, onItemClickListener, handler,isScrolling,context);
                     break;
         }
         return viewHolder;

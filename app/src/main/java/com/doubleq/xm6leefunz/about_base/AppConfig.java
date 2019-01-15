@@ -46,6 +46,21 @@ public static final String KEY_MD5= "md5";//"md5";
     public static final String CHAT_RECEIVE_TIME= "chat_time_receive";//聊天发送时间
     public static final String CHAT_RECEIVE_TIME_REALM= "chat_time_receive";//聊天发送时间
 
+
+    public static  String mCHAT_SEND_TIME= "";//聊天发送时间
+    public static  String mCHAT_SEND_TIME_REALM= "";//聊天发送时间
+    public static  String mCHAT_SEND_TIME_REALM_GROUP= "";//聊天发送时间
+    public static  String mCHAT_RECEIVE_TIME= "";//聊天发送时间
+
+    public static  String mCHAT_RECEIVE_TIME_REALM= "";//私聊接收
+    public static  String mCHAT_RECEIVE_TIME_REALM_GROUP= "";
+
+    //    public static  String CHAT_RECEIVE_TIME_REALM= "chat_time_receive";//聊天发送时间
+    //    public static  String CHAT_RECEIVE_TIME= "chat_time_receive";//聊天发送时间
+    //    public static  String CHAT_SEND_TIME_REALM_GROUP= "chat_time_send_realm_group";//聊天发送时间
+    //    public static  String CHAT_SEND_TIME_REALM= "";//聊天发送时间
+//    public static  String CHAT_SEND_TIME= "";//聊天发送时间
+
     public static final String CHAT_RECEIVE_TIME_REALM_GROUP= "chat_time_receive_group";//聊天群发送时间
 
 

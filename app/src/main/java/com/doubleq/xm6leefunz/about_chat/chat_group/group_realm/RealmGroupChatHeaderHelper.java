@@ -1,9 +1,11 @@
 package com.doubleq.xm6leefunz.about_chat.chat_group.group_realm;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 
 import java.util.List;
 
@@ -15,6 +17,7 @@ import io.realm.Sort;
 public class RealmGroupChatHeaderHelper {
     public static final String FILE_NAME = "totalId";
     public static final String USERID = "userid";
+    public static final String FRIEND_ID = "friendId";
 
     private Realm mRealm;
 
@@ -93,21 +96,15 @@ public class RealmGroupChatHeaderHelper {
      */
     public CusDataGroupChat queryGroupChat(String friendId) {
         CusDataGroupChat realmMsgs = mRealm.where(CusDataGroupChat.class)
-                .equalTo(FILE_NAME,friendId+SplitWeb.getUserId())
+                .equalTo(FILE_NAME,friendId)
                 .findFirst();
-        /**
-         * 对查询结果，按Id进行排序，只能对查询结果进行排序
-         */
-//        //降序排列
-        if (realmMsgs!=null)
-            return mRealm.copyFromRealm(realmMsgs);
-        else
-            return  null;
+            return  realmMsgs;
     }
     public String queryGroupChatReturnImgPath(String friendId) {
         CusDataGroupChat realmMsgs = mRealm.where(CusDataGroupChat.class)
-                .equalTo(FILE_NAME,friendId+SplitWeb.getUserId())
+                .equalTo(FILE_NAME,(friendId+SplitWeb.getUserId()))
                 .findFirst();
+        MyLog.e("CusDataGroupChat","CusDataGroupChat="+friendId+"userid="+SplitWeb.getUserId());
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */

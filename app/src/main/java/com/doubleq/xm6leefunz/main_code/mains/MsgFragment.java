@@ -272,7 +272,7 @@ public class MsgFragment extends BaseFragment {
 
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
             CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id );
-            Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
+//            Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
             if ( mList.size()==0&&cusHomeRealmData.size()!=0)
             {
                 mList.clear();
@@ -302,7 +302,6 @@ public class MsgFragment extends BaseFragment {
                             mRecyclerView.smoothScrollToPosition(0);
 //                            realmHelper.deleteRealmMsg(id+SplitWeb.USER_ID);
                         }
-                        Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
                         return;
                     }
                 }

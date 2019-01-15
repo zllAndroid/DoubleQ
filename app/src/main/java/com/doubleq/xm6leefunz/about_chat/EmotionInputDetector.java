@@ -256,7 +256,7 @@ public class EmotionInputDetector {
                 messageInfo.setMessage(ed);
 //                messageInfo.set
                 EventBus.getDefault().post(messageInfo);
-                mEditText.setText("");
+//                mEditText.setText("");
             }
         });
         return this;

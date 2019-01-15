@@ -88,6 +88,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
 //    };
     @Override
     public void setData(final CusGroupChatData data) {
+//        &&!data.getMessageType().equals(Constants.CHAT_NOTICE)
         if (StrUtils.isEmpty(data.getCreated()))
         {
             chatItemDate.setVisibility(View.GONE);
@@ -96,8 +97,9 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
             chatItemDate.setText(TimeUtil.formatDisplayTime(data.getCreated(),null));
             chatItemDate.setVisibility(View.VISIBLE);
         }
+        chatItemHeader.setVisibility(View.VISIBLE);
         String imgPath = realmGroupChatHeaderHelper.queryGroupChatReturnImgPath(data.getFriendId());
-        if (imgPath!=null&&isScrolling) {
+        if (imgPath!=null) {
             Glide.with(getContext())
                     .load(imgPath)
                     .dontAnimate()
@@ -123,13 +125,13 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                     .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(chatItemHeader);
         }else {
-            chatItemHeader.setImageResource(com.doubleq.xm6leefunz.R.drawable.mine_head);
-//            Glide.with(getContext())
-//                    .load(data.getImgHead())
-//                    .dontAnimate()
-//                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-//                    .bitmapTransform(new CropCircleTransformation(getContext()))
-//                    .into(chatItemHeader);
+//            chatItemHeader.setImageResource(com.doubleq.xm6leefunz.R.drawable.mine_head);
+            Glide.with(getContext())
+                    .load(data.getImgHead())
+                    .dontAnimate()
+                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
+                    .into(chatItemHeader);
         }
 
 

@@ -97,11 +97,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
     private RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
     DataSearch dataSearch = null;
     static String groupId;
     static String groupName;
@@ -198,7 +193,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     if (group_detail_info != null) {
                         DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfo = group_detail_info.getGroupInfo();
                         DataAddQunDetails.RecordBean.GroupDetailInfoBean.UserInfoBean userInfo = group_detail_info.getUserInfo();
-                        groupDetailsTvGroupId.setText("(" + groupInfo.getGroupSno() + ")");
                         if (userInfo != null) {
                             initUserInfo(userInfo);
                             String identityType = userInfo.getIdentityType();
@@ -217,6 +211,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                                 initAdapter(group_user_info, isGrouper);
                             }
                         }
+
                         if (groupInfo != null) {
                             initUI(groupInfo);
                         }
@@ -407,6 +402,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 .bitmapTransform(new CropCircleTransformation(GroupChatDetailsActivity.this))
                 .error(R.drawable.qun_head)
                 .into(groupDataIvHead);
+        groupDetailsTvGroupId.setText("(" + groupInfoBean.getGroupSno() + ")");
         groupDetailsTvName.setText(groupInfoBean.getGroupName());
     }
 

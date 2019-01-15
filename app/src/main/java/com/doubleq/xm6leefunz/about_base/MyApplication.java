@@ -33,6 +33,7 @@ import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.MathUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
@@ -311,20 +312,17 @@ public class MyApplication extends Application  implements IWebSocketPage  {
     private void initOffLineGroupChat(DataOffLineGroupChat.RecordBean.MessageListBean record) {
         AppConfig.CHAT_GROUP_ID = record.getGroupId();
         String Mytime=record.getRequestTime();
-        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,"");
-        if (StrUtils.isEmpty(time)) {
-            SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,(String)record.getRequestTime());
-        }else {
+        String time = AppConfig.mCHAT_RECEIVE_TIME_REALM_GROUP;
+        AppConfig.mCHAT_RECEIVE_TIME_REALM_GROUP=record.getRequestTime();
+//        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,"");
+//        SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP, (String)record.getRequestTime());
+        if (!StrUtils.isEmpty(time)) {
             try {
                 int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
                 MyLog.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
-                SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP, (String) record.getRequestTime());
 //                发送时间之间的间隔小于五分钟，则不显示时间
-                if (Math.abs(i) < 5) {
-//                    record.setRequestTime("");
+                if (MathUtils.abs(i) < 5) {
                     Mytime="";
-                }else {
-                    Mytime=record.getRequestTime();
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -375,6 +373,10 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         DataOffLineChat dataOffLineChat = JSON.parseObject(responseText, DataOffLineChat.class);
 
         DataOffLineChat.RecordBean record = dataOffLineChat.getRecord();
+        if (record==null)
+        {
+            return;
+        }
         List<DataOffLineChat.RecordBean.MessageListBean> messageList = record.getMessageList();
         if (messageList.size()>0)
             for (int i=0;i<messageList.size();i++)
@@ -384,31 +386,28 @@ public class MyApplication extends Application  implements IWebSocketPage  {
     }
     private void initListItem(final  DataOffLineChat.RecordBean.MessageListBean record) {
         AppConfig.CHAT_FRIEND_ID = record.getFriendsId();
+
         record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
         record.setType(Constants.CHAT_ITEM_TYPE_LEFT);
         CusChatData cusRealmChatMsg = new CusChatData();
 //            String format = TimeUtil.sf.format(new Date());
 //            cusRealmChatMsg.setCreated(format);
         String Mytime=record.getRequestTime();
-        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM,"");
-        if (StrUtils.isEmpty(time)) {
-            SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM,(String)record.getRequestTime());
-        }else {
+        String time = AppConfig.mCHAT_RECEIVE_TIME_REALM;
+        AppConfig.mCHAT_RECEIVE_TIME_REALM=record.getRequestTime();
+//        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM,"");
+        if (!StrUtils.isEmpty(time)) {
             try {
                 int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
                 Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
-                SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM, (String) record.getRequestTime());
-                if (Math.abs(i) < 5) {
-//                    record.setRequestTime("");
+                if (MathUtils.abs(i) < 5) {
                     Mytime="";
-                }else {
-                    Mytime=record.getRequestTime();
-//                    SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM, "");
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
+//        SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM, (String) record.getRequestTime());
         if (!SplitWeb.IS_CHAT.equals("1"))
             dealList(record);
         cusRealmChatMsg.setCreated(Mytime);
@@ -486,6 +485,10 @@ public class MyApplication extends Application  implements IWebSocketPage  {
     private void dealFriendPush(String responseText) {
         DataFriendPush dataFriendPush = JSON.parseObject(responseText, DataFriendPush.class);
         final   DataFriendPush.RecordBean record = dataFriendPush.getRecord();
+        if (record==null)
+        {
+            return;
+        }
         final  List<DataFriendPush.RecordBean.MessageListBean> messageList = record.getMessageList();
         for (int i = 0; i<messageList.size(); i++)
         {
@@ -568,25 +571,30 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             return;
         AppConfig.CHAT_GROUP_ID = record.getGroupId();
         String Mytime=record.getRequestTime();
-        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,"");
-        if (StrUtils.isEmpty(time)) {
-            SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,(String)record.getRequestTime());
-        }else {
+
+        String time = AppConfig.mCHAT_RECEIVE_TIME_REALM_GROUP;
+        AppConfig.mCHAT_RECEIVE_TIME_REALM_GROUP=record.getRequestTime();
+//        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP,"");
+        if (!StrUtils.isEmpty(time)) {
             try {
                 int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
                 MyLog.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
-                SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP, (String) record.getRequestTime());
 //                发送时间之间的间隔小于五分钟，则不显示时间
-                if (Math.abs(i) < 5) {
+                if (MathUtils.abs(i) < 5) {
 //                    record.setRequestTime("");
                     Mytime="";
-                }else {
-                    Mytime=record.getRequestTime();
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
+
+        if (record.getMessageType().equals(Constants.CHAT_NOTICE))
+        {
+            Mytime="";
+            AppConfig.mCHAT_RECEIVE_TIME_REALM_GROUP="";
+        }
+//        SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP, (String)record.getRequestTime());
         if (!SplitWeb.IS_CHAT_GROUP.equals("2"))
         {
 //            不在聊天界面收到消息时候的处理
@@ -632,26 +640,26 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         DataGroupChatSend dataGroupSend = JSON.parseObject(message, DataGroupChatSend.class);
         DataGroupChatSend.RecordBean record = dataGroupSend.getRecord();
         if (record != null) {
-
             initMsgGroupSend(record);//发布广播更新首页的信息
-
             CusGroupChatData cusRealmChatMsg = new CusGroupChatData();
-            String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME_REALM_GROUP,"");
-            if (StrUtils.isEmpty(time)) {
-                SPUtils.put(this,AppConfig.CHAT_SEND_TIME_REALM_GROUP,(String)record.getRequestTime());
-            }else {
+            String MyTime =record.getRequestTime();
+
+            String time = AppConfig.mCHAT_SEND_TIME_REALM_GROUP;
+            AppConfig.mCHAT_SEND_TIME_REALM_GROUP=record.getRequestTime();
+//            String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME_REALM_GROUP,"");
+            if (!StrUtils.isEmpty(time)) {
                 try {
                     int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
                     Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
-                    SPUtils.put(this, AppConfig.CHAT_SEND_TIME_REALM_GROUP, (String) record.getRequestTime());
-                    if (Math.abs(i) < 5) {
-                        record.setRequestTime("");
+                    if (MathUtils.abs(i) < 5) {
+                        MyTime="";
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
-            cusRealmChatMsg.setCreated(record.getRequestTime());
+//            SPUtils.put(this, AppConfig.CHAT_SEND_TIME_REALM_GROUP,record.getRequestTime());
+            cusRealmChatMsg.setCreated(MyTime);
 //            cusRealmChatMsg.setCreated(TimeUtil.sf.format(new Date()));
             cusRealmChatMsg.setMessage(record.getMessage());
             cusRealmChatMsg.setMessageType(record.getMessageType());
@@ -710,22 +718,25 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             initMsgSend(record);//发布广播更新首页的信息
 
             CusChatData cusRealmChatMsg = new CusChatData();
-            String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME_REALM,"");
-            if (StrUtils.isEmpty(time)) {
-                SPUtils.put(this,AppConfig.CHAT_SEND_TIME_REALM,(String)record.getRequestTime());
-            }else {
+            String myTime=record.getRequestTime();
+            String time = AppConfig.mCHAT_SEND_TIME_REALM;
+            AppConfig.mCHAT_SEND_TIME_REALM=record.getRequestTime();
+
+//            String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME_REALM,"");
+//            SPUtils.put(this, AppConfig.CHAT_SEND_TIME_REALM, (String)record.getRequestTime());
+            if (!StrUtils.isEmpty(time)) {
                 try {
-                    int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
+                    int i = TimeUtil.stringDaysBetween(myTime, time);
                     MyLog.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
-                    SPUtils.put(this, AppConfig.CHAT_SEND_TIME_REALM, (String) record.getRequestTime());
-                    if (Math.abs(i) < 5) {
-                        record.setRequestTime("");
+                    if (MathUtils.abs(i) < 5) {
+                        myTime="";
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
             }
-            cusRealmChatMsg.setCreated(record.getRequestTime());
+
+            cusRealmChatMsg.setCreated(myTime);
 //            cusRealmChatMsg.setCreated(TimeUtil.sf.format(new Date()));
             cusRealmChatMsg.setMessage(record.getMessage());
             cusRealmChatMsg.setMessageType(record.getMessageType());
@@ -756,37 +767,41 @@ public class MyApplication extends Application  implements IWebSocketPage  {
     }
 
 
-
+    CusChatData cusRealmChatMsg=null;
+    CusHomeRealmData cusJumpChatData =null;
     private void dealReceiver(String message) {
         DataJieShou dataJieShou = JSON.parseObject(message, DataJieShou.class);
         final DataJieShou.RecordBean record = dataJieShou.getRecord();
+        if (record==null)
+        {
+            return;
+        }
+
         AppConfig.CHAT_FRIEND_ID = record.getFriendsId();
         record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
         record.setType(Constants.CHAT_ITEM_TYPE_LEFT);
-        CusChatData cusRealmChatMsg = new CusChatData();
+//        initMsgSend(record);
+        if (cusRealmChatMsg==null)
+            cusRealmChatMsg = new CusChatData();
 //            String format = TimeUtil.sf.format(new Date());
 //            cusRealmChatMsg.setCreated(format);
         String Mytime=record.getRequestTime();
-        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM,"");
-        if (StrUtils.isEmpty(time)) {
-            SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM,(String)record.getRequestTime());
-        }else {
+        String time = AppConfig.mCHAT_RECEIVE_TIME_REALM;
+        AppConfig.mCHAT_RECEIVE_TIME_REALM=record.getRequestTime();
+//        String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME_REALM,"");
+        if (!StrUtils.isEmpty(time)) {
             try {
                 int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
                 Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
-                SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM, (String) record.getRequestTime());
-                if (Math.abs(i) < 5) {
+                if (MathUtils.abs(i) < 5) {
 //                    record.setRequestTime("");
                     Mytime="";
-                }else {
-                    Mytime=record.getRequestTime();
-//                    SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM, "");
                 }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         }
-
+//        SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM,record.getRequestTime());
         if (!SplitWeb.IS_CHAT.equals("1"))
         {
 //            不在聊天界面收到消息时候的处理
@@ -811,7 +826,8 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         }
         else
         {
-            final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
+            if (cusJumpChatData==null)
+                cusJumpChatData = new CusHomeRealmData();
             cusJumpChatData.setHeadImg(record.getHeadImg());
             cusJumpChatData.setFriendId(record.getFriendsId());
             cusJumpChatData.setNickName(record.getFriendsName());
@@ -837,34 +853,34 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         intent.setAction("action.refreshMsgFragment");
         sendBroadcast(intent);
 
-        PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
-        boolean screenOn = pm.isScreenOn();
-        if (!screenOn) {
-            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-            wl.acquire(10000); // 点亮屏幕
-            wl.release(); // 释放
-        }
+//        PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
+//        boolean screenOn = pm.isScreenOn();
+//        if (!screenOn) {
+//            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
+//            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
+//            wl.acquire(10000); // 点亮屏幕
+//            wl.release(); // 释放
+//        }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    bitmap = Glide.with(MyApplication.getAppContext())
-                            .load(record.getHeadImg())
-                            .asBitmap() //必须
-                            .centerCrop()
-                            .into(500, 500)
-                            .get();
-                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-                    notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    bitmap = Glide.with(MyApplication.getAppContext())
+//                            .load(record.getHeadImg())
+//                            .asBitmap() //必须
+//                            .centerCrop()
+//                            .into(500, 500)
+//                            .get();
+//                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+//                    notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
 
 
 
@@ -914,13 +930,13 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         cusJumpChatData.setFriendHeader(record.getGroupHeadImg());
         cusJumpChatData.setFriendId(record.getGroupId());
         cusJumpChatData.setFriendName(record.getGroupName());
-
 //        发送广播更新首页
         Intent intent = new Intent();
         intent.putExtra("message",record.getMessage());
         intent.putExtra("id",record.getGroupId());
         intent.setAction("action.refreshMsgFragment");
         sendBroadcast(intent);
+
         setGroupNotify(record, cusJumpChatData);
 //在前台的时候处理接收到消息的事件
 //        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
@@ -947,27 +963,27 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             wl.acquire(10000); // 点亮屏幕
             wl.release(); // 释放
         }
-
-        //APP在后台的时候处理接收到消息的事件
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    bitmap = Glide.with(MyApplication.getAppContext())
-                            .load(record.getGroupHeadImg())
-                            .asBitmap() //必须
-                            .centerCrop()
-                            .into(500, 500)
-                            .get();
-                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-                    notificationUtils.sendNotification(cusJumpChatData, record.getGroupName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
+            //APP在后台的时候处理接收到消息的事件
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        bitmap = Glide.with(MyApplication.getAppContext())
+                                .load(record.getGroupHeadImg())
+                                .asBitmap() //必须
+                                .centerCrop()
+                                .into(500, 500)
+                                .get();
+                        NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+                        notificationUtils.sendNotification(cusJumpChatData, record.getGroupName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }).start();
+            }).start();
     }
 
     private void noGroupChatUIOffLine(final DataOffLineGroupChat.RecordBean.MessageListBean record) {

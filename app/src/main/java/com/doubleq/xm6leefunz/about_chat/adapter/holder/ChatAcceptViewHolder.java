@@ -1,6 +1,10 @@
 package com.doubleq.xm6leefunz.about_chat.adapter.holder;
 
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +31,9 @@ import com.rance.chatui.util.Constants;
 import com.rance.chatui.util.Utils;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -56,15 +63,16 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
     private Handler handler;
     MotionEvent event;
 
-
+    Context context;
     protected boolean isScrolling = false;
     RealmLinkFriendHelper realmLinkFriendHelper;
-    public ChatAcceptViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler,boolean isScrolling ) {
+    public ChatAcceptViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler,boolean isScrolling ,Context context) {
         super(parent, R.layout.item_chat_accept);
         ButterKnife.bind(this,itemView);
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
         this.isScrolling = isScrolling;
+        this.context = context;
         realmLinkFriendHelper = new RealmLinkFriendHelper(getContext());
     }
     @Override
@@ -78,38 +86,52 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
             chatItemDate.setVisibility(View.VISIBLE);
         }
         String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
-        if (imgPath!=null&&isScrolling) {
-            Glide.with(getContext())
-                    .load(imgPath)
-                    .dontAnimate()
-                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-//                    .listener(new RequestListener<String, GlideDrawable>() {
-//                        @Override
-//                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-////                                加载错误时，加载网络图片
-//                            realmLinkFriendHelper.deleteRealmFriend(data.getFriendsId());
-//                            Glide.with(getContext()).load(data.getHeadImg())
-//                                    .dontAnimate()
-//                                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-//                                    .bitmapTransform(new CropCircleTransformation(getContext()))
-//                                   .into((chatItemHeader));
-//                            return false;
-//                        }
-//                        @Override
-//                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                            return false;
-//                        }
-//                    })
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
+//        FileInputStream fis = null;
+//        try {
+//            fis = new FileInputStream(imgPath);
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        }
+//        Bitmap bitmap  = BitmapFactory.decodeStream(fis);
+        Log.e("imgPath","imgPath="+imgPath);
+        if (imgPath!=null) {
+            Glide.with(context).load(imgPath)
+                    .error(R.drawable.mine_head)
+                    .bitmapTransform(new CropCircleTransformation(context))
                     .into(chatItemHeader);
-        }else {
-            chatItemHeader.setImageResource(com.doubleq.xm6leefunz.R.drawable.mine_head);
+
+
 //            Glide.with(getContext())
-//                    .load(data.getHeadImg())
+//                    .load(bitmap)
 //                    .dontAnimate()
 //                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+////                    .listener(new RequestListener<String, GlideDrawable>() {
+////                        @Override
+////                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//////                                加载错误时，加载网络图片
+////                            realmLinkFriendHelper.deleteRealmFriend(data.getFriendsId());
+////                            Glide.with(getContext()).load(data.getHeadImg())
+////                                    .dontAnimate()
+////                                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+////                                    .bitmapTransform(new CropCircleTransformation(getContext()))
+////                                   .into((chatItemHeader));
+////                            return false;
+////                        }
+////                        @Override
+////                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+////                            return false;
+////                        }
+////                    })
 //                    .bitmapTransform(new CropCircleTransformation(getContext()))
 //                    .into(chatItemHeader);
+        }else {
+//            chatItemHeader.setImageResource(com.doubleq.xm6leefunz.R.drawable.mine_head);
+            Glide.with(getContext())
+                    .load(data.getHeadImg())
+                    .dontAnimate()
+                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+                    .bitmapTransform(new CropCircleTransformation(getContext()))
+                    .into(chatItemHeader);
         }
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override

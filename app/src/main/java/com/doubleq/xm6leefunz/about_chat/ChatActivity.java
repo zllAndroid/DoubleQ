@@ -53,6 +53,7 @@ import com.doubleq.xm6leefunz.about_chat.ui.StateButton;
 import com.doubleq.xm6leefunz.about_utils.DensityUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.about_utils.MathUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SoftKeyboardUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
@@ -153,10 +154,10 @@ public class ChatActivity extends BaseActivity {
     int showTime = 2000;
 //    private Intent websocketServiceIntent;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     //        设置导航栏颜色
     public void initStateBar() {
@@ -520,52 +521,35 @@ public class ChatActivity extends BaseActivity {
         DataJieShou dataJieShou1 = JSON.parseObject(responseText, DataJieShou.class);
         final DataJieShou.RecordBean record2 = dataJieShou1.getRecord();
         if (record2 != null) {
+            if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
 //                    收到聊天页的此人的消息
-            if (record2.getFriendsId().equals(FriendId)) {
-                record2.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
-                record2.setType(Constants.CHAT_ITEM_TYPE_LEFT);
-//                CusChatData cusRealmChatMsg = new CusChatData();
-//                    realmHelper.addRealmChat(FriendId,msg,messageType,Constants.CHAT_ITEM_TYPE_RIGHT, TimeUtil.sf.format(new Date()));
-//                String myTime=record2.getRequestTime();
-                String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME, "");
-                if (StrUtils.isEmpty(time)) {
-                    SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME, (String) record2.getRequestTime());
-                } else {
-                    try {
-                        int i = TimeUtil.stringDaysBetween(record2.getRequestTime(), time);
-                        Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
-                        SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME, (String) record2.getRequestTime());
-                        if (Math.abs(i) < 5) {
-                            record2.setRequestTime("");
+                if (record2.getFriendsId().equals(FriendId)) {
+                    record2.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
+                    record2.setType(Constants.CHAT_ITEM_TYPE_LEFT);
+                    String time = AppConfig.mCHAT_RECEIVE_TIME_REALM;
+                    AppConfig.mCHAT_RECEIVE_TIME_REALM = record2.getRequestTime();
+                    if (!StrUtils.isEmpty(time)) {
+                        try {
+                            int i = TimeUtil.stringDaysBetween(record2.getRequestTime(), time);
+                            Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
+                            if (MathUtils.abs(i) < 5) {
+                                record2.setRequestTime("");
+                            }
+                        } catch (ParseException e) {
+                            e.printStackTrace();
                         }
-                    } catch (ParseException e) {
-                        e.printStackTrace();
                     }
-                }
-//                cusRealmChatMsg.setCreated(myTime);
-//                cusRealmChatMsg.setMessage(record2.getMessage());
-//                cusRealmChatMsg.setMessageType(record2.getMessageType());
-//                cusRealmChatMsg.setReceiveId(record2.getFriendsId());
-//                cusRealmChatMsg.setSendId(record2.getUserId());
-//                cusRealmChatMsg.setUserMessageType(record2.getType());
-//                        realmHelper.addRealmChat(cusRealmChatMsg);
-//                    addChatRealm(record.getMessage());
-                chatAdapter.add(record2);
-                chatAdapter.notifyDataSetChanged();
+                    chatAdapter.add(record2);
+                    chatAdapter.notifyDataSetChanged();
 //                    滑动到底部
-                layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-//                CusHomeRealmData homeRealmData = realmHomeHelper.queryAllRealmChat(record2.getFriendsId());
-//
-//                if (homeRealmData!=null) {
-////                    realmHomeHelper.updateMsg(record2.getFriendsId(), record2.getMessage(), record2.getRequestTime());//更新首页聊天界面数据（消息和时间）
-//                    realmHomeHelper.updateNumZero(record2.getFriendsId());//更新首页聊天界面数据（未读消息数目）
-//                }
-                Intent intent = new Intent();
-                intent.putExtra("message", record2.getMessage());
-                intent.putExtra("id", record2.getFriendsId());
-                intent.setAction("zero.refreshMsgFragment");
-                sendBroadcast(intent);
-            } else {
+                    layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
+
+//                Intent intent = new Intent();
+//                intent.putExtra("message", record2.getMessage());
+//                intent.putExtra("id", record2.getFriendsId());
+//                intent.setAction("zero.refreshMsgFragment");
+//                sendBroadcast(intent);
+                } else {
 //                        mChatTvShow.setText(record2.getFriendsName()+":"+record2.getMessage());
 //                view = LayoutInflater.from(this).inflate(R.layout.item_chat_new, null);
 //                TextView mTv = view.findViewById(R.id.item_tv_news);
@@ -574,21 +558,21 @@ public class ChatActivity extends BaseActivity {
 //
 //                hideControl.resetHideTimer();
 //                hideControl.startHideTimer();
-                ToastUtil.show("收到一条来自" + record2.getFriendsName() + "的消息");
-                Intent intent = new Intent();
-                intent.putExtra("message", record2.getMessage());
-                intent.putExtra("id", record2.getFriendsId());
-                intent.setAction("action.refreshMsgFragment");
-                sendBroadcast(intent);
-            }
-
-            if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
-
-                Intent intent = new Intent();
-                intent.putExtra("message", record2.getMessage());
-                intent.putExtra("id", record2.getFriendsId());
-                intent.setAction("action.refreshMsgFragment");
-                sendBroadcast(intent);
+                    ToastUtil.show("收到一条来自" + record2.getFriendsName() + "的消息");
+                    if (mIntent == null)
+                        mIntent = new Intent();
+                    mIntent.putExtra("message", record2.getMessage());
+                    mIntent.putExtra("id", record2.getFriendsId());
+                    mIntent.setAction("action.refreshMsgFragment");
+                    sendBroadcast(mIntent);
+                }
+            }else if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
+                if (mIntent==null)
+                 mIntent = new Intent();
+                mIntent.putExtra("message", record2.getMessage());
+                mIntent.putExtra("id", record2.getFriendsId());
+                mIntent.setAction("action.refreshMsgFragment");
+                sendBroadcast(mIntent);
                 //APP在后台的时候处理接收到消息的事件
                 new Thread(new Runnable() {
                     @Override
@@ -612,7 +596,7 @@ public class ChatActivity extends BaseActivity {
             }
         }
     }
-
+    Intent mIntent=null;
     String time = null;
 
 
@@ -621,14 +605,12 @@ public class ChatActivity extends BaseActivity {
         DataJieShou.RecordBean record = dataJieShou.getRecord();
         if (record != null) {
             String time = (String) SPUtils.get(this, AppConfig.CHAT_SEND_TIME, "");
-            if (StrUtils.isEmpty(time)) {
-                SPUtils.put(this, AppConfig.CHAT_SEND_TIME, (String) record.getRequestTime());
-            } else {
+            SPUtils.put(this, AppConfig.CHAT_SEND_TIME, (String) record.getRequestTime());
+            if (!StrUtils.isEmpty(time)) {
                 try {
                     int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
                     Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
-                    SPUtils.put(this, AppConfig.CHAT_SEND_TIME, (String) record.getRequestTime());
-                    if (Math.abs(i) < 5) {
+                    if (MathUtils.abs(i) < 5) {
                         record.setRequestTime("");
                     } else {
                         record.setRequestTime(record.getRequestTime());

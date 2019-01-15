@@ -60,6 +60,7 @@ import com.doubleq.xm6leefunz.about_chat.ui.StateButton;
 import com.doubleq.xm6leefunz.about_utils.DensityUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.about_utils.MathUtils;
 import com.doubleq.xm6leefunz.about_utils.SoftKeyboardUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
@@ -150,10 +151,6 @@ public class ChatGroupActivity extends BaseActivity {
     //    外来消息弹窗显示时间
     int showTime = 2000;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     RealmGroupChatHelper realmGroupChatHelper;
     RealmHomeHelper realmHomeHelper;
@@ -497,22 +494,21 @@ public class ChatGroupActivity extends BaseActivity {
 //                record2.setType(Constants.CHAT_ITEM_TYPE_LEFT);
 //                CusChatData cusRealmChatMsg = new CusChatData();
 //                    realmHelper.addRealmChat(FriendId,msg,messageType,Constants.CHAT_ITEM_TYPE_RIGHT, TimeUtil.sf.format(new Date()));
-//                String myTime=record2.getRequestTime();
+                String myTime=record2.getRequestTime();
                 String time = (String) SPUtils.get(this, AppConfig.CHAT_RECEIVE_TIME,"");
-                if (StrUtils.isEmpty(time)) {
-                    SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME,(String)record2.getRequestTime());
-                }else {
+                SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME,(String)record2.getRequestTime());
+                if (!StrUtils.isEmpty(time)) {
                     try {
-                        int i = TimeUtil.stringDaysBetween(record2.getRequestTime(),time);
-                        SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME,(String)record2.getRequestTime());
-                        if (Math.abs(i) < 5)
+                        int i = TimeUtil.stringDaysBetween(myTime,time);
+                        if (MathUtils.abs(i) < 5)
                         {
-                            record2.setRequestTime("");
+                            myTime="";
                         }
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
                 }
+
                 CusGroupChatData groupChatData = new CusGroupChatData();
                 groupChatData.setNameFriend(record2.getMemberName());
                 groupChatData.setNameGroup(record2.getGroupName());
@@ -523,7 +519,7 @@ public class ChatGroupActivity extends BaseActivity {
                 groupChatData.setFriendId(record2.getMemberId());
                 groupChatData.setGroupUserId(record2.getGroupId()+SplitWeb.getUserId());
                 groupChatData.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
-                groupChatData.setCreated(record2.getRequestTime());
+                groupChatData.setCreated(myTime);
                 groupChatData.setMessageType(record2.getMessageType());
                 groupChatData.setUserMessageType(Constants.CHAT_ITEM_TYPE_LEFT);
 //                cusRealmChatMsg.setCreated(myTime);
@@ -604,7 +600,7 @@ public class ChatGroupActivity extends BaseActivity {
                     int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
                     Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
                     SPUtils.put(this, AppConfig.CHAT_SEND_TIME, (String) record.getRequestTime());
-                    if (Math.abs(i) < 5) {
+                    if (MathUtils.abs(i) < 5) {
                         record.setRequestTime("");
                     } else {
                         record.setRequestTime(record.getRequestTime());

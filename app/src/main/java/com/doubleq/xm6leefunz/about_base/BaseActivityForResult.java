@@ -357,11 +357,11 @@ public class BaseActivityForResult extends AppCompatActivity  {
 
     //处理接收到消息的显示
     private void initReceive(String message) {
-        DataJieShou dataJieShou = JSON.parseObject(message, DataJieShou.class);
-        final DataJieShou.RecordBean record = dataJieShou.getRecord();
-        AppConfig.CHAT_FRIEND_ID = record.getFriendsId();
-        record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
-        record.setType(Constants.CHAT_ITEM_TYPE_LEFT);
+//        DataJieShou dataJieShou = JSON.parseObject(message, DataJieShou.class);
+//        final DataJieShou.RecordBean record = dataJieShou.getRecord();
+//        AppConfig.CHAT_FRIEND_ID = record.getFriendsId();
+//        record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
+//        record.setType(Constants.CHAT_ITEM_TYPE_LEFT);
 //                1代表现在是聊天界面
         if (!SplitWeb.IS_CHAT.equals("1"))
         {

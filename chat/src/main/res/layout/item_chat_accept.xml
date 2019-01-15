@@ -45,7 +45,7 @@ android:layout_marginBottom="@dimen/dp5"
                 android:layout_height="@dimen/dp40"
                 android:adjustViewBounds="true"
                 android:scaleType="fitXY"
-                android:layout_alignParentLeft="true" />
+                />
 
             <com.rance.chatui.widget.BubbleImageView
                 android:id="@+id/chat_item_content_image"
