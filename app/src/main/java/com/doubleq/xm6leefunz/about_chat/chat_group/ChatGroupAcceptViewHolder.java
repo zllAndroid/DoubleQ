@@ -3,6 +3,7 @@ package com.doubleq.xm6leefunz.about_chat.chat_group;
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Handler;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -29,6 +30,8 @@ import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.util.Constants;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
+
+import java.io.File;
 
 import javax.sql.DataSource;
 
@@ -100,30 +103,13 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
         chatItemHeader.setVisibility(View.VISIBLE);
         String imgPath = realmGroupChatHeaderHelper.queryGroupChatReturnImgPath(data.getFriendId());
         if (imgPath!=null) {
-            Glide.with(getContext())
-                    .load(imgPath)
-                    .dontAnimate()
-                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-//                    .listener(new RequestListener<String, GlideDrawable>() {
-//                        @Override
-//                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-////                                加载错误时，加载网络图片
-//                            realmGroupChatHeaderHelper.deleteRealmFriend(data.getFriendId());
-//                            Glide.with(getContext()).load(data.getImgHead())
-//                                    .dontAnimate()
-//                                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
-//                                    .bitmapTransform(new CropCircleTransformation(getContext()))
-//                                    .into((chatItemHeader));
-//                            return false;
-//                        }
-//
-//                        @Override
-//                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                            return false;
-//                        }
-//                    })
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
-                    .into(chatItemHeader);
+            chatItemHeader.setImageURI(Uri.fromFile(new File(imgPath)));
+//            Glide.with(getContext())
+//                    .load(imgPath)
+//                    .dontAnimate()
+//                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+//                    .bitmapTransform(new CropCircleTransformation(getContext()))
+//                    .into(chatItemHeader);
         }else {
 //            chatItemHeader.setImageResource(com.doubleq.xm6leefunz.R.drawable.mine_head);
             Glide.with(getContext())

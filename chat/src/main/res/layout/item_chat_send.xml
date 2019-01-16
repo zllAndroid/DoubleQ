@@ -31,14 +31,19 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             >
-
-            <ImageView
-                android:id="@+id/chat_item_header"
-                android:layout_width="@dimen/dp40"
-                android:layout_height="@dimen/dp40"
-                android:scaleType="fitXY"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                />
+                >
+                <com.rance.chatui.CircleImageView
+                    android:id="@+id/chat_item_header"
+                    android:layout_width="@dimen/dp40"
+                    android:layout_height="@dimen/dp40"
+
+                    />
+            </LinearLayout>
+
 
             <RelativeLayout
                 android:id="@+id/chat_item_layout"

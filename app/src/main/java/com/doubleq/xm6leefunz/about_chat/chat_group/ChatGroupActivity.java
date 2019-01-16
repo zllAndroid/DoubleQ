@@ -338,20 +338,20 @@ public class ChatGroupActivity extends BaseActivity {
         layoutManager.setRecycleChildrenOnDetach(true);//复用RecycledViewPool
         chatList.setLayoutManager(layoutManager);
 
-        chatList.setRefreshingColorResources(R.color.red);
-        chatList.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-//                chatList.setRefreshing(false);
-                ToastUtil.show("刷新");
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        chatList.setRefreshing(false);
-                    }
-                },2000);
-            }
-        });
+//        chatList.setRefreshingColorResources(R.color.red);
+//        chatList.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+//            @Override
+//            public void onRefresh() {
+////                chatList.setRefreshing(false);
+//                ToastUtil.show("刷新");
+//                new Handler().postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        chatList.setRefreshing(false);
+//                    }
+//                },2000);
+//            }
+//        });
         // 外部对RecyclerView设置监听
         chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

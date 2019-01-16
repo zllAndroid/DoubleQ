@@ -1,6 +1,7 @@
 package com.doubleq.xm6leefunz.about_chat.chat_group;
 
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -20,6 +21,8 @@ import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.util.Constants;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -69,11 +72,11 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
         }
 //        chatItemDate.setText(data.getTime() != null ? data.getTime() : "");
 //        Glide.with(getContext()).load(SplitWeb.USER_HEADER).into(chatItemHeader);
-
-        Glide.with(getContext()).load(FilePath.getUserNewHead(getContext()))
-                .error(R.drawable.mine_head)
-                .bitmapTransform(new CropCircleTransformation(getContext()))
-               .into(chatItemHeader);
+        chatItemHeader.setImageURI(Uri.fromFile(new File(FilePath.getUserNewHead(getContext()))));
+//        Glide.with(getContext()).load(FilePath.getUserNewHead(getContext()))
+//                .error(R.drawable.mine_head)
+//                .bitmapTransform(new CropCircleTransformation(getContext()))
+//               .into(chatItemHeader);
 
 
         chatItemHeader.setOnClickListener(new View.OnClickListener() {

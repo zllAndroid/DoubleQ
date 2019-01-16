@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -154,16 +155,22 @@ public class PersonalFragment extends BaseFragment  {
     }
 
     private void getHead() {
-        GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-        List<String> fileName = FilePath.getFilesAllName(FilePath.myHeadImg);
-        if (fileName!=null&&fileName.size()>0)
+        String userNewHead = FilePath.getUserNewHead(getContext());
+        if (!StrUtils.isEmpty(userNewHead))
         {
-            String path=fileName.get(fileName.size()-1);
-            Glide.with(this).load(path)
-                    .bitmapTransform(new CropCircleTransformation(getActivity()))
-//                        .thumbnail(0.1f)
-                    .into(mineIvPerson);
-        }else
+            mineIvPerson.setImageURI(Uri.fromFile(new File(userNewHead)));
+        }
+//        GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
+//        List<String> fileName = FilePath.getFilesAllName(FilePath.myHeadImg);
+//        if (fileName!=null&&fileName.size()>0)
+//        {
+//            String path=fileName.get(fileName.size()-1);
+//            Glide.with(this).load(path)
+//                    .bitmapTransform(new CropCircleTransformation(getActivity()))
+////                        .thumbnail(0.1f)
+//                    .into(mineIvPerson);
+//        }
+        else
         {
             sendWeb(SplitWeb.personalCenter());
 //                Glide.with(this).load(R.drawable.first_head_nor)

@@ -39,12 +39,10 @@ android:layout_marginBottom="@dimen/dp5"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp">
 
-            <ImageView
+            <com.rance.chatui.CircleImageView
                 android:id="@+id/chat_item_header"
                 android:layout_width="@dimen/dp40"
                 android:layout_height="@dimen/dp40"
-                android:adjustViewBounds="true"
-                android:scaleType="fitXY"
                 />
 
             <com.rance.chatui.widget.BubbleImageView
