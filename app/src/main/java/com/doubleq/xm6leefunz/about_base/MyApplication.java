@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.PowerManager;
+import android.provider.SyncStateContract;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -397,8 +398,13 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         realmGroupChatHelper.addRealmChat(groupChatData);//更新群聊聊天数据
         MyLog.e("realmGroupChatHelper","msg="+record.getMessage());
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getGroupId());
+        String msg=record.getMessage();
+        if (!record.getMessageType().equals(Constants.CHAT_NOTICE))
+        {
+            msg=record.getMemberName()+"："+record.getMessage();
+        }
         if (homeRealmData!=null) {
-            realmHelper.updateMsg(record.getGroupId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+            realmHelper.updateMsg(record.getGroupId(), msg, record.getRequestTime());//更新首页聊天界面数据（消息和时间）
             realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
         }
         else
@@ -407,7 +413,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             cusJumpChatData.setHeadImg(record.getGroupHeadImg());
             cusJumpChatData.setFriendId(record.getGroupId());
             cusJumpChatData.setNickName(record.getGroupName());
-            cusJumpChatData.setMsg(record.getMessage());
+            cusJumpChatData.setMsg(msg);
             cusJumpChatData.setTime(record.getRequestTime());
 
             cusJumpChatData.setNum(0);
@@ -667,8 +673,14 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         realmGroupChatHelper.addRealmChat(groupChatData);//更新群聊聊天数据
         MyLog.e("realmGroupChatHelper","msg="+record.getMessage());
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getGroupId());
+        String msg=record.getMessage();
+        if (!record.getMessageType().equals(Constants.CHAT_NOTICE))
+        {
+            msg=record.getMemberName()+"："+record.getMessage();
+        }
         if (homeRealmData!=null) {
-            realmHelper.updateMsg(record.getGroupId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+
+            realmHelper.updateMsg(record.getGroupId(), msg, record.getRequestTime());//更新首页聊天界面数据（消息和时间）
             realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
         }
         else
@@ -677,7 +689,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             cusJumpChatData.setHeadImg(record.getGroupHeadImg());
             cusJumpChatData.setFriendId(record.getGroupId());
             cusJumpChatData.setNickName(record.getGroupName());
-            cusJumpChatData.setMsg(record.getMessage());
+            cusJumpChatData.setMsg(msg);
             cusJumpChatData.setTime(record.getRequestTime());
 
             cusJumpChatData.setNum(0);
@@ -1019,6 +1031,13 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                 @Override
                 public void run() {
                     try {
+                        String msg=record.getMessage();
+                        if (!record.getMessageType().equals(Constants.CHAT_NOTICE))
+                        {
+                            msg=record.getMemberName()+"："+record.getMessage();
+                        }
+
+
                         bitmap = Glide.with(MyApplication.getAppContext())
                                 .load(record.getGroupHeadImg())
                                 .asBitmap() //必须
@@ -1026,7 +1045,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                                 .into(500, 500)
                                 .get();
                         NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-                        notificationUtils.sendNotification(cusJumpChatData, record.getGroupName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
+                        notificationUtils.sendNotification(cusJumpChatData, record.getGroupName(), msg, bitmap, AppConfig.TYPE_CHAT_QUN);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -1048,16 +1067,23 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         intent.putExtra("id",record.getGroupId());
         intent.setAction("action.refreshMsgFragment");
         sendBroadcast(intent);
+
 //在前台的时候处理接收到消息的事件
         if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
         {
 //            TODO 弄成popwindow   弹框
             ToastUtil.show("收到来自"+record.getGroupName()+"的一条新消息");
         }else {
+
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    String msg=record.getMessage();
+                    if (!record.getMessageType().equals(Constants.CHAT_NOTICE))
+                    {
+                        msg=record.getMemberName()+"："+record.getMessage();
+                    }
                     try {
                         bitmap = Glide.with(MyApplication.getAppContext())
                                 .load(record.getGroupHeadImg())
@@ -1066,7 +1092,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                                 .into(500, 500)
                                 .get();
                         NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-                        notificationUtils.sendNotification(cusJumpChatData, record.getGroupName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
+                        notificationUtils.sendNotification(cusJumpChatData, record.getGroupName(), msg, bitmap, AppConfig.TYPE_CHAT_QUN);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {

@@ -185,9 +185,9 @@ public class BaseActivityForResult extends AppCompatActivity  {
                     initReceive(data.toString());
                     break;
                 case "privateSend":
-                    DataJieShou dataJieShou = JSON.parseObject(data.toString(), DataJieShou.class);
-                    DataJieShou.RecordBean record = dataJieShou.getRecord();
-                    realmHelper.updateMsg(record.getFriendsId()+SplitWeb.getUserId(),record.getMessage(),record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+//                    DataJieShou dataJieShou = JSON.parseObject(data.toString(), DataJieShou.class);
+//                    DataJieShou.RecordBean record = dataJieShou.getRecord();
+//                    realmHelper.updateMsg(record.getFriendsId()+SplitWeb.getUserId(),record.getMessage(),record.getRequestTime());//更新首页聊天界面数据（消息和时间）
                     receiveResultMsg(data.toString());
                     break;
 //                    添加好友通知

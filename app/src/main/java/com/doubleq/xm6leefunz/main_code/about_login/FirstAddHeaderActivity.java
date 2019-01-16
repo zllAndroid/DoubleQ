@@ -176,8 +176,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
 //                                    这里拿到的resource就是下载好的文件，
                                     File file = HeadFileUtils.saveHeadPath(FirstAddHeaderActivity.this, resource);
                                 }
-                            })
-                            ;
+                            });
             }
             DialogUtils.showDialogOne("头像昵称设置成功", new DialogUtils.OnClickSureListener() {
                 @Override

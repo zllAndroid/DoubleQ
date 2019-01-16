@@ -114,6 +114,19 @@ public class AppManager {
         }
         activityStack.clear();
     }
+
+    /**
+     * 关闭除了指定activity以外的全部activity 如果cls不存在于栈中，则栈全部清空
+     *
+     * @param cls
+     */
+    public void finishOthersActivity(Class<?> cls) {
+        for (AppCompatActivity activity : activityStack) {
+            if (!(activity.getClass().equals(cls))) {
+                finishActivity(activity);
+            }
+        }
+    }
     /**
      * 结束除了指定activity以外所有activity
      */
