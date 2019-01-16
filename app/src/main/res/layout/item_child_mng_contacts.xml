@@ -7,13 +7,11 @@
     android:orientation="horizontal">
 
 
-    <ImageView
+    <com.rance.chatui.CircleImageView
         android:id="@+id/frag_img_contacts_child_f_head"
         android:layout_width="@dimen/dp40"
         android:layout_height="@dimen/dp40"
         android:layout_margin="@dimen/dp10"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
         app:srcCompat="@drawable/img_personal_head2" />
 
     <LinearLayout

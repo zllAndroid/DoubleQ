@@ -58,10 +58,10 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 
     String mShare = "1";
     public static String ManagerType = "type";
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
     String type ="1";
     @Override
     protected void initBaseView() {
@@ -101,6 +101,10 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                 }
                 group_info = record.getGroupInfo();
                 if (group_info.size() > 0) {
+                    if (StrUtils.isEmpty(group_info.get(0).getId()))
+                    {
+                        group_info.remove(0);
+                    }
                     mListGroupInfo.addAll(group_info);
                     if (isChange)
                     {

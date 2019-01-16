@@ -1,6 +1,7 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,7 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
+import java.io.File;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -129,30 +131,31 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
         if (!StrUtils.isEmpty(groupListBean.getUserId())) {
             String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(groupListBean.getUserId());
             if (imgPath!=null) {
-                Glide.with(context)
-                        .load(imgPath)
-                        .error(R.drawable.mine_head)
-                        .dontAnimate()
-//                        .listener(new RequestListener<String, GlideDrawable>() {
-//                            @Override
-//                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-////                                加载错误时，加载网络图片
-//                                realmLinkFriendHelper.deleteRealmFriend(groupListBean.getUserId());
-//                                Glide.with(context).load(groupListBean.getHeadImg())
-//                                        .error(R.drawable.mine_head)
-//                                        .bitmapTransform(new CropCircleTransformation(context))
-//                                        .crossFade(1000) .into(holder.img_contacts_child_head);
-//                                return false;
-//                            }
-//
-//                            @Override
-//                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                                return false;
-//                            }
-//                        })
-                        .bitmapTransform(new CropCircleTransformation(context))
-//                        .crossFade(1000)
-                        .into(holder.img_contacts_child_head);
+                holder.img_contacts_child_head.setImageURI(Uri.fromFile(new File(imgPath)));
+//                Glide.with(context)
+//                        .load(imgPath)
+//                        .error(R.drawable.mine_head)
+//                        .dontAnimate()
+////                        .listener(new RequestListener<String, GlideDrawable>() {
+////                            @Override
+////                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+//////                                加载错误时，加载网络图片
+////                                realmLinkFriendHelper.deleteRealmFriend(groupListBean.getUserId());
+////                                Glide.with(context).load(groupListBean.getHeadImg())
+////                                        .error(R.drawable.mine_head)
+////                                        .bitmapTransform(new CropCircleTransformation(context))
+////                                        .crossFade(1000) .into(holder.img_contacts_child_head);
+////                                return false;
+////                            }
+////
+////                            @Override
+////                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+////                                return false;
+////                            }
+////                        })
+//                        .bitmapTransform(new CropCircleTransformation(context))
+////                        .crossFade(1000)
+//                        .into(holder.img_contacts_child_head);
             }else {
                 Glide.with(context)
                         .load(groupListBean.getHeadImg())
