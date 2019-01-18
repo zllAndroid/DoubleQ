@@ -46,6 +46,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeI
 import com.example.zhouwei.library.CustomPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.io.File;
@@ -127,7 +128,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
     }
 
-    boolean isFirst = false;
+  public  static   boolean isFirst = false;
 
     @Override
     protected void onResume() {
@@ -419,6 +420,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     public void onViewClick(View view) {
         switch (view.getId()) {
             case R.id.group_data_iv_head:
+//                Intent intent_notice = new Intent(GroupChatDetailsActivity.this, GroupNoticeActivity.class);
+                IntentUtils.JumpTo(GroupNoticeActivity.class);
                 break;
             case R.id.group_data_lin_intogrouplist:
                 if (groupId != null)
@@ -438,23 +441,27 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     popWindow.showAsDropDown(mLinMain, 0, 0);
                 break;
             case R.id.group_data_lin_myGroupCard:
-                Intent intent = new Intent(GroupChatDetailsActivity.this, EditGroupCardActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("groupofId", groupId);
-                if (groupDataTvMineName.getText() != null)
-                    bundle.putString("cardName", groupDataTvMineName.getText().toString());
-                intent.putExtras(bundle);
-                startActivityForResult(intent, AppConfig.EDIT_GROUP_CARD_REQUEST);
+                if (NoDoubleClickUtils.isDoubleClick()) {
+                    Intent intent = new Intent(GroupChatDetailsActivity.this, EditGroupCardActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("groupofId", groupId);
+                    if (groupDataTvMineName.getText() != null)
+                        bundle.putString("cardName", groupDataTvMineName.getText().toString());
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, AppConfig.EDIT_GROUP_CARD_REQUEST);
+                }
                 break;
             case R.id.group_details_lin_group_notice:
-                Intent intent_notice = new Intent(GroupChatDetailsActivity.this, GroupNoticeActivity.class);
-                Bundle bundle_notice = new Bundle();
-                bundle_notice.putString("groupId", groupId);
-                bundle_notice.putBoolean("isGrouper", isGrouper);
-                if (groupDataTvGonggao != null)
-                    bundle_notice.putString("content", groupDataTvGonggao.getText().toString());
-                intent_notice.putExtras(bundle_notice);
-                startActivityForResult(intent_notice, AppConfig.EDIT_GROUP_NOTICE_REQUEST);
+                if (NoDoubleClickUtils.isDoubleClick()) {
+                    Intent intent_notice = new Intent(GroupChatDetailsActivity.this, GroupNoticeActivity.class);
+                    Bundle bundle_notice = new Bundle();
+                    bundle_notice.putString("groupId", groupId);
+                    bundle_notice.putBoolean("isGrouper", isGrouper);
+                    if (groupDataTvGonggao != null)
+                        bundle_notice.putString("content", groupDataTvGonggao.getText().toString());
+                    intent_notice.putExtras(bundle_notice);
+                    startActivityForResult(intent_notice, AppConfig.EDIT_GROUP_NOTICE_REQUEST);
+                }
                 break;
         }
     }
@@ -468,6 +475,13 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 result = data.getExtras().getString("myGroupCard");
                 Log.e("myGroupCard", "-----------------------------" + result);
                 groupDataTvMineName.setText(result);
+            }
+        }else if (requestCode == AppConfig.EDIT_GROUP_NOTICE_REQUEST)
+        {
+            if (resultCode == AppConfig.EDIT_GROUP_NOTICE_RESULT)
+            {
+                String msg = data.getExtras().getString(GroupNoticeActivity.GROUP_NOTICES);
+                groupDataTvGonggao.setText(msg);
             }
         }
 

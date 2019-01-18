@@ -7,7 +7,12 @@ import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.GroupNoticeActivit
  */
 
 public class AppConfig {
-//昵称 账号、签名
+
+
+//    public static final String LINK_GROUP_BRO= "link_group";
+
+
+    //昵称 账号、签名
 public static final String TYPE_NAME= "name";//
 public static final String TYPE_NO= "no";//
 public static final String TYPE_SIGN= "sign";//
@@ -20,6 +25,8 @@ public static final String TYPE_GROUP_CHAT= "groupimgchat";//群组群成员头�
 //    联系人广播
 public static final String LINK_FRIEND_ADD_ACTION= "linkfriend_add";//增加好友
 public static final String LINK_FRIEND_DEL_ACTION= "linkfriend_del";//删除好友
+public static final String LINK_GROUP_ADD_ACTION= "linkgroup_add";//增加好友
+public static final String LINK_GROUP_DEL_ACTION= "linkgroup_del";//删除好友
 
 //    群/好友分组列表  传参
 public static final String KEY_FRIEND_GROUP= "friend_group";

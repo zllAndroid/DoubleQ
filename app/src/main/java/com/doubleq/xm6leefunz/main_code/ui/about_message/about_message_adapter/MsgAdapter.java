@@ -1,6 +1,7 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_message.about_message_adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.Realm
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
+import java.io.File;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -74,17 +76,19 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
             {
                 errorImg=R.drawable.qun_head;
             }
+            ImageView mIvHead = (ImageView) helper.getView(R.id.item_iv_head);
             if (imgPath != null) {
-                Glide.with(context).load(imgPath)
-                        .error(errorImg)
-                        .bitmapTransform(new CropCircleTransformation(context))
-                        .into((ImageView) helper.getView(R.id.item_iv_head));
+                mIvHead.setImageURI(Uri.fromFile(new File(imgPath)));
+//                Glide.with(context).load(imgPath)
+//                        .error(errorImg)
+//                        .bitmapTransform(new CropCircleTransformation(context))
+//                        .into((ImageView) helper.getView(R.id.item_iv_head));
             } else {
                 Glide.with(context).load(item.getHeadImg())
                         .error(errorImg)
                         .bitmapTransform(new CropCircleTransformation(context))
 //                        .crossFade(1000)
-                        .into((ImageView) helper.getView(R.id.item_iv_head));
+                        .into(mIvHead);
             }
         }
         helper.setText(R.id.item_tv_name,item.getNickName());

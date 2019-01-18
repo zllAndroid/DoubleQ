@@ -80,8 +80,14 @@ public class FriendGroupListActivity extends BaseActivity {
             case "groupManageInfo":
                 DataFriendGroup dataGroupManage = JSON.parseObject(responseText, DataFriendGroup.class);
                 DataFriendGroup.RecordBean record = dataGroupManage.getRecord();
+                if (record==null) {
+                    return;
+                }
                 List<DataFriendGroup.RecordBean.GroupInfoBean> groupInfo =  record.getGroupInfo();
-                if (record != null && groupInfo.size() > 0) {
+                if (groupInfo.size() > 0) {
+                        if (StrUtils.isEmpty(groupInfo.get(0).getId())) {
+                            groupInfo.remove(0);
+                        }
                     initAdapter(groupInfo);
                 }
                 break;

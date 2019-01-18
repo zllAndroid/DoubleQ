@@ -29,6 +29,7 @@ import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataAddActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupDataAddActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
@@ -228,6 +229,11 @@ public class SearchActivity extends BaseActivity {
                 DataSearch item =(DataSearch) adapter.getItem(position);
                 if (item.getType().equals("1"))
                 {
+                    if (item.getId().equals(SplitWeb.getUserId()))
+                    {
+                        IntentUtils.JumpTo(ChangeInfoActivity.class);
+                        return;
+                    }
                     if (item.getIsRelation().equals("1"))
                     IntentUtils.JumpToHaveObj(FriendDataAddActivity.class,"dataSearch",item);
                     else

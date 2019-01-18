@@ -15,6 +15,7 @@
         android:visibility="gone"
         />
     <LinearLayout
+        android:id="@+id/include_frag_lin_bac"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ac_top"

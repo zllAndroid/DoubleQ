@@ -59,13 +59,15 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
     LinearLayout chatItemLayoutContent;
     @BindView(R.id.chat_item_voice_time)
     TextView chatItemVoiceTime;
+    @BindView(R.id.chat_item_name)
+    TextView chatName;
     private ChatGroupAdapter.onItemClickListener onItemClickListener;
     private Handler handler;
     MotionEvent event;
     boolean isScrolling;
     RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
     public ChatGroupAcceptViewHolder(ViewGroup parent, ChatGroupAdapter.onItemClickListener onItemClickListener, Handler handler,boolean isScrolling) {
-        super(parent, R.layout.item_chat_accept);
+        super(parent, R.layout.item_group_chat_accept);
         ButterKnife.bind(this, itemView);
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
@@ -101,6 +103,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
             chatItemDate.setVisibility(View.VISIBLE);
         }
         chatItemHeader.setVisibility(View.VISIBLE);
+
         String imgPath = realmGroupChatHeaderHelper.queryGroupChatReturnImgPath(data.getFriendId());
         if (imgPath!=null) {
             chatItemHeader.setImageURI(Uri.fromFile(new File(imgPath)));
@@ -158,7 +161,9 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.VISIBLE);
                     chatItemLayoutContent.setVisibility(View.VISIBLE);
-
+//                    好友昵称
+                    chatName.setVisibility(View.VISIBLE);
+                    chatName.setText(data.getNameFriend());
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.GONE);
                     break;
@@ -166,6 +171,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                     chatItemDate.setText(data.getMessage(),null);
                     chatItemDate.setVisibility(View.VISIBLE);
                     chatItemVoice.setVisibility(View.GONE);
+                    chatName.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.GONE);
                     chatItemHeader.setVisibility(View.GONE);
                     chatItemLayoutContent.setVisibility(View.GONE);

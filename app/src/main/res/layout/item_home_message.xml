@@ -17,11 +17,11 @@
             android:layout_margin="@dimen/dp5"
             android:orientation="horizontal">
 
-            <ImageView
+            <com.rance.chatui.CircleImageView
                 android:id="@+id/item_iv_head"
                 android:layout_width="@dimen/dp45"
                 android:layout_height="@dimen/dp45"
-                android:layout_gravity="center_vertical" />
+             />
 
             <LinearLayout
                 android:layout_width="match_parent"

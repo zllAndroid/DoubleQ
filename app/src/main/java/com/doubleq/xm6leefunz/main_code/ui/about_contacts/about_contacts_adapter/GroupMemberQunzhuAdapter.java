@@ -1,6 +1,7 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -15,6 +16,7 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_chat.chat_group.group_realm.RealmGroupChatHeaderHelper;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
+import java.io.File;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -46,34 +48,37 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
         super.onBindViewHolder(helper, positions);
         final DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean item = searchCityList.get(positions);
         String imgPath = realmGroupChatHeaderHelper.queryGroupChatReturnImgPath(item.getUserId());
+        ImageView mIvHead = (ImageView) helper.getView(R.id.item_iv_group_member_head);
         if (imgPath!=null) {
-            Glide.with(context)
-                    .load(imgPath)
-                    .error(R.drawable.mine_head)
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-//                                加载错误时，加载网络图片
-                            realmGroupChatHeaderHelper.deleteRealmFriend(item.getUserId());
-                            Glide.with(context).load(item.getHeadImg())
-                                    .error(R.drawable.mine_head)
-                                    .bitmapTransform(new CropCircleTransformation(context))
-                                   .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
-                            return false;
-                        }
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            return false;
-                        }
-                    })
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
+
+            mIvHead.setImageURI(Uri.fromFile(new File(imgPath)));
+//            Glide.with(context)
+//                    .load(imgPath)
+//                    .error(R.drawable.mine_head)
+//                    .listener(new RequestListener<String, GlideDrawable>() {
+//                        @Override
+//                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+////                                加载错误时，加载网络图片
+//                            realmGroupChatHeaderHelper.deleteRealmFriend(item.getUserId());
+//                            Glide.with(context).load(item.getHeadImg())
+//                                    .error(R.drawable.mine_head)
+//                                    .bitmapTransform(new CropCircleTransformation(context))
+//                                   .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
+//                            return false;
+//                        }
+//                        @Override
+//                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+//                            return false;
+//                        }
+//                    })
+//                    .bitmapTransform(new CropCircleTransformation(context))
+//                    .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
         }else {
             Glide.with(context)
                     .load(item.getHeadImg())
                     .error(R.drawable.mine_head)
                     .bitmapTransform(new CropCircleTransformation(context))
-                    .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
+                    .into(mIvHead);
         }
 //            Glide.with(context).load(item.getHeadImg())
 //                .bitmapTransform(new CropCircleTransformation(context))

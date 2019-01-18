@@ -181,8 +181,8 @@ public class WebSocketThread extends Thread {
                         mWebSocket.connect();
                     } else {
                         Log.d(TAG, "WebSocket 开始重新连接...");
-
-                        mWebSocket.reconnect();
+                        if (mWebSocket!=null)
+                            mWebSocket.reconnect();
                     }
                 } catch (URISyntaxException e) {
                     connectStatus = 0;

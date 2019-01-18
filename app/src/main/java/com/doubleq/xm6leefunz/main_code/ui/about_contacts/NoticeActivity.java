@@ -63,10 +63,10 @@ public class NoticeActivity extends BaseActivity {
 //    SwitchButton shareSwitchNo;
 
     String mShare= "1";
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
     @Override

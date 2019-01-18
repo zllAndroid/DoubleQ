@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.PowerManager;
-import android.provider.SyncStateContract;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -23,6 +22,8 @@ import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.model.off_line_msg.DataOffLineChat;
 import com.doubleq.model.off_line_msg.DataOffLineGroupChat;
+import com.doubleq.xm6leefunz.about_base.deal_application.DealFriendAdd;
+import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupAdd;
 import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
@@ -39,7 +40,6 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.main_code.about_notification.ScreenAndLockService;
 import com.doubleq.xm6leefunz.main_code.mains.MsgFragment;
 import com.doubleq.xm6leefunz.main_code.mains.TestActivity;
 import com.pgyersdk.crash.PgyCrashManager;
@@ -289,6 +289,21 @@ public class MyApplication extends Application  implements IWebSocketPage  {
 //                    用户在线群聊 - 离线消息
                 case "messageGroupPush":
                     dealOffLineGroupChat(message.getResponseText());
+                    break;
+//                    创建群
+                case "agreeGroupListSend":
+                    DealGroupAdd.updateGroupDataByAdd(this,message.getResponseText());
+                    break;
+//                 用户加入群 - 给成员发送 联系人变动信息接口
+                case "joinGroupListSend":
+//                    DealGroupAdd.updateGroupDataByAdd(this,message.getResponseText());
+                    break;
+//                    退出群聊
+                case "outGroupListSend":
+//                    DealGroupAdd.updateGroupDataByAdd(this,message.getResponseText());
+                    break;
+                case "agreeFriendListSend":
+                    DealFriendAdd.updateFriendDataByAdd(this,message.getResponseText());
                     break;
             }
         }
@@ -771,6 +786,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         intent.setAction("action.addFriend");
         sendBroadcast(intent);
     }
+
     private void dealSend(String message) {
         DataJieShou dataJieShou = JSON.parseObject(message, DataJieShou.class);
         DataJieShou.RecordBean record = dataJieShou.getRecord();

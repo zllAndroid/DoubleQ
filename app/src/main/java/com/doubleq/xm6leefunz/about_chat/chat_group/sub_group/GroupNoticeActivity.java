@@ -16,6 +16,7 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.doubleq.model.DataNotice;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
@@ -58,10 +59,10 @@ public class GroupNoticeActivity extends BaseActivity {
 
     String content;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected int getLayoutView() {
@@ -155,7 +156,7 @@ public class GroupNoticeActivity extends BaseActivity {
     }
 
     boolean isGrouper;
-
+public  static final  String GROUP_NOTICES="group_notice";
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -166,7 +167,11 @@ public class GroupNoticeActivity extends BaseActivity {
                     @Override
                     public void onClickSure() {
                         Log.e("noticeContent","-------------noticeContent--------------"+acEtContent.getText());
-                        AppManager.getAppManager().finishActivity();
+                        Intent intent = new Intent();
+                        intent.putExtra(GROUP_NOTICES,acEtContent.getText().toString());
+                        setResult(AppConfig.EDIT_GROUP_NOTICE_RESULT,intent);
+
+                        AppManager.getAppManager().finishActivity(GroupNoticeActivity.this);
                     }
                 });
                 break;

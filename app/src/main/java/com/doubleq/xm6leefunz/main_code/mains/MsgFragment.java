@@ -361,7 +361,7 @@ public class MsgFragment extends BaseFragment {
                             item.setNum(0);
                             realmHelper.updateNumZero(item.getFriendId());
                             msgAdapter.notifyItemChanged(position);
-                            mRecyclerView.smoothScrollToPosition(0);
+//                            mRecyclerView.smoothScrollToPosition(0);
                             // 好友
                             CusJumpChatData cusJumpChatData = new CusJumpChatData();
                             cusJumpChatData.setFriendHeader(item.getHeadImg());
@@ -374,7 +374,7 @@ public class MsgFragment extends BaseFragment {
                             item.setNum(0);
                             realmHelper.updateNumZero(item.getFriendId());
                             msgAdapter.notifyItemChanged(position);
-                            mRecyclerView.smoothScrollToPosition(0);
+//                            mRecyclerView.smoothScrollToPosition(0);
                             CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
                             cusJumpGroupChatData.setGroupId(item.getFriendId());
                             cusJumpGroupChatData.setGroupName(item.getNickName());

@@ -86,6 +86,7 @@ public class ContactChildFragment extends BaseFragment {
                 initGroupUI(view);
             }
         }
+        initBroc();
         return view;
     }
     private void initBroc() {
@@ -93,6 +94,8 @@ public class ContactChildFragment extends BaseFragment {
         intentFilter.addAction("action.addFriend");
         intentFilter.addAction(AppConfig.LINK_FRIEND_ADD_ACTION);
         intentFilter.addAction(AppConfig.LINK_FRIEND_DEL_ACTION);
+        intentFilter.addAction(AppConfig.LINK_GROUP_ADD_ACTION);
+        intentFilter.addAction(AppConfig.LINK_GROUP_DEL_ACTION);
         getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
     }
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
@@ -104,7 +107,7 @@ public class ContactChildFragment extends BaseFragment {
             {
                 case "action.addFriend":
                     int num = intent.getIntExtra("num",0);
-                    if (num>0)
+                    if (num>0&&mTvFriendNews!=null)
                     {
                         mTvFriendNews.setVisibility(View.VISIBLE);
                         mTvFriendNews.setText(num+"");
@@ -112,9 +115,20 @@ public class ContactChildFragment extends BaseFragment {
                         mTvFriendNews.setVisibility(View.INVISIBLE);
                     break;
                 case AppConfig.LINK_FRIEND_ADD_ACTION:
-
+//                    initResume();
+                    initFriendWs();
                     break;
                 case AppConfig.LINK_FRIEND_DEL_ACTION:
+
+
+                    break;
+                case AppConfig.LINK_GROUP_ADD_ACTION:
+//                    initResume();
+                    initGroupWs();
+                    break;
+                case AppConfig.LINK_GROUP_DEL_ACTION:
+
+
                     break;
             }
         }
@@ -166,7 +180,6 @@ public class ContactChildFragment extends BaseFragment {
                 intent.putExtra("num", 0);
                 intent.setAction("action.addFriend");
                 getActivity().sendBroadcast(intent);
-
                 IntentUtils.JumpTo(NoticeActivity.class);
 
             }
@@ -182,7 +195,7 @@ public class ContactChildFragment extends BaseFragment {
 //        初始化好友分组适配器
         initFriendAdapter();
 //        广播
-        initBroc();
+
         initFriendWs();
 
 
@@ -239,17 +252,19 @@ public class ContactChildFragment extends BaseFragment {
                 break;
         }
     }
+
+
     private void initResume() {
         switch (typeWho)
         {
             case  0:
 
 //                预先设置适配器，以便显示头部布局
-                initFriendAdapter();
+//                initFriendAdapter();
                 initFriendWs();
                 break;
             case 1:
-                initGroupAdapter();
+//                initGroupAdapter();
                 initGroupWs();
                 break;
         }
@@ -261,6 +276,7 @@ public class ContactChildFragment extends BaseFragment {
             String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
             if (!StrUtils.isEmpty(asString))
             {
+                Log.e("initDataGroup",asString);
                 initDataGroup(asString,false);
                 return;
             }

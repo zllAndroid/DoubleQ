@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -97,6 +98,8 @@ public class PersonalFragment extends BaseFragment  {
         return view;
     }
     private void initUI() {
+//        LinearLayout mLinBac = view.findViewById(R.id.include_frag_lin_bac);
+//        mLinBac.setBackgroundColor(getActivity().getResources().getColor(R.color.fg_top_bac));
         includeFragTvTitle.setText("个人中心");
         initName();
         getHead();
