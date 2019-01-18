@@ -114,12 +114,14 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                 }
                 break;
             case "moveGroupSort":
-                DialogUtils.showDialogOne("保存成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        AppManager.getAppManager().finishActivity();
-                    }
-                });
+//                DialogUtils.showDialogOne("保存成功", new DialogUtils.OnClickSureListener() {
+//                    @Override
+//                    public void onClickSure() {
+//                        AppManager.getAppManager().finishActivity();
+//                    }
+//                });
+                ToastUtil.show("保存成功");
+                AppManager.getAppManager().finishActivity();
                 break;
             case "addFriendGroup":
                 switch (item_type) {

@@ -46,10 +46,11 @@ public class MyAccountActivity extends BaseActivity {
     public  static  String USER_NAME = "user_name";
     public  static  String QRCODE = "code";
     String type = "1";
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -93,14 +94,14 @@ public class MyAccountActivity extends BaseActivity {
                         .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
                        .into(qrcodeIvHead);
 
-                String string = type + "_xm6leefun_" + SplitWeb.getUserId();
-                Log.e("qrcode","----------string--------------"+string);
-                Bitmap bitmap = ZXingUtils.createQRImage(string,300,300);
+//                String string = type + "_xm6leefun_" + SplitWeb.getUserId();
+                Log.e("qrcode","----------string_myAccount--------------"+record.getQrcode());
+                Bitmap bitmap = ZXingUtils.createQRImage(record.getQrcode(),300,300);
                 Drawable drawable = new BitmapDrawable(bitmap);
-                Log.e("qrcode","-------record.getQrcode()---------"+drawable);
+                Log.e("qrcode","-------record.getQrcode()_myAccount---------"+drawable);
                 qrcodeIvQrcode.setBackground(drawable);
 
-                Log.e("record.getQrcode()","----------------"+record.getQrcode());
+                Log.e("qrcode","-------myAccount---------"+record.getQrcode());
             }
         }
     }

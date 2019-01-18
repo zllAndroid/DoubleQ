@@ -23,7 +23,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 /**
- * 群设置-编辑群资料
+ * 群设置-编辑群聊资料
  */
 public class GrouperEscActivity extends BaseActivity {
 

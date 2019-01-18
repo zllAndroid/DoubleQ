@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -17,13 +19,19 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.doubleq.model.DataAddQunDetails;
 import com.doubleq.model.DataMyZiliao;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
+import com.doubleq.xm6leefunz.about_utils.ZXingUtils;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
@@ -59,33 +67,85 @@ public class QunCodeActivity extends BaseActivity {
     public static String USER_NAME = "user_name";
     public static String QRCODE = "code";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
+    String groupSno = null;
+    String type = "2";
     @Override
     protected void initBaseView() {
         super.initBaseView();
         includeTopTvTital.setText("群聊二维码");
-        sendWeb(SplitWeb.personalCenter());
+        Intent intent = getIntent();
+        if (intent != null){
+//            groupId = intent.getStringExtra("groupId");
+//            sendWeb(SplitWeb.searchDetailInfo(groupId));
+//            groupSno = intent.getStringExtra(AppConfig.GROUP_SNO);
+            PersonData personData = (PersonData)intent.getSerializableExtra(AppConfig.GROUP_ADDKEY);
+            PersonData groupInfo = (PersonData)intent.getSerializableExtra(AppConfig.GROUP_INFO);
+//            String userId = intent.getStringExtra("userId");
+            if (personData!=null) {
+                qrcodeTvSao.setText(personData.getScanTital());
+                qrcodeTvName.setText(personData.getName());
+                Glide.with(this).load(personData.getHeadImg())
+                        .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
+                        .error(R.drawable.mine_head)
+                        .into(qrcodeIvHead);
+
+                String string = personData.getQrCode();
+//                String string = type + "_xm6leefun_" + userId;
+                Log.e("qrcode","----------string000--------------"+string);
+                Bitmap bitmap = ZXingUtils.createQRImage(string,300,300);
+                Drawable drawable = new BitmapDrawable(bitmap);
+                Log.e("qrcode","-------record.getQrcode()000---------"+drawable);
+                qrcodeIvQrcode.setBackground(drawable);
+                includeTopTvTital.setText(personData.getTital());
+            }
+            else if (groupInfo != null){
+                qrcodeTvSao.setText(groupInfo.getScanTital());
+                qrcodeTvName.setText(groupInfo.getName());
+                Glide.with(this).load(groupInfo.getHeadImg())
+                        .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
+                        .error(R.drawable.mine_head)
+                        .into(qrcodeIvHead);
+
+                String string = groupInfo.getQrCode();
+//                String string = type + "_xm6leefun_" + userId;
+                Log.e("qrcode","----------string000--------------"+string);
+                Bitmap bitmap = ZXingUtils.createQRImage(string,300,300);
+                Drawable drawable = new BitmapDrawable(bitmap);
+                Log.e("qrcode","-------record.getQrcode()000---------"+drawable);
+                qrcodeIvQrcode.setBackground(drawable);
+                includeTopTvTital.setText(groupInfo.getTital());
+            }
+        }
     }
     String urlCode ="";
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
-        if (HelpUtils.backMethod(responseText).equals("personalCenter")) {
-            DataMyZiliao dataMyZiliao = JSON.parseObject(responseText, DataMyZiliao.class);
-            DataMyZiliao.RecordBean record = dataMyZiliao.getRecord();
-            if (record != null) {
-                qrcodeTvName.setText(record.getNickName());
-                Glide.with(this).load(record.getHeadImg())
+        if (HelpUtils.backMethod(responseText).equals("searchDetailInfo")) {
+            DataAddQunDetails dataAddQunDetails = JSON.parseObject(responseText, DataAddQunDetails.class);
+
+            if (dataAddQunDetails.getRecord().getGroupDetailInfo().getGroupInfo() != null) {
+                qrcodeTvName.setText(dataAddQunDetails.getRecord().getGroupDetailInfo().getGroupInfo().getGroupName());
+                Glide.with(this).load(dataAddQunDetails.getRecord().getGroupDetailInfo().getGroupInfo().getGroupHeadImg())
                         .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
-                       .into(qrcodeIvHead);
-                urlCode= record.getQrcode();
-                Glide.with(this).load(record.getQrcode())
-//                        .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
-                      .into(qrcodeIvQrcode);
+                        .into(qrcodeIvHead);
+                urlCode= dataAddQunDetails.getRecord().getGroupDetailInfo().getGroupInfo().getGroupQrcode();
+//                String string = personData.getQrCode();
+//                String string = type + "_xm6leefun_" + userId;
+                Log.e("qrcode","----------urlCode--------------"+urlCode);
+                Bitmap bitmap = ZXingUtils.createQRImage(urlCode,300,300);
+                Drawable drawable = new BitmapDrawable(bitmap);
+                qrcodeIvQrcode.setBackground(drawable);
+
+
+//                Glide.with(this).load(dataAddQunDetails.getRecord().getGroupDetailInfo().getGroupInfo().getGroupQrcode())
+////                        .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
+//                        .into(qrcodeIvQrcode);
             }
         }
     }
@@ -128,7 +188,7 @@ public class QunCodeActivity extends BaseActivity {
             Bundle data = new Bundle();
 
             Bitmap bitmap = decodeUriAsBitmapFromNet(urlCode);
-          boolean isSuc=  saveBitmaps( bitmap);
+            boolean isSuc=  saveBitmaps( bitmap);
 //            File saveBitmap = saveBitmaps( bitmap);
             if (isSuc)
             {
@@ -148,7 +208,7 @@ public class QunCodeActivity extends BaseActivity {
             appDir.mkdir();
         }
         String fileName = "zxing_image" + ".png";
-       File  file = new File(appDir, fileName);
+        File  file = new File(appDir, fileName);
         try {
             FileOutputStream fos = new FileOutputStream(file);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
@@ -170,33 +230,33 @@ public class QunCodeActivity extends BaseActivity {
         return  true;
     }
 
-        /**
-         * 根据图片的url路径获得Bitmap对象
-         *
-         * @param url
-         * @return
-         */
-        private Bitmap decodeUriAsBitmapFromNet(String url) {
-            URL fileUrl = null;
-            Bitmap bitmap = null;
+    /**
+     * 根据图片的url路径获得Bitmap对象
+     *
+     * @param url
+     * @return
+     */
+    private Bitmap decodeUriAsBitmapFromNet(String url) {
+        URL fileUrl = null;
+        Bitmap bitmap = null;
 
-            try {
-                fileUrl = new URL(url);
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                HttpURLConnection conn = (HttpURLConnection) fileUrl
-                        .openConnection();
-                conn.setDoInput(true);
-                conn.connect();
-                InputStream is = conn.getInputStream();
-                bitmap = BitmapFactory.decodeStream(is);
-                is.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
+        try {
+            fileUrl = new URL(url);
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
+
+        try {
+            HttpURLConnection conn = (HttpURLConnection) fileUrl
+                    .openConnection();
+            conn.setDoInput(true);
+            conn.connect();
+            InputStream is = conn.getInputStream();
+            bitmap = BitmapFactory.decodeStream(is);
+            is.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bitmap;
     }
+}

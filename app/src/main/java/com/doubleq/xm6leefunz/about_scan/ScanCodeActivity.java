@@ -24,9 +24,13 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.doubleq.model.DataScanFirendRequest;
+import com.doubleq.model.DataScanGroupRequest;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_scan.about_decode.InactivityTimer;
 import com.doubleq.xm6leefunz.about_scan.camera_view.CameraManager;
 import com.doubleq.xm6leefunz.about_scan.camera_view.ViewfinderView;
@@ -34,6 +38,9 @@ import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataAddActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupDataActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupDataAddActivity;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -80,6 +87,8 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
 
     public static   int surfaceView_width =0;
     public static int surfaceView_height =0;
+    public static int IS_GROUP_MEMBER = 2;
+    public static String IS_GROUP = "2";
     @OnCheckedChanged(R.id.scan_check_open)
     public void onCheckedChanged() {
         if (camera==null)
@@ -157,6 +166,7 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
     String lastTime = "";
     String qrCode =null;
     String resultScan =null;
+    String substring;
     public void handleDecode(Result result, Bitmap barcode) {
         inactivityTimer.onActivity();
         resultScan = result.getText();
@@ -171,30 +181,53 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
 //            RealmTaskResule realmTaskResule = mRealmHelper.queryResultByQrcode(qrCode);
             if (!qrCode.contains("xm6leefun"))
             {
-                Log.e("qrCode","----------qrCode------------"+qrCode);
-                Log.e("qrCode","----------------------"+qrCode.substring(qrCode.indexOf("userId="),qrCode.length()));
+                Log.e("qrCode","----------qrCode_scanCode------------"+qrCode);
 //                ToastUtil.show("非本应用二维码！");
                 MakeDialog("非本应用二维码,是否退出扫描？");
             }else {
-//              final   String substring = qrCode.substring(10);
-                Log.e("qrCode","----------qrCode------------"+qrCode);
-              final   String substring = qrCode.substring(qrCode.indexOf("_xm6leefun_"));
-              final   String sub = substring.substring(11);
-                Log.e("qrCode","----------substring------------" + substring);
-                Log.e("qrCode","----------sub------------" + sub);
-                DialogUtils.showDialog("扫描成功，是否添加此好友？", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        IntentUtils.JumpToHaveOne(FriendDataAddActivity.class,"id",sub);
-                        AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
-                    }
-                }, new DialogUtils.OnClickCancleListener() {
-                    @Override
-                    public void onClickCancle() {
-                        resultScan=null;
-                        reScan();
-                    }
-                });
+
+                Log.e("qrCode","----------qrCode_scanCode------------"+qrCode);
+                Log.e("qrCode","-----------qrCode.charAt(0)_scanCode="+qrCode.charAt(0));
+                String  c = qrCode.charAt(0)+"";
+
+                //  好友的二维码
+                if (c.equals("1")){
+                    substring = qrCode.substring(12);
+                    Log.e("qrCode","----------substring_scanCode=" + substring);
+                    DialogUtils.showDialog("扫描成功，是否添加此好友？", new DialogUtils.OnClickSureListener() {
+                        @Override
+                        public void onClickSure() {
+//                            sendWebHaveDialog(SplitWeb.addFriendQrCode(substring),"查看好友信息中...","获取成功");
+                            IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",substring);
+                            AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
+                        }
+                    }, new DialogUtils.OnClickCancleListener() {
+                        @Override
+                        public void onClickCancle() {
+                            resultScan=null;
+                            reScan();
+                        }
+                    });
+                }
+                //  群的二维码
+                else if (c.equals(IS_GROUP)){
+                    substring = qrCode.substring(12);
+                    Log.e("qrCode","--------------------------sub_scanCode_group=" + substring);
+                    DialogUtils.showDialog("扫描成功，是否加入该群？", new DialogUtils.OnClickSureListener() {
+                        @Override
+                        public void onClickSure() {
+                            sendWebHaveDialog(SplitWeb.addGroupOfQrCode(substring),"查看群信息中...","获取成功");
+//                            IntentUtils.JumpToHaveOne(GroupDataAddActivity.class,"id",substring);
+                            AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
+                        }
+                    }, new DialogUtils.OnClickCancleListener() {
+                        @Override
+                        public void onClickCancle() {
+                            resultScan=null;
+                            reScan();
+                        }
+                    });
+                }
 
 //                sendWebHaveDialog(SplitWeb.addFriendQrCode(substring),"查看好友信息中...","获取成功");
 //                IntentUtils.JumpGoH5(getResources().getString(R.string.fanweisuyuan), qrCode + "&type=android");
@@ -203,7 +236,33 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
         }
     }
 
-
+    String groupId;
+    @Override
+    public void receiveResultMsg(String responseText) {
+        super.receiveResultMsg(responseText);
+        String method = HelpUtils.backMethod(responseText);
+        switch (method){
+            case "addGroupOfQrCode":
+                DataScanGroupRequest dataScanGroupRequest = JSON.parseObject(responseText, DataScanGroupRequest.class);
+                DataScanGroupRequest.RecordBean recordBean = dataScanGroupRequest.getRecord();
+                DataScanGroupRequest.RecordBean.GroupDetailInfoBean groupDetailInfoBean = recordBean.getGroupDetailInfo();
+                Log.e("qrCode","----------scanCode------------------groupDetailInfoBean.getIsRelation()="+groupDetailInfoBean.getIsRelation());
+                if (groupDetailInfoBean.getIsRelation() == IS_GROUP_MEMBER){  //  2 是群成员  跳转到群聊资料界面GroupDataActivity
+                    Log.e("qrCode","---------scanCode----是群成员---------------substring="+substring);
+                    DataScanGroupRequest.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean = groupDetailInfoBean.getGroupInfo();
+                    if (groupInfoBean != null){
+                        groupId = groupInfoBean.getId();
+                        Log.e("qrCode","-------scanCode------是群成员---------------groupId="+groupId);
+                        IntentUtils.JumpToHaveTwo(GroupDataActivity.class,AppConfig.GROUP_SNO,substring,AppConfig.GROUP_ID,groupId);
+                    }
+                }
+                else{  //  非群成员  跳转到加群界面GroupDataAddActivity
+                    Log.e("qrCode","-------scanCode------非群成员---------------substring="+substring);
+                    IntentUtils.JumpToHaveOne(GroupDataAddActivity.class,AppConfig.GROUP_SNO,substring);
+                }
+                break;
+        }
+    }
 
     private void MakeDialog(final String tital) {
         DialogUtils.showDialog(tital, new DialogUtils.OnClickSureListener() {
@@ -262,8 +321,6 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
 //            }
 //        }
     }
-
-
     private void reScan() {
         viewfinderView.isRefresh = true;
         try {
@@ -463,8 +520,6 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
             e.printStackTrace();
         }
     }
-
-
 
     private static final long VIBRATE_DURATION = 200L;
     /**

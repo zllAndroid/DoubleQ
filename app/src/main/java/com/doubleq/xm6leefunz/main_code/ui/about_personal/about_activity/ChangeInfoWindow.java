@@ -131,7 +131,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                     mTvMax.setText(BEIZHU_MAX_NUM + " / " + BEIZHU_MAX_NUM);
                     mEd.setText(mContant.substring(0, BEIZHU_MAX_NUM - 2));
                 } else{
-                    if (mContant.trim().equals("暂未设置备注"))
+                    if (mContant.trim().equals("暂未设置备注") || mContant.equals(""))
                         mTvMax.setText("0 / " + BEIZHU_MAX_NUM);
                     else{
                         mTvMax.setText(mContant.length() - 2 + " / " + BEIZHU_MAX_NUM);
@@ -171,9 +171,9 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 mEd.setFilters(filter);
                 break;
             }
-            case "修改分组":
-            case "增加分组":
-            case "修改群名":{
+            case "修改分组":mEd.setHint("请输入分组名称");
+            case "修改群名":
+            {
                 if (mContant.length() > FENZU_MAX_NUM) {
                     mTvMax.setText(FENZU_MAX_NUM + " / " + FENZU_MAX_NUM);
                     mEd.setText(mContant.substring(0, FENZU_MAX_NUM));
@@ -183,11 +183,20 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 mEd.setFilters(filter);
                 break;
             }
+            case "增加分组":{
+                mEd.setHint("请输入分组名称");
+                mTvMax.setText(mContant.length() + " / " + FENZU_MAX_NUM);
+                InputFilter[] filter = {new InputFilter.LengthFilter(10)};
+                mEd.setFilters(filter);
+                break;
+            }
         }
         String s;
         if (title.equals("修改备注")){
-            if (mContant.trim().equals("暂未设置备注"))
+            if (mContant.trim().equals("暂未设置备注") || mContant.equals("")){
                 mEd.setText("");
+                mEd.addTextChangedListener(textWatcher);
+            }
             else{
                 s = mContant.substring(1,mContant.length()-1);
                 mEd.setText(s);
@@ -249,7 +258,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                     MAX_NUM = SIGN_MAX_NUM;
                     break;
             }
-
+            mEd.setSelection(mEd.getText().toString().length());
             if (editable.length() > MAX_NUM) {
                 editable.delete(MAX_NUM, editable.length());
             }

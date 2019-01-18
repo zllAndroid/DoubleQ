@@ -114,6 +114,7 @@ public static final String KEY_MD5= "md5";//"md5";
 
     public static final String GROUP_ADDKEY= "group_key";
     public static final String GROUP_SNO= "group_sno";
+    public static final String GROUP_INFO= "group_info";
     public static final String LodingNormal= "0";
     public static final String LodingFlower= "1";
     public static final String LodingFlowerHaveResult= "3";

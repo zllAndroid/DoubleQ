@@ -69,8 +69,7 @@ public class EditGroupCardActivity extends BaseActivity {
         editGroupCardEt.setFocusableInTouchMode(true);
         editGroupCardEt.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        editGroupCardEt.addTextChangedListener(textWatcher);
-        editGroupCardEt.setSelection(editGroupCardEt.getText().toString().length());
+
         Intent intent = getIntent();
         if (intent!=null){
             groupofId = intent.getStringExtra("groupofId");
@@ -78,6 +77,8 @@ public class EditGroupCardActivity extends BaseActivity {
             Log.e("cardName","-------------------------"+cardName);
             if (cardName != null)
                 editGroupCardEt.setText(cardName);
+            editGroupCardEt.addTextChangedListener(textWatcher);
+            editGroupCardEt.setSelection(editGroupCardEt.getText().toString().length());
         }
 
     }

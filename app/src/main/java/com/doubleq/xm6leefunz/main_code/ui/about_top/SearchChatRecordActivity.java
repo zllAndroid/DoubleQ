@@ -81,10 +81,10 @@ public class SearchChatRecordActivity extends BaseActivity {
     /**
      * 搜索关键字全部匹配的适配器
      */
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
     String type;
 
     RealmChatHelper realmChatHelper;

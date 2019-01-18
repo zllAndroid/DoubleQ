@@ -7,11 +7,8 @@
     android:background="@color/add_bg"
     android:orientation="vertical"
     >
-    <!--s搜索后添加群的群资料页面-->
+    <!--s搜索后添加群的群聊资料页面-->
     <include layout="@layout/activity_include_title_bar"/>
-
-
-
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,18 +38,28 @@
                         android:adjustViewBounds="true"
                         android:layout_margin="@dimen/dp10"
                         />
-                    <TextView
-                        android:id="@+id/group_data_tv_name"
+                    <LinearLayout
+                        android:id="@+id/group_data_lin_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_gravity="center"
                         android:gravity="center"
-                        android:drawableRight="@drawable/qun_code"
-                        android:drawablePadding="@dimen/dp5"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/sp14"
-                        android:layout_marginBottom="@dimen/dp5"
-                        android:text="龙哥(张龙龙)"/>
+                        android:layout_marginBottom="@dimen/dp5">
+                        <TextView
+                            android:id="@+id/group_data_tv_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/sp14"
+                            android:text="群名"/>
+                        <ImageView
+                            android:layout_width="@dimen/dp25"
+                            android:layout_height="@dimen/dp25"
+                            android:padding="@dimen/dp5"
+                            android:src="@drawable/qun_code"/>
+                    </LinearLayout>
+
 
                 </LinearLayout>
                 <LinearLayout
@@ -159,7 +166,7 @@
                 android:layout_margin="@dimen/dp30"
                 android:text="加密聊天"/>
             <TextView
-                android:id="@+id/group_data_tv_addgroup"
+                android:id="@+id/group_data_tv_send_msg"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

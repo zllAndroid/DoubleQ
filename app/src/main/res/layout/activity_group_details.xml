@@ -8,7 +8,7 @@
     android:id="@+id/group_details_lin_main"
     android:orientation="vertical"
     >
-    <!--s搜索后添加群的群资料页面-->
+    <!--s搜索后添加群的群聊资料页面-->
     <include layout="@layout/activity_include_title_bar"/>
 
     <RelativeLayout

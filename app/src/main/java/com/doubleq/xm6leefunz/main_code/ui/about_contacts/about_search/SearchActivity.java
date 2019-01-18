@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,10 +83,11 @@ public class SearchActivity extends BaseActivity {
      * 搜索关键字全部匹配的适配器
      */
     private SearchAdapter alterSearchAdapter = null;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
+
     String type;
     @Override
     protected void initBaseView() {
@@ -243,6 +245,7 @@ public class SearchActivity extends BaseActivity {
                 }else
                 {
 //                    添加群
+                    Log.e("qrCode","----------getIsRelation------------------"+item.getIsRelation());
                     if (item.getIsRelation().equals("1"))
 //                    未添加过该群，跳转未添加的群详情，部分信息看不到
                          IntentUtils.JumpToHaveObj(GroupDataAddActivity.class, AppConfig.GROUP_ADDKEY,item);

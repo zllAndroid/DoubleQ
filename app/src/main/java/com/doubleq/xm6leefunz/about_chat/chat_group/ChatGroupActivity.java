@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.NinePatch;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
@@ -66,6 +67,8 @@ import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
@@ -157,6 +160,7 @@ public class ChatGroupActivity extends BaseActivity {
 
     HideControl hideControl;
     CusJumpGroupChatData jumpGroupChatData;
+    DataSearch GroupChatData;
 
     public static  String groupId;
 
@@ -176,21 +180,33 @@ public class ChatGroupActivity extends BaseActivity {
         mChatTvShow.setBackgroundResource(R.color.chattrans);
 //        realmLink = new RealmLinkManHelper(this);
         Intent intent = getIntent();
-        jumpGroupChatData = (CusJumpGroupChatData) intent.getSerializableExtra(Constants.KEY_FRIEND_HEADER);
+        if (intent != null){
+            jumpGroupChatData = (CusJumpGroupChatData) intent.getSerializableExtra(Constants.KEY_FRIEND_HEADER);
+            GroupChatData = (DataSearch) intent.getSerializableExtra("dataSearch");
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
-        groupId = jumpGroupChatData.getGroupId();
-        includeTopTvTital.setText(jumpGroupChatData.getGroupName());
-        initWidget();
+            if (jumpGroupChatData != null){
+                groupId = jumpGroupChatData.getGroupId();
+                includeTopTvTital.setText(jumpGroupChatData.getGroupName());
+            }
+            else if (GroupChatData != null){
+                Log.e("qrCode","-----------ChatGroup------------"+GroupChatData.getId());
+                groupId = GroupChatData.getId();
+                includeTopTvTital.setText(GroupChatData.getName());
+            }
+            initWidget();
 //        初始化数据库的聊天记录
-        initRealm();
+            initRealm();
 //            通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
-        realmHomeHelper.updateNumZero(groupId);
+            realmHomeHelper.updateNumZero(groupId);
 //        Intent intent2 = new Intent();
 //        intent2.putExtra("message",groupId);
 //        intent2.putExtra("id",groupId);
 //        intent2.setAction("zero.refreshMsgFragment");
 //        sendBroadcast(intent2);
-        listenEnter();
+            listenEnter();
+        }
+
+
 
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
@@ -219,7 +235,11 @@ public class ChatGroupActivity extends BaseActivity {
                     //处理事件
                     String ed = editText.getText().toString().trim();
                     if (!StrUtils.isEmpty(ed)) {
-                        send(SplitWeb.groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+                        if (jumpGroupChatData != null)
+                            send(SplitWeb.groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+                        else if (GroupChatData != null){
+                            send(SplitWeb.groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+                        }
 //                        send(SplitWeb.privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
                     }
                 }
@@ -458,9 +478,13 @@ public class ChatGroupActivity extends BaseActivity {
     public void onEvent(DataJieShou.RecordBean messageInfo){
         String ed = editText.getText().toString().trim();
         if (!StrUtils.isEmpty(ed)) {
-            send(SplitWeb.groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+            if (jumpGroupChatData != null)
+                send(SplitWeb.groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+            else if (GroupChatData != null)
+                send(SplitWeb.groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
         }else
         {
+            ToastUtil.show("发送信息不能为空");
         }
     }
     @Override
@@ -642,7 +666,7 @@ public class ChatGroupActivity extends BaseActivity {
             {
                 case Constants.CHAT_ITEM_TYPE_LEFT:
                     Log.e("onHeaderClick","friendId="+friendId);
-                    IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",friendId);
+                    IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",friendId);
                     break;
                 case Constants.CHAT_ITEM_TYPE_RIGHT:
 //                    TODO 点击自己头像，显示自己的信息

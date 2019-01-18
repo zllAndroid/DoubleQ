@@ -67,6 +67,7 @@ public class NoticeActivity extends BaseActivity {
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //    }
+
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
     @Override

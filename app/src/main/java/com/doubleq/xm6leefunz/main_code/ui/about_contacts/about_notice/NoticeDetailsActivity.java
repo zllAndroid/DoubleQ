@@ -21,6 +21,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataAddActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.NoticeActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -30,7 +31,7 @@ import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
- * 位置：好友资料界面
+ * 位置：好友添加回馈界面
  */
 public class NoticeDetailsActivity extends BaseActivity {
 
@@ -53,10 +54,11 @@ public class NoticeDetailsActivity extends BaseActivity {
     @BindView(R.id.notice_tv_remark)
     TextView noticeTvRemark;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
+
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
     @Override
@@ -78,12 +80,13 @@ public class NoticeDetailsActivity extends BaseActivity {
 //          拒绝好友请求
             case "refuseFriend":
                 DialogUtils.isShow();
-                DialogUtils.showDialogOne("拒绝请求成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
+//                DialogUtils.showDialogOne("拒绝请求成功", new DialogUtils.OnClickSureListener() {
+//                    @Override
+//                    public void onClickSure() {
+                ToastUtil.show("拒绝请求成功");
                         AppManager.getAppManager().finishActivity();
-                    }
-                });
+//                    }
+//                });
                 break;
 //                同意
             case "agreeFriend":
@@ -97,12 +100,17 @@ public class NoticeDetailsActivity extends BaseActivity {
 //                realmHelper.addRealmMsg(cusJumpChatData);
 //                dealAgreeFriend();
                 DialogUtils.isShow();
-                DialogUtils.showDialogOne("同意好友请求成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        AppManager.getAppManager().finishActivity();
-                    }
-                });
+//                DialogUtils.showDialogOne("同意好友请求成功", new DialogUtils.OnClickSureListener() {
+//                    @Override
+//                    public void onClickSure() {
+//                        AppManager.getAppManager().finishActivity(NoticeDetailsActivity.this);
+//                        AppManager.getAppManager().finishActivity(NoticeActivity.class);
+//                    }
+//                });
+                ToastUtil.show("同意好友请求成功");
+                AppManager.getAppManager().finishActivity(NoticeDetailsActivity.this);
+                AppManager.getAppManager().finishActivity(NoticeActivity.class);
+
                 break;
 //                消息通知详情页面接口
             case "messageDetail":

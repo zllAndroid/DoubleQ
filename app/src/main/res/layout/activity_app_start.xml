@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/trans"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/white"
     >
-    <TextView
+    <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:textColor="@color/gray333"-->
+        <!--android:text="欢迎使用本聊天工具" />-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/dp30"
+        android:layout_weight="1">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/appstartbackground"/>
+
+    </LinearLayout>
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:textColor="@color/gray333"
-        android:text="欢迎使用本聊天工具" />
-</RelativeLayout>
+        android:layout_marginBottom="@dimen/dp20"
+        android:src="@drawable/appstartbackground_2"/>
+</LinearLayout>
 
 
 <!--<?xml version="1.0" encoding="utf-8"?>-->

@@ -178,10 +178,11 @@ public class WebSocketThread extends Thread {
                             }
                         };
                         Log.d(TAG, "WebSocket 开始连接...");
-                        mWebSocket.connect();
+                        if (mWebSocket != null)
+                            mWebSocket.connect();
                     } else {
                         Log.d(TAG, "WebSocket 开始重新连接...");
-                        if (mWebSocket!=null)
+                        if (mWebSocket != null)
                             mWebSocket.reconnect();
                     }
                 } catch (URISyntaxException e) {

@@ -52,10 +52,10 @@ public class FriendDataAddActivity extends BaseActivity {
 //    @BindView(R.id.include_top_lin_back)
 //    LinearLayout includeTopLinBack;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     DataSearch dataSearch = null;
     String type = "1";
@@ -67,7 +67,7 @@ public class FriendDataAddActivity extends BaseActivity {
         includeTopTvTital.setText("好友资料");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.GONE);
-        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
+//        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
 
         Intent intent = getIntent();
         if (intent != null) {

@@ -111,7 +111,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         super.initBaseView();
         includeTopIvBack.setVisibility(View.VISIBLE);
         includeTopTvTital.setText("我的资料");
-        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
+//        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
         setHeadForFile();
         sendWeb(SplitWeb.personalCenter());
     }

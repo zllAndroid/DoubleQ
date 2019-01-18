@@ -157,6 +157,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/fd_lin_send"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -214,6 +215,24 @@
             android:paddingRight="@dimen/dp30"
             android:text="发送消息"/>
         </LinearLayout>
+        <TextView
+            android:id="@+id/fda_tv_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/dp5"
+            android:textColor="@color/white"
+            android:background="@drawable/btn_stroke_sel"
+            android:paddingTop="@dimen/dp10"
+            android:paddingBottom="@dimen/dp10"
+            android:paddingLeft="@dimen/dp30"
+            android:layout_margin="@dimen/dp30"
+            android:paddingRight="@dimen/dp30"
+            android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone"
+            android:text="添加好友"/>
 
 
     </RelativeLayout>

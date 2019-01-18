@@ -25,6 +25,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.FriendGro
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import java.util.List;
 
@@ -56,10 +57,11 @@ public class AddGoodFriendActivity extends BaseActivity {
 
     public static String DataKey = "addfriend";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
+
     DataSearch dataSearch=null;
     @Override
     protected void initBaseView() {
@@ -110,12 +112,14 @@ public class AddGoodFriendActivity extends BaseActivity {
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
             case "addFriend":
-                DialogUtils.showDialogOne("添加好友发送成功，请等待对方同意", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        AppManager.getAppManager().finishActivity(AddGoodFriendActivity.this);
-                    }
-                });
+//                DialogUtils.showDialogOne("添加好友发送成功，请等待对方同意", new DialogUtils.OnClickSureListener() {
+//                    @Override
+//                    public void onClickSure() {
+//                        AppManager.getAppManager().finishActivity(AddGoodFriendActivity.this);
+//                    }
+//                });
+                ToastUtil.show("添加好友发送成功，请等待对方同意");
+                AppManager.getAppManager().finishActivity(AddGoodFriendActivity.this);
                 break;
         }
     }

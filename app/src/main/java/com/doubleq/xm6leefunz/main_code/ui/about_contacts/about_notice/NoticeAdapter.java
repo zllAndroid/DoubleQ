@@ -37,6 +37,8 @@ public class NoticeAdapter extends BaseQuickAdapter<DataNews.RecordBean.ListInfo
                 .bitmapTransform(new CropCircleTransformation(context))
                 .into((ImageView) helper.getView(R.id.item_iv_head));
         helper.setText(R.id.item_tv_name,item.getNickName());
+        // 获取备注信息
+//        helper.setText(R.id.item_tv_info,item.get());
         TextView mTvClick = helper.getView(R.id.item_tv_click_ok);
         switch (item.getIsAgree())
         {

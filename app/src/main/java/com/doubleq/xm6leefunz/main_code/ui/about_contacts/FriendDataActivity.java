@@ -35,6 +35,7 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.enity.FullImageInfo;
 import com.rance.chatui.util.Constants;
 
@@ -98,7 +99,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
         includeTopTvTital.setText("好友资料");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
-        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
+//        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
 
         Intent intent = getIntent();
         FriendId = intent.getStringExtra("id");
@@ -157,21 +158,22 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 initDataFriend(responseText);
                 break;
             case "deleteFriend":
-                DialogUtils.showDialogOne("删除好友成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        realmHelper.deleteRealmMsg(FriendId);
-                        realmChatHelper.deleteRealmMsg(FriendId);
-                        Intent intent2 = new Intent();
-                        intent2.putExtra("id", FriendId);
-                        intent2.setAction("del.refreshMsgFragment");
-                        sendBroadcast(intent2);
-                        AppManager.getAppManager().finishActivity(FriendDataActivity.this);
-                        if (esc != null && esc.equals("esc")) {
-                            AppManager.getAppManager().finishActivity(ChatActivity.class);
-                        }
-                    }
-                });
+//                DialogUtils.showDialogOne("删除好友成功", new DialogUtils.OnClickSureListener() {
+//                @Override
+//                public void onClickSure() {
+                realmHelper.deleteRealmMsg(FriendId);
+                realmChatHelper.deleteRealmMsg(FriendId);
+                Intent intent2 = new Intent();
+                intent2.putExtra("id", FriendId);
+                intent2.setAction("del.refreshMsgFragment");
+                sendBroadcast(intent2);
+                AppManager.getAppManager().finishActivity(FriendDataActivity.this);
+                if (esc != null && esc.equals("esc")) {
+                    AppManager.getAppManager().finishActivity(ChatActivity.class);
+                }
+                ToastUtil.show("删除好友成功！");
+//                }
+//            });
                 break;
             case "shieldFriend":
                 DialogUtils.showDialogOne("屏蔽好友成功", new DialogUtils.OnClickSureListener() {
@@ -259,15 +261,17 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                     personData.setName(dataRecord.getNickName());
                     personData.setScanTital("扫一扫,添加" + dataRecord.getNickName() + "为好友");
                     personData.setTital("好友二维码");
-                    if (FriendId != null) {
-                        String string = type + "_xm6leefun_" + FriendId;
-                        Log.e("qrcode", "----------FriendDataActivity--------------" + string);
-//                        Bitmap bitmap = ZXingUtils.createQRImage(string,300,300);
-//                        Drawable drawable = new BitmapDrawable(bitmap);
-//                        Log.e("qrcode","-------record.getQrcode()---------"+drawable);
-//                        qrcodeIvQrcode.setBackground(drawable);
-                        personData.setQrCode(string);
-                    }
+//                    if (FriendId != null) {
+//                        String string = type + "_xm6leefun_" + FriendId;
+//                        Log.e("qrcode", "----------FriendDataActivity--------------" + string);
+////                        Bitmap bitmap = ZXingUtils.createQRImage(string,300,300);
+////                        Drawable drawable = new BitmapDrawable(bitmap);
+////                        Log.e("qrcode","-------record.getQrcode()---------"+drawable);
+////                        qrcodeIvQrcode.setBackground(drawable);
+//                        personData.setQrCode(string);
+//                    }
+                    personData.setQrCode(dataRecord.getQrcode());
+                    Log.e("qrCode","----------fridata-------------"+dataRecord.getQrcode());
                     IntentUtils.JumpToHaveObj(MyAccountActivity.class, MyAccountActivity.TITAL_NAME, personData);
                 }
                 break;
@@ -307,7 +311,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
 //                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
                             AppManager.getAppManager().finishActivity(FriendDataActivity.this);
                         }else
-                        IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
                     }
                 }
                 break;

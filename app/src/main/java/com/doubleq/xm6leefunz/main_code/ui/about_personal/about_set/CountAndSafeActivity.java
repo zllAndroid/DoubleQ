@@ -27,10 +27,10 @@ public class CountAndSafeActivity extends BaseActivity {
     @BindView(R.id.count_lin_changeBind)
     LinearLayout countLinChangeBind;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected void initBaseView() {

@@ -38,11 +38,13 @@ import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupTeamActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberQunzhuAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_top_add.QunCodeActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -180,7 +182,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     }
 
     boolean isGrouper = false;//    是否群主
-
+    DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean dataRecord;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -214,6 +216,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                         }
 
                         if (groupInfo != null) {
+                            dataRecord = groupInfo;
+                            Log.e("qrCode","----------------------------"+dataRecord.getGroupName());
                             initUI(groupInfo);
                         }
                         DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupNoticeBean group_notice = group_detail_info.getGroupNotice();
@@ -340,7 +344,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         groupMemberAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-
                 DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean item = (DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean) adapter.getItem(position);
                 IntentDataInvitation intentDataInvitation = new IntentDataInvitation();
                 intentDataInvitation.setGroupId(groupId);
@@ -371,7 +374,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     //好友关系 1是未添加 2是已添加
                     //群成员关系  1是未添加 2是已添加 3是自己
                     if (item != null) {
-                        Log.e("Relation", "-----------------------" + item.getIsRelation());
+                        Log.e("Relation", "---------------groupChatDetails----------------------item.getIsRelation()=" + item.getIsRelation());
                         switch (item.getIsRelation()) {
                             case "1":
                                 //                            跳转陌生人显示界面
@@ -510,7 +513,18 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
                 break;
             case R.id.group_details_iv_qrcode:
-                IntentUtils.JumpTo(QunCodeActivity.class);
+                if (dataRecord != null) {
+                    Log.e("qrCode","----------------------------"+dataRecord.getGroupName());
+                    PersonData personData = new PersonData();
+                    personData.setHeadImg(dataRecord.getGroupHeadImg());
+                    personData.setName(dataRecord.getGroupName());
+                    personData.setScanTital("扫一扫二维码，加入群聊");
+                    personData.setTital("群聊二维码");
+                    personData.setQrCode(dataRecord.getGroupQrcode());
+                    Log.e("qrCode","----------groupDetails-------------"+dataRecord.getGroupQrcode());
+                    IntentUtils.JumpToHaveObj(QunCodeActivity.class, AppConfig.GROUP_ADDKEY, personData);
+                }
+//                IntentUtils.JumpToHaveOne(QunCodeActivity.class,"groupId",groupId);
                 break;
             case R.id.group_details_lin_name:
                 doChangeName();

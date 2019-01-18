@@ -184,7 +184,7 @@
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <!-- 群资料设置 -->
+        <!-- 群聊资料设置 -->
         <activity
             android:name=".about_chat.chat_group.sub_group.GroupChatSetActivity"
             android:launchMode="singleTop"
@@ -206,7 +206,7 @@
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
 
-        <!-- 添加群的群资料页面 -->
+        <!-- 添加群的群聊资料页面 -->
         <activity
             android:name=".main_code.ui.about_contacts.GroupDataAddActivity"
             android:launchMode="singleTop"
@@ -239,6 +239,11 @@
         <!-- 好友资料 -->
         <activity
             android:name=".main_code.ui.about_contacts.FriendDataActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 好友资料 -->
+        <activity
+            android:name=".main_code.ui.about_contacts.FriendDataMixActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 群聊成员 -->
@@ -349,10 +354,14 @@
             android:name=".about_chat.chat_group.sub_group.GroupNoticeActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-
-        <activity android:name=".main_code.mains.TestActivity"
+        <activity
+            android:name=".main_code.mains.TestActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".main_code.ui.about_contacts.GroupDataActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme"
+            />
     </application>
 
 </manifest>

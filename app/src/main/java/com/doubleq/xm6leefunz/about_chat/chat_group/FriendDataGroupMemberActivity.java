@@ -60,10 +60,10 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
     public static final String IS_FRIEND = "2";
     public static final String NOT_FRIEND = "1";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     DataSearch dataSearch = null;
 
@@ -129,9 +129,10 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
                     dataSearch.setId(record.getFriendId());
                     dataSearch.setHeadImg(record.getHeadImg());
                 }
-
-
                 break;
+
+
+
         }
 
     }

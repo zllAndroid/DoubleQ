@@ -53,10 +53,11 @@ public class AddGoodGroupActivity extends BaseActivity {
 
     public static String DataKey = "addgroup";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
+
     DataSearch dataSearch=null;
     @Override
     protected void initBaseView() {
@@ -71,6 +72,7 @@ public class AddGoodGroupActivity extends BaseActivity {
                 return;
             Glide.with(this).load(dataSearch.getHeadImg()).error(R.drawable.mine_head).into(fdaIvHead);
             fdaTvName.setText(dataSearch.getName());
+
         }
     }
     @Override

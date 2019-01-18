@@ -1083,14 +1083,12 @@ public class MyApplication extends Application  implements IWebSocketPage  {
         intent.putExtra("id",record.getGroupId());
         intent.setAction("action.refreshMsgFragment");
         sendBroadcast(intent);
-
 //在前台的时候处理接收到消息的事件
         if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
         {
 //            TODO 弄成popwindow   弹框
             ToastUtil.show("收到来自"+record.getGroupName()+"的一条新消息");
         }else {
-
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {
                 @Override

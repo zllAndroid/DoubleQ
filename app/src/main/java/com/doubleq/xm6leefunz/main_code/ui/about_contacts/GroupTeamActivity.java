@@ -61,8 +61,7 @@ public class GroupTeamActivity extends BaseActivity {
     LinearLayout includeTopLin;
     @BindView(R.id.tv_abc)
     TextView mTvAbc;
-
-    //    @BindView(R.id.group_team_recyc)
+//    @BindView(R.id.group_team_recyc)
 //    RecyclerView mRecyclerView;
     @BindView(R.id.group_team_expan)
     ExpandableListView mExpanList;
@@ -91,12 +90,10 @@ public class GroupTeamActivity extends BaseActivity {
     private Runnable runnable;
     String mShare = "1";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    LinearLayoutManager linearLayoutManager;
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected int getLayoutView() {
@@ -249,7 +246,7 @@ public class GroupTeamActivity extends BaseActivity {
                 //好友关系 1是未添加 2是已添加
                 //群成员关系  1是未添加 2是已添加 3是自己
                 if (item != null) {
-                    Log.e("Relation", "-----------------------" + item.getIsRelation());
+                    Log.e("Relation", "-------------------groupTeam----------------------item.getIsRelation()=" + item.getIsRelation());
                     switch (item.getIsRelation()) {
                         case 1:
 //                            跳转陌生人显示界面
