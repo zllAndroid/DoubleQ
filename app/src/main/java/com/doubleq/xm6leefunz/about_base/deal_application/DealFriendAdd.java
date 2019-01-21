@@ -49,7 +49,7 @@ public class DealFriendAdd {
             if (!StrUtils.isEmpty(asString)&&record!=null)
             {
                 try {
-                    initDataFriend(asString,record);
+                    initDataGroupSub(asString,record);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
