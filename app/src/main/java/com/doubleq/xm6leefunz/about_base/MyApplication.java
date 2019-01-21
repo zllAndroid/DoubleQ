@@ -224,6 +224,11 @@ public class MyApplication extends Application  implements IWebSocketPage  {
     public void onMessageResponse(Response message) {
 //        onResult(message);
         this.message=message;
+        if (!message.getResponseText().contains("{"))
+        {
+            ToastUtil.show("系统参数异常，请重新请求");
+            return;
+        }
         if (reBind.equals("1"))
         {
             isBind =true;
@@ -296,12 +301,18 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                     break;
 //                 用户加入群 - 给成员发送 联系人变动信息接口
                 case "joinGroupListSend":
-//                    DealGroupAdd.updateGroupDataByAdd(this,message.getResponseText());
+                    DealGroupAdd.updateGroupDataByAdd(this,message.getResponseText());
                     break;
 //                    退出群聊
                 case "outGroupListSend":
-//                    DealGroupAdd.updateGroupDataByAdd(this,message.getResponseText());
+                    DealGroupAdd.updateGroupDataBySub(this,message.getResponseText());
                     break;
+//                    解散群聊
+                case "dissolutionGroupListSend":
+                    DealGroupAdd.updateGroupDataBySub(this,message.getResponseText());
+                    break;
+
+//
                 case "agreeFriendListSend":
                     DealFriendAdd.updateFriendDataByAdd(this,message.getResponseText());
                     break;

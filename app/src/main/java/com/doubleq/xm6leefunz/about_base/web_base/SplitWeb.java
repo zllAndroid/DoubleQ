@@ -239,6 +239,12 @@ public class SplitWeb {
         String request = WebUrl.request("PersonCenter", "getPermissStatu", map);
         return  request;
     }
+    public  static  String addGroupOfQrCode(String groupSno){
+        dealMap();
+        putData("groupSno",groupSno);
+        String request = WebUrl.request("Contact", "addGroupOfQrCode", map);
+        return  request;
+    }
     /**
      * 修改个性签名接口
      * @param personaSignature

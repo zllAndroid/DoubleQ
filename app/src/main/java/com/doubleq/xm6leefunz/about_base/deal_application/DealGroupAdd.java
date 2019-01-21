@@ -36,7 +36,79 @@ public class DealGroupAdd {
             }
         }
     }
+    public  static void updateGroupDataBySub(Context montext,String result)
+    {
+        mContext=montext;
+        DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
+        DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
+        aCache =  ACache.get(mContext);
+        if (aCache!=null)
+        {
+            String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
+            if (!StrUtils.isEmpty(asString)&&record!=null)
+            {
+                initDataGroupSub(asString,record);
+            }
+        }
+    }
 
+    private static void initDataGroupSub(String asString,DataAboutGroup.RecordBean mRecord) {
+        DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
+        final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
+        if (group_info_list.size() > 0) {
+            String chat = mRecord.getChat();
+            String groupManageId = mRecord.getGroupManageId();
+            for (int i = 0; i < group_info_list.size(); i++) {
+                String type = group_info_list.get(i).getType();
+                String groupName = group_info_list.get(i).getGroupName();
+                List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
+                if (type.equals("2")) {
+                    if (chat != null && chat.equals(groupName)) {
+                        if (groupList.size() == 0) {
+//                            return;
+                        } else if (groupList.size() == 1) {
+                            group_info_list.remove(i);
+                        } else if (groupList.size() > 1) {
+                            for (int j = 0; j < groupList.size(); j++) {
+                                String groupOfId = groupList.get(j).getGroupOfId();
+                                if (groupManageId.equals(groupOfId)) {
+                                    group_info_list.get(i).getGroupList().remove(j);
+                                }
+                            }
+                        }
+                    }
+                }else if (type.equals("1")&&groupManageId != null && !groupManageId.equals("0"))
+                {
+                    String groupManageName = mRecord.getGroupManageName();
+                    if (groupList.size()>0)
+                    {
+                        if (groupManageName!=null&&groupManageName.equals(groupName)) {
+                            for (int h = 0; h < groupList.size(); h++) {
+                                String groupOfId = groupList.get(h).getGroupOfId();
+                                if (groupManageId.equals(groupOfId)) {
+                                    group_info_list.get(i).getGroupList().remove(h);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+//            修改数据保存cache
+            DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
+            recordBean.setGroupInfoList(group_info_list);
+
+            String jsonString = JSON.toJSONString(recordBean);
+            Log.e("jsonString","减少="+jsonString);
+            aCache.remove(AppAllKey.GROUD_DATA);
+            aCache.put(AppAllKey.GROUD_DATA, jsonString);
+
+            Intent intent = new Intent();
+            intent.setAction(AppConfig.LINK_GROUP_DEL_ACTION);
+            mContext.sendBroadcast(intent);
+
+        }
+    }
     private static void initDataGroup(String asString,DataAboutGroup.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
@@ -60,53 +132,38 @@ public class DealGroupAdd {
                         putCache(mRecord, group_info_list, i, groupManageName);
                         return;
                     }
-                    if (groupManageId != null && !groupManageId.equals("0")) {
-                        if (groupManageName.equals(groupName)) {
-                            putCache(mRecord, group_info_list, i, groupManageName);
-                            return;
-//                        List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
-//                        DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
-//                        groupListBean.setGroupName(groupManageName);
-//                        groupListBean.setNickName(mRecord.getGroupName());
-//                        groupListBean.setGroupOfId(mRecord.getGroupId());
-//                        groupListBean.setHeadImg(mRecord.getGroupHeadImg());
-//                        groupListBean.setGroupFenzuId(mRecord.getGroupManageId());
-//                        groupList.add(groupListBean);
-//                        group_info_list.get(i).setGroupList(groupList);
-//                        DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
-//                        recordBean.setGroupInfoList(group_info_list);
-//                        String jsonString = JSON.toJSONString(recordBean);
-//                        aCache.remove(AppAllKey.GROUD_DATA);
-//                        aCache.put(AppAllKey.GROUD_DATA, jsonString);
-//                        Log.e("jsonString","闭合="+jsonString);
-                        }
-                    }
+//                    if (groupManageId != null && !groupManageId.equals("0")) {
+//                        if (groupManageName.equals(groupName)) {
+//                            putCache(mRecord, group_info_list, i, groupManageName);
+//                            return;
+//                        }
+//                    }
                 }
             }
 //            如果列表中没有当前的字母，则判断外围新增
-                for (int i = 0; i < group_info_list.size(); i++)
-                {
-                    String type = group_info_list.get(i).getType();
-                    if (type.equals("2")) {
-                        String groupName = group_info_list.get(i).getGroupName();
-                        String chat = mRecord.getChat();
-                        int i1 = stringToAscii(getFirstABC(groupName));
-                        int i2 = stringToAscii(getFirstABC(chat));
-                        if (group_info_list.size() > (i + 1)) {
-                            String groupNameNext = group_info_list.get(i + 1).getGroupName();
-                            int i3 = stringToAscii(getFirstABC(groupNameNext));
-                            if (i1 < i2 && i2 < i3) {
-                                dealNoChart(mRecord, group_info_list, (i+1), chat);
-                                return;
-                            }
-                        } else if (i1 < i2) {
+            for (int i = 0; i < group_info_list.size(); i++)
+            {
+                String type = group_info_list.get(i).getType();
+                if (type.equals("2")) {
+                    String groupName = group_info_list.get(i).getGroupName();
+                    String chat = mRecord.getChat();
+                    int i1 = stringToAscii(getFirstABC(groupName));
+                    int i2 = stringToAscii(getFirstABC(chat));
+                    if (group_info_list.size() > (i + 1)) {
+                        String groupNameNext = group_info_list.get(i + 1).getGroupName();
+                        int i3 = stringToAscii(getFirstABC(groupNameNext));
+                        if (i1 < i2 && i2 < i3) {
                             dealNoChart(mRecord, group_info_list, (i+1), chat);
                             return;
-                        } else if (i1 > i2) {
-                            dealNoChart(mRecord, group_info_list, 0, chat);
-                            return;
                         }
+                    } else if (i1 < i2) {
+                        dealNoChart(mRecord, group_info_list, (i+1), chat);
+                        return;
+                    } else if (i1 > i2) {
+                        dealNoChart(mRecord, group_info_list, 0, chat);
+                        return;
                     }
+                }
             }
         }
         else

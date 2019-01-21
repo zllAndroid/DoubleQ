@@ -2,10 +2,13 @@ package com.doubleq.xm6leefunz.about_base.deal_application;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.doubleq.model.DataLinkGroupList;
 import com.doubleq.model.DataLinkManList;
 import com.doubleq.model.push_data.DataAboutFriend;
+import com.doubleq.model.push_data.DataAboutGroup;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
@@ -36,6 +39,87 @@ public class DealFriendAdd {
             }
         }
     }
+    public  static void updateFriendDataBySub(Context montext,String result)
+    {
+        mContext=montext;
+        DataAboutFriend dataAboutFriend = JSON.parseObject(result, DataAboutFriend.class);
+        DataAboutFriend.RecordBean record = dataAboutFriend.getRecord();
+        aCache =  ACache.get(mContext);
+        if (aCache!=null)
+        {
+            String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
+            if (!StrUtils.isEmpty(asString)&&record!=null)
+            {
+                try {
+                    initDataFriend(asString,record);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    private static void initDataGroupSub(String asString, DataAboutFriend.RecordBean mRecord) {
+        DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
+        if (record==null)
+            return;
+        friendList = record.getFriendList();
+        String chat = mRecord.getChat();
+        String mRecordGroupName = mRecord.getGroupName();
+        String groupId = mRecord.getGroupId();
+        if (friendList.size() > 0) {
+            String friendsId = mRecord.getFriendsId();
+            for (int i = 0; i < friendList.size(); i++) {
+                String type = friendList.get(i).getType();
+                String groupName = friendList.get(i).getGroupName();
+                List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
+                if (type.equals("2")) {
+                    if (chat != null && chat.equals(groupName)) {
+                        if (groupList.size() == 0) {
+//                            return;
+                        } else if (groupList.size() == 1) {
+                            friendList.remove(i);
+                        } else if (groupList.size() > 1) {
+                            for (int j = 0; j < groupList.size(); j++) {
+                                String groupOfId = groupList.get(j).getUserId();
+                                if (friendsId.equals(groupOfId)) {
+                                    friendList.get(i).getGroupList().remove(j);
+                                }
+                            }
+                        }
+                    }
+                }else if (type.equals("1")&&groupId != null && !groupId.equals("0"))
+                {
+                    if (groupList.size()>0)
+                    {
+                        if (mRecordGroupName!=null&&mRecordGroupName.equals(groupName)) {
+                            for (int h = 0; h < groupList.size(); h++) {
+                                String userId = groupList.get(h).getUserId();
+                                if (friendsId.equals(userId)) {
+                                    friendList.get(i).getGroupList().remove(h);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+//            修改数据保存cache
+            DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
+            recordBean.setFriendList(friendList);
+
+            String jsonString = JSON.toJSONString(recordBean);
+            Log.e("jsonString","减少="+jsonString);
+            aCache.remove(AppAllKey.FRIEND_DATA);
+            aCache.put(AppAllKey.FRIEND_DATA, jsonString);
+
+            Intent intent = new Intent();
+            intent.setAction(AppConfig.LINK_FRIEND_DEL_ACTION);
+            mContext.sendBroadcast(intent);
+
+        }
+    }
+
 
     private static List<DataLinkManList.RecordBean.FriendListBean> friendList;
     private static void initDataFriend(String asString, DataAboutFriend.RecordBean mRecord) {

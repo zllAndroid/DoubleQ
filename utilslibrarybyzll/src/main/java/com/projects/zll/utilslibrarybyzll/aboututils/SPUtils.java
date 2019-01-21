@@ -27,7 +27,10 @@ public class SPUtils {
      */
     public static void put(Context context, String key, Object object)
     {
-
+        if (context==null&&key==null)
+        {
+            return ;
+        }
         SharedPreferences sp = context.getSharedPreferences(FILE_NAME,
                 Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sp.edit();

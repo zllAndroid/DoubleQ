@@ -120,14 +120,14 @@ public class ContactChildFragment extends BaseFragment {
                     break;
                 case AppConfig.LINK_FRIEND_DEL_ACTION:
 
-
+                    initFriendWs();
                     break;
                 case AppConfig.LINK_GROUP_ADD_ACTION:
 //                    initResume();
                     initGroupWs();
                     break;
                 case AppConfig.LINK_GROUP_DEL_ACTION:
-
+                    initGroupWs();
 
                     break;
             }
