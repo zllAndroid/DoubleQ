@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.doubleq.model.DataLinkGroupList;
 import com.doubleq.model.DataLinkManList;
 import com.doubleq.model.push_data.DataAboutFriend;
-import com.doubleq.model.push_data.DataAboutGroup;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
@@ -103,7 +101,6 @@ public class DealFriendAdd {
                     }
                 }
             }
-
 //            修改数据保存cache
             DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
             recordBean.setFriendList(friendList);
@@ -116,7 +113,6 @@ public class DealFriendAdd {
             Intent intent = new Intent();
             intent.setAction(AppConfig.LINK_FRIEND_DEL_ACTION);
             mContext.sendBroadcast(intent);
-
         }
     }
 
