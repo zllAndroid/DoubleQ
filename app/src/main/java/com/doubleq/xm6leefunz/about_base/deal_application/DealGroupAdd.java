@@ -55,7 +55,8 @@ public class DealGroupAdd {
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
         if (group_info_list.size() > 0) {
             String chat = mRecord.getChat();
-            String groupManageId = mRecord.getGroupManageId();
+            String groupManageId = mRecord.getGroupManageId();//分组id
+            String groupId = mRecord.getGroupId();//群id
             for (int i = 0; i < group_info_list.size(); i++) {
                 String type = group_info_list.get(i).getType();
                 String groupName = group_info_list.get(i).getGroupName();
@@ -69,7 +70,7 @@ public class DealGroupAdd {
                         } else if (groupList.size() > 1) {
                             for (int j = 0; j < groupList.size(); j++) {
                                 String groupOfId = groupList.get(j).getGroupOfId();
-                                if (groupManageId.equals(groupOfId)) {
+                                if (groupId.equals(groupOfId)) {
                                     group_info_list.get(i).getGroupList().remove(j);
                                 }
                             }

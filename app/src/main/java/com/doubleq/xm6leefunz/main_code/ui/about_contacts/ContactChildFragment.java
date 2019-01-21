@@ -107,7 +107,12 @@ public class ContactChildFragment extends BaseFragment {
             {
                 case "action.addFriend":
                     int num = intent.getIntExtra("num",0);
-                    if (num>0&&mTvFriendNews!=null)
+
+                    if (mTvFriendNews==null)
+                    {
+                        return;
+                    }
+                    if (num>0 )
                     {
                         mTvFriendNews.setVisibility(View.VISIBLE);
                         mTvFriendNews.setText(num+"");

@@ -320,7 +320,7 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "dissolutionGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(this, message.getResponseText());
                     break;
-//添加好友
+                   //添加好友
                 case "agreeFriendListSend":
                     DealFriendAdd.updateFriendDataByAdd(this, message.getResponseText());
                     break;

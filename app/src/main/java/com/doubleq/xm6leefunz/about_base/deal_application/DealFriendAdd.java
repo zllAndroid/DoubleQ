@@ -49,7 +49,7 @@ public class DealFriendAdd {
             if (!StrUtils.isEmpty(asString)&&record!=null)
             {
                 try {
-                    initDataGroupSub(asString,record);
+                    initDataFriendSub(asString,record);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -57,7 +57,7 @@ public class DealFriendAdd {
         }
     }
 
-    private static void initDataGroupSub(String asString, DataAboutFriend.RecordBean mRecord) {
+    private static void initDataFriendSub(String asString, DataAboutFriend.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)
             return;
@@ -79,8 +79,8 @@ public class DealFriendAdd {
                             friendList.remove(i);
                         } else if (groupList.size() > 1) {
                             for (int j = 0; j < groupList.size(); j++) {
-                                String groupOfId = groupList.get(j).getUserId();
-                                if (friendsId.equals(groupOfId)) {
+                                String userId = groupList.get(j).getUserId();
+                                if (friendsId.equals(userId)) {
                                     friendList.get(i).getGroupList().remove(j);
                                 }
                             }
@@ -191,7 +191,7 @@ public class DealFriendAdd {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
         groupListBean.setGroupName(groupName);
-        groupListBean.setNickName(mRecord.getGroupName());
+        groupListBean.setNickName(mRecord.getNickName());
         groupListBean.setGroupId(mRecord.getGroupId());
         groupListBean.setHeadImg(mRecord.getHeadImg());
         groupListBean.setRemarkName(mRecord.getRemarkName());
@@ -250,7 +250,7 @@ public class DealFriendAdd {
 
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
         groupListBean.setGroupName(chat);
-        groupListBean.setNickName(mRecord.getGroupName());
+        groupListBean.setNickName(mRecord.getNickName());
         groupListBean.setGroupId(mRecord.getGroupId());
         groupListBean.setHeadImg(mRecord.getHeadImg());
         groupListBean.setRemarkName(mRecord.getRemarkName());
