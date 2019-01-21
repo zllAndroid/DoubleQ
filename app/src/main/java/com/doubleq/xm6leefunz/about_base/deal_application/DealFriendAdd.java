@@ -115,8 +115,6 @@ public class DealFriendAdd {
             mContext.sendBroadcast(intent);
         }
     }
-
-
     private static List<DataLinkManList.RecordBean.FriendListBean> friendList;
     private static void initDataFriend(String asString, DataAboutFriend.RecordBean mRecord) {
         boolean isTopOne=true;

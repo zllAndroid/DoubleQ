@@ -681,6 +681,7 @@ public class MyApplication extends Application implements IWebSocketPage {
 //            不在聊天界面收到消息时候的处理
             noGroupChatUI(record);
         }
+        setGroupNotify(record);
         CusGroupChatData groupChatData = new CusGroupChatData();
         groupChatData.setCreated(Mytime);
         groupChatData.setFriendId(record.getMemberId());
@@ -892,6 +893,7 @@ public class MyApplication extends Application implements IWebSocketPage {
 //            不在聊天界面收到消息时候的处理
             noChatUI(record);
         }
+        xipinhuanxing(record);
         cusRealmChatMsg.setCreated(Mytime);
         cusRealmChatMsg.setMessage(record.getMessage());
         cusRealmChatMsg.setMessageType(record.getMessageType());
@@ -920,22 +922,16 @@ public class MyApplication extends Application implements IWebSocketPage {
 //            realmHelper.updateNum(record.getFriendsId());
             realmHelper.addRealmMsg(cusJumpChatData);
         }
+
+
     }
 
-    Bitmap bitmap;
-
-    private void noChatUI(final DataJieShou.RecordBean record) {
+    private void xipinhuanxing(final DataJieShou.RecordBean record) {
         final CusJumpChatData cusJumpChatData = new CusJumpChatData();
         cusJumpChatData.setFriendHeader(record.getHeadImg());
         cusJumpChatData.setFriendId(record.getFriendsId());
         cusJumpChatData.setFriendName(record.getFriendsName());
 
-//        发送广播更新首页
-        Intent intent = new Intent();
-        intent.putExtra("message", record.getMessage());
-        intent.putExtra("id", record.getFriendsId());
-        intent.setAction("action.refreshMsgFragment");
-        sendBroadcast(intent);
 
         PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
         boolean screenOn = pm.isScreenOn();
@@ -966,6 +962,24 @@ public class MyApplication extends Application implements IWebSocketPage {
                 }
             }
         }).start();
+
+    }
+
+    Bitmap bitmap;
+
+    private void noChatUI(final DataJieShou.RecordBean record) {
+        final CusJumpChatData cusJumpChatData = new CusJumpChatData();
+        cusJumpChatData.setFriendHeader(record.getHeadImg());
+        cusJumpChatData.setFriendId(record.getFriendsId());
+        cusJumpChatData.setFriendName(record.getFriendsName());
+
+//        发送广播更新首页
+        Intent intent = new Intent();
+        intent.putExtra("message", record.getMessage());
+        intent.putExtra("id", record.getFriendsId());
+        intent.setAction("action.refreshMsgFragment");
+        sendBroadcast(intent);
+
 
 //在前台的时候处理接收到消息的事件
 //        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
@@ -1020,7 +1034,7 @@ public class MyApplication extends Application implements IWebSocketPage {
         intent.setAction("action.refreshMsgFragment");
         sendBroadcast(intent);
 
-        setGroupNotify(record, cusJumpChatData);
+
 //在前台的时候处理接收到消息的事件
 //        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
 //        {
@@ -1037,7 +1051,11 @@ public class MyApplication extends Application implements IWebSocketPage {
 //        }
     }
 
-    private void setGroupNotify(final DataGroupChatResult.RecordBean record, final CusJumpChatData cusJumpChatData) {
+    private void setGroupNotify(final DataGroupChatResult.RecordBean record) {
+        final CusJumpChatData cusJumpChatData = new CusJumpChatData();
+        cusJumpChatData.setFriendHeader(record.getGroupHeadImg());
+        cusJumpChatData.setFriendId(record.getGroupId());
+        cusJumpChatData.setFriendName(record.getGroupName());
         PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
         boolean screenOn = pm.isScreenOn();
         if (!screenOn) {

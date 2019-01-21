@@ -15,8 +15,8 @@ android {
         applicationId "com.doubleq.xm6leefunz"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 3
-        versionName "1.1.3"
+        versionCode 4
+        versionName "1.1.4"
         multiDexEnabled true  //防止方法数量超过65536导致错误
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        aaptOptions {

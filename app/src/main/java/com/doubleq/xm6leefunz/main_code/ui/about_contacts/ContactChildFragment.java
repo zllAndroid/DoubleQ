@@ -109,9 +109,9 @@ public class ContactChildFragment extends BaseFragment {
                     int num = intent.getIntExtra("num",0);
 
                     if (mTvFriendNews==null)
-                    {
-                        return;
-                    }
+                {
+                    return;
+                }
                     if (num>0 )
                     {
                         mTvFriendNews.setVisibility(View.VISIBLE);
@@ -173,10 +173,15 @@ public class ContactChildFragment extends BaseFragment {
         int num = (int)SPUtils.get(getActivity(), AppConfig.LINKMAN_FRIEND_NUM, 0);
         if (num>0)
         {
-            mTvFriendNews.setVisibility(View.VISIBLE);
-            mTvFriendNews.setText(num+"");
-        }else
-            mTvFriendNews.setVisibility(View.INVISIBLE);
+            if (mTvFriendNews!=null) {
+                mTvFriendNews.setVisibility(View.VISIBLE);
+                mTvFriendNews.setText(num + "");
+            }
+        }else {
+            if (mTvFriendNews!=null) {
+                mTvFriendNews.setVisibility(View.INVISIBLE);
+            }
+        }
         titleView.findViewById(R.id.link_lin_news).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
