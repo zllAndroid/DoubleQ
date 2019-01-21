@@ -311,10 +311,13 @@ public class MyApplication extends Application  implements IWebSocketPage  {
                 case "dissolutionGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(this,message.getResponseText());
                     break;
-
-//
+//添加
                 case "agreeFriendListSend":
                     DealFriendAdd.updateFriendDataByAdd(this,message.getResponseText());
+                    break;
+//                    删除
+                case "deleteFriendSend":
+                    DealFriendAdd.updateFriendDataBySub(this,message.getResponseText());
                     break;
             }
         }

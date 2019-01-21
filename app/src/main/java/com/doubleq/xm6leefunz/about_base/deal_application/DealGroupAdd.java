@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.doubleq.model.DataLinkGroupList;
 import com.doubleq.model.push_data.DataAboutGroup;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
@@ -117,14 +115,6 @@ public class DealGroupAdd {
                 String type = group_info_list.get(i).getType();
                 if (type.equals("2")) {
                     String groupName = group_info_list.get(i).getGroupName();
-//                if (group_info_list.get(i).getType().equals("1")) {
-//                    if (StrUtils.isEmpty(userId)) {
-//                        group_info_list.get(i).getGroupList().remove(0);
-//                    }
-//                    if (StrUtils.isEmpty(groupName)) {
-//                        group_info_list.remove(i);
-//                    }
-//                }
                     String chat = mRecord.getChat();
                     String groupManageName = mRecord.getGroupManageName();
                     String groupManageId = mRecord.getGroupManageId();
@@ -132,12 +122,6 @@ public class DealGroupAdd {
                         putCache(mRecord, group_info_list, i, groupManageName);
                         return;
                     }
-//                    if (groupManageId != null && !groupManageId.equals("0")) {
-//                        if (groupManageName.equals(groupName)) {
-//                            putCache(mRecord, group_info_list, i, groupManageName);
-//                            return;
-//                        }
-//                    }
                 }
             }
 //            如果列表中没有当前的字母，则判断外围新增
@@ -237,14 +221,11 @@ public class DealGroupAdd {
         groupListBean.setGroupFenzuId(mRecord.getGroupManageId());
         groupList.add(groupListBean);
         group_info_list.get(i).setGroupList(groupList);
-//                    DataLinkGroupList.RecordBean.GroupInfoListBean groupInfoListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean();
-//                    groupInfoListBean.setGroupList(group_info_list);
+
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
 
         String jsonString = JSON.toJSONString(recordBean);
-//                    JSONObject object=new JSONObject();
-//                    object.put("record",jsonString);
 
         Log.e("jsonString","展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
