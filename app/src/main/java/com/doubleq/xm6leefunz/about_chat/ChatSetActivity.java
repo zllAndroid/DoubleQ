@@ -220,7 +220,11 @@ public class ChatSetActivity extends BaseActivity {
                     .into(mIvHead);
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdTvGesign.setText(signText);
-            fdTvContant.setText("(" + record.getWxSno() + ")");
+            if (record.getIsSnoShow().equals("0")){// 0为不显示
+                fdTvContant.setVisibility(View.GONE);
+//                fdTvContant.setText("不显示帐号");
+            }else
+                fdTvContant.setText("(" + record.getWxSno() + ")");
 //            若有设置备注，仅显示备注；若无备注则显示昵称
             String nameText = StrUtils.isEmpty(record.getRemarkName()) ? record.getNickName() : record.getRemarkName();
             mTvName.setText(nameText);
@@ -230,6 +234,12 @@ public class ChatSetActivity extends BaseActivity {
                 fdIvQrcode.setVisibility(View.GONE);
             } else
                 fdIvQrcode.setVisibility(View.VISIBLE);
+//            手机号码是否显示
+//            if (dataRecord.getIsMobileShow().equals("0")) {  // 0为不显示
+//                fdIvQrcode.setVisibility(View.GONE);
+//            } else
+//                fdIvQrcode.setVisibility(View.VISIBLE);
+
         }
     }
 }

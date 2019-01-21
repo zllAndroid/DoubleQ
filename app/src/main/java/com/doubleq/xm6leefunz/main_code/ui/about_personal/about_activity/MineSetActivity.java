@@ -47,10 +47,10 @@ public class MineSetActivity extends BaseActivity {
     @BindView(R.id.set_tv_versition)
     TextView setTvVersition;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     public int getLayoutView() {
@@ -59,6 +59,7 @@ public class MineSetActivity extends BaseActivity {
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
     RealmGroupHelper realmGroupHelper;
+    String userPhone;
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -79,6 +80,11 @@ public class MineSetActivity extends BaseActivity {
             setTvVersition.setText("v" + versionName);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        Intent intent = getIntent();
+        if (intent != null){
+            userPhone = intent.getStringExtra("phone");
+            Log.e("userPhone","-------------minSet0-----------------"+userPhone);
         }
     }
 
@@ -101,7 +107,8 @@ public class MineSetActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.set_lin_pingbi,R.id.set_lin_share, R.id.set_lin_count, R.id.set_lin_yinsi, R.id.set_lin_message, R.id.set_lin_clear_cache, R.id.set_lin_versition, R.id.set_lin_about_me, R.id.set_btn_esc})
+    @OnClick({R.id.set_lin_pingbi,R.id.set_lin_share, R.id.set_lin_count, R.id.set_lin_yinsi, R.id.set_lin_message,
+            R.id.set_lin_clear_cache, R.id.set_lin_versition, R.id.set_lin_about_me, R.id.set_btn_esc})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -180,8 +187,10 @@ public class MineSetActivity extends BaseActivity {
 //                                    ToastUtil.show("1");
                                     SplitWeb.USER_ID="";
                                     AppManager.getAppManager().finishAllActivity();
-                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
-                                    startActivity(intent_recharge);
+//                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
+//                                    startActivity(intent_recharge);
+                                    Log.e("userPhone","-------------mineSet-----------------"+userPhone);
+                                    IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",userPhone);
                                     overridePendingTransition(0,0);
                                     ACache.get(MineSetActivity.this).clear();
                                     SPUtils.clear(MineSetActivity.this);

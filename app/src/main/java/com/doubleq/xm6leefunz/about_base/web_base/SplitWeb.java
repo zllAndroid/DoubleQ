@@ -41,6 +41,11 @@ public class SplitWeb {
             USER_ID=(String ) SPUtils.get(HelpUtils.activity, AppAllKey.USER_ID_KEY,"");
         return USER_ID;
     }
+    public static String getUserMobile() {
+        if(StrUtils.isEmpty(MOBILE)&&HelpUtils.activity!=null)
+            MOBILE=(String ) SPUtils.get(HelpUtils.activity, AppConfig.TYPE_PHONE,"");
+        return MOBILE;
+    }
     public static String getName() {
         if(StrUtils.isEmpty(NICK_NAME)&&HelpUtils.activity!=null)
             NICK_NAME=(String )SPUtils.get(HelpUtils.activity, AppConfig.TYPE_NAME,"");
@@ -387,10 +392,40 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "getGroupManage", map);
         return  request;
     }
+    /**
+     * 修改群名称
+     * @return
+     */
+    public  static  String upGroupName(String groupId,String groupName){
+        dealMap();
+        putData("groupId",groupId);
+        putData("groupOfId",groupName);
+        String request = WebUrl.request("Contact", "upGroupName", map);
+        return  request;
+    }
+    /**
+     * 修改群头像
+     * @return
+     */
+
+    /**
+     * 添加好友二维码
+     * @return
+     */
     public  static  String addFriendQrCode(String friendId){
         dealMap();
         putData("friendId",friendId);
         String request = WebUrl.request("Contact", "addFriendQrCode", map);
+        return  request;
+    }
+    /**
+     * 添加群二维码
+     * @return
+     */
+    public  static  String addGroupOfQrCode(String groupId){
+        dealMap();
+        putData("groupId",groupId);
+        String request = WebUrl.request("Contact", "addGroupOfQrCode", map);
         return  request;
     }
     //    获取群成员资料信息

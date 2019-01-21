@@ -951,7 +951,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             wl.acquire(10000); // 点亮屏幕
             wl.release(); // 释放
         }
-        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
+//        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {
                 @Override
@@ -1052,7 +1052,7 @@ public class MyApplication extends Application  implements IWebSocketPage  {
             wl.acquire(10000); // 点亮屏幕
             wl.release(); // 释放
         }
-        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
+//        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {
                 @Override

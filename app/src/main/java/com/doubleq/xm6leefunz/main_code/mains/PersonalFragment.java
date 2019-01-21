@@ -98,8 +98,8 @@ public class PersonalFragment extends BaseFragment  {
         return view;
     }
     private void initUI() {
-//        LinearLayout mLinBac = view.findViewById(R.id.include_frag_lin_bac);
-//        mLinBac.setBackgroundColor(getActivity().getResources().getColor(R.color.fg_top_bac));
+        LinearLayout mLinBac = view.findViewById(R.id.include_frag_lin_bac);
+        mLinBac.setBackgroundColor(getActivity().getResources().getColor(R.color.app_theme));
         includeFragTvTitle.setText("个人中心");
         initName();
         getHead();
@@ -122,6 +122,7 @@ public class PersonalFragment extends BaseFragment  {
     private void initName() {
         String name = SplitWeb.getName();
         String sign = SplitWeb.getSign();
+        String phone = SplitWeb.getUserMobile();
         if (!StrUtils.isEmpty(name))
         {
             mineTvName.setText(name);
@@ -129,6 +130,10 @@ public class PersonalFragment extends BaseFragment  {
         if (!StrUtils.isEmpty(sign))
         {
             mineTvSign.setText(sign);
+        }
+        if (!StrUtils.isEmpty(phone)){
+            userPhone = phone;
+            Log.e("userPhone","------------------------------getMobile()="+userPhone);
         }
     }
 
@@ -184,6 +189,7 @@ public class PersonalFragment extends BaseFragment  {
     }
 
     String userId;
+    String userPhone;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -297,7 +303,8 @@ public class PersonalFragment extends BaseFragment  {
                 IntentUtils.JumpToHaveOne(MyAccountActivity.class,"userId",userId);
                 break;
             case R.id.mine_lin_set:
-                IntentUtils.JumpTo(MineSetActivity.class);
+                Log.e("userPhone","-------------personal-----------------"+userPhone);
+                IntentUtils.JumpToHaveOne(MineSetActivity.class,"phone",userPhone);
                 break;
 //            case R.id.mine_lin_test:
 //                IntentUtils.JumpTo(TestActivity.class);

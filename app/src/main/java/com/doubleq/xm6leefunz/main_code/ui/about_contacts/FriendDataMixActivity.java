@@ -113,7 +113,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
         includeTopTvTital.setText("好友资料");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.GONE);
-//        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
 
 
         Intent intent = getIntent();

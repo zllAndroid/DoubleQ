@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.main_code.about_login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -44,16 +45,17 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.login_ed_psw)
     EditText loginEdPsw;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     //绑定成功后的操作
 //    @Override
 //    public void onServiceBindSuccess() {
 //        super.onServiceBindSuccess();
 //    }
+
     public static int screenWidth;
     public static int screenHeight;
 
@@ -69,13 +71,13 @@ public class LoginActivity extends BaseActivity {
         includeTopTvTital.setText("登录");
 
         Bundle bundle = this.getIntent().getExtras();
-        String phone = null;
+        String userPhone = null;
         if (bundle != null) {
-            phone = bundle.getString("phone");
+            userPhone = bundle.getString("phone");
         }
-        if (phone != null){
-            loginEdPhone.setText(phone);
-            loginEdPhone.setSelection(phone.length());//将光标移至文字末尾
+        if (userPhone != null){
+            loginEdPhone.setText(userPhone);
+            loginEdPhone.setSelection(userPhone.length());//将光标移至文字末尾
         }
         mCache = ACache.get(this);
         listenEnter();
@@ -87,6 +89,7 @@ public class LoginActivity extends BaseActivity {
 
         SPUtils.put(this, AppConfig.TYPE_NAME,dataLogin.getNickName());
         SPUtils.put(this,AppConfig.TYPE_NO,dataLogin.getWxSno());
+        SPUtils.put(this,AppConfig.TYPE_PHONE,dataLogin.getWxSno());
         SPUtils.put(this,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
         SplitWeb.USER_TOKEN = dataLogin.getUserToken();
         SplitWeb.MOBILE = dataLogin.getMobile();

@@ -99,7 +99,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
         includeTopTvTital.setText("好友资料");
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
-//        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
 
         Intent intent = getIntent();
         FriendId = intent.getStringExtra("id");
