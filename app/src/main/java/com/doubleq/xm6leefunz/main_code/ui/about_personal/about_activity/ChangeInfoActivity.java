@@ -157,10 +157,12 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     doChangeSign();
                 break;
             case R.id.changeinfo_lin_count:
-                String up_sno_num = record.getUpSnoNum();
-                if (up_sno_num.equals("1"))
-                    if (NoDoubleClickUtils.isDoubleClick())
-                        doChangeCount();
+                if (record!=null) {
+                    String up_sno_num = record.getUpSnoNum();
+                    if (up_sno_num.equals("1"))
+                        if (NoDoubleClickUtils.isDoubleClick())
+                            doChangeCount();
+                }
                 break;
         }
     }

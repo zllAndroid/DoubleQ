@@ -111,6 +111,7 @@ public class LoadDataActivity extends BaseActivity {
         @Override
         public void onFinish() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                if (electricFanView!=null)
                 electricFanView.stopNestedScroll();
             }
             Log.e("CountDownTimer","onFinish="+durlation+"");

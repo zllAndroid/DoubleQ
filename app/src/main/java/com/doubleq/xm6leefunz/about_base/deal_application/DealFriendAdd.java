@@ -124,7 +124,7 @@ public class DealFriendAdd {
             return;
         friendList = record.getFriendList();
         String chat = mRecord.getChat();
-        String groupManageName = mRecord.getGroupName();
+         String groupManageName = mRecord.getGroupName();
         String groupId = mRecord.getGroupId();
         if (friendList.size()>0)
         {
@@ -135,13 +135,15 @@ public class DealFriendAdd {
                 //type 1
                 if (groupId != null && !groupId.equals("0")&&type.equals("1")) {
                     if (groupManageName != null && groupManageName.equals(groupName)) {
-                        dealTopOneHaveGroup(mRecord,  i, groupManageName);
+                        dealTopOneHaveGroup(mRecord,  i, groupManageName,"1");
                         isTopOne=false;
                     }
                 }
                 // type2
-                if (chat != null && chat.equals(groupName)) {
-                    dealTopOneHaveGroup(mRecord,  i, groupName);
+                if (chat != null && chat.equals(groupName)&&type.equals("2")) {
+                    dealTopOneHaveGroup(mRecord,  i, groupName,"2");
+
+                   saveData();
                     isTopTwo=false;
                 }
             }
@@ -149,7 +151,7 @@ public class DealFriendAdd {
                 for (int i=0;i<friendList.size();i++)
                 {
                     String type = friendList.get(i).getType();
-                    if (type.equals("1")&&isTopOne)
+                    if (type.equals("1")&&isTopOne&&groupId != null && !groupId.equals("0"))
                     {
                         addTopTypeOne(mRecord,0);
                     }
@@ -162,19 +164,23 @@ public class DealFriendAdd {
                             int i3 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupNameNext));
                             if (i1 < i2 && i2 < i3) {
                                 dealNoChartFriend(mRecord, friendList, (i+1), chat);
+                                return;
                             }
                         } else if (i1 < i2) {
                             dealNoChartFriend(mRecord, friendList, (i+1), chat);
+                            return;
                         } else if (i1 > i2) {
                             dealNoChartFriend(mRecord, friendList, 0, chat);
+                            return;
                         }
                     }
                 }
-        }else {
-            if (!StrUtils.isEmpty(groupId)&& !groupId.equals("0"))
-            {
-                addTopTypeOne(mRecord,0);
-            }
+        }
+        else {
+//            if (!StrUtils.isEmpty(groupId)&& !groupId.equals("0"))
+//            {
+//                addTopTypeOne(mRecord,0);
+//            }
             dealNoChartFriend(mRecord, friendList, 0, chat);
         }
 
@@ -184,7 +190,7 @@ public class DealFriendAdd {
     private static void dealTypeTwoHaveChart(DataAboutFriend.RecordBean mRecord, int i, String groupName) {
     }
 
-    private static void dealTopOneHaveGroup(DataAboutFriend.RecordBean mRecord, int i, String groupName) {
+    private static void dealTopOneHaveGroup(DataAboutFriend.RecordBean mRecord, int i, String groupName,String type) {
 
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
@@ -197,6 +203,7 @@ public class DealFriendAdd {
         groupListBean.setUserId(mRecord.getFriendsId());
         groupList.add(groupListBean);
         friendList.get(i).setGroupList(groupList);
+        friendList.get(i).setType(type);
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
         String jsonString = JSON.toJSONString(recordBean);
@@ -269,9 +276,9 @@ public class DealFriendAdd {
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
 
-//        Intent intent = new Intent();
-//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-//        mContext.sendBroadcast(intent);
+        Intent intent = new Intent();
+        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+        mContext.sendBroadcast(intent);
 
 
 
