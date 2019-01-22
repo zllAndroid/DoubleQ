@@ -26,6 +26,8 @@ import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.CallbackItemTouch;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.DefaultItemTouchHelpCallback;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.DefaultItemTouchHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.GroupManageAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.MyItemTouchHelperCallback;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
@@ -158,7 +160,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
     List<DataGroupManage.RecordBean.GroupInfoBean> mListGroupInfo =new ArrayList<>();
     private void initAdapter() {
         blackAdapter = new GroupManageAdapter(this, mListGroupInfo);
-        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(blackAdapter);
         blackAdapter.notifyDataSetChanged();
         blackAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -213,6 +215,11 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                 }
             }
         });
+        DefaultItemTouchHelper itemTouchHelper = new DefaultItemTouchHelper(onItemTouchCallbackListener);
+        itemTouchHelper.attachToRecyclerView(mRecyclerView);
+        itemTouchHelper.setDragEnable(true);
+        itemTouchHelper.setSwipeEnable(false);
+
 //        ItemTouchHelper.Callback callback = new MyItemTouchHelperCallback(new CallbackItemTouch() {
 //            @Override
 //            public void itemTouchOnMove(int oldPosition, int newPosition) {
@@ -234,12 +241,34 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //        ItemTouchHelper touchHelper = new ItemTouchHelper(callback); // Create ItemTouchHelper and pass with parameter the MyItemTouchHelperCallback
 //        touchHelper.attachToRecyclerView(mRecyclerView); // Attach ItemTouchHelper to RecyclerView
 
-        initTouch();
+//        initTouch();
 
 
 
     }
+    private DefaultItemTouchHelpCallback.OnItemTouchCallbackListener onItemTouchCallbackListener = new DefaultItemTouchHelpCallback.OnItemTouchCallbackListener() {
+        @Override
+        public void onSwiped(int adapterPosition) {
+            // 滑动删除的时候，从数据源移除，并刷新这个Item。
+//            if (group_info != null) {
+//                group_info.remove(adapterPosition);
+//                blackAdapter.notifyItemRemoved(adapterPosition);
+//            }
+        }
 
+        @Override
+        public boolean onMove(int srcPosition, int targetPosition) {
+            if (group_info != null) {
+                // 更换数据源中的数据Item的位置
+                Collections.swap(group_info, srcPosition, targetPosition);
+                // 更新UI中的Item的位置，主要是给用户看到交互效果
+                blackAdapter.notifyItemMoved(srcPosition, targetPosition);
+                includeTopTvRight.setVisibility(View.VISIBLE);
+                return true;
+            }
+            return false;
+        }
+    };
     private void initTouch() {
 
         // 实现左边侧滑删除 和 拖动排序
@@ -302,6 +331,16 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //                mAdapter.notifyItemRemoved(position);
             }
 
+            @Override
+            public boolean isItemViewSwipeEnabled() {
+                return true;
+            }
+
+            @Override
+            public boolean isLongPressDragEnabled() {
+                return false;
+            }
+
             /**
              * 拖动选择状态改变回调
              */
@@ -324,7 +363,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                 ViewCompat.setTranslationX(viewHolder.itemView,0);
             }
         });
-//        itemTouchHelper.s(true);
+//        itemTouchHelper.isLongPressDragEnabled(true);
         // 这个就不多解释了，就这么attach
         itemTouchHelper.attachToRecyclerView(mRecyclerView);
     }

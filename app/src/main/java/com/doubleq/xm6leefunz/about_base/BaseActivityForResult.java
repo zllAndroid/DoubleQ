@@ -218,10 +218,10 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //        如果打开弹窗加载显示，收到服务器的返回0.5秒后自动关闭（防止反应太快还没显示清楚就隐藏）
         if (isSendDialog&&isSucess.equals(AppAllKey.CODE_OK))
         {
-            mHandler.sendEmptyMessageDelayed(LOAD_SUCCESS, 500);
+            mHandler.sendEmptyMessageDelayed(LOAD_SUCCESS, 100);
         }else if (isSendDialog)
         {
-            mHandler.sendEmptyMessageDelayed(LOAD_FAILED, 500);
+            mHandler.sendEmptyMessageDelayed(LOAD_FAILED, 100);
         }
     }
     public void errorResult(String s) {
