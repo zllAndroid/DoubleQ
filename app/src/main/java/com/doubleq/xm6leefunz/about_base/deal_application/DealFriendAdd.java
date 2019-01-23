@@ -166,11 +166,16 @@ public class DealFriendAdd {
                                 dealNoChartFriend(mRecord, friendList, (i+1), chat);
                                 return;
                             }
+                            else if (i1 > i2)
+                            {
+                                dealNoChartFriend(mRecord, friendList, i, chat);
+                                return;
+                            }
                         } else if (i1 < i2) {
                             dealNoChartFriend(mRecord, friendList, (i+1), chat);
                             return;
                         } else if (i1 > i2) {
-                            dealNoChartFriend(mRecord, friendList, 0, chat);
+                            dealNoChartFriend(mRecord, friendList, i, chat);
                             return;
                         }
                     }
@@ -182,8 +187,8 @@ public class DealFriendAdd {
 //                addTopTypeOne(mRecord,0);
 //            }
             dealNoChartFriend(mRecord, friendList, 0, chat);
+            return;
         }
-
         saveData();
     }
 

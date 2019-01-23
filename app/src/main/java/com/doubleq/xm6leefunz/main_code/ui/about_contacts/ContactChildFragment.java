@@ -109,9 +109,9 @@ public class ContactChildFragment extends BaseFragment {
                     int num = intent.getIntExtra("num",0);
 
                     if (mTvFriendNews==null)
-                {
-                    return;
-                }
+                    {
+                        return;
+                    }
                     if (num>0 )
                     {
                         mTvFriendNews.setVisibility(View.VISIBLE);
@@ -281,28 +281,26 @@ public class ContactChildFragment extends BaseFragment {
     }
 
     private void initGroupWs() {
-        if (aCache!=null)
+        if (aCache==null)
+            aCache =  ACache.get(getActivity());
+        String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
+        if (!StrUtils.isEmpty(asString))
         {
-            String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
-            if (!StrUtils.isEmpty(asString))
-            {
-                Log.e("initDataGroup",asString);
-                initDataGroup(asString,false);
-                return;
-            }
+            Log.e("initDataGroup",asString);
+            initDataGroup(asString,false);
+            return;
         }
         sendWeb(SplitWeb.getGroupManage());
     }
 
     private void initFriendWs() {
-        if (aCache!=null)
+        if (aCache==null)
+            aCache =  ACache.get(getActivity());
+        String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
+        if (!StrUtils.isEmpty(asString))
         {
-            String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
-            if (!StrUtils.isEmpty(asString))
-            {
-                initDataFriend(asString,false);
-                return;
-            }
+            initDataFriend(asString,false);
+            return;
         }
         sendWeb(SplitWeb.getFriendList());
     }
@@ -356,6 +354,11 @@ public class ContactChildFragment extends BaseFragment {
         if (friend_list.size()>0)
         {
             initFriendRecord( friend_list,isWs);
+        }else if (friend_list.size()==0)
+        {
+            mFriendList.clear();
+            if (mlinkFriend!=null)
+                mlinkFriend.notifyDataSetChanged();
         }
     }
     //好友record部分的解析
@@ -390,9 +393,9 @@ public class ContactChildFragment extends BaseFragment {
                 aCache.put(AppAllKey.FRIEND_DATA, json);
             }
             dealFriendRequestRealm();
-            if (mlinkFriend!=null)
-                mlinkFriend.notifyDataSetChanged();
         }
+        if (mlinkFriend!=null)
+            mlinkFriend.notifyDataSetChanged();
     }
 
     private void dealFriendRealm(List<DataLinkManList.RecordBean.FriendListBean> friend_list, int i) {
@@ -516,9 +519,9 @@ public class ContactChildFragment extends BaseFragment {
                     aCache.put(AppAllKey.GROUD_DATA, json);
                 }
                 dealGroupRuquest();
-                if (mGroupAdapter!=null)
-                    mGroupAdapter.notifyDataSetChanged();
             }
+            if (mGroupAdapter!=null)
+                mGroupAdapter.notifyDataSetChanged();
         }
     }
 

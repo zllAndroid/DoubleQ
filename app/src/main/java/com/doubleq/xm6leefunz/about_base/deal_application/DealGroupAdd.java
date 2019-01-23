@@ -141,11 +141,16 @@ public class DealGroupAdd {
                             dealNoChart(mRecord, group_info_list, (i+1), chat);
                             return;
                         }
+                        else if (i1 > i2)
+                        {
+                            dealNoChart(mRecord, group_info_list, i, chat);
+                            return;
+                        }
                     } else if (i1 < i2) {
                         dealNoChart(mRecord, group_info_list, (i+1), chat);
                         return;
                     } else if (i1 > i2) {
-                        dealNoChart(mRecord, group_info_list, 0, chat);
+                        dealNoChart(mRecord, group_info_list, i, chat);
                         return;
                     }
                 }
