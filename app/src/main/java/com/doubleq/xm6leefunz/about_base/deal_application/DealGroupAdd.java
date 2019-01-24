@@ -74,7 +74,7 @@ public class DealGroupAdd {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
         if (group_info_list.size() > 0) {
-            String chat = mRecord.getChat();
+            String chat = mRecord.getChart();
             String groupManageId = mRecord.getGroupManageId();//分组id
             String groupId = mRecord.getGroupId();//群id
             for (int i = 0; i < group_info_list.size(); i++) {

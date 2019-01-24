@@ -248,7 +248,16 @@ public class MyApplication extends Application implements IWebSocketPage {
                 isBind = false;
             }
         }
-//        接收消息时处理消息并存库
+        try {
+            initReceiver(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    private void initReceiver(Response message) {
+        //        接收消息时处理消息并存库
         String isSucess = HelpUtils.HttpIsSucess(message.getResponseText());
 //        Log.e("onEvent","activity"+messageEvent.getMessage());
         if (isSucess.equals(AppAllKey.CODE_OK)) {
@@ -320,7 +329,7 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "modifyGroupListSend":
 //                    String jsonString = DealGroupAdd.updateGroupDataByModify(this, message.getResponseText());
 //                    if (jsonString != null)
-                    DealGroupAdd.updateGroupDataBySub(this, message.getResponseText());
+                    DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
 //                        DealGroupAdd.updateGroupDataByAdd(this, jsonString);
 //                        DealGroupAdd.updateGroupDataByAdd(this,  message.getResponseText());
 //                    DealGroupAdd.updateGroupDataByModify(this, message.getResponseText());
