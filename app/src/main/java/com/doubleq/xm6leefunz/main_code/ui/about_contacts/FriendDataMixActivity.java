@@ -88,6 +88,8 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
     LinearLayout fdLinFenzu;
     @BindView(R.id.gf_lin_top)
     LinearLayout gfLinTop;
+    @BindView(R.id.fd_tv_fenzu)
+    TextView fdTvFenzu;
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +106,6 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
     RealmLinkFriendHelper realmLinkFriendHelper;
-    @BindView(R.id.fd_tv_fenzu)
-    TextView fdTvFenzu;
 
     @Override
     protected void initBaseView() {

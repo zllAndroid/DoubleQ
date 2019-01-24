@@ -63,6 +63,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
@@ -177,19 +178,18 @@ public class ChatActivity extends BaseActivity {
     HideControl hideControl;
     RealmLinkManHelper realmLink;
     CusJumpChatData cusJumpChatData;
-
     @Override
     protected void initBaseView() {
         super.initBaseView();
         setAboutBar();
         SplitWeb.IS_CHAT = "1";
         if (realmHelper==null)
-        realmHelper = new RealmChatHelper(this);
+            realmHelper = new RealmChatHelper(this);
 
         if (realmHomeHelper==null)
             realmHomeHelper = new RealmHomeHelper(this);
         if (hideControl==null)
-        hideControl = new HideControl();
+            hideControl = new HideControl();
 
 
         mChatTvShow.setBackgroundResource(R.color.chattrans);
@@ -568,7 +568,7 @@ public class ChatActivity extends BaseActivity {
                 }
             }else if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
                 if (mIntent==null)
-                 mIntent = new Intent();
+                    mIntent = new Intent();
                 mIntent.putExtra("message", record2.getMessage());
                 mIntent.putExtra("id", record2.getFriendsId());
                 mIntent.setAction("action.refreshMsgFragment");
@@ -644,7 +644,8 @@ public class ChatActivity extends BaseActivity {
             switch (type) {
                 case Constants.CHAT_ITEM_TYPE_LEFT:
 
-                    IntentUtils.JumpToHaveTwo(FriendDataActivity.class, "id", friendId,"esc","esc");
+                    IntentUtils.JumpToHaveOne(FriendDataMixActivity.class, "id", friendId);
+//                    IntentUtils.JumpToHaveTwo(FriendDataActivity.class, "id", friendId,"esc","esc");
                     break;
                 case Constants.CHAT_ITEM_TYPE_RIGHT:
 //                    TODO 点击自己头像，显示自己的信息

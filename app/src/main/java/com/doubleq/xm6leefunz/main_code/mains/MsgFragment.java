@@ -38,6 +38,7 @@ import com.doubleq.xm6leefunz.about_broadcastreceiver.NetReceiver;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.ChatNewsWindow;
 import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
+import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
@@ -116,6 +117,7 @@ public class MsgFragment extends BaseFragment {
             intentFilter.addAction("zero.refreshMsgFragment");
             intentFilter.addAction("del.refreshMsgFragment");
             intentFilter.addAction("action.dialog");
+            intentFilter.addAction(GroupChatDetailsActivity.ACTION_UP_GROUP_NAME);
             intentFilter.addAction(AppConfig.LINK_GROUP_DEL_ACTION);
             getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
         }
@@ -204,12 +206,66 @@ public class MsgFragment extends BaseFragment {
         else if (action.equals("action_dialog")){
 
         }
+        else if (action.equals(GroupChatDetailsActivity.ACTION_UP_GROUP_NAME)){
+            initGroupName(intent);
+        }
         else if (action.equals(AppConfig.LINK_GROUP_DEL_ACTION)){
             initDel(intent);
         }
         if (mRecyclerView!=null)
             mRecyclerView.smoothScrollToPosition(0);
         sendBroadcast();
+    }
+
+    private void initGroupName(Intent intent) {
+        String groupId = intent.getStringExtra("id");
+        String groupName = intent.getStringExtra("groupName");
+        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
+        CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(groupId);
+//        if (homeRealmData != null){
+//            Log.e("upGroupName","-------------former-------------"+homeRealmData.getNickName());
+//            homeRealmData.setNickName(groupName);
+//            Log.e("upGroupName","-----------later---------------"+homeRealmData.getNickName());
+//        }
+        Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
+        if ( mList.size()==0&&cusHomeRealmData.size()!=0)
+        {
+            mList.clear();
+            mList.addAll(cusHomeRealmData);
+            initAdapter();
+        }
+        if (mList.size()!=0)
+            for (int i=0;i<mList.size();i++)
+            {
+                if (mList.get(i).getTotalId().equals(groupId+SplitWeb.getUserId()+""))
+                {
+                    if (homeRealmData!=null) {
+                        mList.set(i, homeRealmData);
+                        msgAdapter.notifyItemChanged(i);
+                    }
+//                    if (i==0)
+//                    {
+//                        mList.remove(0);
+//                        mList.add(0,homeRealmData);
+//                        msgAdapter.notifyItemChanged(0);
+//
+//                        return;
+//                    }
+//                    if (msgAdapter!=null)
+//                    {
+////                            mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
+//                        msgAdapter.removeData(i);
+//                        msgAdapter.addData(homeRealmData);
+//                        mRecyclerView.smoothScrollToPosition(0);
+////                            realmHelper.deleteRealmMsg(id+SplitWeb.USER_ID);
+//                    }
+//                    return;
+//        if (homeRealmData!=null) {
+//            msgAdapter.addData(homeRealmData);
+//            msgAdapter.notifyItemChanged(0);
+//        }
+                }
+            }
     }
 
     private void initDel(Intent intent) {

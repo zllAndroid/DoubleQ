@@ -451,7 +451,7 @@ public class ContactChildFragment extends BaseFragment {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = mFriendList.get(groupPosition).getGroupList().get(childPosition);
                 String userId = mFriendList.get(groupPosition).getGroupList().get(childPosition).getUserId();
-                IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",userId);
+                IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",userId);
                 return false;
             }
         });

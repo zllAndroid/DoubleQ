@@ -316,12 +316,21 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "outGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
                     break;
+//                    给成员发送 联系人变动信息接口
+                case "modifyGroupListSend":
+//                    String jsonString = DealGroupAdd.updateGroupDataByModify(this, message.getResponseText());
+//                    if (jsonString != null)
+                    DealGroupAdd.updateGroupDataBySub(this, message.getResponseText());
+//                        DealGroupAdd.updateGroupDataByAdd(this, jsonString);
+//                        DealGroupAdd.updateGroupDataByAdd(this,  message.getResponseText());
+//                    DealGroupAdd.updateGroupDataByModify(this, message.getResponseText());
+                    break;
 //                    解散群聊
                 case "dissolutionGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
 
                     break;
-                   //添加好友
+                //添加好友
                 case "agreeFriendListSend":
                     DealFriendAdd.updateFriendDataByAdd(this, message.getResponseText());
                     break;

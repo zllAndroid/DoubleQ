@@ -387,13 +387,13 @@ public class SplitWeb {
         return  request;
     }
     /**
-     * 修改群名称
+     * 修改群名
      * @return
      */
     public  static  String upGroupName(String groupId,String groupName){
         dealMap();
         putData("groupId",groupId);
-        putData("groupOfId",groupName);
+        putData("groupName",groupName);
         String request = WebUrl.request("Contact", "upGroupName", map);
         return  request;
     }
@@ -401,7 +401,13 @@ public class SplitWeb {
      * 修改群头像
      * @return
      */
-
+    public  static  String upGroupHeadImg(String groupId,String headImg){
+        dealMap();
+        putData("groupId",groupId);
+        putData("headImg",headImg);
+        String request = WebUrl.request("Contact", "upGroupHeadImg", map);
+        return  request;
+    }
     /**
      * 添加好友二维码
      * @return

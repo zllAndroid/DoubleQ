@@ -4,22 +4,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/friend_data_bg"
+    android:background="@drawable/bac_notice_detail"
+    android:id="@+id/notice_details_lin_main"
     android:orientation="vertical"
     >
     <include layout="@layout/activity_include_title_bar"/>
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_weight="1"
             android:orientation="vertical">
             <ImageView
                 android:id="@+id/notice_iv_qrcode"
-                android:layout_width="@dimen/dp40"
-                android:layout_height="@dimen/dp40"
-                app:srcCompat="@drawable/friend_data_ercode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/friend_data_add_ercode"
                 android:layout_gravity="center_vertical"
                 android:adjustViewBounds="true"
                 android:layout_margin="@dimen/dp10"
@@ -28,77 +31,144 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="@dimen/dp30"
+                android:layout_marginTop="@dimen/dp20"
                 android:orientation="vertical">
                 <ImageView
                     android:id="@+id/notice_iv_head"
-                    android:layout_width="@dimen/dp60"
-                    android:layout_height="@dimen/dp60"
+                    android:layout_width="@dimen/dp80"
+                    android:layout_height="@dimen/dp80"
                     app:srcCompat="@drawable/mine_head"
-                    android:layout_gravity="center"
                     android:adjustViewBounds="true"
-                    android:layout_margin="@dimen/dp10"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:layout_marginLeft="@dimen/dp30"
                     />
-                <TextView
-                    android:id="@+id/notice_tv_name"
+                    <TextView
+                        android:id="@+id/notice_tv_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp20"
+                        android:layout_marginLeft="@dimen/dp30"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp20"
+                        android:text="龙哥（张龙龙）"/>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/dp5"
-                    android:textColor="@color/white"
-                    android:text="龙哥（张龙龙）"/>
-                <TextView
-                    android:id="@+id/notice_tv_num"
+                    android:layout_marginLeft="@dimen/dp30"
+                    android:layout_marginTop="@dimen/dp6"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp16"
+                        android:text="帐号："/>
+                    <TextView
+                        android:id="@+id/notice_tv_num"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp16"
+                        android:textColor="@color/white"
+                        android:text="5178886485"/>
+                </LinearLayout>
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/dp5"
-                    android:textColor="@color/white"
-                    android:text="5178886485"/>
-                <TextView
+                    android:layout_marginLeft="@dimen/dp30"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:gravity="center"
+                        android:layout_marginTop="@dimen/dp5"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        android:drawableRight="@drawable/friend_data_fenzu"
+                        android:drawablePadding="@dimen/dp5"
+                        android:text="所在分组：家人"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/dp30"
+                    android:layout_marginTop="@dimen/dp6"
+                    android:orientation="horizontal">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp16"
+                        android:text="签名："/>
+                    <TextView
+                        android:id="@+id/notice_tv_sign"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/sp16"
+                        android:text="生活来源于艺术，艺术创作人生"/>
+                </LinearLayout>
 
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="@dimen/dp40"
+                >
+                <TextView
+                    android:id="@+id/notice_tv_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/dp5"
-                    android:textColor="@color/white"
+                    android:text="备注:"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:textColor="@color/gray666"
+                    android:textSize="@dimen/sp14"
                     android:visibility="gone"
-                    android:drawableRight="@drawable/friend_data_fenzu"
-                    android:drawablePadding="@dimen/dp5"
-                    android:text="所在分组：家人"/>
-                <TextView
-                    android:id="@+id/notice_tv_sign"
+                    android:layout_marginLeft="@dimen/dp10"/>
+
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:layout_marginTop="@dimen/dp5"
+                    android:layout_weight="1"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:layout_marginRight="@dimen/dp30"
+                    android:layout_marginLeft="@dimen/dp30"
+                    android:descendantFocusability="blocksDescendants">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/notice_detail_recyc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="0dp"
+                        android:fadingEdge="none" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/notice_tv_reply"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:text="生活来源于艺术，艺术创作人生"/>
+                    android:gravity="center"
+                    android:layout_gravity="right"
+                    android:layout_marginRight="@dimen/dp30"
+                    android:paddingLeft="@dimen/dp10"
+                    android:paddingRight="@dimen/dp10"
+                    android:background="@drawable/btn_stroke_nor"
+                    android:text="回复"/>
             </LinearLayout>
         </LinearLayout>
-        <TextView
-            android:id="@+id/notice_tv_remark"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="备注"
-            android:textColor="@color/gray666"
-            android:textSize="@dimen/sp14"
-            android:layout_marginLeft="@dimen/dp10"
-            android:layout_above="@+id/notice_lin_bot"/>
+
         <LinearLayout
             android:id="@+id/notice_lin_bot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_centerHorizontal="true"
-            android:layout_alignParentBottom="true"
-
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_gravity="center"
             >
             <TextView
                 android:id="@+id/notice_tv_jujue"
@@ -114,7 +184,9 @@
                 android:paddingBottom="@dimen/dp10"
                 android:paddingLeft="@dimen/dp30"
                 android:paddingRight="@dimen/dp30"
-                android:layout_margin="@dimen/dp30"
+                android:layout_marginLeft="@dimen/dp30"
+                android:layout_marginRight="@dimen/dp30"
+                android:layout_marginBottom="@dimen/dp15"
                 android:text="拒绝"/>
             <TextView
                 android:id="@+id/notice_tv_ok"
@@ -128,11 +200,13 @@
                 android:paddingTop="@dimen/dp10"
                 android:paddingBottom="@dimen/dp10"
                 android:paddingLeft="@dimen/dp30"
-                android:layout_margin="@dimen/dp30"
+                android:layout_marginLeft="@dimen/dp30"
+                android:layout_marginRight="@dimen/dp30"
+                android:layout_marginBottom="@dimen/dp15"
                 android:paddingRight="@dimen/dp30"
                 android:text="同意"/>
         </LinearLayout>
 
 
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>

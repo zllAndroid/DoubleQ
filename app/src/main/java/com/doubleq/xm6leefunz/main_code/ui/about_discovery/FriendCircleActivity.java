@@ -35,25 +35,26 @@ public class FriendCircleActivity extends BaseActivity {
 //    LinearLayout layout_item;
 //    View view;
 //    TextView tv_title;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_friend_circle);
-//        tvRecyclerView = findViewById(R.id.friendcircle_recyc);
-//        ImageView img_back;
-//        img_back = findViewById(R.id.img_fcircle_back);
-//        img_back.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-////                AppManaager.getAppManager().finishActivity();
-//            }
-//        });
-//
-//        tvRecyclerView.setHasFixedSize(true);
-//        tvRecyclerView.setNestedScrollingEnabled(false);
-//        tvRecyclerView.setLayoutManager(new GridLayoutManager(FriendCircleActivity.this,1));
-//        initData();
-    }
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+////        setContentView(R.layout.activity_friend_circle);
+////        tvRecyclerView = findViewById(R.id.friendcircle_recyc);
+////        ImageView img_back;
+////        img_back = findViewById(R.id.img_fcircle_back);
+////        img_back.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View view) {
+//////                AppManaager.getAppManager().finishActivity();
+////            }
+////        });
+////
+////        tvRecyclerView.setHasFixedSize(true);
+////        tvRecyclerView.setNestedScrollingEnabled(false);
+////        tvRecyclerView.setLayoutManager(new GridLayoutManager(FriendCircleActivity.this,1));
+////        initData();
+//    }
 
     @Override
     protected void initBaseView() {

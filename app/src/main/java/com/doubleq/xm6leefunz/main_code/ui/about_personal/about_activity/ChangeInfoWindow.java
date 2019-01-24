@@ -111,8 +111,9 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
     TextView mTvMax;
     private static final int BEIZHU_MAX_NUM = 10;
     private static final int FENZU_MAX_NUM = 10;
-    private static final int COUNT_MAX_NUM = 12;
-    private static final int SIGN_MAX_NUM = 20;
+    private static final int COUNT_MAX_NUM = 25;
+    private static final int SIGN_MAX_NUM = 30;
+    private static final int REPLY_MAX_NUM = 20;
     private static int MAX_NUM = 0;
     private void initView() {
         Button mBtnCancle = mContentView.findViewById(R.id.pop_btn_cancle);
@@ -147,17 +148,17 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                     mEd.setText(mContant.substring(0, BEIZHU_MAX_NUM));
                 } else
                     mTvMax.setText(mContant.length() + " / " + BEIZHU_MAX_NUM);
-                InputFilter[] filter = {new InputFilter.LengthFilter(10)};
+                InputFilter[] filter = {new InputFilter.LengthFilter(BEIZHU_MAX_NUM)};
                 mEd.setFilters(filter);
                 break;
             }
             case "修改账号": {
-                if (mContant.length() > COUNT_MAX_NUM) {
-                    mTvMax.setText(COUNT_MAX_NUM + " / " + COUNT_MAX_NUM);
-                    mEd.setText(mContant.substring(0, COUNT_MAX_NUM));
-                } else
-                    mTvMax.setText("0 / " + COUNT_MAX_NUM);
-                InputFilter[] filter = {new InputFilter.LengthFilter(12)};
+//                if (mContant.length() > COUNT_MAX_NUM) {
+//                    mTvMax.setText(COUNT_MAX_NUM + " / " + COUNT_MAX_NUM);
+//                    mEd.setText(mContant.substring(0, COUNT_MAX_NUM));
+//                } else
+                mTvMax.setText("0 / " + COUNT_MAX_NUM);
+                InputFilter[] filter = {new InputFilter.LengthFilter(COUNT_MAX_NUM)};
                 mEd.setFilters(filter);
                 break;
             }
@@ -167,7 +168,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                     mEd.setText(mContant.substring(0, SIGN_MAX_NUM));
                 } else
                     mTvMax.setText(mContant.length() + " / " + SIGN_MAX_NUM);
-                InputFilter[] filter = {new InputFilter.LengthFilter(20)};
+                InputFilter[] filter = {new InputFilter.LengthFilter(SIGN_MAX_NUM)};
                 mEd.setFilters(filter);
                 break;
             }
@@ -179,14 +180,20 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                     mEd.setText(mContant.substring(0, FENZU_MAX_NUM));
                 } else
                     mTvMax.setText(mContant.length() + " / " + FENZU_MAX_NUM);
-                InputFilter[] filter = {new InputFilter.LengthFilter(10)};
+                InputFilter[] filter = {new InputFilter.LengthFilter(FENZU_MAX_NUM)};
                 mEd.setFilters(filter);
                 break;
             }
             case "增加分组":{
                 mEd.setHint("请输入分组名称");
                 mTvMax.setText(mContant.length() + " / " + FENZU_MAX_NUM);
-                InputFilter[] filter = {new InputFilter.LengthFilter(10)};
+                InputFilter[] filter = {new InputFilter.LengthFilter(FENZU_MAX_NUM)};
+                mEd.setFilters(filter);
+                break;
+            }
+            case "回复":{
+                mTvMax.setText(mContant.length() + " / " + REPLY_MAX_NUM);
+                InputFilter[] filter = {new InputFilter.LengthFilter(REPLY_MAX_NUM)};
                 mEd.setFilters(filter);
                 break;
             }
@@ -205,7 +212,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             }
 
         }
-        else if (title.equals("修改账号") || title.equals("增加分组")){
+        else if (title.equals("修改账号") || title.equals("增加分组") ||  title.equals("回复") ){
             mEd.setText("");
             mEd.setSelection(mEd.getText().toString().length());
             mEd.addTextChangedListener(textWatcher);
@@ -256,6 +263,9 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                     break;
                 case "修改个性签名":
                     MAX_NUM = SIGN_MAX_NUM;
+                    break;
+                case "回复":
+                    MAX_NUM = REPLY_MAX_NUM;
                     break;
             }
             mEd.setSelection(mEd.getText().toString().length());

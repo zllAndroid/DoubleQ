@@ -5,8 +5,10 @@ import android.util.Log;
 
 import com.doubleq.model.CusJumpChatData;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataGroupRealm;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataRealmMsg;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusRealmChatMsg;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.util.List;
@@ -161,6 +163,20 @@ public class RealmHomeHelper {
             mRealm.commitTransaction();
         }
     }
+
+    /**
+     * update （改） 群名
+     */
+    public void updateGroupName(String groupId, String groupName) {
+        CusHomeRealmData realmInfo = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, groupId+SplitWeb.getUserId()).findFirst();
+        if (realmInfo!=null) {
+            mRealm.beginTransaction();
+            realmInfo.setNickName(groupName);
+            mRealm.insertOrUpdate(realmInfo);
+            mRealm.commitTransaction();
+        }
+    }
+
     public int queryNum(String friendId) {
         CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class)
                 .equalTo(FILE_NAME, friendId+SplitWeb.getUserId())

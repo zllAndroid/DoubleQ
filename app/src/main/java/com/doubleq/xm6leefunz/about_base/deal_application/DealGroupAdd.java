@@ -18,6 +18,7 @@ import java.util.List;
 
 public class DealGroupAdd {
 
+    private static String jsonString;
     public  static ACache aCache;
     public  static Context mContext;
     public  static void updateGroupDataByAdd(Context montext,String result)
@@ -50,6 +51,83 @@ public class DealGroupAdd {
                 realmHomeHelper.deleteRealmMsg(record.getGroupId());
             }
         }
+    }
+    public  static String updateGroupDataByModify(Context montext,String result)
+    {
+        mContext=montext;
+        DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
+        DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
+        aCache =  ACache.get(mContext);
+        if (aCache!=null)
+        {
+            String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
+            if (!StrUtils.isEmpty(asString)&&record!=null)
+            {
+                s = initDataGroupModify(asString, record);
+            }
+        }
+        return  s;
+    }
+   private static String s;
+//  修改群名
+    private static String initDataGroupModify(String asString, DataAboutGroup.RecordBean mRecord) {
+        DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
+        final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
+        if (group_info_list.size() > 0) {
+            String chat = mRecord.getChat();
+            String groupManageId = mRecord.getGroupManageId();//分组id
+            String groupId = mRecord.getGroupId();//群id
+            for (int i = 0; i < group_info_list.size(); i++) {
+                String type = group_info_list.get(i).getType();
+                String groupName = group_info_list.get(i).getGroupName();
+                List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
+                if (type.equals("2")) {
+                    if (chat != null && chat.equals(groupName)) {
+                        if (groupList.size() == 0) {
+//                            return;
+                        } else if (groupList.size() == 1) {
+                            group_info_list.remove(i);
+                        } else if (groupList.size() > 1) {
+                            for (int j = 0; j < groupList.size(); j++) {
+                                String groupOfId = groupList.get(j).getGroupOfId();
+                                if (groupId.equals(groupOfId)) {
+                                    group_info_list.get(i).getGroupList().remove(j);
+                                }
+                            }
+                        }
+                    }
+                }else if (type.equals("1")&&groupManageId != null && !groupManageId.equals("0"))
+                {
+                    String groupManageName = mRecord.getGroupManageName();
+                    if (groupList.size()>0)
+                    {
+                        if (groupManageName!=null&&groupManageName.equals(groupName)) {
+                            for (int h = 0; h < groupList.size(); h++) {
+                                String groupOfId = groupList.get(h).getGroupOfId();
+                                if (groupManageId.equals(groupOfId)) {
+//                                    group_info_list.get(i).getGroupList().remove(h);
+
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+//            修改数据保存cache
+            DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
+            recordBean.setGroupInfoList(group_info_list);
+
+            jsonString = JSON.toJSONString(recordBean);
+            Log.e("jsonString","修改="+jsonString);
+            aCache.remove(AppAllKey.GROUD_DATA);
+            aCache.put(AppAllKey.GROUD_DATA, jsonString);
+
+            Intent intent = new Intent();
+            intent.setAction(AppConfig.LINK_GROUP_DEL_ACTION);
+            mContext.sendBroadcast(intent);
+        }
+        return jsonString;
     }
 
     private static void initDataGroupSub(String asString,DataAboutGroup.RecordBean mRecord) {
@@ -110,6 +188,7 @@ public class DealGroupAdd {
 
         }
     }
+
     private static void initDataGroup(String asString,DataAboutGroup.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
@@ -165,6 +244,7 @@ public class DealGroupAdd {
             return;
         }
     }
+
     public static String getFirstABC(String pinyin)
     {
         if(pinyin.length()==0)

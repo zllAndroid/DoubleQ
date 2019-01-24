@@ -14,6 +14,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemL
 
 import java.util.List;
 
+import butterknife.BindView;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
@@ -23,26 +24,26 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class NoticeAdapter extends BaseQuickAdapter<DataNews.RecordBean.ListInfoBean, BaseViewHolder> {
     Context context;
     public List<DataNews.RecordBean.ListInfoBean> data;
-    public NoticeAdapter(Context context, List<DataNews.RecordBean.ListInfoBean> data,ItemTouchListener mItemTouchListener) {
+
+    public NoticeAdapter(Context context, List<DataNews.RecordBean.ListInfoBean> data, ItemTouchListener mItemTouchListener) {
         super(R.layout.item_notice_menu, data);
-        this.data=data;
-        this.context=context;
-        this.mItemTouchListener=mItemTouchListener;
+        this.data = data;
+        this.context = context;
+        this.mItemTouchListener = mItemTouchListener;
 
     }
 
     @Override
-    protected void convert(BaseViewHolder helper,DataNews.RecordBean.ListInfoBean item) {
+    protected void convert(BaseViewHolder helper, DataNews.RecordBean.ListInfoBean item) {
         Glide.with(context).load(item.getHeadImg())
                 .bitmapTransform(new CropCircleTransformation(context))
                 .into((ImageView) helper.getView(R.id.item_iv_head));
-        helper.setText(R.id.item_tv_name,item.getNickName());
+        helper.setText(R.id.item_tv_name, item.getNickName());
         // 获取备注信息
-//        helper.setText(R.id.item_tv_info,item.get());
+//        helper.setText(R.id.item_tv_name, item.get());
         TextView mTvClick = helper.getView(R.id.item_tv_click_ok);
-        switch (item.getIsAgree())
-        {
-            case  "0":
+        switch (item.getIsAgree()) {
+            case "0":
                 mTvClick.setText("同意");
                 mTvClick.setBackgroundResource(R.drawable.btn_stroke_sel);
                 break;
@@ -60,35 +61,39 @@ public class NoticeAdapter extends BaseQuickAdapter<DataNews.RecordBean.ListInfo
         helper.addOnClickListener(R.id.item_re_notice);
     }
 
-    //添加数据
+    //删除数据
     public void delItem(int position) {
         data.remove(position);
         notifyItemRemoved(position);
         //必须调用这行代码
         notifyItemRangeChanged(position, data.size());
     }
+
     String id;
     SwipeItemLayout swipeLayout;
     private ItemTouchListener mItemTouchListener;
+
     @Override
     public void onBindViewHolder(BaseViewHolder holder, final int positions) {
         super.onBindViewHolder(holder, positions);
         swipeLayout = (SwipeItemLayout) holder.itemView;
         final View lMenu = holder.getView(R.id.item_notice_del_menu);
-        click(swipeLayout, lMenu,positions,data.get(positions).getNickName());
+        click(swipeLayout, lMenu, positions, data.get(positions).getNickName());
     }
-    private void click(final SwipeItemLayout swipeLayout, final  View view,final  int positions,String name) {
+
+    private void click(final SwipeItemLayout swipeLayout, final View view, final int positions, String name) {
         if (view != null) {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mItemTouchListener.onLeftMenuClick(view,positions,id);
+                    mItemTouchListener.onLeftMenuClick(view, positions, id);
                     swipeLayout.close();
                 }
             });
         }
     }
-    public  interface ItemTouchListener {
+
+    public interface ItemTouchListener {
         void onLeftMenuClick(View view, int positions, String WaybillNum);
     }
 }

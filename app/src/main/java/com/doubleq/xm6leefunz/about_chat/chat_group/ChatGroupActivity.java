@@ -1,10 +1,12 @@
 package com.doubleq.xm6leefunz.about_chat.chat_group;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.NinePatch;
@@ -65,6 +67,7 @@ import com.doubleq.xm6leefunz.about_utils.MathUtils;
 import com.doubleq.xm6leefunz.about_utils.SoftKeyboardUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
@@ -179,6 +182,8 @@ public class ChatGroupActivity extends BaseActivity {
             hideControl = new HideControl();
         mChatTvShow.setBackgroundResource(R.color.chattrans);
 //        realmLink = new RealmLinkManHelper(this);
+        // 初始化接收广播
+        initReceiver();
         Intent intent = getIntent();
         if (intent != null){
             jumpGroupChatData = (CusJumpGroupChatData) intent.getSerializableExtra(Constants.KEY_FRIEND_HEADER);
@@ -206,13 +211,49 @@ public class ChatGroupActivity extends BaseActivity {
             listenEnter();
         }
 
-
-
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
     }
 
+    IntentFilter intentFilter;
+    //广播接收消息推送
+    private void initReceiver() {
+        if (intentFilter == null) {
+            intentFilter = new IntentFilter();
+            intentFilter.addAction(GroupChatDetailsActivity.ACTION_UP_GROUP_NAME);
+            registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+        }
+    }
+
+    static RealmHomeHelper realmHelper;
+    public BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (realmHelper == null) {
+                realmHelper = new RealmHomeHelper(ChatGroupActivity.this);
+            }
+            if (action.equals(GroupChatDetailsActivity.ACTION_UP_GROUP_NAME)){
+                initGroupName(intent);
+            }
+//            sendBroadcast();
+        }
+    };
+
+    private void initGroupName(Intent intent) {
+        String groupId = intent.getStringExtra("id");
+        String groupName = intent.getStringExtra("groupName");
+        includeTopTvTital.setText(groupName);
+
+//        CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(groupId);
+//        if (homeRealmData != null){
+//            Log.e("upGroupName","-------------former---ccac----------"+homeRealmData.getNickName());
+//            homeRealmData.setNickName(groupName);
+//            Log.e("upGroupName","-----------later----ccac-----------"+homeRealmData.getNickName());
+//        }
+    }
 
     //设置状态栏的高度为负状态栏高度，因为xml 设置了 android:fitsSystemWindows="true",会占用一个状态栏的高度；
     private void setAboutBar() {
@@ -264,14 +305,20 @@ public class ChatGroupActivity extends BaseActivity {
 //            intent2.putExtra("id",groupId);
 //            intent2.setAction("zero.refreshMsgFragment");
 //            sendBroadcast(intent2);
+            realmGroupChatHelper.close();
+            realmHomeHelper.close();
+            realmGroupChatHelper=null;
+            realmHomeHelper=null;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        try {
+            if (mRefreshBroadcastReceiver!=null)
+                unregisterReceiver(mRefreshBroadcastReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        realmGroupChatHelper.close();
-        realmHomeHelper.close();
-        realmGroupChatHelper=null;
-        realmHomeHelper=null;
     }
     ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
     private void initRealm() {

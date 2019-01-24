@@ -12,10 +12,6 @@ import com.doubleq.xm6leefunz.R;
 
 import java.util.List;
 
-/**
- * Created by Administrator on 2017/11/8 0008.
- */
-
 public class DiscoveryFriendCircleAdapter extends BaseQuickAdapter<DataDiscoveryFriendCircle, BaseViewHolder> {
     Context context;
     public DiscoveryFriendCircleAdapter(List<DataDiscoveryFriendCircle> data, Context context) {

@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,9 +33,11 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_scan.ScanCodeActivity;
 import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.main_code.mains.PersonalFragment;
@@ -50,6 +53,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -80,9 +84,9 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 
     @BindView(R.id.changeinfo_top_lin)
     LinearLayout mLinMain;
-    Unbinder bind = null;
     @BindView(R.id.include_top_lin_background)
     LinearLayout includeTopLinBackground;
+
 //    @BindView(R.id.include_top_lin_back)
 //    LinearLayout includeTopLinBack;
 
@@ -91,6 +95,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //        super.onCreate(savedInstanceState);
 //    }
 
+    Unbinder bind = null;
     @Override
     protected int getLayoutView() {
         return R.layout.activity_changeinfo;
@@ -111,7 +116,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         super.initBaseView();
         includeTopIvBack.setVisibility(View.VISIBLE);
         includeTopTvTital.setText("我的资料");
-//        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
         setHeadForFile();
         sendWeb(SplitWeb.personalCenter());
     }
@@ -157,7 +162,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     doChangeSign();
                 break;
             case R.id.changeinfo_lin_count:
-                if (record!=null) {
+                if (record != null) {
                     String up_sno_num = record.getUpSnoNum();
                     if (up_sno_num.equals("1"))
                         if (NoDoubleClickUtils.isDoubleClick())
@@ -212,7 +217,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         }
     };
     DataMyZiliao.RecordBean record;
-
+String userId;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -260,8 +265,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 }
                 break;
             case "upNickName"://修改昵称成功
-                PersonalFragment.isChange=true;
-                SPUtils.put(HelpUtils.activity, AppConfig.TYPE_NAME,contant);
+                PersonalFragment.isChange = true;
+                SPUtils.put(HelpUtils.activity, AppConfig.TYPE_NAME, contant);
                 SplitWeb.NICK_NAME = contant;
 //                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_NO,dataLogin.getWxSno());
 //                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
@@ -271,19 +276,19 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 changeinfoTvName.setText(contant);
                 break;
             case "upPersonSign":
-                PersonalFragment.isChange=true;
-                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_SIGN,contant);
+                PersonalFragment.isChange = true;
+                SPUtils.put(HelpUtils.activity, AppConfig.TYPE_SIGN, contant);
                 SplitWeb.PERSON_SIGN = contant;
                 changeinfoTvSign.setText(contant);
                 break;
             case "upUserSno":
-                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_NO,contant);
+                SPUtils.put(HelpUtils.activity, AppConfig.TYPE_NO, contant);
                 SplitWeb.WX_SNO = contant;
                 changeinfoIvWrite.setVisibility(View.GONE);
                 changeinfoTvCount.setText(contant);
                 break;
             case "upHeadImg":
-                PersonalFragment.isChangeHead=true;
+                PersonalFragment.isChangeHead = true;
                 DataSetHeadResult dataSetHeadResult = JSON.parseObject(responseText, DataSetHeadResult.class);
                 if (dataSetHeadResult != null) {
                     String headImg = dataSetHeadResult.getRecord().getHeadImg();
@@ -417,5 +422,11 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     @Override
     public void onCancle() {
 
+    }
+
+    @OnClick(R.id.changeinfo_iv_qrcode)
+    public void onViewClicked() {
+        Log.e("qrCode","----------------------------------userId = "+SplitWeb.getUserId());
+        IntentUtils.JumpToHaveOne(MyAccountActivity.class,"userId",SplitWeb.getUserId());
     }
 }

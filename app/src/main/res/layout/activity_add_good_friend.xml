@@ -73,13 +73,33 @@
                         android:gravity="left|top"
                         android:background="@null"
                         android:ems="20"
-                        android:maxLength="50"
+                        android:maxLength="20"
                         android:minEms="50"
                         android:hint="您好，我想加您为好友"
                         android:inputType="textMultiLine"
                         android:maxLines="4"
                         android:minLines="4"
                         android:textSize="@dimen/sp16" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:id="@+id/fda_tv_count_yanzheng"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray999"
+                            android:textSize="@dimen/sp14"
+                            android:text="0"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray999"
+                            android:textSize="@dimen/sp14"
+                            android:text=" / 20"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
             </LinearLayout>
@@ -118,17 +138,33 @@
                             android:text="备注"/>
                         <EditText
                             android:id="@+id/fda_ed_beizhu"
-                            android:layout_width="match_parent"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:background="@null"
-                            android:maxLength="8"
+                            android:maxLength="10"
                             android:minEms="8"
                             android:layout_marginLeft="@dimen/dp10"
                             android:hint="请输入您对该好友的备注"
                             android:inputType="textMultiLine"
                             android:textSize="@dimen/sp16" />
-
+                        <TextView
+                            android:id="@+id/fda_tv_count_remark"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray999"
+                            android:textSize="@dimen/sp14"
+                            android:gravity="center_vertical"
+                            android:layout_marginLeft="@dimen/dp10"
+                            android:text="0"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/gray999"
+                            android:gravity="center_vertical"
+                            android:textSize="@dimen/sp14"
+                            android:text=" / 10"/>
                     </LinearLayout>
                     <LinearLayout
                         android:id="@+id/fda_lin_group"

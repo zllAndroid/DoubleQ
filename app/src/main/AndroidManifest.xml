@@ -97,10 +97,11 @@
         <activity
             android:name=".main_code.ui.about_personal.about_activity.ChangeInfoActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
-        <!-- android:windowSoftInputMode="stateVisible|adjustResize" -->
-        <!-- android:windowSoftInputMode=”adjustPan” -->
-        <!-- 登录页 -->
+            android:theme="@style/SwipeBack.Transparent.Theme"
+        android:windowSoftInputMode="adjustResize"/>
+            <!--android:windowSoftInputMode="adjustResize"/>-->
+        <!--android:windowSoftInputMode="stateVisible|adjustResize"-->
+         <!--登录页 -->
         <activity
             android:name=".main_code.about_login.LoginActivity"
             android:launchMode="singleTop"
@@ -343,7 +344,8 @@
         <activity
             android:name=".about_chat.chat_group.sub_group.EditGroupCardActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+            android:theme="@style/SwipeBack.Transparent.Theme"
+            android:windowSoftInputMode="adjustResize"/>
         <!-- 转让群 -->
         <activity
             android:name=".about_chat.chat_group.sub_group.ZhuanRangGroupActivity"

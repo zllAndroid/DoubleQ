@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/item_tv_notice_detail_remark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="备注信息"
+        android:textColor="@color/gray666"
+        android:padding="@dimen/dp2"
+        android:textSize="@dimen/sp14"/>
+</LinearLayout>

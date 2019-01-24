@@ -29,6 +29,7 @@ import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataAddActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupDataAddActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -236,19 +237,20 @@ public class SearchActivity extends BaseActivity {
                         IntentUtils.JumpTo(ChangeInfoActivity.class);
                         return;
                     }
-                    if (item.getIsRelation().equals("1"))
-                    IntentUtils.JumpToHaveObj(FriendDataAddActivity.class,"dataSearch",item);
-                    else
-                    {
-                        IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",item.getId());
-                    }
+//                    if (item.getIsRelation().equals("1"))
+//                        IntentUtils.JumpToHaveObj(FriendDataAddActivity.class,"dataSearch",item);
+//                    else
+//                    {
+//                        IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",item.getId());
+//                    }
+                    IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",item.getId());
                 }else
                 {
 //                    添加群
                     Log.e("qrCode","----------getIsRelation------------------"+item.getIsRelation());
                     if (item.getIsRelation().equals("1"))
 //                    未添加过该群，跳转未添加的群详情，部分信息看不到
-                         IntentUtils.JumpToHaveObj(GroupDataAddActivity.class, AppConfig.GROUP_ADDKEY,item);
+                        IntentUtils.JumpToHaveObj(GroupDataAddActivity.class, AppConfig.GROUP_ADDKEY,item);
                     else
                     {
 //                        添加过该群，跳转群详情
