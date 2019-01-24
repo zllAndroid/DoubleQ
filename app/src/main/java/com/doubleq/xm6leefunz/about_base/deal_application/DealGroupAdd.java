@@ -134,7 +134,7 @@ public class DealGroupAdd {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
         if (group_info_list.size() > 0) {
-            String chat = mRecord.getChat();
+            String chat = mRecord.getChart();
             String groupManageId = mRecord.getGroupManageId();//分组id
             String groupId = mRecord.getGroupId();//群id
             for (int i = 0; i < group_info_list.size(); i++) {
@@ -197,7 +197,7 @@ public class DealGroupAdd {
                 String type = group_info_list.get(i).getType();
                 if (type.equals("2")) {
                     String groupName = group_info_list.get(i).getGroupName();
-                    String chat = mRecord.getChat();
+                    String chat = mRecord.getChart();
                     String groupManageName = mRecord.getGroupManageName();
                     String groupManageId = mRecord.getGroupManageId();
                     if (chat != null && chat.equals(groupName)) {
@@ -212,7 +212,7 @@ public class DealGroupAdd {
                 String type = group_info_list.get(i).getType();
                 if (type.equals("2")) {
                     String groupName = group_info_list.get(i).getGroupName();
-                    String chat = mRecord.getChat();
+                    String chat = mRecord.getChart();
                     int i1 = stringToAscii(getFirstABC(groupName));
                     int i2 = stringToAscii(getFirstABC(chat));
                     if (group_info_list.size() > (i + 1)) {
@@ -239,7 +239,7 @@ public class DealGroupAdd {
         }
         else
         {
-            String chat = mRecord.getChat();
+            String chat = mRecord.getChart();
             dealNoChart(mRecord, group_info_list, 0, chat);
             return;
         }

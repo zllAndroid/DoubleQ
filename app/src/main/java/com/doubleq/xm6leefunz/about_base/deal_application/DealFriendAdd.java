@@ -62,7 +62,7 @@ public class DealFriendAdd {
         if (record==null)
             return;
         friendList = record.getFriendList();
-        String chat = mRecord.getChat();
+        String chat = mRecord.getChart();
         String mRecordGroupName = mRecord.getGroupName();
         String groupId = mRecord.getGroupId();
         if (friendList.size() > 0) {
@@ -123,7 +123,7 @@ public class DealFriendAdd {
         if (record==null)
             return;
         friendList = record.getFriendList();
-        String chat = mRecord.getChat();
+        String chat = mRecord.getChart();
          String groupManageName = mRecord.getGroupName();
         String groupId = mRecord.getGroupId();
         if (friendList.size()>0)

@@ -100,7 +100,7 @@ public class DataAboutFriend {
          * userId : 1b42-b9c2-c6f
          */
 
-        private String chat;
+        private String chart;
         private String friendsId;
         private String groupId;
         private String groupName;
@@ -111,12 +111,12 @@ public class DataAboutFriend {
         private String remarkName;
         private String userId;
 
-        public String getChat() {
-            return chat;
+        public String getChart() {
+            return chart;
         }
 
-        public void setChat(String chat) {
-            this.chat = chat;
+        public void setChart(String chart) {
+            this.chart = chart;
         }
 
         public String getFriendsId() {

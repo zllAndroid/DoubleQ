@@ -99,7 +99,7 @@ public class DataAboutGroup {
          * userId : 3dfc-dcb0-da3
          */
 
-        private String chat;
+        private String chart;
         private String groupHeadImg;
         private String groupId;
         private String groupManageId;
@@ -108,12 +108,12 @@ public class DataAboutGroup {
         private String listType;
         private String userId;
 
-        public String getChat() {
-            return chat;
+        public String getChart() {
+            return chart;
         }
 
-        public void setChat(String chat) {
-            this.chat = chat;
+        public void setChart(String chart) {
+            this.chart = chart;
         }
 
         public String getGroupHeadImg() {
