@@ -118,7 +118,7 @@ public class NoticeActivity extends BaseActivity {
             case "refuseFriend":
                 if (blackAdapter!=null)
                 {
-                    blackAdapter.delItem(positions);
+                    blackAdapter.delItem(delPositions);
                 }
                 ToastUtil.show("删除本条消息成功");
                 break;
@@ -161,6 +161,7 @@ public class NoticeActivity extends BaseActivity {
     NoticeAdapter blackAdapter =null;
     DataNews.RecordBean.ListInfoBean item=null;
     public int positions;
+    public int delPositions;
     private void initAdapter() {
         blackAdapter = new NoticeAdapter(this,mList,mItemTouchListener);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -221,12 +222,13 @@ public class NoticeActivity extends BaseActivity {
     }
     NoticeAdapter.ItemTouchListener mItemTouchListener = new NoticeAdapter.ItemTouchListener() {
         @Override
-        public void onLeftMenuClick(View view,final int positions, String WaybillNum) {
+        public void onLeftMenuClick(View view,final int position, String WaybillNum) {
 //            ToastUtil.show("点击了删除");
             DialogUtils.showDialog("是否确定删除该条消息", new DialogUtils.OnClickSureListener() {
                 @Override
                 public void onClickSure() {
-                    DataNews.RecordBean.ListInfoBean listInfoBean = mList.get(positions);
+                    delPositions=position;
+                    DataNews.RecordBean.ListInfoBean listInfoBean = mList.get(position);
                     sendWeb(SplitWeb.refuseFriend(listInfoBean.getId(),"2"));
                 }
             });

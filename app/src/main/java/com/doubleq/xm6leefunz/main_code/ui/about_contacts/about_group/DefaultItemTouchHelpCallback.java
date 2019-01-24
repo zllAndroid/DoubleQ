@@ -130,7 +130,6 @@ public class DefaultItemTouchHelpCallback extends ItemTouchHelper.Callback {
         }
         return false;
     }
-
     /**
      * 长按选中Item的时候开始调用
      *
@@ -157,6 +156,7 @@ public class DefaultItemTouchHelpCallback extends ItemTouchHelper.Callback {
 //        }
 //        return false;
 //    }
+
     @Override
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
         if (onItemTouchCallbackListener != null) {

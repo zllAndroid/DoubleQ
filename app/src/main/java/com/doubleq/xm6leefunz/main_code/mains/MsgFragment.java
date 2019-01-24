@@ -116,6 +116,7 @@ public class MsgFragment extends BaseFragment {
             intentFilter.addAction("zero.refreshMsgFragment");
             intentFilter.addAction("del.refreshMsgFragment");
             intentFilter.addAction("action.dialog");
+            intentFilter.addAction(AppConfig.LINK_GROUP_DEL_ACTION);
             getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
         }
     }
@@ -202,6 +203,9 @@ public class MsgFragment extends BaseFragment {
         }
         else if (action.equals("action_dialog")){
 
+        }
+        else if (action.equals(AppConfig.LINK_GROUP_DEL_ACTION)){
+            initDel(intent);
         }
         if (mRecyclerView!=null)
             mRecyclerView.smoothScrollToPosition(0);

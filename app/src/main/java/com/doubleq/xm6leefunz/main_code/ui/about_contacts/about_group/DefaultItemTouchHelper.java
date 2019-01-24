@@ -1,5 +1,7 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group;
 
+import android.support.v7.widget.RecyclerView;
+
 public class DefaultItemTouchHelper extends YolandaItemTouchHelper {
 
     private DefaultItemTouchHelpCallback itemTouchHelpCallback;
@@ -8,7 +10,6 @@ public class DefaultItemTouchHelper extends YolandaItemTouchHelper {
         super(new DefaultItemTouchHelpCallback(onItemTouchCallbackListener));
         itemTouchHelpCallback = (DefaultItemTouchHelpCallback) getCallback();
     }
-
     /**
      * 设置是否可以被拖拽
      *
@@ -16,6 +17,11 @@ public class DefaultItemTouchHelper extends YolandaItemTouchHelper {
      */
     public void setDragEnable(boolean canDrag) {
         itemTouchHelpCallback.setDragEnable(canDrag);
+    }
+
+    @Override
+    public void startDrag(RecyclerView.ViewHolder viewHolder) {
+        super.startDrag(viewHolder);
     }
 
     /**

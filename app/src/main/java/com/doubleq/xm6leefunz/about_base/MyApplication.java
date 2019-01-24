@@ -314,11 +314,12 @@ public class MyApplication extends Application implements IWebSocketPage {
                     break;
 //                    退出群聊
                 case "outGroupListSend":
-                    DealGroupAdd.updateGroupDataBySub(this, message.getResponseText());
+                    DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
                     break;
 //                    解散群聊
                 case "dissolutionGroupListSend":
-                    DealGroupAdd.updateGroupDataBySub(this, message.getResponseText());
+                    DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
+
                     break;
                    //添加好友
                 case "agreeFriendListSend":

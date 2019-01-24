@@ -45,6 +45,7 @@
     <dimen name="dp3">7.5dp</dimen>
     <dimen name="dp10">25.0dp</dimen>
     <dimen name="dp15">37.5dp</dimen>
+    <dimen name="dp55">137.5dp</dimen>
     <dimen name="dp45">112.5dp</dimen>
     <dimen name="dp20">50.0dp</dimen>
     <dimen name="dp25">62.5dp</dimen>

@@ -58,7 +58,9 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         {
             for (int i=0;i<data.size();i++)
             {
-                num += data.get(i).getNum();
+                CusHomeRealmData cusHomeRealmData = data.get(i);
+                if (cusHomeRealmData!=null)
+                num += cusHomeRealmData.getNum();
             }
         }
         return  num;

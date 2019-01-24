@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/grayeee"
+    android:background="@color/white"
     android:orientation="vertical"
     >
     <LinearLayout
@@ -11,16 +11,33 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         >
+        <!--<RelativeLayout-->
+            <!--android:id="@+id/item_group_lin_del"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:paddingLeft="@dimen/dp15"-->
+            <!--android:paddingRight="@dimen/dp15"-->
+            <!--android:descendantFocusability="blocksDescendants"-->
 
-        <ImageView
-            android:id="@+id/item_group_iv_del"
-            android:layout_width="@dimen/dp25"
-            android:layout_height="@dimen/dp25"
-            android:layout_margin="@dimen/dp10"
-            android:layout_gravity="center"
-            android:adjustViewBounds="true"
-            android:src="@drawable/fenzu_del" />
+            <!--&gt;-->
 
+            <ImageView
+                android:id="@+id/item_group_iv_del"
+                android:layout_width="@dimen/dp60"
+                android:layout_height="@dimen/dp45"
+                android:layout_gravity="center"
+                android:paddingLeft="@dimen/dp20"
+                android:paddingRight="@dimen/dp15"
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp10"
+                android:src="@drawable/fenzu_del" />
+
+            <!--<View-->
+                <!--android:id="@+id/item_group_v_del"-->
+                <!--android:layout_width="@dimen/dp50"-->
+                <!--android:layout_height="@dimen/dp45"-->
+                <!--/>-->
+        <!--</RelativeLayout>-->
 
         <TextView
             android:id="@+id/item_group_tv_groupname"
@@ -28,22 +45,23 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Android"
-            android:padding="@dimen/dp8"
             android:textSize="@dimen/sp16"
+            android:paddingTop="@dimen/dp10"
+            android:paddingBottom="@dimen/dp10"
             android:layout_weight="1"
             android:textColor="@color/gray333" />
 
         <ImageView
             android:id="@+id/item_group_iv_move"
-            android:layout_width="@dimen/dp25"
-            android:layout_height="@dimen/dp25"
-            android:layout_margin="@dimen/dp10"
+            android:layout_width="@dimen/dp45"
+            android:layout_height="@dimen/dp45"
+            android:padding="@dimen/dp10"
             android:layout_gravity="center"
             android:adjustViewBounds="true"
             android:src="@drawable/group_right" />
     </LinearLayout>
 
     <View
-       style="@style/style_wei_line"
+        style="@style/style_wei_line"
         />
 </LinearLayout>

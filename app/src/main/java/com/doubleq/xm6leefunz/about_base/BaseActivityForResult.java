@@ -169,12 +169,6 @@ public class BaseActivityForResult extends AppCompatActivity  {
         String isSucess = HelpUtils.HttpIsSucess(data.toString());
         if (isSucess.equals(AppAllKey.CODE_OK)) {
 
-            String only = HelpUtils.backOnly(data.toString());
-            if (only.equals("1"))
-            {
-                sendWebHaveDialog(SplitWeb.bindUid(),"断线重连中...","重连成功");
-                return;
-            }
 //            判断返回的方法名
             String s = HelpUtils.backMethod(data.toString());
 //            父类全局处理
@@ -222,6 +216,13 @@ public class BaseActivityForResult extends AppCompatActivity  {
         }else if (isSendDialog)
         {
             mHandler.sendEmptyMessageDelayed(LOAD_FAILED, 100);
+        }
+
+
+        String only = HelpUtils.backOnly(data.toString());
+        if (only.equals("1"))
+        {
+            sendWebHaveDialog(SplitWeb.bindUid(),"断线重连中...","重连成功");
         }
     }
     public void errorResult(String s) {

@@ -51,16 +51,13 @@ import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-
 /**
  * 联系人
  */
 public class ContactChildFragment extends BaseFragment {
-
     private ExpandableListView mExListViewFriend;
     private ExpandableListView mExListViewGroup;
-    public ContactChildFragment() {
-    }
+    public ContactChildFragment() {}
     View view;
     int typeWho;
     RealmHomeHelper realmHelper;
@@ -99,7 +96,6 @@ public class ContactChildFragment extends BaseFragment {
         getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
     }
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -107,7 +103,6 @@ public class ContactChildFragment extends BaseFragment {
             {
                 case "action.addFriend":
                     int num = intent.getIntExtra("num",0);
-
                     if (mTvFriendNews==null)
                     {
                         return;
@@ -124,7 +119,6 @@ public class ContactChildFragment extends BaseFragment {
                     initFriendWs();
                     break;
                 case AppConfig.LINK_FRIEND_DEL_ACTION:
-
                     initFriendWs();
                     break;
                 case AppConfig.LINK_GROUP_ADD_ACTION:
@@ -205,10 +199,7 @@ public class ContactChildFragment extends BaseFragment {
 //        初始化好友分组适配器
         initFriendAdapter();
 //        广播
-
         initFriendWs();
-
-
     }
     //    这是好友数据源
     List<DataLinkManList.RecordBean.FriendListBean> mFriendList=new ArrayList<>();
@@ -222,6 +213,7 @@ public class ContactChildFragment extends BaseFragment {
             initNoNet();
         }
     }
+
     @Override
     public void onResume() {
         super.onResume();

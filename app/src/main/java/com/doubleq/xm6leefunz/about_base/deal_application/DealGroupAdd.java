@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.doubleq.model.DataLinkGroupList;
 import com.doubleq.model.push_data.DataAboutGroup;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -34,7 +35,7 @@ public class DealGroupAdd {
             }
         }
     }
-    public  static void updateGroupDataBySub(Context montext,String result)
+    public  static void updateGroupDataBySub(Context montext, String result, RealmHomeHelper realmHomeHelper)
     {
         mContext=montext;
         DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
@@ -46,6 +47,7 @@ public class DealGroupAdd {
             if (!StrUtils.isEmpty(asString)&&record!=null)
             {
                 initDataGroupSub(asString,record);
+                realmHomeHelper.deleteRealmMsg(record.getGroupId());
             }
         }
     }

@@ -15,18 +15,26 @@
         android:background="@color/white"
         android:layout_weight="1"
         android:orientation="vertical">
-        <RelativeLayout
+        <com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_move.DragListView
+            android:id="@+id/draglist"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:descendantFocusability="blocksDescendants">
-            <!--<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView-->
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/group_recyc"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fadingEdge="none"
-                />
-        </RelativeLayout>
+            android:layout_height="match_parent"
+            android:cacheColorHint="@android:color/transparent"
+            android:divider="@null"
+            android:dividerHeight="0px"
+            android:listSelector="@android:color/transparent"/>
+        <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:descendantFocusability="blocksDescendants">-->
+            <!--&lt;!&ndash;<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView&ndash;&gt;-->
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:id="@+id/group_recyc"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:fadingEdge="none"-->
+                <!--/>-->
+        <!--</RelativeLayout>-->
     </LinearLayout>
            <TextView
                android:id="@+id/group_manage_tv_add"
