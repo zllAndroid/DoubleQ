@@ -286,13 +286,10 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 break;
 
             case "upGroupHeadImg":
-//                String path = realmLinkFriendHelper.queryLinkFriendReturnImgPath(groupId);
-
-
                 DataSetGroupHeadResult dataSetGroupHeadResult = JSON.parseObject(responseText, DataSetGroupHeadResult.class);
-              final  DataSetGroupHeadResult.RecordBean recordImg = dataSetGroupHeadResult.getRecord();
+                final  DataSetGroupHeadResult.RecordBean recordImg = dataSetGroupHeadResult.getRecord();
                 if (recordImg != null) {
-                  final  String headImg = recordImg.getHeadImg();
+                    final  String headImg = recordImg.getHeadImg();
                     if (!StrUtils.isEmpty(headImg))
                         Glide.with(this)
                                 .load(headImg)
