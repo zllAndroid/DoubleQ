@@ -280,7 +280,8 @@
         <activity
             android:name=".main_code.ui.about_contacts.GroupManageActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+            android:theme="@style/SwipeBack.Transparent.Theme"
+            android:windowSoftInputMode="adjustResize"/>
 
         <!-- 设置子页面 -->
 
