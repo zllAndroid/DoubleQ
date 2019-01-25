@@ -337,7 +337,6 @@ public class MyApplication extends Application implements IWebSocketPage {
 //                    解散群聊
                 case "dissolutionGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
-
                     break;
                 //添加好友
                 case "agreeFriendListSend":
