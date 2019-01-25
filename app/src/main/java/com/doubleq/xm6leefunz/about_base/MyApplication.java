@@ -199,7 +199,7 @@ public class MyApplication extends Application implements IWebSocketPage {
 
     @Override
     public void onConnected() {
-        Log.e("WebSocketLib", "---------------------------------onConnected---------------------------------------");
+//        Log.e("WebSocketLib", "---------------------------------onConnected---------------------------------------");
         reBind = "0";
 //        添加重连机制，当连接成功后，重新绑定uid
         try {
@@ -219,7 +219,7 @@ public class MyApplication extends Application implements IWebSocketPage {
 
     @Override
     public void onConnectError(Throwable cause) {
-        Log.e("WebSocketLib", "---------------------------------onWantConnect---------------------------------------");
+//        Log.e("WebSocketLib", "---------------------------------onWantConnect---------------------------------------");
     }
 
     @Override
@@ -325,6 +325,10 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "outGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
                     break;
+//                    刪除群成員
+                case "removeGroupListSend":
+                    DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
+                    break;
 //                    给成员发送 联系人变动信息接口
                 case "modifyGroupListSend":
 //                    String jsonString = DealGroupAdd.updateGroupDataByModify(this, message.getResponseText());
@@ -360,7 +364,7 @@ public class MyApplication extends Application implements IWebSocketPage {
 //        IntentUtils.JumpToHaveOne(TestActivity.class,"message",responseText);
 
         if (!screenOn) {
-            Log.e("screenOn", "--------------------------" + !screenOn);
+//            Log.e("screenOn", "--------------------------" + !screenOn);
 //            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
 //            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
 //            wl.acquire(10000); // 点亮屏幕
@@ -423,7 +427,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         if (!StrUtils.isEmpty(time)) {
             try {
                 int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
-                MyLog.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
 //                发送时间之间的间隔小于五分钟，则不显示时间
                 if (MathUtils.abs(i) < 5) {
                     Mytime = "";
@@ -503,7 +506,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         if (!StrUtils.isEmpty(time)) {
             try {
                 int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
-                Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
                 if (MathUtils.abs(i) < 5) {
                     Mytime = "";
                 }
@@ -526,7 +528,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getUserId());
 
         realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
-        Log.e("realmChatHelper", "msg=" + record.getMessage());
 
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getFriendsId());
 
@@ -680,7 +681,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         if (!StrUtils.isEmpty(time)) {
             try {
                 int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
-                MyLog.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
 //                发送时间之间的间隔小于五分钟，则不显示时间
                 if (MathUtils.abs(i) < 5) {
 //                    record.setRequestTime("");
@@ -754,7 +754,6 @@ public class MyApplication extends Application implements IWebSocketPage {
             if (!StrUtils.isEmpty(time)) {
                 try {
                     int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
-                    Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
                     if (MathUtils.abs(i) < 5) {
                         MyTime = "";
                     }
@@ -783,7 +782,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         DataAgreeFriend dataAgreeFriend = JSON.parseObject(responseText, DataAgreeFriend.class);
         DataAgreeFriend.RecordBean record = dataAgreeFriend.getRecord();
         if (record != null) {
-            Log.e("getFriendsId", "record.getFriendsId()" + record.getFriendsId());
             sendText(SplitWeb.privateSend(record.getFriendsId(), "我们已经是好友了，快来聊一聊吧", ChatActivity.messageType, TimeUtil.getTime()));
 
             final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
@@ -832,7 +830,6 @@ public class MyApplication extends Application implements IWebSocketPage {
             if (!StrUtils.isEmpty(time)) {
                 try {
                     int i = TimeUtil.stringDaysBetween(myTime, time);
-                    MyLog.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
                     if (MathUtils.abs(i) < 5) {
                         myTime = "";
                     }
@@ -898,7 +895,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         if (!StrUtils.isEmpty(time)) {
             try {
                 int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
-                Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
                 if (MathUtils.abs(i) < 5) {
 //                    record.setRequestTime("");
                     Mytime = "";
@@ -922,7 +918,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getUserId());
 
         realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
-        Log.e("realmChatHelper", "msg=" + record.getMessage());
 
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getFriendsId());
 

@@ -93,7 +93,6 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
 //            e.printStackTrace();
 //        }
 //        Bitmap bitmap  = BitmapFactory.decodeStream(fis);
-        Log.e("imgPath","imgPath="+imgPath);
         if (imgPath!=null) {
             Glide.with(context).load(imgPath)
                     .error(R.drawable.mine_head)

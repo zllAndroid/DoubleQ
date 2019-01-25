@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.doubleq.xm6leefunz.about_base.web_base.about_observer.ResultRequest;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.zll.websocket.ErrorResponse;
 import com.zll.websocket.IResponseDispatcher;
@@ -47,7 +48,7 @@ public class AppResponseDispatcher implements IResponseDispatcher {
     @Override
     public void onMessageResponse(Response message, ResponseDelivery delivery) {
 //        boolean contains = message.getResponseText().toString().contains("{");
-        Log.e("message","服务器返回的信息："+message.getResponseText());
+        MyLog.e("message","服务器返回的信息："+message.getResponseText());
 //        EventBus.getDefault().post(new MessageEvent(message.getResponseText()));
 //        DialogUtils.showDialog(message.getResponseText()+"");
         if (message.getResponseText().toString().contains("{")) {

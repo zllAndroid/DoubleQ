@@ -133,7 +133,7 @@ public class PersonalFragment extends BaseFragment  {
         }
         if (!StrUtils.isEmpty(phone)){
             userPhone = phone;
-            Log.e("userPhone","------------------------------getMobile()="+userPhone);
+//            Log.e("userPhone","------------------------------getMobile()="+userPhone);
         }
     }
 
@@ -303,7 +303,7 @@ public class PersonalFragment extends BaseFragment  {
                 IntentUtils.JumpToHaveOne(MyAccountActivity.class,"userId",userId);
                 break;
             case R.id.mine_lin_set:
-                Log.e("userPhone","-------------personal-----------------"+userPhone);
+//                Log.e("userPhone","-------------personal-----------------"+userPhone);
                 IntentUtils.JumpToHaveOne(MineSetActivity.class,"phone",userPhone);
                 break;
 //            case R.id.mine_lin_test:

@@ -147,7 +147,7 @@ public class SplitWeb {
 
     public  static  String bindUid(){
         dealMap();
-        Log.e("WebSocketLib","userIdParameter="+userIdParameter+"-------------------------------------"+USER_ID);
+//        Log.e("WebSocketLib","userIdParameter="+userIdParameter+"-------------------------------------"+USER_ID);
         String request = WebUrl.request("PersonCenter", "bindUid", map);
         return  request;
     }
@@ -168,6 +168,14 @@ public class SplitWeb {
         putData("nickName",nickName);
         putData("headImg",headImg);
         String request = WebUrl.request("Login", "setHeadImg", map);
+        return  request;
+    }
+//    版本检测
+    public static String appUpdate(String nowVs){
+        dealMap();
+        putData("nowVs",nowVs);
+        putData("device","1");
+        String request = WebUrl.request("Login", "appUpdate", map);
         return  request;
     }
     /**

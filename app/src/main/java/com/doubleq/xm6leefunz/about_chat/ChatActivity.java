@@ -531,7 +531,6 @@ public class ChatActivity extends BaseActivity {
                     if (!StrUtils.isEmpty(time)) {
                         try {
                             int i = TimeUtil.stringDaysBetween(record2.getRequestTime(), time);
-                            Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
                             if (MathUtils.abs(i) < 5) {
                                 record2.setRequestTime("");
                             }
@@ -609,7 +608,6 @@ public class ChatActivity extends BaseActivity {
             if (!StrUtils.isEmpty(time)) {
                 try {
                     int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
-                    Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
                     if (MathUtils.abs(i) < 5) {
                         record.setRequestTime("");
                     } else {
@@ -660,8 +658,8 @@ public class ChatActivity extends BaseActivity {
             mRawX = event.getRawX();
             mRawY = event.getRawY();
             mPressedPos = position;
-            Log.d("onConClick", "e.getRawX()横坐标=" + mRawX + ", e.getRawY()纵坐标=" + mRawY);
-            Log.d("onConClick", "position=" + position);
+//            Log.d("onConClick", "e.getRawX()横坐标=" + mRawX + ", e.getRawY()纵坐标=" + mRawY);
+//            Log.d("onConClick", "position=" + position);
             initPopWindow(view, position);
         }
 

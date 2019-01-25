@@ -229,7 +229,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                             initUserInfo(userInfo);
                             String identityType = userInfo.getIdentityType();
                             isGrouper = identityType.equals("3") ? false : true;
-                            Log.e("isGrouper","------------------------"+isGrouper);
                             if (isGrouper) {
                                 groupDetailsIvEdit.setVisibility(View.VISIBLE);
                                 groupDetailsLinName.setClickable(true);
@@ -245,7 +244,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                         }
                         if (groupInfo != null) {
                             dataRecord = groupInfo;
-                            Log.e("qrCode","----------------------------"+dataRecord.getGroupName());
                             initUI(groupInfo);
                         }
                         DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupNoticeBean group_notice = group_detail_info.getGroupNotice();
@@ -451,7 +449,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     //好友关系 1是未添加 2是已添加
                     //群成员关系  1是未添加 2是已添加 3是自己
                     if (item != null) {
-                        Log.e("Relation", "---------------groupChatDetails----------------------item.getIsRelation()=" + item.getIsRelation());
                         if (item.getIsRelation().equals("3")){
                             // 自己，跳转个人资料界面
                             IntentUtils.JumpTo(ChangeInfoActivity.class);
@@ -566,7 +563,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         if (resultCode == AppConfig.EDIT_GROUP_CARD_RESULT) {
             if (requestCode == AppConfig.EDIT_GROUP_CARD_REQUEST) {
                 result = data.getExtras().getString("myGroupCard");
-                Log.e("myGroupCard", "-----------------------------" + result);
                 groupDataTvMineName.setText(result);
             }
         }else if (requestCode == AppConfig.EDIT_GROUP_NOTICE_REQUEST)
@@ -721,14 +717,12 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 break;
             case R.id.group_details_iv_qrcode:
                 if (dataRecord != null) {
-                    Log.e("qrCode","----------------------------"+dataRecord.getGroupName());
                     PersonData personData = new PersonData();
                     personData.setHeadImg(dataRecord.getGroupHeadImg());
                     personData.setName(dataRecord.getGroupName());
                     personData.setScanTital("扫一扫二维码，加入群聊");
                     personData.setTital("群聊二维码");
                     personData.setQrCode(dataRecord.getGroupQrcode());
-                    Log.e("qrCode","----------groupDetails-------------"+dataRecord.getGroupQrcode());
                     IntentUtils.JumpToHaveObj(QunCodeActivity.class, AppConfig.GROUP_ADDKEY, personData);
                 }
 //                IntentUtils.JumpToHaveOne(QunCodeActivity.class,"groupId",groupId);

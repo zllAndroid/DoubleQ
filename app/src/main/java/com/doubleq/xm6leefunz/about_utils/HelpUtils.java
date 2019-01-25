@@ -69,7 +69,7 @@ public class HelpUtils {
                     .getPackageManager()
                     .getPackageInfo(activity.getPackageName(), 0);
             localVersion = packageInfo.versionCode;
-            Log.d("TAG", "本软件的版本号。。" + localVersion);
+//            Log.d("TAG", "本软件的版本号。。" + localVersion);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
@@ -82,7 +82,7 @@ public class HelpUtils {
                     .getPackageManager()
                     .getPackageInfo(MyApplication.getAppContext().getPackageName(), 0);
             localVersion = packageInfo.versionName;
-            Log.e("TAG", "本软件的版本号。。" + localVersion);
+//            Log.e("TAG", "本软件的版本号。。" + localVersion);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }

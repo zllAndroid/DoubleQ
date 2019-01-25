@@ -468,7 +468,7 @@ public class EmotionInputDetector {
         //获取View可见区域的bottom
         Rect rect = new Rect();
         mActivity.getWindow().getDecorView().getWindowVisibleDisplayFrame(rect);
-        Log.e("getSoftButtonsBarHeight","结果="+(screenHeight - rect.bottom - getSoftButtonsBarHeight()));
+//        Log.e("getSoftButtonsBarHeight","结果="+(screenHeight - rect.bottom - getSoftButtonsBarHeight()));
         return (screenHeight - rect.bottom - getSoftButtonsBarHeight())!= 0;
 //        return screenHeight - rect.bottom != 0;
     }
@@ -483,7 +483,7 @@ public class EmotionInputDetector {
             softInputHeight = softInputHeight - getSoftButtonsBarHeight();
         }
         if (softInputHeight < 0) {
-            Log.w("EmotionInputDetector", "Warning: value of softInputHeight is below zero!");
+//            Log.w("EmotionInputDetector", "Warning: value of softInputHeight is below zero!");
         }
         if (softInputHeight > 0) {
             sp.edit().putInt(SHARE_PREFERENCE_TAG, softInputHeight).apply();

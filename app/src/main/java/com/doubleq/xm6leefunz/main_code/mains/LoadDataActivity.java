@@ -106,7 +106,6 @@ public class LoadDataActivity extends BaseActivity {
         @Override
         public void onTick(long l) {
 //            regTvSendCode.setBackgroundResource(R.drawable.btn_stroke_nor_b5);
-            Log.e("CountDownTimer","onTick="+l+"");
         }
         @Override
         public void onFinish() {
@@ -114,7 +113,6 @@ public class LoadDataActivity extends BaseActivity {
                 if (electricFanView!=null)
                 electricFanView.stopNestedScroll();
             }
-            Log.e("CountDownTimer","onFinish="+durlation+"");
             if (isFriend&&isGroup)
             {
                 IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);

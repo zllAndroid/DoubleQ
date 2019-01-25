@@ -5,6 +5,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.doubleq.xm6leefunz.about_utils.MD5Utils;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,7 +38,7 @@ public class WebUrl {
         params.put("api_key",api_key);//固定时间
         params.put("data", objects);
         params.put("sign", postRequests(data,l));
-        Log.e("request","请求最终结果="+params.toJSONString());
+        MyLog.e("request","请求最终结果="+params.toJSONString());
         return  params.toJSONString();
     }
 //    private static String postRequests(TreeMap<String, String> treemap)  {

@@ -13,6 +13,7 @@ import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.CusExitDialog;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.VersionCheckUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.RealmGroupHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
@@ -29,6 +30,7 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.DataCleanManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -84,10 +86,22 @@ public class MineSetActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null){
             userPhone = intent.getStringExtra("phone");
-            Log.e("userPhone","-------------minSet0-----------------"+userPhone);
+//            Log.e("userPhone","-------------minSet0-----------------"+userPhone);
         }
     }
+    @Override
+    public void receiveResultMsg(String responseText) {
+        super.receiveResultMsg(responseText);
 
+        Log.e("responseText","responseText="+responseText);
+        String method = HelpUtils.backMethod(responseText);
+        switch (method) {
+            case "appUpdate":
+                VersionCheckUtils.initUpdata(responseText,false);
+                break;
+        }
+
+    }
 
     //    清理缓存
     private void cleanCaChe() {
@@ -159,7 +173,12 @@ public class MineSetActivity extends BaseActivity {
                 break;
 //                版本升级
             case R.id.set_lin_versition:
-                ToastUtil.show("已经是最新版本");
+                if (NoDoubleClickUtils.isDoubleClick()) {
+                    //        版本更新
+                    int localVersion = HelpUtils.getLocalVersion();
+                    sendWeb(SplitWeb.appUpdate("" + localVersion));
+                }
+//                ToastUtil.show("已经是最新版本");
                 break;
 
 //                关于我们界面
@@ -189,7 +208,7 @@ public class MineSetActivity extends BaseActivity {
                                     AppManager.getAppManager().finishAllActivity();
 //                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
 //                                    startActivity(intent_recharge);
-                                    Log.e("userPhone","-------------mineSet-----------------"+userPhone);
+//                                    Log.e("userPhone","-------------mineSet-----------------"+userPhone);
                                     IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",userPhone);
                                     overridePendingTransition(0,0);
                                     ACache.get(MineSetActivity.this).clear();

@@ -194,7 +194,6 @@ public class ChatGroupActivity extends BaseActivity {
                 includeTopTvTital.setText(jumpGroupChatData.getGroupName());
             }
             else if (GroupChatData != null){
-                Log.e("qrCode","-----------ChatGroup------------"+GroupChatData.getId());
                 groupId = GroupChatData.getId();
                 includeTopTvTital.setText(GroupChatData.getName());
             }
@@ -669,7 +668,6 @@ public class ChatGroupActivity extends BaseActivity {
             } else {
                 try {
                     int i = TimeUtil.stringDaysBetween(record.getRequestTime(), time);
-                    Log.e("stringDaysBetween", "++++++++++++++++++++++++++++++++++++++++++++++" + i);
                     SPUtils.put(this, AppConfig.CHAT_SEND_TIME, (String) record.getRequestTime());
                     if (MathUtils.abs(i) < 5) {
                         record.setRequestTime("");
@@ -712,7 +710,6 @@ public class ChatGroupActivity extends BaseActivity {
             switch (type)
             {
                 case Constants.CHAT_ITEM_TYPE_LEFT:
-                    Log.e("onHeaderClick","friendId="+friendId);
                     IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",friendId);
                     break;
                 case Constants.CHAT_ITEM_TYPE_RIGHT:
@@ -728,8 +725,8 @@ public class ChatGroupActivity extends BaseActivity {
             mRawX = event.getRawX();
             mRawY = event.getRawY();
             mPressedPos = position;
-            Log.d("onConClick", "e.getRawX()横坐标=" + mRawX + ", e.getRawY()纵坐标=" + mRawY);
-            Log.d("onConClick", "position=" + position);
+//            Log.d("onConClick", "e.getRawX()横坐标=" + mRawX + ", e.getRawY()纵坐标=" + mRawY);
+//            Log.d("onConClick", "position=" + position);
             initPopWindow(view, position);
         }
 

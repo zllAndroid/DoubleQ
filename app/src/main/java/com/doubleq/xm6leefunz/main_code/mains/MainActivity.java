@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.design.widget.TabItem;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.os.Bundle;
@@ -22,6 +23,9 @@ import android.widget.Toast;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
+import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.VersionCheckUtils;
 import com.doubleq.xm6leefunz.main_code.about_notification.GrayService;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
@@ -72,6 +76,24 @@ public class MainActivity extends BaseActivity {
             intent.setAction("action.addFriend");
             sendBroadcast(intent);
         }
+
+//        版本更新
+        int localVersion = HelpUtils.getLocalVersion();
+        sendWeb(SplitWeb.appUpdate(""+localVersion));
+    }
+
+    @Override
+    public void receiveResultMsg(String responseText) {
+        super.receiveResultMsg(responseText);
+
+        Log.e("responseText","responseText="+responseText);
+        String method = HelpUtils.backMethod(responseText);
+        switch (method) {
+            case "appUpdate":
+                VersionCheckUtils.initUpdata(responseText,true);
+                break;
+        }
+
     }
 
     @Override
