@@ -460,6 +460,7 @@ public class MyApplication extends Application implements IWebSocketPage {
         if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
             msg = record.getMemberName() + "：" + record.getMessage();
         }
+
         if (homeRealmData != null) {
             realmHelper.updateMsg(record.getGroupId(), msg, record.getRequestTime());//更新首页聊天界面数据（消息和时间）
             realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
