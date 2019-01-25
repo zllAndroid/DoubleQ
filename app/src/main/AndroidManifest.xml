@@ -284,8 +284,7 @@
             android:windowSoftInputMode="adjustResize"/>
 
         <!-- 设置子页面 -->
-
-
+        
         <!-- 消息提醒 -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.NewsRemindActivity"
