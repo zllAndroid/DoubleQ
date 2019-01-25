@@ -220,7 +220,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 fdIvQrcode.setVisibility(View.GONE);
             } else
                 fdIvQrcode.setVisibility(View.VISIBLE);
-            String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : "(" + record.getRemarkName() + ")";
+            String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : record.getRemarkName();
             Log.e("remarkName", "----------remarkName----------" + beizhuText);
 //            mTvName.setText(nameText);
             fdTvBeizhu.setText(beizhuText);

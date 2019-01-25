@@ -16,6 +16,7 @@ import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import butterknife.BindView;
 
@@ -117,12 +118,14 @@ public class ShareSetActivity extends BaseActivity {
                 }
                 break;
             case "permissionSet":
-                DialogUtils.showDialogOne("名片分享设置成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        AppManager.getAppManager().finishActivity();
-                    }
-                });
+//                DialogUtils.showDialogOne("名片分享设置成功", new DialogUtils.OnClickSureListener() {
+//                    @Override
+//                    public void onClickSure() {
+//                        AppManager.getAppManager().finishActivity();
+//                    }
+//                });
+                ToastUtil.show("名片分享设置成功！");
+                AppManager.getAppManager().finishActivity();
                 break;
         }
     }

@@ -286,9 +286,13 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 break;
 
             case "upGroupHeadImg":
+//                String path = realmLinkFriendHelper.queryLinkFriendReturnImgPath(groupId);
+
+
                 DataSetGroupHeadResult dataSetGroupHeadResult = JSON.parseObject(responseText, DataSetGroupHeadResult.class);
-                if (dataSetGroupHeadResult != null) {
-                    String headImg = dataSetGroupHeadResult.getRecord().getHeadImg();
+              final  DataSetGroupHeadResult.RecordBean recordImg = dataSetGroupHeadResult.getRecord();
+                if (recordImg != null) {
+                  final  String headImg = recordImg.getHeadImg();
                     if (!StrUtils.isEmpty(headImg))
                         Glide.with(this)
                                 .load(headImg)
@@ -296,7 +300,9 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                                     @Override
                                     public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
 //                                    这里拿到的resource就是下载好的文件，
-                                        File file = HeadFileUtils.saveHeadPath(GroupChatDetailsActivity.this, resource);
+                                        File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_GROUP ,groupId,recordImg.getModified());
+                                        realmLinkFriendHelper.updateHeadPath(groupId,file.getPath(),headImg,recordImg.getModified());
+
                                     }
                                 });
                 }
@@ -761,7 +767,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 sendWeb(SplitWeb.upGroupName(groupId,contant));
                 break;
             case "1":  //群头像
-                sendWeb(SplitWeb.upGroupHeadImg(groupId,contant));
+//                sendWeb(SplitWeb.upGroupHeadImg(groupId,contant));
                 break;
 
         }

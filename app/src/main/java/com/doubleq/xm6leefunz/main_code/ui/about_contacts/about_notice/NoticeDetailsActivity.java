@@ -22,16 +22,22 @@ import com.doubleq.model.find_friend.DataDiscoveryFriendCircle;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_scan.ScanCodeActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.NoticeActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.FriendNoticeDetailsAdapter;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
 import com.doubleq.xm6leefunz.main_code.ui.about_discovery.FriendCircleActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_discovery.about_discovery_fragment.DiscoveryFriendCircleAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import java.util.ArrayList;
@@ -181,6 +187,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
                     if (userDetailInfo != null) {
                         initData(userDetailInfo);
                     }
+
                 }
                 break;
 
@@ -195,6 +202,12 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
                 .into(mIvHead);
         mTvName.setText(userDetailInfo.getNickName());
 //        noticeTvRemark.setText("备注:" + userDetailInfo.getRemark());
+
+        dataSearch = new DataSearch();
+        dataSearch.setName(userDetailInfo.getNickName());
+        dataSearch.setQrcode(userDetailInfo.getQrcode());
+        dataSearch.setHeadImg(userDetailInfo.getHeadImg());
+
     }
 
 
@@ -203,12 +216,30 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
         return R.layout.activity_notice_details;
     }
 
+    String type = "1";
     DataNews.RecordBean.ListInfoBean item;
-
+    DataSearch dataSearch = null;
     @OnClick({R.id.notice_iv_qrcode, R.id.notice_tv_jujue, R.id.notice_tv_ok, R.id.notice_tv_reply})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.notice_iv_qrcode:
+                if (NoDoubleClickUtils.isDoubleClick()) {
+                    if (dataSearch != null) {
+                        PersonData personData = new PersonData();
+                        personData.setHeadImg(dataSearch.getHeadImg());
+                        personData.setName(dataSearch.getName());
+                        personData.setScanTital("扫一扫,添加" + dataSearch.getName() + "为好友");
+                        personData.setTital("好友二维码");
+
+//                        if (dataSearch.getId() != null) {
+//                            String string = type + "_xm6leefun_" + dataSearch.getId();
+//                            Log.e("qrcode", "----------FriendDataAddActivity--------------" + string);
+//                            personData.setQrCode(string);
+//                        }
+                        personData.setQrCode(dataSearch.getQrcode());
+                        IntentUtils.JumpToHaveObj(MyAccountActivity.class, MyAccountActivity.TITAL_NAME, personData);
+                    }
+                }
                 break;
             case R.id.notice_tv_jujue:
                 sendWeb(SplitWeb.refuseFriend(item.getId(), "1"));
@@ -231,40 +262,39 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
     @Override
     public void onSure(String contant) {
         reply = contant;
-        if (mList.size() == 3) {
-            mList.remove(0);
-            friendNoticeDetailsAdapter.notifyItemChanged(0);
-            DataNoticeDetail dataNoticeDetail4 = new DataNoticeDetail();
-            dataNoticeDetail4.setNoticeDetail(reply);
-            mList.add(dataNoticeDetail4);
-            Log.e("remarkInfo","-------------------------------备注信息000 = "+mList.get(0).getNoticeDetail());
-            Log.e("remarkInfo","-------------------------------备注信息222 = "+mList.get(2).getNoticeDetail());
+        if (reply != null){
+            if (mList.size() == 3) {
+                mList.remove(0);
+                friendNoticeDetailsAdapter.notifyItemChanged(0);
+                DataNoticeDetail dataNoticeDetail4 = new DataNoticeDetail();
+                dataNoticeDetail4.setNoticeDetail(reply);
+                mList.add(dataNoticeDetail4);
+                Log.e("remarkInfo","-------------------------------备注信息000 = "+mList.get(0).getNoticeDetail());
+                Log.e("remarkInfo","-------------------------------备注信息222 = "+mList.get(2).getNoticeDetail());
 //            friendNoticeDetailsAdapter.notifyDataSetChanged();
-        }
-        else {
-            DataNoticeDetail dataNoticeDetail4 = new DataNoticeDetail();
-            String reply = "来自神秘国度的阿三啊：" + this.reply;
-            dataNoticeDetail4.setNoticeDetail(reply);
-            mList.add(dataNoticeDetail4);
-            Log.e("remarkInfo","-------------------------------备注信息333 = "+mList.get(0).getNoticeDetail());
-        }
-        friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this,mList );
+            }
+            else {
+                DataNoticeDetail dataNoticeDetail4 = new DataNoticeDetail();
+                String reply = "来自神秘国度的阿三呀：" + this.reply;
+                dataNoticeDetail4.setNoticeDetail(reply);
+                mList.add(dataNoticeDetail4);
+                Log.e("remarkInfo","-------------------------------备注信息333 = "+mList.get(0).getNoticeDetail());
+            }
+            friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this,mList );
 //        增加分割线
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-        mRecyclerView.setAdapter(friendNoticeDetailsAdapter);
-        friendNoticeDetailsAdapter.notifyDataSetChanged();
+            mRecyclerView.setAdapter(friendNoticeDetailsAdapter);
+            friendNoticeDetailsAdapter.notifyDataSetChanged();
+        }
+        else {
+            ToastUtil.show("回复内容不能为空！");
+        }
+
     }
 
     @Override
     public void onCancle() {
 
     }
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        // TODO: add setContentView(...) invocation
-//        ButterKnife.bind(this);
-//    }
 
 }

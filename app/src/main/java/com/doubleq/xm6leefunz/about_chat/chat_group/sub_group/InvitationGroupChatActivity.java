@@ -52,10 +52,10 @@ public class InvitationGroupChatActivity extends BaseActivity {
     LinearLayout invitationLinList;
     private Runnable runnable;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
 
     @Override
@@ -175,22 +175,24 @@ public class InvitationGroupChatActivity extends BaseActivity {
                 break;
 //                邀请入群
             case "groupInvitationf":
-                DialogUtils.showDialogOne("邀请群成员成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        AppManager.getAppManager().finishActivity(InvitationGroupChatActivity.this);
-                    }
-                });
-
+//                DialogUtils.showDialogOne("邀请群成员成功", new DialogUtils.OnClickSureListener() {
+//                    @Override
+//                    public void onClickSure() {
+//                        AppManager.getAppManager().finishActivity(InvitationGroupChatActivity.this);
+//                    }
+//                });
+                ToastUtil.show("邀请群成员成功");
+                AppManager.getAppManager().finishActivity(InvitationGroupChatActivity.this);
                 break;
             case "delGroupMember":
-                DialogUtils.showDialogOne("删除群成员成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        AppManager.getAppManager().finishActivity(InvitationGroupChatActivity.this);
-                    }
-                });
-
+//                DialogUtils.showDialogOne("删除群成员成功", new DialogUtils.OnClickSureListener() {
+//                    @Override
+//                    public void onClickSure() {
+//                        AppManager.getAppManager().finishActivity(InvitationGroupChatActivity.this);
+//                    }
+//                });
+                ToastUtil.show("删除群成员成功");
+                AppManager.getAppManager().finishActivity(InvitationGroupChatActivity.this);
                 break;
         }
     }

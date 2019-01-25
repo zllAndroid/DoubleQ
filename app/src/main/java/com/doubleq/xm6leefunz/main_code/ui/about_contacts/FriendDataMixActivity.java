@@ -25,7 +25,6 @@ import com.doubleq.xm6leefunz.about_chat.FullImageActivity;
 import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_add.AddGoodFriendActivity;
@@ -38,15 +37,13 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.enity.FullImageInfo;
 import com.rance.chatui.util.Constants;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.util.List;
-
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -100,7 +97,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
     String type = "1";
     //    public static final String FRIENG_ID_KEY = "friendId";
     String FriendId;
-    //    String esc;
+    String esc;
     View mView;
 
     RealmHomeHelper realmHelper;
@@ -119,11 +116,11 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
         Intent intent = getIntent();
         if (intent != null) {
             FriendId = intent.getStringExtra("id");
-            String id = intent.getStringExtra("id");
-            Log.e("qrCode_scan_id", "-----------mix--------------" + id);
-//            esc = intent.getStringExtra("esc");
+//            String id = intent.getStringExtra("id");
+            esc = intent.getStringExtra("esc");
+            Log.e("qrCode_scan_id", "-----------mix--------------" + FriendId);
 //            sendWebHaveDialog(SplitWeb.addFriendQrCode(id), "搜索好友信息中...", "获取成功");
-            sendWeb(SplitWeb.addFriendQrCode(id));
+            sendWeb(SplitWeb.addFriendQrCode(FriendId));
         }
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
@@ -176,8 +173,9 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         includeTopIvMore.setVisibility(View.VISIBLE);
                         mTvName.setText(record.getNickName());
                         fdaTvNum.setText(record.getWxSno());
-                        String RemarkText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : "("+record.getRemarkName()+")";
+                        String RemarkText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : record.getRemarkName();
                         fdTvBeizhu.setText(RemarkText);
+                        remarkName = record.getRemarkName();
 //                        Log.e("qrCode","---------------mix-------------------record.getRemarkName()="+record.getRemarkName());
 //                        Log.e("qrCode","----------------mix------------------RemarkText="+RemarkText);
                         String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
@@ -185,7 +183,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
 //                        Log.e("qrCode","---------------mix-------------------signText="+signText);
 //                        Log.e("qrCode","-----------------mix-----------------record.getPersonaSignature()="+record.getPersonaSignature());
                         //  好友分组
-                        fdTvFenzu.setText(record.getGroupId());
+                        fdTvFenzu.setText(record.getGroupName());
                         Glide.with(this).load(record.getHeadImg())
                                 .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
                                 .into(mIvHead);
@@ -197,7 +195,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
 
                         mTvName.setText(record.getNickName());
                         fdaTvNum.setText(record.getWxSno());
-                        String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未签名" : record.getPersonaSignature();
+                        String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
                         fdaTvSign.setText(signText);
                         Glide.with(this).load(record.getHeadImg())
                                 .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
@@ -222,8 +220,39 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 }
                 break;
             case "friendRemarkName"://修改备注成功
-                fdTvBeizhu.setText("(" + contant + ")");
+                if (contant.equals(""))
+                    fdTvBeizhu.setText("暂未设置备注");
+                else
+                    fdTvBeizhu.setText(contant + "");
                 break;
+            case "deleteFriend":
+//                DialogUtils.showDialogOne("删除好友成功", new DialogUtils.OnClickSureListener() {
+//                @Override
+//                public void onClickSure() {
+                realmHelper.deleteRealmMsg(FriendId);
+                realmChatHelper.deleteRealmMsg(FriendId);
+                Intent intent2 = new Intent();
+                intent2.putExtra("id", FriendId);
+                intent2.setAction("del.refreshMsgFragment");
+                sendBroadcast(intent2);
+                AppManager.getAppManager().finishActivity(FriendDataMixActivity.this);
+                if (esc != null && esc.equals("esc")) {
+                    AppManager.getAppManager().finishActivity(ChatActivity.class);
+                }
+                ToastUtil.show("删除好友成功！");
+//                }
+//            });
+                break;
+            case "shieldFriend":
+                DialogUtils.showDialogOne("屏蔽好友成功", new DialogUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+                        AppManager.getAppManager().finishActivity(FriendDataMixActivity.this);
+                    }
+                });
+                break;
+
+
         }
 
     }
@@ -262,12 +291,13 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
 //            fdaTvFenzu.setText(record.getGroupName() + "");
             fdaTvNum.setText(record.getWxSno());
             mTvName.setText(record.getNickName());
-            String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : "(" + record.getRemarkName() + ")";
+            String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : record.getRemarkName();
+            remarkName = record.getRemarkName();
 //            mTvName.setText(nameText);
             fdTvBeizhu.setText(beizhuText);
         }
     }
-
+    String remarkName;
     @Override
     protected int getLayoutView() {
         return R.layout.activity_friend_data_mix;
@@ -354,22 +384,18 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 break;
             case R.id.fd_tv_send_msg:
                 if (NoDoubleClickUtils.isDoubleClick()) {
-//                    Log.e("qrCode","---------mix---------------------dataRecord.getFriendId()="+dataRecord.getFriendId());
-//                    Log.e("qrCode","----------mix--------------------dataRecord.getNickName()="+dataRecord.getNickName());
                     if (dataRecord != null) {
                         CusJumpChatData cusJumpChatData = new CusJumpChatData();
                         cusJumpChatData.setFriendHeader(dataRecord.getHeadImg());
                         cusJumpChatData.setFriendId(dataRecord.getFriendId());
                         cusJumpChatData.setFriendName(dataRecord.getNickName());
                         realmHelper.addRealmMsg(cusJumpChatData);
-
-//                        if (esc != null && esc.equals("esc")) {
-////                            AppManager.getAppManager().finishActivity(ChatActivity.class);
-////                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
-//                            AppManager.getAppManager().finishActivity(FriendDataMixActivity.this);
-//                        } else
-
-                        IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                        if (esc != null && esc.equals("esc")) {
+//                            AppManager.getAppManager().finishActivity(ChatActivity.class);
+//                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                            AppManager.getAppManager().finishActivity(FriendDataMixActivity.this);
+                        } else
+                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
                     }
                 }
                 break;
@@ -395,24 +421,26 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
     }
 
     private void doChangeName() {
-        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(FriendDataMixActivity.this, "修改备注", fdTvBeizhu.getText().toString().trim());
-        changeInfoWindow.showAtLocation(gfLinTop, Gravity.CENTER, 0, 0);
+        ChangeInfoWindow changeInfoWindow;
+        if (remarkName.equals("")){
+            changeInfoWindow = new ChangeInfoWindow(FriendDataMixActivity.this, "修改备注", remarkName);
+            changeInfoWindow.showAtLocation(gfLinTop, Gravity.CENTER, 0, 0);
+        }
+        else {
+            changeInfoWindow = new ChangeInfoWindow(FriendDataMixActivity.this, "修改备注", fdTvBeizhu.getText().toString().trim());
+            changeInfoWindow.showAtLocation(gfLinTop, Gravity.CENTER, 0, 0);
+        }
+
+//        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(FriendDataMixActivity.this, "修改备注", fdTvBeizhu.getText().toString().trim());
+//        changeInfoWindow.showAtLocation(gfLinTop, Gravity.CENTER, 0, 0);
         changeInfoWindow.setOnAddpopClickListener(this);
     }
 
-//    DataMyFriend.RecordBean dataRecord;
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        // TODO: add setContentView(...) invocation
-//        ButterKnife.bind(this);
-//    }
-
     String contant = null;
-
     @Override
     public void onSure(String contant) {
         this.contant = contant;
+        remarkName = contant;
         sendWeb(SplitWeb.friendRemarkName(FriendId, contant));
     }
 

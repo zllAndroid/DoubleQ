@@ -128,14 +128,14 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
 
         switch (title) {
             case "修改备注": {
-                if (mContant.length() - 2 > BEIZHU_MAX_NUM) {
+                if (mContant.length() > BEIZHU_MAX_NUM) {
                     mTvMax.setText(BEIZHU_MAX_NUM + " / " + BEIZHU_MAX_NUM);
-                    mEd.setText(mContant.substring(0, BEIZHU_MAX_NUM - 2));
+                    mEd.setText(mContant.substring(0, BEIZHU_MAX_NUM ));
                 } else{
-                    if (mContant.trim().equals("暂未设置备注") || mContant.equals(""))
+                    if (mContant.equals(""))
                         mTvMax.setText("0 / " + BEIZHU_MAX_NUM);
                     else{
-                        mTvMax.setText(mContant.length() - 2 + " / " + BEIZHU_MAX_NUM);
+                        mTvMax.setText(mContant.length() + " / " + BEIZHU_MAX_NUM);
                         InputFilter[] filter = {new InputFilter.LengthFilter(10)};
                         mEd.setFilters(filter);
                     }
@@ -198,15 +198,15 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 break;
             }
         }
-        String s;
+
         if (title.equals("修改备注")){
-            if (mContant.trim().equals("暂未设置备注") || mContant.equals("")){
+            if (mContant.equals("")){
+//            if (mContant.trim().equals("暂未设置备注") || mContant.equals("")){
                 mEd.setText("");
                 mEd.addTextChangedListener(textWatcher);
             }
             else{
-                s = mContant.substring(1,mContant.length()-1);
-                mEd.setText(s);
+                mEd.setText(mContant);
                 mEd.setSelection(mEd.getText().toString().length());
                 mEd.addTextChangedListener(textWatcher);
             }

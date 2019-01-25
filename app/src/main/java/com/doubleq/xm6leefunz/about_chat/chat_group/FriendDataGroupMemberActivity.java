@@ -171,7 +171,7 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
 //            fdaTvFenzu.setText(record.getGroupName() + "");
             fdaTvNum.setText(record.getWxSno());
             mTvName.setText(record.getNickName());
-            String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : "(" + record.getRemarkName() + ")";
+            String beizhuText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : record.getRemarkName();
 //            mTvName.setText(nameText);
 //            fdTvBeizhu.setText(beizhuText);
         }

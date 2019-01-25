@@ -530,6 +530,7 @@ public class ChatGroupActivity extends BaseActivity {
                 send(SplitWeb.groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
         }else
         {
+            Log.e("chat","---------------------------------"+ed);
             ToastUtil.show("发送信息不能为空");
         }
     }

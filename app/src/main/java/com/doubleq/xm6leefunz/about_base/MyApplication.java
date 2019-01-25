@@ -331,12 +331,8 @@ public class MyApplication extends Application implements IWebSocketPage {
                     break;
 //                    给成员发送 联系人变动信息接口
                 case "modifyGroupListSend":
-//                    String jsonString = DealGroupAdd.updateGroupDataByModify(this, message.getResponseText());
-//                    if (jsonString != null)
-                    DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
-//                        DealGroupAdd.updateGroupDataByAdd(this, jsonString);
-//                        DealGroupAdd.updateGroupDataByAdd(this,  message.getResponseText());
-//                    DealGroupAdd.updateGroupDataByModify(this, message.getResponseText());
+                    DealGroupAdd.updateGroupDataByModifySub(this, message.getResponseText() );
+                    DealGroupAdd.updateGroupDataByModifyAdd(this,  message.getResponseText() );
                     break;
 //                    解散群聊
                 case "dissolutionGroupListSend":

@@ -642,7 +642,7 @@ public class ChatActivity extends BaseActivity {
             switch (type) {
                 case Constants.CHAT_ITEM_TYPE_LEFT:
 
-                    IntentUtils.JumpToHaveOne(FriendDataMixActivity.class, "id", friendId);
+                    IntentUtils.JumpToHaveTwo(FriendDataMixActivity.class, "id", friendId,"esc","esc");
 //                    IntentUtils.JumpToHaveTwo(FriendDataActivity.class, "id", friendId,"esc","esc");
                     break;
                 case Constants.CHAT_ITEM_TYPE_RIGHT:

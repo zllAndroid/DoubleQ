@@ -14,6 +14,7 @@ import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.suke.widget.SwitchButton;
 
 import butterknife.BindView;
@@ -77,12 +78,14 @@ public class NewsRemindActivity extends BaseActivity {
                 }
                 break;
             case "permissionSet":
-                DialogUtils.showDialogOne("消息提醒设置成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        AppManager.getAppManager().finishActivity();
-                    }
-                });
+//                DialogUtils.showDialogOne("消息提醒设置成功", new DialogUtils.OnClickSureListener() {
+//                    @Override
+//                    public void onClickSure() {
+//                        AppManager.getAppManager().finishActivity();
+//                    }
+//                });
+                ToastUtil.show("消息提醒设置成功！");
+                AppManager.getAppManager().finishActivity();
                 break;
         }
     }
