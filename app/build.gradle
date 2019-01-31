@@ -15,8 +15,8 @@ android {
         applicationId "com.doubleq.xm6leefunz"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 4
-        versionName "1.1.4"
+        versionCode 5
+        versionName "1.1.5"
         multiDexEnabled true  //防止方法数量超过65536导致错误
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        aaptOptions {
@@ -33,6 +33,11 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    //Add the following configuration
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7

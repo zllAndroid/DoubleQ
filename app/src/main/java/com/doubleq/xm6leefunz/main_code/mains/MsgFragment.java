@@ -271,11 +271,12 @@ public class MsgFragment extends BaseFragment {
     private void initDel(Intent intent) {
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
         Log.e("home","initDel="+cusHomeRealmData.size());
-        if (cusHomeRealmData.size()!=0)
-        {
+        try {
             mList.clear();
             mList.addAll(cusHomeRealmData);
             initAdapter();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
     private void refreshMsg(Intent intent) {

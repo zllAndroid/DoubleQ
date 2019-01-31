@@ -222,7 +222,8 @@ public class BaseActivityForResult extends AppCompatActivity  {
         String only = HelpUtils.backOnly(data.toString());
         if (only.equals("1"))
         {
-            sendWebHaveDialog(SplitWeb.bindUid(),"断线重连中...","重连成功");
+//            sendWebHaveDialog(SplitWeb.bindUid(),"断线重连中...","重连成功");
+            sendWeb(SplitWeb.bindUid());
         }
     }
     public void errorResult(String s) {
@@ -311,6 +312,8 @@ public class BaseActivityForResult extends AppCompatActivity  {
         DialogUtils.isShow();
         DialogExitUtils.isShow();
         DialogLoginUtils.isShow();
+
+        SplitWeb.IS_SET_ACTIVITY="00";
     }
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)

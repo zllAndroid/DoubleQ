@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -26,9 +27,11 @@ import com.example.zhouwei.library.CustomPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.suke.widget.SwitchButton;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -52,15 +55,24 @@ public class ChatSetActivity extends BaseActivity {
     @BindView(R.id.fd_iv_head)
     ImageView mIvHead;
     //    @BindView(R.id.chatset_zhiding_chat)
-//    SwitchButton chatsetZhidingChat;
-    @BindView(R.id.chatset_msg_miandarao)
-    SwitchButton chatsetMsgMiandarao;
     @BindView(R.id.fd_iv_qrcode)
     ImageView fdIvQrcode;
+    //    SwitchButton chatsetZhidingChat;
+
+
     @BindView(R.id.include_top_lin_background)
     LinearLayout includeTopLinBackground;
-//    @BindView(R.id.include_top_lin_back)
-//    LinearLayout includeTopLinBack;
+
+    @BindView(R.id.chatset_swi_zhiding_chat)
+    SwitchButton chatsetSwiZhidingChat;
+
+    @BindView(R.id.chatset_msg_miandarao)
+    SwitchButton chatsetMsgMiandarao;
+
+    @BindView(R.id.chatset_lin_zhiding_chat)
+    LinearLayout mLinTop;
+    @BindView(R.id.chatset_lin_msg_miandarao)
+    LinearLayout mLinNoCall;
 
 
 //    @Override
@@ -95,9 +107,11 @@ public class ChatSetActivity extends BaseActivity {
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
+
         Intent intent = getIntent();
         FriendId = intent.getStringExtra("FriendId");
         sendWeb(SplitWeb.getFriendInfo(FriendId));
+        initSwiButton();
 
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
@@ -131,8 +145,27 @@ public class ChatSetActivity extends BaseActivity {
             }
         });
     }
+    private void initSwiButton() {
+        chatsetSwiZhidingChat.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+//                boolean checked = chatsetSwiZhidingChat.isChecked();
+//                if (dataRecord!=null)
+                String type = isChecked ? "2":"1";
+                send(SplitWeb.topFriend(FriendId,type));
+            }
+        });
+        chatsetMsgMiandarao.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+//                boolean check2 = chatsetMsgMiandarao.isChecked();
+                String type2 = isChecked ? "2":"1";
+                send(SplitWeb.disturbFriend(FriendId,type2));
+            }
+        });
+    }
 
-    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode})
+    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode, R.id.chatset_lin_chat_history, R.id.chatset_lin_del_chat_history})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.include_top_iv_more:
@@ -169,6 +202,11 @@ public class ChatSetActivity extends BaseActivity {
                     IntentUtils.JumpToHaveObj(MyAccountActivity.class, MyAccountActivity.TITAL_NAME, personData);
                 }
                 break;
+
+            case R.id.chatset_lin_chat_history:
+                break;
+            case R.id.chatset_lin_del_chat_history:
+                break;
         }
     }
 
@@ -204,7 +242,16 @@ public class ChatSetActivity extends BaseActivity {
                     }
                 });
                 break;
-
+            case "topFriend":
+                boolean checked = chatsetSwiZhidingChat.isChecked();
+                String text= checked?"置顶成功":"取消置顶";
+                ToastUtil.show(text);
+                break;
+            case "disturbFriend":
+                boolean check = chatsetMsgMiandarao.isChecked();
+                String text1= check?"设置免打扰成功":"取消免打扰";
+                ToastUtil.show(text1);
+                break;
         }
     }
 
@@ -220,16 +267,17 @@ public class ChatSetActivity extends BaseActivity {
                     .into(mIvHead);
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdTvGesign.setText(signText);
-            if (record.getIsSnoShow().equals("0")){// 0为不显示
+            if (record.getIsSnoShow().equals("0")) {// 0为不显示
                 fdTvContant.setVisibility(View.GONE);
 //                fdTvContant.setText("不显示帐号");
-            }else
+            } else
                 fdTvContant.setText("(" + record.getWxSno() + ")");
 //            若有设置备注，仅显示备注；若无备注则显示昵称
             String nameText = StrUtils.isEmpty(record.getRemarkName()) ? record.getNickName() : record.getRemarkName();
             mTvName.setText(nameText);
 //            mTvName.setText(record.getNickName() + "(" + record.getRemarkName() + ")");
-            chatsetMsgMiandarao.setChecked(record.getShieldType().equals("2"));
+            chatsetMsgMiandarao.setChecked(record.getDisturbType().equals("2"));
+            chatsetSwiZhidingChat.setChecked(record.getTopType().equals("2"));
             if (dataRecord.getIsQrcodeShow().equals("0")) {  // 0为不显示
                 fdIvQrcode.setVisibility(View.GONE);
             } else
@@ -239,7 +287,7 @@ public class ChatSetActivity extends BaseActivity {
 //                fdIvQrcode.setVisibility(View.GONE);
 //            } else
 //                fdIvQrcode.setVisibility(View.VISIBLE);
-
         }
     }
+
 }

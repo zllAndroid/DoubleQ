@@ -46,7 +46,7 @@ public class VersionCheckUtils {
                 if (record != null) {
                     String is_update = record.getUpdate();
                     if (!StrUtils.isEmpty(is_update))
-                    if (is_update.equals("1"))
+                    if (is_update.equals("2"))
                     {
                         if (record.getForce().equals("1"))
                         {
@@ -82,32 +82,39 @@ public class VersionCheckUtils {
                 if (record != null) {
                     String is_update = record.getUpdate();
                     if (!StrUtils.isEmpty(is_update))
-                    if (is_update.equals("1"))
+                    if (is_update.equals("2"))
                     {
 //                        是否强制更新
                         if (record.getForce().equals("1"))
                         {
                             try {
-                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), false, record.getContent());
+                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), false, msg);
+//                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), false, record.getContent());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }else
                         {
                             try {
-                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), true, record.getContent());
+                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), true,msg);
+//                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), true, record.getContent());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
                     }else
                     {
-                        DialogUtils.showDialogOne("已经是最新版本", new DialogUtils.OnClickSureListener() {
+                        DialogUtils.showDialogOne(msg, new DialogUtils.OnClickSureListener() {
                             @Override
                             public void onClickSure() {
-
                             }
                         });
+//                        DialogUtils.showDialogOne("已经是最新版本", new DialogUtils.OnClickSureListener() {
+//                            @Override
+//                            public void onClickSure() {
+//
+//                            }
+//                        });
 //                       Tip.getDialog(AppManager.getAppManager().currentActivity(),"已经是最新版本");
                     }
                 }

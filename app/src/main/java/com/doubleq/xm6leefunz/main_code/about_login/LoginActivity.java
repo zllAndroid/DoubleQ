@@ -1,6 +1,11 @@
 package com.doubleq.xm6leefunz.main_code.about_login;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -12,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.doubleq.model.DataServer;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
@@ -31,6 +37,8 @@ import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.doubleq.model.DataLogin;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+import com.zll.websocket.WebSocketSetting;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -60,6 +68,8 @@ public class LoginActivity extends BaseActivity {
     public static int screenHeight;
 
     private ACache mCache;
+
+    String swooleServer;
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -81,6 +91,45 @@ public class LoginActivity extends BaseActivity {
         }
         mCache = ACache.get(this);
         listenEnter();
+        initUrl();
+
+        if (intentFilter == null) {
+            intentFilter = new IntentFilter();
+            intentFilter.addAction("start_application");
+            registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+        }
+    }
+    public  BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("start_application"))
+            {
+                if (!isFirst) {
+                    IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+//                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
+                }
+                else
+                    IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
+//                        initManagerService();
+            }
+        }
+    };
+    IntentFilter intentFilter;
+    private void initUrl() {
+        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.PreRequest, new NetWorkUtlis.OnNetWork() {
+            @Override
+            public void onNetSuccess(String result) {
+                Log.e("result=", result + "---------------------------");
+                DataServer dataServer = JSON.parseObject(result, DataServer.class);
+                String swooleServer = dataServer.getSwooleServer();
+
+                SplitWeb.HttpURL = swooleServer;
+                SPUtils.put(LoginActivity.this, AppConfig.TYPE_URL, swooleServer+"");
+            }
+        });
     }
 
     private void initSetData(DataLogin.RecordBean dataLogin) {
@@ -91,6 +140,7 @@ public class LoginActivity extends BaseActivity {
         SPUtils.put(this,AppConfig.TYPE_NO,dataLogin.getWxSno());
         SPUtils.put(this,AppConfig.TYPE_PHONE,dataLogin.getWxSno());
         SPUtils.put(this,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
+//        SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIpWs());
         SplitWeb.USER_TOKEN = dataLogin.getUserToken();
         SplitWeb.MOBILE = dataLogin.getMobile();
         SplitWeb.QR_CODE = dataLogin.getQrcode();
@@ -100,6 +150,21 @@ public class LoginActivity extends BaseActivity {
         SplitWeb.WX_SNO = dataLogin.getWxSno();
         SplitWeb.USER_ID = dataLogin.getUserId();
         SplitWeb.USER_HEADER = dataLogin.getHeadImg();
+//        SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
+        String serverIpWs = dataLogin.getServerIpWs();
+        mCache.remove(AppConfig.TYPE_URL);
+        mCache.put(AppConfig.TYPE_URL,serverIpWs);
+//        ToastUtil.show("一秒后重启应用");
+//        WebSocketSetting.setConnectUrl(serverIpWs);//必选
+//        Intent intent = getBaseContext().getPackageManager()
+//                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+//        PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+//        AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+//        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, restartIntent); // 1秒钟后重启应用
+//        System.exit(0);
+        Intent intent = new Intent();
+        intent.setAction("server_application");
+        sendBroadcast(intent);
     }
 
     @Override
@@ -131,19 +196,19 @@ public class LoginActivity extends BaseActivity {
         return false;
     }
 
-    @Override
-    public void receiveResultMsg(String responseText) {
-        super.receiveResultMsg(responseText);
-        String s = HelpUtils.backMethod(responseText);
-        if (s.equals("bindUid")) {
-            if (!isFirst) {
-                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
-//                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
-            }
-            else
-                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
-        }
-    }
+    //    @Override
+//    public void receiveResultMsg(String responseText) {
+//        super.receiveResultMsg(responseText);
+//        String s = HelpUtils.backMethod(responseText);
+//        if (s.equals("bindUid")) {
+//            if (!isFirst) {
+//                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+////                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
+//            }
+//            else
+//                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
+//        }
+//    }
     private void listenEnter() {
         loginEdPsw.setImeOptions(EditorInfo.IME_ACTION_SEND);
         loginEdPsw.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -169,6 +234,13 @@ public class LoginActivity extends BaseActivity {
                 DialogUtils.showDialogKnow("请直接输入手机号，用短信登录","知道了");
                 break;
             case R.id.login_btn_login:
+//                String serverIpWs="ws://192.168.4.67:9093";
+//                mCache.remove(AppConfig.TYPE_URL);
+//                mCache.put(AppConfig.TYPE_URL,serverIpWs);
+//                Intent intent = new Intent();
+//                intent.setAction("server_application");
+//                sendBroadcast(intent);
+
 //                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
                 if (NoDoubleClickUtils.isDoubleClick())
                     clickLogin();
@@ -224,6 +296,24 @@ public class LoginActivity extends BaseActivity {
 
             initSetData(userInfo);
         }
-        sendWeb(SplitWeb.bindUid());
+//        if (!isFirst) {
+//            IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+////                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
+//        }
+//        else
+//            IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
+
+//        sendWeb(SplitWeb.bindUid());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            if (mRefreshBroadcastReceiver!=null)
+               unregisterReceiver(mRefreshBroadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

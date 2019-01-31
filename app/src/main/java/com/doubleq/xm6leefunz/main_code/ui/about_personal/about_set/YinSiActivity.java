@@ -37,10 +37,6 @@ public class YinSiActivity extends BaseActivity {
     @BindView(R.id.yinsi_switch_ercode)
     SwitchButton mSwitcherCode;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
     String isSno = "1";
     String isPhone = "1";
     String isQrcode = "1";

@@ -2,8 +2,10 @@ package com.doubleq.xm6leefunz.about_base;
 
 import android.annotation.SuppressLint;
 import android.app.Application;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.PowerManager;
 import android.support.multidex.MultiDex;
@@ -27,6 +29,7 @@ import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupAdd;
 import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
+import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
@@ -46,6 +49,7 @@ import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -83,7 +87,7 @@ public class MyApplication extends Application implements IWebSocketPage {
      */
     public static float screenDensity;
     public static WebSocketServiceConnectManager mConnectManager;
-
+    public static ACache aCache;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -96,7 +100,17 @@ public class MyApplication extends Application implements IWebSocketPage {
             }
         });
         initScreenSize();
-        initManagerService();
+        if (aCache==null)
+        aCache =  ACache.get(this);
+        String asString = aCache.getAsString(AppConfig.TYPE_URL);
+
+        if (StrUtils.isEmpty(asString)) {
+            initServerBro();
+        }else {
+            initManagerService();
+        }
+//        initManagerService();
+
 //        WebSocketService webSocketService = new WebSocketService();
 //        webSocketService.onCreate();
 //        mConnectManager = new WebSocketServiceConnectManager(this, AppManager.getAppManager().currentActivity());
@@ -104,7 +118,26 @@ public class MyApplication extends Application implements IWebSocketPage {
         initRealm();
 
     }
+    IntentFilter intentFilter;
+    private void initServerBro() {
 
+        if (intentFilter == null) {
+            intentFilter = new IntentFilter();
+            intentFilter.addAction("server_application");
+            registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+        }
+    }
+    public  BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("server_application"))
+            {
+                initFirstService();
+            }
+        }
+    };
     @Override
     protected void attachBaseContext(Context context) {
         super.attachBaseContext(context);
@@ -116,13 +149,20 @@ public class MyApplication extends Application implements IWebSocketPage {
         // 程序终止的时候执行
         super.onTerminate();
         PgyCrashManager.unregister();
+        try {
+            if (mRefreshBroadcastReceiver!=null)
+                unregisterReceiver(mRefreshBroadcastReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 //        Intent intent = new Intent(mContext,ScreenAndLockService.class);
 //        stopService(intent);
     }
 
-    private void initManagerService() {
+    private void initFirstService() {
         //配置 WebSocket，必须在 WebSocket 服务启动前设置
-        WebSocketSetting.setConnectUrl(SplitWeb.WebSocket_URL);//必选
+        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
+        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
 //        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
         WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
         WebSocketSetting.setReconnectWithNetworkChanged(true);
@@ -132,8 +172,26 @@ public class MyApplication extends Application implements IWebSocketPage {
         startService(intent);
         mConnectManager = new WebSocketServiceConnectManager(this, this);
         mConnectManager.onCreate();
-    }
+        Intent intent2 = new Intent();
+        intent2.setAction("start_application");
+        sendBroadcast(intent2);
 
+    }
+    private void initManagerService() {
+        //配置 WebSocket，必须在 WebSocket 服务启动前设置
+        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
+        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
+//        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
+        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
+        WebSocketSetting.setReconnectWithNetworkChanged(true);
+
+        //启动 WebSocket 服务
+        Intent intent = new Intent(this, WebSocketService.class);
+        startService(intent);
+        mConnectManager = new WebSocketServiceConnectManager(this, this);
+        mConnectManager.onCreate();
+
+    }
     private void initRealm() {
         Realm.init(this);
         RealmConfiguration configuration = new RealmConfiguration.Builder()
@@ -152,6 +210,66 @@ public class MyApplication extends Application implements IWebSocketPage {
     RealmGroupChatHelper realmGroupChatHelper;
 
     public static WebSocketServiceConnectManager getmConnectManager() {
+//        if (mConnectManager==null)
+//        {
+////            WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
+//////        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
+////            WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
+////            WebSocketSetting.setReconnectWithNetworkChanged(true);
+////
+////            //启动 WebSocket 服务
+////            Intent intent = new Intent(this, WebSocketService.class);
+////            startService(intent);
+//            mConnectManager = new WebSocketServiceConnectManager(getAppContext(),getApp());
+//
+////            mConnectManager = new WebSocketServiceConnectManager(getAppContext(), new IWebSocketPage() {
+////                @Override
+////                public void onServiceBindSuccess() {
+////
+////                }
+////
+////                @Override
+////                public void sendText(String text) {
+////                    mConnectManager.sendText(text);
+////                }
+////
+////                @Override
+////                public void reconnect() {
+////                    mConnectManager.reconnect();
+////                }
+////
+////                @Override
+////                public void onConnected() {
+////
+////                }
+////
+////                @Override
+////                public void onConnectError(Throwable cause) {
+////
+////                }
+////
+////                @Override
+////                public void onWantConnect(Throwable cause) {
+////
+////                }
+////
+////                @Override
+////                public void onDisconnected() {
+////
+////                }
+////
+////                @Override
+////                public void onMessageResponse(Response message) {
+////
+////                }
+////
+////                @Override
+////                public void onSendMessageError(ErrorResponse error) {
+////
+////                }
+////            });
+//            mConnectManager.onCreate();
+//        }
         return mConnectManager;
     }
 
@@ -331,8 +449,11 @@ public class MyApplication extends Application implements IWebSocketPage {
                     break;
 //                    给成员发送 联系人变动信息接口
                 case "modifyGroupListSend":
-                    DealGroupAdd.updateGroupDataByModifySub(this, message.getResponseText() );
-                    DealGroupAdd.updateGroupDataByModifyAdd(this,  message.getResponseText() );
+                    String s1 = DealGroupAdd.updateGroupDataByModifySub(this, message.getResponseText());
+                    if (!StrUtils.isEmpty(s1))
+                    {
+                        DealGroupAdd.updateGroupDataByModifyAdd(this,  message.getResponseText() );
+                    }
                     break;
 //                    解散群聊
                 case "dissolutionGroupListSend":
@@ -935,7 +1056,7 @@ public class MyApplication extends Application implements IWebSocketPage {
 
 
     }
-
+    //息屏唤醒
     private void xipinhuanxing(final DataJieShou.RecordBean record) {
         final CusJumpChatData cusJumpChatData = new CusJumpChatData();
         cusJumpChatData.setFriendHeader(record.getHeadImg());

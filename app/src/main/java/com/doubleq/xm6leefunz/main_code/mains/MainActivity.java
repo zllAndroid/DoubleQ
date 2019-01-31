@@ -85,13 +85,13 @@ public class MainActivity extends BaseActivity {
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
-
-        Log.e("responseText","responseText="+responseText);
-        String method = HelpUtils.backMethod(responseText);
-        switch (method) {
-            case "appUpdate":
-                VersionCheckUtils.initUpdata(responseText,true);
-                break;
+        if(!SplitWeb.IS_SET_ACTIVITY.equals("1")) {
+            String method = HelpUtils.backMethod(responseText);
+            switch (method) {
+                case "appUpdate":
+                    VersionCheckUtils.initUpdata(responseText, true);
+                    break;
+            }
         }
 
     }
@@ -102,7 +102,7 @@ public class MainActivity extends BaseActivity {
         try {
 
             if (mRefreshBroadcastReceiver!=null)
-               this.unregisterReceiver(mRefreshBroadcastReceiver);
+                this.unregisterReceiver(mRefreshBroadcastReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -147,7 +147,7 @@ public class MainActivity extends BaseActivity {
         intentFilter.addAction("action.addFriend");
         registerReceiver(mRefreshBroadcastReceiver, intentFilter);
     }
-//    private void initBroc() {
+    //    private void initBroc() {
 //        IntentFilter intentFilter = new IntentFilter();
 //        intentFilter.addAction("action.addFriend");
 //        registerReceiver(mRefreshBroadcastReceiver, intentFilter);

@@ -131,6 +131,24 @@ public class DataChatFriendInfo {
         private String shieldType;
         private String status;
         private String wxSno;
+        private String topType;
+        private String disturbType;
+
+        public String getTopType() {
+            return topType;
+        }
+
+        public void setTopType(String topType) {
+            this.topType = topType;
+        }
+
+        public String getDisturbType() {
+            return disturbType;
+        }
+
+        public void setDisturbType(String disturbType) {
+            this.disturbType = disturbType;
+        }
 
         public String getEmail() {
             return email;

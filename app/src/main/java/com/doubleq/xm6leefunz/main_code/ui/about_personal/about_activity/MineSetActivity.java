@@ -65,7 +65,7 @@ public class MineSetActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-
+        SplitWeb.IS_SET_ACTIVITY="1";
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
         realmGroupHelper = new RealmGroupHelper(this);
@@ -92,15 +92,15 @@ public class MineSetActivity extends BaseActivity {
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
+        if(SplitWeb.IS_SET_ACTIVITY.equals("1")) {
+            String method = HelpUtils.backMethod(responseText);
+            switch (method) {
+                case "appUpdate":
 
-        Log.e("responseText","responseText="+responseText);
-        String method = HelpUtils.backMethod(responseText);
-        switch (method) {
-            case "appUpdate":
-                VersionCheckUtils.initUpdata(responseText,false);
-                break;
+                    VersionCheckUtils.initUpdata(responseText, false);
+                    break;
+            }
         }
-
     }
 
     //    清理缓存
@@ -117,7 +117,7 @@ public class MineSetActivity extends BaseActivity {
         }
         ACache mCache2 = ACache.get(this);
         mCache2.put(AppAllKey.TOKEN_KEY, asString);
-        String asString2 = mCache.getAsString(AppAllKey.TOKEN_KEY);
+//        String asString2 = mCache.getAsString(AppAllKey.TOKEN_KEY);
     }
 
 

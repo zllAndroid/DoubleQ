@@ -1,6 +1,7 @@
 package com.doubleq.xm6leefunz.about_base.web_base;
 
 
+import android.content.Context;
 import android.util.Log;
 
 import com.doubleq.xm6leefunz.about_base.AppConfig;
@@ -18,6 +19,7 @@ import java.util.TreeMap;
 public class SplitWeb {
 
     public static String IS_CHAT= "00";
+    public static String IS_SET_ACTIVITY= "00";
     public static String IS_CHAT_GROUP= "33";
     public static String USER_TOKEN= "";
     public static String MOBILE= "";
@@ -27,6 +29,10 @@ public class SplitWeb {
     public static String NICK_NAME= "";
     public static String USER_ID="";
     public static String USER_HEADER= "";
+    public static String WS_REQUEST= "";
+
+
+    public static final String PreRequest= "http://192.168.4.131:40003/";
 
 //      SPUtils.put(this,"header",record.getHeadImg());
 //            SPUtils.put(this,"name",record.getNickName());
@@ -40,6 +46,13 @@ public class SplitWeb {
         if(StrUtils.isEmpty(USER_ID)&&HelpUtils.activity!=null)
             USER_ID=(String ) SPUtils.get(HelpUtils.activity, AppAllKey.USER_ID_KEY,"");
         return USER_ID;
+    }
+
+//     SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIp());
+    public static String getWsRequest(Context mContext) {
+        if(StrUtils.isEmpty(WS_REQUEST)&&HelpUtils.activity!=null)
+            WS_REQUEST=(String ) SPUtils.get(mContext, AppConfig.TYPE_WS_REQUEST,"");
+        return WS_REQUEST;
     }
     public static String getUserMobile() {
         if(StrUtils.isEmpty(MOBILE)&&HelpUtils.activity!=null)
@@ -61,6 +74,7 @@ public class SplitWeb {
             USER_TOKEN= (String )SPUtils.get(HelpUtils.activity,AppAllKey.USER_Token,"");
         return USER_TOKEN;
     }
+
     public static String getNiName() {
 
         NICK_NAME=(String ) SPUtils.get(HelpUtils.getACt(),"name","");
@@ -99,7 +113,15 @@ public class SplitWeb {
 //    public static String WebSocket_URL = "ws://192.168.4.48:9093";
 //    public static String URL = "http://192.168.4.48:9092/LoginController/";
 //    public static String WebSocket_URL = "ws://119.23.229.66:9093";
-//    public static String URL = "http://119.23.229.66:9092/LoginController/";
+    public static String HttpURL = "";
+    private static String getURL() {
+        if(StrUtils.isEmpty(HttpURL))
+            HttpURL= (String )SPUtils.get(HelpUtils.activity,AppConfig.TYPE_URL,"");
+        return HttpURL;
+    }
+    public static String getURLRequest() {
+      return "http://"+getURL()+"/LoginController/";
+    }
 
     public static String loginIn(String mobile, String password){
         mList.clear();
@@ -107,7 +129,7 @@ public class SplitWeb {
         mList.add("password="+password);
 //        mList.add("mobile="+"13860169273");
 //        mList.add("password="+"1234566");
-        return URL+"loginIn?"+ SignForXm6leefunJava.getSing(mList);
+        return getURLRequest()+"loginIn?"+ SignForXm6leefunJava.getSing(mList);
     }
     public static String register(String mobile, String password,String code){
         mList.clear();
@@ -116,7 +138,7 @@ public class SplitWeb {
         mList.add("code="+code);
 //        mList.add("mobile="+"13860169273");
 //        mList.add("password="+"1234566");
-        return URL+"register?"+SignForXm6leefunJava.getSing(mList);
+        return getURLRequest()+"register?"+SignForXm6leefunJava.getSing(mList);
     }
     //    （旧短信验证码接口  1支付 2提现 3修改支付密码 4修改登录密码 5注册 6修改手机号）
     //    新短信验证码接口  1为登录 2为注册 3为修改登录密码 4修改绑定手机号（旧） 5修改绑定手机号（新）
@@ -124,13 +146,13 @@ public class SplitWeb {
         mList.clear();
         mList.add("mobile="+mobile);
         mList.add("type="+type);
-        return URL+"getSmsCode?"+ SignForXm6leefunJava.getSing(mList);
+        return getURLRequest()+"getSmsCode?"+ SignForXm6leefunJava.getSing(mList);
     }
     public static String smsLogin(String mobile, String code){
         mList.clear();
         mList.add("mobile="+mobile);
         mList.add("code="+code);
-        return URL+"smsLogin?"+ SignForXm6leefunJava.getSing(mList);
+        return getURLRequest()+"smsLogin?"+ SignForXm6leefunJava.getSing(mList);
     }
 
     /**
@@ -548,6 +570,22 @@ public class SplitWeb {
         putData("friendsId",friendsId);
         putData("type",type);
         String request = WebUrl.request("Contact", "shieldFriend", map);
+        return  request;
+    }
+//    用户设置好友置顶
+    public  static  String topFriend(String friendsId,String type){
+        dealMap();
+        putData("friendsId",friendsId);
+        putData("type",type);
+        String request = WebUrl.request("Contact", "topFriend", map);
+        return  request;
+    }
+//    消息免打扰
+    public  static  String disturbFriend(String friendsId,String type){
+        dealMap();
+        putData("friendsId",friendsId);
+        putData("type",type);
+        String request = WebUrl.request("Contact", "disturbFriend", map);
         return  request;
     }
     //    退出群聊

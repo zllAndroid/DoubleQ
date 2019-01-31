@@ -80,6 +80,7 @@
 
     <!--置顶聊天-->
     <LinearLayout
+        android:id="@+id/chatset_lin_zhiding_chat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp10"
@@ -94,15 +95,17 @@
             android:layout_weight="1"
             android:text="置顶聊天"/>
         <com.suke.widget.SwitchButton
-            android:id="@+id/chatset_zhiding_chat"
+            android:id="@+id/chatset_swi_zhiding_chat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/dp10"
+            android:clickable="false"
             app:sb_show_indicator="false"
             app:sb_uncheckcircle_color="@color/swi_nor"
             app:sb_checked_color="@color/swi_select"
             android:layout_gravity="center"
-            app:sb_checked="false"/>
+            app:sb_checked="false"
+           />
     </LinearLayout>
     <View
         style="@style/style_wei_line"
@@ -110,6 +113,7 @@
 
     <!--消息免打扰-->
     <LinearLayout
+        android:id="@+id/chatset_lin_msg_miandarao"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -131,13 +135,13 @@
             app:sb_uncheckcircle_color="@color/swi_nor"
             app:sb_checked_color="@color/swi_select"
             android:layout_gravity="center"
-            app:sb_checked="false"/>
+            />
     </LinearLayout>
 
 
     <!--聊天记录-->
     <LinearLayout
-        android:id="@+id/chatset_lin_chatHistory"
+        android:id="@+id/chatset_lin_chat_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
@@ -163,7 +167,7 @@
         />
     <!--删除聊天记录-->
     <LinearLayout
-        android:id="@+id/chatset_lin_del_chatHistory"
+        android:id="@+id/chatset_lin_del_chat_history"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"

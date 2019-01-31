@@ -66,6 +66,32 @@ public class DataLogin {
         private String qrcode;
         private String personaSignature;
         private String headImg;
+        private String serverIpWs;
+        private String serverIpHttp;
+
+        public String getServerIpWs() {
+            return serverIpWs;
+        }
+
+        public void setServerIpWs(String serverIpWs) {
+            this.serverIpWs = serverIpWs;
+        }
+
+        public String getServerIpHttp() {
+            return serverIpHttp;
+        }
+
+        public void setServerIpHttp(String serverIpHttp) {
+            this.serverIpHttp = serverIpHttp;
+        }
+
+        //        public String getServerIp() {
+//            return serverIp;
+//        }
+//
+//        public void setServerIp(String serverIp) {
+//            this.serverIp = serverIp;
+//        }
 
         public String getHeadImg() {
             return headImg;
