@@ -53,10 +53,10 @@ public class AppStartActivity extends BaseActivity {
     boolean isClick =true;
     //创建播放视频的控件对象
 //    private CustomVideoView videoview;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
     OpeningStartAnimation openingStartAnimation;
     @Override
     protected void initBaseView() {
@@ -265,7 +265,7 @@ public class AppStartActivity extends BaseActivity {
     @OnShowRationale({Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
     void onshow(final permissions.dispatcher.PermissionRequest request) {
         requests=request;
-        DialogUtils.showDialogOne("信任是美好的开始，请授权相机等权限，让我们更好的为您服务", new DialogUtils.OnClickSureListener() {
+        DialogUtils.showDialogOne("信任是美好的开始，\n请授权相机等权限，\n让我们更好的为您服务", new DialogUtils.OnClickSureListener() {
             @Override
             public void onClickSure() {
                 request.proceed();

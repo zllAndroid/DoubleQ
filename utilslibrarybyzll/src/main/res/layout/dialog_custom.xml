@@ -23,7 +23,9 @@
             android:layout_height="80dp"
             android:gravity="center"
             android:text="message"
-            android:layout_marginTop="92dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:textColor="#666"
             android:textSize="16sp" />
 

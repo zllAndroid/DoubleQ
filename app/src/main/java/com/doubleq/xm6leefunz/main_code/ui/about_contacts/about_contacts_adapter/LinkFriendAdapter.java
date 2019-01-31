@@ -83,13 +83,16 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
         tv_contacts_parent_name = convertView.findViewById(R.id.frag_tv_contact_m_parent_name);
         mLinManage = convertView.findViewById(R.id.cusmanage_lin_top);
         img_parent_toright = convertView.findViewById(R.id.frag_img_contact_toright);
-
-        if (mGroupList.get(groupPosition).getGroupName().equals("~"))
-        {
-            tv_contacts_parent_name.setText("#");
-        }else
-        tv_contacts_parent_name.setText(mGroupList.get(groupPosition).getGroupName());
-        if (mGroupList.get(groupPosition).getType().equals("1"))
+        DataLinkManList.RecordBean.FriendListBean friendListBean = mGroupList.get(groupPosition);
+        String groupName = friendListBean.getGroupName();
+        if (groupName!=null) {
+            if (friendListBean.getGroupName().equals("~")) {
+                tv_contacts_parent_name.setText("#");
+            } else {
+                tv_contacts_parent_name.setText(friendListBean.getGroupName());
+            }
+        }
+        if (friendListBean.getType().equals("1"))
         {
             if (isExpanded) {
                 img_parent_toright.setImageResource(R.drawable.to_down);

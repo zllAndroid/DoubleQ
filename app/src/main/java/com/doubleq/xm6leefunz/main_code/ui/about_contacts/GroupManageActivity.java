@@ -93,13 +93,10 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(GroupManageActivity.this));
         sendWeb(SplitWeb.groupManageInfo(type));
 
-
         initListView();
     }
 
     private void initListView() {
-
-
         mListView.setDragItemListener(new DragListView.SimpleAnimationDragItemListener() {
 
             private Rect mFrame = new Rect();
@@ -162,12 +159,10 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                 }
                 return false;
 //        }
-
 //                boolean result = blackAdapter.exchange(srcPosition, targetPosition);
 //                return result;
             }
         });
-
 
     }
 
@@ -291,7 +286,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
         JSONObject tmpObj = null;
         jsonArray.clear();
         int count = group_info.size();
-        for(int i = 0; i < count; i++)
+        for(int i = 0; i < (count-1); i++)
         {
             /**
              * id : 1

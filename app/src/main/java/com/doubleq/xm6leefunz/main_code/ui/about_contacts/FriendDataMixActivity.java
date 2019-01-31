@@ -362,12 +362,12 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     this.overridePendingTransition(0, 0);
                 }
                 break;
-//                分组
+//                选择分组
             case R.id.fd_lin_fenzu:
                 if (NoDoubleClickUtils.isDoubleClick()) {
                     Intent intent = new Intent(this, ChooseGroupActivity.class);
                     Bundle bundle = new Bundle();
-                    bundle.putString("string", FriendId);
+                    bundle.putString("FriendId", FriendId);
                     intent.putExtras(bundle);
                     startActivityForResult(intent, AppConfig.FRIEND_DATA_GROUP_REQUEST);
                 }

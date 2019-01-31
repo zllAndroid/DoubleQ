@@ -124,7 +124,7 @@ public class DealFriendAdd {
             return;
         friendList = record.getFriendList();
         String chat = mRecord.getChart();
-         String groupManageName = mRecord.getGroupName();
+        String groupManageName = mRecord.getGroupName();
         String groupId = mRecord.getGroupId();
         if (friendList.size()>0)
         {
@@ -142,8 +142,7 @@ public class DealFriendAdd {
                 // type2
                 if (chat != null && chat.equals(groupName)&&type.equals("2")) {
                     dealTopOneHaveGroup(mRecord,  i, groupName,"2");
-
-                   saveData();
+                    saveData();
                     isTopTwo=false;
                 }
             }
@@ -284,9 +283,6 @@ public class DealFriendAdd {
         Intent intent = new Intent();
         intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
         mContext.sendBroadcast(intent);
-
-
-
 
     }
 }

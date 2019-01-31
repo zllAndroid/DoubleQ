@@ -26,6 +26,8 @@ import com.doubleq.model.off_line_msg.DataOffLineChat;
 import com.doubleq.model.off_line_msg.DataOffLineGroupChat;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealFriendAdd;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupAdd;
+import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyFriendList;
+import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyGroupOfList;
 import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
@@ -380,7 +382,6 @@ public class MyApplication extends Application implements IWebSocketPage {
 //        Log.e("onEvent","activity"+messageEvent.getMessage());
         if (isSucess.equals(AppAllKey.CODE_OK)) {
 //            判断返回的方法名
-
             String s = HelpUtils.backMethod(message.getResponseText());
             switch (s) {
                 //接收好友消息
@@ -426,7 +427,6 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "messagePush":
                     dealOffLineChat(message.getResponseText());
                     break;
-
 //                    用户在线群聊 - 离线消息
                 case "messageGroupPush":
                     dealOffLineGroupChat(message.getResponseText());
@@ -467,6 +467,23 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "deleteFriendSend":
                     DealFriendAdd.updateFriendDataBySub(this,message.getResponseText());
                     break;
+//                添、删、改好友分组or群分组管理
+                case "addFriendGroupManageSend":
+//                    DealModifyGroupOfList.modifyGroupOfList(this,message.getResponseText());
+                    break;
+                case "agreeGroupingListSend":
+                    DealModifyGroupOfList.addGroupOfList(this,message.getResponseText());
+                    break;
+                case "deleteGroupingListSend":
+                    DealModifyGroupOfList.deleteGroupOfList(this,message.getResponseText());
+                    break;
+                case "modifyGroupingListSend":
+                    DealModifyGroupOfList.modifyGroupOfList(this,message.getResponseText());
+                    break;
+                case "modifyFriendListSend":
+                    DealModifyFriendList.modifyGroupOfFriend(this,message.getResponseText());
+                    break;
+
             }
         }
     }
@@ -488,37 +505,35 @@ public class MyApplication extends Application implements IWebSocketPage {
             IntentUtils.JumpToHaveOne(TestActivity.class, "message", responseText);
         }
 
-        /*
-           PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
-        boolean screenOn = pm.isScreenOn();
-        if (!screenOn) {
-            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-            wl.acquire(10000); // 点亮屏幕
-            wl.release(); // 释放
-        }
+//           PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
+//        boolean screenOn = pm.isScreenOn();
+//        if (!screenOn) {
+//            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
+//            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
+//            wl.acquire(10000); // 点亮屏幕
+//            wl.release(); // 释放
+//        }
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    bitmap = Glide.with(MyApplication.getAppContext())
+//                            .load(record.getHeadImg())
+//                            .asBitmap() //必须
+//                            .centerCrop()
+//                            .into(500, 500)
+//                            .get();
+//                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+//                    notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                } catch (ExecutionException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    bitmap = Glide.with(MyApplication.getAppContext())
-                            .load(record.getHeadImg())
-                            .asBitmap() //必须
-                            .centerCrop()
-                            .into(500, 500)
-                            .get();
-                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-                    notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-         */
     }
 
     private void dealOffLineGroupChat(String responseText) {

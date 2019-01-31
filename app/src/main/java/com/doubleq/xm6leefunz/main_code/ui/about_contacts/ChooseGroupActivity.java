@@ -58,11 +58,11 @@ public class ChooseGroupActivity extends BaseActivity {
     public  static  String CHOOSE_GROUP_KEY = "choosegroup";
     public  static  String CHOOSE_NAME = "groupname";
     public  static  String CHOOSE_ID= "groupid";
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-    String string="";
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
+    String FriendId="";
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -77,16 +77,16 @@ public class ChooseGroupActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent!=null)
         {
-                string = intent.getStringExtra("string");
+            FriendId = intent.getStringExtra("FriendId");
         }
-        sendWeb(SplitWeb.groupManageInfo("1"));
+        sendWeb(SplitWeb.friendGroupList(FriendId));
     }
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
-            case "groupManageInfo":
+            case "friendGroupList":
                 DataFriendGroup dataGroupManage = JSON.parseObject(responseText, DataFriendGroup.class);
                 DataFriendGroup.RecordBean record = dataGroupManage.getRecord();
                 if (record==null) {
@@ -118,9 +118,9 @@ public class ChooseGroupActivity extends BaseActivity {
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 //                ToastUtil.show("点击同意");
                 item =(DataFriendGroup.RecordBean.GroupInfoBean) adapter.getItem(position);
-                if (!StrUtils.isEmpty(string))
+                if (!StrUtils.isEmpty(FriendId))
                 {
-                    sendWebHaveDialog(SplitWeb.friendGroupModify(string,item.getId()),"设置分组中...","设置成功");
+                    sendWebHaveDialog(SplitWeb.friendGroupModify(FriendId,item.getId()),"设置分组中...","设置成功");
                 }else
                 {
                     dealItemClick(item);
@@ -135,12 +135,29 @@ public class ChooseGroupActivity extends BaseActivity {
     }
 
     private void dealItemClick(DataFriendGroup.RecordBean.GroupInfoBean item) {
-        Intent intent = new Intent();
-        // 获取用户计算后的结果
-        intent.putExtra(CHOOSE_NAME, item.getGroupName());
-        intent.putExtra(CHOOSE_ID, item.getId());
-        setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
-        AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
+
+        if (item.getFriendGroup().equals("2"))
+        {
+            ToastUtil.show("好友已经在该分组");
+            return;
+        }
+        if (item.getId().equals("0"))
+        {
+            Intent intent = new Intent();
+            // 获取用户计算后的结果
+            intent.putExtra(CHOOSE_NAME, "暂无");
+            intent.putExtra(CHOOSE_ID, item.getId());
+            setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
+            AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
+        }else {
+            Intent intent = new Intent();
+            // 获取用户计算后的结果
+            intent.putExtra(CHOOSE_NAME, item.getGroupName());
+            intent.putExtra(CHOOSE_ID, item.getId());
+            setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
+            AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
+        }
+
     }
 
     @Override

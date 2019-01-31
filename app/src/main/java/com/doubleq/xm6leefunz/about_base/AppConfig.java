@@ -31,6 +31,11 @@ public static final String LINK_FRIEND_DEL_ACTION= "linkfriend_del";//删除好�
 public static final String LINK_GROUP_ADD_ACTION= "linkgroup_add";//增加好友
 public static final String LINK_GROUP_DEL_ACTION= "linkgroup_del";//删除好友
 
+//    分组管理
+public static final String FRIEND_GROUP_ADD_ACTION= "friendgroup_add";//增加分组
+public static final String FRIEND_GROUP_DELETE_ACTION= "friendgroup_del";//删除分组
+public static final String FRIEND_GROUP_MODIFY_ACTION= "friendgroup_modify";//修改分组
+
 //    群/好友分组列表  传参
 public static final String KEY_FRIEND_GROUP= "friend_group";
 public static final String VALUE_FRIEND= "1";//"friend";

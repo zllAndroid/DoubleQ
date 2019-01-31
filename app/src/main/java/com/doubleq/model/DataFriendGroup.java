@@ -101,6 +101,25 @@ public class DataFriendGroup  implements Serializable{
             private String id;
             private String groupName;
             private String sortId;
+            private String disabledStatus;
+            private String friendGroup;
+
+
+            public String getDisabledStatus() {
+                return disabledStatus;
+            }
+
+            public void setDisabledStatus(String disabledStatus) {
+                this.disabledStatus = disabledStatus;
+            }
+
+            public String getFriendGroup() {
+                return friendGroup;
+            }
+
+            public void setFriendGroup(String friendGroup) {
+                this.friendGroup = friendGroup;
+            }
 
             public String getId() {
                 return id;

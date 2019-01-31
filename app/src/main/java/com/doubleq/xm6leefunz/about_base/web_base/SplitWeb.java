@@ -695,6 +695,12 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "getFriendInfo", map);
         return  request;
     }
+    public  static  String friendGroupList(String friendsId){
+        dealMap();
+        putData("friendsId",friendsId);
+        String request = WebUrl.request("Contact", "friendGroupList", map);
+        return  request;
+    }
     //    添加好友
     public  static  String addFriend(String friend_sno,String group_id,String remark,String remark_name){
         dealMap();
