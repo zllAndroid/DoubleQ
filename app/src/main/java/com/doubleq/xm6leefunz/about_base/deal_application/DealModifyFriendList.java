@@ -113,6 +113,7 @@ public class DealModifyFriendList {
         if (record==null)
             return;
         friendList = record.getFriendList();
+        String newGroupId = mRecord.getNewGroupId();
         String newGroupName = mRecord.getNewGroupName();
         //  若列表不为空
         if (friendList.size() > 0){
@@ -121,9 +122,9 @@ public class DealModifyFriendList {
                 Log.e("更改好友分组（增）", "--------------------------i=" + i);
                 List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
                 if (friendList.get(i).getType().equals("1")) {
-                    if (friendList.get(i).getGroupName() != null){
-                        //  获取的新分组名与当下的分组名相同，则进行下一步判断
-                        if (friendList.get(i).getGroupName().equals(newGroupName)) {
+                    if (friendList.get(i).getGroupId() != null){
+                        //  获取的新分组Id与当下的分组Id相同，则进行下一步判断
+                        if (friendList.get(i).getGroupId().equals(newGroupId)) {
                             //  分组里的好友（小列表）不为空，则进行添判断是否已经在该组中添加该好友
                             if (groupList.size() > 0) {
                                 //  判断该好友是否与该分组的成员相同，相同则不再添加
@@ -145,10 +146,11 @@ public class DealModifyFriendList {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
         groupListBean.setGroupName(newGroupName);
-        groupListBean.setNickName(mRecord.getNewNickName());
+//        groupListBean.setNickName(mRecord.getNewNickName());
         groupListBean.setGroupId(mRecord.getNewGroupId());
         groupListBean.setHeadImg(mRecord.getNewHeadImg());
-        groupListBean.setRemarkName(mRecord.getRemarkName());
+        String name = StrUtils.isEmpty(mRecord.getRemarkName())? mRecord.getNewNickName() : mRecord.getRemarkName();
+        groupListBean.setNickName(name);
         groupListBean.setModified(mRecord.getModified());
         groupListBean.setUserId(mRecord.getFriendsId());
         groupList.add(groupListBean);
@@ -166,31 +168,25 @@ public class DealModifyFriendList {
         mContext.sendBroadcast(intent);
     }
 
-    private static void initDataModify(String asString, DataModifyFriendList.RecordBean mRecord) {
-
-    }
-
     private static String initDataSub(String asString, DataModifyFriendList.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)
             return null;
         Log.e("更改好友分组（删）","--------------------------------initDataSub--------------------------------");
         friendList = record.getFriendList();
-        String oldGroupName = mRecord.getOldGroupName();
+        String oldGroupId = mRecord.getOldGroupId();
         //  若列表不为空
         if (friendList.size() > 0){
             String friendsId = mRecord.getFriendsId();
             for (int i = 0; i < friendList.size();i++) {
                 DataLinkManList.RecordBean.FriendListBean friendListBean = friendList.get(i);
-
-
                 List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendListBean.getGroupList();
                 if (friendListBean.getType().equals("1")) {
 //                    列表分组名
-                    String groupName = friendListBean.getGroupName();
-
-                    if (groupName != null){
-                        if (groupName.equals(oldGroupName)) {
+//                    String groupName = friendListBean.getGroupName();
+                    String groupId = friendListBean.getGroupId();
+                    if (groupId != null){
+                        if (groupId.equals(oldGroupId)) {
                             if (groupList.size()>0)
                             {
                                 for (int j = 0; j < groupList.size(); j++) {

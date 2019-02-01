@@ -286,7 +286,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
         JSONObject tmpObj = null;
         jsonArray.clear();
         int count = group_info.size();
-        for(int i = 0; i < (count-1); i++)
+        for(int i = 0; i < count; i++)
         {
             /**
              * id : 1
