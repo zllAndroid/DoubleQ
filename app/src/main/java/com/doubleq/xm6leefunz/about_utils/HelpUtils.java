@@ -62,12 +62,12 @@ public class HelpUtils {
         return false;
     }
 
-    public static int getLocalVersion() {
+    public static int getLocalVersion(Context mcon) {
         int localVersion = 0;
         try {
-            PackageInfo packageInfo = activity.getApplicationContext()
+            PackageInfo packageInfo = mcon.getApplicationContext()
                     .getPackageManager()
-                    .getPackageInfo(activity.getPackageName(), 0);
+                    .getPackageInfo(mcon.getPackageName(), 0);
             localVersion = packageInfo.versionCode;
 //            Log.d("TAG", "本软件的版本号。。" + localVersion);
         } catch (PackageManager.NameNotFoundException e) {

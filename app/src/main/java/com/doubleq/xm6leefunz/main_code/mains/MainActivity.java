@@ -78,8 +78,14 @@ public class MainActivity extends BaseActivity {
         }
 
 //        版本更新
-        int localVersion = HelpUtils.getLocalVersion();
-        sendWeb(SplitWeb.appUpdate(""+localVersion));
+        int localVersion = 0;
+        try {
+            localVersion = HelpUtils.getLocalVersion(MainActivity.this);
+            sendWeb(SplitWeb.appUpdate(""+localVersion));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

@@ -17,6 +17,7 @@ public static final String TYPE_NAME= "name";//
 public static final String TYPE_NO= "no";//
 public static final String TYPE_SIGN= "sign";//
 public static final String TYPE_PHONE= "phone";//
+public static final String TYPE_PSW= "psw";//
 public static final String TYPE_URL= "URL";//
 public static final String TYPE_WS_REQUEST= "ws_requst";//
 

@@ -175,7 +175,7 @@ public class MineSetActivity extends BaseActivity {
             case R.id.set_lin_versition:
                 if (NoDoubleClickUtils.isDoubleClick()) {
                     //        版本更新
-                    int localVersion = HelpUtils.getLocalVersion();
+                    int localVersion = HelpUtils.getLocalVersion(this);
                     sendWeb(SplitWeb.appUpdate("" + localVersion));
                 }
 //                ToastUtil.show("已经是最新版本");

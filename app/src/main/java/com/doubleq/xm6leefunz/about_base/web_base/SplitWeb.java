@@ -19,6 +19,7 @@ public class SplitWeb {
     public static String IS_CHAT_GROUP= "33";
     public static String USER_TOKEN= "";
     public static String MOBILE= "";
+    public static String PSW= "";
     public static String WX_SNO= "";
     public static String PERSON_SIGN= "";
     public static String QR_CODE= "";
@@ -55,6 +56,11 @@ public class SplitWeb {
         if(StrUtils.isEmpty(MOBILE)&&HelpUtils.activity!=null)
             MOBILE=(String ) SPUtils.get(HelpUtils.activity, AppConfig.TYPE_PHONE,"");
         return MOBILE;
+    }
+    public static String getUserPSW() {
+        if(StrUtils.isEmpty(PSW)&&HelpUtils.activity!=null)
+            PSW=(String ) SPUtils.get(HelpUtils.activity, AppConfig.TYPE_PSW,"");
+        return PSW;
     }
     public static String getName() {
         if(StrUtils.isEmpty(NICK_NAME)&&HelpUtils.activity!=null)

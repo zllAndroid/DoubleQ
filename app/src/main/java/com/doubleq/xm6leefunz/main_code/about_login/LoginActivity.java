@@ -139,6 +139,7 @@ public class LoginActivity extends BaseActivity {
         SPUtils.put(this, AppConfig.TYPE_NAME,dataLogin.getNickName());
         SPUtils.put(this,AppConfig.TYPE_NO,dataLogin.getWxSno());
         SPUtils.put(this,AppConfig.TYPE_PHONE,dataLogin.getWxSno());
+
         SPUtils.put(this,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
 //        SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIpWs());
         SplitWeb.USER_TOKEN = dataLogin.getUserToken();
@@ -253,7 +254,7 @@ public class LoginActivity extends BaseActivity {
     }
     private void clickLogin() {
         final   String phone = loginEdPhone.getText().toString().trim();
-        String pwd = loginEdPsw.getText().toString().trim();
+       final String pwd = loginEdPsw.getText().toString().trim();
 
         if (StrUtils.isEmpty(phone)) {
             DialogUtils.showDialog(getResources().getString(R.string.phone_is_null));
@@ -274,6 +275,8 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onNetSuccess(String msg) {
                 SPUtils.put(LoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT,phone);
+                SPUtils.put(LoginActivity.this,AppConfig.TYPE_PSW,pwd);
+              SplitWeb.PSW=pwd;
                 DataLogin dataLogin = JSON.parseObject(msg, DataLogin.class);
                 DataLogin.RecordBean record = dataLogin.getRecord();
                 if (record != null)

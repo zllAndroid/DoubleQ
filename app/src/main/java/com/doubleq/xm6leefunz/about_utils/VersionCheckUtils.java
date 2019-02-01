@@ -20,7 +20,7 @@ import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
 public class VersionCheckUtils {
     static DataUpdate.RecordBean record = null;
     public static  void initUpdata(final String result, final  boolean isReturn) {
-        final int localVersion = HelpUtils.getLocalVersion();
+//        final int localVersion = HelpUtils.getLocalVersion(AppManager.getAppManager().currentActivity());
                 Log.e("result", "请求结果result----------==" + result);
                 final String sucess = HelpUtils.HttpIsSucess(result);
                 if (sucess.equals(AppConfig.CODE_OK)) {

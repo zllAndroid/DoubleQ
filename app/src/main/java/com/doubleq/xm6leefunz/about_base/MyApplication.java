@@ -1,7 +1,10 @@
 package com.doubleq.xm6leefunz.about_base;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +25,7 @@ import com.doubleq.model.DataFriendPush;
 import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.DataJieShou;
+import com.doubleq.model.DataLogin;
 import com.doubleq.model.off_line_msg.DataOffLineChat;
 import com.doubleq.model.off_line_msg.DataOffLineGroupChat;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealFriendAdd;
@@ -37,6 +41,7 @@ import com.doubleq.xm6leefunz.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.MathUtils;
+import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
@@ -45,6 +50,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
 import com.doubleq.xm6leefunz.main_code.mains.MsgFragment;
 import com.doubleq.xm6leefunz.main_code.mains.TestActivity;
 import com.pgyersdk.crash.PgyCrashManager;
@@ -1285,9 +1291,92 @@ public class MyApplication extends Application implements IWebSocketPage {
 
     @Override
     public void onSendMessageError(ErrorResponse error) {
-//        ToastUtil.show("执行出错"+error.getResponseText());
-//        重新设置ws地址
-//        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
+        ToastUtil.show("集群出错"+error.getRequestText());
 
+        String userMobile = SplitWeb.getUserMobile();
+        String userPsw = SplitWeb.getUserPSW();
+        if (userMobile==null&&userPsw==null)
+        {
+            return;
+        }
+        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+        netWorkUtlis.setOnNetWork(AppConfig.NORMAL,SplitWeb.loginIn(userMobile, userPsw), new NetWorkUtlis.OnNetWork() {
+            @Override
+            public void onNetSuccess(String msg) {
+                Log.e("onNetSuccess","msg="+msg);
+                DataLogin dataLogin = JSON.parseObject(msg, DataLogin.class);
+                DataLogin.RecordBean record = dataLogin.getRecord();
+                if (record != null)
+                    initSetData(record);
+//                IntentUtils.JumpFinishTo(MainActivity.class);
+            }
+        });
+    }
+    private void initSetData(DataLogin.RecordBean dataLogin) {
+        SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
+        SPUtils.put(this,AppAllKey.USER_Token,dataLogin.getUserToken());
+
+        SPUtils.put(this, AppConfig.TYPE_NAME,dataLogin.getNickName());
+        SPUtils.put(this,AppConfig.TYPE_NO,dataLogin.getWxSno());
+        SPUtils.put(this,AppConfig.TYPE_PHONE,dataLogin.getWxSno());
+
+        SPUtils.put(this,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
+//        SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIpWs());
+        SplitWeb.USER_TOKEN = dataLogin.getUserToken();
+        SplitWeb.MOBILE = dataLogin.getMobile();
+        SplitWeb.QR_CODE = dataLogin.getQrcode();
+        SplitWeb.NICK_NAME = dataLogin.getNickName();
+        SplitWeb.PERSON_SIGN = dataLogin.getPersonaSignature();
+        SplitWeb.QR_CODE = dataLogin.getQrcode();
+        SplitWeb.WX_SNO = dataLogin.getWxSno();
+        SplitWeb.USER_ID = dataLogin.getUserId();
+        SplitWeb.USER_HEADER = dataLogin.getHeadImg();
+//        SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
+        String serverIpWs = dataLogin.getServerIpWs();
+        aCache.remove(AppConfig.TYPE_URL);
+        aCache.put(AppConfig.TYPE_URL,serverIpWs);
+        String json = JSON.toJSON(dataLogin).toString();
+        aCache.remove(AppConfig.TOKEN_KEY);
+        aCache.put(AppAllKey.TOKEN_KEY, json);
+
+        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
+        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------2122------");
+//        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
+        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
+        WebSocketSetting.setReconnectWithNetworkChanged(true);
+
+        //启动 WebSocket 服务
+        Intent intent = new Intent(this, WebSocketService.class);
+        startService(intent);
+        mConnectManager = new WebSocketServiceConnectManager(this, this);
+        mConnectManager.onCreate();
+        ToastUtil.show("重新配置完成");
+        ToastUtil.show("一秒后重启应用");
+        WebSocketSetting.setConnectUrl(serverIpWs);//必选
+        Intent intent8 = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent8, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, restartIntent); // 1秒钟后重启应用
+        System.exit(0);
+//        Intent intent = new Intent();
+//        intent.setAction("server_application");
+//        sendBroadcast(intent);
+    }
+    /**
+     * 判断服务是否处于运行状态.
+     * @param servicename
+     * @param context
+     * @return
+     */
+    public static boolean isServiceRunning(String servicename,Context context){
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo>  infos = am.getRunningServices(100);
+        for(ActivityManager.RunningServiceInfo info: infos){
+            if(servicename.equals(info.service.getClassName())){
+                return true;
+            }
+        }
+        return false;
     }
 }
