@@ -94,7 +94,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //    }
-
     Unbinder bind = null;
     @Override
     protected int getLayoutView() {

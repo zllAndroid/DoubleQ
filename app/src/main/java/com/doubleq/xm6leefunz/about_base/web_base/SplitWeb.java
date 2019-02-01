@@ -1,18 +1,14 @@
 package com.doubleq.xm6leefunz.about_base.web_base;
 
-
 import android.content.Context;
-import android.util.Log;
 
 import com.doubleq.xm6leefunz.about_base.AppConfig;
-import com.doubleq.xm6leefunz.about_base.SignForXm6leefun;
 import com.doubleq.xm6leefunz.about_base.SignForXm6leefunJava;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.TreeMap;
 
@@ -31,8 +27,9 @@ public class SplitWeb {
     public static String USER_HEADER= "";
     public static String WS_REQUEST= "";
 
-
-    public static final String PreRequest= "http://192.168.4.131:40003/";
+    //固定第一级请求
+//    public static final String PreRequest= "http://192.168.4.131:40003/";
+    public static final String PreRequest= "http://39.108.3.131/server_api.php";
 
 //      SPUtils.put(this,"header",record.getHeadImg());
 //            SPUtils.put(this,"name",record.getNickName());
@@ -48,7 +45,7 @@ public class SplitWeb {
         return USER_ID;
     }
 
-//     SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIp());
+    //     SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIp());
     public static String getWsRequest(Context mContext) {
         if(StrUtils.isEmpty(WS_REQUEST)&&HelpUtils.activity!=null)
             WS_REQUEST=(String ) SPUtils.get(mContext, AppConfig.TYPE_WS_REQUEST,"");
@@ -110,7 +107,7 @@ public class SplitWeb {
 //    public static String WebSocket_URL = "ws://192.168.4.55:9093";
 //    public static String URL = "http://192.168.4.55:9092/LoginController/";
 
-//    public static String WebSocket_URL = "ws://192.168.4.48:9093";
+    //    public static String WebSocket_URL = "ws://192.168.4.48:9093";
 //    public static String URL = "http://192.168.4.48:9092/LoginController/";
 //    public static String WebSocket_URL = "ws://119.23.229.66:9093";
     public static String HttpURL = "";
@@ -120,7 +117,7 @@ public class SplitWeb {
         return HttpURL;
     }
     public static String getURLRequest() {
-      return "http://"+getURL()+"/LoginController/";
+        return "http://"+getURL()+"/LoginController/";
     }
 
     public static String loginIn(String mobile, String password){
@@ -192,7 +189,7 @@ public class SplitWeb {
         String request = WebUrl.request("Login", "setHeadImg", map);
         return  request;
     }
-//    版本检测
+    //    版本检测
     public static String appUpdate(String nowVs){
         dealMap();
         putData("nowVs",nowVs);
@@ -572,7 +569,7 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "shieldFriend", map);
         return  request;
     }
-//    用户设置好友置顶
+    //    用户设置好友置顶
     public  static  String topFriend(String friendsId,String type){
         dealMap();
         putData("friendsId",friendsId);
@@ -580,7 +577,7 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "topFriend", map);
         return  request;
     }
-//    消息免打扰
+    //    消息免打扰
     public  static  String disturbFriend(String friendsId,String type){
         dealMap();
         putData("friendsId",friendsId);

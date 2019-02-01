@@ -103,7 +103,7 @@ public class MyApplication extends Application implements IWebSocketPage {
         });
         initScreenSize();
         if (aCache==null)
-        aCache =  ACache.get(this);
+            aCache =  ACache.get(this);
         String asString = aCache.getAsString(AppConfig.TYPE_URL);
 
         if (StrUtils.isEmpty(asString)) {
@@ -1285,6 +1285,9 @@ public class MyApplication extends Application implements IWebSocketPage {
 
     @Override
     public void onSendMessageError(ErrorResponse error) {
+//        ToastUtil.show("执行出错"+error.getResponseText());
+//        重新设置ws地址
+//        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
 
     }
 }

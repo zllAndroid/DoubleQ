@@ -349,9 +349,11 @@ public class ACache {
 
 	/**
 	 * 
-	 * @param key
-	 *            the file name.
-	 * @return (InputStream or null) stream previously saved in cache.
+	 *
+     * @param typeUrl
+     * @param key
+     *            the file name.
+     * @return (InputStream or null) stream previously saved in cache.
 	 * @throws FileNotFoundException
 	 *             if the file can not be opened
 	 */
