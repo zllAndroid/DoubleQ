@@ -91,7 +91,8 @@ public class LoginActivity extends BaseActivity {
         }
         mCache = ACache.get(this);
         listenEnter();
-        initUrl();
+        //TODO  获取第一层url
+//        initUrl();
 
         if (intentFilter == null) {
             intentFilter = new IntentFilter();
@@ -152,9 +153,18 @@ public class LoginActivity extends BaseActivity {
         SplitWeb.USER_ID = dataLogin.getUserId();
         SplitWeb.USER_HEADER = dataLogin.getHeadImg();
 //        SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
-        String serverIpWs = dataLogin.getServerIpWs();
-        mCache.remove(AppConfig.TYPE_URL);
-        mCache.put(AppConfig.TYPE_URL,serverIpWs);
+
+        //TODO 集群
+//        try {
+//            String serverIpWs = dataLogin.getServerIpWs();
+//            mCache.remove(AppConfig.TYPE_URL);
+//            mCache.put(AppConfig.TYPE_URL,serverIpWs);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+
+
+
 //        ToastUtil.show("一秒后重启应用");
 //        WebSocketSetting.setConnectUrl(serverIpWs);//必选
 //        Intent intent = getBaseContext().getPackageManager()
@@ -163,9 +173,11 @@ public class LoginActivity extends BaseActivity {
 //        AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
 //        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, restartIntent); // 1秒钟后重启应用
 //        System.exit(0);
-        Intent intent = new Intent();
-        intent.setAction("server_application");
-        sendBroadcast(intent);
+
+        //TODO 集群
+//        Intent intent = new Intent();
+//        intent.setAction("server_application");
+//        sendBroadcast(intent);
     }
 
     @Override
@@ -260,11 +272,11 @@ public class LoginActivity extends BaseActivity {
             DialogUtils.showDialog(getResources().getString(R.string.phone_is_null));
             return;
         }
-        if (StrUtils.isEmpty(phone)) {
-            DialogUtils.showDialog(getResources().getString(R.string.phone_is_error));
-//            Tip.getDialog(LoginActivity.this,getResources().getString(R.string.phone_is_error));
-            return;
-        }
+//        if (StrUtils.isEmpty(phone)) {
+//            DialogUtils.showDialog(getResources().getString(R.string.phone_is_error));
+////            Tip.getDialog(LoginActivity.this,getResources().getString(R.string.phone_is_error));
+//            return;
+//        }
         if (StrUtils.isEmpty(pwd)) {
             DialogUtils.showDialog("密码不得为空");
 //            Tip.getDialog(LoginActivity.this,"密码不得为空");
@@ -299,12 +311,14 @@ public class LoginActivity extends BaseActivity {
 
             initSetData(userInfo);
         }
-//        if (!isFirst) {
-//            IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
-////                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
-//        }
-//        else
-//            IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
+
+        //TODO 集群  屏蔽
+        if (!isFirst) {
+            IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+//                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
+        }
+        else
+            IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
 
 //        sendWeb(SplitWeb.bindUid());
     }

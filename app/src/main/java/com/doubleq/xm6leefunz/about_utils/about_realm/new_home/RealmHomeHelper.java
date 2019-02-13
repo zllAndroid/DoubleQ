@@ -129,12 +129,28 @@ public class RealmHomeHelper {
     /**
      * update （改） 消息和时间
      */
-    public void updateMsg(String friendId, String msg, String time) {
+    public void updateMsg(String friendId, String msg, String time,String shield,String disturb,String top) {
         CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             realmMsg.setMsg(msg);
             realmMsg.setTime(time);
+            realmMsg.setMsgIsDisTurb(disturb);
+            realmMsg.setIsTopMsg(top);
+            realmMsg.setIsShield(shield);
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
+    public void updateGroupMsg(String friendId, String msg, String time) {
+        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg.setMsg(msg);
+            realmMsg.setTime(time);
+//            realmMsg.setMsgIsDisTurb(disturb);
+//            realmMsg.setIsTopMsg(top);
+//            realmMsg.setIsShield(shield);
             mRealm.insertOrUpdate(realmMsg);
             mRealm.commitTransaction();
         }

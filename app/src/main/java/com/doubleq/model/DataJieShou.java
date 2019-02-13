@@ -93,8 +93,31 @@ public class DataJieShou {
         private String userId;
         private String requestTime;
         private String friendsName;
-        private String shieldType;
+
+
         private String headImg;
+
+        private String shieldType;//屏蔽
+
+        private String topType;//置顶
+        private String disturbType;//消息免打扰
+
+
+        public String getTopType() {
+            return topType;
+        }
+
+        public void setTopType(String topType) {
+            this.topType = topType;
+        }
+
+        public String getDisturbType() {
+            return disturbType;
+        }
+
+        public void setDisturbType(String disturbType) {
+            this.disturbType = disturbType;
+        }
 
         public String getShieldType() {
             return shieldType;

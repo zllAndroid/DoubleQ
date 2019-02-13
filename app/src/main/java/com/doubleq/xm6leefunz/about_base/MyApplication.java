@@ -2,9 +2,7 @@ package com.doubleq.xm6leefunz.about_base;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
-import android.app.AlarmManager;
 import android.app.Application;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -111,18 +109,13 @@ public class MyApplication extends Application implements IWebSocketPage {
         if (aCache==null)
             aCache =  ACache.get(this);
         String asString = aCache.getAsString(AppConfig.TYPE_URL);
-
-        if (StrUtils.isEmpty(asString)) {
-            initServerBro();
-        }else {
-            initManagerService();
-        }
-//        initManagerService();
-
-//        WebSocketService webSocketService = new WebSocketService();
-//        webSocketService.onCreate();
-//        mConnectManager = new WebSocketServiceConnectManager(this, AppManager.getAppManager().currentActivity());
-//        mConnectManager.onCreate();
+//TODO 集群
+//        if (StrUtils.isEmpty(asString)) {
+//            initServerBro();
+//        }else {
+//            initManagerService();
+//        }
+        initOneService();
         initRealm();
 
     }
@@ -169,9 +162,11 @@ public class MyApplication extends Application implements IWebSocketPage {
 
     private void initFirstService() {
         //配置 WebSocket，必须在 WebSocket 服务启动前设置
-        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
-        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
-//        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
+
+//        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
+//        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
+
+        WebSocketSetting.setConnectUrl("ws://192.168.4.55:9093");//必选
         WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
         WebSocketSetting.setReconnectWithNetworkChanged(true);
 
@@ -188,7 +183,22 @@ public class MyApplication extends Application implements IWebSocketPage {
     private void initManagerService() {
         //配置 WebSocket，必须在 WebSocket 服务启动前设置
         WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
-        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
+//        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
+//        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
+        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
+        WebSocketSetting.setReconnectWithNetworkChanged(true);
+
+        //启动 WebSocket 服务
+        Intent intent = new Intent(this, WebSocketService.class);
+        startService(intent);
+        mConnectManager = new WebSocketServiceConnectManager(this, this);
+        mConnectManager.onCreate();
+
+    }
+    private void initOneService() {
+        //配置 WebSocket，必须在 WebSocket 服务启动前设置
+        WebSocketSetting.setConnectUrl(SplitWeb.WebSocket_URL);//必选
+//        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
 //        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
         WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
         WebSocketSetting.setReconnectWithNetworkChanged(true);
@@ -218,66 +228,6 @@ public class MyApplication extends Application implements IWebSocketPage {
     RealmGroupChatHelper realmGroupChatHelper;
 
     public static WebSocketServiceConnectManager getmConnectManager() {
-//        if (mConnectManager==null)
-//        {
-////            WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
-//////        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
-////            WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
-////            WebSocketSetting.setReconnectWithNetworkChanged(true);
-////
-////            //启动 WebSocket 服务
-////            Intent intent = new Intent(this, WebSocketService.class);
-////            startService(intent);
-//            mConnectManager = new WebSocketServiceConnectManager(getAppContext(),getApp());
-//
-////            mConnectManager = new WebSocketServiceConnectManager(getAppContext(), new IWebSocketPage() {
-////                @Override
-////                public void onServiceBindSuccess() {
-////
-////                }
-////
-////                @Override
-////                public void sendText(String text) {
-////                    mConnectManager.sendText(text);
-////                }
-////
-////                @Override
-////                public void reconnect() {
-////                    mConnectManager.reconnect();
-////                }
-////
-////                @Override
-////                public void onConnected() {
-////
-////                }
-////
-////                @Override
-////                public void onConnectError(Throwable cause) {
-////
-////                }
-////
-////                @Override
-////                public void onWantConnect(Throwable cause) {
-////
-////                }
-////
-////                @Override
-////                public void onDisconnected() {
-////
-////                }
-////
-////                @Override
-////                public void onMessageResponse(Response message) {
-////
-////                }
-////
-////                @Override
-////                public void onSendMessageError(ErrorResponse error) {
-////
-////                }
-////            });
-//            mConnectManager.onCreate();
-//        }
         return mConnectManager;
     }
 
@@ -316,7 +266,6 @@ public class MyApplication extends Application implements IWebSocketPage {
     @Override
     public void reconnect() {
         mConnectManager.reconnect();
-//        Log.e("WebSocketLib","----------------------调用-----------reconnect---------------------------------------");
     }
 
     String reBind = "0";
@@ -325,14 +274,11 @@ public class MyApplication extends Application implements IWebSocketPage {
 
     @Override
     public void onConnected() {
-//        Log.e("WebSocketLib", "---------------------------------onConnected---------------------------------------");
         reBind = "0";
 //        添加重连机制，当连接成功后，重新绑定uid
         try {
 //            if (!StrUtils.isEmpty(SplitWeb.getUserId())) {
 //            String userId = SplitWeb.getUserId();
-
-
             if (!StrUtils.isEmpty(SplitWeb.getUserId())) {
                 sendText(SplitWeb.bindUid());
             }
@@ -340,25 +286,18 @@ public class MyApplication extends Application implements IWebSocketPage {
             e.printStackTrace();
         }
         reBind = "1";
-
     }
 
     @Override
     public void onConnectError(Throwable cause) {
-//        Log.e("WebSocketLib", "---------------------------------onWantConnect---------------------------------------");
     }
-
     @Override
     public void onDisconnected() {
     }
-
     @Override
     public void onWantConnect(Throwable cause) {
-
     }
-
     public static Response message;
-
     @Override
     public void onMessageResponse(Response message) {
 //        onResult(message);
@@ -494,53 +433,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         }
     }
 
-    private void dealReceiverShow(String responseText) {
-        PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
-        boolean screenOn = pm.isScreenOn();
-//        @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-//        wl.acquire(10000); // 点亮屏幕
-//        wl.release(); // 释放
-//        IntentUtils.JumpToHaveOne(TestActivity.class,"message",responseText);
-
-        if (!screenOn) {
-//            Log.e("screenOn", "--------------------------" + !screenOn);
-//            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-//            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-//            wl.acquire(10000); // 点亮屏幕
-//            wl.release(); // 释放
-            IntentUtils.JumpToHaveOne(TestActivity.class, "message", responseText);
-        }
-
-//           PowerManager pm = (PowerManager) MyApplication.this.getSystemService(Context.POWER_SERVICE);
-//        boolean screenOn = pm.isScreenOn();
-//        if (!screenOn) {
-//            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-//            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-//            wl.acquire(10000); // 点亮屏幕
-//            wl.release(); // 释放
-//        }
-//
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    bitmap = Glide.with(MyApplication.getAppContext())
-//                            .load(record.getHeadImg())
-//                            .asBitmap() //必须
-//                            .centerCrop()
-//                            .into(500, 500)
-//                            .get();
-//                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-//                    notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                } catch (ExecutionException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-
-    }
 
     private void dealOffLineGroupChat(String responseText) {
         DataOffLineGroupChat dataOffLineGroupChat = JSON.parseObject(responseText, DataOffLineGroupChat.class);
@@ -599,7 +491,7 @@ public class MyApplication extends Application implements IWebSocketPage {
         }
 
         if (homeRealmData != null) {
-            realmHelper.updateMsg(record.getGroupId(), msg, record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+            realmHelper.updateGroupMsg(record.getGroupId(), msg, record.getRequestTime());//更新首页聊天界面数据（消息和时间）
             realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
         } else {
             final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
@@ -670,7 +562,10 @@ public class MyApplication extends Application implements IWebSocketPage {
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getFriendsId());
 
         if (homeRealmData != null) {
-            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+//            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
+
+
             realmHelper.updateNum(record.getFriendsId());//更新首页聊天界面数据（未读消息数目）
         } else {
             final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
@@ -862,7 +757,7 @@ public class MyApplication extends Application implements IWebSocketPage {
         }
         if (homeRealmData != null) {
 
-            realmHelper.updateMsg(record.getGroupId(), msg, record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+            realmHelper.updateGroupMsg(record.getGroupId(), msg, record.getRequestTime());//更新首页聊天界面数据（消息和时间）
             realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
         } else {
             final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
@@ -995,7 +890,9 @@ public class MyApplication extends Application implements IWebSocketPage {
         intent.putExtra("id", record.getFriendsId());
         intent.setAction("action.refreshMsgFragment");
         sendBroadcast(intent);
-        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+//        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
+
     }
 
     private void initMsgGroupSend(DataGroupChatSend.RecordBean record) {
@@ -1004,7 +901,8 @@ public class MyApplication extends Application implements IWebSocketPage {
         intent.putExtra("id", record.getGroupId());
         intent.setAction("action.refreshMsgFragment");
         sendBroadcast(intent);
-        realmHelper.updateMsg(record.getGroupId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+//        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
+        realmHelper.updateGroupMsg(record.getGroupId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
     }
 
 
@@ -1017,7 +915,8 @@ public class MyApplication extends Application implements IWebSocketPage {
         if (record == null) {
             return;
         }
-
+       if ( record.getShieldType().equals("2"))
+           return;
         AppConfig.CHAT_FRIEND_ID = record.getFriendsId();
         record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
         record.setType(Constants.CHAT_ITEM_TYPE_LEFT);
@@ -1042,11 +941,12 @@ public class MyApplication extends Application implements IWebSocketPage {
             }
         }
 //        SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM,record.getRequestTime());
-        if (!SplitWeb.IS_CHAT.equals("1")) {
-//            不在聊天界面收到消息时候的处理
-            noChatUI(record);
-        }
-        xipinhuanxing(record);
+//        if (!SplitWeb.IS_CHAT.equals("1")) {
+////            不在聊天界面收到消息时候的处理
+//            noChatUI(record);
+//        }
+        if (!record.getDisturbType().equals("2"))
+            xipinhuanxing(record);
         cusRealmChatMsg.setCreated(Mytime);
         cusRealmChatMsg.setMessage(record.getMessage());
         cusRealmChatMsg.setMessageType(record.getMessageType());
@@ -1060,7 +960,12 @@ public class MyApplication extends Application implements IWebSocketPage {
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getFriendsId());
 
         if (homeRealmData != null) {
-            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+            cusJumpChatData.setIsShield(record.getShieldType());
+            cusJumpChatData.setIsTopMsg(record.getTopType());
+            cusJumpChatData.setMsgIsDisTurb(record.getDisturbType());
+
+
+            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
             realmHelper.updateNum(record.getFriendsId());//更新首页聊天界面数据（未读消息数目）
         } else {
             if (cusJumpChatData == null)
@@ -1069,13 +974,20 @@ public class MyApplication extends Application implements IWebSocketPage {
             cusJumpChatData.setFriendId(record.getFriendsId());
             cusJumpChatData.setNickName(record.getFriendsName());
             cusJumpChatData.setMsg(record.getMessage());
+            cusJumpChatData.setIsShield(record.getShieldType());
+            cusJumpChatData.setIsTopMsg(record.getTopType());
+            cusJumpChatData.setMsgIsDisTurb(record.getDisturbType());
             cusJumpChatData.setTime(record.getRequestTime());
             cusJumpChatData.setNum(0);
 //            realmHelper.updateNum(record.getFriendsId());
             realmHelper.addRealmMsg(cusJumpChatData);
         }
-
-
+        Intent intent = new Intent();
+        intent.putExtra("message", record.getMessage());
+        intent.putExtra("id", record.getFriendsId());
+        intent.setAction("action.refreshMsgFragment");
+        sendBroadcast(intent);
+//        initMsgSend(record);
     }
     //息屏唤醒
     private void xipinhuanxing(final DataJieShou.RecordBean record) {
@@ -1093,27 +1005,28 @@ public class MyApplication extends Application implements IWebSocketPage {
             wl.acquire(10000); // 点亮屏幕
             wl.release(); // 释放
         }
-//        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
-        //APP在后台的时候处理接收到消息的事件
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    bitmap = Glide.with(MyApplication.getAppContext())
-                            .load(record.getHeadImg())
-                            .asBitmap() //必须
-                            .centerCrop()
-                            .into(500, 500)
-                            .get();
-                    NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-                    notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
+//        if (!SplitWeb.IS_CHAT.equals("1"))
+        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())||!SplitWeb.IS_CHAT.equals("1"))
+            //APP在后台的时候处理接收到消息的事件
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        bitmap = Glide.with(MyApplication.getAppContext())
+                                .load(record.getHeadImg())
+                                .asBitmap() //必须
+                                .centerCrop()
+                                .into(500, 500)
+                                .get();
+                        NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
+                        notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-        }).start();
+            }).start();
 
     }
 
@@ -1306,8 +1219,12 @@ public class MyApplication extends Application implements IWebSocketPage {
                 Log.e("onNetSuccess","msg="+msg);
                 DataLogin dataLogin = JSON.parseObject(msg, DataLogin.class);
                 DataLogin.RecordBean record = dataLogin.getRecord();
-                if (record != null)
-                    initSetData(record);
+                try {
+                    if (record != null)
+                        initSetData(record);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 //                IntentUtils.JumpFinishTo(MainActivity.class);
             }
         });
@@ -1351,14 +1268,14 @@ public class MyApplication extends Application implements IWebSocketPage {
         mConnectManager = new WebSocketServiceConnectManager(this, this);
         mConnectManager.onCreate();
         ToastUtil.show("重新配置完成");
-        ToastUtil.show("一秒后重启应用");
-        WebSocketSetting.setConnectUrl(serverIpWs);//必选
-        Intent intent8 = getBaseContext().getPackageManager()
-                .getLaunchIntentForPackage(getBaseContext().getPackageName());
-        PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent8, PendingIntent.FLAG_ONE_SHOT);
-        AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, restartIntent); // 1秒钟后重启应用
-        System.exit(0);
+//        ToastUtil.show("一秒后重启应用");
+//        WebSocketSetting.setConnectUrl(serverIpWs);//必选
+//        Intent intent8 = getBaseContext().getPackageManager()
+//                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+//        PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent8, PendingIntent.FLAG_ONE_SHOT);
+//        AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+//        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, restartIntent); // 1秒钟后重启应用
+//        System.exit(0);
 //        Intent intent = new Intent();
 //        intent.setAction("server_application");
 //        sendBroadcast(intent);

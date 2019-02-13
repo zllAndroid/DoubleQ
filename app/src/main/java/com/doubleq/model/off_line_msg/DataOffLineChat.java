@@ -110,14 +110,35 @@ public class DataOffLineChat {
             private String messageType;
             private String nickName;
             private String requestTime;
-            private String shieldType;
+//            private String shieldType;
             private String userId;
+
+            private String shieldType;//屏蔽
+
+            private String topType;//置顶
+            private String disturbType;//消息免打扰
 
 
             //消息类别，在左还是右
             private int type;
             //            发送成功还是失败
             private int sendState;
+
+            public String getTopType() {
+                return topType;
+            }
+
+            public void setTopType(String topType) {
+                this.topType = topType;
+            }
+
+            public String getDisturbType() {
+                return disturbType;
+            }
+
+            public void setDisturbType(String disturbType) {
+                this.disturbType = disturbType;
+            }
 
             public int getType() {
                 return type;

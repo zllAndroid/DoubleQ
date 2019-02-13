@@ -59,7 +59,8 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
             for (int i=0;i<data.size();i++)
             {
                 CusHomeRealmData cusHomeRealmData = data.get(i);
-                if (cusHomeRealmData!=null)
+
+                if (cusHomeRealmData!=null&&!cusHomeRealmData.getMsgIsDisTurb().equals("2"))
                 num += cusHomeRealmData.getNum();
             }
         }
@@ -110,6 +111,11 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         {
             mTvNum .setVisibility(View.VISIBLE);
             helper.setText(R.id.item_tv_num,item.getNum()+"");
+        }
+        if (!item.getMsgIsDisTurb().equals("2"))
+           mTvNum.setBackgroundResource(R.drawable.linkman_news);
+        else {
+            mTvNum.setBackgroundResource(R.drawable.news_disturb);
         }
         helper.addOnClickListener(R.id.item_tv_click_ok);
         helper.addOnClickListener(R.id.item_msg_re);

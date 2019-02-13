@@ -116,7 +116,7 @@ public class SplitWeb {
     //    public static String WebSocket_URL = "ws://192.168.4.48:9093";
 //    public static String URL = "http://192.168.4.48:9092/LoginController/";
 //    public static String WebSocket_URL = "ws://119.23.229.66:9093";
-    public static String HttpURL = "";
+    public static String HttpURL = "192.168.4.55:9092";
     private static String getURL() {
         if(StrUtils.isEmpty(HttpURL))
             HttpURL= (String )SPUtils.get(HelpUtils.activity,AppConfig.TYPE_URL,"");

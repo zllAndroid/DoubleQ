@@ -73,13 +73,6 @@ public class ChatSetActivity extends BaseActivity {
     LinearLayout mLinTop;
     @BindView(R.id.chatset_lin_msg_miandarao)
     LinearLayout mLinNoCall;
-
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
-
     @Override
     protected int getLayoutView() {
         return R.layout.activity_chat_set;
@@ -92,7 +85,7 @@ public class ChatSetActivity extends BaseActivity {
     CustomPopWindow popWindow;
 
     String type = "1";
-
+    TextView mTvShield;
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -116,20 +109,10 @@ public class ChatSetActivity extends BaseActivity {
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
         mView = LayoutInflater.from(this).inflate(R.layout.pop_good_friend, null);
-        mView.findViewById(R.id.pop_tv_pingbi).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                ToastUtil.show("点击了屏蔽");
-                DialogUtils.showDialog("是否屏蔽此好友？", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        sendWebHaveDialog(SplitWeb.shieldFriend(FriendId, "2"), "正在屏蔽...", "屏蔽成功");
-                    }
-                });
-                if (popWindow != null)
-                    popWindow.dissmiss();
-            }
-        });
+         mTvShield = mView.findViewById(R.id.pop_tv_pingbi);
+
+
+
         mView.findViewById(R.id.pop_tv_del).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,6 +163,9 @@ public class ChatSetActivity extends BaseActivity {
                             .showAsDropDown(includeTopIvMore, 0, 0);
                 } else
                     popWindow.showAsDropDown(includeTopIvMore, 0, 0);
+
+
+
                 break;
             case R.id.fd_iv_qrcode:
                 if (dataRecord != null) {
@@ -278,6 +264,36 @@ public class ChatSetActivity extends BaseActivity {
 //            mTvName.setText(record.getNickName() + "(" + record.getRemarkName() + ")");
             chatsetMsgMiandarao.setChecked(record.getDisturbType().equals("2"));
             chatsetSwiZhidingChat.setChecked(record.getTopType().equals("2"));
+          final  String shieldType = record.getShieldType();
+           String shile= shieldType.equals("2")?"取消屏蔽":"屏蔽好友";
+
+            mTvShield.setText("shile");
+            mTvShield.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                ToastUtil.show("点击了屏蔽");
+                    if(shieldType.equals("2"))
+                    {
+                        DialogUtils.showDialog("是否取消屏蔽此好友？", new DialogUtils.OnClickSureListener() {
+                            @Override
+                            public void onClickSure() {
+                                sendWebHaveDialog(SplitWeb.shieldFriend(FriendId, "1"), "正在取消屏蔽...", "取消屏蔽成功");
+                            }
+                        });
+                    }else
+                    {
+                        DialogUtils.showDialog("是否屏蔽此好友？", new DialogUtils.OnClickSureListener() {
+                            @Override
+                            public void onClickSure() {
+                                sendWebHaveDialog(SplitWeb.shieldFriend(FriendId, "2"), "正在屏蔽...", "屏蔽成功");
+                            }
+                        });
+                    }
+
+                    if (popWindow != null)
+                        popWindow.dissmiss();
+                }
+            });
             if (dataRecord.getIsQrcodeShow().equals("0")) {  // 0为不显示
                 fdIvQrcode.setVisibility(View.GONE);
             } else

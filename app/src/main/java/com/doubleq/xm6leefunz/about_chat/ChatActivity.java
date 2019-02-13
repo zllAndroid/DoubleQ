@@ -374,8 +374,6 @@ public class ChatActivity extends BaseActivity {
             @Override
             public boolean onItemLongClick(int position) {
                 return false;
-
-
             }
         });
         chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -478,49 +476,18 @@ public class ChatActivity extends BaseActivity {
                 }
                 dealSendResult(responseText);
                 break;
-//            case "messageObtain":
-//                DataChatHisList dataChatHisList = JSON.parseObject(responseText, DataChatHisList.class);
-//                DataChatHisList.RecordBean record1 = dataChatHisList.getRecord();
-//                if (record1 != null) {
-//                    List<DataChatHisList.RecordBean.MessageListBean> messageList = record1.getMessageList();
-////                    messageStoId
-//                    if (messageList != null && messageList.size() != 0) {
-//                        mList.clear();
-//                        if (messageList.size() != 0) {
-//                            String messageStoId = messageList.get(0).getMessageStoId();
-//                            if (StrUtils.isEmpty(messageStoId)) {
-////                        ToastUtil.show("列表为空");
-//                                return;
-//                            }
-//                        }
-//                        for (int i = 0; i < messageList.size(); i++) {
-//                            DataJieShou.RecordBean recordBean = new DataJieShou.RecordBean();
-//                            recordBean.setType(messageList.get(i).getUserMessageType());
-//                            recordBean.setMessage(messageList.get(i).getMessage());
-//                            recordBean.setMessageType(messageList.get(i).getMessageType());
-//                            recordBean.setRequestTime(messageList.get(i).getCreated());
-//                            mList.add(recordBean);
-//                        }
-//                        chatAdapter.addAll(mList);
-//                        chatAdapter.notifyDataSetChanged();
-//                        //    滑动到底部
-//                        layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-//                    }
-//                }
-//                break;
-//                接收消息返回
             case "privateReceive":
                 dealReceiverResult(responseText);
                 break;
         }
     }
-
     ChatNewsWindow chatWindow = null;
-
     private void dealReceiverResult(String responseText) {
         DataJieShou dataJieShou1 = JSON.parseObject(responseText, DataJieShou.class);
         final DataJieShou.RecordBean record2 = dataJieShou1.getRecord();
         if (record2 != null) {
+            if ( record2.getShieldType().equals("2"))
+                return;
             if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
 //                    收到聊天页的此人的消息
                 if (record2.getFriendsId().equals(FriendId)) {
@@ -542,21 +509,7 @@ public class ChatActivity extends BaseActivity {
                     chatAdapter.notifyDataSetChanged();
 //                    滑动到底部
                     layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-
-//                Intent intent = new Intent();
-//                intent.putExtra("message", record2.getMessage());
-//                intent.putExtra("id", record2.getFriendsId());
-//                intent.setAction("zero.refreshMsgFragment");
-//                sendBroadcast(intent);
                 } else {
-//                        mChatTvShow.setText(record2.getFriendsName()+":"+record2.getMessage());
-//                view = LayoutInflater.from(this).inflate(R.layout.item_chat_new, null);
-//                TextView mTv = view.findViewById(R.id.item_tv_news);
-//                mTv.setText(record2.getFriendsName()+":"+record2.getMessage());
-//                chatWindow = new ChatNewsWindow(ChatActivity.this,record2.getFriendsName()+":"+record2.getMessage());
-//
-//                hideControl.resetHideTimer();
-//                hideControl.startHideTimer();
                     ToastUtil.show("收到一条来自" + record2.getFriendsName() + "的消息");
                     if (mIntent == null)
                         mIntent = new Intent();
@@ -565,7 +518,8 @@ public class ChatActivity extends BaseActivity {
                     mIntent.setAction("action.refreshMsgFragment");
                     sendBroadcast(mIntent);
                 }
-            }else if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
+            }
+            else if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
                 if (mIntent==null)
                     mIntent = new Intent();
                 mIntent.putExtra("message", record2.getMessage());

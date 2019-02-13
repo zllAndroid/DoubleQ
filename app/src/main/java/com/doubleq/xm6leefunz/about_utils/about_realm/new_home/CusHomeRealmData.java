@@ -34,7 +34,7 @@ public  class CusHomeRealmData extends RealmObject {
     String nickName;
     //    头像
     String headImg;
-    //是否消息免打扰
+    //是否消息免打扰   1否2是
     String MsgIsDisTurb;
     //    消息时间
     String time;
@@ -42,6 +42,27 @@ public  class CusHomeRealmData extends RealmObject {
     int num;
 //    消息
     String msg;
+
+//    是否置顶   1否2是
+    String isTopMsg;
+//    是否置顶   1否2是
+    String isShield;
+
+    public String getIsShield() {
+        return isShield;
+    }
+
+    public void setIsShield(String isShield) {
+        this.isShield = isShield;
+    }
+
+    public String getIsTopMsg() {
+        return isTopMsg;
+    }
+
+    public void setIsTopMsg(String isTopMsg) {
+        this.isTopMsg = isTopMsg;
+    }
 
     public RealmList<CusChatData> chatMsgs;
 
