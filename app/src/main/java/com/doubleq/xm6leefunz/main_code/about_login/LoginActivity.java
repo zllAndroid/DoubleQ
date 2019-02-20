@@ -244,7 +244,8 @@ public class LoginActivity extends BaseActivity {
                 IntentUtils.JumpFinishTo(LoginActivity.this,PwdLoginActivity.class);
                 break;
             case R.id.login_tv_forget_pwd:
-                DialogUtils.showDialogKnow("请直接输入手机号，用短信登录","知道了");
+//                DialogUtils.showDialogKnow("请直接输入手机号，用短信登录","知道了");
+                IntentUtils.JumpFinishTo(LoginActivity.this,PwdLoginActivity.class);
                 break;
             case R.id.login_btn_login:
 //                String serverIpWs="ws://192.168.4.67:9093";

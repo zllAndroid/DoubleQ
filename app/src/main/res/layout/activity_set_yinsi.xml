@@ -29,7 +29,7 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="账号显示"
+                    android:text="帐号显示"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
                     android:id="@+id/yinsi_switch_count"
@@ -101,6 +101,52 @@
                     app:sb_checked_color="@color/swi_select"
                     android:layout_gravity="center"
                     app:sb_checked="true"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/count_lin_hideMine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/dp10"
+                android:background="@color/white"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey333"
+                    android:textSize="@dimen/sp15"
+                    android:padding="@dimen/dp10"
+                    android:text="不让Ta看我的动态" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp10"
+                    app:srcCompat="@drawable/in_right" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/count_lin_hideHis"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="@dimen/dp10"
+                android:background="@color/white"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/grey333"
+                    android:textSize="@dimen/sp15"
+                    android:padding="@dimen/dp10"
+                    android:text="不看Ta的动态" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp10"
+                    app:srcCompat="@drawable/in_right" />
             </LinearLayout>
 
         </LinearLayout>

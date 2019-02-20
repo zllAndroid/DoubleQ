@@ -132,7 +132,7 @@ public class MineSetActivity extends BaseActivity {
                     IntentUtils.JumpTo(ShareSetActivity.class);
                 break;
 
-//                打开  密码设置  界面
+//                打开  帐号与安全  界面
             case R.id.set_lin_count:
                 if (NoDoubleClickUtils.isDoubleClick())
                     IntentUtils.JumpTo(CountAndSafeActivity.class);
@@ -144,7 +144,7 @@ public class MineSetActivity extends BaseActivity {
                     IntentUtils.JumpTo(LaBlackActivity.class);
                 break;
 
-//                打开隐私设置界面
+//                打开 隐私设置 界面
             case R.id.set_lin_yinsi:
                 if (NoDoubleClickUtils.isDoubleClick())
                     IntentUtils.JumpTo(YinSiActivity.class);
@@ -188,7 +188,7 @@ public class MineSetActivity extends BaseActivity {
 //                    IntentUtils.JumpTo(ShareSetActivity.class);
                 break;
 
-//                退出账号    回到登录界面
+//                退出帐号    回到登录界面
             case R.id.set_btn_esc:
                 if (NoDoubleClickUtils.isDoubleClick()) {
 //                    DialogExitUtils.setOnClickSureListener(new CusExitDialog.ClickSure(){

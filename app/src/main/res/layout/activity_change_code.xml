@@ -41,7 +41,7 @@
                     android:id="@+id/changecode_tv_count"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="账号"
+                    android:text="帐号"
                     android:textSize="@dimen/sp16"
                     android:textColor="@color/white"
                     android:layout_marginTop="@dimen/dp30"
@@ -55,7 +55,7 @@
                     <!--android:maxLength="11"-->
                     <!--android:textCursorDrawable="@null"-->
                     <!--android:inputType="number"-->
-                    <!--android:hint="账号"-->
+                    <!--android:hint="帐号"-->
                     <!--android:textColor="@color/white"-->
                     <!--android:layout_marginTop="@dimen/dp30"-->
                     <!--android:textColorHint="@color/white"/>-->

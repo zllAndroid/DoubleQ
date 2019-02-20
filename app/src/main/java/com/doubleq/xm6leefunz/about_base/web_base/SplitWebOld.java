@@ -161,7 +161,7 @@
 //     *   （是否接收新消息提醒 is_voice_remind）（是否接收语音消息提示 is_voice_remind）
 //     *              （是否接收视频消息提示 is_video_remind）
 //     * 当type==3时
-//     *    是否账号显示 is_sno_show  （是否二维码显示 is_qrcode_show）
+//     *    是否帐号显示 is_sno_show  （是否二维码显示 is_qrcode_show）
 //     *可变长参数 String ... type
 //     */
 //    public  static  String permissionSetOne(String type,String isShare){
@@ -239,7 +239,7 @@
 //    }
 //
 //    /**
-//     *修改账号（只能改一次）
+//     *修改帐号（只能改一次）
 //     * @param newSno
 //     * @return
 //     */

@@ -69,7 +69,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     @BindView(R.id.changeinfo_iv_head)
     ImageView changeinfoIvHead;
 
-    //    账号（唯一码）
+    //    帐号（唯一码）
     @BindView(R.id.changeinfo_iv_count)
     ImageView changeinfoIvWrite;
 
@@ -140,7 +140,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         }
     }
 
-    //0 修改昵称   1 修改账号 2 修改个签
+    //0 修改昵称   1 修改帐号 2 修改个签
     String isChangeName = "0";
     private PhotoPopWindow photoPopWindow = null;
 
@@ -179,10 +179,10 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         changeInfoWindowsign.setOnAddpopClickListener(this);
     }
 
-    //修改账号
+    //修改帐号
     private void doChangeCount() {
         isChangeName = "1";
-        ChangeInfoWindow changeInfoWindowsign = new ChangeInfoWindow(ChangeInfoActivity.this, "修改账号", changeinfoTvCount.getText().toString().trim());
+        ChangeInfoWindow changeInfoWindowsign = new ChangeInfoWindow(ChangeInfoActivity.this, "修改帐号", changeinfoTvCount.getText().toString().trim());
         changeInfoWindowsign.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindowsign.setOnAddpopClickListener(this);
     }
@@ -409,7 +409,7 @@ String userId;
             case "0"://昵称
                 sendWeb(SplitWeb.upNickName(contant));
                 break;
-            case "1"://账号
+            case "1"://帐号
                 sendWeb(SplitWeb.upUserSno(contant));
                 break;
             case "2"://签名

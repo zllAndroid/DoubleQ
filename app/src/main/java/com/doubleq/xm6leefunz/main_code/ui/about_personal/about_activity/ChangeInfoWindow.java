@@ -152,7 +152,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 mEd.setFilters(filter);
                 break;
             }
-            case "修改账号": {
+            case "修改帐号": {
 //                if (mContant.length() > COUNT_MAX_NUM) {
 //                    mTvMax.setText(COUNT_MAX_NUM + " / " + COUNT_MAX_NUM);
 //                    mEd.setText(mContant.substring(0, COUNT_MAX_NUM));
@@ -212,7 +212,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             }
 
         }
-        else if (title.equals("修改账号") || title.equals("增加分组") ||  title.equals("回复") ){
+        else if (title.equals("修改帐号") || title.equals("增加分组") ||  title.equals("回复") ){
             mEd.setText("");
             mEd.setSelection(mEd.getText().toString().length());
             mEd.addTextChangedListener(textWatcher);
@@ -247,7 +247,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 case "修改群名":
                     MAX_NUM = BEIZHU_MAX_NUM;
                     break;
-                case "修改账号":
+                case "修改帐号":
                     MAX_NUM = COUNT_MAX_NUM;
                     if (editable.length() > 0) {
                         for (int i = 0; i < editable.length(); i++) {
@@ -288,8 +288,8 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             case R.id.pop_btn_sure:{
                 dismiss();
                 if (!StrUtils.isEmpty(title)){
-                    if (title.equals("修改账号")){
-                        DialogUtils.showDialog("账号只能修改一次，\n确定要修改为“"+ string +"”吗？", new DialogUtils.OnClickSureListener() {
+                    if (title.equals("修改帐号")){
+                        DialogUtils.showDialog("帐号只能修改一次，\n确定要修改为“"+ string +"”吗？", new DialogUtils.OnClickSureListener() {
                             @Override
                             public void onClickSure() {
                                 onAddContantClickListener.onSure(string);

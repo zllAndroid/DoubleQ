@@ -131,7 +131,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical">
-            <!--我的账号-->
+            <!--我的帐号-->
             <LinearLayout
                 android:id="@+id/mine_lin_share"
                 android:layout_width="match_parent"
@@ -187,29 +187,34 @@
                     app:srcCompat="@drawable/in_right" />
             </LinearLayout>
             <!--测试-->
-            <!--<LinearLayout-->
-                <!--android:id="@+id/mine_lin_test"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:gravity="center_vertical"-->
-                <!--android:orientation="horizontal">-->
-                <!--<ImageView-->
-                    <!--android:layout_width="@dimen/dp20"-->
-                    <!--android:layout_height="@dimen/dp20"-->
-                    <!--android:layout_marginLeft="@dimen/dp10"-->
-                    <!--app:srcCompat="@drawable/mine_set"/>-->
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:padding="@dimen/dp10"-->
-                    <!--android:text="测试" />-->
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:padding="@dimen/dp10"-->
-                    <!--app:srcCompat="@drawable/in_right" />-->
-            <!--</LinearLayout>-->
+            <View
+                android:layout_width="match_parent"
+                android:background="@color/greyf3"
+                android:layout_height="@dimen/dp1"
+                />
+            <LinearLayout
+                android:id="@+id/mine_lin_test"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp20"
+                    android:layout_marginLeft="@dimen/dp10"
+                    app:srcCompat="@drawable/mine_set"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:padding="@dimen/dp10"
+                    android:text="测试" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/dp10"
+                    app:srcCompat="@drawable/in_right" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

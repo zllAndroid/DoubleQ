@@ -1,180 +1,184 @@
-package com.doubleq.xm6leefunz.main_code.mains;
-
-import android.annotation.SuppressLint;
-import android.app.KeyguardManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Build;
-import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
-import android.os.PowerManager;
-import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.TextView;
-
-import com.doubleq.xm6leefunz.R;
-import com.doubleq.xm6leefunz.about_base.BaseActivity;
-import com.doubleq.xm6leefunz.about_base.MyApplication;
-import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
-
-import butterknife.BindView;
-
-public class TestActivity extends AppCompatActivity {
-
-
-    @BindView(R.id.test_tv)
-    TextView testTv;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            添加变色标志
-            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-//            状态栏颜色
-            getWindow().setStatusBarColor(getResources().getColor(R.color.app_theme));
-//            导航栏颜色
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
-        }
-        setContentView( R.layout.activity_test);
-
-        initBaseView();
-    }
-
-
-
-    protected void initBaseView() {
-//        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED
-//                | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD
-//                | WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
-//                | WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
-
-        PowerManager pm = (PowerManager) TestActivity.this.getSystemService(Context.POWER_SERVICE);
-        boolean screenOn = pm.isScreenOn();
-        if (!screenOn) {
-            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-            wl.acquire(10000); // 点亮屏幕
-            wl.release(); // 释放
-            String msg = getIntent().getStringExtra("message");
-            testTv.setText("收到的消息：" + msg);
-        }
-
-
-//        testBtn = findViewById(R.id.test_btn);
-//        testTv = findViewById(R.id.test_tv);
-//        testBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                new Thread() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            sleep(5000);
-//                            handler.sendEmptyMessage(100);
-//                            testBtn.setText("已发送");
-//                            testTv.setText("收到消息:" + msg);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
+//package com.doubleq.xm6leefunz.main_code.mains;
 //
-//                    }
-//                }.start();
-//            }
-//        });
-//        initReceiver();
-    }
-
-//    public  BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
+//import android.view.View;
+//import android.widget.ImageView;
+//import android.widget.LinearLayout;
 //
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            dealMsgBroReceiver(intent);
-//        }
+//import com.doubleq.xm6leefunz.R;
+//import com.doubleq.xm6leefunz.about_base.BaseActivity;
+//import com.doubleq.xm6leefunz.main_code.mains.top_pop.ChatPopWindow;
 //
-//        private void dealMsgBroReceiver(Intent intent) {
+//import butterknife.BindView;
+//import butterknife.OnClick;
 //
-//        }
-//    };
-
-//    @SuppressLint("HandlerLeak")
-//    private Handler handler = new Handler() {
-//        @Override
-//        public void handleMessage(Message msg) {
-//            super.handleMessage(msg);
-//            if (msg.what == 100) {
-//                int x = 0;
-//                x = x + 1;
-//                sendData(" msg + " + x);
-//            }
-//        }
-//    };
+//public class TestActivity extends BaseActivity {
 //
-//    private void sendData(String data) {
-//        Intent intent = new Intent("action_send");
-//        intent.putExtra("data", data);
-//        sendBroadcast(intent);
-//    }
+//    @BindView(R.id.include_top_iv_drop)
+//    ImageView includeTopIvDrop;
 //
-//
-//    IntentFilter intentFilter;
-//
-//    private void initReceiver() {
-//        if (intentFilter == null) {
-//            intentFilter = new IntentFilter();
-//            intentFilter.addAction("action.test");
-//            registerReceiver(broadcastReceiver, intentFilter);
-//        }
-//    }
-//
-//    public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            dealBro(intent);
-//        }
-//
-//        private void dealBro(Intent intent) {
-//            String action = intent.getAction();
-//            if (action.equals("action.test")) {
-//                ToastUtil.show("ok");
-//            }
-//        }
-//
-//    };
-//
-////    /**
-////     * 唤醒手机屏幕
-////     */
-////    public void wakeUp() {
-////        // 获取电源管理器对象
-////        PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-////        boolean screenOn = pm.isScreenOn();
-////        if (!screenOn) {
-////            // 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
-////            @SuppressLint("InvalidWakeLockTag") PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.ACQUIRE_CAUSES_WAKEUP | PowerManager.SCREEN_BRIGHT_WAKE_LOCK, "bright");
-////            wl.acquire(10000); // 点亮屏幕
-////            wl.release(); // 释放
-////        }
-////        // 屏幕解锁
-//////        KeyguardManager keyguardManager = (KeyguardManager)this.getSystemService(KEYGUARD_SERVICE);
-//////        KeyguardManager.KeyguardLock keyguardLock = keyguardManager.newKeyguardLock("unLock");
-////        // 屏幕锁定
-//////        keyguardLock.reenableKeyguard();
-//////        keyguardLock.disableKeyguard(); // 解锁
-////    }
+//    boolean isDrop = true;
+//    @BindView(R.id.include_top_lin_title)
+//    LinearLayout includeTopLinTitle;
 //
 //    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        unregisterReceiver(broadcastReceiver);
+//    protected int getLayoutView() {
+//        return R.layout.activity_test;
 //    }
-
-}
+//
+//    ChatPopWindow chatPopWindow;
+//
+//    @Override
+//    protected void initBaseView() {
+//        super.initBaseView();
+//
+//        chatPopWindow = new ChatPopWindow(TestActivity.this);
+//        includeTopLinTitle.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//                if (isDrop) {
+//                    includeTopIvDrop.setImageResource(R.drawable.spinner_down);
+////                    ChatPopWindow chatPopWindow = new ChatPopWindow(MyApplication.getAppContext());
+//                    chatPopWindow.showAtBottom(view.findViewById(R.id.include_top_lin_title));
+////                    return;
+//                } else {
+//                    chatPopWindow.dismiss();
+//                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//                }
+//                isDrop = !isDrop;
+//            }
+//        });
+//
+////spinner
+////        includeTopSpinner.setBackgroundResource(R.drawable.spinner_selector_chat);
+//////        设置下拉框的偏移量
+////        includeTopSpinner.setDropDownVerticalOffset(100);
+////
+////
+////        List<SpinnerItem> spinnerItemsList = new ArrayList<>();
+//////        spinnerItemsList.add(new SpinnerItem("",""));
+////        spinnerItemsList.add(new SpinnerItem("好友资料", ""));
+////        spinnerItemsList.add(new SpinnerItem("好友分组", "同学"));
+////        spinnerItemsList.add(new SpinnerItem("备注", ""));
+////
+////        SpinnerAdapter spinnerAdapter = new SpinnerAdapter(this, spinnerItemsList);
+////        includeTopSpinner.setAdapter(spinnerAdapter);
+//////        includeTopSpinner.attachDataSource(spinnerItems);
+////
+//////        ArrayList<String> list = new ArrayList<>();
+//////        list.add("好友资料");
+//////        list.add("好友分组");
+//////        list.add("备注");
+//////        /*
+//////         * 第二个参数是显示的布局
+//////         * 第三个参数是在布局显示的位置id
+//////         * 第四个参数是将要显示的数据
+//////         */
+//////        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.item_spinner_chat,list);
+//////        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//////        includeTopSpinner.setAdapter(adapter);
+////
+////        includeTopLinSpinner.setOnClickListener(new View.OnClickListener() {
+////            @Override
+////            public void onClick(View view) {
+////                includeTopSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+////                    @Override
+////                    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+////                        String selected = adapterView.getItemAtPosition(position).toString();
+////                        ToastUtil.show("选择了：" + selected);
+////                        Log.e("spinner", "选择了：" + selected);
+////                    }
+////
+////                    @Override
+////                    public void onNothingSelected(AdapterView<?> adapterView) {
+////                        ToastUtil.show("没有选择");
+////                    }
+////                });
+////            }
+////        });
+////
+//    }
+//
+//    @OnClick(R.id.ac_lin_test)
+//    public void onViewClicked() {
+//        chatPopWindow.dismiss();
+//        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//    }
+//
+//}
+//
+////class SpinnerItem {
+////    private String spinnerName;
+////    private String spinnerContact;
+////
+////    SpinnerItem(String spinnerName, String spinnerContact) {
+////        this.spinnerName = spinnerName;
+////        this.spinnerContact = spinnerContact;
+////    }
+////
+////    String getSpinnerName() {
+////        return spinnerName;
+////    }
+////
+////    public void setSpinnerName(String spinnerName) {
+////        this.spinnerName = spinnerName;
+////    }
+////
+////    String getSpinnerContact() {
+////        return spinnerContact;
+////    }
+////
+////    public void setSpinnerContact(String spinnerContact) {
+////        this.spinnerContact = spinnerContact;
+////    }
+////}
+////
+////class SpinnerAdapter extends BaseAdapter {
+////    private List<SpinnerItem> mList;
+////    private Context mContext;
+////
+////    SpinnerAdapter(Context context, List<SpinnerItem> list) {
+////        this.mContext = context;
+////        this.mList = list;
+////    }
+////
+////    @Override
+////    public int getCount() {
+////        return mList.size();
+////    }
+////
+////    @Override
+////    public Object getItem(int position) {
+////        return mList.get(position);
+////    }
+////
+////    @Override
+////    public long getItemId(int position) {
+////        return position;
+////    }
+////
+////    @SuppressLint({"ViewHolder", "InflateParams"})
+////    @Override
+////    public View getView(int position, View convertView, ViewGroup viewGroup) {
+////        LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+////        convertView = layoutInflater.inflate(R.layout.item_spinner_chat, null);
+////        if (convertView != null) {
+////            TextView tvSpinnerName = convertView.findViewById(R.id.item_spinner_tv_name);
+////            TextView tvSpinnerContact = convertView.findViewById(R.id.item_spinner_tv_contact);
+////            tvSpinnerName.setText(mList.get(position).getSpinnerName());
+////            tvSpinnerContact.setText(mList.get(position).getSpinnerContact());
+////        }
+////        return convertView;
+////    }
+//
+////    //    监听是否被点击的接口
+////    private OnSpinnerClickListener mSpinnerClickListener;
+////
+////    public void setOnSpinnerClickListener(OnSpinnerClickListener onSpinnerClickListener) {
+////        mSpinnerClickListener = onSpinnerClickListener;
+////    }
+////
+////    public interface OnSpinnerClickListener {
+////        void onIsClicked(boolean isClicked);
+////    }
+////}

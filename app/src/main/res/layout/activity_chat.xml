@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
+    android:id="@+id/chat_lin_main_whole"
     >
 
     <LinearLayout
@@ -16,41 +16,43 @@
         android:fitsSystemWindows="true"
         >
         <include
-            layout="@layout/activity_include_title_bar"
+            layout="@layout/activity_include_title_bar_chat"
             />
-
-        <TextView
-            android:id="@+id/chat_tv_show"
+        <LinearLayout
+            android:id="@+id/chat_lin_main_bg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/app_theme"
-            android:gravity="center_horizontal"
-            android:paddingTop="@dimen/dp5"
-            android:textSize="@dimen/sp14"
-            android:visibility="gone"
-            android:paddingBottom="@dimen/dp5"
-            android:background="@color/white"/>
-        <!--<RelativeLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="0dp"-->
-        <!--android:layout_weight="1"-->
-        <!--&gt;-->
-        <com.jude.easyrecyclerview.EasyRecyclerView
-            android:id="@+id/chat_list"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:scrollbars="none"
-            android:background="@color/bg_content"/>
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/chat_tv_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/app_theme"
+                android:gravity="center_horizontal"
+                android:paddingTop="@dimen/dp5"
+                android:textSize="@dimen/sp14"
+                android:visibility="gone"
+                android:paddingBottom="@dimen/dp5"
+                android:background="@color/white"/>
+            <!--<RelativeLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--&gt;-->
+            <com.jude.easyrecyclerview.EasyRecyclerView
+                android:id="@+id/chat_list"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scrollbars="none"
+                android:background="@color/bg_content"/>
+            <!--</RelativeLayout>-->
+            <include
+                layout="@layout/include_reply_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
 
-
-
-        <!--</RelativeLayout>-->
-
-
-        <include
-            layout="@layout/include_reply_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
     </LinearLayout>
+
 </LinearLayout>

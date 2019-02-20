@@ -99,10 +99,10 @@ public class YinSiActivity extends BaseActivity {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if(isChecked){
                     isSno = "1";
-//                    ToastUtil.show("账号显示打开");
+//                    ToastUtil.show("帐号显示打开");
                 }else{
                     isSno = "0";
-//                    ToastUtil.show("账号显示关闭");
+//                    ToastUtil.show("帐号显示关闭");
                 }
             }
         });

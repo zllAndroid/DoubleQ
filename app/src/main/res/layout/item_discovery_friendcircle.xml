@@ -22,6 +22,7 @@
             android:id="@+id/ac_tv_discovery_frinedcircle_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/app_theme"
             android:layout_marginLeft="@dimen/dp5"
             android:textSize="@dimen/sp18"
             android:text="网名"/>
@@ -32,6 +33,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/sp16"
+        android:textColor="@color/grey333"
         android:text="只要坚定脚步，成功就在眼前，就在旭日在天空升起的那刻。"
         android:singleLine="false"
         android:layout_marginRight="@dimen/dp80"

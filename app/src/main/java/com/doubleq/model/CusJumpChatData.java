@@ -6,6 +6,7 @@ import java.io.Serializable;
 public class CusJumpChatData implements Serializable{
     String friendHeader;
     String friendName;
+    String friendRemarkName;
     String friendId;
 
 
@@ -32,5 +33,13 @@ public class CusJumpChatData implements Serializable{
 
     public void setFriendId(String friendId) {
         this.friendId = friendId;
+    }
+
+    public String getFriendRemarkName() {
+        return friendRemarkName;
+    }
+
+    public void setFriendRemarkName(String friendRemarkName) {
+        this.friendRemarkName = friendRemarkName;
     }
 }

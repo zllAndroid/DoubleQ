@@ -14,7 +14,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_margin="@dimen/dp5"
+            android:layout_margin="@dimen/dp10"
             android:orientation="horizontal">
 
             <com.rance.chatui.CircleImageView
@@ -35,6 +35,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:textColor="@color/grey333"
                     android:layout_weight="1"
                     android:textSize="@dimen/sp15" />
 
@@ -46,6 +47,7 @@
                     android:layout_marginTop="@dimen/dp5"
                     android:layout_weight="1"
                     android:singleLine="true"
+                    android:textColor="@color/grey999"
                     android:layout_marginRight="@dimen/dp10"
                     android:ellipsize="end"
                     android:textSize="@dimen/sp13" />

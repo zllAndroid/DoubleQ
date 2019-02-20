@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:drawableLeft="@drawable/add_friend_find"
             android:padding="@dimen/dp10"
-            android:text="账号/昵称/群"
+            android:text="帐号/昵称/群"
             android:drawablePadding="@dimen/dp10"
             android:textColor="@color/gray999"/>
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <!--spinner-->
+    <!--<item android:drawable="@drawable/spinner_right" android:state_window_focused="true" />-->
+    <!--<item android:drawable="@drawable/spinner_down" android:state_window_focused="false" />-->
+
+    <item android:drawable="@drawable/spinner_right" android:state_focused="true" />
+    <item android:drawable="@drawable/spinner_down" android:state_focused="false" />
+    <item android:drawable="@drawable/spinner_right" />
+
+</selector>

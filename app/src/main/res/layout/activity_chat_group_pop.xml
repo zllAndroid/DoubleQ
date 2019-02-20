@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_pop_chat"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/cp_tv_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp15"
+        android:layout_weight="1"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
+        android:text="群资料"
+        android:textColor="@color/grey666"
+        android:textSize="@dimen/sp16" />
+    <View
+        style="@style/style_chat_pop_line"
+        android:layout_margin="@dimen/dp10"
+        />
+    <LinearLayout
+        android:id="@+id/cp_lin_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="消息免打扰"
+            android:layout_weight="1"
+            android:textColor="@color/grey666"
+            android:textSize="@dimen/sp16" />
+        <com.suke.widget.SwitchButton
+            android:id="@+id/yinsi_switch_count"
+            android:layout_width="@dimen/dp30"
+            android:layout_height="@dimen/dp20"
+            app:sb_show_indicator="false"
+            android:layout_gravity="center"
+            app:sb_uncheckcircle_color="@color/swi_nor"
+            app:sb_checked_color="@color/swi_select"
+            app:sb_checked="true"/>
+
+
+    </LinearLayout>
+
+    <View
+        style="@style/style_chat_pop_line"
+        android:layout_margin="@dimen/dp10"
+        />
+    <!--<TextView-->
+    <!--android:id="@+id/cp_tv_remark"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_weight="1"-->
+    <!--android:layout_marginBottom="@dimen/dp20"-->
+    <!--android:text="备注"-->
+    <!--android:layout_marginLeft="@dimen/dp10"-->
+    <!--android:textColor="@color/grey666"-->
+    <!--android:textSize="@dimen/sp16" />-->
+    <LinearLayout
+        android:id="@+id/cp_lin_remark"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
+        android:layout_marginBottom="@dimen/dp20">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="群名片"
+            android:layout_weight="1"
+            android:textColor="@color/grey666"
+            android:textSize="@dimen/sp16" />
+        <TextView
+            android:id="@+id/cp_tv_remark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="群名"
+            android:maxEms="6"
+            android:layout_gravity="right"
+            android:textColor="@color/app_theme"
+            android:textSize="@dimen/sp16" />
+
+
+    </LinearLayout>
+
+
+</LinearLayout>

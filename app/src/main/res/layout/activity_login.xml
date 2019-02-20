@@ -111,6 +111,7 @@
                 android:paddingTop="@dimen/dp10"
                 android:paddingBottom="@dimen/dp10"
                 android:paddingRight="@dimen/dp5"
+                android:visibility="gone"
                 android:layout_gravity="center_vertical"
                 android:textSize="@dimen/sp14"
                 android:text="短信登录"/>

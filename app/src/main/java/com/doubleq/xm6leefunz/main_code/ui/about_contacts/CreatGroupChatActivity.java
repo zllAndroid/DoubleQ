@@ -116,10 +116,10 @@ public class CreatGroupChatActivity extends BaseActivity {
     private Runnable runnable;
     String mShare = "1";
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
 //    LinearLayoutManager linearLayoutManager;
 

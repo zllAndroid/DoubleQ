@@ -370,14 +370,15 @@
             android:name=".about_chat.chat_group.sub_group.GroupNoticeActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <activity
-            android:name=".main_code.mains.TestActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
         <activity android:name=".main_code.ui.about_contacts.GroupDataActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme"
             />
+        <!--测试-->
+        <activity
+            android:name=".main_code.mains.TestActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
     </application>
 
 </manifest>

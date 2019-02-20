@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:orientation="vertical">
-        <!--我的账号-->
+        <!--我的帐号-->
         <LinearLayout
             android:id="@+id/set_lin_count"
             android:layout_width="match_parent"
@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="@dimen/dp10"
-                android:text="账号与安全" />
+                android:text="帐号与安全" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

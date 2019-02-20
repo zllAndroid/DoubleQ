@@ -12,7 +12,7 @@ public class AppConfig {
 //    public static final String LINK_GROUP_BRO= "link_group";
 
 
-    //昵称 账号、签名、手机
+    //昵称 帐号、签名、手机
 public static final String TYPE_NAME= "name";//
 public static final String TYPE_NO= "no";//
 public static final String TYPE_SIGN= "sign";//

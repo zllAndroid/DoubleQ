@@ -18,7 +18,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.InputType;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -27,7 +26,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,7 +36,6 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.doubleq.model.CusJumpChatData;
-import com.doubleq.model.DataChatHisList;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
@@ -62,7 +59,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.RealmLinkManHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
+import com.doubleq.xm6leefunz.main_code.mains.top_pop.ChatPopWindow;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.example.zhouwei.library.CustomPopWindow;
@@ -88,6 +85,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.doubleq.xm6leefunz.about_utils.IntentUtils.JumpToHaveOne;
@@ -123,7 +121,7 @@ public class ChatActivity extends BaseActivity {
     @BindView(R.id.emotion_layout)
     RelativeLayout emotionLayout;
     //
-    @BindView(R.id.include_top_tv_tital)
+    @BindView(R.id.include_top_tv_title)
     TextView includeTopTvTital;
     @BindView(R.id.chat_tv_show)
     TextView mChatTvShow;
@@ -135,6 +133,12 @@ public class ChatActivity extends BaseActivity {
     LinearLayout mInputLin;
     @BindView(R.id.chat_lin_main)
     LinearLayout mLinChatMain;
+    @BindView(R.id.include_top_iv_drop)
+    ImageView includeTopIvDrop;
+    @BindView(R.id.include_top_lin_title)
+    LinearLayout includeTopLinTitle;
+    @BindView(R.id.chat_lin_main_whole)
+    LinearLayout chatLinMainWhole;
 
     private EmotionInputDetector mDetector;
     private ArrayList<Fragment> fragments;
@@ -178,17 +182,20 @@ public class ChatActivity extends BaseActivity {
     HideControl hideControl;
     RealmLinkManHelper realmLink;
     CusJumpChatData cusJumpChatData;
+    ChatPopWindow chatPopWindow;
+    boolean isDrop = false;
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
         setAboutBar();
         SplitWeb.IS_CHAT = "1";
-        if (realmHelper==null)
+        if (realmHelper == null)
             realmHelper = new RealmChatHelper(this);
 
-        if (realmHomeHelper==null)
+        if (realmHomeHelper == null)
             realmHomeHelper = new RealmHomeHelper(this);
-        if (hideControl==null)
+        if (hideControl == null)
             hideControl = new HideControl();
 
 
@@ -203,7 +210,11 @@ public class ChatActivity extends BaseActivity {
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
-
+        chatPopWindow = new ChatPopWindow(ChatActivity.this, FriendId, "", cusJumpChatData.getFriendName(), "", chatLinMainWhole);
+//        if ( chatPopWindow != null && chatPopWindow.isShowing()){
+//            chatPopWindow.dismiss();
+            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//        }
         initWidget();
 //        初始化数据库的聊天记录
         initRealm();
@@ -215,6 +226,10 @@ public class ChatActivity extends BaseActivity {
 //        intent2.setAction("zero.refreshMsgFragment");
 //        sendBroadcast(intent2);
         listenEnter();
+        if ( chatPopWindow != null && chatPopWindow.isShowing()){
+            chatPopWindow.dismiss();
+            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+        }
     }
     private void listenEnter() {
         editText.setSingleLine();
@@ -234,9 +249,36 @@ public class ChatActivity extends BaseActivity {
         });
     }
 
-    @OnClick(R.id.include_top_iv_more)
-    public void onViewClicked() {
-        JumpToHaveOne(ChatSetActivity.class,"FriendId",FriendId);
+    @OnClick({R.id.include_top_iv_more, R.id.chat_lin_main_bg, R.id.include_top_lin_title})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.include_top_iv_more:
+                JumpToHaveOne(ChatSetActivity.class, "FriendId", FriendId);
+                break;
+            case R.id.chat_lin_main_bg:
+                if (chatPopWindow != null) {
+                    chatPopWindow.dismiss();
+                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+                }
+                break;
+            case R.id.include_top_lin_title:
+                titleClick(view);
+                break;
+        }
+    }
+
+    private void titleClick(View view) {
+        isDrop = !isDrop;
+        if (isDrop) {
+            includeTopIvDrop.setImageResource(R.drawable.spinner_down);
+            chatPopWindow.showAtBottom(view.findViewById(R.id.include_top_lin_title));
+        } else {
+            if (chatPopWindow != null) {
+                chatPopWindow.dismiss();
+                includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+            }
+        }
+        Log.e("isDrop", "----------------------------" + isDrop);
     }
 
     //设置状态栏的高度为负状态栏高度，因为xml 设置了 android:fitsSystemWindows="true",会占用一个状态栏的高度；
@@ -269,11 +311,9 @@ public class ChatActivity extends BaseActivity {
 
         realmHelper.close();
         realmHomeHelper.close();
-        realmHelper=null;
-        realmHomeHelper=null;
-        SplitWeb.IS_CHAT_Zero=true;
+        realmHelper = null;
+        realmHomeHelper = null;
 
-//        MyApplication.getAppContext().setChatZero();
     }
 
     ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
@@ -289,7 +329,6 @@ public class ChatActivity extends BaseActivity {
                 recordBean.setMessageType(cusRealmChatMsgs.get(i).getMessageType());
                 recordBean.setRequestTime(cusRealmChatMsgs.get(i).getCreated());
                 recordBean.setFriendsId(cusRealmChatMsgs.get(i).getReceiveId());
-                recordBean.setHeadImg(cusRealmChatMsgs.get(i).getImgUrl());
                 mList.add(recordBean);
             }
             chatAdapter.addAll(mList);
@@ -302,6 +341,7 @@ public class ChatActivity extends BaseActivity {
 //            sendWeb(SplitWeb.messageObtain(FriendId));
         }
     }
+
 
     @Override
     protected int getLayoutView() {
@@ -472,8 +512,7 @@ public class ChatActivity extends BaseActivity {
 //            发送消息返回
             case "privateSend":
                 String ed = editText.getText().toString().trim();
-                if (!StrUtils.isEmpty(ed))
-                {
+                if (!StrUtils.isEmpty(ed)) {
                     editText.setText("");
                 }
                 dealSendResult(responseText);
@@ -488,13 +527,11 @@ public class ChatActivity extends BaseActivity {
         DataJieShou dataJieShou1 = JSON.parseObject(responseText, DataJieShou.class);
         final DataJieShou.RecordBean record2 = dataJieShou1.getRecord();
         if (record2 != null) {
-            if ( record2.getShieldType().equals("2"))
+            if (record2.getShieldType().equals("2"))
                 return;
             if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
 //                    收到聊天页的此人的消息
                 if (record2.getFriendsId().equals(FriendId)) {
-                    SplitWeb.IS_CHAT_Zero=false;
-//                    MyApplication.getApp().setChatZero(false);
                     record2.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
                     record2.setType(Constants.CHAT_ITEM_TYPE_LEFT);
                     String time = AppConfig.mCHAT_RECEIVE_TIME_REALM;
@@ -513,11 +550,7 @@ public class ChatActivity extends BaseActivity {
                     chatAdapter.notifyDataSetChanged();
 //                    滑动到底部
                     layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-
-
                 } else {
-                    SplitWeb.IS_CHAT_Zero=true;
-//                    MyApplication.getApp().setChatZero(true);
                     ToastUtil.show("收到一条来自" + record2.getFriendsName() + "的消息");
                     if (mIntent == null)
                         mIntent = new Intent();
@@ -526,17 +559,8 @@ public class ChatActivity extends BaseActivity {
                     mIntent.setAction("action.refreshMsgFragment");
                     sendBroadcast(mIntent);
                 }
-            }
-            else if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
-                if (record2.getFriendsId().equals(FriendId)) {
-//                    MyApplication.getApp().setChatZero(false);
-                    SplitWeb.IS_CHAT_Zero=false;
-                }else
-                {
-                    SplitWeb.IS_CHAT_Zero=true;
-//                    MyApplication.getApp().setChatZero(true);
-                }
-                if (mIntent==null)
+            } else if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
+                if (mIntent == null)
                     mIntent = new Intent();
                 mIntent.putExtra("message", record2.getMessage());
                 mIntent.putExtra("id", record2.getFriendsId());
@@ -565,9 +589,8 @@ public class ChatActivity extends BaseActivity {
             }
         }
     }
-    Intent mIntent=null;
+    Intent mIntent = null;
     String time = null;
-
 
     private void dealSendResult(String responseText) {
         DataJieShou dataJieShou = JSON.parseObject(responseText, DataJieShou.class);
@@ -612,7 +635,7 @@ public class ChatActivity extends BaseActivity {
             switch (type) {
                 case Constants.CHAT_ITEM_TYPE_LEFT:
 
-                    IntentUtils.JumpToHaveTwo(FriendDataMixActivity.class, "id", friendId,"esc","esc");
+                    IntentUtils.JumpToHaveTwo(FriendDataMixActivity.class, "id", friendId, "esc", "esc");
 //                    IntentUtils.JumpToHaveTwo(FriendDataActivity.class, "id", friendId,"esc","esc");
                     break;
                 case Constants.CHAT_ITEM_TYPE_RIGHT:
@@ -688,7 +711,6 @@ public class ChatActivity extends BaseActivity {
             super.onBackPressed();
         }
     }
-
 
     public class HideControl {
         public final static int MSG_HIDE = 0x01;
