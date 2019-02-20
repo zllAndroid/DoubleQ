@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class SplitWeb {
+//    是否需要首页叠加消息条数   true显示
+    public static boolean IS_CHAT_Zero= true;
 
     public static String IS_CHAT= "00";
     public static String IS_SET_ACTIVITY= "00";
@@ -581,6 +583,20 @@ public class SplitWeb {
         putData("friendsId",friendsId);
         putData("type",type);
         String request = WebUrl.request("Contact", "topFriend", map);
+        return  request;
+    }
+    public  static  String setUserGroupDisturb(String groupOfId,String disturbType){
+        dealMap();
+        putData("groupOfId",groupOfId);
+        putData("disturbType",disturbType);
+        String request = WebUrl.request("Contact", "setUserGroupDisturb", map);
+        return  request;
+    }
+    public  static  String setUserGroupAssistant(String groupOfId,String assistantType){
+        dealMap();
+        putData("groupOfId",groupOfId);
+        putData("assistantType",assistantType);
+        String request = WebUrl.request("Contact", "setUserGroupAssistant", map);
         return  request;
     }
     //    消息免打扰

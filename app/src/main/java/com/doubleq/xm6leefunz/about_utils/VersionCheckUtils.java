@@ -88,16 +88,16 @@ public class VersionCheckUtils {
                         if (record.getForce().equals("1"))
                         {
                             try {
-                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), false, msg);
-//                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), false, record.getContent());
+//                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), false, msg);
+                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), false, record.getContent());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }else
                         {
                             try {
-                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), true,msg);
-//                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), true, record.getContent());
+//                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), true,msg);
+                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), true, record.getContent());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

@@ -73,6 +73,8 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+import com.suke.widget.SwitchButton;
 
 import java.io.File;
 import java.io.IOException;
@@ -124,6 +126,11 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     @BindView(R.id.group_details_tv_name)
     TextView groupDetailsTvName;
 
+    @BindView(R.id.group_chat_data_swibtn_nodarao)
+    SwitchButton chatsetSwiDarao;
+    @BindView(R.id.group_chat_data_swibtn_qunzhu)
+    SwitchButton chatsetSwiQunZhu;
+
     RealmHomeHelper realmHelper;
     private RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
     RealmLinkFriendHelper realmLinkFriendHelper;
@@ -154,7 +161,27 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             }
         }
         initRightPop();
+        initSwiButton();
+    }
 
+    private void initSwiButton() {
+        chatsetSwiDarao.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+//                boolean checked = chatsetSwiZhidingChat.isChecked();
+//                if (dataRecord!=null)
+                String daRao = isChecked ? "2":"1";
+                send(SplitWeb.setUserGroupDisturb(groupId,daRao));
+            }
+        });
+        chatsetSwiQunZhu.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+//                boolean check2 = chatsetMsgMiandarao.isChecked();
+                String ass = isChecked ? "2":"1";
+                send(SplitWeb.setUserGroupAssistant(groupId,ass));
+            }
+        });
     }
 
     public  static   boolean isFirst = false;
@@ -308,6 +335,16 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                         .thumbnail(0.1f)
                         .into(groupDataIvHead);
                 break;
+            case "setUserGroupAssistant":
+                boolean checked = chatsetSwiQunZhu.isChecked();
+                String text= checked?"加入群助手":"取消加入群助手";
+                ToastUtil.show(text);
+                break;
+            case "setUserGroupDisturb":
+                boolean checked2 = chatsetSwiDarao.isChecked();
+                String text1= checked2?"设置免打扰成功":"取消免打扰";
+                ToastUtil.show(text1);
+                break;
         }
     }
 
@@ -394,6 +431,14 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 groupDetailsLinHaveSet.setVisibility(View.GONE);
                 break;
         }
+
+//        设置群各种状态
+        String assistantType = userInfo.getAssistantType();
+        String disturbType = userInfo.getDisturbType();
+        if (assistantType!=null)
+        chatsetSwiQunZhu.setChecked(assistantType.equals("2"));
+        if (disturbType!=null)
+        chatsetSwiDarao.setChecked(disturbType.equals("2"));
     }
 
     private void initNotice(DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupNoticeBean group_notice) {

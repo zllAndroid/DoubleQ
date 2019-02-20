@@ -163,17 +163,11 @@ public  static final  String GROUP_NOTICES="group_notice";
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
             case "editGroupNotice":
-                DialogUtils.showDialogOne("保存成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        Log.e("noticeContent","-------------noticeContent--------------"+acEtContent.getText());
-                        Intent intent = new Intent();
-                        intent.putExtra(GROUP_NOTICES,acEtContent.getText().toString());
-                        setResult(AppConfig.EDIT_GROUP_NOTICE_RESULT,intent);
-
-                        AppManager.getAppManager().finishActivity(GroupNoticeActivity.this);
-                    }
-                });
+                ToastUtil.show("保存成功");
+                Intent intent = new Intent();
+                intent.putExtra(GROUP_NOTICES,acEtContent.getText().toString());
+                setResult(AppConfig.EDIT_GROUP_NOTICE_RESULT,intent);
+                AppManager.getAppManager().finishActivity(GroupNoticeActivity.this);
                 break;
             case "groupNoticeInfo":
                 DataNotice dataNotice = JSON.parseObject(responseText, DataNotice.class);

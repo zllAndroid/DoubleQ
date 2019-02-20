@@ -271,7 +271,9 @@ public class ChatActivity extends BaseActivity {
         realmHomeHelper.close();
         realmHelper=null;
         realmHomeHelper=null;
+        SplitWeb.IS_CHAT_Zero=true;
 
+//        MyApplication.getAppContext().setChatZero();
     }
 
     ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
@@ -287,6 +289,7 @@ public class ChatActivity extends BaseActivity {
                 recordBean.setMessageType(cusRealmChatMsgs.get(i).getMessageType());
                 recordBean.setRequestTime(cusRealmChatMsgs.get(i).getCreated());
                 recordBean.setFriendsId(cusRealmChatMsgs.get(i).getReceiveId());
+                recordBean.setHeadImg(cusRealmChatMsgs.get(i).getImgUrl());
                 mList.add(recordBean);
             }
             chatAdapter.addAll(mList);
@@ -299,7 +302,6 @@ public class ChatActivity extends BaseActivity {
 //            sendWeb(SplitWeb.messageObtain(FriendId));
         }
     }
-
 
     @Override
     protected int getLayoutView() {
@@ -491,6 +493,8 @@ public class ChatActivity extends BaseActivity {
             if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
 //                    收到聊天页的此人的消息
                 if (record2.getFriendsId().equals(FriendId)) {
+                    SplitWeb.IS_CHAT_Zero=false;
+//                    MyApplication.getApp().setChatZero(false);
                     record2.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
                     record2.setType(Constants.CHAT_ITEM_TYPE_LEFT);
                     String time = AppConfig.mCHAT_RECEIVE_TIME_REALM;
@@ -509,7 +513,11 @@ public class ChatActivity extends BaseActivity {
                     chatAdapter.notifyDataSetChanged();
 //                    滑动到底部
                     layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
+
+
                 } else {
+                    SplitWeb.IS_CHAT_Zero=true;
+//                    MyApplication.getApp().setChatZero(true);
                     ToastUtil.show("收到一条来自" + record2.getFriendsName() + "的消息");
                     if (mIntent == null)
                         mIntent = new Intent();
@@ -520,6 +528,14 @@ public class ChatActivity extends BaseActivity {
                 }
             }
             else if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
+                if (record2.getFriendsId().equals(FriendId)) {
+//                    MyApplication.getApp().setChatZero(false);
+                    SplitWeb.IS_CHAT_Zero=false;
+                }else
+                {
+                    SplitWeb.IS_CHAT_Zero=true;
+//                    MyApplication.getApp().setChatZero(true);
+                }
                 if (mIntent==null)
                     mIntent = new Intent();
                 mIntent.putExtra("message", record2.getMessage());

@@ -190,8 +190,24 @@ public class ChatSetActivity extends BaseActivity {
                 break;
 
             case R.id.chatset_lin_chat_history:
+
+
+
                 break;
             case R.id.chatset_lin_del_chat_history:
+                DialogUtils.showDialog("确定删除与该好友的聊天记录？", new DialogUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+                        realmChatHelper.delChatMsgAll(FriendId);
+                        realmHelper.deleteRealmMsg(FriendId);//更新首页聊天界面数据（消息和时间）
+//                        realmHelper.updateGroupMsg(FriendId,"", "");//更新首页聊天界面数据（消息和时间）
+                        Intent intent = new Intent();
+                        intent.putExtra("id", FriendId);
+                        intent.setAction("del.refreshMsgFragment");
+                        sendBroadcast(intent);
+                    }
+                });
+
                 break;
         }
     }
@@ -221,12 +237,17 @@ public class ChatSetActivity extends BaseActivity {
                 });
                 break;
             case "shieldFriend":
-                DialogUtils.showDialogOne("屏蔽好友成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        AppManager.getAppManager().finishActivity(ChatSetActivity.this);
-                    }
-                });
+                if (shieldType!=null)
+                {
+                    String shile= shieldType.equals("2")?"取消屏蔽好友成功":"屏蔽好友成功";
+                    DialogUtils.showDialogOne(shile, new DialogUtils.OnClickSureListener() {
+                        @Override
+                        public void onClickSure() {
+                            AppManager.getAppManager().finishActivity(ChatSetActivity.this);
+                        }
+                    });
+                }
+
                 break;
             case "topFriend":
                 boolean checked = chatsetSwiZhidingChat.isChecked();
@@ -242,7 +263,7 @@ public class ChatSetActivity extends BaseActivity {
     }
 
     DataChatFriendInfo.RecordBean dataRecord;
-
+    String shieldType;
     private void initDataFriend(String responseText) {
         DataChatFriendInfo dataChatFriendInfo = JSON.parseObject(responseText, DataChatFriendInfo.class);
         DataChatFriendInfo.RecordBean record = dataChatFriendInfo.getRecord();
@@ -264,10 +285,10 @@ public class ChatSetActivity extends BaseActivity {
 //            mTvName.setText(record.getNickName() + "(" + record.getRemarkName() + ")");
             chatsetMsgMiandarao.setChecked(record.getDisturbType().equals("2"));
             chatsetSwiZhidingChat.setChecked(record.getTopType().equals("2"));
-          final  String shieldType = record.getShieldType();
+             shieldType = record.getShieldType();
            String shile= shieldType.equals("2")?"取消屏蔽":"屏蔽好友";
 
-            mTvShield.setText("shile");
+            mTvShield.setText(shile);
             mTvShield.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

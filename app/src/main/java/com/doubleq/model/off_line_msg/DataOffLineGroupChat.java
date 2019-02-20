@@ -115,6 +115,55 @@ public class DataOffLineGroupChat {
             private String memberName;
             private String memberHeadImg;
 
+
+            //        加入群助手1否 2是
+            private String assistantType;
+
+            private String bannedType;//是否被禁言
+            private String disturbType;//消息免打扰
+            private String operationType;//屏蔽该群
+            private String topType;//置顶状态
+
+            public String getAssistantType() {
+                return assistantType;
+            }
+
+            public void setAssistantType(String assistantType) {
+                this.assistantType = assistantType;
+            }
+
+            public String getBannedType() {
+                return bannedType;
+            }
+
+            public void setBannedType(String bannedType) {
+                this.bannedType = bannedType;
+            }
+
+            public String getDisturbType() {
+                return disturbType;
+            }
+
+            public void setDisturbType(String disturbType) {
+                this.disturbType = disturbType;
+            }
+
+            public String getOperationType() {
+                return operationType;
+            }
+
+            public void setOperationType(String operationType) {
+                this.operationType = operationType;
+            }
+
+            public String getTopType() {
+                return topType;
+            }
+
+            public void setTopType(String topType) {
+                this.topType = topType;
+            }
+
             public String getGroupId() {
                 return groupId;
             }

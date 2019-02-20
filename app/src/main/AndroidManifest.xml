@@ -108,10 +108,10 @@
             android:name=".main_code.ui.about_personal.about_activity.ChangeInfoActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme"
-        android:windowSoftInputMode="adjustResize"/>
-            <!--android:windowSoftInputMode="adjustResize"/>-->
+            android:windowSoftInputMode="adjustResize"/>
+        <!--android:windowSoftInputMode="adjustResize"/>-->
         <!--android:windowSoftInputMode="stateVisible|adjustResize"-->
-         <!--登录页 -->
+        <!--登录页 -->
         <activity
             android:name=".main_code.about_login.LoginActivity"
             android:launchMode="singleTop"
@@ -175,7 +175,11 @@
         <!-- android:windowSoftInputMode="stateHidden|adjustPan" -->
         <!-- android:theme="@android:style/Theme.Translucent" /> -->
 
-
+        <!--群助手界面-->
+        <activity
+            android:name="com.doubleq.xm6leefunz.main_code.ui.about_message.GroupAssistantActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 联系人 -->
         <!-- 创建群聊 -->
         <activity
@@ -294,7 +298,7 @@
             android:windowSoftInputMode="adjustResize"/>
 
         <!-- 设置子页面 -->
-        
+
         <!-- 消息提醒 -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.NewsRemindActivity"

@@ -41,9 +41,9 @@ public class ChatAdapter extends RecyclerArrayAdapter<DataJieShou.RecordBean> {
             case Constants.CHAT_ITEM_TYPE_RIGHT:
                 viewHolder = new ChatSendViewHolder(parent, onItemClickListener, handler,isScrolling);
                 break;
-                default:
-                    viewHolder = new ChatAcceptViewHolder(parent, onItemClickListener, handler,isScrolling,context);
-                    break;
+            default:
+                viewHolder = new ChatAcceptViewHolder(parent, onItemClickListener, handler,isScrolling,context);
+                break;
         }
         return viewHolder;
     }

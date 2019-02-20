@@ -29,6 +29,7 @@ public  class CusHomeRealmData extends RealmObject {
     String friendId;//好友id
     //    消息类型  1 私聊   ，2群聊
     String type;
+
     String userid;
     //    昵称
     String nickName;
@@ -47,6 +48,45 @@ public  class CusHomeRealmData extends RealmObject {
     String isTopMsg;
 //    是否置顶   1否2是
     String isShield;
+
+    private String bannedType;//是否被禁言
+
+    private String assistantType;//加入群助手
+
+    private String operationType;//屏蔽该群
+    private String topType;//置顶状态
+
+    public String getOperationType() {
+        return operationType;
+    }
+
+    public void setOperationType(String operationType) {
+        this.operationType = operationType;
+    }
+
+    public String getTopType() {
+        return topType;
+    }
+
+    public void setTopType(String topType) {
+        this.topType = topType;
+    }
+
+    public String getAssistantType() {
+        return assistantType;
+    }
+
+    public void setAssistantType(String assistantType) {
+        this.assistantType = assistantType;
+    }
+
+    public String getBannedType() {
+        return bannedType;
+    }
+
+    public void setBannedType(String bannedType) {
+        this.bannedType = bannedType;
+    }
 
     public String getIsShield() {
         return isShield;

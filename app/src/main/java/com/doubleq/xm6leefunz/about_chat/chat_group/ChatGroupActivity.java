@@ -522,8 +522,9 @@ public class ChatGroupActivity extends BaseActivity {
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(DataJieShou.RecordBean messageInfo){
-        String ed = editText.getText().toString().trim();
-        if (!StrUtils.isEmpty(ed)) {
+        String ed = messageInfo.getMessage().trim();
+//        String ed = editText.getText().toString().trim();
+        if (!StrUtils.isEmpty(messageInfo.getMessage())) {
             if (jumpGroupChatData != null)
                 send(SplitWeb.groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
             else if (GroupChatData != null)
@@ -531,7 +532,7 @@ public class ChatGroupActivity extends BaseActivity {
         }else
         {
             Log.e("chat","---------------------------------"+ed);
-            ToastUtil.show("发送信息不能为空");
+//            ToastUtil.show("发送信息不能为空");
         }
     }
     @Override

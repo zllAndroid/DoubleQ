@@ -16,8 +16,17 @@ public  class CusChatData extends RealmObject {
     String  messageType;//    消息类型 1文字 2图 3表情 4文件
     int  userMessageType; //1右 发送，2左 接收
     String  message; //    消息内容
+    String  imgUrl; //    消息内容
 
     String  created; //    发送时间
+
+    public String getImgUrl() {
+        return imgUrl;
+    }
+
+    public void setImgUrl(String imgUrl) {
+        this.imgUrl = imgUrl;
+    }
 
     public String getTotalId() {
         return totalId;

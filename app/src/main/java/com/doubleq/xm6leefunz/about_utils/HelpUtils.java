@@ -19,7 +19,9 @@ import android.util.Log;
 
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.MyApplication;
+import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MineSetActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
@@ -106,6 +108,12 @@ public class HelpUtils {
                     return "1007";
 //                    break;
                 case AppConfig.CODE_TOKEN_OUT:
+                    SplitWeb.USER_ID="";
+                    AppManager.getAppManager().finishAllActivity();
+                    IntentUtils.JumpTo(LoginActivity.class);
+                    getACt().overridePendingTransition(0,0);
+                    ACache.get(getACt()).clear();
+                    SPUtils.clear(getACt());
                     return code;
                 default:
                     String msg = object.optString("msg").toString().trim();

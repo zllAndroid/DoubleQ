@@ -4,6 +4,9 @@ import android.content.Context;
 import android.util.Log;
 
 import com.doubleq.model.CusJumpChatData;
+import com.doubleq.model.DataGroupChatResult;
+import com.doubleq.model.DataGroupChatSend;
+import com.doubleq.model.off_line_msg.DataOffLineGroupChat;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataGroupRealm;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataRealmMsg;
@@ -142,15 +145,47 @@ public class RealmHomeHelper {
             mRealm.commitTransaction();
         }
     }
-    public void updateGroupMsg(String friendId, String msg, String time) {
+    public void updateGroupMsg(String friendId, String msg, String time,DataGroupChatResult.RecordBean record) {
         CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             realmMsg.setMsg(msg);
             realmMsg.setTime(time);
-//            realmMsg.setMsgIsDisTurb(disturb);
-//            realmMsg.setIsTopMsg(top);
-//            realmMsg.setIsShield(shield);
+            realmMsg.setMsgIsDisTurb(record.getDisturbType());
+            realmMsg.setIsTopMsg(record.getTopType());
+            realmMsg.setIsShield(record.getOperationType());
+            realmMsg.setBannedType(record.getBannedType());//是否被禁言
+            realmMsg.setAssistantType(record.getAssistantType());//加入群助手
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
+    public void updateGroupMsg(String friendId, String msg, String time,DataGroupChatSend.RecordBean  record) {
+        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg.setMsg(msg);
+            realmMsg.setTime(time);
+            realmMsg.setMsgIsDisTurb(record.getDisturbType());
+            realmMsg.setIsTopMsg(record.getTopType());
+            realmMsg.setIsShield(record.getOperationType());
+            realmMsg.setBannedType(record.getBannedType());//是否被禁言
+            realmMsg.setAssistantType(record.getAssistantType());//是群助手
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
+    public void updateGroupMsg(String friendId, String msg, String time,DataOffLineGroupChat.RecordBean.MessageListBean record) {
+        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg.setMsg(msg);
+            realmMsg.setTime(time);
+            realmMsg.setMsgIsDisTurb(record.getDisturbType());
+            realmMsg.setIsTopMsg(record.getTopType());
+            realmMsg.setIsShield(record.getOperationType());
+            realmMsg.setBannedType(record.getBannedType());//是否被禁言
+            realmMsg.setAssistantType(record.getAssistantType());//是群助手
             mRealm.insertOrUpdate(realmMsg);
             mRealm.commitTransaction();
         }
