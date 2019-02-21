@@ -162,10 +162,12 @@ public class UpDataUtils {
         permissionUtils.requestPermissions(PERMISSIONS, CODE_WRITE_EXTERNAL_STORAGE,PERMISSION_WRITE_EXTERNAL_STORAGE);
         permissionUtils.requestPermissions(PERMISSIONS, CODE_WRITE_EXTERNAL_STORAGE,PERMISSION_READ_EXTERNAL_STORAGE);
         Uri downloadFileUri = mDownloadManager.getUriForDownloadedFile(downloadId);
+
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             Intent updateApk = new Intent(Intent.ACTION_VIEW);
-            updateApk.setDataAndType(downloadFileUri, "application/vnd.android.package-archive");
             updateApk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            updateApk.setDataAndType(downloadFileUri, "application/vnd.android.package-archive");
             mContext.startActivity(updateApk);
         }else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
             Intent install = new Intent(Intent.ACTION_VIEW);
@@ -212,7 +214,7 @@ public class UpDataUtils {
         }
     }
 
-    private Handler handler = new Handler() {
+    private Handler handler= new Handler() {
         @Override
         public void handleMessage(Message msg) {
             float mDownloadSoFar = (float) msg.arg1 / (1024 * 1024);

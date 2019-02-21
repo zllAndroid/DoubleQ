@@ -23,6 +23,7 @@ import com.doubleq.model.DataFriendPush;
 import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.DataJieShou;
+import com.doubleq.model.DataJiqun;
 import com.doubleq.model.DataLogin;
 import com.doubleq.model.off_line_msg.DataOffLineChat;
 import com.doubleq.model.off_line_msg.DataOffLineGroupChat;
@@ -56,6 +57,7 @@ import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
@@ -112,12 +114,13 @@ public class MyApplication extends Application implements IWebSocketPage {
             aCache =  ACache.get(this);
         String asString = aCache.getAsString(AppConfig.TYPE_URL);
 //TODO 集群
-//        if (StrUtils.isEmpty(asString)) {
+        initServerBro();
+        if (StrUtils.isEmpty(asString)) {
 //            initServerBro();
-//        }else {
-//            initManagerService();
-//        }
-        initOneService();
+        }else {
+            initManagerService();
+        }
+//        initOneService();
         initRealm();
 
     }
@@ -153,6 +156,7 @@ public class MyApplication extends Application implements IWebSocketPage {
         super.onTerminate();
         PgyCrashManager.unregister();
         try {
+            mConnectManager.onDestroy();
             if (mRefreshBroadcastReceiver!=null)
                 unregisterReceiver(mRefreshBroadcastReceiver);
         } catch (Exception e) {
@@ -163,29 +167,29 @@ public class MyApplication extends Application implements IWebSocketPage {
     }
 
     private void initFirstService() {
-        //配置 WebSocket，必须在 WebSocket 服务启动前设置
-
-//        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
-//        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
-
-        WebSocketSetting.setConnectUrl("ws://192.168.4.55:9093");//必选
-        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
+        String asString = aCache.getAsString(AppConfig.TYPE_URL);
+        WebSocketSetting.setConnectUrl(asString);//必选
+//        Log.e("TYPE_URL=", asString + "---------------initManagerService------------");
+//        WebSocketSetting.setConnectUrl("ws://120.78.92.225:9093");//必选
+        AppResponseDispatcher appResponseDispatcher = new AppResponseDispatcher();
+        WebSocketSetting.setResponseProcessDelivery(appResponseDispatcher);
         WebSocketSetting.setReconnectWithNetworkChanged(true);
-
         //启动 WebSocket 服务
         Intent intent = new Intent(this, WebSocketService.class);
         startService(intent);
+//        Log.e("initFirstService",AppManager.getAppManager().currentActivity().getClass().getSimpleName()+"");
         mConnectManager = new WebSocketServiceConnectManager(this, this);
         mConnectManager.onCreate();
+
+        //配置 WebSocket，必须在 WebSocket 服务启动前设置
         Intent intent2 = new Intent();
         intent2.setAction("start_application");
-        sendBroadcast(intent2);
-
+         sendBroadcast(intent2);
     }
     private void initManagerService() {
-        //配置 WebSocket，必须在 WebSocket 服务启动前设置
-        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
-//        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
+        String asString = aCache.getAsString(AppConfig.TYPE_URL);
+        WebSocketSetting.setConnectUrl(asString);//必选
+        Log.e("TYPE_URL=", asString + "---------------initManagerService------------");
 //        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
         WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
         WebSocketSetting.setReconnectWithNetworkChanged(true);
@@ -195,6 +199,20 @@ public class MyApplication extends Application implements IWebSocketPage {
         startService(intent);
         mConnectManager = new WebSocketServiceConnectManager(this, this);
         mConnectManager.onCreate();
+
+
+        //配置 WebSocket，必须在 WebSocket 服务启动前设置
+//        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
+////        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
+////        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
+//        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
+//        WebSocketSetting.setReconnectWithNetworkChanged(true);
+//
+//        //启动 WebSocket 服务
+//        Intent intent = new Intent(this, WebSocketService.class);
+//        startService(intent);
+//        mConnectManager = new WebSocketServiceConnectManager(this, this);
+//        mConnectManager.onCreate();
 
     }
     private void initOneService() {
@@ -597,7 +615,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         sendBroadcast(intent);
 //在前台的时候处理接收到消息的事件
         if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
-//            TODO 弄成popwindow   弹框
             ToastUtil.show("收到来自" + record.getNickName() + "的一条新消息");
         } else {
             //APP在后台的时候处理接收到消息的事件
@@ -966,7 +983,6 @@ public class MyApplication extends Application implements IWebSocketPage {
 
 
             realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
-//            TODO
 //            boolean chatZero = MyApplication.getApp().isChatZero();
 //            boolean chatZero = isChatZero();
             if (SplitWeb.IS_CHAT_Zero)
@@ -1056,7 +1072,6 @@ public class MyApplication extends Application implements IWebSocketPage {
 //在前台的时候处理接收到消息的事件
 //        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
 //        {
-////            TODO 弄成popwindow   弹框
 //            ToastUtil.show("收到来自"+record.getFriendsName()+"的一条新消息");
 //
 //        }
@@ -1110,7 +1125,6 @@ public class MyApplication extends Application implements IWebSocketPage {
 //在前台的时候处理接收到消息的事件
 //        if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
 //        {
-////            TODO 弄成popwindow   弹框
 //            ToastUtil.show("收到来自"+record.getGroupName()+"的一条新消息");
 ////            JNoticeAgent.setIsAutoDismiss(true);
 ////            JNoticeAgent.setAutoDismissTime(5000);
@@ -1179,7 +1193,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         sendBroadcast(intent);
 //在前台的时候处理接收到消息的事件
         if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
-//            TODO 弄成popwindow   弹框
             ToastUtil.show("收到来自" + record.getGroupName() + "的一条新消息");
         } else {
             //APP在后台的时候处理接收到消息的事件
@@ -1211,30 +1224,50 @@ public class MyApplication extends Application implements IWebSocketPage {
 
     @Override
     public void onSendMessageError(ErrorResponse error) {
-        ToastUtil.show("集群出错"+error.getRequestText());
+//        ToastUtil.show("集群出错"+error.getRequestText());
+        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+        netWorkUtlis.setOnNetWork(AppConfig.NORMAL,SplitWeb.addrPort(), new NetWorkUtlis.OnNetWork() {
+            @Override
+            public void onNetSuccess(String msg) {
+                Log.e("onNetSuccess","msg="+msg);
+                DataJiqun dataJiqun = JSON.parseObject(msg, DataJiqun.class);
+                DataJiqun.RecordBean record = dataJiqun.getRecord();
+                if (record != null)
+                {
+                    initjiqun(record);
+                }
+                try {
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+//                IntentUtils.JumpFinishTo(MainActivity.class);
+            }
 
-        String userMobile = SplitWeb.getUserMobile();
-        String userPsw = SplitWeb.getUserPSW();
-        if (userMobile==null&&userPsw==null)
-        {
-            return;
-        }
-//        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-//        netWorkUtlis.setOnNetWork(AppConfig.NORMAL,SplitWeb.loginIn(userMobile, userPsw), new NetWorkUtlis.OnNetWork() {
-//            @Override
-//            public void onNetSuccess(String msg) {
-//                Log.e("onNetSuccess","msg="+msg);
-//                DataLogin dataLogin = JSON.parseObject(msg, DataLogin.class);
-//                DataLogin.RecordBean record = dataLogin.getRecord();
-//                try {
-//                    if (record != null)
-//                        initSetData(record);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-////                IntentUtils.JumpFinishTo(MainActivity.class);
-//            }
-//        });
+
+        });
+    }
+    private void initjiqun(DataJiqun.RecordBean record) {
+        SplitWeb.WS_REQUEST = record.getServerIpWs();
+        String serverIpWs = record.getServerIpWs();
+        aCache.remove(AppConfig.TYPE_URL);
+        aCache.put(AppConfig.TYPE_URL,serverIpWs);
+
+        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
+        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------initjiqun------");
+//        WebSocketSetting.setConnectUrl("ws://120.78.92.225:9093");//必选
+//        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
+//        WebSocketSetting.setReconnectWithNetworkChanged(true);
+//
+//        //启动 WebSocket 服务
+//        Intent intent = new Intent(this, WebSocketService.class);
+//        startService(intent);
+//        mConnectManager = new WebSocketServiceConnectManager(this, this);
+//        mConnectManager.onCreate();
+//        sendText(SplitWeb.bindUid());
+        Intent intent2 = new Intent();
+        intent2.setAction("start_application");
+        sendBroadcast(intent2);
+//        ToastUtil.show("重新配置完成");
     }
     private void initSetData(DataLogin.RecordBean dataLogin) {
         SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
@@ -1274,7 +1307,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         startService(intent);
         mConnectManager = new WebSocketServiceConnectManager(this, this);
         mConnectManager.onCreate();
-        ToastUtil.show("重新配置完成");
 //        ToastUtil.show("一秒后重启应用");
 //        WebSocketSetting.setConnectUrl(serverIpWs);//必选
 //        Intent intent8 = getBaseContext().getPackageManager()
