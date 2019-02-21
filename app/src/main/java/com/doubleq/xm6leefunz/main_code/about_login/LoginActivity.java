@@ -92,7 +92,7 @@ public class LoginActivity extends BaseActivity {
         mCache = ACache.get(this);
         listenEnter();
         //TODO  获取第一层url
-//        initUrl();
+        initUrl();
 
         if (intentFilter == null) {
             intentFilter = new IntentFilter();
@@ -107,13 +107,14 @@ public class LoginActivity extends BaseActivity {
             String action = intent.getAction();
             if (action.equals("start_application"))
             {
-                if (!isFirst) {
-                    IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
-//                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
-                }
-                else
-                    IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
-//                        initManagerService();
+                sendWeb(SplitWeb.bindUid());
+//                if (!isFirst) {
+//                    IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+////                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
+//                }
+//                else
+//                    IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
+////                        initManagerService();
             }
         }
     };
@@ -152,16 +153,16 @@ public class LoginActivity extends BaseActivity {
         SplitWeb.WX_SNO = dataLogin.getWxSno();
         SplitWeb.USER_ID = dataLogin.getUserId();
         SplitWeb.USER_HEADER = dataLogin.getHeadImg();
-//        SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
 
         //TODO 集群
-//        try {
-//            String serverIpWs = dataLogin.getServerIpWs();
-//            mCache.remove(AppConfig.TYPE_URL);
-//            mCache.put(AppConfig.TYPE_URL,serverIpWs);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        try {
+            SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
+            String serverIpWs = dataLogin.getServerIpWs();
+            mCache.remove(AppConfig.TYPE_URL);
+            mCache.put(AppConfig.TYPE_URL,serverIpWs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
 
@@ -175,9 +176,9 @@ public class LoginActivity extends BaseActivity {
 //        System.exit(0);
 
         //TODO 集群
-//        Intent intent = new Intent();
-//        intent.setAction("server_application");
-//        sendBroadcast(intent);
+        Intent intent = new Intent();
+        intent.setAction("server_application");
+        sendBroadcast(intent);
     }
 
     @Override
@@ -209,19 +210,19 @@ public class LoginActivity extends BaseActivity {
         return false;
     }
 
-    //    @Override
-//    public void receiveResultMsg(String responseText) {
-//        super.receiveResultMsg(responseText);
-//        String s = HelpUtils.backMethod(responseText);
-//        if (s.equals("bindUid")) {
-//            if (!isFirst) {
-//                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
-////                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
-//            }
-//            else
-//                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
-//        }
-//    }
+    @Override
+    public void receiveResultMsg(String responseText) {
+        super.receiveResultMsg(responseText);
+        String s = HelpUtils.backMethod(responseText);
+        if (s.equals("bindUid")) {
+            if (!isFirst) {
+                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+//                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
+            }
+            else
+                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
+        }
+    }
     private void listenEnter() {
         loginEdPsw.setImeOptions(EditorInfo.IME_ACTION_SEND);
         loginEdPsw.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -265,8 +266,8 @@ public class LoginActivity extends BaseActivity {
         }
     }
     private void clickLogin() {
-        final   String phone = loginEdPhone.getText().toString().trim();
-       final String pwd = loginEdPsw.getText().toString().trim();
+        final String phone = loginEdPhone.getText().toString().trim();
+        final String pwd = loginEdPsw.getText().toString().trim();
 
         if (StrUtils.isEmpty(phone)) {
             DialogUtils.showDialog(getResources().getString(R.string.phone_is_null));
@@ -288,7 +289,7 @@ public class LoginActivity extends BaseActivity {
             public void onNetSuccess(String msg) {
                 SPUtils.put(LoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT,phone);
                 SPUtils.put(LoginActivity.this,AppConfig.TYPE_PSW,pwd);
-              SplitWeb.PSW=pwd;
+                SplitWeb.PSW=pwd;
                 DataLogin dataLogin = JSON.parseObject(msg, DataLogin.class);
                 DataLogin.RecordBean record = dataLogin.getRecord();
                 if (record != null)
@@ -313,14 +314,14 @@ public class LoginActivity extends BaseActivity {
         }
 
         //TODO 集群  屏蔽
-        if (!isFirst) {
-            IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
-//                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
-        }
-        else
-            IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
+//        if (!isFirst) {
+//            IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+////                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
+//        }
+//        else
+//            IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
 
-//        sendWeb(SplitWeb.bindUid());
+
     }
 
     @Override
@@ -328,7 +329,7 @@ public class LoginActivity extends BaseActivity {
         super.onDestroy();
         try {
             if (mRefreshBroadcastReceiver!=null)
-               unregisterReceiver(mRefreshBroadcastReceiver);
+                unregisterReceiver(mRefreshBroadcastReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }

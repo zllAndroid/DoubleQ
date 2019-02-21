@@ -823,6 +823,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        isFirst = false;
     }
 }

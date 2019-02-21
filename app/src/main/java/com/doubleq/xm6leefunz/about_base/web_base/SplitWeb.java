@@ -32,7 +32,10 @@ public class SplitWeb {
 
     //固定第一级请求
 //    public static final String PreRequest= "http://192.168.4.131:40003/";
+//    public static final String PreRequest= "http://39.108.3.131/server_api.php";
+
     public static final String PreRequest= "http://39.108.3.131/server_api.php";
+//    public static final String PreRequest= "http://192.168.4.68/server_api.php";
 
 //      SPUtils.put(this,"header",record.getHeadImg());
 //            SPUtils.put(this,"name",record.getNickName());
@@ -118,7 +121,8 @@ public class SplitWeb {
     //    public static String WebSocket_URL = "ws://192.168.4.48:9093";
 //    public static String URL = "http://192.168.4.48:9092/LoginController/";
 //    public static String WebSocket_URL = "ws://119.23.229.66:9093";
-    public static String HttpURL = "192.168.4.55:9092";
+    public static String HttpURL = "";
+//    public static String HttpURL = "192.168.4.55:9092";
     private static String getURL() {
         if(StrUtils.isEmpty(HttpURL))
             HttpURL= (String )SPUtils.get(HelpUtils.activity,AppConfig.TYPE_URL,"");
@@ -135,6 +139,10 @@ public class SplitWeb {
 //        mList.add("mobile="+"13860169273");
 //        mList.add("password="+"1234566");
         return getURLRequest()+"loginIn?"+ SignForXm6leefunJava.getSing(mList);
+    }
+    public static String addrPort(){
+        mList.clear();
+        return getURLRequest()+"addrPort?"+ SignForXm6leefunJava.getSing(mList);
     }
     public static String register(String mobile, String password,String code){
         mList.clear();
