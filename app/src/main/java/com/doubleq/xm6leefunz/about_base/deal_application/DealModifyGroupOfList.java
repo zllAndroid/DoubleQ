@@ -348,13 +348,6 @@ public class DealModifyGroupOfList {
     }
     private static void putCacheFriendModify(List<DataLinkManList.RecordBean.FriendListBean> friend_info_list, int i, String NewGroupName) {
         friend_info_list.get(i).setGroupName(NewGroupName);
-//        DataLinkManList.RecordBean.FriendListBean friendListBean = new DataLinkManList.RecordBean.FriendListBean();
-//        List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupListBean = new ArrayList<>();
-//        groupListBean.clear();
-//        friendListBean.setGroupList(groupListBean);
-//        friendListBean.setGroupName(NewGroupName);
-//        friendListBean.setType("1");
-//        friend_info_list.add(i, friendListBean);
 
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friend_info_list);
@@ -371,13 +364,6 @@ public class DealModifyGroupOfList {
     }
     private static void putCacheGroupModify(List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String NewGroupName) {
         group_info_list.get(i).setGroupName(NewGroupName);
-//        DataLinkGroupList.RecordBean.GroupInfoListBean groupInfoListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean();
-//        List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupListBean = new ArrayList<>();
-//        groupListBean.clear();
-//        groupInfoListBean.setGroupList(groupListBean);
-//        groupInfoListBean.setGroupName(NewGroupName);
-//        groupInfoListBean.setType("1");
-//        group_info_list.add(i, groupInfoListBean);
 
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);

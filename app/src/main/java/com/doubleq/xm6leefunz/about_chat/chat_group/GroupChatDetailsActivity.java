@@ -309,7 +309,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //                AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
 //                AppManager.getAppManager().finishActivity(ChatGroupActivity.class);
                 groupDetailsTvName.setText(contant);
-
                 break;
 
             case "upGroupHeadImg":
@@ -342,7 +341,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 break;
             case "setUserGroupDisturb":
                 boolean checked2 = chatsetSwiDarao.isChecked();
-                String text1= checked2?"设置免打扰成功":"取消免打扰";
+                String text1= checked2 ? "设置免打扰成功":"取消免打扰";
                 ToastUtil.show(text1);
                 break;
         }
@@ -435,10 +434,12 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //        设置群各种状态
         String assistantType = userInfo.getAssistantType();
         String disturbType = userInfo.getDisturbType();
-        if (assistantType!=null)
-        chatsetSwiQunZhu.setChecked(assistantType.equals("2"));
-        if (disturbType!=null)
-        chatsetSwiDarao.setChecked(disturbType.equals("2"));
+        if (assistantType!=null){
+            chatsetSwiDarao.setChecked(assistantType.equals("2"));
+        }
+        if (disturbType!=null){
+            chatsetSwiDarao.setChecked(disturbType.equals("2"));
+        }
     }
 
     private void initNotice(DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupNoticeBean group_notice) {
@@ -592,7 +593,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 break;
         }
     }
-
 
     private Bitmap photo;
     private void destoryImage() {

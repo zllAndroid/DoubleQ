@@ -63,6 +63,7 @@ import com.doubleq.xm6leefunz.about_utils.SoftKeyboardUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.main_code.mains.top_pop.ChatGroupPopWindow;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ChatPopWindow;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
@@ -167,7 +168,7 @@ public class ChatGroupActivity extends BaseActivity {
 
     private List<MessageInfo> messageInfos;
 
-    ChatPopWindow chatPopWindow;
+    ChatPopWindow chatGroupPopWindow;
 
     @Override
     protected void initBaseView() {
@@ -192,15 +193,18 @@ public class ChatGroupActivity extends BaseActivity {
             if (jumpGroupChatData != null) {
                 groupId = jumpGroupChatData.getGroupId();
                 includeTopTvTitle.setText(jumpGroupChatData.getGroupName());
-                chatPopWindow = new ChatPopWindow(ChatGroupActivity.this, "", groupId, jumpGroupChatData.getGroupName(), "", chatLinMainWhole);
             } else if (GroupChatData != null) {
                 groupId = GroupChatData.getId();
                 includeTopTvTitle.setText(GroupChatData.getName());
             }
-//        if ( chatPopWindow != null && chatPopWindow.isShowing()){
-//            chatPopWindow.dismiss();
-            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//        }
+            chatGroupPopWindow = new ChatPopWindow(ChatGroupActivity.this, "", groupId, "", "", chatLinMainWhole);
+            chatGroupPopWindow.setOnReCardNameListener(new ChatPopWindow.OnReCardNameListener() {
+                @Override
+                public void reCardName(String cardName) {
+                    if (cardName != null)
+                        sendWeb(SplitWeb.setGroupCarteModify(groupId,cardName));
+                }
+            });
             initWidget();
 //        初始化数据库的聊天记录
             initRealm();
@@ -212,15 +216,12 @@ public class ChatGroupActivity extends BaseActivity {
 //        intent2.setAction("zero.refreshMsgFragment");
 //        sendBroadcast(intent2);
             listenEnter();
-            if (chatPopWindow != null && chatPopWindow.isShowing()) {
-                chatPopWindow.dismiss();
-                includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-            }
         }
 
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
+        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
     }
 
     boolean isDrop = false;
@@ -229,10 +230,10 @@ public class ChatGroupActivity extends BaseActivity {
         isDrop = !isDrop;
         if (isDrop) {
             includeTopIvDrop.setImageResource(R.drawable.spinner_down);
-            chatPopWindow.showAtBottom(view.findViewById(R.id.include_top_lin_title));
+            chatGroupPopWindow.showAtBottom(view.findViewById(R.id.include_top_lin_title));
         } else {
-            if (chatPopWindow != null) {
-                chatPopWindow.dismiss();
+            if (chatGroupPopWindow != null) {
+                chatGroupPopWindow.dismiss();
                 includeTopIvDrop.setImageResource(R.drawable.spinner_right);
             }
         }
@@ -267,16 +268,9 @@ public class ChatGroupActivity extends BaseActivity {
     };
 
     private void initGroupName(Intent intent) {
-        String groupId = intent.getStringExtra("id");
+//        String groupId = intent.getStringExtra("id");
         String groupName = intent.getStringExtra("groupName");
         includeTopTvTitle.setText(groupName);
-
-//        CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(groupId);
-//        if (homeRealmData != null){
-//            Log.e("upGroupName","-------------former---ccac----------"+homeRealmData.getNickName());
-//            homeRealmData.setNickName(groupName);
-//            Log.e("upGroupName","-----------later----ccac-----------"+homeRealmData.getNickName());
-//        }
     }
 
     //设置状态栏的高度为负状态栏高度，因为xml 设置了 android:fitsSystemWindows="true",会占用一个状态栏的高度；
@@ -318,6 +312,12 @@ public class ChatGroupActivity extends BaseActivity {
 //        InputMethodManager inputManager =
 //                (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 //        inputManager.showSoftInput(editText, 0);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
     }
 
     @Override
@@ -367,10 +367,11 @@ public class ChatGroupActivity extends BaseActivity {
                 JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
                 break;
             case R.id.chat_lin_main_bg:
-                if (chatPopWindow != null) {
-                    chatPopWindow.dismiss();
-                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-                }
+//                Log.e("clickWindow","-----------------------------------------------------");
+//                if (chatGroupPopWindow != null) {
+//                    chatGroupPopWindow.dismiss();
+//                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//                }
                 break;
             case R.id.include_top_lin_title:
                 titleClick(view);
@@ -526,6 +527,19 @@ public class ChatGroupActivity extends BaseActivity {
                             mDetector.hideEmotionLayout(false);
                             mDetector.hideSoftInput();
                         }
+//                        if (chatGroupPopWindow != null) {
+//                            chatGroupPopWindow.dismiss();
+//                            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//                            Log.e("chatPopWindow","-------------------group-------------------");
+//                            chatGroupPopWindow.setOnClickBacListener(new ChatPopWindow.OnClickBacListener() {
+//                                @Override
+//                                public void Clicked(boolean clicked) {
+//                                    if (clicked){
+//                                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//                                    }
+//                                }
+//                            });
+//                        }
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_POINTER_UP:

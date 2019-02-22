@@ -13,14 +13,18 @@ import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DealGroupingSort {
 
     private  static ACache aCache;
     private  static Context mContext;
-    private static List<DataLinkManList.RecordBean.FriendListBean> friendList;
-    private static List<DataLinkGroupList.RecordBean.GroupInfoListBean> groupList;
+    private static List<DataLinkManList.RecordBean.FriendListBean> friendSortList=new ArrayList<>();
+    private static List<DataLinkManList.RecordBean.FriendListBean> fListType2=new ArrayList<>();
+    private static List<DataLinkGroupList.RecordBean.GroupInfoListBean> groupSortList=new ArrayList<>();
+    private static List<DataLinkGroupList.RecordBean.GroupInfoListBean> gListType2=new ArrayList<>();
+
     public  static void groupingSort(Context context, String result){
         mContext = context;
         DataModifyGroupingSort dataModifyGroupingSort = JSON.parseObject(result,DataModifyGroupingSort.class);
@@ -30,16 +34,15 @@ public class DealGroupingSort {
 //        String oldGroupId = oldGroupBeanList.get(0).getGroupId();
         aCache =  ACache.get(mContext);
         if (aCache!=null) {
+//            判断是好友还是群分组排序  1为好友  2为群
             if (recordBean.getOldGroup().get(0).getType().equals("1")){
                 String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
-//                if (!StrUtils.isEmpty(asString) && recordBean!=null)
                 if (!StrUtils.isEmpty(asString))
                 {
                     initDataFriend(asString, oldGroupBeanList, newGroupBeanList);
                 }
             }else{
                 String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
-//                if (!StrUtils.isEmpty(asString) && recordBean!=null)
                 if (!StrUtils.isEmpty(asString))
                 {
                     initDataGroup(asString, oldGroupBeanList, newGroupBeanList);
@@ -50,58 +53,46 @@ public class DealGroupingSort {
     }
     private static void initDataFriend(String asString, List<DataModifyGroupingSort.RecordBean.OldGroupBean> old_group_list,
                                        List<DataModifyGroupingSort.RecordBean.NewGroupBean> new_group_list) {
-        Log.e("asString","--------------------------------------"+asString);
         DataLinkManList.RecordBean recordBean= JSON.parseObject(asString,DataLinkManList.RecordBean.class);
+//        旧的联系人列表：friendListBeanList
         List<DataLinkManList.RecordBean.FriendListBean> friendListBeanList= recordBean.getFriendList();
-//        DataLinkManList.RecordBean.FriendListBean friendListBean;
         if (friendListBeanList==null)
             return;
-        friendList = recordBean.getFriendList();
+//        设置friendSortList新的空list来存放总的新列表
+        friendSortList.clear();
+//        设置fListType2来存放type=2的成员，即分组以下的好友
+        fListType2.clear();
         if (friendListBeanList.size() > 0) {
-            for (int i = 0; i < old_group_list.size(); i++) {
-                String oldGroupId = old_group_list.get(i).getGroupId();
-                for (int j = 0; j < new_group_list.size(); j++){
-                    String newGroupId = new_group_list.get(j).getGroupId();
+            int size = old_group_list.size();
+//            把type=2的成员存入列表
+            for (int w=size;w<friendListBeanList.size();w++)
+            {
+                fListType2.add(friendListBeanList.get(w));
+            }
+//            将新序list每一行的群id与旧序list每一行的群id进行对比
+            for (int j = 0; j < new_group_list.size(); j++){
+                String newGroupId = new_group_list.get(j).getGroupId();
+                for (int i = 0; i < old_group_list.size(); i++) {
+                    String oldGroupId = old_group_list.get(i).getGroupId();
+//                    若相等，则将该行数据存入当前位置j的列表中（即将旧序list中该分组中的好友放入新序分组中）
                     if (oldGroupId.equals(newGroupId)) {
-//                        friendListBean = friendListBeanList.get(i);
-                        friendModify(i, j);
-                        putFriendCache(friendList);
-//                        Log.e("jsonString","--------------------------------------"+friendList);
+                        DataLinkManList.RecordBean.FriendListBean listBeanI = friendListBeanList.get(i);
+                        friendSortList.add(listBeanI);
+                        Log.e("jsonString","--------------------------------------------- i=" + i + ", j=" + j);
                     }
                 }
             }
-
+//            存储数据并且发送广播
+            putFriendCache();
         }
     }
-    private static void friendModify( int i, int j) {
-//        将新位置原本的数据(旧数据)存起来
-        DataLinkManList.RecordBean.FriendListBean listBeanI = friendList.get(i);
-        DataLinkManList.RecordBean.FriendListBean listBeanJ = friendList.get(j);
-        Log.e("jsonString","------------原始数据----------------"+listBeanI);
-        Log.e("jsonString","------------111----------------"+listBeanJ);
-//        删除新位置的数据（旧数据）
-//        friendList.remove(j);
-        friendList.set(j,listBeanI);
-//        在新位置插入新数据
-//        friendList.add(j,friendListBean);
-        Log.e("jsonString","-------------222---------------"+friendList.get(j));
-//        删除旧位置的数据（新数据）
-//        friendList.remove(i);
-//        在旧位置插入旧数据
-        if (j == 0){
-            friendList.add(j,listBeanI);
-            Log.e("jsonString","------------333----------------"+friendList.get(j));
-        }
-        else{
-            friendList.add(j-1,listBeanI);
-            Log.e("jsonString","------------333----------------"+friendList.get(j-1));
-        }
 
-    }
+    private static void putFriendCache() {
+//        将
+        friendSortList.addAll(fListType2);
 
-    private static void putFriendCache(List<DataLinkManList.RecordBean.FriendListBean> friendList) {
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
-        recordBean.setFriendList(friendList);
+        recordBean.setFriendList(friendSortList);
         String jsonString = JSON.toJSONString(recordBean);
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
@@ -112,12 +103,46 @@ public class DealGroupingSort {
         mContext.sendBroadcast(intent);
     }
 
-    private static void putCacheGroupModify(List<DataLinkManList.RecordBean.FriendListBean> friend_info_list) {
-
-    }
-
     private static void initDataGroup(String asString,  List<DataModifyGroupingSort.RecordBean.OldGroupBean> old_group_list,
                                       List<DataModifyGroupingSort.RecordBean.NewGroupBean> new_group_list) {
-
+        DataLinkGroupList.RecordBean recordBean= JSON.parseObject(asString,DataLinkGroupList.RecordBean.class);
+        List<DataLinkGroupList.RecordBean.GroupInfoListBean> groupInfoListBeans= recordBean.getGroupInfoList();
+        if (groupInfoListBeans==null)
+            return;
+        groupSortList.clear();
+        gListType2.clear();
+        if (groupInfoListBeans.size() > 0) {
+            int size = old_group_list.size();
+            for (int w=size;w<groupInfoListBeans.size();w++)
+            {
+                gListType2.add(groupInfoListBeans.get(w));
+            }
+            for (int j = 0; j < new_group_list.size(); j++){
+                String newGroupId = new_group_list.get(j).getGroupId();
+                for (int i = 0; i < old_group_list.size(); i++) {
+                    String oldGroupId = old_group_list.get(i).getGroupId();
+                    if (oldGroupId.equals(newGroupId)) {
+                        DataLinkGroupList.RecordBean.GroupInfoListBean listBeanI = groupInfoListBeans.get(i);
+                        groupSortList.add(listBeanI);
+                    }
+                }
+            }
+            putGroupCache();
+        }
     }
+    private static void putGroupCache() {
+        groupSortList.addAll(gListType2);
+
+        DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
+        recordBean.setGroupInfoList(groupSortList);
+        String jsonString = JSON.toJSONString(recordBean);
+        aCache.remove(AppAllKey.GROUD_DATA);
+        aCache.put(AppAllKey.GROUD_DATA, jsonString);
+        Log.e("jsonString","分组排序（修改）="+jsonString);
+
+        Intent intent = new Intent();
+        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+        mContext.sendBroadcast(intent);
+    }
+
 }

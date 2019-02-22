@@ -48,10 +48,10 @@ public class FriendGroupListActivity extends BaseActivity {
     public  static  String CHOOSE_GROUP_KEY = "choosegroup";
     public  static  String CHOOSE_NAME = "groupname";
     public  static  String CHOOSE_ID= "groupid";
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
     String type="";
     @Override
     protected void initBaseView() {

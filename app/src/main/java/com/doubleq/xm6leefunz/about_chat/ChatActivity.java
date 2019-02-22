@@ -198,7 +198,6 @@ public class ChatActivity extends BaseActivity {
         if (hideControl == null)
             hideControl = new HideControl();
 
-
         mChatTvShow.setBackgroundResource(R.color.chattrans);
 //        realmLink = new RealmLinkManHelper(this);
         Intent intent = getIntent();
@@ -210,11 +209,15 @@ public class ChatActivity extends BaseActivity {
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
+        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
         chatPopWindow = new ChatPopWindow(ChatActivity.this, FriendId, "", cusJumpChatData.getFriendName(), "", chatLinMainWhole);
-//        if ( chatPopWindow != null && chatPopWindow.isShowing()){
-//            chatPopWindow.dismiss();
-            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//        }
+        chatPopWindow.setOnReRemarkListener(new ChatPopWindow.OnReRemarkListener() {
+            @Override
+            public void reRemark(String remarkName) {
+                if (remarkName != null)
+                    sendWeb(SplitWeb.friendRemarkName(FriendId,remarkName));
+            }
+        });
         initWidget();
 //        初始化数据库的聊天记录
         initRealm();
@@ -226,10 +229,6 @@ public class ChatActivity extends BaseActivity {
 //        intent2.setAction("zero.refreshMsgFragment");
 //        sendBroadcast(intent2);
         listenEnter();
-        if ( chatPopWindow != null && chatPopWindow.isShowing()){
-            chatPopWindow.dismiss();
-            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-        }
     }
     private void listenEnter() {
         editText.setSingleLine();
@@ -256,10 +255,10 @@ public class ChatActivity extends BaseActivity {
                 JumpToHaveOne(ChatSetActivity.class, "FriendId", FriendId);
                 break;
             case R.id.chat_lin_main_bg:
-                if (chatPopWindow != null) {
-                    chatPopWindow.dismiss();
-                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-                }
+//                if (chatPopWindow != null) {
+//                    chatPopWindow.dismiss();
+//                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//                }
                 break;
             case R.id.include_top_lin_title:
                 titleClick(view);
@@ -291,6 +290,12 @@ public class ChatActivity extends BaseActivity {
         layout.setMargins(0, -statusBarHeight, 0, 0);
 //设置button的新位置属性,left，top，right，bottom
         mLinChatMain.setLayoutParams(layout);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
     }
 
     @Override
@@ -423,7 +428,6 @@ public class ChatActivity extends BaseActivity {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 switch (newState) {
                     case RecyclerView.SCROLL_STATE_IDLE:
-
                         chatAdapter.handler.removeCallbacksAndMessages(null);
                         chatAdapter.notifyDataSetChanged();
                         break;
@@ -459,19 +463,46 @@ public class ChatActivity extends BaseActivity {
                             mDetector.hideEmotionLayout(false);
                             mDetector.hideSoftInput();
                         }
+//                        initChatPopWindow();
+//                        if (chatPopWindow != null) {
+//                            chatPopWindow.dismiss();
+//                            Log.e("chatPopWindow","-------------------11-------------------");
+//                            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//                            chatPopWindow.setOnClickBacListener(new ChatPopWindow.OnClickBacListener() {
+//                                @Override
+//                                public void Clicked(boolean clicked) {
+//                                    Log.e("chatPopWindow","-------------------22-------------------"+clicked);
+//                                    if (clicked){
+//                                        Log.e("chatPopWindow","-------------------33-------------------"+clicked);
+//                                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//                                    }
+//                                }
+//                            });
+//                        }
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_POINTER_UP:
+//                        initChatPopWindow();
                         break;
                     case MotionEvent.ACTION_POINTER_DOWN:
+//                        initChatPopWindow();
                         break;
                     case MotionEvent.ACTION_MOVE:
+//                        initChatPopWindow();
                         break;
                 } //end switch
                 return isSoftShowing();
             }
         });
 //        LoadData();
+    }
+
+    private void initChatPopWindow() {
+        if (chatPopWindow != null) {
+            chatPopWindow.dismiss();
+            Log.e("chatPopWindow","-------------------11-------------------");
+            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+        }
     }
 
     private void sofeDeal() {
@@ -787,6 +818,7 @@ public class ChatActivity extends BaseActivity {
 //        EventBus.getDefault().removeStickyEvent(this);
 //        EventBus.getDefault().unregister(this);
 //    }
+
     private void showPopWindows(View v, final String msg) {
 
         /** pop view */

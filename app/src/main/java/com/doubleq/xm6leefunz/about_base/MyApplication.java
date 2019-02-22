@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.PowerManager;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
@@ -29,6 +30,7 @@ import com.doubleq.model.off_line_msg.DataOffLineChat;
 import com.doubleq.model.off_line_msg.DataOffLineGroupChat;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealFriendAdd;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupAdd;
+import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupingSort;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyFriendList;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyGroupOfList;
 import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
@@ -52,7 +54,6 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
 import com.doubleq.xm6leefunz.main_code.mains.MsgFragment;
-import com.doubleq.xm6leefunz.main_code.mains.TestActivity;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
@@ -335,8 +336,8 @@ public class MyApplication extends Application implements IWebSocketPage {
                 isBind = false;
             }
         }
+        initReceiver(message);
         try {
-            initReceiver(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -437,19 +438,26 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "addFriendGroupManageSend":
 //                    DealModifyGroupOfList.modifyGroupOfList(this,message.getResponseText());
                     break;
+//                    增加好友/群分组推送
                 case "agreeGroupingListSend":
                     DealModifyGroupOfList.addGroupOfList(this,message.getResponseText());
                     break;
+//                    删除好友/群分组推送
                 case "deleteGroupingListSend":
                     DealModifyGroupOfList.deleteGroupOfList(this,message.getResponseText());
                     break;
+//                    修改好友/群分组推送
                 case "modifyGroupingListSend":
                     DealModifyGroupOfList.modifyGroupOfList(this,message.getResponseText());
                     break;
+//                    好友/群修改其分组推送
                 case "modifyFriendListSend":
                     DealModifyFriendList.modifyGroupOfFriend(this,message.getResponseText());
                     break;
-
+//                    好友/群分组排序推送
+                case "modifyGroupingSortSend":
+                    DealGroupingSort.groupingSort(this,message.getResponseText());
+                    break;
             }
         }
     }

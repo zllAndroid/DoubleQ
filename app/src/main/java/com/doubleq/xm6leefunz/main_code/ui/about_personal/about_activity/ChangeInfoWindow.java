@@ -174,6 +174,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             }
             case "修改分组":mEd.setHint("请输入分组名称");
             case "修改群名":
+            case "修改群名片":
             {
                 if (mContant.length() > FENZU_MAX_NUM) {
                     mTvMax.setText(FENZU_MAX_NUM + " / " + FENZU_MAX_NUM);
@@ -199,7 +200,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             }
         }
 
-        if (title.equals("修改备注")){
+        if (title.equals("修改备注") || title.equals("修改群名片")){
             if (mContant.equals("")){
 //            if (mContant.trim().equals("暂未设置备注") || mContant.equals("")){
                 mEd.setText("");
@@ -245,6 +246,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 case "修改分组":
                 case "增加分组":
                 case "修改群名":
+                case "修改群名片":
                     MAX_NUM = BEIZHU_MAX_NUM;
                     break;
                 case "修改帐号":
