@@ -1,7 +1,11 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_message.about_message_adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,6 +17,8 @@ import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
+import com.doubleq.xm6leefunz.about_utils.ImageUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataRealmMsg;
@@ -22,6 +28,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemL
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
@@ -61,7 +68,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                 CusHomeRealmData cusHomeRealmData = data.get(i);
 
                 if (cusHomeRealmData!=null&&cusHomeRealmData.getMsgIsDisTurb()!=null&&!cusHomeRealmData.getMsgIsDisTurb().equals("2"))
-                num += cusHomeRealmData.getNum();
+                    num += cusHomeRealmData.getNum();
             }
         }
         return  num;
@@ -69,9 +76,44 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
     @Override
     protected void convert(final BaseViewHolder helper, final CusHomeRealmData item) {
 //        CusDataLinkFriend linkFriend = realmLinkFriendHelper.queryLinkFriend(item.getFriendId());
+        helper.addOnClickListener(R.id.item_tv_click_ok);
+        helper.addOnClickListener(R.id.item_msg_re);
+
+        TextView mTvMsg = helper.getView(R.id.item_tv_msg);
+        ImageView mIvHead = (ImageView) helper.getView(R.id.item_iv_head);
+        ImageView mIvClick = (ImageView) helper.getView(R.id.item_tv_click_ok);
+        TextView mTvNum = helper.getView(R.id.item_tv_num);
+        TextView mTvTime = helper.getView(R.id.item_tv_time);
+//        String type = item.getType();
+//        String assistantType = item.getAssistantType();
+
+//        群助手
+        if (item.getTotalId().equals(AppConfig.GroupAssistant)) {
+
+//            TextView mTvNum = helper.getView(R.id.item_tv_num);
+            mTvNum.setBackgroundResource(R.drawable.news_disturb);
+            helper.setText(R.id.item_tv_msg, "("+item.getGroupNumMsg()+"个群有新消息"+")");
+            helper.setText(R.id.item_tv_name, "群助手");
+            mTvMsg.setTextColor(context.getResources().getColor(R.color.app_theme));
+
+            mTvNum.setVisibility(View.GONE);
+            mTvTime.setVisibility(View.GONE);
+            mIvClick.setVisibility(View.GONE);
+            Glide.with(context).load(R.drawable.msg_grouper)
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .into(mIvHead);
+            return;
+        }
+          else
+            {
+                mTvNum.setVisibility(View.VISIBLE);
+                mTvTime.setVisibility(View.VISIBLE);
+                mIvClick.setVisibility(View.VISIBLE);
+                mTvMsg.setTextColor(context.getResources().getColor(R.color.gray999));
+            }
         if (!StrUtils.isEmpty(item.getFriendId())) {
             String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(item.getFriendId());
-           final int errorImg;
+            final int errorImg;
             if (item.getType().equals("1"))
             {
                 errorImg=R.drawable.mine_head;
@@ -79,13 +121,13 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
             {
                 errorImg=R.drawable.qun_head;
             }
-            ImageView mIvHead = (ImageView) helper.getView(R.id.item_iv_head);
             if (imgPath != null) {
-                mIvHead.setImageURI(Uri.fromFile(new File(imgPath)));
+                Uri uri = Uri.fromFile(new File(imgPath));
+                mIvHead.setImageURI(uri);
 //                Glide.with(context).load(imgPath)
 //                        .error(errorImg)
 //                        .bitmapTransform(new CropCircleTransformation(context))
-//                        .into((ImageView) helper.getView(R.id.item_iv_head));
+//                        .into(mIvHead);
             } else {
                 Glide.with(context).load(item.getHeadImg())
                         .error(errorImg)
@@ -96,9 +138,10 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         }
         helper.setText(R.id.item_tv_name,item.getNickName());
         helper.setText(R.id.item_tv_msg,item.getMsg());
+
         helper.setText(R.id.item_tv_time, TimeUtil.formatDisplayTime(item.getTime(),null));
 //        helper.setText(R.id.item_tv_time,item.getTime());
-        TextView mTvNum = helper.getView(R.id.item_tv_num);
+
         int num =0;
         try {
             num =item.getNum();
@@ -112,14 +155,18 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
             mTvNum .setVisibility(View.VISIBLE);
             helper.setText(R.id.item_tv_num,item.getNum()+"");
         }
-        if (item.getMsgIsDisTurb() != null && !item.getMsgIsDisTurb().equals("2"))
-           mTvNum.setBackgroundResource(R.drawable.linkman_news);
-        else {
-            mTvNum.setBackgroundResource(R.drawable.news_disturb);
-        }
-        helper.addOnClickListener(R.id.item_tv_click_ok);
-        helper.addOnClickListener(R.id.item_msg_re);
+
+//        消息免打扰  的消息背景
+        if(item.getMsgIsDisTurb()!=null)
+            if (!item.getMsgIsDisTurb().equals("2"))
+                mTvNum.setBackgroundResource(R.drawable.linkman_news);
+            else {
+                mTvNum.setBackgroundResource(R.drawable.news_disturb);
+            }
+
     }
+
+
     //添加数据
     public void delItem(int position) {
         data.remove(position);

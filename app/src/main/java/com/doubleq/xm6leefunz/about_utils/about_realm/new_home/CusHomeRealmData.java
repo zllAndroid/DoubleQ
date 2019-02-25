@@ -56,6 +56,17 @@ public  class CusHomeRealmData extends RealmObject {
     private String operationType;//屏蔽该群
     private String topType;//置顶状态
 
+
+    private String groupNumMsg;//有几个群有新消息
+
+    public String getGroupNumMsg() {
+        return groupNumMsg;
+    }
+
+    public void setGroupNumMsg(String groupNumMsg) {
+        this.groupNumMsg = groupNumMsg;
+    }
+
     public String getOperationType() {
         return operationType;
     }

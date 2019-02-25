@@ -11,9 +11,10 @@ public class AppConfig {
 
 //    public static final String LINK_GROUP_BRO= "link_group";
 
+    public static final String  GroupAssistant= "GroupAssistant";//在首页群助手的专属id
 
-    //昵称 帐号、签名、手机
-public static final String TYPE_NAME= "name";//
+    //昵称 账号、签名、手机
+    public static final String TYPE_NAME= "name";//
 public static final String TYPE_NO= "no";//
 public static final String TYPE_SIGN= "sign";//
 public static final String TYPE_PHONE= "phone";//

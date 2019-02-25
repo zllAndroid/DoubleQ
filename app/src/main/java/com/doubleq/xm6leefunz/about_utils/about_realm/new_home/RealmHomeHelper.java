@@ -7,6 +7,7 @@ import com.doubleq.model.CusJumpChatData;
 import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.off_line_msg.DataOffLineGroupChat;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataGroupRealm;
 import com.doubleq.xm6leefunz.about_utils.about_realm.realm_data.CusDataRealmMsg;
@@ -160,6 +161,24 @@ public class RealmHomeHelper {
             mRealm.commitTransaction();
         }
     }
+    public void updateGroupAssNum( String num) {
+        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, AppConfig.GroupAssistant).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg.setUserid(SplitWeb.getUserId());
+            realmMsg.setGroupNumMsg(num);
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }else {
+            CusHomeRealmData homeRealmData =new CusHomeRealmData();
+            homeRealmData.setTotalId(AppConfig.GroupAssistant);
+            homeRealmData.setUserid(SplitWeb.getUserId());
+            homeRealmData.setGroupNumMsg(num);
+            mRealm.beginTransaction();
+            mRealm.copyToRealmOrUpdate(homeRealmData);//有主键的情况下使用，添加更新
+            mRealm.commitTransaction();
+        }
+    }
     public void updateGroupMsg(String friendId, String msg, String time,DataGroupChatSend.RecordBean  record) {
         CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (realmMsg!=null) {
@@ -245,7 +264,7 @@ public class RealmHomeHelper {
      * query （查询所有）
      */
     public List<CusHomeRealmData> queryAllRealmMsg() {
-        RealmResults<CusHomeRealmData> realmMsgs = mRealm.where(CusHomeRealmData.class).findAll();
+        RealmResults<CusHomeRealmData> realmMsgs = mRealm.where(CusHomeRealmData.class).equalTo(USERID, SplitWeb.getUserId()).findAll();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */

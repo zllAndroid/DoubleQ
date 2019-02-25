@@ -29,11 +29,12 @@ public class GroupAssistantMsgAdapter extends BaseQuickAdapter<CusHomeRealmData,
     Context context;
     public List<CusHomeRealmData> data;
     RealmLinkFriendHelper realmLinkFriendHelper;
-    public GroupAssistantMsgAdapter(Context context, List<CusHomeRealmData> data, ItemTouchListener mItemTouchListener) {
+    public GroupAssistantMsgAdapter(Context context, List<CusHomeRealmData> data) {
+//    public GroupAssistantMsgAdapter(Context context, List<CusHomeRealmData> data, ItemTouchListener mItemTouchListener) {
         super(R.layout.item_home_message, data);
         this.data=data;
         this.context=context;
-        this.mItemTouchListener=mItemTouchListener;
+//        this.mItemTouchListener=mItemTouchListener;
         realmLinkFriendHelper = new RealmLinkFriendHelper(context);
     }
     public void addData(CusHomeRealmData cusData) {
@@ -135,26 +136,26 @@ public class GroupAssistantMsgAdapter extends BaseQuickAdapter<CusHomeRealmData,
     }
     String id;
     SwipeItemLayout swipeLayout;
-    private ItemTouchListener mItemTouchListener;
+//    private ItemTouchListener mItemTouchListener;
     @Override
     public void onBindViewHolder(BaseViewHolder holder, final int positions) {
         super.onBindViewHolder(holder, positions);
         swipeLayout = (SwipeItemLayout) holder.itemView;
         final View lMenu = holder.getView(R.id.item_notice_del_menu);
-        click(swipeLayout, lMenu,positions,data.get(positions).getNickName());
+//        click(swipeLayout, lMenu,positions,data.get(positions).getNickName());
     }
-    private void click(final SwipeItemLayout swipeLayout, final  View view,final  int positions,String name) {
-        if (view != null) {
-            view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mItemTouchListener.onLeftMenuClick(view,positions,id);
-                    swipeLayout.close();
-                }
-            });
-        }
-    }
-    public  interface ItemTouchListener {
-        void onLeftMenuClick(View view, int positions, String WaybillNum);
-    }
+//    private void click(final SwipeItemLayout swipeLayout, final  View view,final  int positions,String name) {
+//        if (view != null) {
+//            view.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    mItemTouchListener.onLeftMenuClick(view,positions,id);
+//                    swipeLayout.close();
+//                }
+//            });
+//        }
+//    }
+//    public  interface ItemTouchListener {
+//        void onLeftMenuClick(View view, int positions, String WaybillNum);
+//    }
 }

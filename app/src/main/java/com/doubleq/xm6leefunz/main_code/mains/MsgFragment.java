@@ -245,6 +245,7 @@ public class MsgFragment extends BaseFragment {
                 {
                     if (homeRealmData!=null) {
                         mList.set(i, homeRealmData);
+                        if (msgAdapter!=null)
                         msgAdapter.notifyItemChanged(i);
                     }
 //                    if (i==0)
@@ -284,11 +285,9 @@ public class MsgFragment extends BaseFragment {
         }
     }
     private void refreshMsg(Intent intent) {
-        String id = intent.getStringExtra("id");
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
-        CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id );
         Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
-        if ( mList.size()==0&&cusHomeRealmData.size()!=0)
+        if (cusHomeRealmData.size()!=0)
         {
             mList.clear();
             mList.addAll(cusHomeRealmData);
@@ -352,6 +351,15 @@ public class MsgFragment extends BaseFragment {
             if (mList.size()!=0)
                 for (int i=0;i<mList.size();i++)
                 {
+                    String assistantType = mList.get(i).getAssistantType();
+                    String mTy = mList.get(i).getType();
+                    if (mTy != null && assistantType != null)
+                        if (mTy.equals("2") && assistantType.equals("2")) {
+                            mList.remove(i);
+                            if (msgAdapter!=null)
+                            msgAdapter.notifyItemChanged(i);
+                            return;
+                        }
                     if (mList.get(i).getTotalId().equals(id+SplitWeb.getUserId()+""))
                     {
                         if (i==0)
@@ -388,22 +396,21 @@ public class MsgFragment extends BaseFragment {
 
     MsgAdapter msgAdapter =null;
     public  static  boolean isZero=false;
-    public    boolean isAss=false;
     private void initAdapter() {
         for (int i=0;i<mList.size();i++)
         {
-            String assistantType = mList.get(i).getAssistantType();
-            String mTy = mList.get(i).getType();
+            String totalId = mList.get(i).getTotalId();
+            if (!totalId.equals(AppConfig.GroupAssistant)) {
+                String assistantType = mList.get(i).getAssistantType();
+                String mTy = mList.get(i).getType();
 
-            if (mTy!=null&&assistantType!=null)
-                if (mTy.equals("2")&&assistantType.equals("2"))
-                {
-                    if (isAss)
-                    {
+                if (mTy != null && assistantType != null)
+                    if (mTy.equals("2") && assistantType.equals("2")) {
                         mList.remove(i);
+                        if (msgAdapter!=null)
+                        msgAdapter.notifyItemChanged(i);
                     }
-                    isAss=true;
-                }
+            }
         }
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(getActivity()));
@@ -422,48 +429,11 @@ public class MsgFragment extends BaseFragment {
                 switch (view.getId())
                 {
                     case R.id.item_msg_re:
-
-                        int num = item.getNum();
-                        Log.e("item","getNum"+num);
-                        if (num>0)
+                        if (item.getTotalId().equals(AppConfig.GroupAssistant))
                         {
-                            item.setNum(0);
-                            isZero=true;
-                            sendBroadcast();
+                            IntentUtils.JumpTo(GroupAssistantActivity.class);
                         }else {
-                            isZero=false;
-                        }
-                        if (item.getType().equals("1")) {
-
-                            //                            点击进入详情后，消息个数清零
-                            item.setNum(0);
-                            realmHelper.updateNumZero(item.getFriendId());
-                            msgAdapter.notifyItemChanged(position);
-//                            mRecyclerView.smoothScrollToPosition(0);
-                            // 好友
-                            CusJumpChatData cusJumpChatData = new CusJumpChatData();
-                            cusJumpChatData.setFriendHeader(item.getHeadImg());
-                            cusJumpChatData.setFriendId(item.getFriendId());
-                            cusJumpChatData.setFriendName(item.getNickName());
-                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
-
-                        }else {
-//                            跳转群助手
-                            if (item.getAssistantType()!=null&&item.getAssistantType().equals("2"))
-                            {
-                                IntentUtils.JumpTo(GroupAssistantActivity.class);
-
-                            }else {
-                                //跳转群组
-                                item.setNum(0);
-                                realmHelper.updateNumZero(item.getFriendId());
-                                msgAdapter.notifyItemChanged(position);
-//                            mRecyclerView.smoothScrollToPosition(0);
-                                CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
-                                cusJumpGroupChatData.setGroupId(item.getFriendId());
-                                cusJumpGroupChatData.setGroupName(item.getNickName());
-                                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
-                            }
+                            clickItem(position);
                         }
                         break;
 //                        点击编辑，弹出聊天窗口
@@ -480,6 +450,54 @@ public class MsgFragment extends BaseFragment {
             }
         });
     }
+
+    private void clickItem(int position) {
+        int num = item.getNum();
+        Log.e("item","getNum"+num);
+        if (num>0)
+        {
+            item.setNum(0);
+            isZero=true;
+            sendBroadcast();
+        }else {
+            isZero=false;
+        }
+        if (item.getType().equals("1")) {
+
+            //                            点击进入详情后，消息个数清零
+            item.setNum(0);
+            realmHelper.updateNumZero(item.getFriendId());
+            if (msgAdapter!=null)
+            msgAdapter.notifyItemChanged(position);
+//                            mRecyclerView.smoothScrollToPosition(0);
+            // 好友
+            CusJumpChatData cusJumpChatData = new CusJumpChatData();
+            cusJumpChatData.setFriendHeader(item.getHeadImg());
+            cusJumpChatData.setFriendId(item.getFriendId());
+            cusJumpChatData.setFriendName(item.getNickName());
+            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+
+        }else {
+//                            跳转群助手
+//            if (item.getAssistantType()!=null&&item.getAssistantType().equals("2"))
+//            {
+////                IntentUtils.JumpTo(GroupAssistantActivity.class);
+//
+//            }
+//            else {
+                //跳转群组
+                item.setNum(0);
+                realmHelper.updateNumZero(item.getFriendId());
+                msgAdapter.notifyItemChanged(position);
+//                            mRecyclerView.smoothScrollToPosition(0);
+                CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
+                cusJumpGroupChatData.setGroupId(item.getFriendId());
+                cusJumpGroupChatData.setGroupName(item.getNickName());
+                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
+//            }
+        }
+    }
+
     CusHomeRealmData item;
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)

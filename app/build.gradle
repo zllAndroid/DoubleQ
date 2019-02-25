@@ -57,7 +57,6 @@ dependencies {
         exclude group: 'org.greenrobot:eventbus:3.1.1'
     })
     implementation 'com.android.support:multidex:1.0.3'
-
     implementation 'com.android.support:support-v4:28.+'
     implementation 'com.android.support:design:28.+'
     implementation 'com.android.support:appcompat-v7:28.+'
