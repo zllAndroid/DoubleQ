@@ -45,10 +45,8 @@ import butterknife.BindView;
 
 public class LoadDataActivity extends BaseActivity {
 
-
     @BindView(R.id.electric_fan_view)
     LoadingView electricFanView;
-
 
     ACache aCache;
     RealmLinkFriendHelper realmLinkFriendHelper;
@@ -118,16 +116,12 @@ public class LoadDataActivity extends BaseActivity {
                 IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);
                 overridePendingTransition(0,0);
 //                new Handler().postDelayed(new Runnable(){
-//
 //                    public void run() {
-//
 ////                      mHandler.sendEmptyMessageDelayed(LOAD_SUCCESS, 500);
 //                        IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);
 //                        overridePendingTransition(0,0);
 //                    }
-//
 //                }, 7333);
-
             }
         }
     };
@@ -145,7 +139,6 @@ public class LoadDataActivity extends BaseActivity {
                 {
                     return;
                 }
-
                 dealFriendData(record);
 //                sendWeb(SplitWeb.getGroupManage());
                 isFriend=true;

@@ -18,6 +18,7 @@ import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
+import com.doubleq.xm6leefunz.about_custom.WrapContentLinearLayoutManager;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
@@ -50,8 +51,6 @@ public class GroupAssistantActivity extends BaseActivity {
         initData();
         initReceiver();
 //        initAdapter();
-
-//        groupAssistantMsgAdapter.set
     }
     private void initRefresh(Intent intent) {
         String message = intent.getStringExtra("message");
@@ -60,7 +59,6 @@ public class GroupAssistantActivity extends BaseActivity {
         {
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
             final   CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id );
-//            Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
             if (cusHomeRealmData.size()>0)
             {
                 mList.clear();
@@ -77,8 +75,6 @@ public class GroupAssistantActivity extends BaseActivity {
                 }
                 initAdapter();
             }
-
-
             if (mList.size()!=0)
                 for (int i=0;i<mList.size();i++)
                 {
@@ -124,7 +120,6 @@ public class GroupAssistantActivity extends BaseActivity {
         }
     }
     public BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
-
         @Override
         public void onReceive(Context context, Intent intent) {
             dealMsgBroReceiver(intent);
@@ -153,10 +148,8 @@ public class GroupAssistantActivity extends BaseActivity {
         if (mRefreshBroadcastReceiver!=null)
             unregisterReceiver(mRefreshBroadcastReceiver);
     }
-
     private void initData() {
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
-//            Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
         if (cusHomeRealmData.size()>0)
         {
             mList.clear();
@@ -176,7 +169,7 @@ public class GroupAssistantActivity extends BaseActivity {
     }
     CusHomeRealmData item;
     private void initAdapter() {
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(this));
         mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(this));
         mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -199,9 +192,7 @@ public class GroupAssistantActivity extends BaseActivity {
                     IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
             }
         });
-
     }
-
     @Override
     protected int getLayoutView() {
         return R.layout.activity_group_assistant;

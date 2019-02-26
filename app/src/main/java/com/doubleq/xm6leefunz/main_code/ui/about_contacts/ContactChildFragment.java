@@ -115,14 +115,12 @@ public class ContactChildFragment extends BaseFragment {
                         mTvFriendNews.setVisibility(View.INVISIBLE);
                     break;
                 case AppConfig.LINK_FRIEND_ADD_ACTION:
-//                    initResume();
                     initFriendWs();
                     break;
                 case AppConfig.LINK_FRIEND_DEL_ACTION:
                     initFriendWs();
                     break;
                 case AppConfig.LINK_GROUP_ADD_ACTION:
-//                    initResume();
                     initGroupWs();
                     break;
                 case AppConfig.LINK_GROUP_DEL_ACTION:
@@ -156,7 +154,6 @@ public class ContactChildFragment extends BaseFragment {
     TextView mTvFriendNews;
     // 初始化好友列表
     private void initFriendUI(View view) {
-
         letterBar = (LetterBar) view.findViewById(R.id.frag_letter_friend);
         tv_abc = (TextView) view.findViewById(R.id.tv_abc);
         inflater = LayoutInflater.from(getActivity());
@@ -185,7 +182,6 @@ public class ContactChildFragment extends BaseFragment {
                 intent.setAction("action.addFriend");
                 getActivity().sendBroadcast(intent);
                 IntentUtils.JumpTo(NoticeActivity.class);
-
             }
         });
         titleView.findViewById(R.id.link_lin_fenzu).setOnClickListener(new View.OnClickListener() {
@@ -213,14 +209,12 @@ public class ContactChildFragment extends BaseFragment {
             initNoNet();
         }
     }
-
     @Override
     public void onResume() {
         super.onResume();
         //判断是好友还是群组页面，0好友，1群组
 //        initResume();
     }
-
     private void initNoNet() {
         switch (typeWho)
         {
@@ -254,8 +248,6 @@ public class ContactChildFragment extends BaseFragment {
                 break;
         }
     }
-
-
     private void initResume() {
         switch (typeWho)
         {
@@ -311,14 +303,6 @@ public class ContactChildFragment extends BaseFragment {
         {
 //            获取好友列表
             case "getFriendList":
-//                String md5 = HelpUtils.backMD5(responseText);
-//                String  spMd5 = (String) SPUtils.get(getActivity(), AppConfig.KEY_MD5, "");
-//                if (md5.equals(spMd5)&&StrUtils.isEmpty(spMd5))
-//                {
-//
-//                }
-//                if (!StrUtils.isEmpty(md5))
-//                    SPUtils.put(getActivity(), AppConfig.KEY_MD5,md5);
                 initDataFriend(responseText,true);
                 break;
 

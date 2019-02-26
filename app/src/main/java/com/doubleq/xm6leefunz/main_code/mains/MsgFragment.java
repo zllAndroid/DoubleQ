@@ -16,6 +16,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -40,6 +41,7 @@ import com.doubleq.xm6leefunz.about_chat.ChatNewsWindow;
 import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
+import com.doubleq.xm6leefunz.about_custom.WrapContentLinearLayoutManager;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.NetUtils;
@@ -121,6 +123,7 @@ public class MsgFragment extends BaseFragment {
             intentFilter.addAction("zero.refreshMsgFragment");
             intentFilter.addAction("del.refreshMsgFragment");
             intentFilter.addAction("action.dialog");
+            intentFilter.addAction("assistant.refreshMsgFragment");
             intentFilter.addAction(GroupChatDetailsActivity.ACTION_UP_GROUP_NAME);
             intentFilter.addAction(AppConfig.LINK_GROUP_DEL_ACTION);
             getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
@@ -138,7 +141,7 @@ public class MsgFragment extends BaseFragment {
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
             if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
                 mList.clear();
-                mList.addAll(cusHomeRealmData);
+                addListMethon(cusHomeRealmData);
                 initAdapter();
             }
         }else {
@@ -195,6 +198,10 @@ public class MsgFragment extends BaseFragment {
         {
             initRefresh(intent);
         }
+        if (action.equals("assistant.refreshMsgFragment"))
+        {
+            initAssistant(intent);
+        }
         else if (action.equals("zero.refreshMsgFragment"))
         {
             initZeroNum(intent);
@@ -221,22 +228,50 @@ public class MsgFragment extends BaseFragment {
         sendBroadcast();
     }
 
+    private void initAssistant(Intent intent) {
+//        String message = intent.getStringExtra("message");
+        String num = intent.getStringExtra("num");
+        CusHomeRealmData cusHomeRealmData1 = new CusHomeRealmData();
+        cusHomeRealmData1.setGroupNumMsg(num);
+
+        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
+        for (int i=0;i<cusHomeRealmData.size();i++)
+        {
+//            String totalId = realmData.get(i).getTotalId();//群助手id
+            String assistantType = cusHomeRealmData.get(i).getAssistantType();
+            String mTy = cusHomeRealmData.get(i).getType();
+            if (mTy != null && assistantType != null&&mTy.equals("2") && assistantType.equals("2")) {
+            }else {
+                mList.add(cusHomeRealmData.get(i));
+            }
+            if (mList.size()>0)
+            {
+                for (int j=0;j<mList.size();j++)
+                {
+                    String totalId = cusHomeRealmData.get(i).getTotalId();
+                    if (totalId.equals(AppConfig.GroupAssistant))
+                    {
+                        mList.set(i,cusHomeRealmData1);
+                        if (msgAdapter!=null)
+                            msgAdapter.notifyItemChanged(i);
+                    }
+                }
+            }
+
+        }
+    }
+
     private void initGroupName(Intent intent) {
         String groupId = intent.getStringExtra("id");
         String groupName = intent.getStringExtra("groupName");
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(groupId);
-//        if (homeRealmData != null){
-//            Log.e("upGroupName","-------------former-------------"+homeRealmData.getNickName());
-//            homeRealmData.setNickName(groupName);
-//            Log.e("upGroupName","-----------later---------------"+homeRealmData.getNickName());
-//        }
         Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
         if ( mList.size()==0&&cusHomeRealmData.size()!=0)
         {
             mList.clear();
-            mList.addAll(cusHomeRealmData);
-            initAdapter();
+            addListMethon(cusHomeRealmData);
+            twoAdapter();
         }
         if (mList.size()!=0)
             for (int i=0;i<mList.size();i++)
@@ -246,7 +281,7 @@ public class MsgFragment extends BaseFragment {
                     if (homeRealmData!=null) {
                         mList.set(i, homeRealmData);
                         if (msgAdapter!=null)
-                        msgAdapter.notifyItemChanged(i);
+                            msgAdapter.notifyItemChanged(i);
                     }
 //                    if (i==0)
 //                    {
@@ -278,8 +313,8 @@ public class MsgFragment extends BaseFragment {
         Log.e("home","initDel="+cusHomeRealmData.size());
         try {
             mList.clear();
-            mList.addAll(cusHomeRealmData);
-            initAdapter();
+            addListMethon(cusHomeRealmData);
+            twoAdapter();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -290,8 +325,8 @@ public class MsgFragment extends BaseFragment {
         if (cusHomeRealmData.size()!=0)
         {
             mList.clear();
-            mList.addAll(cusHomeRealmData);
-            initAdapter();
+            addListMethon(cusHomeRealmData);
+            twoAdapter();
         }
     }
     int num=-1;
@@ -324,14 +359,14 @@ public class MsgFragment extends BaseFragment {
             mList.clear();
             Log.e("MyApplication", "Refresh=" + cusHomeRealmData.size());
             if (mList.size() == 0 && cusHomeRealmData.size() != 0) {
-                mList.addAll(cusHomeRealmData);
-                initAdapter();
+                addListMethon(cusHomeRealmData);
+//                mList.addAll(cusHomeRealmData);
+                twoAdapter();
 //                msgAdapter.notifyDataSetChanged();
             }
 //            initRefreshZero(intent);
         }
     }
-
     private void initRefresh(Intent intent) {
         String message = intent.getStringExtra("message");
         String id = intent.getStringExtra("id");
@@ -339,12 +374,12 @@ public class MsgFragment extends BaseFragment {
         {
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
             CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id );
-//            Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
             if ( mList.size()==0&&cusHomeRealmData.size()!=0)
             {
                 mList.clear();
-                mList.addAll(cusHomeRealmData);
-                initAdapter();
+                addListMethon(cusHomeRealmData);
+//                mList.addAll(cusHomeRealmData);
+                twoAdapter();
 //                msgAdapter.notifyDataSetChanged();
             }
 //            if (mList.contains(id+SplitWeb.USER_ID+""))
@@ -357,7 +392,7 @@ public class MsgFragment extends BaseFragment {
                         if (mTy.equals("2") && assistantType.equals("2")) {
                             mList.remove(i);
                             if (msgAdapter!=null)
-                            msgAdapter.notifyItemChanged(i);
+                                msgAdapter.notifyItemChanged(i);
                             return;
                         }
                     if (mList.get(i).getTotalId().equals(id+SplitWeb.getUserId()+""))
@@ -390,29 +425,69 @@ public class MsgFragment extends BaseFragment {
 //            }
         }
     }
-
-
     List<CusHomeRealmData> mList =new ArrayList<>();
-
     MsgAdapter msgAdapter =null;
     public  static  boolean isZero=false;
-    private void initAdapter() {
-        for (int i=0;i<mList.size();i++)
-        {
-            String totalId = mList.get(i).getTotalId();
-            if (!totalId.equals(AppConfig.GroupAssistant)) {
-                String assistantType = mList.get(i).getAssistantType();
-                String mTy = mList.get(i).getType();
-
-                if (mTy != null && assistantType != null)
-                    if (mTy.equals("2") && assistantType.equals("2")) {
-                        mList.remove(i);
-                        if (msgAdapter!=null)
-                        msgAdapter.notifyItemChanged(i);
+    public  static  boolean mIsRefreshing=false;
+    public  void addListMethon(List<CusHomeRealmData> realmData)
+    {
+        mRecyclerView.setOnTouchListener(
+                new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        if (mIsRefreshing) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     }
+                }
+        );
+        if (realmData.size()==0)
+        {
+            return;
+        }
+        for (int i=0;i<realmData.size();i++)
+        {
+//            String totalId = realmData.get(i).getTotalId();//群助手id
+            String assistantType = realmData.get(i).getAssistantType();
+            String mTy = realmData.get(i).getType();
+            if (mTy != null && assistantType != null&&mTy.equals("2") && assistantType.equals("2")) {
+            }else {
+                mList.add(realmData.get(i));
             }
         }
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mIsRefreshing=true;
+    }
+    private void twoAdapter() {
+        if (msgAdapter==null) {
+            msgAdapter = new MsgAdapter(getActivity(), mList, mItemTouchListener);
+            mRecyclerView.setAdapter(msgAdapter);
+        }
+        if(msgAdapter!=null)
+        {
+            msgAdapter.notifyDataSetChanged();
+            mRecyclerView.smoothScrollToPosition(0);
+            sendBroadcast();
+        }
+    }
+    private void initAdapter() {
+//        for (int i=0;i<mList.size();i++)
+//        {
+//            String totalId = mList.get(i).getTotalId();
+//            if (!totalId.equals(AppConfig.GroupAssistant)) {
+//                String assistantType = mList.get(i).getAssistantType();
+//                String mTy = mList.get(i).getType();
+//
+//                if (mTy != null && assistantType != null)
+//                    if (mTy.equals("2") && assistantType.equals("2")) {
+//                        mList.remove(i);
+//                        if (msgAdapter!=null)
+//                            msgAdapter.notifyItemChanged(i);
+//                    }
+//            }
+//        }
+        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getActivity()));
         mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(getActivity()));
         mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
@@ -431,12 +506,13 @@ public class MsgFragment extends BaseFragment {
                     case R.id.item_msg_re:
                         if (item.getTotalId().equals(AppConfig.GroupAssistant))
                         {
+                            // 跳转群助手
                             IntentUtils.JumpTo(GroupAssistantActivity.class);
                         }else {
                             clickItem(position);
                         }
                         break;
-//                        点击编辑，弹出聊天窗口
+                    //点击编辑，弹出聊天窗口
                     case R.id.item_tv_click_ok:
                         type = item.getType();
                         FragmentManager childFragmentManager = getChildFragmentManager();
@@ -453,7 +529,6 @@ public class MsgFragment extends BaseFragment {
 
     private void clickItem(int position) {
         int num = item.getNum();
-        Log.e("item","getNum"+num);
         if (num>0)
         {
             item.setNum(0);
@@ -468,7 +543,7 @@ public class MsgFragment extends BaseFragment {
             item.setNum(0);
             realmHelper.updateNumZero(item.getFriendId());
             if (msgAdapter!=null)
-            msgAdapter.notifyItemChanged(position);
+                msgAdapter.notifyItemChanged(position);
 //                            mRecyclerView.smoothScrollToPosition(0);
             // 好友
             CusJumpChatData cusJumpChatData = new CusJumpChatData();
@@ -478,26 +553,17 @@ public class MsgFragment extends BaseFragment {
             IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 
         }else {
-//                            跳转群助手
-//            if (item.getAssistantType()!=null&&item.getAssistantType().equals("2"))
-//            {
-////                IntentUtils.JumpTo(GroupAssistantActivity.class);
-//
-//            }
-//            else {
-                //跳转群组
-                item.setNum(0);
-                realmHelper.updateNumZero(item.getFriendId());
-                msgAdapter.notifyItemChanged(position);
+            //跳转群组
+            item.setNum(0);
+            realmHelper.updateNumZero(item.getFriendId());
+            msgAdapter.notifyItemChanged(position);
 //                            mRecyclerView.smoothScrollToPosition(0);
-                CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
-                cusJumpGroupChatData.setGroupId(item.getFriendId());
-                cusJumpGroupChatData.setGroupName(item.getNickName());
-                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
-//            }
+            CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
+            cusJumpGroupChatData.setGroupId(item.getFriendId());
+            cusJumpGroupChatData.setGroupName(item.getNickName());
+            IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
         }
     }
-
     CusHomeRealmData item;
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)

@@ -35,29 +35,24 @@ import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyGroupOfList;
 import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
-import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
-import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.MathUtils;
 import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
-import com.doubleq.xm6leefunz.about_utils.about_realm.Migration;
 import com.doubleq.xm6leefunz.about_utils.about_realm.RealmHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.main_code.about_login.LoginActivity;
 import com.doubleq.xm6leefunz.main_code.mains.MsgFragment;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
-import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
@@ -77,13 +72,11 @@ import java.util.concurrent.ExecutionException;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
-import io.realm.rx.RealmObservableFactory;
 
 public class MyApplication extends Application implements IWebSocketPage {
     private static MyApplication mInstance;
     public static Context mContext;
     public static String isChatWindow = "00";
-
     /**
      * 屏幕宽度
      */
@@ -122,7 +115,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         }
 //        initOneService();
         initRealm();
-
     }
     IntentFilter intentFilter;
     private void initServerBro() {
@@ -169,7 +161,7 @@ public class MyApplication extends Application implements IWebSocketPage {
     private void initFirstService() {
         String asString = aCache.getAsString(AppConfig.TYPE_URL);
         WebSocketSetting.setConnectUrl(asString);//必选
-//        Log.e("TYPE_URL=", asString + "---------------initManagerService------------");
+        Log.e("TYPE_URL=", asString + "---------------initFirstService------------");
 //        WebSocketSetting.setConnectUrl("ws://120.78.92.225:9093");//必选
         AppResponseDispatcher appResponseDispatcher = new AppResponseDispatcher();
         WebSocketSetting.setResponseProcessDelivery(appResponseDispatcher);
@@ -200,21 +192,20 @@ public class MyApplication extends Application implements IWebSocketPage {
         mConnectManager = new WebSocketServiceConnectManager(this, this);
         mConnectManager.onCreate();
     }
-    private void initOneService() {
-        //配置 WebSocket，必须在 WebSocket 服务启动前设置
-        WebSocketSetting.setConnectUrl(SplitWeb.WebSocket_URL);//必选
-//        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
-//        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
-        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
-        WebSocketSetting.setReconnectWithNetworkChanged(true);
-
-        //启动 WebSocket 服务
-        Intent intent = new Intent(this, WebSocketService.class);
-        startService(intent);
-        mConnectManager = new WebSocketServiceConnectManager(this, this);
-        mConnectManager.onCreate();
-
-    }
+//    private void initOneService() {
+//        //配置 WebSocket，必须在 WebSocket 服务启动前设置
+//        WebSocketSetting.setConnectUrl(SplitWeb.WebSocket_URL);//必选
+////        Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
+////        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
+//        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
+//        WebSocketSetting.setReconnectWithNetworkChanged(true);
+//
+//        //启动 WebSocket 服务
+//        Intent intent = new Intent(this, WebSocketService.class);
+//        startService(intent);
+//        mConnectManager = new WebSocketServiceConnectManager(this, this);
+//        mConnectManager.onCreate();
+//    }
     /**
      * 配置初始化realm数据库
      */
@@ -263,7 +254,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         screenHeight = curMetrics.heightPixels;
         screenDensity = curMetrics.density;
     }
-
     @Override
     public void onServiceBindSuccess() {
     }
@@ -447,8 +437,6 @@ public class MyApplication extends Application implements IWebSocketPage {
             }
         }
     }
-
-
     private void dealOffLineGroupChat(String responseText) {
         DataOffLineGroupChat dataOffLineGroupChat = JSON.parseObject(responseText, DataOffLineGroupChat.class);
         DataOffLineGroupChat.RecordBean record = dataOffLineGroupChat.getRecord();
@@ -672,7 +660,6 @@ public class MyApplication extends Application implements IWebSocketPage {
                 }
             }).start();
         }
-
     }
     private void CGS(String responseText) {
         DataCreatGroupResult dataCreatGroupResult = JSON.parseObject(responseText, DataCreatGroupResult.class);
@@ -724,7 +711,6 @@ public class MyApplication extends Application implements IWebSocketPage {
             Mytime = "";
             AppConfig.mCHAT_RECEIVE_TIME_REALM_GROUP = "";
         }
-        //SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM_GROUP, (String)record.getRequestTime());
 
         CusGroupChatData groupChatData = new CusGroupChatData();
         groupChatData.setCreated(Mytime);
@@ -773,34 +759,9 @@ public class MyApplication extends Application implements IWebSocketPage {
             realmHelper.addRealmMsgQun(cusJumpChatData);
         }
         String assistantType1 = record.getAssistantType();
-        if (assistantType1!=null&&record.getAssistantType().equals("2"))
+        if (assistantType1!=null&&assistantType1.equals("2"))
         {
-            List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
-            if (cusHomeRealmData.size()>0)
-            {
-                int howNum=0;
-                for (int i=0;i<cusHomeRealmData.size();i++)
-                {
-                    int num = cusHomeRealmData.get(i).getNum();
-                    String type= cusHomeRealmData.get(i).getType();
-                    String assistantType = cusHomeRealmData.get(i).getAssistantType();
-                    if (type!=null&&assistantType!=null)
-                        if (num>0&&type.equals("2")&&assistantType.equals("2"))
-                        {
-                            howNum++;
-                        }
-                }
-                if (howNum>0)
-                {
-                    realmHelper.updateGroupAssNum( howNum+"");//更新首页聊天界面数据（群助手）
-                    Intent intent = new Intent();
-//                    intent.putExtra("message",msg);
-//                    intent.putExtra("id", id);
-                    intent.setAction("zll.refreshMsgFragment");
-                    sendBroadcast(intent);
-                }
-
-            }
+            initAss();
         }else {
             if (!SplitWeb.IS_CHAT_GROUP.equals("2")) {
 //            不在聊天界面收到消息时候的处理
@@ -808,7 +769,34 @@ public class MyApplication extends Application implements IWebSocketPage {
             }
             noChatUI(record.getMessage(), record.getGroupId());
         }
+    }
 
+    private void initAss() {
+        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
+        if (cusHomeRealmData.size()>0)
+        {
+            int howNum=0;
+            for (int i=0;i<cusHomeRealmData.size();i++)
+            {
+                int num = cusHomeRealmData.get(i).getNum();
+                String type= cusHomeRealmData.get(i).getType();
+                String assistantType = cusHomeRealmData.get(i).getAssistantType();
+                if (type!=null&&assistantType!=null)
+                    if (num>0&&type.equals("2")&&assistantType.equals("2"))
+                    {
+                        howNum++;
+                    }
+            }
+            if (howNum>0)
+            {
+                realmHelper.updateGroupAssNum( howNum+"");//更新首页聊天界面数据（群助手）
+                Intent intent = new Intent();
+//                    intent.putExtra("message",msg);
+                    intent.putExtra("num", howNum);
+                intent.setAction("assistant.refreshMsgFragment");
+                sendBroadcast(intent);
+            }
+        }
     }
 
     private void dealGroupSend(String message) {
@@ -1052,7 +1040,6 @@ public class MyApplication extends Application implements IWebSocketPage {
                     }
                 }
             }).start();
-
     }
     Bitmap bitmap;
     private void noChatUI(String msg,String id) {
@@ -1087,8 +1074,6 @@ public class MyApplication extends Application implements IWebSocketPage {
                     if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
                         msg = record.getMemberName() + "：" + record.getMessage();
                     }
-
-
                     bitmap = Glide.with(MyApplication.getAppContext())
                             .load(record.getGroupHeadImg())
                             .asBitmap() //必须
@@ -1174,20 +1159,9 @@ public class MyApplication extends Application implements IWebSocketPage {
 
         WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
         Log.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------initjiqun------");
-//        WebSocketSetting.setConnectUrl("ws://120.78.92.225:9093");//必选
-//        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
-//        WebSocketSetting.setReconnectWithNetworkChanged(true);
-//
-//        //启动 WebSocket 服务
-//        Intent intent = new Intent(this, WebSocketService.class);
-//        startService(intent);
-//        mConnectManager = new WebSocketServiceConnectManager(this, this);
-//        mConnectManager.onCreate();
-//        sendText(SplitWeb.bindUid());
         Intent intent2 = new Intent();
         intent2.setAction("start_application");
         sendBroadcast(intent2);
-//        ToastUtil.show("重新配置完成");
     }
     private void initSetData(DataLogin.RecordBean dataLogin) {
 
@@ -1202,17 +1176,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         startService(intent);
         mConnectManager = new WebSocketServiceConnectManager(this, this);
         mConnectManager.onCreate();
-//        ToastUtil.show("一秒后重启应用");
-//        WebSocketSetting.setConnectUrl(serverIpWs);//必选
-//        Intent intent8 = getBaseContext().getPackageManager()
-//                .getLaunchIntentForPackage(getBaseContext().getPackageName());
-//        PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent8, PendingIntent.FLAG_ONE_SHOT);
-//        AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, restartIntent); // 1秒钟后重启应用
-//        System.exit(0);
-//        Intent intent = new Intent();
-//        intent.setAction("server_application");
-//        sendBroadcast(intent);
     }
     /**
      * 判断服务是否处于运行状态.

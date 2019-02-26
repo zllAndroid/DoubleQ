@@ -39,11 +39,6 @@ public class MainActivity extends BaseActivity {
 
     FragmentTabHost mTabHost;
     TabWidget tabs;
-    //    View ac_main;
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
     @Override
     protected int getLayoutView() {
         return R.layout.activity_main;

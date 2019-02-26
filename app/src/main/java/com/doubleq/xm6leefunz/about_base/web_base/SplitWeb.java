@@ -78,7 +78,7 @@ public class SplitWeb {
         return PERSON_SIGN;
     }
     public static String getUserToken() {
-        if(StrUtils.isEmpty(USER_TOKEN))
+//        if(StrUtils.isEmpty(USER_TOKEN))
             USER_TOKEN= (String )SPUtils.get(HelpUtils.activity,AppAllKey.USER_Token,"");
         return USER_TOKEN;
     }
@@ -111,9 +111,9 @@ public class SplitWeb {
 //    public static String WebSocket_URL = "ws://192.168.4.133:5053";
 //    public static String URL = "http://192.168.4.133:5052/LoginController/";
 
-    public static String WebSocket_URL = "ws://192.168.4.55:9093";
 //    public static String WebSocket_URL = "ws://192.168.4.55:9093";
-    public static String URL = "http://192.168.4.55:9092/LoginController/";
+//    public static String WebSocket_URL = "ws://192.168.4.55:9093";
+//    public static String URL = "http://192.168.4.55:9092/LoginController/";
 //192.168.4.48
 
 //    public static String WebSocket_URL = "ws://192.168.4.55:9093";
