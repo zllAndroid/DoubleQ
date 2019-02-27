@@ -124,22 +124,22 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
                 Log.e("popupwindow","------------------------------right="+right);
                 if (motionEvent.getAction() == MotionEvent.ACTION_UP){
                     if (absInt(y) < top){
-                        onClickBacListener.Clicked();
+                        onClickBacListener.Clicked("");
                         dismiss();
 //                        onClickBacListener.Clicked(isClicked);
                     }
                     if (absInt(y) > bottom){
-                        onClickBacListener.Clicked();
+                        onClickBacListener.Clicked("");
                         dismiss();
 //                        onClickBacListener.Clicked(isClicked);
                     }
                     if (absInt(x) < left){
-                        onClickBacListener.Clicked();
+                        onClickBacListener.Clicked("");
                         dismiss();
 //                        onClickBacListener.Clicked(isClicked);
                     }
                     if (absInt(x) > right){
-                        onClickBacListener.Clicked();
+                        onClickBacListener.Clicked("");
                         dismiss();
 //                        onClickBacListener.Clicked(isClicked);
                     }
@@ -248,19 +248,19 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
             case R.id.cp_tv_data:
                 if (!StrUtils.isEmpty(friendId)) {
                     IntentUtils.JumpToHaveOne(FriendDataMixActivity.class, "id", friendId);
-                    onClickBacListener.Clicked();
+                    onClickBacListener.Clicked("");
                     dismiss();
                 } else if (!StrUtils.isEmpty(groupId)) {
                     IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
-                    onClickBacListener.Clicked();
+                    onClickBacListener.Clicked("");
                     dismiss();
                 }
                 break;
             case R.id.cp_lin_group:
                 if (!StrUtils.isEmpty(friendId)) {
-
-                    IntentUtils.JumpToHaveOne(ChooseGroupActivity.class, "FriendId", friendId);
-                    onClickBacListener.Clicked();
+//                    给聊天界面回调处理
+//                    IntentUtils.JumpToHaveOne(ChooseGroupActivity.class, "FriendId", friendId);
+                    onClickBacListener.Clicked("1");
                     dismiss();
                 }else {
                     switchButton.setChecked(!switchButton.isChecked());
@@ -269,11 +269,11 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
             case R.id.cp_lin_remark:
                 if (!StrUtils.isEmpty(friendId)) {
                     doChangeName();
-                    onClickBacListener.Clicked();
+                    onClickBacListener.Clicked("");
                     dismiss();
                 }else {
                     doChangeCardName();
-                    onClickBacListener.Clicked();
+                    onClickBacListener.Clicked("");
                     dismiss();
                 }
                 break;
@@ -352,7 +352,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     //点击外围弹窗消失接口
     OnClickOutSideListener onClickBacListener = null;
     public interface OnClickOutSideListener {
-        void Clicked();
+        void Clicked(String type);
     }
     public void setOnClickOutSideListener(OnClickOutSideListener onClickBacListener) {
         this.onClickBacListener = onClickBacListener;

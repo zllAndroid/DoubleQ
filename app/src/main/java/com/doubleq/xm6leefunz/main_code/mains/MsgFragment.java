@@ -240,23 +240,29 @@ public class MsgFragment extends BaseFragment {
 //            String totalId = realmData.get(i).getTotalId();//群助手id
             String assistantType = cusHomeRealmData.get(i).getAssistantType();
             String mTy = cusHomeRealmData.get(i).getType();
+
             if (mTy != null && assistantType != null&&mTy.equals("2") && assistantType.equals("2")) {
+
+
             }else {
-                mList.add(cusHomeRealmData.get(i));
+//                mList.add(cusHomeRealmData.get(i));
+                mList.set(i,cusHomeRealmData1);
+                if (msgAdapter!=null)
+                    msgAdapter.notifyItemChanged(i);
             }
-            if (mList.size()>0)
-            {
-                for (int j=0;j<mList.size();j++)
-                {
-                    String totalId = cusHomeRealmData.get(i).getTotalId();
-                    if (totalId.equals(AppConfig.GroupAssistant))
-                    {
-                        mList.set(i,cusHomeRealmData1);
-                        if (msgAdapter!=null)
-                            msgAdapter.notifyItemChanged(i);
-                    }
-                }
-            }
+//            if (mList.size()>0)
+//            {
+//                for (int j=0;j<mList.size();j++)
+//                {
+//                    String totalId = cusHomeRealmData.get(j).getTotalId();
+//                    if (totalId.equals(AppConfig.GroupAssistant))
+//                    {
+//                        mList.set(j,cusHomeRealmData1);
+//                        if (msgAdapter!=null)
+//                            msgAdapter.notifyItemChanged(j);
+//                    }
+//                }
+//            }
 
         }
     }

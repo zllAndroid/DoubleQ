@@ -58,7 +58,7 @@ public class ChooseGroupActivity extends BaseActivity {
     public  static  String CHOOSE_GROUP_KEY = "choosegroup";
     public  static  String CHOOSE_NAME = "groupname";
     public  static  String CHOOSE_ID= "groupid";
-//    @Override
+    //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //    }
@@ -101,7 +101,7 @@ public class ChooseGroupActivity extends BaseActivity {
                 }
                 break;
             case "friendGroupModify":
-                dealItemClick(item);
+                    dealItemClick(item);
                 break;
         }
     }
@@ -159,18 +159,45 @@ public class ChooseGroupActivity extends BaseActivity {
         }
 
     }
+//    private void dealItemTypeClick(DataFriendGroup.RecordBean.GroupInfoBean item) {
+//
+//        if (item.getFriendGroup().equals("2"))
+//        {
+//            ToastUtil.show("好友已经在该分组");
+//            return;
+//        }
+//        if (item.getId().equals("0"))
+//        {
+//            modifyGroupListener.groupingName("暂未选择分组");
+////            Intent intent = new Intent();
+////            // 获取用户计算后的结果
+////            intent.putExtra(CHOOSE_NAME, "暂未选择分组");
+////            intent.putExtra(CHOOSE_ID, item.getId());
+////            setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
+//            AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
+//        }else {
+//            modifyGroupListener.groupingName( item.getGroupName());
+////            Intent intent = new Intent();
+////            // 获取用户计算后的结果
+////            intent.putExtra(CHOOSE_NAME, item.getGroupName());
+////            intent.putExtra(CHOOSE_ID, item.getId());
+////            setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
+//            AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
+//        }
+//
+//    }
 
     @Override
     protected int getLayoutView() {
         return R.layout.activity_choose_group;
     }
 
-//    //修改好友分组事件回调接口
-//    OnModifyGroupListener modifyGroupListener = null;
-//    public interface OnModifyGroupListener {
-//        void groupingName(String groupingName);
-//    }
-//    public void setOnModifyGroupListener(OnModifyGroupListener modifyGroupListener) {
-//        this.modifyGroupListener = modifyGroupListener;
-//    }
+    //修改好友分组事件回调接口
+    OnModifyGroupListener modifyGroupListener = null;
+    public interface OnModifyGroupListener {
+        void groupingName(String groupingName);
+    }
+    public void setOnModifyGroupListener(OnModifyGroupListener modifyGroupListener) {
+        this.modifyGroupListener = modifyGroupListener;
+    }
 }

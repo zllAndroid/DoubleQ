@@ -274,15 +274,35 @@ public class ChatActivity extends BaseActivity {
                 chatPopWindow.showAtBottom(includeTopLinTitle);
                 chatPopWindow.setOnClickOutSideListener(new ChatPopWindow.OnClickOutSideListener() {
                     @Override
-                    public void Clicked() {
+                    public void Clicked(String type) {
                         includeTopIvDrop.setActivated(false);
+                        if (type!=null&&type.equals("1"))
+                        {
+                            Intent intent = new Intent(ChatActivity.this, ChooseGroupActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putString("FriendId", FriendId);
+                            intent.putExtras(bundle);
+                            startActivityForResult(intent, AppConfig.FRIEND_DATA_Chat_REQUEST);
+                        }
                     }
                 });
 
                 break;
         }
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == AppConfig.FRIEND_ADD_GROUP_RESULT) {
+            if (requestCode == AppConfig.FRIEND_DATA_Chat_REQUEST) {
+                chatPopWindow=null;
+                String name = data.getStringExtra(ChooseGroupActivity.CHOOSE_NAME);
+//                String id = data.getStringExtra(ChooseGroupActivity.CHOOSE_ID);
+                groupName=name;
+                //设置结果显示框的显示数值
+            }
+        }
+    }
     private void titleClick(View view) {
 
 

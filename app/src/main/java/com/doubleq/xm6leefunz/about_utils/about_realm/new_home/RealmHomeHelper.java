@@ -166,6 +166,7 @@ public class RealmHomeHelper {
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             realmMsg.setUserid(SplitWeb.getUserId());
+            realmMsg.setTotalId(AppConfig.GroupAssistant);
             realmMsg.setGroupNumMsg(num);
             mRealm.insertOrUpdate(realmMsg);
             mRealm.commitTransaction();

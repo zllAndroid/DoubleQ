@@ -88,7 +88,8 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
 //        String assistantType = item.getAssistantType();
 
 //        群助手
-        if (item.getTotalId().equals(AppConfig.GroupAssistant)) {
+        if (item.getAssistantType()!=null&&item.getAssistantType().equals("2")) {
+//        if (item.getTotalId().equals(AppConfig.GroupAssistant)) {
 
 //            TextView mTvNum = helper.getView(R.id.item_tv_num);
             mTvNum.setBackgroundResource(R.drawable.news_disturb);

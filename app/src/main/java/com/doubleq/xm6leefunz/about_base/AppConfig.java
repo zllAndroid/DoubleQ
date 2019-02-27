@@ -110,6 +110,7 @@ public static final String KEY_MD5= "md5";//"md5";
     public static final int FRIEND_ADD_GROUP_REQUEST= 0x0;//AddGoodFriendActivity  页面的请求码
 
     public static final int FRIEND_DATA_GROUP_REQUEST=0x1;//FriendDataActivity 页面的请求码
+    public static final int FRIEND_DATA_Chat_REQUEST=0x5;//FriendDataActivity 页面的请求码
 
     public static final int FRIEND_ADD_GROUP_RESULT=0x3;//AddGoodFriendActivity
     public static final int FRIEND_DATA_GROUP_RESULT=0x4;//返回给FriendDataActivity
