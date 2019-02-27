@@ -306,9 +306,9 @@ public class PersonalFragment extends BaseFragment  {
 //                Log.e("userPhone","-------------personal-----------------"+userPhone);
                 IntentUtils.JumpToHaveOne(MineSetActivity.class,"phone",userPhone);
                 break;
-//            case R.id.mine_lin_test:
-//                IntentUtils.JumpTo(TestActivity.class);
-//                break;
+            case R.id.mine_lin_test:
+                IntentUtils.JumpTo(TestActivity.class);
+                break;
         }
     }
 }

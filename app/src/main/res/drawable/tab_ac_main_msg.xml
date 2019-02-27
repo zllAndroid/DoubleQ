@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android" >
-
+    <!-- 触摸模式下单击时的背景图片-->
+    <!--<item android:drawable="@drawable/tab_message_sel" android:state_activated="true" />-->
+    <!--<item android:drawable="@drawable/tab_message_nor" android:state_activated="false"  />-->
+    <!--<item android:drawable="@drawable/tab_message_sel" />-->
+    <!--<item android:drawable="@drawable/tab_message_sel" android:state_pressed="true"></item>-->
+    <!--<item android:drawable="@drawable/tab_message_nor" android:state_pressed="false"></item>   &lt;!&ndash; 非触摸模式下获得焦点并单击时的背景图片 &ndash;&gt;-->
     <item android:state_selected="true"
         android:drawable="@drawable/tab_message_sel"> </item>
 

@@ -188,7 +188,8 @@ public class ChatActivity extends BaseActivity {
     DataChatPop dataChatPop;
     String remarkName;
     String groupName;
-    boolean isDrop = false;
+    boolean isDrop = true;
+
 
     @Override
     protected void initBaseView() {
@@ -214,78 +215,10 @@ public class ChatActivity extends BaseActivity {
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
-        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
         sendWeb(SplitWeb.privateSendInterface(FriendId));
 
-//        chatPopWindow = new ChatPopWindow(ChatActivity.this, FriendId, "", cusJumpChatData.getFriendName(), "", chatLinMainWhole);
-//        chatPopWindow.setOnReRemarkListener(new ChatPopWindow.OnReRemarkListener() {
-//            @Override
-//            public void reRemark(String remarkName) {
-//                if (remarkName != null)
-//                    sendWeb(SplitWeb.friendRemarkName(FriendId,remarkName));
-//            }
-//        });
 
-//        chatPopWindow.setOnClickBacListener(new ChatPopWindow.OnClickBacListener() {
-//            @Override
-//            public void Clicked(boolean clicked) {
-//                if (clicked){
-//                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-////                    if (chatPopWindow != null) {
-////                        chatPopWindow.dismiss();
-////                    }
-//                }
-//            }
-//        });
-
-        final LayoutInflater inflater = LayoutInflater.from(this);
-        View view = inflater.inflate(R.layout.activity_chat, null);
-        view.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                LinearLayout chatPopwindow = view.findViewById(R.id.cp_lin_window);
-                int top = chatPopwindow.getTop();
-                int bottom = chatPopwindow.getBottom();
-                int left = chatPopwindow.getLeft();
-                int right = chatPopwindow.getRight();
-//                触摸的坐标 x,y
-                int x = (int) motionEvent.getX();
-                int y = (int) motionEvent.getY();
-                Log.e("popupwindow666","------------------------------x="+x);
-                Log.e("popupwindow666","------------------------------y="+y);
-                Log.e("popupwindow666","------------------------------top="+top);
-                Log.e("popupwindow666","------------------------------bottom="+bottom);
-                Log.e("popupwindow666","------------------------------left="+left);
-                Log.e("popupwindow666","------------------------------right="+right);
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    if (y < top){
-                        chatPopWindow.dismiss();
-                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-                        Log.e("popupwindow666","-----------y < top-------------------y="+y);
-                        Log.e("popupwindow666","-----------y < top------------------top="+top);
-                    }
-                    if (y > bottom){
-                        chatPopWindow.dismiss();
-                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-                        Log.e("popupwindow666","-----------y > bottom-------------------y="+y);
-                        Log.e("popupwindow666","-----------y > bottom-------------------bottom="+bottom);
-                    }
-                    if (x < left){
-                        chatPopWindow.dismiss();
-                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-                        Log.e("popupwindow666","------------x < left-------------------x="+x);
-                        Log.e("popupwindow666","------------x < left------------------left="+left);
-                    }
-                    if (x > right){
-                        chatPopWindow.dismiss();
-                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-                        Log.e("popupwindow666","------------x > right--------------------x="+x);
-                        Log.e("popupwindow666","------------x > right--------------------right="+right);
-                    }
-                }
-                return true;
-            }
-        });
         initWidget();
 //        初始化数据库的聊天记录
         initRealm();
@@ -321,8 +254,7 @@ public class ChatActivity extends BaseActivity {
             }
         });
     }
-
-    @OnClick({R.id.include_top_iv_more, R.id.chat_lin_main_bg, R.id.include_top_lin_title})
+    @OnClick({R.id.include_top_iv_more, R.id.chat_lin_main_bg, R.id.include_top_lin_title,R.id.include_top_iv_drop})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.include_top_iv_more:
@@ -336,33 +268,24 @@ public class ChatActivity extends BaseActivity {
                 Log.e("popupwindow666","------------------chat_lin_main_bg--------------------");
                 break;
             case R.id.include_top_lin_title:
-//                Log.e("popupwindow666","------------------groupName--------------------"+groupName);
-//                Log.e("popupwindow666","------------------remarkName--------------------"+remarkName);
-                sendWeb(SplitWeb.privateSendInterface(FriendId));
-                chatPopWindow = new ChatPopWindow(ChatActivity.this, FriendId, "", groupName, remarkName, "", chatLinMainWhole);
-                titleClick(view);
-                chatPopWindow.setOnReRemarkListener(new ChatPopWindow.OnReRemarkListener() {
+                includeTopIvDrop.setActivated(true);
+                if(chatPopWindow==null)
+                    chatPopWindow = new ChatPopWindow(ChatActivity.this, FriendId, "", groupName, remarkName, "", chatLinMainWhole);
+                chatPopWindow.showAtBottom(includeTopLinTitle);
+                chatPopWindow.setOnClickOutSideListener(new ChatPopWindow.OnClickOutSideListener() {
                     @Override
-                    public void reRemark(String remarkName) {
-                        if (remarkName != null)
-                            sendWeb(SplitWeb.friendRemarkName(FriendId,remarkName));
+                    public void Clicked() {
+                        includeTopIvDrop.setActivated(false);
                     }
                 });
+
                 break;
         }
     }
 
     private void titleClick(View view) {
-        isDrop = !isDrop;
-        if (isDrop) {
-            includeTopIvDrop.setImageResource(R.drawable.spinner_down);
-            chatPopWindow.showAtBottom(view.findViewById(R.id.include_top_lin_title));
-        } else {
-            if (chatPopWindow != null) {
-                chatPopWindow.dismiss();
-                includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-            }
-        }
+
+
         Log.e("popupwindow666", "----------------------------isDrop = " + isDrop);
     }
 
@@ -383,7 +306,9 @@ public class ChatActivity extends BaseActivity {
         super.onResume();
         if (chatPopWindow != null)
             chatPopWindow.dismiss();
-        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+        includeTopIvDrop.setClickable(false);// 屏蔽主动获得点击
+        includeTopIvDrop.setPressed(false);
+        includeTopIvDrop.setEnabled(false);
     }
 
     @Override
@@ -407,7 +332,11 @@ public class ChatActivity extends BaseActivity {
         realmHelper = null;
         realmHomeHelper = null;
         if (chatPopWindow != null)
+        {
             chatPopWindow.dismiss();
+            chatPopWindow=null;
+        }
+
     }
 
     ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
@@ -546,22 +475,7 @@ public class ChatActivity extends BaseActivity {
                             mDetector.hideEmotionLayout(false);
                             mDetector.hideSoftInput();
                         }
-                        initChatPopWindow();
-//                        if (chatPopWindow != null) {
-//                            chatPopWindow.dismiss();
-//                            Log.e("chatPopWindow","-------------------11-------------------");
-//                            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//                            chatPopWindow.setOnClickBacListener(new ChatPopWindow.OnClickBacListener() {
-//                                @Override
-//                                public void Clicked(boolean clicked) {
-//                                    Log.e("chatPopWindow","-------------------22-------------------"+clicked);
-//                                    if (clicked){
-//                                        Log.e("chatPopWindow","-------------------33-------------------"+clicked);
-//                                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//                                    }
-//                                }
-//                            });
-//                        }
+//                        initChatPopWindow();
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_POINTER_UP:
@@ -580,14 +494,14 @@ public class ChatActivity extends BaseActivity {
 //        LoadData();
     }
 
-    private void initChatPopWindow() {
-        if (chatPopWindow != null) {
-            chatPopWindow.dismiss();
-            Log.e("popupwindow666","-------------------initChatPopWindow-------------------");
-            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-        }
-//        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-    }
+//    private void initChatPopWindow() {
+//        if (chatPopWindow != null) {
+//            chatPopWindow.dismiss();
+//            Log.e("popupwindow666","-------------------initChatPopWindow-------------------");
+//            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//        }
+////        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+//    }
 
     private void sofeDeal() {
         if (isSoftShowing()) {

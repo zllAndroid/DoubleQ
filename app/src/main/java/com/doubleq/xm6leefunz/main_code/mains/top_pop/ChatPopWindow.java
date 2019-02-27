@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.view.WindowManager;
@@ -32,7 +34,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     TextView cpTvRemark;
     TextView cpTvGroup;
     SwitchButton switchButton;
-    LinearLayout chatLinMainWhole, cpLinGroup;
+    LinearLayout chatLinMainWhole, cpLinGroup,mLinWindow;
 
     private Context context;
     private String friendId, groupId, groupingName, remarkName, cardName;
@@ -58,67 +60,120 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
         this.chatLinMainWhole = chatLinMainWhole;
         initialize();
     }
-
+    private LayoutInflater mInflater;
+    View view;
     private void initialize() {
-        final LayoutInflater inflater = LayoutInflater.from(context);
-        View view;
+
+        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        final LayoutInflater inflater = LayoutInflater.from(context);
 //        私聊
         if (!StrUtils.isEmpty(friendId) && groupId.equals("")){
-            view= inflater.inflate(R.layout.activity_chat_pop, null);
+            view= mInflater.inflate(R.layout.activity_chat_pop, null);
+            initBackWindow(view);
             initFriendWindow(view);
         }
 //        群聊
         else{
-            view= inflater.inflate(R.layout.activity_chat_group_pop, null);
+            view= mInflater.inflate(R.layout.activity_chat_group_pop, null);
+            initBackWindow(view);
             initGroupWindow(view);
         }
-        initWindow();
-        setContentView(view);
-//        view.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent motionEvent) {
-//                LinearLayout chatPopwindow = view.findViewById(R.id.cp_lin_window);
-//                int top = chatPopwindow.getTop();
-//                int bottom = chatPopwindow.getBottom();
-//                int left = chatPopwindow.getLeft();
-//                int right = chatPopwindow.getRight();
-//                int x = (int) motionEvent.getX();
-//                int y = (int) motionEvent.getY();
-////                Log.e("popupwindow","------------------------------x="+x);
-////                Log.e("popupwindow","------------------------------y="+y);
-////                Log.e("popupwindow","------------------------------top="+top);
-////                Log.e("popupwindow","------------------------------bottom="+bottom);
-////                Log.e("popupwindow","------------------------------left="+left);
-////                Log.e("popupwindow","------------------------------right="+right);
-//                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
-//                    if (y < top){
-//                        dismiss();
-////                        onClickBacListener.Clicked(isClicked);
-//                    }
-//                    if (y > bottom){
-//                        dismiss();
-////                        onClickBacListener.Clicked(isClicked);
-//                    }
-//                    if (x < left){
-//                        dismiss();
-////                        onClickBacListener.Clicked(isClicked);
-//                    }
-//                    if (x > right){
-//                        dismiss();
-////                        onClickBacListener.Clicked(isClicked);
-//                    }
-//                }
-//                return true;
-//            }
-//        });
+//        initWindow();
+
+
     }
 
+    private void initBackWindow(final View view) {
+        setContentView(view);
+        //设置宽与高
+        setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+        setHeight(WindowManager.LayoutParams.MATCH_PARENT);
+        /**
+         * 设置背景只有设置了这个才可以点击外边和BACK消失
+         */
+        ColorDrawable dw = new ColorDrawable(0x00000000);
+        //设置SelectPicPopupWindow弹出窗体的背景
+        this.setBackgroundDrawable(dw);
+        /**
+         * 设置可以获取集点
+         */
+        setFocusable(true);
+        /**
+         * 设置点击外边可以消失
+         */
+        setOutsideTouchable(true);
+        /**
+         *设置可以触摸
+         */
+        setTouchable(true);
+        setTouchInterceptor(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent motionEvent) {
+
+                int top = mLinWindow.getTop();
+                int bottom = mLinWindow.getBottom();
+                int left = mLinWindow.getLeft();
+                int right = mLinWindow.getRight();
+                int x = (int) motionEvent.getX();
+                int y = (int) motionEvent.getY();
+                Log.e("popupwindow","------------------------------x="+x);
+                Log.e("popupwindow","------------------------------y="+y);
+                Log.e("popupwindow","------------------------------top="+top);
+                Log.e("popupwindow","------------------------------bottom="+bottom);
+                Log.e("popupwindow","------------------------------left="+left);
+                Log.e("popupwindow","------------------------------right="+right);
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (absInt(y) < top){
+                        onClickBacListener.Clicked();
+                        dismiss();
+//                        onClickBacListener.Clicked(isClicked);
+                    }
+                    if (absInt(y) > bottom){
+                        onClickBacListener.Clicked();
+                        dismiss();
+//                        onClickBacListener.Clicked(isClicked);
+                    }
+                    if (absInt(x) < left){
+                        onClickBacListener.Clicked();
+                        dismiss();
+//                        onClickBacListener.Clicked(isClicked);
+                    }
+                    if (absInt(x) > right){
+                        onClickBacListener.Clicked();
+                        dismiss();
+//                        onClickBacListener.Clicked(isClicked);
+                    }
+                }
+                return false;
+
+
+
+//                /**
+//                 * 判断是不是点击了外部
+//                 */
+//                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
+//                    return true;
+//                }
+//                //不是点击外部
+//                return false;
+            }
+        });
+    }
+    public  int absInt(int a)
+    {
+        if (a<0)
+        {
+            a=-a;
+        }
+        return a;
+    }
     private void initFriendWindow(View view) {
         chat_data = view.findViewById(R.id.cp_tv_data);//好友资料
         chat_group = view.findViewById(R.id.cp_lin_group);//好友分组
         cpTvGroup = view.findViewById(R.id.cp_tv_group);//好友分组tv
         chat_remark = view.findViewById(R.id.cp_lin_remark);//备注
         cpTvRemark = view.findViewById(R.id.cp_tv_remark);//备注tv
+        mLinWindow = view.findViewById(R.id.cp_lin_window);//备注tv
         cpTvRemark.setText(remarkName);
         cpTvGroup.setText(groupingName);
 //        if (!StrUtils.isEmpty(remarkName)) {
@@ -153,22 +208,24 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     private void initWindow() {
         DisplayMetrics d = context.getResources().getDisplayMetrics();
 //        this.setWidth(LayoutParams.WRAP_CONTENT);
-        this.setWidth((int) (d.widthPixels * 0.5));
-        this.setHeight(LayoutParams.WRAP_CONTENT);
-        this.setFocusable(false);
-        this.setOutsideTouchable(false);
-        this.update();
-        //实例化一个ColorDrawable颜色为半透明
         ColorDrawable dw = new ColorDrawable(0x00000000);
         //设置SelectPicPopupWindow弹出窗体的背景
         this.setBackgroundDrawable(dw);
-        backgroundAlpha((Activity) context, 0.8f);//0.0-1.0
-        this.setOnDismissListener(new OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                backgroundAlpha((Activity) context, 1f);
-            }
-        });
+
+        this.setWidth((int) (d.widthPixels * 0.5));
+        this.setHeight(LayoutParams.WRAP_CONTENT);
+        this.setFocusable(true);
+        this.setOutsideTouchable(true);
+        this.update();
+//        //实例化一个ColorDrawable颜色为半透明
+
+//        backgroundAlpha((Activity) context, 0.8f);//0.0-1.0
+//        this.setOnDismissListener(new OnDismissListener() {
+//            @Override
+//            public void onDismiss() {
+//                backgroundAlpha((Activity) context, 1f);
+//            }
+//        });
     }
 
     //设置添加屏幕的背景透明度
@@ -191,9 +248,11 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
             case R.id.cp_tv_data:
                 if (!StrUtils.isEmpty(friendId)) {
                     IntentUtils.JumpToHaveOne(FriendDataMixActivity.class, "id", friendId);
+                    onClickBacListener.Clicked();
                     dismiss();
                 } else if (!StrUtils.isEmpty(groupId)) {
                     IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
+                    onClickBacListener.Clicked();
                     dismiss();
                 }
                 break;
@@ -201,6 +260,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
                 if (!StrUtils.isEmpty(friendId)) {
 
                     IntentUtils.JumpToHaveOne(ChooseGroupActivity.class, "FriendId", friendId);
+                    onClickBacListener.Clicked();
                     dismiss();
                 }else {
                     switchButton.setChecked(!switchButton.isChecked());
@@ -209,9 +269,11 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
             case R.id.cp_lin_remark:
                 if (!StrUtils.isEmpty(friendId)) {
                     doChangeName();
+                    onClickBacListener.Clicked();
                     dismiss();
                 }else {
                     doChangeCardName();
+                    onClickBacListener.Clicked();
                     dismiss();
                 }
                 break;
@@ -288,11 +350,12 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     }
 
     //点击外围弹窗消失接口
-    OnClickBacListener onClickBacListener = null;
-    public interface OnClickBacListener {
-        void Clicked(boolean clicked);
+    OnClickOutSideListener onClickBacListener = null;
+    public interface OnClickOutSideListener {
+        void Clicked();
     }
-    public void setOnClickBacListener(OnClickBacListener onClickBacListener) {
+    public void setOnClickOutSideListener(OnClickOutSideListener onClickBacListener) {
         this.onClickBacListener = onClickBacListener;
     }
+    //点击外围弹窗消失接口
 }
