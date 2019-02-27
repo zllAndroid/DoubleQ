@@ -162,6 +162,34 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/set_lin_discover"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="@dimen/dp20"
+                android:layout_height="@dimen/dp20"
+                android:layout_marginLeft="@dimen/dp10"
+                app:srcCompat="@drawable/set_discover"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="@dimen/dp10"
+                android:text="朋友圈设置" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dp10"
+                app:srcCompat="@drawable/in_right" />
+        </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/heigt_pointfive"
+            android:background="@color/grayeee" />
+
+        <LinearLayout
             android:id="@+id/set_lin_clear_cache"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.TreeMap;
 
 public class SplitWeb {
-//    是否需要首页叠加消息条数   true显示
+    //    是否需要首页叠加消息条数   true显示
     public static boolean IS_CHAT_Zero= true;
 
     public static String IS_CHAT= "00";
@@ -123,7 +123,7 @@ public class SplitWeb {
 //    public static String URL = "http://192.168.4.48:9092/LoginController/";
 //    public static String WebSocket_URL = "ws://119.23.229.66:9093";
     public static String HttpURL = "";
-//    public static String HttpURL = "192.168.4.55:9092";
+    //    public static String HttpURL = "192.168.4.55:9092";
     private static String getURL() {
         if(StrUtils.isEmpty(HttpURL))
             HttpURL= (String )SPUtils.get(HelpUtils.activity,AppConfig.TYPE_URL,"");
@@ -367,7 +367,6 @@ public class SplitWeb {
      * 拉黑列表
      * @return
      */
-
     public  static  String blackList(){
         dealMap();
         String request = WebUrl.request("PersonCenter", "blackList", map);
@@ -418,6 +417,22 @@ public class SplitWeb {
         putData("friendsId",friendsId);
         putData("groupId",groupId);
         String request = WebUrl.request("Contact", "friendGroupModify", map);
+        return  request;
+    }
+
+    //    私聊popWindow
+    public  static  String privateSendInterface(String friendId){
+        dealMap();
+        putData("friendId",friendId);
+        String request = WebUrl.request("Contact", "privateSendInterface", map);
+        return  request;
+    }
+
+    //    群聊popWindow
+    public  static  String groupSendInterface(String groupId){
+        dealMap();
+        putData("groupId",groupId);
+        String request = WebUrl.request("Contact", "groupSendInterface", map);
         return  request;
     }
 

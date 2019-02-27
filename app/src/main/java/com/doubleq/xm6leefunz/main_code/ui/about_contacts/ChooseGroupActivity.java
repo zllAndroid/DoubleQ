@@ -145,7 +145,7 @@ public class ChooseGroupActivity extends BaseActivity {
         {
             Intent intent = new Intent();
             // 获取用户计算后的结果
-            intent.putExtra(CHOOSE_NAME, "暂无");
+            intent.putExtra(CHOOSE_NAME, "暂未选择分组");
             intent.putExtra(CHOOSE_ID, item.getId());
             setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
             AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
@@ -164,4 +164,13 @@ public class ChooseGroupActivity extends BaseActivity {
     protected int getLayoutView() {
         return R.layout.activity_choose_group;
     }
+
+//    //修改好友分组事件回调接口
+//    OnModifyGroupListener modifyGroupListener = null;
+//    public interface OnModifyGroupListener {
+//        void groupingName(String groupingName);
+//    }
+//    public void setOnModifyGroupListener(OnModifyGroupListener modifyGroupListener) {
+//        this.modifyGroupListener = modifyGroupListener;
+//    }
 }

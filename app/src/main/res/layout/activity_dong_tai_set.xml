@@ -29,10 +29,10 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="帐号显示"
+                    android:text="不让ta看我的动态"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
-                    android:id="@+id/yinsi_switch_count"
+                    android:id="@+id/dongtai_switch_hideMine"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp10"
@@ -40,7 +40,7 @@
                     android:layout_gravity="center"
                     app:sb_uncheckcircle_color="@color/swi_nor"
                     app:sb_checked_color="@color/swi_select"
-                    app:sb_checked="true"/>
+                    app:sb_checked="false"/>
             </LinearLayout>
             <View
                 style="@style/style_wei_line"
@@ -71,8 +71,8 @@
                     app:sb_checked="true"/>
             </LinearLayout>
             <!--<View-->
-                <!--style="@style/style_wei_line"-->
-                <!--/>-->
+            <!--style="@style/style_wei_line"-->
+            <!--/>-->
             <View
                 android:layout_width="match_parent"
                 android:background="@color/greyf3"
@@ -89,10 +89,10 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="二维码显示"
+                    android:text="不看ta的动态"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
-                    android:id="@+id/yinsi_switch_ercode"
+                    android:id="@+id/dongtai_switch_hideHis"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp10"
@@ -100,7 +100,7 @@
                     app:sb_uncheckcircle_color="@color/swi_nor"
                     app:sb_checked_color="@color/swi_select"
                     android:layout_gravity="center"
-                    app:sb_checked="true"/>
+                    app:sb_checked="false"/>
             </LinearLayout>
 
         </LinearLayout>

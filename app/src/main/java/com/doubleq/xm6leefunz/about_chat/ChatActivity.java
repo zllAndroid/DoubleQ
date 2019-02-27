@@ -36,6 +36,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.doubleq.model.CusJumpChatData;
+import com.doubleq.model.DataChatPop;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
@@ -60,6 +61,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ChatPopWindow;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.ChooseGroupActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.example.zhouwei.library.CustomPopWindow;
@@ -183,6 +185,9 @@ public class ChatActivity extends BaseActivity {
     RealmLinkManHelper realmLink;
     CusJumpChatData cusJumpChatData;
     ChatPopWindow chatPopWindow;
+    DataChatPop dataChatPop;
+    String remarkName;
+    String groupName;
     boolean isDrop = false;
 
     @Override
@@ -210,18 +215,81 @@ public class ChatActivity extends BaseActivity {
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
         includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-        chatPopWindow = new ChatPopWindow(ChatActivity.this, FriendId, "", cusJumpChatData.getFriendName(), "", chatLinMainWhole);
-        chatPopWindow.setOnReRemarkListener(new ChatPopWindow.OnReRemarkListener() {
+        sendWeb(SplitWeb.privateSendInterface(FriendId));
+
+//        chatPopWindow = new ChatPopWindow(ChatActivity.this, FriendId, "", cusJumpChatData.getFriendName(), "", chatLinMainWhole);
+//        chatPopWindow.setOnReRemarkListener(new ChatPopWindow.OnReRemarkListener() {
+//            @Override
+//            public void reRemark(String remarkName) {
+//                if (remarkName != null)
+//                    sendWeb(SplitWeb.friendRemarkName(FriendId,remarkName));
+//            }
+//        });
+
+//        chatPopWindow.setOnClickBacListener(new ChatPopWindow.OnClickBacListener() {
+//            @Override
+//            public void Clicked(boolean clicked) {
+//                if (clicked){
+//                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+////                    if (chatPopWindow != null) {
+////                        chatPopWindow.dismiss();
+////                    }
+//                }
+//            }
+//        });
+
+        final LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.activity_chat, null);
+        view.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void reRemark(String remarkName) {
-                if (remarkName != null)
-                    sendWeb(SplitWeb.friendRemarkName(FriendId,remarkName));
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                LinearLayout chatPopwindow = view.findViewById(R.id.cp_lin_window);
+                int top = chatPopwindow.getTop();
+                int bottom = chatPopwindow.getBottom();
+                int left = chatPopwindow.getLeft();
+                int right = chatPopwindow.getRight();
+//                触摸的坐标 x,y
+                int x = (int) motionEvent.getX();
+                int y = (int) motionEvent.getY();
+                Log.e("popupwindow666","------------------------------x="+x);
+                Log.e("popupwindow666","------------------------------y="+y);
+                Log.e("popupwindow666","------------------------------top="+top);
+                Log.e("popupwindow666","------------------------------bottom="+bottom);
+                Log.e("popupwindow666","------------------------------left="+left);
+                Log.e("popupwindow666","------------------------------right="+right);
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
+                    if (y < top){
+                        chatPopWindow.dismiss();
+                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+                        Log.e("popupwindow666","-----------y < top-------------------y="+y);
+                        Log.e("popupwindow666","-----------y < top------------------top="+top);
+                    }
+                    if (y > bottom){
+                        chatPopWindow.dismiss();
+                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+                        Log.e("popupwindow666","-----------y > bottom-------------------y="+y);
+                        Log.e("popupwindow666","-----------y > bottom-------------------bottom="+bottom);
+                    }
+                    if (x < left){
+                        chatPopWindow.dismiss();
+                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+                        Log.e("popupwindow666","------------x < left-------------------x="+x);
+                        Log.e("popupwindow666","------------x < left------------------left="+left);
+                    }
+                    if (x > right){
+                        chatPopWindow.dismiss();
+                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+                        Log.e("popupwindow666","------------x > right--------------------x="+x);
+                        Log.e("popupwindow666","------------x > right--------------------right="+right);
+                    }
+                }
+                return true;
             }
         });
         initWidget();
 //        初始化数据库的聊天记录
         initRealm();
-//            通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
+//        通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
         realmHomeHelper.updateNumZero(FriendId);
 //        Intent intent2 = new Intent();
 //        intent2.putExtra("message", FriendId);
@@ -230,6 +298,12 @@ public class ChatActivity extends BaseActivity {
 //        sendBroadcast(intent2);
         listenEnter();
     }
+
+    @Override
+    protected int getLayoutView() {
+        return R.layout.activity_chat;
+    }
+
     private void listenEnter() {
         editText.setSingleLine();
         editText.setImeOptions(EditorInfo.IME_ACTION_SEND);
@@ -259,9 +333,21 @@ public class ChatActivity extends BaseActivity {
 //                    chatPopWindow.dismiss();
 //                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
 //                }
+                Log.e("popupwindow666","------------------chat_lin_main_bg--------------------");
                 break;
             case R.id.include_top_lin_title:
+//                Log.e("popupwindow666","------------------groupName--------------------"+groupName);
+//                Log.e("popupwindow666","------------------remarkName--------------------"+remarkName);
+                sendWeb(SplitWeb.privateSendInterface(FriendId));
+                chatPopWindow = new ChatPopWindow(ChatActivity.this, FriendId, "", groupName, remarkName, "", chatLinMainWhole);
                 titleClick(view);
+                chatPopWindow.setOnReRemarkListener(new ChatPopWindow.OnReRemarkListener() {
+                    @Override
+                    public void reRemark(String remarkName) {
+                        if (remarkName != null)
+                            sendWeb(SplitWeb.friendRemarkName(FriendId,remarkName));
+                    }
+                });
                 break;
         }
     }
@@ -277,24 +363,26 @@ public class ChatActivity extends BaseActivity {
                 includeTopIvDrop.setImageResource(R.drawable.spinner_right);
             }
         }
-        Log.e("isDrop", "----------------------------" + isDrop);
+        Log.e("popupwindow666", "----------------------------isDrop = " + isDrop);
     }
 
-    //设置状态栏的高度为负状态栏高度，因为xml 设置了 android:fitsSystemWindows="true",会占用一个状态栏的高度；
+    //    设置状态栏的高度为负状态栏高度，因为xml 设置了 android:fitsSystemWindows="true",会占用一个状态栏的高度；
     private void setAboutBar() {
 //        获取状态栏的高度
         int statusBarHeight = WindowBugDeal.getStatusBarHeight(this);
-        //这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
+//        这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
         LinearLayout.LayoutParams layout = (LinearLayout.LayoutParams) mLinChatMain.getLayoutParams();
-//获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
+//        获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
         layout.setMargins(0, -statusBarHeight, 0, 0);
-//设置button的新位置属性,left，top，right，bottom
+//        设置button的新位置属性,left，top，right，bottom
         mLinChatMain.setLayoutParams(layout);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (chatPopWindow != null)
+            chatPopWindow.dismiss();
         includeTopIvDrop.setImageResource(R.drawable.spinner_right);
     }
 
@@ -318,7 +406,8 @@ public class ChatActivity extends BaseActivity {
         realmHomeHelper.close();
         realmHelper = null;
         realmHomeHelper = null;
-
+        if (chatPopWindow != null)
+            chatPopWindow.dismiss();
     }
 
     ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
@@ -345,12 +434,6 @@ public class ChatActivity extends BaseActivity {
         } else {
 //            sendWeb(SplitWeb.messageObtain(FriendId));
         }
-    }
-
-
-    @Override
-    protected int getLayoutView() {
-        return R.layout.activity_chat;
     }
 
     //屏幕高度
@@ -463,7 +546,7 @@ public class ChatActivity extends BaseActivity {
                             mDetector.hideEmotionLayout(false);
                             mDetector.hideSoftInput();
                         }
-//                        initChatPopWindow();
+                        initChatPopWindow();
 //                        if (chatPopWindow != null) {
 //                            chatPopWindow.dismiss();
 //                            Log.e("chatPopWindow","-------------------11-------------------");
@@ -500,9 +583,10 @@ public class ChatActivity extends BaseActivity {
     private void initChatPopWindow() {
         if (chatPopWindow != null) {
             chatPopWindow.dismiss();
-            Log.e("chatPopWindow","-------------------11-------------------");
+            Log.e("popupwindow666","-------------------initChatPopWindow-------------------");
             includeTopIvDrop.setImageResource(R.drawable.spinner_right);
         }
+//        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
     }
 
     private void sofeDeal() {
@@ -550,6 +634,18 @@ public class ChatActivity extends BaseActivity {
                 break;
             case "privateReceive":
                 dealReceiverResult(responseText);
+                break;
+            case "friendRemarkName":
+//                sendWeb(SplitWeb.privateSendInterface(FriendId));
+                break;
+            case "privateSendInterface":
+                dataChatPop = JSON.parseObject(responseText, DataChatPop.class);
+                DataChatPop.RecordBean recordBean = dataChatPop.getRecord();
+                if (recordBean != null)
+                {
+                    remarkName = StrUtils.isEmpty(recordBean.getRemarkName())?"暂未设置备注":recordBean.getRemarkName();
+                    groupName = StrUtils.isEmpty(recordBean.getGroupName())?"暂未选择分组":recordBean.getGroupName();
+                }
                 break;
         }
     }

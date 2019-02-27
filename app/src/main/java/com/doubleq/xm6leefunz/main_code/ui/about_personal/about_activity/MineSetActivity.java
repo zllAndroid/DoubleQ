@@ -18,6 +18,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.RealmGroupHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.CountAndSafeActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.DiscoverSetActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.LaBlackActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.NewsRemindActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.ShareSetActivity;
@@ -121,7 +122,7 @@ public class MineSetActivity extends BaseActivity {
     }
 
 
-    @OnClick({R.id.set_lin_pingbi,R.id.set_lin_share, R.id.set_lin_count, R.id.set_lin_yinsi, R.id.set_lin_message,
+    @OnClick({R.id.set_lin_pingbi,R.id.set_lin_share, R.id.set_lin_count, R.id.set_lin_yinsi, R.id.set_lin_message,R.id.set_lin_discover,
             R.id.set_lin_clear_cache, R.id.set_lin_versition, R.id.set_lin_about_me, R.id.set_btn_esc})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -138,12 +139,6 @@ public class MineSetActivity extends BaseActivity {
                     IntentUtils.JumpTo(CountAndSafeActivity.class);
                 break;
 
-//                打开 屏蔽设置  界面
-            case R.id.set_lin_pingbi:
-                if (NoDoubleClickUtils.isDoubleClick())
-                    IntentUtils.JumpTo(LaBlackActivity.class);
-                break;
-
 //                打开 隐私设置 界面
             case R.id.set_lin_yinsi:
                 if (NoDoubleClickUtils.isDoubleClick())
@@ -155,6 +150,19 @@ public class MineSetActivity extends BaseActivity {
                 if (NoDoubleClickUtils.isDoubleClick())
                     IntentUtils.JumpTo(NewsRemindActivity.class);
                 break;
+
+//                打开 屏蔽设置  界面
+            case R.id.set_lin_pingbi:
+                if (NoDoubleClickUtils.isDoubleClick())
+                    IntentUtils.JumpTo(LaBlackActivity.class);
+                break;
+
+//                打开 朋友圈设置 界面
+            case R.id.set_lin_discover:
+                if (NoDoubleClickUtils.isDoubleClick())
+                    IntentUtils.JumpTo(DiscoverSetActivity.class);
+                break;
+
 
 //                清理缓存
             case R.id.set_lin_clear_cache:
@@ -171,7 +179,7 @@ public class MineSetActivity extends BaseActivity {
                     }
                 }
                 break;
-//                版本升级
+//                检查更新
             case R.id.set_lin_versition:
                 if (NoDoubleClickUtils.isDoubleClick()) {
                     //        版本更新

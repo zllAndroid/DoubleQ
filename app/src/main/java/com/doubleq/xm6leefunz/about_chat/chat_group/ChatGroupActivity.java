@@ -36,6 +36,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.doubleq.model.DataChatGroupPop;
+import com.doubleq.model.DataChatPop;
 import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.DataJieShou;
@@ -169,6 +171,8 @@ public class ChatGroupActivity extends BaseActivity {
     private List<MessageInfo> messageInfos;
 
     ChatPopWindow chatGroupPopWindow;
+    DataChatGroupPop dataChatGroupPop;
+    String cardName;
 
     @Override
     protected void initBaseView() {
@@ -197,14 +201,6 @@ public class ChatGroupActivity extends BaseActivity {
                 groupId = GroupChatData.getId();
                 includeTopTvTitle.setText(GroupChatData.getName());
             }
-            chatGroupPopWindow = new ChatPopWindow(ChatGroupActivity.this, "", groupId, "", "", chatLinMainWhole);
-            chatGroupPopWindow.setOnReCardNameListener(new ChatPopWindow.OnReCardNameListener() {
-                @Override
-                public void reCardName(String cardName) {
-                    if (cardName != null)
-                        sendWeb(SplitWeb.setGroupCarteModify(groupId,cardName));
-                }
-            });
             initWidget();
 //        初始化数据库的聊天记录
             initRealm();
@@ -222,6 +218,7 @@ public class ChatGroupActivity extends BaseActivity {
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
         includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+        sendWeb(SplitWeb.groupSendInterface(groupId));
     }
 
     boolean isDrop = false;
@@ -344,7 +341,8 @@ public class ChatGroupActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        if (chatGroupPopWindow != null)
+            chatGroupPopWindow.dismiss();
     }
 
     ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
@@ -374,7 +372,16 @@ public class ChatGroupActivity extends BaseActivity {
 //                }
                 break;
             case R.id.include_top_lin_title:
+                sendWeb(SplitWeb.groupSendInterface(groupId));
+                chatGroupPopWindow = new ChatPopWindow(ChatGroupActivity.this, "", groupId, "", "", cardName, chatLinMainWhole);
                 titleClick(view);
+                chatGroupPopWindow.setOnReCardNameListener(new ChatPopWindow.OnReCardNameListener() {
+                    @Override
+                    public void reCardName(String cardName) {
+                        if (cardName != null)
+                            sendWeb(SplitWeb.setGroupCarteModify(groupId,cardName));
+                    }
+                });
                 break;
         }
 //        AppManager.getAppManager().finishActivity(ChatGroupActivity.this);
@@ -606,6 +613,17 @@ public class ChatGroupActivity extends BaseActivity {
 //                接收消息返回
             case "groupReceive":
                 dealReceiverResult(responseText);
+                break;
+            case "groupSendInterface":
+                dataChatGroupPop = JSON.parseObject(responseText, DataChatGroupPop.class);
+                DataChatGroupPop.RecordBean recordBean = dataChatGroupPop.getRecord();
+                if (recordBean != null)
+                {
+                    DataChatGroupPop.RecordBean.GroupDetailInfoBean groupDetailInfoBean = recordBean.getGroupDetailInfo();
+                    DataChatGroupPop.RecordBean.GroupDetailInfoBean.UserInfoBean userInfoBean = groupDetailInfoBean.getUserInfo();
+                    cardName = StrUtils.isEmpty(userInfoBean.getCarteName())?"暂未设置群名片":userInfoBean.getCarteName();
+                    Log.e("popupwindow","-----------------------------------"+cardName);
+                }
                 break;
         }
     }

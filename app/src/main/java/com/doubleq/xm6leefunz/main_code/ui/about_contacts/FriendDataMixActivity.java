@@ -155,6 +155,16 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     popWindow.dissmiss();
             }
         });
+        mView.findViewById(R.id.pop_tv_dongtai).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (NoDoubleClickUtils.isDoubleClick())
+                    IntentUtils.JumpTo(DongTaiSetActivity.class);
+                if (popWindow != null)
+                    popWindow.dissmiss();
+            }
+        });
+
     }
 
     DataScanFirendRequest.RecordBean dataRecord;

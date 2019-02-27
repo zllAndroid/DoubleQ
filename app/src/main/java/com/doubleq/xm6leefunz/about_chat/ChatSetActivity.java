@@ -21,11 +21,13 @@ import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.DongTaiSetActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.suke.widget.SwitchButton;
@@ -127,6 +129,16 @@ public class ChatSetActivity extends BaseActivity {
                     popWindow.dissmiss();
             }
         });
+        mView.findViewById(R.id.pop_tv_dongtai).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (NoDoubleClickUtils.isDoubleClick())
+                    IntentUtils.JumpTo(DongTaiSetActivity.class);
+                if (popWindow != null)
+                    popWindow.dissmiss();
+            }
+        });
+
     }
     private void initSwiButton() {
         chatsetSwiZhidingChat.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {

@@ -3,12 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.doubleq.xm6leefunz">
 
-<!--安装更新-->
-    <!--<uses-permission android:name="android.permission.INTERNET"/>-->
-    <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>-->
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
-    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
-    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
+    <!-- 安装更新 -->
+    <!-- <uses-permission android:name="android.permission.INTERNET"/> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> -->
+    <!-- <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/> -->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!-- Android唤醒、解锁屏幕 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -63,7 +63,6 @@
             android:name="com.pgyersdk.PgyerProvider"
             android:authorities="${applicationId}.com.pgyer.provider"
             android:exported="false" />
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.doubleq.xm6leefunz.provider"
@@ -71,7 +70,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <activity android:name="com.pgyersdk.feedback.FeedbackActivity" />
@@ -115,10 +114,10 @@
             android:name=".main_code.ui.about_personal.about_activity.ChangeInfoActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme"
-            android:windowSoftInputMode="adjustResize"/>
-        <!--android:windowSoftInputMode="adjustResize"/>-->
-        <!--android:windowSoftInputMode="stateVisible|adjustResize"-->
-        <!--登录页 -->
+            android:windowSoftInputMode="adjustResize" />
+        <!-- android:windowSoftInputMode="adjustResize"/> -->
+        <!-- android:windowSoftInputMode="stateVisible|adjustResize" -->
+        <!-- 登录页 -->
         <activity
             android:name=".main_code.about_login.LoginActivity"
             android:launchMode="singleTop"
@@ -182,9 +181,10 @@
         <!-- android:windowSoftInputMode="stateHidden|adjustPan" -->
         <!-- android:theme="@android:style/Theme.Translucent" /> -->
 
-        <!--群助手界面-->
+
+        <!-- 群助手界面 -->
         <activity
-            android:name="com.doubleq.xm6leefunz.main_code.ui.about_message.GroupAssistantActivity"
+            android:name=".main_code.ui.about_message.GroupAssistantActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 联系人 -->
@@ -302,9 +302,10 @@
             android:name=".main_code.ui.about_contacts.GroupManageActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
 
         <!-- 设置子页面 -->
+
 
         <!-- 消息提醒 -->
         <activity
@@ -366,7 +367,7 @@
             android:name=".about_chat.chat_group.sub_group.EditGroupCardActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <!-- 转让群 -->
         <activity
             android:name=".about_chat.chat_group.sub_group.ZhuanRangGroupActivity"
@@ -377,15 +378,23 @@
             android:name=".about_chat.chat_group.sub_group.GroupNoticeActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <activity android:name=".main_code.ui.about_contacts.GroupDataActivity"
-            android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme"
-            />
-        <!--测试-->
         <activity
-            android:name=".main_code.mains.TestActivity"
+            android:name=".main_code.ui.about_contacts.GroupDataActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- &lt;!&ndash; 测试 &ndash;&gt; -->
+        <!-- <activity -->
+        <!-- android:name=".main_code.mains.TestActivity" -->
+        <!-- android:launchMode="singleTop" -->
+        <!-- android:theme="@style/SwipeBack.Transparent.Theme" /> -->
+        <!-- 朋友圈设置 -->
+        <activity
+            android:name=".main_code.ui.about_personal.about_set.DiscoverSetActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".main_code.ui.about_contacts.DongTaiSetActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
     </application>
 
 </manifest>
