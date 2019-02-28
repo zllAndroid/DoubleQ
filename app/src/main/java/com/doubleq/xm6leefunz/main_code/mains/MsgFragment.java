@@ -449,6 +449,7 @@ public class MsgFragment extends BaseFragment {
 //                    }
 //                }
 //        );
+
         if (realmData.size()==0)
         {
             return;
