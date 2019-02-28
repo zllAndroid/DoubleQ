@@ -1,27 +1,22 @@
 package com.doubleq.xm6leefunz.about_base.web_base;
 
-import android.util.Log;
-
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.doubleq.xm6leefunz.about_utils.MD5Utils;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
-
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.TreeMap;
-
 public class WebUrl {
     static  String  key = "0a62aa3d661cc934473b4bff633ec047";//固定值
     static String api_key ="20180903";
     public static String request(String ctnData, String mtnData,TreeMap<String, String> treemap ){
         JSONObject params = new JSONObject();
-        JSONObject command = new JSONObject();
+//        JSONObject command = new JSONObject();
         JSONObject parameters = new JSONObject();
         JSONArray objects = new JSONArray();
         long l = System.currentTimeMillis()/1000;
-        String s=treemap.toString();
+//        String s=treemap.toString();
         Iterator titer=treemap.entrySet().iterator();
         String data="";
         while(titer.hasNext()){

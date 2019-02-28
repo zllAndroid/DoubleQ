@@ -197,8 +197,9 @@ public class AppStartActivity extends BaseActivity {
                 if (dataLogin!=null) {
                     initSetData(dataLogin);
                     String asFriend = mCache.getAsString(AppAllKey.FRIEND_DATA);
+                    Log.e("result","FRIEND_DATA信息="+asFriend);
+//                    IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
 
-//                    IntentUtils.JumpFinishTo(AppStartActivity.this, LoadDataActivity.class);
                     if (StrUtils.isEmpty(asFriend))
                     {
                         IntentUtils.JumpFinishTo(AppStartActivity.this, LoadDataActivity.class);

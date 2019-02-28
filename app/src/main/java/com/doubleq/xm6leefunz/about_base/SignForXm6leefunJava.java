@@ -25,7 +25,7 @@ public class SignForXm6leefunJava {
         {
             mList.add("token=" + SplitWeb.USER_TOKEN);
         }
-        MyLog.e("token","token="+SplitWeb.USER_TOKEN);
+//        MyLog.e("token","token="+SplitWeb.USER_TOKEN);
         Collections.sort(mList);
         try {
             for (int i = 0; i < mList.size(); i++) {

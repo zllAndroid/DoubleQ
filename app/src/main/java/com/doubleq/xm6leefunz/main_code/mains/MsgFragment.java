@@ -437,18 +437,18 @@ public class MsgFragment extends BaseFragment {
     public  static  boolean mIsRefreshing=false;
     public  void addListMethon(List<CusHomeRealmData> realmData)
     {
-        mRecyclerView.setOnTouchListener(
-                new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        if (mIsRefreshing) {
-                            return true;
-                        } else {
-                            return false;
-                        }
-                    }
-                }
-        );
+//        mRecyclerView.setOnTouchListener(
+//                new View.OnTouchListener() {
+//                    @Override
+//                    public boolean onTouch(View v, MotionEvent event) {
+//                        if (mIsRefreshing) {
+//                            return true;
+//                        } else {
+//                            return false;
+//                        }
+//                    }
+//                }
+//        );
         if (realmData.size()==0)
         {
             return;

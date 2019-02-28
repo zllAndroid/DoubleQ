@@ -125,6 +125,16 @@ public class DataLinkManList  implements Serializable{
             private String type;
             private String groupName;
             private String groupId;
+            private String groupSort;
+
+            public String getGroupSort() {
+                return groupSort;
+            }
+
+            public void setGroupSort(String groupSort) {
+                this.groupSort = groupSort;
+            }
+
             private List<GroupListBean> groupList;
 
             public String getType() {

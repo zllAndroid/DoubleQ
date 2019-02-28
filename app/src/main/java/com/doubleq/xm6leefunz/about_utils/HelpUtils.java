@@ -17,6 +17,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
@@ -26,6 +28,7 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -184,6 +187,53 @@ public class HelpUtils {
             return code;
         }
         return "参数错误";
+    }
+    public static String backLinkMan(String result,boolean isFriend){
+        if (!result.equals("")&&result!=null) {
+            JSONObject object = null;
+            try {
+                object = new JSONObject(result);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            String code = object.optString("record");
+            if (!StrUtils.isEmpty(code)) {
+                JSONObject object1 = null;
+                try {
+                    object1 = new JSONObject(code);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String friendInfo=null;
+                if (isFriend) {
+                    friendInfo = object1.optString("friendList");
+                }else
+                {
+                    friendInfo = object1.optString("groupInfoList");
+                }
+                if(!StrUtils.isEmpty(friendInfo)){
+                    com.alibaba.fastjson.JSONObject params = new com.alibaba.fastjson.JSONObject();
+                    com.alibaba.fastjson.JSONArray objects = new com.alibaba.fastjson.JSONArray();
+                    objects.add(friendInfo);
+                    if (isFriend)
+                        params.put("friendList", objects);
+                    else
+                        params.put("groupInfoList", objects);
+                    String s = params.toJSONString();
+                    String mStr=s.replace("\\","");
+                     mStr=mStr.replace("\"[","");
+                     mStr=mStr.replace("\"]","");
+                    MyLog.e("friendList","列表="+mStr);
+
+//                    String json = JSON.toJSON(record).toString();
+                    return mStr;
+                }
+
+            }
+
+            return "";
+        }
+        return "";
     }
     public static String backMD5(String result){
         if (!result.equals("")&&result!=null) {

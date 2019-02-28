@@ -281,6 +281,7 @@ public class ContactChildFragment extends BaseFragment {
         if (aCache==null)
             aCache =  ACache.get(getActivity());
         String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
+        Log.e("FRIEND_DATA","asString="+asString);
         if (!StrUtils.isEmpty(asString))
         {
             initDataFriend(asString,false);

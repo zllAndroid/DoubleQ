@@ -217,8 +217,8 @@ public class LoginActivity extends BaseActivity {
         if (s.equals("bindUid")) {
             if (!isFirst) {
 //                TODO 修改
-//                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
-                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
+                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+//                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
             }
             else
                 IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
@@ -236,7 +236,6 @@ public class LoginActivity extends BaseActivity {
                 return false;
             }
         });
-
     }
 
     @OnClick({R.id.login_tv_code_login, R.id.login_tv_forget_pwd, R.id.login_btn_login, R.id.login_tv_new_resgister})

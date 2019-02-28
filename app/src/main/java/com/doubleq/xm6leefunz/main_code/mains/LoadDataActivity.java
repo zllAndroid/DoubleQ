@@ -13,6 +13,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.doubleq.model.DataLinkGroupList;
 import com.doubleq.model.DataLinkManList;
+import com.doubleq.model.DataNewLinkMan;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
@@ -60,8 +61,8 @@ public class LoadDataActivity extends BaseActivity {
 //        electricFanView.setLoadingRenderer(builder.build());
 
 //        sendWebHaveData("获取数据中...","获取成功");
-        sendWeb(SplitWeb.getGroupManage());
-        sendWeb(SplitWeb.getFriendList());
+        sendWeb(SplitWeb.contactsList());
+//        sendWeb(SplitWeb.getFriendList());
         timer.start();
     }
     int durlation=5000;
@@ -86,7 +87,7 @@ public class LoadDataActivity extends BaseActivity {
         return false;
     }
     boolean isFriend=false;
-    boolean isGroup=false;
+//    boolean isGroup=false;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent messageEvent){
         String responseText = messageEvent.getMessage();
@@ -111,7 +112,7 @@ public class LoadDataActivity extends BaseActivity {
                 if (electricFanView!=null)
                 electricFanView.stopNestedScroll();
             }
-            if (isFriend&&isGroup)
+            if (isFriend)
             {
                 IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);
                 overridePendingTransition(0,0);
@@ -132,28 +133,52 @@ public class LoadDataActivity extends BaseActivity {
             SPUtils.put(this, AppConfig.KEY_MD5,md5);
         switch (method)
         {
-            case "getFriendList":
-                DataLinkManList dataLinkManList = JSON.parseObject(responseText, DataLinkManList.class);
-                DataLinkManList.RecordBean record = dataLinkManList.getRecord();
-                if (record==null)
+//            case "getFriendList":
+//                DataLinkManList dataLinkManList = JSON.parseObject(responseText, DataLinkManList.class);
+//                DataLinkManList.RecordBean record = dataLinkManList.getRecord();
+//                if (record==null)
+//                {
+//                    return;
+//                }
+//                dealFriendData(record);
+////                sendWeb(SplitWeb.getGroupManage());
+//                isFriend=true;
+//
+//                break;
+//            case "getGroupManage":
+//                DataLinkGroupList dataLinkGroupList = JSON.parseObject(responseText, DataLinkGroupList.class);
+//                DataLinkGroupList.RecordBean  record_group = dataLinkGroupList.getRecord();
+//                if (record_group==null)
+//                {
+//                    return;
+//                }
+//
+//                dealGroupData(record_group);
+//                isGroup=true;
+//                break;
+            case "contactsList":
+//                DataNewLinkMan dataNewLinkMan = JSON.parseObject(responseText, DataNewLinkMan.class);
+//                DataNewLinkMan.RecordBean  recordBean = dataNewLinkMan.getRecord();
+//                if (recordBean==null)
+//                {
+//                    return;
+//                }
+                String friend = HelpUtils.backLinkMan(responseText, true);
+                String group = HelpUtils.backLinkMan(responseText, false);
+                if (!StrUtils.isEmpty(friend))
                 {
-                    return;
+                    Log.e("backLinkMan","friend="+friend);
+                    DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
+//                    DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
+                    dealFriendData(record);
                 }
-                dealFriendData(record);
-//                sendWeb(SplitWeb.getGroupManage());
+                if (!StrUtils.isEmpty(group))
+                {
+                    Log.e("backLinkMan","group="+group);
+                    DataLinkGroupList.RecordBean recordBean = JSON.parseObject(group, DataLinkGroupList.RecordBean.class);
+                    dealGroupData(recordBean);
+                }
                 isFriend=true;
-
-                break;
-            case "getGroupManage":
-                DataLinkGroupList dataLinkGroupList = JSON.parseObject(responseText, DataLinkGroupList.class);
-                DataLinkGroupList.RecordBean  record_group = dataLinkGroupList.getRecord();
-                if (record_group==null)
-                {
-                    return;
-                }
-
-                dealGroupData(record_group);
-                isGroup=true;
                 break;
         }
     }
@@ -262,8 +287,9 @@ public class LoadDataActivity extends BaseActivity {
                         friendList.remove(i);
                     }
                 }
-                if (friendList.size()>0)
-                    dealFriendRealm(friendList, i);
+//                TODO
+//                if (friendList.size()>0)
+//                    dealFriendRealm(friendList, i);
             }
         String json = JSON.toJSON(record).toString();
         aCache.remove(AppAllKey.FRIEND_DATA);

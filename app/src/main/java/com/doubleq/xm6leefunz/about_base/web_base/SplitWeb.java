@@ -88,7 +88,7 @@ public class SplitWeb {
         NICK_NAME=(String ) SPUtils.get(HelpUtils.getACt(),"name","");
 
         return NICK_NAME;
-    }
+}
 
     /**
      * WebSocket 请求参数
@@ -212,6 +212,11 @@ public class SplitWeb {
         putData("nowVs",nowVs);
         putData("device","1");
         String request = WebUrl.request("Login", "appUpdate", map);
+        return  request;
+    }
+    public static String contactsList(){
+        dealMap();
+        String request = WebUrl.request("Contact", "contactsList", map);
         return  request;
     }
     /**
