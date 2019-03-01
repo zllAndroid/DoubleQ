@@ -18,6 +18,8 @@
             android:background="@color/white"
             android:layout_marginTop="@dimen/dp10"
             android:orientation="vertical">
+
+            <!--帐号显示-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,6 +47,8 @@
             <View
                 style="@style/style_wei_line"
                 />
+
+            <!--手机号显示-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -71,13 +75,16 @@
                     app:sb_checked="true"/>
             </LinearLayout>
             <!--<View-->
-                <!--style="@style/style_wei_line"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:background="@color/greyf3"-->
+                <!--android:layout_height="@dimen/dp1"-->
                 <!--/>-->
             <View
-                android:layout_width="match_parent"
-                android:background="@color/greyf3"
-                android:layout_height="@dimen/dp1"
+                style="@style/style_wei_line"
+                android:visibility="gone"
                 />
+
+            <!--二维码显示-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

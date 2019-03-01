@@ -21,13 +21,13 @@ public class DiscoveryFriendCircleAdapter extends BaseQuickAdapter<DataDiscovery
 
     @Override
     protected void convert(BaseViewHolder helper, DataDiscoveryFriendCircle item) {
-        helper.addOnClickListener(R.id.ac_img_discovery_friendcircle_comments);
-        Glide.with(context).load(item.getImg_head()).into((ImageView) helper.getView(R.id.ac_img_discovery_frinedcircle_head));
-        helper.setText(R.id.ac_tv_discovery_frinedcircle_name,item.getTv_name());
-        helper.setText(R.id.ac_tv_discovery_frinedcircle_words,item.getTv_words());
-        Glide.with(context).load(item.getImg_pic()).into((ImageView) helper.getView(R.id.ac_img_discovery_frinedcircle_pic));
-        helper.setText(R.id.ac_et_discovery_friendcircle_comments,item.getEt_comments());
-        helper.setText(R.id.ac_tv_discovery_friendcircle_comments,item.getTv_comments());
+//        helper.addOnClickListener(R.id.ac_img_discovery_friendcircle_comments);
+//        Glide.with(context).load(item.getImg_head()).into((ImageView) helper.getView(R.id.ac_img_discovery_frinedcircle_head));
+//        helper.setText(R.id.ac_tv_discovery_frinedcircle_name,item.getTv_name());
+//        helper.setText(R.id.ac_tv_discovery_frinedcircle_words,item.getTv_words());
+//        Glide.with(context).load(item.getImg_pic()).into((ImageView) helper.getView(R.id.ac_img_discovery_frinedcircle_pic));
+//        helper.setText(R.id.ac_et_discovery_friendcircle_comments,item.getEt_comments());
+//        helper.setText(R.id.ac_tv_discovery_friendcircle_comments,item.getTv_comments());
 //        Glide.with(context).load(item.getImg()).bitmapTransform(new CropCircleTransformation(context)).crossFade(1000).into((ImageView) helper.getView(R.id.album_img));
 //        helper.setText(R.id.album_time, item.getTime()+"");
     }

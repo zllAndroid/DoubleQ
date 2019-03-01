@@ -186,17 +186,15 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         String RemarkText = StrUtils.isEmpty(record.getRemarkName()) ? "暂未设置备注" : record.getRemarkName();
                         fdTvBeizhu.setText(RemarkText);
                         remarkName = record.getRemarkName();
-//                        Log.e("qrCode","---------------mix-------------------record.getRemarkName()="+record.getRemarkName());
-//                        Log.e("qrCode","----------------mix------------------RemarkText="+RemarkText);
                         String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
                         fdaTvSign.setText(signText);
-//                        Log.e("qrCode","---------------mix-------------------signText="+signText);
-//                        Log.e("qrCode","-----------------mix-----------------record.getPersonaSignature()="+record.getPersonaSignature());
                         //  好友分组
                         fdTvFenzu.setText(record.getGroupName());
                         Glide.with(this).load(record.getHeadImg())
                                 .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
                                 .into(mIvHead);
+                        if (record.getIsQrcodeShow().equals("0"))
+                            dataIvQrcode.setVisibility(View.GONE);
                     } else {
                         fdLinName.setVisibility(View.GONE);
                         fdLinSend.setVisibility(View.GONE);
@@ -212,15 +210,6 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                                 .into(mIvHead);
                     }
 
-
-//                    mTvName.setText(record.getNickName());
-//                    fdaTvNum.setText(record.getWxSno());
-//                    String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未签名" : record.getPersonaSignature();
-//                    fdaTvSign.setText(signText);
-//                    Glide.with(this).load(record.getHeadImg())
-//                            .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
-//                            .into(mIvHead);
-//
                     dataSearch = new DataSearch();
                     dataSearch.setSno(record.getWxSno());
                     dataSearch.setName(record.getNickName());
@@ -236,9 +225,6 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     fdTvBeizhu.setText(contant + "");
                 break;
             case "deleteFriend":
-//                DialogUtils.showDialogOne("删除好友成功", new DialogUtils.OnClickSureListener() {
-//                @Override
-//                public void onClickSure() {
                 realmHelper.deleteRealmMsg(FriendId);
                 realmChatHelper.deleteRealmMsg(FriendId);
                 Intent intent2 = new Intent();
@@ -250,8 +236,6 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     AppManager.getAppManager().finishActivity(ChatActivity.class);
                 }
                 ToastUtil.show("删除好友成功！");
-//                }
-//            });
                 break;
             case "shieldFriend":
                 DialogUtils.showDialogOne("屏蔽好友成功", new DialogUtils.OnClickSureListener() {

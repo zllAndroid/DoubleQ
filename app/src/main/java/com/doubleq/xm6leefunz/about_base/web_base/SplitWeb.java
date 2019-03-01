@@ -187,6 +187,12 @@ public class SplitWeb {
         String request = WebUrl.request("PersonCenter", "bindUid", map);
         return  request;
     }
+    public  static  String kickUid(){
+        dealMap();
+//        Log.e("WebSocketLib","userIdParameter="+userIdParameter+"-------------------------------------"+USER_ID);
+        String request = WebUrl.request("PersonCenter", "kickUid", map);
+        return  request;
+    }
 
     private static void dealMap() {
         map.clear();
@@ -614,6 +620,7 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "topFriend", map);
         return  request;
     }
+//    用户设置群消息提示（消息免打扰）
     public  static  String setUserGroupDisturb(String groupOfId,String disturbType){
         dealMap();
         putData("groupOfId",groupOfId);

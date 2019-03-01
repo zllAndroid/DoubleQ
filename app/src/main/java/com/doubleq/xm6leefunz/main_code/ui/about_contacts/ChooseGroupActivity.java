@@ -62,6 +62,7 @@ public class ChooseGroupActivity extends BaseActivity {
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //    }
+
     String FriendId="";
     @Override
     protected void initBaseView() {
@@ -145,7 +146,7 @@ public class ChooseGroupActivity extends BaseActivity {
         {
             Intent intent = new Intent();
             // 获取用户计算后的结果
-            intent.putExtra(CHOOSE_NAME, "暂未选择分组");
+            intent.putExtra(CHOOSE_NAME, "暂无");
             intent.putExtra(CHOOSE_ID, item.getId());
             setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
             AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
@@ -168,10 +169,10 @@ public class ChooseGroupActivity extends BaseActivity {
 //        }
 //        if (item.getId().equals("0"))
 //        {
-//            modifyGroupListener.groupingName("暂未选择分组");
+//            modifyGroupListener.groupingName("暂无");
 ////            Intent intent = new Intent();
 ////            // 获取用户计算后的结果
-////            intent.putExtra(CHOOSE_NAME, "暂未选择分组");
+////            intent.putExtra(CHOOSE_NAME, "暂无");
 ////            intent.putExtra(CHOOSE_ID, item.getId());
 ////            setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
 //            AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);

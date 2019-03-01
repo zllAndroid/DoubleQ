@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -17,70 +18,77 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.doubleq.model.CusChatPop;
+import com.doubleq.model.DataChatGroupPop;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
+import com.doubleq.xm6leefunz.about_base.MyApplication;
+import com.doubleq.xm6leefunz.about_base.web_base.MessageEvent;
+import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
+import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.ChooseGroupActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.suke.widget.SwitchButton;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.Stack;
 
 /**
  * 弹窗视图
  */
-public class ChatPopWindow extends PopupWindow implements View.OnClickListener, ChangeInfoWindow.OnAddContantClickListener{
+public class ChatPopWindow extends PopupWindow implements View.OnClickListener, ChangeInfoWindow.OnAddContantClickListener {
     TextView cpTvRemark;
     TextView cpTvGroup;
     SwitchButton switchButton;
-    LinearLayout chatLinMainWhole, cpLinGroup,mLinWindow;
+    LinearLayout chatLinMainWhole, cpLinGroup, mLinWindow;
 
     private Context context;
-    private String friendId, groupId, groupingName, remarkName, cardName;
+    private String friendId, groupId, groupingName, remarkName, cardName, isChecked, type;
     private View chat_data, chat_group, chat_remark;
 
-    /** ChatPopWindow
-     * @param context  上下文
-     * @param friendId  好友id
-     * @param groupId  群id
-     * @param groupingName  好友所在分组名
-     * @param remarkName  备注
-     * @param cardName  群名片
-     * @param chatLinMainWhole  全局布局
-     */
-    public ChatPopWindow(Context context, String friendId, String groupId, String groupingName, String remarkName, String cardName, LinearLayout chatLinMainWhole) {
-        super(context);
-        this.context = context;
-        this.friendId = friendId;
-        this.groupId = groupId;
-        this.groupingName = groupingName;
-        this.remarkName = remarkName;
-        this.cardName = cardName;
-        this.chatLinMainWhole = chatLinMainWhole;
+    public ChatPopWindow(CusChatPop cusChatPop) {
+        super(cusChatPop.getContext());
+        this.context = cusChatPop.getContext();
+        this.friendId = cusChatPop.getFriendId();
+        this.groupId = cusChatPop.getGroupId();
+        this.groupingName = cusChatPop.getGroupingName();
+        this.remarkName = cusChatPop.getRemarkName();
+        this.cardName = cusChatPop.getCardName();
+        this.chatLinMainWhole = cusChatPop.getChatLinMainWhole();
+        this.isChecked = cusChatPop.getIsChecked();
+        this.type = cusChatPop.getType();
         initialize();
     }
+
     private LayoutInflater mInflater;
     View view;
+
     private void initialize() {
 
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        final LayoutInflater inflater = LayoutInflater.from(context);
 //        私聊
-        if (!StrUtils.isEmpty(friendId) && groupId.equals("")){
-            view= mInflater.inflate(R.layout.activity_chat_pop, null);
+        if (type.equals("1")) {
+            view = mInflater.inflate(R.layout.activity_chat_pop, null);
             initBackWindow(view);
             initFriendWindow(view);
         }
 //        群聊
-        else{
-            view= mInflater.inflate(R.layout.activity_chat_group_pop, null);
+        else {
+            view = mInflater.inflate(R.layout.activity_chat_group_pop, null);
             initBackWindow(view);
             initGroupWindow(view);
         }
-//        initWindow();
-
-
+        EventBus.getDefault().register(this);
     }
 
     private void initBackWindow(final View view) {
@@ -109,81 +117,51 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
         setTouchInterceptor(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent motionEvent) {
-
                 int top = mLinWindow.getTop();
                 int bottom = mLinWindow.getBottom();
                 int left = mLinWindow.getLeft();
                 int right = mLinWindow.getRight();
                 int x = (int) motionEvent.getX();
                 int y = (int) motionEvent.getY();
-                Log.e("popupwindow","------------------------------x="+x);
-                Log.e("popupwindow","------------------------------y="+y);
-                Log.e("popupwindow","------------------------------top="+top);
-                Log.e("popupwindow","------------------------------bottom="+bottom);
-                Log.e("popupwindow","------------------------------left="+left);
-                Log.e("popupwindow","------------------------------right="+right);
-                if (motionEvent.getAction() == MotionEvent.ACTION_UP){
-                    if (absInt(y) < top){
+                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    if (absInt(y) < top) {
                         onClickBacListener.Clicked("");
                         dismiss();
-//                        onClickBacListener.Clicked(isClicked);
                     }
-                    if (absInt(y) > bottom){
+                    if (absInt(y) > bottom) {
                         onClickBacListener.Clicked("");
                         dismiss();
-//                        onClickBacListener.Clicked(isClicked);
                     }
-                    if (absInt(x) < left){
+                    if (absInt(x) < left) {
                         onClickBacListener.Clicked("");
                         dismiss();
-//                        onClickBacListener.Clicked(isClicked);
                     }
-                    if (absInt(x) > right){
+                    if (absInt(x) > right) {
                         onClickBacListener.Clicked("");
                         dismiss();
-//                        onClickBacListener.Clicked(isClicked);
                     }
                 }
                 return false;
-
-
-
-//                /**
-//                 * 判断是不是点击了外部
-//                 */
-//                if (event.getAction() == MotionEvent.ACTION_OUTSIDE) {
-//                    return true;
-//                }
-//                //不是点击外部
-//                return false;
             }
         });
     }
-    public  int absInt(int a)
-    {
-        if (a<0)
-        {
-            a=-a;
+
+    public int absInt(int a) {
+        if (a < 0) {
+            a = -a;
         }
         return a;
     }
+
     private void initFriendWindow(View view) {
         chat_data = view.findViewById(R.id.cp_tv_data);//好友资料
         chat_group = view.findViewById(R.id.cp_lin_group);//好友分组
         cpTvGroup = view.findViewById(R.id.cp_tv_group);//好友分组tv
         chat_remark = view.findViewById(R.id.cp_lin_remark);//备注
         cpTvRemark = view.findViewById(R.id.cp_tv_remark);//备注tv
-        mLinWindow = view.findViewById(R.id.cp_lin_window);//备注tv
+        mLinWindow = view.findViewById(R.id.cp_lin_window);//popUpWindow
         cpTvRemark.setText(remarkName);
         cpTvGroup.setText(groupingName);
-//        if (!StrUtils.isEmpty(remarkName)) {
-//            cpTvRemark.setText(remarkName);
-//        }else
-//            cpTvRemark.setText("暂未设置备注");
-//        if (!StrUtils.isEmpty(groupingName)) {
-//            cpTvGroup.setText(groupingName);
-//        }else
-//            cpTvGroup.setText("暂未设置分组");
         chat_data.setOnClickListener(this);
         chat_group.setOnClickListener(this);
         chat_remark.setOnClickListener(this);
@@ -195,14 +173,25 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
         switchButton = view.findViewById(R.id.disturb_switch_btn);
         chat_remark = view.findViewById(R.id.cp_lin_remark);//群名片
         cpTvRemark = view.findViewById(R.id.cp_tv_remark);//群名片tv
+        mLinWindow = view.findViewById(R.id.cp_lin_window);//popUpWindow
         cpTvRemark.setText(cardName);
-//        if (!StrUtils.isEmpty(cardName)) {
-//            cpTvRemark.setText(cardName);
-//        }else
-//            cpTvRemark.setText("暂未设置群名片");
+        if (!StrUtils.isEmpty(isChecked)) {
+            if (isChecked.equals("2"))    //  消息免打扰： 1 否     2 是
+                switchButton.setChecked(true);
+            else
+                switchButton.setChecked(false);
+        }
         chat_data.setOnClickListener(this);
         cpLinGroup.setOnClickListener(this);
         chat_remark.setOnClickListener(this);
+
+        switchButton.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                String daRao = isChecked ? "2":"1";
+                MyApplication.getmConnectManager().sendText(SplitWeb.setUserGroupDisturb(groupId, daRao));
+            }
+        });
     }
 
     private void initWindow() {
@@ -218,7 +207,6 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
         this.setOutsideTouchable(true);
         this.update();
 //        //实例化一个ColorDrawable颜色为半透明
-
 //        backgroundAlpha((Activity) context, 0.8f);//0.0-1.0
 //        this.setOnDismissListener(new OnDismissListener() {
 //            @Override
@@ -246,32 +234,30 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.cp_tv_data:
-                if (!StrUtils.isEmpty(friendId)) {
+                if (type.equals("1")) {
                     IntentUtils.JumpToHaveOne(FriendDataMixActivity.class, "id", friendId);
                     onClickBacListener.Clicked("");
                     dismiss();
-                } else if (!StrUtils.isEmpty(groupId)) {
+                } else{
                     IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
                     onClickBacListener.Clicked("");
                     dismiss();
                 }
                 break;
             case R.id.cp_lin_group:
-                if (!StrUtils.isEmpty(friendId)) {
+                if (type.equals("1")) {
 //                    给聊天界面回调处理
 //                    IntentUtils.JumpToHaveOne(ChooseGroupActivity.class, "FriendId", friendId);
                     onClickBacListener.Clicked("1");
                     dismiss();
-                }else {
-                    switchButton.setChecked(!switchButton.isChecked());
                 }
                 break;
             case R.id.cp_lin_remark:
-                if (!StrUtils.isEmpty(friendId)) {
+                if (type.equals("1")) {
                     doChangeName();
                     onClickBacListener.Clicked("");
                     dismiss();
-                }else {
+                } else {
                     doChangeCardName();
                     onClickBacListener.Clicked("");
                     dismiss();
@@ -282,53 +268,86 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
         }
     }
 
+    //订阅方法，接收到服务器返回事件处理
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(MessageEvent messageEvent){
+        String method = HelpUtils.backMethod(messageEvent.getMessage());
+//        int i = 0;
+        switch (method){
+            case "setUserGroupDisturb":
+//                DataChatGroupPop dataChatGroupPop = JSON.parseObject(messageEvent.getMessage(),DataChatGroupPop.class);
+//                DataChatGroupPop.RecordBean recordBean = dataChatGroupPop.getRecord();
+//                if (recordBean != null){
+//                    DataChatGroupPop.RecordBean.GroupDetailInfoBean groupDetailInfoBean = recordBean.getGroupDetailInfo();
+//                    DataChatGroupPop.RecordBean.GroupDetailInfoBean.UserInfoBean userInfoBean = groupDetailInfoBean.getUserInfo();
+//                    if (userInfoBean.getDisturbType().equals("2"))
+//                        switchButton.setChecked(true);
+//                    else
+//                        switchButton.setChecked(false);
+//                    Log.e("setUserGroupDisturb","-----------------------请求成功时----------------------"+userInfoBean.getDisturbType()+"-----------i="+(i +1));
+//                }
+                break;
+        }
+    }
+
     //修改群名片
     private void doChangeCardName() {
         ChangeInfoWindow changeInfoWindow;
-//        if (cardName.equals("暂未设置群名片")) {
-////            changeInfoWindow = new ChangeInfoWindow(context, "修改群名片", "暂未设置群名片");
-////            changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
-////        } else {
-        changeInfoWindow = new ChangeInfoWindow(context, "修改群名片", cpTvRemark.getText().toString().trim());
-        changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
-//        }
-        changeInfoWindow.setOnAddpopClickListener(this);
+        if (!StrUtils.isEmpty(cardName)){
+            if (cardName.equals("暂未设置")) {
+                changeInfoWindow = new ChangeInfoWindow(context, "修改群名片", "");
+                changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
+            } else {
+                changeInfoWindow = new ChangeInfoWindow(context, "修改群名片", cpTvRemark.getText().toString().trim());
+                changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
+            }
+            changeInfoWindow.setOnAddpopClickListener(this);
+        }
     }
 
     //修改备注
     private void doChangeName() {
         ChangeInfoWindow changeInfoWindow;
-//        if (remarkName.equals("")) {
-//            changeInfoWindow = new ChangeInfoWindow(context, "修改备注", "");
-//            changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
-//        } else {
-        changeInfoWindow = new ChangeInfoWindow(context, "修改备注", cpTvRemark.getText().toString().trim());
-        changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
-//        }
-        changeInfoWindow.setOnAddpopClickListener(this);
+        if (!StrUtils.isEmpty(remarkName)){
+            if (remarkName.equals("暂未设置")) {
+                changeInfoWindow = new ChangeInfoWindow(context, "修改备注", "");
+                changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
+            } else {
+                changeInfoWindow = new ChangeInfoWindow(context, "修改备注", cpTvRemark.getText().toString().trim());
+                changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
+            }
+            changeInfoWindow.setOnAddpopClickListener(this);
+        }
     }
 
     String contant = null;
     @Override
     public void onSure(String contant) {
         this.contant = contant;
-        if (!StrUtils.isEmpty(friendId)){
-            remarkName = contant;
-            cpTvRemark.setText(contant);
-            onReRemarkListener.reRemark(contant);
-//            onClickBacListener.Clicked(isClicked);
+        if (type.equals("1")) {
+            if (contant.equals("")){
+                cpTvRemark.setText("暂未设置");
+                onReRemarkListener.reRemark("");
+            }else {
+                remarkName = contant;
+                cpTvRemark.setText(contant);
+                onReRemarkListener.reRemark(contant);
+            }
         }
         else{
-            cardName = contant;
-            cpTvRemark.setText(contant);
-            onReCardNameListener.reCardName(contant);
-//            onClickBacListener.Clicked(isClicked);
+            if (contant.equals("")){
+                cpTvRemark.setText("暂未设置");
+                onReCardNameListener.reCardName("");
+            }else {
+                cardName = contant;
+                cpTvRemark.setText(contant);
+                onReCardNameListener.reCardName(contant);
+            }
         }
     }
 
     @Override
     public void onCancle() {
-//        onClickBacListener.Clicked(isClicked);
     }
 
     //修改备注事件回调接口

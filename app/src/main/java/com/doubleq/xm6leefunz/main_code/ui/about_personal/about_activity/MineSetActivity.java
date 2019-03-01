@@ -100,6 +100,9 @@ public class MineSetActivity extends BaseActivity {
 
                     VersionCheckUtils.initUpdata(responseText, false);
                     break;
+                case "kickUid":
+                    Log.e("kickUid","---------------------------------------");
+                    break;
             }
         }
     }
@@ -212,6 +215,7 @@ public class MineSetActivity extends BaseActivity {
                             switch (checkingId){
                                 case "1":
 //                                    ToastUtil.show("1");
+                                    sendWeb(SplitWeb.kickUid());
                                     SplitWeb.USER_ID="";
                                     AppManager.getAppManager().finishAllActivity();
 //                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);

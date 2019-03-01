@@ -36,8 +36,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.doubleq.model.CusChatPop;
 import com.doubleq.model.DataChatGroupPop;
-import com.doubleq.model.DataChatPop;
 import com.doubleq.model.DataGroupChatResult;
 import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.DataJieShou;
@@ -65,7 +65,6 @@ import com.doubleq.xm6leefunz.about_utils.SoftKeyboardUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.main_code.mains.top_pop.ChatGroupPopWindow;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ChatPopWindow;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
@@ -140,6 +139,8 @@ public class ChatGroupActivity extends BaseActivity {
     LinearLayout chatLinMainWhole;
     @BindView(R.id.include_top_iv_drop)
     ImageView includeTopIvDrop;
+    @BindView(R.id.include_top_lin_title)
+    LinearLayout includeTopLinTitle;
 
     private EmotionInputDetector mDetector;
     private ArrayList<Fragment> fragments;
@@ -172,7 +173,9 @@ public class ChatGroupActivity extends BaseActivity {
 
     ChatPopWindow chatGroupPopWindow;
     DataChatGroupPop dataChatGroupPop;
+    CusChatPop cusChatPop;
     String cardName;
+    String isChecked = "3";
 
     @Override
     protected void initBaseView() {
@@ -217,24 +220,7 @@ public class ChatGroupActivity extends BaseActivity {
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
-        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
         sendWeb(SplitWeb.groupSendInterface(groupId));
-    }
-
-    boolean isDrop = false;
-
-    private void titleClick(View view) {
-        isDrop = !isDrop;
-        if (isDrop) {
-            includeTopIvDrop.setImageResource(R.drawable.spinner_down);
-            chatGroupPopWindow.showAtBottom(view.findViewById(R.id.include_top_lin_title));
-        } else {
-            if (chatGroupPopWindow != null) {
-                chatGroupPopWindow.dismiss();
-                includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-            }
-        }
-        Log.e("isDrop", "----------------------------" + isDrop);
     }
 
     IntentFilter intentFilter;
@@ -314,7 +300,12 @@ public class ChatGroupActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
+        if (chatGroupPopWindow != null)
+            chatGroupPopWindow.dismiss();
+        includeTopIvDrop.setClickable(false);// 屏蔽主动获得点击
+        includeTopIvDrop.setPressed(false);
+        includeTopIvDrop.setEnabled(false);
+//        sendWeb(SplitWeb.groupSendInterface(groupId));
     }
 
     @Override
@@ -341,8 +332,10 @@ public class ChatGroupActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (chatGroupPopWindow != null)
+        if (chatGroupPopWindow != null){
             chatGroupPopWindow.dismiss();
+            chatGroupPopWindow=null;
+        }
     }
 
     ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
@@ -358,28 +351,36 @@ public class ChatGroupActivity extends BaseActivity {
         }
     }
 
-    @OnClick({R.id.include_top_iv_more, R.id.chat_lin_main_bg, R.id.include_top_lin_title})
+    @OnClick({R.id.include_top_iv_more, R.id.include_top_lin_title})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.include_top_iv_more:
                 JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
                 break;
-            case R.id.chat_lin_main_bg:
-//                Log.e("clickWindow","-----------------------------------------------------");
-//                if (chatGroupPopWindow != null) {
-//                    chatGroupPopWindow.dismiss();
-//                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//                }
-                break;
             case R.id.include_top_lin_title:
-                sendWeb(SplitWeb.groupSendInterface(groupId));
-                chatGroupPopWindow = new ChatPopWindow(ChatGroupActivity.this, "", groupId, "", "", cardName, chatLinMainWhole);
-                titleClick(view);
+                includeTopIvDrop.setActivated(true);
+                cusChatPop = new CusChatPop();
+                cusChatPop.setType("2");
+                cusChatPop.setContext(this);
+                cusChatPop.setChatLinMainWhole(chatLinMainWhole);
+                cusChatPop.setGroupId(groupId);
+                cusChatPop.setIsChecked(isChecked);
+                Log.e("setUserGroupDisturb","-------------点击题目行----------------------"+isChecked);
+                cusChatPop.setCardName(cardName);
+                if (chatGroupPopWindow == null)
+                    chatGroupPopWindow = new ChatPopWindow(cusChatPop);
+                chatGroupPopWindow.showAtBottom(includeTopLinTitle);
+                chatGroupPopWindow.setOnClickOutSideListener(new ChatPopWindow.OnClickOutSideListener() {
+                    @Override
+                    public void Clicked(String type) {
+                        includeTopIvDrop.setActivated(false);
+                    }
+                });
                 chatGroupPopWindow.setOnReCardNameListener(new ChatPopWindow.OnReCardNameListener() {
                     @Override
                     public void reCardName(String cardName) {
                         if (cardName != null)
-                            sendWeb(SplitWeb.setGroupCarteModify(groupId,cardName));
+                            sendWeb(SplitWeb.setGroupCarteModify(groupId, cardName));
                     }
                 });
                 break;
@@ -534,19 +535,6 @@ public class ChatGroupActivity extends BaseActivity {
                             mDetector.hideEmotionLayout(false);
                             mDetector.hideSoftInput();
                         }
-//                        if (chatGroupPopWindow != null) {
-//                            chatGroupPopWindow.dismiss();
-//                            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//                            Log.e("chatPopWindow","-------------------group-------------------");
-//                            chatGroupPopWindow.setOnClickBacListener(new ChatPopWindow.OnClickBacListener() {
-//                                @Override
-//                                public void Clicked(boolean clicked) {
-//                                    if (clicked){
-//                                        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//                                    }
-//                                }
-//                            });
-//                        }
                         break;
                     case MotionEvent.ACTION_UP:
                     case MotionEvent.ACTION_POINTER_UP:
@@ -617,12 +605,12 @@ public class ChatGroupActivity extends BaseActivity {
             case "groupSendInterface":
                 dataChatGroupPop = JSON.parseObject(responseText, DataChatGroupPop.class);
                 DataChatGroupPop.RecordBean recordBean = dataChatGroupPop.getRecord();
-                if (recordBean != null)
-                {
+                if (recordBean != null) {
                     DataChatGroupPop.RecordBean.GroupDetailInfoBean groupDetailInfoBean = recordBean.getGroupDetailInfo();
                     DataChatGroupPop.RecordBean.GroupDetailInfoBean.UserInfoBean userInfoBean = groupDetailInfoBean.getUserInfo();
-                    cardName = StrUtils.isEmpty(userInfoBean.getCarteName())?"暂未设置群名片":userInfoBean.getCarteName();
-                    Log.e("popupwindow","-----------------------------------"+cardName);
+                    cardName = StrUtils.isEmpty(userInfoBean.getCarteName()) ? "暂未设置" : userInfoBean.getCarteName();
+                    isChecked = userInfoBean.getDisturbType();
+                    Log.e("setUserGroupDisturb","-------------------群聊界面请求-----------------"+isChecked);
                 }
                 break;
         }
@@ -935,6 +923,7 @@ public class ChatGroupActivity extends BaseActivity {
 //        EventBus.getDefault().removeStickyEvent(this);
 //        EventBus.getDefault().unregister(this);
 //    }
+
     private void showPopWindows(View v, final String msg) {
 
         /** pop view */
@@ -986,7 +975,6 @@ public class ChatGroupActivity extends BaseActivity {
             }
         });
     }
-
 
     private float mRawX;
     private float mRawY;

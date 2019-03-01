@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -75,6 +74,9 @@ public class ChatSetActivity extends BaseActivity {
     LinearLayout mLinTop;
     @BindView(R.id.chatset_lin_msg_miandarao)
     LinearLayout mLinNoCall;
+//    @BindView(R.id.fd_lin_name)
+//    LinearLayout fdLinName;
+
     @Override
     protected int getLayoutView() {
         return R.layout.activity_chat_set;
@@ -88,6 +90,7 @@ public class ChatSetActivity extends BaseActivity {
 
     String type = "1";
     TextView mTvShield;
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -111,8 +114,7 @@ public class ChatSetActivity extends BaseActivity {
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
         mView = LayoutInflater.from(this).inflate(R.layout.pop_good_friend, null);
-         mTvShield = mView.findViewById(R.id.pop_tv_pingbi);
-
+        mTvShield = mView.findViewById(R.id.pop_tv_pingbi);
 
 
         mView.findViewById(R.id.pop_tv_del).setOnClickListener(new View.OnClickListener() {
@@ -140,27 +142,28 @@ public class ChatSetActivity extends BaseActivity {
         });
 
     }
+
     private void initSwiButton() {
         chatsetSwiZhidingChat.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
 //                boolean checked = chatsetSwiZhidingChat.isChecked();
 //                if (dataRecord!=null)
-                String type = isChecked ? "2":"1";
-                send(SplitWeb.topFriend(FriendId,type));
+                String type = isChecked ? "2" : "1";
+                send(SplitWeb.topFriend(FriendId, type));
             }
         });
         chatsetMsgMiandarao.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
 //                boolean check2 = chatsetMsgMiandarao.isChecked();
-                String type2 = isChecked ? "2":"1";
-                send(SplitWeb.disturbFriend(FriendId,type2));
+                String type2 = isChecked ? "2" : "1";
+                send(SplitWeb.disturbFriend(FriendId, type2));
             }
         });
     }
 
-    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode, R.id.chatset_lin_chat_history, R.id.chatset_lin_del_chat_history})
+    @OnClick({R.id.include_top_iv_more, R.id.fd_lin_name, R.id.chatset_lin_chat_history, R.id.chatset_lin_del_chat_history})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.include_top_iv_more:
@@ -177,9 +180,8 @@ public class ChatSetActivity extends BaseActivity {
                     popWindow.showAsDropDown(includeTopIvMore, 0, 0);
 
 
-
                 break;
-            case R.id.fd_iv_qrcode:
+            case R.id.fd_lin_name:
                 if (dataRecord != null) {
                     PersonData personData = new PersonData();
                     personData.setHeadImg(dataRecord.getHeadImg());
@@ -202,7 +204,6 @@ public class ChatSetActivity extends BaseActivity {
                 break;
 
             case R.id.chatset_lin_chat_history:
-
 
 
                 break;
@@ -249,9 +250,8 @@ public class ChatSetActivity extends BaseActivity {
                 });
                 break;
             case "shieldFriend":
-                if (shieldType!=null)
-                {
-                    String shile= shieldType.equals("2")?"取消屏蔽好友成功":"屏蔽好友成功";
+                if (shieldType != null) {
+                    String shile = shieldType.equals("2") ? "取消屏蔽好友成功" : "屏蔽好友成功";
                     DialogUtils.showDialogOne(shile, new DialogUtils.OnClickSureListener() {
                         @Override
                         public void onClickSure() {
@@ -263,12 +263,12 @@ public class ChatSetActivity extends BaseActivity {
                 break;
             case "topFriend":
                 boolean checked = chatsetSwiZhidingChat.isChecked();
-                String text= checked?"置顶成功":"取消置顶";
+                String text = checked ? "置顶成功" : "取消置顶";
                 ToastUtil.show(text);
                 break;
             case "disturbFriend":
                 boolean check = chatsetMsgMiandarao.isChecked();
-                String text1= check?"设置免打扰成功":"取消免打扰";
+                String text1 = check ? "设置免打扰成功" : "取消免打扰";
                 ToastUtil.show(text1);
                 break;
         }
@@ -276,6 +276,7 @@ public class ChatSetActivity extends BaseActivity {
 
     DataChatFriendInfo.RecordBean dataRecord;
     String shieldType;
+
     private void initDataFriend(String responseText) {
         DataChatFriendInfo dataChatFriendInfo = JSON.parseObject(responseText, DataChatFriendInfo.class);
         DataChatFriendInfo.RecordBean record = dataChatFriendInfo.getRecord();
@@ -297,24 +298,22 @@ public class ChatSetActivity extends BaseActivity {
 //            mTvName.setText(record.getNickName() + "(" + record.getRemarkName() + ")");
             chatsetMsgMiandarao.setChecked(record.getDisturbType().equals("2"));
             chatsetSwiZhidingChat.setChecked(record.getTopType().equals("2"));
-             shieldType = record.getShieldType();
-           String shile= shieldType.equals("2")?"取消屏蔽":"屏蔽好友";
+            shieldType = record.getShieldType();
+            String shile = shieldType.equals("2") ? "取消屏蔽" : "屏蔽好友";
 
             mTvShield.setText(shile);
             mTvShield.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 //                ToastUtil.show("点击了屏蔽");
-                    if(shieldType.equals("2"))
-                    {
+                    if (shieldType.equals("2")) {
                         DialogUtils.showDialog("是否取消屏蔽此好友？", new DialogUtils.OnClickSureListener() {
                             @Override
                             public void onClickSure() {
                                 sendWebHaveDialog(SplitWeb.shieldFriend(FriendId, "1"), "正在取消屏蔽...", "取消屏蔽成功");
                             }
                         });
-                    }else
-                    {
+                    } else {
                         DialogUtils.showDialog("是否屏蔽此好友？", new DialogUtils.OnClickSureListener() {
                             @Override
                             public void onClickSure() {

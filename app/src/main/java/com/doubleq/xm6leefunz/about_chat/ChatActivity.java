@@ -18,7 +18,6 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -37,6 +36,7 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.doubleq.model.CusJumpChatData;
 import com.doubleq.model.DataChatPop;
+import com.doubleq.model.CusChatPop;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
@@ -87,7 +87,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.doubleq.xm6leefunz.about_utils.IntentUtils.JumpToHaveOne;
@@ -189,6 +188,7 @@ public class ChatActivity extends BaseActivity {
     String remarkName;
     String groupName;
     boolean isDrop = true;
+    CusChatPop cusChatPop;
 
 
     @Override
@@ -254,23 +254,23 @@ public class ChatActivity extends BaseActivity {
             }
         });
     }
-    @OnClick({R.id.include_top_iv_more, R.id.chat_lin_main_bg, R.id.include_top_lin_title,R.id.include_top_iv_drop})
+    @OnClick({R.id.include_top_iv_more, R.id.include_top_lin_title,R.id.include_top_iv_drop})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.include_top_iv_more:
                 JumpToHaveOne(ChatSetActivity.class, "FriendId", FriendId);
                 break;
-            case R.id.chat_lin_main_bg:
-//                if (chatPopWindow != null) {
-//                    chatPopWindow.dismiss();
-//                    includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//                }
-                Log.e("popupwindow666","------------------chat_lin_main_bg--------------------");
-                break;
             case R.id.include_top_lin_title:
                 includeTopIvDrop.setActivated(true);
+                cusChatPop = new CusChatPop();
+                cusChatPop.setContext(this);
+                cusChatPop.setType("1");
+                cusChatPop.setFriendId(FriendId);
+                cusChatPop.setGroupingName(groupName);
+                cusChatPop.setRemarkName(remarkName);
+                cusChatPop.setChatLinMainWhole(chatLinMainWhole);
                 if(chatPopWindow==null)
-                    chatPopWindow = new ChatPopWindow(ChatActivity.this, FriendId, "", groupName, remarkName, "", chatLinMainWhole);
+                    chatPopWindow = new ChatPopWindow(cusChatPop);
                 chatPopWindow.showAtBottom(includeTopLinTitle);
                 chatPopWindow.setOnClickOutSideListener(new ChatPopWindow.OnClickOutSideListener() {
                     @Override
@@ -284,6 +284,12 @@ public class ChatActivity extends BaseActivity {
                             intent.putExtras(bundle);
                             startActivityForResult(intent, AppConfig.FRIEND_DATA_Chat_REQUEST);
                         }
+                    }
+                });
+                chatPopWindow.setOnReRemarkListener(new ChatPopWindow.OnReRemarkListener() {
+                    @Override
+                    public void reRemark(String remarkName) {
+                        sendWeb(SplitWeb.friendRemarkName(FriendId,remarkName));
                     }
                 });
 
@@ -303,12 +309,6 @@ public class ChatActivity extends BaseActivity {
             }
         }
     }
-    private void titleClick(View view) {
-
-
-        Log.e("popupwindow666", "----------------------------isDrop = " + isDrop);
-    }
-
     //    设置状态栏的高度为负状态栏高度，因为xml 设置了 android:fitsSystemWindows="true",会占用一个状态栏的高度；
     private void setAboutBar() {
 //        获取状态栏的高度
@@ -514,15 +514,6 @@ public class ChatActivity extends BaseActivity {
 //        LoadData();
     }
 
-//    private void initChatPopWindow() {
-//        if (chatPopWindow != null) {
-//            chatPopWindow.dismiss();
-//            Log.e("popupwindow666","-------------------initChatPopWindow-------------------");
-//            includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//        }
-////        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//    }
-
     private void sofeDeal() {
         if (isSoftShowing()) {
 //                if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
@@ -577,8 +568,8 @@ public class ChatActivity extends BaseActivity {
                 DataChatPop.RecordBean recordBean = dataChatPop.getRecord();
                 if (recordBean != null)
                 {
-                    remarkName = StrUtils.isEmpty(recordBean.getRemarkName())?"暂未设置备注":recordBean.getRemarkName();
-                    groupName = StrUtils.isEmpty(recordBean.getGroupName())?"暂未选择分组":recordBean.getGroupName();
+                    remarkName = StrUtils.isEmpty(recordBean.getRemarkName())?"暂未设置":recordBean.getRemarkName();
+                    groupName = StrUtils.isEmpty(recordBean.getGroupName())?"暂无":recordBean.getGroupName();
                 }
                 break;
         }
@@ -795,7 +786,6 @@ public class ChatActivity extends BaseActivity {
                                 SoftKeyboardUtils.showSoftKeyboard(ChatActivity.this);
 //                                SoftKeyboardUtils.showORhideSoftKeyboard(ChatActivity.this);
                             }
-
                         }
 //                        mChatTvShow.setVisibility(View.GONE);
                         break;
@@ -900,7 +890,6 @@ public class ChatActivity extends BaseActivity {
             }
         });
     }
-
 
     private float mRawX;
     private float mRawY;

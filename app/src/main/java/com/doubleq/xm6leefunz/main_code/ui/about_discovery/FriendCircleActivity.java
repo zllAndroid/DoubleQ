@@ -1,81 +1,103 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_discovery;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.doubleq.model.DataMyZiliao;
 import com.doubleq.model.find_friend.DataDiscoveryFriendCircle;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
+import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
+import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
+import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_discovery.about_discovery_fragment.DiscoveryFriendCircleAdapter;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class FriendCircleActivity extends BaseActivity {
 
-//    RecyclerView tvRecyclerView;
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
     @BindView(R.id.friendcircle_recyc)
     RecyclerView tvRecyclerView;
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout includeTopLinBackground;
+    @BindView(R.id.discover_iv_head)
+    ImageView discoverIvHead;
+    @BindView(R.id.discover_tv_name)
+    TextView discoverTvName;
 
-    //    RecyclerView vdRecyclerView;
-//    ImageView img_comments;
-//    EditText et_comments;
-//    TextView tv_comments;
-//    String write_comments;
-//    LinearLayout layout_item;
-//    View view;
-//    TextView tv_title;
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-////        setContentView(R.layout.activity_friend_circle);
-////        tvRecyclerView = findViewById(R.id.friendcircle_recyc);
-////        ImageView img_back;
-////        img_back = findViewById(R.id.img_fcircle_back);
-////        img_back.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-//////                AppManaager.getAppManager().finishActivity();
-////            }
-////        });
-////
-////        tvRecyclerView.setHasFixedSize(true);
-////        tvRecyclerView.setNestedScrollingEnabled(false);
-////        tvRecyclerView.setLayoutManager(new GridLayoutManager(FriendCircleActivity.this,1));
-////        initData();
-//    }
+    String nickName;
+    @Override
+    protected int getLayoutView() {
+        return R.layout.activity_friend_circle;
+    }
 
     @Override
     protected void initBaseView() {
         super.initBaseView();
-//        tvRecyclerView = findViewById(R.id.friendcircle_recyc);
         includeTopTvTital.setText("朋友圈");
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.trans));
         tvRecyclerView.setHasFixedSize(true);
         tvRecyclerView.setNestedScrollingEnabled(false);
         tvRecyclerView.setLayoutManager(new GridLayoutManager(FriendCircleActivity.this, 1));
+        getHead();
         initData();
+
     }
 
-    @Override
-    protected int getLayoutView() {
-        return R.layout.activity_friend_circle;
+    private void getHead() {
+        String userNewHead = FilePath.getUserNewHead(this);
+        if (!StrUtils.isEmpty(userNewHead)) {
+//            discoverIvHead.setImageURI(Uri.fromFile(new File(userNewHead)));
+            Glide.with(this).load(Uri.fromFile(new File(userNewHead)))
+                    .bitmapTransform(new CropCircleTransformation(FriendCircleActivity.this))
+//                        .thumbnail(0.1f)
+                    .into(discoverIvHead);
+        }
+//        GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
+//        List<String> fileName = FilePath.getFilesAllName(FilePath.myHeadImg);
+//        if (fileName!=null&&fileName.size()>0)
+//        {
+//            String path=fileName.get(fileName.size()-1);
+//            Glide.with(this).load(path)
+//                    .bitmapTransform(new CropCircleTransformation(getActivity()))
+////                        .thumbnail(0.1f)
+//                    .into(mineIvPerson);
+//        }
+        else {
+            sendWeb(SplitWeb.personalCenter());
+        }
     }
 
     List<DataDiscoveryFriendCircle> frndccList = new ArrayList<>();
     DiscoveryFriendCircleAdapter discoveryFriendCircleAdapter = null;
 
     private void initData() {
+        discoverTvName.setText(nickName);
         DataDiscoveryFriendCircle dataDiscoveryFriendCircle = new DataDiscoveryFriendCircle();
         dataDiscoveryFriendCircle.setImg_head("http://pbmyhukzs.bkt.clouddn.com/Conan.png");
         dataDiscoveryFriendCircle.setTv_name("Conan");
@@ -87,16 +109,6 @@ public class FriendCircleActivity extends BaseActivity {
         dataDiscoveryFriendCircle2.setTv_name("Amy");
         dataDiscoveryFriendCircle2.setTv_words("只要坚定脚步，成功就在眼前，就在旭日在天空升起的那刻。");
         dataDiscoveryFriendCircle2.setImg_pic("http://pbmyhukzs.bkt.clouddn.com/background5_vertical.png");
-
-//            public void onClick(View v) {
-////                img_comments.setImageResource(R.drawable.comments);
-//                et_comments.setVisibility(View.VISIBLE);
-//                write_comments = et_comments.getText().toString();
-//                et_comments.setText(write_comments);
-//                tv_comments.setVisibility(View.VISIBLE);
-//                tv_comments.setText(write_comments);
-//            }
-//
 
         for (int i = 0; i < 3; i++) {
             frndccList.add(dataDiscoveryFriendCircle);
@@ -112,14 +124,6 @@ public class FriendCircleActivity extends BaseActivity {
         discoveryFriendCircleAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                if (view.getId() == R.id.ac_img_discovery_friendcircle_comments) {
-                    Toast.makeText(FriendCircleActivity.this, "我是评论", Toast.LENGTH_SHORT).show();
-//                    img_comments.setImageResource(R.drawable.comments);
-//                    layout_item = (LinearLayout)view;
-//                    et_comments = findViewById(R.id.ac_et_discovery_friendcircle_comments);
-//                    et_comments.setVisibility(View.VISIBLE);
-
-                }
             }
         });
         discoveryFriendCircleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -130,8 +134,39 @@ public class FriendCircleActivity extends BaseActivity {
         });
     }
 
-//    @Override
-//    protected boolean isNeedBackToFormer() {
-//        return true;
-//    }
+    @Override
+    public void receiveResultMsg(String responseText) {
+        super.receiveResultMsg(responseText);
+        String method = HelpUtils.backMethod(responseText);
+        switch (method) {
+            case "personalCenter":
+                DataMyZiliao dataMyZiliao = JSON.parseObject(responseText, DataMyZiliao.class);
+                DataMyZiliao.RecordBean record = dataMyZiliao.getRecord();
+                if (record != null) {
+                    List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
+                    if (fileName != null && fileName.size() > 0) {
+                    } else {
+                        String headImg = record.getHeadImg();
+                        if (!StrUtils.isEmpty(headImg))
+                            Glide.with(this)
+                                    .load(headImg)
+                                    .downloadOnly(new SimpleTarget<File>() {
+                                        @Override
+                                        public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                                            File file = HeadFileUtils.saveHeadPath(FriendCircleActivity.this, resource);
+                                            Glide.with(FriendCircleActivity.this).load(file)
+                                                    .bitmapTransform(new CropCircleTransformation(FriendCircleActivity.this))
+//                            .thumbnail(0.1f)
+                                                    .into(discoverIvHead);
+                                        }
+                                    });
+                    }
+
+                    nickName = record.getNickName();
+                    Log.e("discover","------------------------------------nickName = "+nickName);
+                }
+                break;
+        }
+    }
 }
