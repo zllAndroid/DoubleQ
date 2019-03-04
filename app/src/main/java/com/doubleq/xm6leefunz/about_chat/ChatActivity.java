@@ -18,6 +18,7 @@ import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -211,7 +212,9 @@ public class ChatActivity extends BaseActivity {
         FriendId = cusJumpChatData.getFriendId();
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
         friendHeader = cusJumpChatData.getFriendHeader();
-        includeTopTvTital.setText("和" + cusJumpChatData.getFriendName() + "的聊天");
+        String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName())?cusJumpChatData.getFriendName():cusJumpChatData.getFriendRemarkName();
+        includeTopTvTital.setText("和" + nameText + "的聊天");
+        Log.e("nameText","----------------------------------------------------"+nameText);
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);

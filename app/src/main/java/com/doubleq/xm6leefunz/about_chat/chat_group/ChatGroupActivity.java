@@ -305,7 +305,6 @@ public class ChatGroupActivity extends BaseActivity {
         includeTopIvDrop.setClickable(false);// 屏蔽主动获得点击
         includeTopIvDrop.setPressed(false);
         includeTopIvDrop.setEnabled(false);
-//        sendWeb(SplitWeb.groupSendInterface(groupId));
     }
 
     @Override
@@ -365,7 +364,6 @@ public class ChatGroupActivity extends BaseActivity {
                 cusChatPop.setChatLinMainWhole(chatLinMainWhole);
                 cusChatPop.setGroupId(groupId);
                 cusChatPop.setIsChecked(isChecked);
-                Log.e("setUserGroupDisturb","-------------点击题目行----------------------"+isChecked);
                 cusChatPop.setCardName(cardName);
                 if (chatGroupPopWindow == null)
                     chatGroupPopWindow = new ChatPopWindow(cusChatPop);

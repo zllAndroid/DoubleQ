@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginLeft="@dimen/dp10"
         android:layout_marginRight="@dimen/dp20"
         android:layout_marginTop="@dimen/dp20"
         android:orientation="horizontal">
@@ -51,7 +51,7 @@
             android:singleLine="false"
             android:layout_marginRight="@dimen/dp60"
             android:layout_marginTop="@dimen/dp10"
-            android:layout_marginLeft="@dimen/dp60"/>
+            android:layout_marginLeft="@dimen/dp50"/>
         <TextView
             android:id="@+id/discover_tv_show_all"
             android:layout_width="match_parent"
@@ -61,14 +61,14 @@
             android:text="全文"
             android:singleLine="false"
             android:layout_marginRight="@dimen/dp60"
-            android:layout_marginLeft="@dimen/dp60"/>
+            android:layout_marginLeft="@dimen/dp50"/>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp10"
-        android:layout_marginLeft="@dimen/dp60"
+        android:layout_marginLeft="@dimen/dp50"
         android:layout_marginRight="@dimen/dp60"
         android:descendantFocusability="blocksDescendants">
         <android.support.v7.widget.RecyclerView
@@ -98,7 +98,7 @@
         android:singleLine="false"
         android:text="定位"
         android:layout_marginRight="@dimen/dp60"
-        android:layout_marginLeft="@dimen/dp60"/>
+        android:layout_marginLeft="@dimen/dp50"/>
     <TextView
         android:id="@+id/discover_tv_mention"
         android:layout_width="match_parent"
@@ -109,14 +109,14 @@
         android:text="提到了我"
         android:layout_marginTop="@dimen/dp5"
         android:layout_marginRight="@dimen/dp60"
-        android:layout_marginLeft="@dimen/dp60"/>
+        android:layout_marginLeft="@dimen/dp50"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="right"
         android:layout_marginTop="@dimen/dp10"
-        android:layout_marginLeft="@dimen/dp60"
+        android:layout_marginLeft="@dimen/dp50"
         android:layout_marginRight="@dimen/dp20"
         android:orientation="horizontal">
         <LinearLayout
@@ -184,7 +184,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp10"
-        android:layout_marginLeft="@dimen/dp60"
+        android:layout_marginLeft="@dimen/dp50"
         android:layout_marginRight="@dimen/dp20"
         android:background="@color/greyf3"
         android:orientation="horizontal">
@@ -199,7 +199,7 @@
         android:id="@+id/discover_lin_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/dp60"
+        android:layout_marginLeft="@dimen/dp50"
         android:layout_marginRight="@dimen/dp20"
         android:layout_marginBottom="@dimen/dp20"
         android:layout_marginTop="@dimen/dp5"

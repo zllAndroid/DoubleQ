@@ -383,6 +383,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         cusJumpChatData.setFriendHeader(dataRecord.getHeadImg());
                         cusJumpChatData.setFriendId(dataRecord.getFriendId());
                         cusJumpChatData.setFriendName(dataRecord.getNickName());
+                        cusJumpChatData.setFriendRemarkName(dataRecord.getRemarkName());
                         realmHelper.addRealmMsg(cusJumpChatData);
                         if (esc != null && esc.equals("esc")) {
 //                            AppManager.getAppManager().finishActivity(ChatActivity.class);

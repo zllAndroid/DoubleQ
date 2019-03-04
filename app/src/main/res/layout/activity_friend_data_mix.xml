@@ -197,7 +197,7 @@
                 <ImageView
                     android:layout_width="@dimen/dp25"
                     android:layout_height="@dimen/dp25"
-                    android:src="@drawable/discover_star"
+                    android:src="@drawable/discover_star_white"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/dp10"/>
                 <TextView

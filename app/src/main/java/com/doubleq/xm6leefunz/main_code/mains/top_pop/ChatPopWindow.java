@@ -293,8 +293,8 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     //修改群名片
     private void doChangeCardName() {
         ChangeInfoWindow changeInfoWindow;
-        if (!StrUtils.isEmpty(cardName)){
-            if (cardName.equals("暂未设置")) {
+//        if (!StrUtils.isEmpty(cardName)){
+            if (StrUtils.isEmpty(cardName) || cardName.equals("暂未设置")) {
                 changeInfoWindow = new ChangeInfoWindow(context, "修改群名片", "");
                 changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
             } else {
@@ -303,13 +303,13 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
             }
             changeInfoWindow.setOnAddpopClickListener(this);
         }
-    }
+//    }
 
     //修改备注
     private void doChangeName() {
         ChangeInfoWindow changeInfoWindow;
-        if (!StrUtils.isEmpty(remarkName)){
-            if (remarkName.equals("暂未设置")) {
+//        if (!StrUtils.isEmpty(remarkName)){
+            if (StrUtils.isEmpty(remarkName) || remarkName.equals("暂未设置")) {
                 changeInfoWindow = new ChangeInfoWindow(context, "修改备注", "");
                 changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
             } else {
@@ -317,7 +317,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
                 changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
             }
             changeInfoWindow.setOnAddpopClickListener(this);
-        }
+//        }
     }
 
     String contant = null;
@@ -325,7 +325,8 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     public void onSure(String contant) {
         this.contant = contant;
         if (type.equals("1")) {
-            if (contant.equals("")){
+            if (contant.equals("") ){
+                remarkName = contant;
                 cpTvRemark.setText("暂未设置");
                 onReRemarkListener.reRemark("");
             }else {
@@ -336,6 +337,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
         }
         else{
             if (contant.equals("")){
+                cardName = contant;
                 cpTvRemark.setText("暂未设置");
                 onReCardNameListener.reCardName("");
             }else {
@@ -376,5 +378,4 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     public void setOnClickOutSideListener(OnClickOutSideListener onClickBacListener) {
         this.onClickBacListener = onClickBacListener;
     }
-    //点击外围弹窗消失接口
 }

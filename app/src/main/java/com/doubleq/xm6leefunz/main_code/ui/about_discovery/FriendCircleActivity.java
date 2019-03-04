@@ -22,7 +22,6 @@ import com.doubleq.model.find_friend.DataDiscoveryFriendCircle;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
-import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
@@ -49,6 +48,16 @@ public class FriendCircleActivity extends BaseActivity {
     ImageView discoverIvHead;
     @BindView(R.id.discover_tv_name)
     TextView discoverTvName;
+    @BindView(R.id.include_top_iv_more)
+    ImageView includeTopIvMore;
+    @BindView(R.id.inclu_tv_right)
+    TextView incluTvRight;
+    @BindView(R.id.include_top_lin_newback)
+    LinearLayout includeTopLinNewback;
+    @BindView(R.id.include_top_lin_right)
+    LinearLayout includeTopLinRight;
+    @BindView(R.id.include_top_lin_back)
+    LinearLayout includeTopLinBack;
 
     String nickName;
     @Override
@@ -60,7 +69,14 @@ public class FriendCircleActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         includeTopTvTital.setText("朋友圈");
+        includeTopTvTital.setBackgroundColor(getResources().getColor(R.color.trans));
         includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.trans));
+        includeTopLinNewback.setBackgroundColor(getResources().getColor(R.color.trans));
+        includeTopLinRight.setBackgroundColor(getResources().getColor(R.color.trans));
+        includeTopLinBack.setBackgroundColor(getResources().getColor(R.color.btn_blue));
+        incluTvRight.setVisibility(View.GONE);
+        includeTopIvMore.setVisibility(View.VISIBLE);
+        includeTopIvMore.setImageResource(R.drawable.discover_publish);
         tvRecyclerView.setHasFixedSize(true);
         tvRecyclerView.setNestedScrollingEnabled(false);
         tvRecyclerView.setLayoutManager(new GridLayoutManager(FriendCircleActivity.this, 1));
@@ -97,7 +113,8 @@ public class FriendCircleActivity extends BaseActivity {
     DiscoveryFriendCircleAdapter discoveryFriendCircleAdapter = null;
 
     private void initData() {
-        discoverTvName.setText(nickName);
+        sendWeb(SplitWeb.personalCenter());
+//        discoverTvName.setText(nickName);
         DataDiscoveryFriendCircle dataDiscoveryFriendCircle = new DataDiscoveryFriendCircle();
         dataDiscoveryFriendCircle.setImg_head("http://pbmyhukzs.bkt.clouddn.com/Conan.png");
         dataDiscoveryFriendCircle.setTv_name("Conan");
@@ -164,7 +181,8 @@ public class FriendCircleActivity extends BaseActivity {
                     }
 
                     nickName = record.getNickName();
-                    Log.e("discover","------------------------------------nickName = "+nickName);
+                    discoverTvName.setText(nickName);
+                    Log.e("discover", "------------------------------------nickName = " + nickName);
                 }
                 break;
         }

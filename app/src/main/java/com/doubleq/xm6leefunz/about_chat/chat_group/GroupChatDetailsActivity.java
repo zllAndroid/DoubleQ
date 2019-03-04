@@ -16,7 +16,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.media.session.MediaButtonReceiver;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -51,11 +50,8 @@ import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.about_intent_data.
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.doubleq.xm6leefunz.about_utils.about_file.BaseFilePathUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
-import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupTeamActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
@@ -66,7 +62,6 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearc
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_top_add.QunCodeActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
-import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -84,6 +79,7 @@ import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -137,6 +133,9 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     DataSearch dataSearch = null;
     static String groupId;
     static String groupName;
+    int i = 0;
+    int j = 0;
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -155,7 +154,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         Intent intent = getIntent();
         if (intent != null) {
             groupId = intent.getStringExtra(AppConfig.GROUP_ID);
-            if (!StrUtils.isEmpty(groupId)){
+            if (!StrUtils.isEmpty(groupId)) {
 //                IntentUtils.JumpToHaveOne(GroupTeamActivity.class,"groupId",groupId);
                 sendWeb(SplitWeb.searchDetailInfo(groupId));
             }
@@ -164,12 +163,15 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         initSwiButton();
     }
 
+    String type;
+
     private void initSwiButton() {
         chatsetSwiDarao.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
 //                boolean checked = chatsetSwiZhidingChat.isChecked();
 //                if (dataRecord!=null)
+//                type = chatsetSwiDarao.isChecked()?"2":"1";
                 String daRao = isChecked ? "2":"1";
                 send(SplitWeb.setUserGroupDisturb(groupId,daRao));
             }
@@ -178,13 +180,13 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
 //                boolean check2 = chatsetMsgMiandarao.isChecked();
-                String ass = isChecked ? "2":"1";
-                send(SplitWeb.setUserGroupAssistant(groupId,ass));
+                String ass = isChecked ? "2" : "1";
+                send(SplitWeb.setUserGroupAssistant(groupId, ass));
             }
         });
     }
 
-    public  static   boolean isFirst = false;
+    public static boolean isFirst = false;
 
     @Override
     protected void onResume() {
@@ -235,10 +237,11 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         });
     }
 
-    public static final  String ACTION_UP_GROUP_NAME="action.upGroupName";
+    public static final String ACTION_UP_GROUP_NAME = "action.upGroupName";
 
     boolean isGrouper = false;//    是否群主
     DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean dataRecord;
+
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -268,6 +271,13 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                                 initListHead(group_user_info);
                                 initAdapter(group_user_info, isGrouper);
                             }
+//                            String disturbType = userInfo.getDisturbType();
+//                            if (disturbType.equals("2")) {
+//                                chatsetSwiDarao.setChecked(true);
+//                            } else {
+//                                chatsetSwiDarao.setChecked(false);
+//                            }
+//                            Log.e("disturbGroup", "--------------------------------------------disturbType = " + disturbType);
                         }
                         if (groupInfo != null) {
                             dataRecord = groupInfo;
@@ -292,18 +302,17 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                         sendBroadcast(intent2);
                         AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
                         AppManager.getAppManager().finishActivity(ChatGroupActivity.class);
-                        overridePendingTransition(0,0);
+                        overridePendingTransition(0, 0);
                     }
                 });
-
                 break;
 
             case "upGroupName":
-                realmHelper.updateGroupName(groupId,contant);//更新群名
+                realmHelper.updateGroupName(groupId, contant);//更新群名
                 //        发送广播更新
                 Intent intent = new Intent();
                 intent.putExtra("groupName", contant);
-                intent.putExtra("id",groupId);
+                intent.putExtra("id", groupId);
                 intent.setAction(ACTION_UP_GROUP_NAME);
                 sendBroadcast(intent);
 //                AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
@@ -313,9 +322,9 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
             case "upGroupHeadImg":
                 DataSetGroupHeadResult dataSetGroupHeadResult = JSON.parseObject(responseText, DataSetGroupHeadResult.class);
-                final  DataSetGroupHeadResult.RecordBean recordImg = dataSetGroupHeadResult.getRecord();
+                final DataSetGroupHeadResult.RecordBean recordImg = dataSetGroupHeadResult.getRecord();
                 if (recordImg != null) {
-                    final  String headImg = recordImg.getHeadImg();
+                    final String headImg = recordImg.getHeadImg();
                     if (!StrUtils.isEmpty(headImg))
                         Glide.with(this)
                                 .load(headImg)
@@ -323,8 +332,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                                     @Override
                                     public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
 //                                    这里拿到的resource就是下载好的文件，
-                                        File file = HeadFileUtils.saveImgPath(resource,AppConfig.TYPE_GROUP ,groupId,recordImg.getModified());
-                                        realmLinkFriendHelper.updateHeadPath(groupId,file.getPath(),headImg,recordImg.getModified());
+                                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_GROUP, groupId, recordImg.getModified());
+                                        realmLinkFriendHelper.updateHeadPath(groupId, file.getPath(), headImg, recordImg.getModified());
 
                                     }
                                 });
@@ -336,13 +345,16 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 break;
             case "setUserGroupAssistant":
                 boolean checked = chatsetSwiQunZhu.isChecked();
-                String text= checked?"加入群助手":"取消加入群助手";
+                String text = checked ? "加入群助手" : "取消加入群助手";
                 ToastUtil.show(text);
                 break;
             case "setUserGroupDisturb":
                 boolean checked2 = chatsetSwiDarao.isChecked();
-                String text1= checked2 ? "设置免打扰成功":"取消免打扰";
+//                chatsetSwiDarao.setChecked(!checked2);
+                String text1 = checked2 ? "设置免打扰成功" : "取消免打扰";
                 ToastUtil.show(text1);
+//                Log.e("disturbGroup", "--------------------------------------------chatsetSwiDarao.isChecked() = " + chatsetSwiDarao.isChecked());
+//                Log.e("disturbGroup", "--------------------------------------------checked2 = " + checked2);
                 break;
         }
     }
@@ -370,6 +382,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     };
 
     File save;
+
     //存储头像到本地
     private void initListHead(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info) {
         for (int i = 0; i < group_user_info.size(); i++) {
@@ -434,10 +447,10 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //        设置群各种状态
         String assistantType = userInfo.getAssistantType();
         String disturbType = userInfo.getDisturbType();
-        if (assistantType!=null){
-            chatsetSwiDarao.setChecked(assistantType.equals("2"));
+        if (assistantType != null) {
+            chatsetSwiQunZhu.setChecked(assistantType.equals("2"));
         }
-        if (disturbType!=null){
+        if (disturbType != null) {
             chatsetSwiDarao.setChecked(disturbType.equals("2"));
         }
     }
@@ -449,6 +462,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
     List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> mList = new ArrayList<>();
     List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> mList2 = new ArrayList<>();
+
     private void initAdapter(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info, final boolean isGrouper) {
 //        mList.clear();
         mList2.clear();
@@ -498,13 +512,12 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     //好友关系 1是未添加 2是已添加
                     //群成员关系  1是未添加 2是已添加 3是自己
                     if (item != null) {
-                        if (item.getIsRelation().equals("3")){
+                        if (item.getIsRelation().equals("3")) {
                             // 自己，跳转个人资料界面
                             IntentUtils.JumpTo(ChangeInfoActivity.class);
-                        }
-                        else {
+                        } else {
                             // 自己，跳转个人资料界面
-                            IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",item.getUserId());
+                            IntentUtils.JumpToHaveOne(FriendDataMixActivity.class, "id", item.getUserId());
                         }
 //                        switch (item.getIsRelation()) {
 //                            case "1":
@@ -547,7 +560,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         return R.layout.activity_group_details;
     }
 
-    @OnClick({ R.id.group_data_lin_intogrouplist, R.id.include_top_iv_more, R.id.group_data_lin_myGroupCard,
+    @OnClick({R.id.group_data_lin_intogrouplist, R.id.include_top_iv_more, R.id.group_data_lin_myGroupCard,
             R.id.group_details_lin_group_notice})
     public void onViewClick(View view) {
         switch (view.getId()) {
@@ -595,6 +608,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     }
 
     private Bitmap photo;
+
     private void destoryImage() {
         if (photo != null) {
             photo.recycle();
@@ -606,6 +620,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     private File mPhotoFile;
     private int CAMERA_RESULT_GROUP = 101;
     private int RESULT_LOAD_IMAGE_GROUP = 201;
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == AppConfig.EDIT_GROUP_CARD_RESULT) {
@@ -613,10 +628,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 result = data.getExtras().getString("myGroupCard");
                 groupDataTvMineName.setText(result);
             }
-        }else if (requestCode == AppConfig.EDIT_GROUP_NOTICE_REQUEST)
-        {
-            if (resultCode == AppConfig.EDIT_GROUP_NOTICE_RESULT)
-            {
+        } else if (requestCode == AppConfig.EDIT_GROUP_NOTICE_REQUEST) {
+            if (resultCode == AppConfig.EDIT_GROUP_NOTICE_RESULT) {
                 String msg = data.getExtras().getString(GroupNoticeActivity.GROUP_NOTICES);
                 groupDataTvGonggao.setText(msg);
             }
@@ -636,7 +649,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 bitmapOptions.inSampleSize = be;
                 bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath(), bitmapOptions);
                 save = ImageUtils.saveBitmap(GroupChatDetailsActivity.this, bitmap);
-                sendWeb(SplitWeb.upGroupHeadImg(groupId,ImageUtils.GetStringByImageView(bitmap)));
+                sendWeb(SplitWeb.upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bitmap)));
             }
         }
         //		相册
@@ -653,11 +666,12 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             files.put("file", save);
             Drawable drawable = new BitmapDrawable(getResources(), bitmap);
             c.close();
-            sendWeb(SplitWeb.upGroupHeadImg(groupId,ImageUtils.GetStringByImageView(bitmap)));
+            sendWeb(SplitWeb.upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bitmap)));
         }
     }
 
     String mTmpPath;
+
     /**
      * 7.0 拍照权限
      */
@@ -672,7 +686,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //            return;
 //        }
         CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(groupId);
-        if (cusDataLinkFriend!=null) {
+        if (cusDataLinkFriend != null) {
 
             String time = cusDataLinkFriend.getTime();
 //            if (modified!=null&&!modified.equals(time)) {
@@ -683,7 +697,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //            }
 ////                boolean equals = modified.equals(time);
 ////                setGlideData(!equals,false,modified, friendId, headImg);
-        }else {
+        } else {
 //            setGlideData(false,false,modified, friendId, headImg);
         }
 
@@ -714,7 +728,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         }
     }
 
-    private void setGlideData(final boolean isSame,final boolean isFriend,final String modified, final String groupId, final String headImg) {
+    private void setGlideData(final boolean isSame, final boolean isFriend, final String modified, final String groupId, final String headImg) {
         Glide.with(this)
                 .load(headImg)
                 .downloadOnly(new SimpleTarget<File>() {
@@ -724,8 +738,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                         File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, groupId, modified);
                         if (isSame)
                             realmLinkFriendHelper.updateHeadPath(groupId, file.toString(), headImg, modified);
-                        else
-                        {
+                        else {
                             CusDataLinkFriend linkFriend = new CusDataLinkFriend();
                             linkFriend.setHeadImg(headImg);
                             linkFriend.setFriendId(groupId);
@@ -742,7 +755,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     }
 
     @OnClick({R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat,
-            R.id.include_top_iv_zhuanfa, R.id.group_details_iv_qrcode, R.id.group_details_lin_name, R.id.group_data_iv_head})
+            R.id.include_top_iv_zhuanfa, R.id.group_details_iv_qrcode, R.id.group_details_lin_name, R.id.group_data_iv_head,
+            R.id.group_chat_data_swibtn_nodarao, R.id.group_chat_data_lin_nodarao})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.group_details_lin_set:
@@ -779,13 +793,23 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 doChangeName();
                 break;
             case R.id.group_data_iv_head:
-                if (isGrouper){
+                if (isGrouper) {
                     if (photoPopWindow == null)
                         photoPopWindow = new PhotoPopWindow(GroupChatDetailsActivity.this, MyClick);
                     photoPopWindow.showAtLocation(mLinMain, Gravity.NO_GRAVITY, 0, 0);
-                }else {
+                } else {
 
                 }
+                break;
+            case R.id.group_chat_data_swibtn_nodarao:
+//                type = chatsetSwiDarao.isChecked() ? "1" : "2";
+//                Log.e("disturbGroup", "--------------------------------------type = " + type + "+++++++++++++++++++++++i = " + (i++));
+//                sendWeb(SplitWeb.setUserGroupDisturb(groupId, type));
+                break;
+            case R.id.group_chat_data_lin_nodarao:
+//                type = chatsetSwiDarao.isChecked() ? "1" : "2";
+//                Log.e("disturbGroup", "--------------------------------------type = " + type + "+++++++++++++++++++++++j = " + (j++));
+//                sendWeb(SplitWeb.setUserGroupDisturb(groupId, type));
                 break;
         }
     }
@@ -806,7 +830,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         this.contant = contant;
         switch (isChangeName) {
             case "0":  //群名
-                sendWeb(SplitWeb.upGroupName(groupId,contant));
+                sendWeb(SplitWeb.upGroupName(groupId, contant));
                 break;
             case "1":  //群头像
 //                sendWeb(SplitWeb.upGroupHeadImg(groupId,contant));

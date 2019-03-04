@@ -192,30 +192,84 @@
                 android:background="@color/greyf3"
                 android:layout_height="@dimen/dp1"
                 />
+            <!--<LinearLayout-->
+                <!--android:id="@+id/mine_lin_test"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal">-->
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/dp20"-->
+                    <!--android:layout_height="@dimen/dp20"-->
+                    <!--android:layout_marginLeft="@dimen/dp10"-->
+                    <!--app:srcCompat="@drawable/mine_set"/>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_weight="1"-->
+                    <!--android:padding="@dimen/dp10"-->
+                    <!--android:text="测试" />-->
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="@dimen/dp10"-->
+                    <!--app:srcCompat="@drawable/in_right" />-->
+            <!--</LinearLayout>-->
+            <!--朋友圈动态-->
             <LinearLayout
-                android:id="@+id/mine_lin_test"
+                android:id="@+id/fd_lin_discover"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:background="@color/white">
                 <ImageView
                     android:layout_width="@dimen/dp20"
                     android:layout_height="@dimen/dp20"
-                    android:layout_marginLeft="@dimen/dp10"
-                    app:srcCompat="@drawable/mine_set"/>
+                    android:src="@drawable/discover_star"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dp10"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="@dimen/dp10"
-                    android:text="测试" />
-                <ImageView
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dp8"
+                    android:text="动态"/>
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/dp10"
-                    app:srcCompat="@drawable/in_right" />
-            </LinearLayout>
+                    android:layout_marginLeft="@dimen/dp30"
+                    android:layout_marginTop="@dimen/dp10"
+                    android:layout_marginBottom="@dimen/dp10"
+                    android:layout_weight="1"
+                    android:layout_gravity="center">
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:descendantFocusability="blocksDescendants">
 
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/discover_recyc"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginBottom="0dp"
+                            android:fadingEdge="none" />
+                    </RelativeLayout>
+                </LinearLayout>
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="@dimen/dp10"-->
+                    <!--app:srcCompat="@drawable/in_right" />-->
+                <ImageView
+                    android:layout_width="@dimen/dp20"
+                    android:layout_height="@dimen/dp40"
+                    android:src="@drawable/to_right_white"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/dp20"
+                    android:padding="@dimen/dp5"/>
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

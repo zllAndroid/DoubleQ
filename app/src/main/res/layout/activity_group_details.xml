@@ -382,9 +382,11 @@
                         style="@style/style_wei_line"
                         />
                     <LinearLayout
+                        android:id="@+id/group_chat_data_lin_nodarao"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:focusable="true"
                         android:layout_marginBottom="@dimen/dp5"
                         >
                         <TextView
@@ -405,6 +407,7 @@
                             app:sb_uncheckcircle_color="@color/swi_nor"
                             app:sb_checked_color="@color/swi_select"
                             android:layout_gravity="center"
+                            android:clickable="false"
                             app:sb_checked="false"/>
                     </LinearLayout>
                     <View
