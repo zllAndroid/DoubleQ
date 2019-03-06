@@ -22,6 +22,8 @@ public static final String TYPE_PSW= "psw";//
 public static final String TYPE_URL= "URL";//
 public static final String TYPE_WS_REQUEST= "ws_requst";//
 
+public static final String TYPE_METHON= "methon_request";//
+
 //    保存图片位置
 public static final String TYPE_FRIEND= "friendimg";//好友头像
 public static final String TYPE_GROUP= "groupimg";//群组头像

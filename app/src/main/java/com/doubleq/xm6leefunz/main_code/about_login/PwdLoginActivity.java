@@ -185,6 +185,7 @@ public class PwdLoginActivity extends BaseActivity {
         mCache.put(AppAllKey.TOKEN_KEY, json);
         if (userInfo != null)
             initSetData(userInfo);
+        if (!StrUtils.isEmpty(SplitWeb.getUserId()))
         sendWeb(SplitWeb.bindUid());
     }
 

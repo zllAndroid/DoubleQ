@@ -21,7 +21,7 @@ public class VersionCheckUtils {
     static DataUpdate.RecordBean record = null;
     public static  void initUpdata(final String result, final  boolean isReturn) {
 //        final int localVersion = HelpUtils.getLocalVersion(AppManager.getAppManager().currentActivity());
-                Log.e("result", "请求结果result----------==" + result);
+//                Log.e("result", "请求结果result----------==" + result);
                 final String sucess = HelpUtils.HttpIsSucess(result);
                 if (sucess.equals(AppConfig.CODE_OK)) {
 //                    是否主动请求，无版本更新会弹出提示

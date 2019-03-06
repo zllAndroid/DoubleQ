@@ -41,10 +41,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-/**
- * 作者：Rance on 2016/11/29 10:47
- * 邮箱：rance935@163.com
- */
 public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
 
     @BindView(R.id.chat_item_date)

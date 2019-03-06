@@ -3,10 +3,13 @@ package com.doubleq.xm6leefunz.main_code.about_login;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -21,6 +24,7 @@ import com.doubleq.model.DataServer;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
+import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.EditCheckUtils;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
@@ -38,6 +42,7 @@ import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.doubleq.model.DataLogin;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+import com.zll.websocket.WebSocketService;
 import com.zll.websocket.WebSocketSetting;
 
 import butterknife.BindView;
@@ -107,6 +112,7 @@ public class LoginActivity extends BaseActivity {
             String action = intent.getAction();
             if (action.equals("start_application"))
             {
+                if (!StrUtils.isEmpty(SplitWeb.getUserId()))
                 sendWeb(SplitWeb.bindUid());
 //                if (!isFirst) {
 //                    IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
@@ -157,9 +163,13 @@ public class LoginActivity extends BaseActivity {
         //TODO 集群
         try {
             SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
+            SplitWeb.HTTP_REQUEST = dataLogin.getServerIpHttp();
             String serverIpWs = dataLogin.getServerIpWs();
+            String serverIpHttp = dataLogin.getServerIpHttp();
+            mCache.remove(AppConfig.TYPE_WS_REQUEST);
+            mCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
             mCache.remove(AppConfig.TYPE_URL);
-            mCache.put(AppConfig.TYPE_URL,serverIpWs);
+            mCache.put(AppConfig.TYPE_URL,serverIpHttp);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -180,7 +190,6 @@ public class LoginActivity extends BaseActivity {
         intent.setAction("server_application");
         sendBroadcast(intent);
     }
-
     @Override
     protected void onResume() {
         super.onResume();

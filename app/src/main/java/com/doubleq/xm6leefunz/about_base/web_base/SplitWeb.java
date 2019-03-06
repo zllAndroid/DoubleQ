@@ -29,6 +29,7 @@ public class SplitWeb {
     public static String USER_ID="";
     public static String USER_HEADER= "";
     public static String WS_REQUEST= "";
+    public static String HTTP_REQUEST= "";
 
     //固定第一级请求
 //    public static final String PreRequest= "http://192.168.4.131:40003/";
@@ -117,7 +118,7 @@ public class SplitWeb {
 //192.168.4.48
 
 //    public static String WebSocket_URL = "ws://192.168.4.55:9093";
-//    public static String URL = "http://192.168.4.55:9092/LoginController/";
+    public static String Error_URL = "http://39.108.3.131/check_ip_statu.php?";
 
     //    public static String WebSocket_URL = "ws://192.168.4.48:9093";
 //    public static String URL = "http://192.168.4.48:9092/LoginController/";
@@ -144,6 +145,9 @@ public class SplitWeb {
     public static String addrPort(){
         mList.clear();
         return getURLRequest()+"addrPort?"+ SignForXm6leefunJava.getSing(mList);
+    }
+    public static String errorRequest(String url){
+        return Error_URL+"url="+url;
     }
     public static String register(String mobile, String password,String code){
         mList.clear();

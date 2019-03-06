@@ -167,14 +167,14 @@ public class LoadDataActivity extends BaseActivity {
                 String group = HelpUtils.backLinkMan(responseText, false);
                 if (!StrUtils.isEmpty(friend))
                 {
-                    Log.e("backLinkMan","friend="+friend);
+//                    Log.e("backLinkMan","friend="+friend);
                     DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
 //                    DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
                     dealFriendData(record);
                 }
                 if (!StrUtils.isEmpty(group))
                 {
-                    Log.e("backLinkMan","group="+group);
+//                    Log.e("backLinkMan","group="+group);
                     DataLinkGroupList.RecordBean recordBean = JSON.parseObject(group, DataLinkGroupList.RecordBean.class);
                     dealGroupData(recordBean);
                 }

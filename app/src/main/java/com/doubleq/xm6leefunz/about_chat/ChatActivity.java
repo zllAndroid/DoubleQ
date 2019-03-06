@@ -214,7 +214,7 @@ public class ChatActivity extends BaseActivity {
         friendHeader = cusJumpChatData.getFriendHeader();
         String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName())?cusJumpChatData.getFriendName():cusJumpChatData.getFriendRemarkName();
         includeTopTvTital.setText("和" + nameText + "的聊天");
-        Log.e("nameText","----------------------------------------------------"+nameText);
+//        Log.e("nameText","----------------------------------------------------"+nameText);
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
@@ -375,6 +375,7 @@ public class ChatActivity extends BaseActivity {
                 recordBean.setMessageType(cusRealmChatMsgs.get(i).getMessageType());
                 recordBean.setRequestTime(cusRealmChatMsgs.get(i).getCreated());
                 recordBean.setFriendsId(cusRealmChatMsgs.get(i).getReceiveId());
+                recordBean.setHeadImg(cusRealmChatMsgs.get(i).getImgUrl());
                 mList.add(recordBean);
             }
             chatAdapter.addAll(mList);

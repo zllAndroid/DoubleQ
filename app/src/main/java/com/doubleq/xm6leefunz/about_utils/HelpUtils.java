@@ -95,34 +95,39 @@ public class HelpUtils {
     }
     public static String HttpIsSucess(String result){
         CustomDialog.Builder mBuilder;
-        if (!result.equals("")&&result!=null) {
+        try {
+            if (!result.equals("")&&result!=null) {
 
-            JSONObject object = null;
-            try {
-                object = new JSONObject(result);
-            } catch (JSONException e) {
-                e.printStackTrace();
+                JSONObject object = null;
+                try {
+                    object = new JSONObject(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String code = object.optString("code").toString().trim();
+                if(code==null)
+                    return "";
+                switch (code) {
+                    case AppConfig.CODE_OK:
+                        return code;
+                    case AppConfig.CODE_TIMEOUT:
+                        return "1007";
+    //                    break;
+                    case AppConfig.CODE_TOKEN_OUT:
+    //                    SplitWeb.USER_ID="";
+    ////                    AppManager.getAppManager().finishAllActivity();
+    //                    IntentUtils.JumpTo(LoginActivity.class);
+    //                    getACt().overridePendingTransition(0,0);
+    //                    ACache.get(getACt()).clear();
+    //                    SPUtils.clear(getACt());
+                        return code;
+                    default:
+                        String msg = object.optString("msg").toString().trim();
+                        return msg;
+                }
             }
-            String code = object.optString("code").toString().trim();
-            switch (code) {
-                case AppConfig.CODE_OK:
-                    return code;
-                case AppConfig.CODE_TIMEOUT:
-                    return "1007";
-//                    break;
-                case AppConfig.CODE_TOKEN_OUT:
-//                    SplitWeb.USER_ID="";
-//                    AppManager.getAppManager().finishAllActivity();
-//                    IntentUtils.JumpTo(LoginActivity.class);
-//                    getACt().overridePendingTransition(0,0);
-//                    ACache.get(getACt()).clear();
-//                    SPUtils.clear(getACt());
-                    return code;
-                default:
-                    String msg = object.optString("msg").toString().trim();
-                    return msg;
-            }
-
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return "10086";
     }
@@ -223,7 +228,7 @@ public class HelpUtils {
                     String mStr=s.replace("\\","");
                      mStr=mStr.replace("\"[","");
                      mStr=mStr.replace("\"]","");
-                    MyLog.e("friendList","列表="+mStr);
+//                    MyLog.e("friendList","列表="+mStr);
 
 //                    String json = JSON.toJSON(record).toString();
                     return mStr;

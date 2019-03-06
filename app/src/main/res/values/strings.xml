@@ -7,4 +7,5 @@
     <string name="scan_sao">扫一扫</string>
     <string name="scan_fail">扫码失败</string>
     <string name="scan_success">扫描成功，即将打开该页面</string>
+    <string name="no_net">网络连接错误，请检查...</string>
 </resources>

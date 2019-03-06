@@ -1,7 +1,6 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -11,7 +10,6 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
-import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.CusExitDialog;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.VersionCheckUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.RealmGroupHelper;
@@ -31,7 +29,6 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.DataCleanManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -49,11 +46,6 @@ public class MineSetActivity extends BaseActivity {
     TextView setTvCache;
     @BindView(R.id.set_tv_versition)
     TextView setTvVersition;
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
 
     @Override
     public int getLayoutView() {
@@ -87,7 +79,6 @@ public class MineSetActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null){
             userPhone = intent.getStringExtra("phone");
-//            Log.e("userPhone","-------------minSet0-----------------"+userPhone);
         }
     }
     @Override
@@ -97,11 +88,10 @@ public class MineSetActivity extends BaseActivity {
             String method = HelpUtils.backMethod(responseText);
             switch (method) {
                 case "appUpdate":
-
                     VersionCheckUtils.initUpdata(responseText, false);
                     break;
                 case "kickUid":
-                    Log.e("kickUid","---------------------------------------");
+                    Log.e("kickUid","----------------------kickUid-----------------");
                     break;
             }
         }
@@ -225,9 +215,15 @@ public class MineSetActivity extends BaseActivity {
                                     overridePendingTransition(0,0);
                                     ACache.get(MineSetActivity.this).clear();
                                     SPUtils.clear(MineSetActivity.this);
+                                    if (MyApplication.getmConnectManager()!=null) {
+                                        MyApplication.getmConnectManager().onDestroy();
+                                        MyApplication.mConnectManager = null;
+                                    }
+//                                    MyApplication.getmConnectManager().onDestroyService();
                                     break;
                                 case "2":
 //                                    ToastUtil.show("2");
+                                    sendWeb(SplitWeb.kickUid());
                                     SplitWeb.USER_ID="";
                                     AppManager.getAppManager().finishAllActivity();
                                     Intent intent = new Intent(MineSetActivity.this, LoginActivity.class);
@@ -238,13 +234,15 @@ public class MineSetActivity extends BaseActivity {
                                     realmHelper.deleteAll();
                                     realmChatHelper.deleteAll();
                                     realmGroupHelper.deleteAll();
+                                    if (MyApplication.getmConnectManager()!=null) {
+                                        MyApplication.getmConnectManager().onDestroy();
+                                        MyApplication.mConnectManager = null;
+                                    }
                                     break;
                             }
 
                         }
                     });
-
-
                 }
                 break;
         }

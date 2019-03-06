@@ -29,9 +29,21 @@ public class NotificationClickReceiver extends BroadcastReceiver {
         switch (string)
         {
             case AppConfig.TYPE_CHAT:
-                intent2.setClass(context, MainActivity.class);
-                context.startActivity(intent2);
-
+//                intent2.setClass(context, MainActivity.class);
+//                context.startActivity(intent2);
+                if(IsAppProcessExist.isProcessExist(context,android.os.Process.myPid()))
+                {
+                    intent2.setClass(context, MainActivity.class);
+                    intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent2);
+                }else
+                {
+                    Intent launchIntent = context.getPackageManager().
+                            getLaunchIntentForPackage("com.doubleq.xm6leefunz");
+                    launchIntent.setFlags(
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    context.startActivity(launchIntent);
+                }
 
                 //     CusJumpChatData cusJumpChatData = new CusJumpChatData();
 //                            cusJumpChatData.setFriendHeader(item.getHeadImg());
@@ -56,8 +68,19 @@ public class NotificationClickReceiver extends BroadcastReceiver {
                 break;
 //                群消息
             case AppConfig.TYPE_CHAT_QUN:
-                intent2.setClass(context, MainActivity.class);
-                context.startActivity(intent2);
+                if(IsAppProcessExist.isProcessExist(context,android.os.Process.myPid()))
+                {
+                    intent2.setClass(context, MainActivity.class);
+                    intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent2);
+                }else
+                {
+                    Intent launchIntent = context.getPackageManager().
+                            getLaunchIntentForPackage("com.doubleq.xm6leefunz");
+                    launchIntent.setFlags(
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    context.startActivity(launchIntent);
+                }
                 //     CusJumpChatData cusJumpChatData = new CusJumpChatData();
 //                            cusJumpChatData.setFriendHeader(item.getHeadImg());
 //                            cusJumpChatData.setFriendId(item.getFriendId());
@@ -75,9 +98,39 @@ public class NotificationClickReceiver extends BroadcastReceiver {
 //                    context.startActivity(intent2);
                 break;
             case AppConfig.TYPE_NOTICE:
-                intent2.setClass(context, NoticeActivity.class);
-                intent2.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                context.startActivity(intent2);
+                //判断app进程是否存活
+                if(IsAppProcessExist.isProcessExist(context,android.os.Process.myPid()))
+                {
+//                    Intent mainIntent = new Intent(context, MainActivity.class);
+//                    //将MainAtivity的launchMode设置成SingleTask, 或者在下面flag中加上Intent.FLAG_CLEAR_TOP,
+//                    //如果Task栈中有MainActivity的实例，就会把它移到栈顶，把在它之上的Activity都清理出栈，
+//                    //如果Task栈不存在MainActivity实例，则在栈顶创建
+//                    mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//
+//                    Intent detailIntent = new Intent(context, DetailActivity.class);
+//                    detailIntent.putExtra("name", "电饭锅");
+//                    detailIntent.putExtra("price", "58元");
+//                    detailIntent.putExtra("detail", "这是一个好锅, 这是app进程存在，直接启动Activity的");
+//
+//                    Intent[] intents = {mainIntent, detailIntent};
+//
+//                    context.startActivities(intents);
+
+
+//                    intent2.setClass(context, MainActivity.class);
+//                    intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    context.startActivity(intent2);
+                    intent2.setClass(context, NoticeActivity.class);
+                    intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent2);
+                }else
+                {
+                    Intent launchIntent = context.getPackageManager().
+                            getLaunchIntentForPackage("com.doubleq.xm6leefunz");
+                    launchIntent.setFlags(
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                    context.startActivity(launchIntent);
+                }
 //                if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
 //                    Intent newIntent1 = new Intent(context, NoticeActivity.class).addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 //                    context.startActivity(newIntent1);

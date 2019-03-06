@@ -392,6 +392,9 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         } else
                             IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
                     }
+                    else {
+                        ToastUtil.show("好友数据错误，请退出重试");
+                    }
                 }
                 break;
 

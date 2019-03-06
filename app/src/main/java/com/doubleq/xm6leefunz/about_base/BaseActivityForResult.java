@@ -1,6 +1,7 @@
 package com.doubleq.xm6leefunz.about_base;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -223,7 +224,8 @@ public class BaseActivityForResult extends AppCompatActivity  {
         if (only.equals("1"))
         {
 //            sendWebHaveDialog(SplitWeb.bindUid(),"断线重连中...","重连成功");
-            sendWeb(SplitWeb.bindUid());
+            if (!StrUtils.isEmpty(SplitWeb.getUserId()))
+                sendWeb(SplitWeb.bindUid());
         }
     }
     public void errorResult(String s) {
@@ -240,12 +242,42 @@ public class BaseActivityForResult extends AppCompatActivity  {
     boolean isSendDialog=false;
     protected void sendWeb(String text) {
         isSendDialog=false;
-        MyApplication.getmConnectManager().sendText(text);
+        boolean isConnected = HelpUtils.isNetworkConnected(this);
+        if (isConnected)
+            MyApplication.getmConnectManager().sendText(text);
+        else
+        {
+            try {
+                ToastUtil.show(AppManager.getAppManager().currentActivity().getResources().getString(R.string.no_net));
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+//            ToastUtil.show("请检查网络设置...");
     }
     public static  void send(String text) {
-        MyApplication.getmConnectManager().sendText(text);
+        boolean isConnected = HelpUtils.isNetworkConnected(AppManager.getAppManager().currentActivity());
+        if (isConnected)
+            MyApplication.getmConnectManager().sendText(text);
+        else
+        {
+            try {
+                ToastUtil.show(AppManager.getAppManager().currentActivity().getResources().getString(R.string.no_net));
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
+            }
+        }
     }
     protected void sendWebHaveDialog(String text,String loadText,String loadSuccessText) {
+        boolean isConnected = HelpUtils.isNetworkConnected(this);
+        if (!isConnected) {
+            try {
+                ToastUtil.show(AppManager.getAppManager().currentActivity().getResources().getString(R.string.no_net));
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
         isSendDialog=true;
         if ((ld != null))
             ld.close();
