@@ -340,12 +340,12 @@ public class ChatActivity extends BaseActivity {
         SplitWeb.IS_CHAT = "00";
 
         try {
-//            realmHomeHelper.updateNumZero(FriendId);
-//            Intent intent2 = new Intent();
-//            intent2.putExtra("message", FriendId);
-//            intent2.putExtra("id", FriendId);
-//            intent2.setAction("zero.refreshMsgFragment");
-//            sendBroadcast(intent2);
+            realmHomeHelper.updateNumZero(FriendId);
+            Intent intent2 = new Intent();
+            intent2.putExtra("message", FriendId);
+            intent2.putExtra("id", FriendId);
+            intent2.setAction("zero.refreshMsgFragment");
+            sendBroadcast(intent2);
         } catch (Exception e) {
             e.printStackTrace();
         }

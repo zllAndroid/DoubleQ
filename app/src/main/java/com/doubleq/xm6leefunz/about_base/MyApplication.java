@@ -169,6 +169,11 @@ public class MyApplication extends Application implements IWebSocketPage {
 
     private void initFirstService() {
         String asString = aCache.getAsString(AppConfig.TYPE_WS_REQUEST);
+        if (StrUtils.isEmpty(asString))
+        {
+            ToastUtil.show("系统错误，请联系管理员...");
+            return;
+        }
         WebSocketSetting.setConnectUrl(asString);//必选
         MyLog.e("TYPE_WS_REQUEST=", asString + "---------------initFirstService------------");
 //        WebSocketSetting.setConnectUrl("ws://120.78.92.225:9093");//必选
@@ -210,6 +215,11 @@ public class MyApplication extends Application implements IWebSocketPage {
     }
     private void initManagerService() {
         String asString = aCache.getAsString(AppConfig.TYPE_WS_REQUEST);
+        if (StrUtils.isEmpty(asString))
+        {
+            ToastUtil.show("系统错误，请联系管理员...");
+            return;
+        }
         WebSocketSetting.setConnectUrl(asString);//必选
         MyLog.e("TYPE_WS_REQUEST=", asString + "---------------initManagerService------------");
 //        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
@@ -1213,6 +1223,7 @@ public class MyApplication extends Application implements IWebSocketPage {
 //        mConnectManager.reconnect();
 //        mConnectManager.reBind(SplitWeb.bindUid());
         MyLog.e(TAG, "----------reBind------重新配置-----reconnect------");
+
     }
 
     private ServiceConnection connection = new ServiceConnection() {
@@ -1266,6 +1277,13 @@ public class MyApplication extends Application implements IWebSocketPage {
         aCache.put(AppConfig.TYPE_URL,http);
         mConnectManager.onDestroy();
         mConnectManager=null;
+
+
+        if (StrUtils.isEmpty(serverIpWs))
+        {
+            ToastUtil.show("系统错误，请联系管理员...");
+            return;
+        }
         WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_WS_REQUEST));//必选
 
         mConnectManager = new WebSocketServiceConnectManager(this, this);
@@ -1301,20 +1319,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         Intent intent2 = new Intent();
         intent2.setAction("start_application");
         sendBroadcast(intent2);
-    }
-    private void initSetData(DataLogin.RecordBean dataLogin) {
-
-        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_URL));//必选
-        MyLog.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------2122------");
-//        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
-        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
-        WebSocketSetting.setReconnectWithNetworkChanged(true);
-
-        //启动 WebSocket 服务
-        Intent intent = new Intent(this, WebSocketService.class);
-        startService(intent);
-        mConnectManager = new WebSocketServiceConnectManager(this, this);
-        mConnectManager.onCreate();
     }
     /**
      * 判断服务是否处于运行状态.

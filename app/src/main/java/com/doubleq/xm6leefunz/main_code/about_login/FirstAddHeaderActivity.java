@@ -162,11 +162,11 @@ public class FirstAddHeaderActivity extends BaseActivity {
             DataSetHeader.RecordBean record = dataSetHeader.getRecord();
            SplitWeb.USER_HEADER= record.getHeadImg();
            SplitWeb.NICK_NAME= record.getNickName();
-            SPUtils.put(this,"header",record.getHeadImg());
-            SPUtils.put(this, AppConfig.TYPE_NAME,record.getNickName());
 //            把图片保存至本地文件
             if (record!=null) {
                 String headImg = record.getHeadImg();
+                SPUtils.put(this,AppConfig.User_HEAD_URL,headImg);
+                SPUtils.put(this, AppConfig.TYPE_NAME,record.getNickName());
                 if (!StrUtils.isEmpty(headImg))
                     Glide.with(this)
                             .load(headImg)

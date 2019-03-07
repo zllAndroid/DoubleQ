@@ -122,20 +122,25 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 
     //    从文件中设置头像
     private void setHeadForFile() {
+//        GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
+//        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
+//        if (fileName != null && fileName.size() > 0) {
+//            String path = fileName.get(fileName.size() - 1);
+//            Glide.with(this).load(path)
+//                    .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
+//                    .thumbnail(0.1f)
+//                    .into(changeinfoIvHead);
+//        }
         GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
-        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
-        if (fileName != null && fileName.size() > 0) {
-            String path = fileName.get(fileName.size() - 1);
-            Glide.with(this).load(path)
-                    .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-                    .thumbnail(0.1f)
-
-                    .into(changeinfoIvHead);
-        } else {
+        String userNewHead = FilePath.getUserNewHead(ChangeInfoActivity.this);
+        if (!StrUtils.isEmpty(userNewHead))
+        {
+            changeinfoIvHead.setImageURI(Uri.fromFile(new File(userNewHead)));
+        }
+        else {
             Glide.with(this).load(R.drawable.first_head_nor)
                     .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
                     .thumbnail(0.1f)
-
                     .into(changeinfoIvHead);
         }
     }

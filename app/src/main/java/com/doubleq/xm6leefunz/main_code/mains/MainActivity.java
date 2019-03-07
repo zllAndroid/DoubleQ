@@ -172,6 +172,7 @@ public class MainActivity extends BaseActivity {
 
     private String[] tvtab ={"消息","联系人","发现", "个人中心" };
     TextView mTvNum;
+//    int[] imgs = {R.drawable.tab_ac_main_msg,R.drawable.tab_ac_main_contacts, R.drawable.tab_ac_main_pesonal};
     int[] imgs = {R.drawable.tab_ac_main_msg,R.drawable.tab_ac_main_contacts, R.drawable.tab_ac_main_discovery,R.drawable.tab_ac_main_pesonal};
     @Override
     protected boolean isSupportSwipeBack() {
