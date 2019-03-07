@@ -45,6 +45,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_personal.changephoto.PhotoPopWi
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import java.io.File;
 import java.io.IOException;
@@ -122,25 +123,22 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 
     //    从文件中设置头像
     private void setHeadForFile() {
-//        GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
-//        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
-//        if (fileName != null && fileName.size() > 0) {
-//            String path = fileName.get(fileName.size() - 1);
-//            Glide.with(this).load(path)
-//                    .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-//                    .thumbnail(0.1f)
-//                    .into(changeinfoIvHead);
-//        }
         GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
-        String userNewHead = FilePath.getUserNewHead(ChangeInfoActivity.this);
-        if (!StrUtils.isEmpty(userNewHead))
-        {
-            changeinfoIvHead.setImageURI(Uri.fromFile(new File(userNewHead)));
+        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
+        if (fileName != null && fileName.size() > 0) {
+            String path = fileName.get(fileName.size() - 1);
+            Glide.with(this).load(path)
+                    .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
+                    .thumbnail(0.1f)
+
+                    .into(changeinfoIvHead);
         }
+
         else {
             Glide.with(this).load(R.drawable.first_head_nor)
                     .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
                     .thumbnail(0.1f)
+
                     .into(changeinfoIvHead);
         }
     }
@@ -347,7 +345,13 @@ String userId;
                 if (be <= 0)
                     be = 1;
                 bitmapOptions.inSampleSize = be;
+
                 bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath(), bitmapOptions);
+                if (bitmap==null)
+                {
+                    ToastUtil.show("不支持的图片，请重新选择");
+                    return;
+                }
                 save = ImageUtils.saveBitmap(ChangeInfoActivity.this, bitmap);
                 sendWeb(SplitWeb.upHeadImg(ImageUtils.GetStringByImageView(bitmap)));
             }
@@ -361,6 +365,11 @@ String userId;
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             String imagePath = c.getString(columnIndex);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            if (bitmap==null)
+            {
+                ToastUtil.show("不支持的图片，请重新选择");
+                return;
+            }
             save = ImageUtils.saveBitmap(ChangeInfoActivity.this, bitmap);
             final Map<String, File> files = new HashMap<String, File>();
             files.put("file", save);

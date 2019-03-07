@@ -495,6 +495,11 @@ public class CreatGroupChatActivity extends BaseActivity {
                     be = 1;
                 bitmapOptions.inSampleSize = be;
                 bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath(), bitmapOptions);
+                if (bitmap==null)
+                {
+                    ToastUtil.show("不支持的图片，请重新选择");
+                    return;
+                }
                 save = ImageUtils.saveBitmap(CreatGroupChatActivity.this, bitmap);
 //                final Map<String, File> files = new HashMap<String, File>();
 //                files.put("file", save);
@@ -523,6 +528,11 @@ public class CreatGroupChatActivity extends BaseActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 //            File saveBitmap = null;
 //                saveBitmap = ImageUtils.saveFile(bitmap);
+            if (bitmap==null)
+            {
+                ToastUtil.show("不支持的图片，请重新选择");
+                return;
+            }
             save = ImageUtils.saveBitmap(CreatGroupChatActivity.this, bitmap);
             final Map<String, File> files = new HashMap<String, File>();
             files.put("file", save);

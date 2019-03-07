@@ -648,6 +648,11 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     be = 1;
                 bitmapOptions.inSampleSize = be;
                 bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath(), bitmapOptions);
+                if (bitmap==null)
+                {
+                    ToastUtil.show("不支持的图片，请重新选择");
+                    return;
+                }
                 save = ImageUtils.saveBitmap(GroupChatDetailsActivity.this, bitmap);
                 sendWeb(SplitWeb.upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bitmap)));
             }
@@ -661,6 +666,11 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             String imagePath = c.getString(columnIndex);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            if (bitmap==null)
+            {
+                ToastUtil.show("不支持的图片，请重新选择");
+                return;
+            }
             save = ImageUtils.saveBitmap(GroupChatDetailsActivity.this, bitmap);
             final Map<String, File> files = new HashMap<String, File>();
             files.put("file", save);

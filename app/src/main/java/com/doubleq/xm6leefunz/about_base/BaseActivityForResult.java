@@ -213,10 +213,11 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //        如果打开弹窗加载显示，收到服务器的返回0.5秒后自动关闭（防止反应太快还没显示清楚就隐藏）
         if (isSendDialog&&isSucess.equals(AppAllKey.CODE_OK))
         {
-            mHandler.sendEmptyMessageDelayed(LOAD_SUCCESS, 100);
+            mHandler.sendEmptyMessageDelayed(SAVE_YOU, 100);
+//            mHandler.sendEmptyMessageDelayed(LOAD_SUCCESS, 100);
         }else if (isSendDialog)
         {
-            mHandler.sendEmptyMessageDelayed(LOAD_FAILED, 100);
+            mHandler.sendEmptyMessageDelayed(SAVE_YOU, 100);
         }
         if (isSend&&isSucess.equals(AppAllKey.CODE_OK))
         {
@@ -291,7 +292,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
             ld.close();
         ld = new LoadingDialog(this);
         ld.setLoadingText(loadText)
-                .setSuccessText(loadSuccessText)
+//                .setSuccessText(loadSuccessText)
                 .setInterceptBack(intercept_back_event)
                 .setLoadSpeed(speed)
                 .setRepeatCount(repeatTime)

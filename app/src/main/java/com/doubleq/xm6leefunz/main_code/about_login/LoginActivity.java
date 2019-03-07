@@ -226,8 +226,8 @@ public class LoginActivity extends BaseActivity {
         if (s.equals("bindUid")) {
             if (!isFirst) {
 //                TODO 修改
-                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
-//                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
+//                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
             }
             else
                 IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);

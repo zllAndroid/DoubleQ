@@ -135,7 +135,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
             switch (data.getMessageType())
             {
                 case Constants.CHAT_TEXT:
-                    chatItemContentText.setSpanText(handler, data.getMessage(), true);
+                    chatItemContentText.setSpanText(handler, data.getMessage(), false);
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.VISIBLE);
                     chatItemLayoutContent.setVisibility(View.VISIBLE);
@@ -158,7 +158,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
                     });
                     break;
                 case Constants.CHAT_EMOTION:
-                    chatItemContentText.setSpanText(handler, data.getMessage(), true);
+                    chatItemContentText.setSpanText(handler, data.getMessage(), false);
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.VISIBLE);
                     chatItemLayoutContent.setVisibility(View.VISIBLE);

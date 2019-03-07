@@ -133,7 +133,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
             {
                 case Constants.CHAT_TEXT:
                     chatItemContentText.setTextColor(Color.BLACK);
-                    chatItemContentText.setSpanText(handler, data.getMessage(), true);
+                    chatItemContentText.setSpanText(handler, data.getMessage(), false);
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.VISIBLE);
                     chatItemLayoutContent.setVisibility(View.VISIBLE);
@@ -155,7 +155,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
                     });
                     break;
                 case Constants.CHAT_EMOTION:
-                    chatItemContentText.setSpanText(handler, data.getMessage(), true);
+                    chatItemContentText.setSpanText(handler, data.getMessage(), false);
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.VISIBLE);
                     chatItemLayoutContent.setVisibility(View.VISIBLE);

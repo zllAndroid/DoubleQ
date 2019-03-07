@@ -1217,14 +1217,16 @@ public class MyApplication extends Application implements IWebSocketPage {
         }
     }
     private void dealStatusOne() {
-        if (mConnectManager!=null) {
-            mConnectManager.onDestroy();
-            mConnectManager = null;
+        try {
+            if (mConnectManager!=null) {
+                mConnectManager.onDestroy();
+                mConnectManager = null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        if (mConnectManager==null) {
-            mConnectManager = new WebSocketServiceConnectManager(this, this);
+        mConnectManager = new WebSocketServiceConnectManager(this, this);
             mConnectManager.onCreate();
-        }
 //        mConnectManager.reconnect();
 //        mConnectManager.reBind(SplitWeb.bindUid());
         MyLog.e(TAG, "----------reBind------重新配置-----reconnect------");
