@@ -218,6 +218,13 @@ public class BaseActivityForResult extends AppCompatActivity  {
         {
             mHandler.sendEmptyMessageDelayed(LOAD_FAILED, 100);
         }
+        if (isSend&&isSucess.equals(AppAllKey.CODE_OK))
+        {
+            mHandler.sendEmptyMessageDelayed(SAVE_YOU, 100);
+        }else if (isSend)
+        {
+            mHandler.sendEmptyMessageDelayed(SAVE_YOU, 100);
+        }
 
 
         String only = HelpUtils.backOnly(data.toString());
@@ -240,6 +247,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
 
     RealmHomeHelper realmHelper;
     boolean isSendDialog=false;
+    boolean isSend=false;
     protected void sendWeb(String text) {
         isSendDialog=false;
         boolean isConnected = HelpUtils.isNetworkConnected(this);
@@ -284,6 +292,31 @@ public class BaseActivityForResult extends AppCompatActivity  {
         ld = new LoadingDialog(this);
         ld.setLoadingText(loadText)
                 .setSuccessText(loadSuccessText)
+                .setInterceptBack(intercept_back_event)
+                .setLoadSpeed(speed)
+                .setRepeatCount(repeatTime)
+//                .setDrawColor(Color.WHITE)
+                .setLoadStyle(style)
+                .show();
+        saveForThesePeopleWhoDoNotCallCloseAndUseInterceptBackMethod(intercept_back_event);
+        MyApplication.getmConnectManager().sendText(text);
+    }
+    protected void sendWebOnlyDialog(String text,String loadText) {
+        boolean isConnected = HelpUtils.isNetworkConnected(this);
+        if (!isConnected) {
+            try {
+                ToastUtil.show(AppManager.getAppManager().currentActivity().getResources().getString(R.string.no_net));
+            } catch (Resources.NotFoundException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+        isSend=true;
+        if ((ld != null))
+            ld.close();
+        ld = new LoadingDialog(this);
+        ld.setLoadingText(loadText)
+//                .setSuccessText(loadSuccessText)
                 .setInterceptBack(intercept_back_event)
                 .setLoadSpeed(speed)
                 .setRepeatCount(repeatTime)

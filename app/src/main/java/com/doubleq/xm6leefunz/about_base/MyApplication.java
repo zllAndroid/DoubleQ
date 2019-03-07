@@ -153,7 +153,6 @@ public class MyApplication extends Application implements IWebSocketPage {
         super.onTerminate();
         PgyCrashManager.unregister();
         try {
-            mConnectManager.onDestroy();
             if (mRefreshBroadcastReceiver!=null)
                 unregisterReceiver(mRefreshBroadcastReceiver);
         } catch (Exception e) {
@@ -199,11 +198,12 @@ public class MyApplication extends Application implements IWebSocketPage {
         Intent intent = new Intent(this, WebSocketService.class);
         startService(intent);
 //        MyLog.e("initFirstService",AppManager.getAppManager().currentActivity().getClass().getSimpleName()+"");
-
-        if (mConnectManager==null) {
+        if (mConnectManager!=null) {
+            mConnectManager.onDestroy();
+            mConnectManager = null;
+        }
             mConnectManager = new WebSocketServiceConnectManager(this, this);
             mConnectManager.onCreate();
-        }
         mConnectManager.reconnect();
         mConnectManager.reBind(SplitWeb.bindUid());
         Intent intent2 = new Intent();
@@ -229,10 +229,13 @@ public class MyApplication extends Application implements IWebSocketPage {
         //启动 WebSocket 服务
         Intent intent = new Intent(this, WebSocketService.class);
         startService(intent);
-        if (mConnectManager==null) {
+
+        if (mConnectManager!=null) {
+            mConnectManager.onDestroy();
+            mConnectManager = null;
+        }
             mConnectManager = new WebSocketServiceConnectManager(this, this);
             mConnectManager.onCreate();
-        }
     }
 //    private void initOneService() {
 //        //配置 WebSocket，必须在 WebSocket 服务启动前设置
@@ -1214,8 +1217,10 @@ public class MyApplication extends Application implements IWebSocketPage {
         }
     }
     private void dealStatusOne() {
-        mConnectManager.onDestroy();
-        mConnectManager=null;
+        if (mConnectManager!=null) {
+            mConnectManager.onDestroy();
+            mConnectManager = null;
+        }
         if (mConnectManager==null) {
             mConnectManager = new WebSocketServiceConnectManager(this, this);
             mConnectManager.onCreate();
@@ -1275,9 +1280,10 @@ public class MyApplication extends Application implements IWebSocketPage {
         aCache.remove(AppConfig.TYPE_URL);
         aCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
         aCache.put(AppConfig.TYPE_URL,http);
-        mConnectManager.onDestroy();
-        mConnectManager=null;
-
+        if (mConnectManager!=null) {
+            mConnectManager.onDestroy();
+            mConnectManager = null;
+        }
 
         if (StrUtils.isEmpty(serverIpWs))
         {

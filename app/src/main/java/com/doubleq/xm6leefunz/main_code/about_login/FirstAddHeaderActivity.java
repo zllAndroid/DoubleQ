@@ -78,10 +78,10 @@ public class FirstAddHeaderActivity extends BaseActivity {
     RelativeLayout mReHead;
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
 
     @Override
@@ -137,17 +137,18 @@ public class FirstAddHeaderActivity extends BaseActivity {
                 break;
             case R.id.first_btn_sure:
                 String name = firstEdName.getText().toString().trim();
-                if (imageBase64==null)
-                {
-                    ToastUtil.show("请选择头像设置");
-                    return;
-                }
+//                if (imageBase64==null)
+//                {
+//                    ToastUtil.show("请选择头像设置");
+//                    return;
+//                }
+//
                 if (StrUtils.isEmpty(name))
                 {
                     ToastUtil.show("请输入您的昵称");
                     return;
                 }
-                sendWebHaveDialog(SplitWeb.setHeadImg(name, imageBase64),"请稍等...","设置成功");
+                sendWebOnlyDialog(SplitWeb.setHeadImg(name, imageBase64),"请稍等...");
                 break;
         }
     }
@@ -178,15 +179,19 @@ public class FirstAddHeaderActivity extends BaseActivity {
                                 }
                             });
             }
-            DialogUtils.showDialogOne("头像昵称设置成功", new DialogUtils.OnClickSureListener() {
-                @Override
-                public void onClickSure() {
-                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
+            IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
 //                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);
 //                AppManager.getAppManager().finishActivity();
-                    overridePendingTransition(0,0);
-                }
-            });
+            overridePendingTransition(0,0);
+//            DialogUtils.showDialogOne("头像昵称设置成功", new DialogUtils.OnClickSureListener() {
+//                @Override
+//                public void onClickSure() {
+//                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
+////                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);
+////                AppManager.getAppManager().finishActivity();
+//                    overridePendingTransition(0,0);
+//                }
+//            });
         }
     }
 
