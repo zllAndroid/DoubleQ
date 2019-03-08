@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/item_my_discover_tv_year"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="2019年"
+        android:layout_marginTop="@dimen/dp20"
+        android:layout_marginLeft="@dimen/dp40"
+        android:layout_marginRight="@dimen/dp40"
+        android:textColor="@color/app_theme"
+        android:textSize="@dimen/sp18"/>
+</LinearLayout>

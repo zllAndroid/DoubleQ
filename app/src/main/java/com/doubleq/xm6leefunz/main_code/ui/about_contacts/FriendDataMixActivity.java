@@ -245,8 +245,6 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     }
                 });
                 break;
-
-
         }
 
     }
@@ -362,6 +360,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     Intent intent = new Intent(this, ChooseGroupActivity.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("FriendId", FriendId);
+                    bundle.putString("type", "1");
                     intent.putExtras(bundle);
                     startActivityForResult(intent, AppConfig.FRIEND_DATA_GROUP_REQUEST);
                 }

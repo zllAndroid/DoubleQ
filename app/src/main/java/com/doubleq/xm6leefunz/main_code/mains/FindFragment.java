@@ -56,7 +56,7 @@ public class FindFragment extends BaseFragment {
             }
         });
         //        朋友圈
-        view.findViewById(R.id.lin_discovery_friendcircle).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.discover_lin_friendcircle).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), FriendCircleActivity.class));

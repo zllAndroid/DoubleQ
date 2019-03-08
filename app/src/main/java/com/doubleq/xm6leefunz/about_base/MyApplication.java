@@ -35,6 +35,7 @@ import com.doubleq.xm6leefunz.about_base.deal_application.DealFriendAdd;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupAdd;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupingSort;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyFriendList;
+import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyGroupList;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyGroupOfList;
 import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
@@ -202,8 +203,8 @@ public class MyApplication extends Application implements IWebSocketPage {
             mConnectManager.onDestroy();
             mConnectManager = null;
         }
-            mConnectManager = new WebSocketServiceConnectManager(this, this);
-            mConnectManager.onCreate();
+        mConnectManager = new WebSocketServiceConnectManager(this, this);
+        mConnectManager.onCreate();
         mConnectManager.reconnect();
         mConnectManager.reBind(SplitWeb.bindUid());
         Intent intent2 = new Intent();
@@ -234,8 +235,8 @@ public class MyApplication extends Application implements IWebSocketPage {
             mConnectManager.onDestroy();
             mConnectManager = null;
         }
-            mConnectManager = new WebSocketServiceConnectManager(this, this);
-            mConnectManager.onCreate();
+        mConnectManager = new WebSocketServiceConnectManager(this, this);
+        mConnectManager.onCreate();
     }
 //    private void initOneService() {
 //        //配置 WebSocket，必须在 WebSocket 服务启动前设置
@@ -500,6 +501,10 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "modifyGroupingSortSend":
                     DealGroupingSort.groupingSort(this,message.getResponseText());
                     break;
+//                    群
+//                case "modifyGroupOfListSend":
+//                    DealModifyGroupList.modifyGroupOfGroup(this,message.getResponseText());
+//                    break;
             }
         }
     }

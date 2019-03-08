@@ -25,6 +25,7 @@ import com.doubleq.xm6leefunz.about_base.BaseFragment;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_broadcastreceiver.NetEvent;
 import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
+import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
@@ -291,7 +292,7 @@ public class ContactChildFragment extends BaseFragment {
     }
 
     //群组数据
-    List<DataLinkGroupList.RecordBean.GroupInfoListBean> mGroupList = new ArrayList<>();
+    public static List<DataLinkGroupList.RecordBean.GroupInfoListBean> mGroupList = new ArrayList<>();
     /**
      * websocket 数据返回处理
      * @param responseText
@@ -609,8 +610,9 @@ public class ContactChildFragment extends BaseFragment {
                 {
                     realmHelper.addRealmMsgQun(cusHomeRealmData);
                 }
+//                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 
-                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupListBean.getGroupOfId());
 //                        ToastUtil.show("组别"+(groupPosition+1)+"点击了子"+group_name);
                 return false;
             }

@@ -41,6 +41,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeI
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MineSetActivity;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyDiscoverActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -265,7 +266,7 @@ public class PersonalFragment extends BaseFragment  {
     }
 
     @OnClick({R.id.mine_iv_qrcode,R.id.mine_iv_person,R.id.include_frag_img_search, R.id.include_frag_img_add, R.id.mine_lin_person_info,
-            R.id.mine_lin_share, R.id.mine_lin_set})
+            R.id.mine_lin_share, R.id.mine_lin_set,R.id.mine_lin_discover})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.mine_iv_person:
@@ -299,10 +300,12 @@ public class PersonalFragment extends BaseFragment  {
                 IntentUtils.JumpTo(ChangeInfoActivity.class);
                 break;
             case R.id.mine_lin_share:
-                IntentUtils.JumpToHaveOne(MyAccountActivity.class,"userId",userId);
+//                IntentUtils.JumpToHaveOne(MyAccountActivity.class,"userId",userId);
+                IntentUtils.JumpTo(MyAccountActivity.class);
                 break;
             case R.id.mine_iv_qrcode:
-                IntentUtils.JumpToHaveOne(MyAccountActivity.class,"userId",userId);
+//                IntentUtils.JumpToHaveOne(MyAccountActivity.class,"userId",userId);
+                IntentUtils.JumpTo(MyAccountActivity.class);
                 break;
             case R.id.mine_lin_set:
 //                Log.e("userPhone","-------------personal-----------------"+userPhone);
@@ -311,6 +314,9 @@ public class PersonalFragment extends BaseFragment  {
 //            case R.id.mine_lin_test:
 //                IntentUtils.JumpTo(TestActivity.class);
 //                break;
+            case R.id.mine_lin_discover:
+                IntentUtils.JumpToHaveOne(MyDiscoverActivity.class,"userId",userId);
+                break;
         }
     }
 }

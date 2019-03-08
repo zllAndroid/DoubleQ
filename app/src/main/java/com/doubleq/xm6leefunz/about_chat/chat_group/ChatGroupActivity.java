@@ -615,7 +615,6 @@ public class ChatGroupActivity extends BaseActivity {
     }
 
     ChatNewsWindow chatWindow = null;
-
     private void dealReceiverResult(String responseText) {
         DataGroupChatResult dataJieShou1 = JSON.parseObject(responseText, DataGroupChatResult.class);
         final DataGroupChatResult.RecordBean record2 = dataJieShou1.getRecord();
@@ -717,8 +716,6 @@ public class ChatGroupActivity extends BaseActivity {
     }
 
     String time = null;
-
-
     private void dealSendResult(String responseText) {
         DataGroupChatSend dataJieShou = JSON.parseObject(responseText, DataGroupChatSend.class);
         DataGroupChatSend.RecordBean record = dataJieShou.getRecord();
@@ -759,7 +756,6 @@ public class ChatGroupActivity extends BaseActivity {
     Bitmap bitmap;
     CustomPopWindow popWindow = null;
     View view = null;
-
     private int mPressedPos; // 被点击的位置
     /**
      * item点击事件

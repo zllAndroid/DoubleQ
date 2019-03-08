@@ -63,6 +63,36 @@
             android:layout_margin="@dimen/dp10"
             />
         <LinearLayout
+            android:id="@+id/cp_lin_lock"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp20">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="加密聊天"
+                android:layout_weight="1"
+                android:textColor="@color/grey666"
+                android:textSize="@dimen/sp16" />
+            <TextView
+                android:id="@+id/cp_tv_lock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:maxEms="6"
+                android:layout_marginLeft="@dimen/dp10"
+                android:layout_gravity="right"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp16" />
+        </LinearLayout>
+        <View
+            style="@style/style_chat_pop_line"
+            android:layout_margin="@dimen/dp10"
+            />
+        <LinearLayout
             android:id="@+id/cp_lin_remark"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

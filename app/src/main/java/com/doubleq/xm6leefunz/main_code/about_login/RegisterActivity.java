@@ -39,10 +39,10 @@ public class RegisterActivity extends BaseActivity {
     @BindView(R.id.reg_ed_psw)
     EditText regEdPsw;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
 
     @Override

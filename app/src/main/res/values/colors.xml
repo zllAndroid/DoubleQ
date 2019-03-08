@@ -35,6 +35,7 @@
     <color name="text_enabled">#FFFFFFFF</color>
     <color name="text_disabled">#90c9f2</color>
     <color name="app_theme">#1edec9</color>
+    <color name="app_theme_discover_text">#0ab6b6</color>
     <color name="app_theme_trans">#991edec9</color>
     <color name="chattrans">#0000</color>
     <color name="main_app_theme">#1edec9</color>

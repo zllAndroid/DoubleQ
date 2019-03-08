@@ -15,6 +15,7 @@ public class CusChatPop implements Serializable {
     LinearLayout chatLinMainWhole;
     String isChecked;
     String type;
+    boolean isLocked;
 
     public Context getContext() {
         return context;
@@ -88,4 +89,11 @@ public class CusChatPop implements Serializable {
         this.type = type;
     }
 
+    public boolean isLocked() {
+        return isLocked;
+    }
+
+    public void setLocked(boolean locked) {
+        isLocked = locked;
+    }
 }

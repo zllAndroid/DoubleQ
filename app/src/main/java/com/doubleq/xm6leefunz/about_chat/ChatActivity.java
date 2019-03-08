@@ -35,9 +35,9 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.doubleq.model.CusChatPop;
 import com.doubleq.model.CusJumpChatData;
 import com.doubleq.model.DataChatPop;
-import com.doubleq.model.CusChatPop;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
@@ -88,6 +88,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.doubleq.xm6leefunz.about_utils.IntentUtils.JumpToHaveOne;
@@ -141,6 +142,8 @@ public class ChatActivity extends BaseActivity {
     LinearLayout includeTopLinTitle;
     @BindView(R.id.chat_lin_main_whole)
     LinearLayout chatLinMainWhole;
+    @BindView(R.id.include_top_iv_lock)
+    ImageView includeTopIvLock;
 
     private EmotionInputDetector mDetector;
     private ArrayList<Fragment> fragments;
@@ -188,7 +191,7 @@ public class ChatActivity extends BaseActivity {
     DataChatPop dataChatPop;
     String remarkName;
     String groupName;
-    boolean isDrop = true;
+    boolean isLocked = false;
     CusChatPop cusChatPop;
 
 
@@ -212,15 +215,21 @@ public class ChatActivity extends BaseActivity {
         FriendId = cusJumpChatData.getFriendId();
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
         friendHeader = cusJumpChatData.getFriendHeader();
-        String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName())?cusJumpChatData.getFriendName():cusJumpChatData.getFriendRemarkName();
+        String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
         includeTopTvTital.setText("和" + nameText + "的聊天");
+        Log.e("nameText", "----------------------------------------------------" + nameText);
 //        Log.e("nameText","----------------------------------------------------"+nameText);
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
 //        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
         sendWeb(SplitWeb.privateSendInterface(FriendId));
-
+        if (isLocked){
+            includeTopIvLock.setVisibility(View.VISIBLE);
+        }
+        else {
+            includeTopIvLock.setVisibility(View.GONE);
+        }
 
         initWidget();
 //        初始化数据库的聊天记录
@@ -257,7 +266,8 @@ public class ChatActivity extends BaseActivity {
             }
         });
     }
-    @OnClick({R.id.include_top_iv_more, R.id.include_top_lin_title,R.id.include_top_iv_drop})
+
+    @OnClick({R.id.include_top_iv_more, R.id.include_top_lin_title, R.id.include_top_iv_drop})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.include_top_iv_more:
@@ -272,18 +282,19 @@ public class ChatActivity extends BaseActivity {
                 cusChatPop.setGroupingName(groupName);
                 cusChatPop.setRemarkName(remarkName);
                 cusChatPop.setChatLinMainWhole(chatLinMainWhole);
-                if(chatPopWindow==null)
+                cusChatPop.setLocked(isLocked);
+                if (chatPopWindow == null)
                     chatPopWindow = new ChatPopWindow(cusChatPop);
                 chatPopWindow.showAtBottom(includeTopLinTitle);
                 chatPopWindow.setOnClickOutSideListener(new ChatPopWindow.OnClickOutSideListener() {
                     @Override
                     public void Clicked(String type) {
                         includeTopIvDrop.setActivated(false);
-                        if (type!=null&&type.equals("1"))
-                        {
+                        if (type != null && type.equals("1")) {
                             Intent intent = new Intent(ChatActivity.this, ChooseGroupActivity.class);
                             Bundle bundle = new Bundle();
                             bundle.putString("FriendId", FriendId);
+                            bundle.putString("type", "1");
                             intent.putExtras(bundle);
                             startActivityForResult(intent, AppConfig.FRIEND_DATA_Chat_REQUEST);
                         }
@@ -292,26 +303,39 @@ public class ChatActivity extends BaseActivity {
                 chatPopWindow.setOnReRemarkListener(new ChatPopWindow.OnReRemarkListener() {
                     @Override
                     public void reRemark(String remarkName) {
-                        sendWeb(SplitWeb.friendRemarkName(FriendId,remarkName));
+                        sendWeb(SplitWeb.friendRemarkName(FriendId, remarkName));
                     }
                 });
-
+                chatPopWindow.setOnClickLockListener(new ChatPopWindow.OnClickLockListener() {
+                    @Override
+                    public void Locked(boolean isLock) {
+                        isLocked = isLock;
+                        if (isLocked){
+                            includeTopIvLock.setVisibility(View.VISIBLE);
+                        }
+                        else {
+                            includeTopIvLock.setVisibility(View.GONE);
+                        }
+                    }
+                });
                 break;
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == AppConfig.FRIEND_ADD_GROUP_RESULT) {
             if (requestCode == AppConfig.FRIEND_DATA_Chat_REQUEST) {
-                chatPopWindow=null;
+                chatPopWindow = null;
                 String name = data.getStringExtra(ChooseGroupActivity.CHOOSE_NAME);
 //                String id = data.getStringExtra(ChooseGroupActivity.CHOOSE_ID);
-                groupName=name;
+                groupName = name;
                 //设置结果显示框的显示数值
             }
         }
     }
+
     //    设置状态栏的高度为负状态栏高度，因为xml 设置了 android:fitsSystemWindows="true",会占用一个状态栏的高度；
     private void setAboutBar() {
 //        获取状态栏的高度
@@ -354,10 +378,9 @@ public class ChatActivity extends BaseActivity {
         realmHomeHelper.close();
         realmHelper = null;
         realmHomeHelper = null;
-        if (chatPopWindow != null)
-        {
+        if (chatPopWindow != null) {
             chatPopWindow.dismiss();
-            chatPopWindow=null;
+            chatPopWindow = null;
         }
 
     }
@@ -565,19 +588,21 @@ public class ChatActivity extends BaseActivity {
                 dealReceiverResult(responseText);
                 break;
             case "friendRemarkName":
+                String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
+                includeTopTvTital.setText("和" + nameText + "的聊天");
 //                sendWeb(SplitWeb.privateSendInterface(FriendId));
                 break;
             case "privateSendInterface":
                 dataChatPop = JSON.parseObject(responseText, DataChatPop.class);
                 DataChatPop.RecordBean recordBean = dataChatPop.getRecord();
-                if (recordBean != null)
-                {
-                    remarkName = StrUtils.isEmpty(recordBean.getRemarkName())?"暂未设置":recordBean.getRemarkName();
-                    groupName = StrUtils.isEmpty(recordBean.getGroupName())?"暂无":recordBean.getGroupName();
+                if (recordBean != null) {
+                    remarkName = StrUtils.isEmpty(recordBean.getRemarkName()) ? "暂未设置" : recordBean.getRemarkName();
+                    groupName = StrUtils.isEmpty(recordBean.getGroupName()) ? "暂无" : recordBean.getGroupName();
                 }
                 break;
         }
     }
+
     ChatNewsWindow chatWindow = null;
     private void dealReceiverResult(String responseText) {
         DataJieShou dataJieShou1 = JSON.parseObject(responseText, DataJieShou.class);

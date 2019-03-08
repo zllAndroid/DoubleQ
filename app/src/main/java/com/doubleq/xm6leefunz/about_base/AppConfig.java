@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.about_base;
 
+import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.GroupNoticeActivity;
 
 /**
@@ -117,7 +118,9 @@ public static final String KEY_MD5= "md5";//"md5";
     public static final int FRIEND_ADD_GROUP_RESULT=0x3;//AddGoodFriendActivity
     public static final int FRIEND_DATA_GROUP_RESULT=0x4;//返回给FriendDataActivity
 
-
+    //群分组请求码
+    public static final int GROUP_DATA_GROUPING_REQUEST=0x1;//GroupChatDetailsActivity 页面的请求码
+    public static final int GROUP_DATA_GROUPING_RESULT=0x2;//GroupChatDetailsActivity 页面的结果码
 
     public static final String GROUP_ID= "group_id";
 

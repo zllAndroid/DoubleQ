@@ -38,7 +38,7 @@
     </LinearLayout>
            <TextView
                android:id="@+id/group_manage_tv_add"
-               android:layout_width="wrap_content"
+               android:layout_width="@dimen/dp150"
                android:layout_height="wrap_content"
                android:background="@drawable/btn_stroke_sel"
                android:textColor="@color/white"
@@ -46,8 +46,9 @@
                android:paddingRight="@dimen/dp30"
                android:paddingTop="@dimen/dp10"
                android:layout_gravity="center_horizontal"
+               android:gravity="center"
                android:layout_marginTop="@dimen/dp10"
-               android:layout_marginBottom="@dimen/dp20"
+               android:layout_marginBottom="@dimen/dp30"
                android:paddingBottom="@dimen/dp10"
                android:textSize="@dimen/sp16"
                android:text="增加分组"/>

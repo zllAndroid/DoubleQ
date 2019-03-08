@@ -53,6 +53,15 @@
             android:gravity="center"
             android:descendantFocusability="blocksDescendants"
             >
+            <ImageView
+                android:id="@+id/include_top_iv_lock"
+                android:layout_width="@dimen/dp30"
+                android:layout_height="@dimen/dp30"
+                android:layout_gravity="center"
+                android:padding="@dimen/dp15"
+                android:visibility="gone"
+                android:background="@drawable/chat_lock"
+                />
             <TextView
                 android:id="@+id/include_top_tv_title"
                 android:layout_width="wrap_content"

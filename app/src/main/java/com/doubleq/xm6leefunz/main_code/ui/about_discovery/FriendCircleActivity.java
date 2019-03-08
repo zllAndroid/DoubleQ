@@ -44,10 +44,6 @@ public class FriendCircleActivity extends BaseActivity {
     RecyclerView tvRecyclerView;
     @BindView(R.id.include_top_lin_background)
     LinearLayout includeTopLinBackground;
-    @BindView(R.id.discover_iv_head)
-    ImageView discoverIvHead;
-    @BindView(R.id.discover_tv_name)
-    TextView discoverTvName;
     @BindView(R.id.include_top_iv_more)
     ImageView includeTopIvMore;
     @BindView(R.id.inclu_tv_right)
@@ -58,6 +54,10 @@ public class FriendCircleActivity extends BaseActivity {
     LinearLayout includeTopLinRight;
     @BindView(R.id.include_top_lin_back)
     LinearLayout includeTopLinBack;
+    @BindView(R.id.include_discover_iv_head)
+    ImageView includeDiscoverIvHead;
+    @BindView(R.id.include_discover_tv_name)
+    TextView includeDiscoverTvName;
 
     String nickName;
     @Override
@@ -73,7 +73,6 @@ public class FriendCircleActivity extends BaseActivity {
         includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.trans));
         includeTopLinNewback.setBackgroundColor(getResources().getColor(R.color.trans));
         includeTopLinRight.setBackgroundColor(getResources().getColor(R.color.trans));
-        includeTopLinBack.setBackgroundColor(getResources().getColor(R.color.btn_blue));
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.discover_publish);
@@ -92,7 +91,7 @@ public class FriendCircleActivity extends BaseActivity {
             Glide.with(this).load(Uri.fromFile(new File(userNewHead)))
                     .bitmapTransform(new CropCircleTransformation(FriendCircleActivity.this))
 //                        .thumbnail(0.1f)
-                    .into(discoverIvHead);
+                    .into(includeDiscoverIvHead);
         }
 //        GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
 //        List<String> fileName = FilePath.getFilesAllName(FilePath.myHeadImg);
@@ -175,13 +174,13 @@ public class FriendCircleActivity extends BaseActivity {
                                             Glide.with(FriendCircleActivity.this).load(file)
                                                     .bitmapTransform(new CropCircleTransformation(FriendCircleActivity.this))
 //                            .thumbnail(0.1f)
-                                                    .into(discoverIvHead);
+                                                    .into(includeDiscoverIvHead);
                                         }
                                     });
                     }
 
                     nickName = record.getNickName();
-                    discoverTvName.setText(nickName);
+                    includeDiscoverTvName.setText(nickName);
                     Log.e("discover", "------------------------------------nickName = " + nickName);
                 }
                 break;

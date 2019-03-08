@@ -193,40 +193,44 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
                 //  好友的二维码
                 if (c.equals("1")){
                     substring = qrCode.substring(12);
-                    Log.e("qrCode","----------substring_scanCode=" + substring);
-                    DialogUtils.showDialog("扫描成功，是否添加此好友？", new DialogUtils.OnClickSureListener() {
-                        @Override
-                        public void onClickSure() {
+//                    Log.e("qrCode","----------substring_scanCode=" + substring);
+//                    DialogUtils.showDialog("扫描成功，是否添加此好友？", new DialogUtils.OnClickSureListener() {
+//                        @Override
+//                        public void onClickSure() {
 //                            sendWebHaveDialog(SplitWeb.addFriendQrCode(substring),"查看好友信息中...","获取成功");
-                            IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",substring);
-                            AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
-                        }
-                    }, new DialogUtils.OnClickCancleListener() {
-                        @Override
-                        public void onClickCancle() {
-                            resultScan=null;
-                            reScan();
-                        }
-                    });
+                    sendWeb(SplitWeb.addFriendQrCode(substring));
+                    IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",substring);
+                    AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
+//                        }
+//                    }, new DialogUtils.OnClickCancleListener() {
+//                        @Override
+//                        public void onClickCancle() {
+//                            resultScan=null;
+//                            reScan();
+//                        }
+//                    });
                 }
                 //  群的二维码
                 else if (c.equals(IS_GROUP)){
                     substring = qrCode.substring(12);
-                    Log.e("qrCode","--------------------------sub_scanCode_group=" + substring);
-                    DialogUtils.showDialog("扫描成功，是否加入该群？", new DialogUtils.OnClickSureListener() {
-                        @Override
-                        public void onClickSure() {
-                            sendWebHaveDialog(SplitWeb.addGroupOfQrCode(substring),"查看群信息中...","获取成功");
-//                            IntentUtils.JumpToHaveOne(GroupDataAddActivity.class,"id",substring);
-                            AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
-                        }
-                    }, new DialogUtils.OnClickCancleListener() {
-                        @Override
-                        public void onClickCancle() {
-                            resultScan=null;
-                            reScan();
-                        }
-                    });
+
+//                    Log.e("qrCode","--------------------------sub_scanCode_group=" + substring);
+//                    DialogUtils.showDialog("扫描成功，是否加入该群？", new DialogUtils.OnClickSureListener() {
+//                        @Override
+//                        public void onClickSure() {
+//                            sendWebHaveDialog(SplitWeb.addGroupOfQrCode(substring),"查看群信息中...","获取成功");
+                    sendWeb(SplitWeb.addGroupOfQrCode(substring));
+//                    Log.e("addGroupOfQrCodes","----------------------------------------------------------");
+//                    IntentUtils.JumpToHaveOne(GroupDataAddActivity.class,AppConfig.GROUP_SNO,substring);
+                    AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
+//                        }
+//                    }, new DialogUtils.OnClickCancleListener() {
+//                        @Override
+//                        public void onClickCancle() {
+//                            resultScan=null;
+//                            reScan();
+//                        }
+//                    });
                 }
 
 //                sendWebHaveDialog(SplitWeb.addFriendQrCode(substring),"查看好友信息中...","获取成功");

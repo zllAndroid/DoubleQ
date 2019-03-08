@@ -36,7 +36,7 @@
         android:textColor="@color/white"
         android:textSize="@dimen/sp16"
         android:visibility="invisible"
-        android:background="@drawable/btn_shape_login_nor"
+        android:background="@drawable/pwd_tv_notice_background"
         android:gravity="center"/>
 
     <RelativeLayout

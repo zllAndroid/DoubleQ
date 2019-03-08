@@ -33,6 +33,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.doubleq.model.DataAddQunDetails;
+import com.doubleq.model.DataLinkGroupList;
 import com.doubleq.model.DataSetGroupHeadResult;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
@@ -47,11 +48,15 @@ import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.GroupNoticeActivit
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.GrouperEscActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.InvitationGroupChatActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.sub_group.about_intent_data.IntentDataInvitation;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.ImageUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
+import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.ChooseGroupActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.ContactChildFragment;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.GroupTeamActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
@@ -69,6 +74,7 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+import com.rance.chatui.util.Constants;
 import com.suke.widget.SwitchButton;
 
 import java.io.File;
@@ -128,13 +134,14 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     SwitchButton chatsetSwiQunZhu;
 
     RealmHomeHelper realmHelper;
+    @BindView(R.id.group_data_tv_grouping_name)
+    TextView groupDataTvGroupingName;
     private RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
     RealmLinkFriendHelper realmLinkFriendHelper;
     DataSearch dataSearch = null;
     static String groupId;
     static String groupName;
-    int i = 0;
-    int j = 0;
+    static String groupChatName;
 
     @Override
     protected void initBaseView() {
@@ -163,8 +170,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         initSwiButton();
     }
 
-    String type;
-
     private void initSwiButton() {
         chatsetSwiDarao.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
             @Override
@@ -172,8 +177,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //                boolean checked = chatsetSwiZhidingChat.isChecked();
 //                if (dataRecord!=null)
 //                type = chatsetSwiDarao.isChecked()?"2":"1";
-                String daRao = isChecked ? "2":"1";
-                send(SplitWeb.setUserGroupDisturb(groupId,daRao));
+                String daRao = isChecked ? "2" : "1";
+                send(SplitWeb.setUserGroupDisturb(groupId, daRao));
             }
         });
         chatsetSwiQunZhu.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
@@ -187,7 +192,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     }
 
     public static boolean isFirst = false;
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -199,7 +203,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     }
 
     View mView;
-
     private void initRightPop() {
         mView = LayoutInflater.from(this).inflate(R.layout.pop_group_details_esc, null);
         mView.findViewById(R.id.pop_btn_esc).setOnClickListener(new View.OnClickListener() {
@@ -241,7 +244,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
     boolean isGrouper = false;//    是否群主
     DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean dataRecord;
-
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -271,13 +273,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                                 initListHead(group_user_info);
                                 initAdapter(group_user_info, isGrouper);
                             }
-//                            String disturbType = userInfo.getDisturbType();
-//                            if (disturbType.equals("2")) {
-//                                chatsetSwiDarao.setChecked(true);
-//                            } else {
-//                                chatsetSwiDarao.setChecked(false);
-//                            }
-//                            Log.e("disturbGroup", "--------------------------------------------disturbType = " + disturbType);
                         }
                         if (groupInfo != null) {
                             dataRecord = groupInfo;
@@ -382,7 +377,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     };
 
     File save;
-
     //存储头像到本地
     private void initListHead(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info) {
         for (int i = 0; i < group_user_info.size(); i++) {
@@ -453,6 +447,9 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         if (disturbType != null) {
             chatsetSwiDarao.setChecked(disturbType.equals("2"));
         }
+
+//        设置所在群分组
+        groupDataTvGroupingName.setText(userInfo.getGroupManageName());
     }
 
     private void initNotice(DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupNoticeBean group_notice) {
@@ -462,7 +459,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
     List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> mList = new ArrayList<>();
     List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> mList2 = new ArrayList<>();
-
     private void initAdapter(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info, final boolean isGrouper) {
 //        mList.clear();
         mList2.clear();
@@ -546,7 +542,10 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         groupMemberAdapter.notifyDataSetChanged();
     }
 
+    String groupHeadImg;
     private void initUI(DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean) {
+        groupHeadImg = groupInfoBean.getGroupHeadImg();
+        groupChatName = groupInfoBean.getGroupName();
         Glide.with(this).load(groupInfoBean.getGroupHeadImg())
                 .bitmapTransform(new CropCircleTransformation(GroupChatDetailsActivity.this))
                 .error(R.drawable.qun_head)
@@ -608,7 +607,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     }
 
     private Bitmap photo;
-
     private void destoryImage() {
         if (photo != null) {
             photo.recycle();
@@ -623,18 +621,29 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        修改群名片
         if (resultCode == AppConfig.EDIT_GROUP_CARD_RESULT) {
-            if (requestCode == AppConfig.EDIT_GROUP_CARD_REQUEST) {
+            if (requestCode == AppConfig.EDIT_GROUP_CARD_REQUEST){
                 result = data.getExtras().getString("myGroupCard");
                 groupDataTvMineName.setText(result);
             }
-        } else if (requestCode == AppConfig.EDIT_GROUP_NOTICE_REQUEST) {
-            if (resultCode == AppConfig.EDIT_GROUP_NOTICE_RESULT) {
+        }
+//        修改群公告
+        else if (resultCode == AppConfig.EDIT_GROUP_NOTICE_RESULT) {
+            if (requestCode == AppConfig.EDIT_GROUP_NOTICE_REQUEST) {
                 String msg = data.getExtras().getString(GroupNoticeActivity.GROUP_NOTICES);
                 groupDataTvGonggao.setText(msg);
             }
         }
-
+//        群选择分组
+        else if (resultCode == AppConfig.GROUP_DATA_GROUPING_RESULT) {
+            Log.e("groupingName","---------------------requestCode-----------------------"+requestCode+"--------"+AppConfig.GROUP_DATA_GROUPING_REQUEST);
+            if (requestCode == AppConfig.GROUP_DATA_GROUPING_REQUEST) {
+                Log.e("groupingName","---------------------resultCode-----------------------"+resultCode+"--------"+AppConfig.GROUP_DATA_GROUPING_RESULT);
+                String name = data.getStringExtra(ChooseGroupActivity.CHOOSE_NAME_GROUP);
+                groupDataTvGroupingName.setText(name);
+            }
+        }
         //		相机
         else if (requestCode == CAMERA_RESULT_GROUP && resultCode == RESULT_OK) {
             if (mPhotoFile != null && mPhotoFile.exists()) {
@@ -681,7 +690,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     }
 
     String mTmpPath;
-
     /**
      * 7.0 拍照权限
      */
@@ -766,7 +774,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
     @OnClick({R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat,
             R.id.include_top_iv_zhuanfa, R.id.group_details_iv_qrcode, R.id.group_details_lin_name, R.id.group_data_iv_head,
-            R.id.group_chat_data_swibtn_nodarao, R.id.group_chat_data_lin_nodarao})
+            R.id.group_chat_data_swibtn_nodarao, R.id.group_chat_data_lin_nodarao,R.id.group_data_lin_grouping, R.id.group_details_tv_to_chat})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.group_details_lin_set:
@@ -807,8 +815,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     if (photoPopWindow == null)
                         photoPopWindow = new PhotoPopWindow(GroupChatDetailsActivity.this, MyClick);
                     photoPopWindow.showAtLocation(mLinMain, Gravity.NO_GRAVITY, 0, 0);
-                } else {
-
                 }
                 break;
             case R.id.group_chat_data_swibtn_nodarao:
@@ -821,8 +827,45 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //                Log.e("disturbGroup", "--------------------------------------type = " + type + "+++++++++++++++++++++++j = " + (j++));
 //                sendWeb(SplitWeb.setUserGroupDisturb(groupId, type));
                 break;
+            case R.id.group_data_lin_grouping:
+                if (NoDoubleClickUtils.isDoubleClick()) {
+                    Intent intent = new Intent(this, ChooseGroupActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("groupId", groupId);
+                    Log.e("group_id","-------------------------------------------"+groupId);
+                    bundle.putString("type", "2");
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, AppConfig.GROUP_DATA_GROUPING_REQUEST);
+                }
+                break;
+            case R.id.group_details_tv_to_chat:
+                // 群聊
+                CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
+                cusJumpChatData.setGroupId(groupId);
+                cusJumpChatData.setGroupName(groupChatName);
+
+                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
+                cusHomeRealmData.setHeadImg(groupHeadImg);
+                cusHomeRealmData.setFriendId(groupId);
+                cusHomeRealmData.setNickName(groupChatName);
+                cusHomeRealmData.setNum(0);
+
+                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
+                if (cusHomeRealmData1!=null)
+                {
+                    realmHelper.updateNumZero(groupId);
+                }else
+                {
+                    realmHelper.addRealmMsgQun(cusHomeRealmData);
+                }
+                Log.e("groupInfos","---------------------------------------------------"+groupHeadImg+"------------------------"+groupChatName);
+                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                break;
         }
     }
+
+//    //群组数据
+//    List<DataLinkGroupList.RecordBean.GroupInfoListBean> mGroupList = new ArrayList<>();
 
     // 修改群名
     private void doChangeName() {

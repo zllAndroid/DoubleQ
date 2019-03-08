@@ -434,6 +434,14 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "friendGroupModify", map);
         return  request;
     }
+    //    用户群分组管理修改
+    public  static  String groupOfGroupModify(String groupOfId,String groupId){
+        dealMap();
+        putData("groupOfId",groupOfId);
+        putData("groupId",groupId);
+        String request = WebUrl.request("Contact", "groupOfGroupModify", map);
+        return  request;
+    }
 
     //    私聊popWindow
     public  static  String privateSendInterface(String friendId){
@@ -496,9 +504,9 @@ public class SplitWeb {
      * 添加群二维码
      * @return
      */
-    public  static  String addGroupOfQrCode(String groupId){
+    public  static  String addGroupOfQrCode(String groupSno){
         dealMap();
-        putData("groupId",groupId);
+        putData("groupSno",groupSno);
         String request = WebUrl.request("Contact", "addGroupOfQrCode", map);
         return  request;
     }
@@ -754,17 +762,25 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "getFriendInfo", map);
         return  request;
     }
+//    用户好友分组列表
     public  static  String friendGroupList(String friendsId){
         dealMap();
         putData("friendsId",friendsId);
         String request = WebUrl.request("Contact", "friendGroupList", map);
         return  request;
     }
+//    用户群分组列表
+    public  static  String groupOfGroupList(String groupOfId){
+        dealMap();
+        putData("groupOfId",groupOfId);
+        String request = WebUrl.request("Contact", "groupOfGroupList", map);
+        return  request;
+    }
     //    添加好友
     public  static  String addFriend(String friend_sno,String group_id,String remark,String remark_name){
         dealMap();
         putData("friendSno",friend_sno);
-//        选择要放置的分组id
+//        选择要放置的分组idgroupOfGroupList
         if (!StrUtils.isEmpty(group_id))
             putData("groupId",group_id);
         if (!StrUtils.isEmpty(remark))

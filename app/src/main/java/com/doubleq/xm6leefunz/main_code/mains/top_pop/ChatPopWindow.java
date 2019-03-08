@@ -49,12 +49,14 @@ import java.util.Stack;
 public class ChatPopWindow extends PopupWindow implements View.OnClickListener, ChangeInfoWindow.OnAddContantClickListener {
     TextView cpTvRemark;
     TextView cpTvGroup;
+    TextView cpTvLock;
     SwitchButton switchButton;
-    LinearLayout chatLinMainWhole, cpLinGroup, mLinWindow;
+    LinearLayout chatLinMainWhole, cpLinGroup, mLinWindow,cpLinLock;
 
     private Context context;
     private String friendId, groupId, groupingName, remarkName, cardName, isChecked, type;
     private View chat_data, chat_group, chat_remark;
+    private boolean isLocked;
 
     public ChatPopWindow(CusChatPop cusChatPop) {
         super(cusChatPop.getContext());
@@ -67,6 +69,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
         this.chatLinMainWhole = cusChatPop.getChatLinMainWhole();
         this.isChecked = cusChatPop.getIsChecked();
         this.type = cusChatPop.getType();
+        this.isLocked = cusChatPop.isLocked();
         initialize();
     }
 
@@ -160,11 +163,15 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
         chat_remark = view.findViewById(R.id.cp_lin_remark);//备注
         cpTvRemark = view.findViewById(R.id.cp_tv_remark);//备注tv
         mLinWindow = view.findViewById(R.id.cp_lin_window);//popUpWindow
+        cpLinLock = view.findViewById(R.id.cp_lin_lock);//加密聊天
+        cpTvLock = view.findViewById(R.id.cp_tv_lock);//加密聊天tv
         cpTvRemark.setText(remarkName);
         cpTvGroup.setText(groupingName);
+
         chat_data.setOnClickListener(this);
         chat_group.setOnClickListener(this);
         chat_remark.setOnClickListener(this);
+        cpLinLock.setOnClickListener(this);
     }
 
     private void initGroupWindow(View view) {
@@ -181,6 +188,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
             else
                 switchButton.setChecked(false);
         }
+
         chat_data.setOnClickListener(this);
         cpLinGroup.setOnClickListener(this);
         chat_remark.setOnClickListener(this);
@@ -263,6 +271,18 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
                     dismiss();
                 }
                 break;
+            case R.id.cp_lin_lock:
+                isLocked = !isLocked;
+                if (isLocked){
+                    cpTvLock.setText("已加密");
+                }
+                else {
+                    cpTvLock.setText("");
+                }
+                onClickLockListener.Locked(isLocked);
+                onClickBacListener.Clicked("");
+                dismiss();
+                break;
             default:
                 break;
         }
@@ -272,9 +292,9 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent messageEvent){
         String method = HelpUtils.backMethod(messageEvent.getMessage());
-//        int i = 0;
         switch (method){
             case "setUserGroupDisturb":
+//        int i = 0;
 //                DataChatGroupPop dataChatGroupPop = JSON.parseObject(messageEvent.getMessage(),DataChatGroupPop.class);
 //                DataChatGroupPop.RecordBean recordBean = dataChatGroupPop.getRecord();
 //                if (recordBean != null){
@@ -294,29 +314,29 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     private void doChangeCardName() {
         ChangeInfoWindow changeInfoWindow;
 //        if (!StrUtils.isEmpty(cardName)){
-            if (StrUtils.isEmpty(cardName) || cardName.equals("暂未设置")) {
-                changeInfoWindow = new ChangeInfoWindow(context, "修改群名片", "");
-                changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
-            } else {
-                changeInfoWindow = new ChangeInfoWindow(context, "修改群名片", cpTvRemark.getText().toString().trim());
-                changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
-            }
-            changeInfoWindow.setOnAddpopClickListener(this);
+        if (StrUtils.isEmpty(cardName) || cardName.equals("暂未设置")) {
+            changeInfoWindow = new ChangeInfoWindow(context, "修改群名片", "");
+            changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
+        } else {
+            changeInfoWindow = new ChangeInfoWindow(context, "修改群名片", cpTvRemark.getText().toString().trim());
+            changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
         }
+        changeInfoWindow.setOnAddpopClickListener(this);
+    }
 //    }
 
     //修改备注
     private void doChangeName() {
         ChangeInfoWindow changeInfoWindow;
 //        if (!StrUtils.isEmpty(remarkName)){
-            if (StrUtils.isEmpty(remarkName) || remarkName.equals("暂未设置")) {
-                changeInfoWindow = new ChangeInfoWindow(context, "修改备注", "");
-                changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
-            } else {
-                changeInfoWindow = new ChangeInfoWindow(context, "修改备注", cpTvRemark.getText().toString().trim());
-                changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
-            }
-            changeInfoWindow.setOnAddpopClickListener(this);
+        if (StrUtils.isEmpty(remarkName) || remarkName.equals("暂未设置")) {
+            changeInfoWindow = new ChangeInfoWindow(context, "修改备注", "");
+            changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
+        } else {
+            changeInfoWindow = new ChangeInfoWindow(context, "修改备注", cpTvRemark.getText().toString().trim());
+            changeInfoWindow.showAtLocation(chatLinMainWhole, Gravity.CENTER, 0, 0);
+        }
+        changeInfoWindow.setOnAddpopClickListener(this);
 //        }
     }
 
@@ -377,5 +397,14 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
     }
     public void setOnClickOutSideListener(OnClickOutSideListener onClickBacListener) {
         this.onClickBacListener = onClickBacListener;
+    }
+
+    //加密聊天接口
+    OnClickLockListener onClickLockListener = null;
+    public interface OnClickLockListener {
+        void Locked(boolean isLocked);
+    }
+    public void setOnClickLockListener(OnClickLockListener onClickLockListener) {
+        this.onClickLockListener = onClickLockListener;
     }
 }

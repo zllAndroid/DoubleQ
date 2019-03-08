@@ -40,7 +40,7 @@ public class NoticeAdapter extends BaseQuickAdapter<DataNews.RecordBean.ListInfo
                 .into((ImageView) helper.getView(R.id.item_iv_head));
         helper.setText(R.id.item_tv_name, item.getNickName());
         // 获取备注信息
-//        helper.setText(R.id.item_tv_name, item.get());
+        helper.setText(R.id.item_tv_remark, item.getRemark().getMessage());
         TextView mTvClick = helper.getView(R.id.item_tv_click_ok);
         switch (item.getIsAgree()) {
             case "0":

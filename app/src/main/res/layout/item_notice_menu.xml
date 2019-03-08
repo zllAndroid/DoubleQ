@@ -40,8 +40,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginTop="@dimen/dp5"
                     android:textColor="@color/gray999"
-                    android:textSize="@dimen/sp12"
-                    android:text="备注信息"/>
+                    android:textSize="@dimen/sp12"/>
 
             </LinearLayout>
 

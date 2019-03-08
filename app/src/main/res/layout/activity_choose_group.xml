@@ -24,7 +24,17 @@
                             />
                 </RelativeLayout>
         </LinearLayout>
-
+        <TextView
+            android:id="@+id/choose_group_tv_nothing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp80"
+            android:gravity="center"
+            android:visibility="gone"
+            android:textSize="@dimen/sp16"
+            android:textColor="@color/grey666"
+            android:text="您尚未创建分组"/>
 
 
 </LinearLayout>

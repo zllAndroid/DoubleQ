@@ -13,11 +13,20 @@
     <include
         layout="@layout/activity_include_title_bar"
         />
+    <ImageView
+        android:id="@+id/changeinfo_iv_qrcode"
+        android:layout_width="@dimen/dp25"
+        android:layout_height="@dimen/dp25"
+        app:srcCompat="@drawable/friend_data_ercode"
+        android:adjustViewBounds="true"
+        android:layout_margin="@dimen/dp10"
+        android:layout_gravity="right"
+        />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="@dimen/dp70"
+        android:layout_marginTop="@dimen/dp20"
         >
         <RelativeLayout
 
@@ -81,15 +90,7 @@
                         android:drawableRight="@drawable/change_icon"
                         />
                 </LinearLayout>
-                <ImageView
-                    android:id="@+id/changeinfo_iv_qrcode"
-                    android:layout_width="@dimen/dp25"
-                    android:layout_height="@dimen/dp25"
-                    app:srcCompat="@drawable/friend_data_ercode"
-                    android:adjustViewBounds="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginLeft="@dimen/dp10"
-                    />
+
             </RelativeLayout>
 
             <!--帐号-->

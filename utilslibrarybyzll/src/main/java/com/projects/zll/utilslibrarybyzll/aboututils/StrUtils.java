@@ -301,7 +301,8 @@ public class StrUtils {
 			return false;
 		}
 //		Pattern p = Pattern.compile("^[a-zA-Z0-9!@#$%^&*()_+-=]{8,16}$");
-		Pattern p = Pattern.compile("^(?![0-9])(?![0-9]+$)(?![a-zA-Z]+$)[a-zA-Z0-9!@#$%^&*()_+-=]{6,20}$");
+//		Pattern p = Pattern.compile("^(?![0-9])(?![0-9]+$)(?![a-zA-Z]+$)[a-zA-Z0-9!@#$%^&*()_+-=]{6,20}$");
+		Pattern p = Pattern.compile("^(?![0-9]+$)(?![a-zA-Z]+$)[a-zA-Z0-9!@#$%^&*()_+-=.“”，。、?！`~￥]{6,20}$");
 		Matcher m = p.matcher(password);
 		boolean b = m.find();
 		Log.e("validatePassword","------------------"+b);

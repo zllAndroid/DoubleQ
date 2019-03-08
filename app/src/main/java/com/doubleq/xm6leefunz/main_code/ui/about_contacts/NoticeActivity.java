@@ -110,7 +110,9 @@ public class NoticeActivity extends BaseActivity {
             case "agreeFriend":
                 if (blackAdapter!=null)
                 {
-                    blackAdapter.delItem(positions);
+//                    blackAdapter.delItem(positions);
+                    mList.get(positions).setIsAgree("1");
+                    blackAdapter.notifyItemChanged(positions);
                 }
                 ToastUtil.show("同意好友请求成功");
                 dealAgreeFriend();

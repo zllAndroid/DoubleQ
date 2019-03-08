@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp40"
+    android:layout_marginRight="@dimen/dp40"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/item_my_discover_tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="今天的天气真是太好了呀，出去度假真是太爽了！"
+        android:layout_marginTop="@dimen/dp20"
+        android:textColor="@color/grey333"
+        android:textSize="@dimen/sp16"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/dp10"
+        android:descendantFocusability="blocksDescendants">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/my_discover_pic_recyc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fadingEdge="none"
+            />
+    </RelativeLayout>
+</LinearLayout>

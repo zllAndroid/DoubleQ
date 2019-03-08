@@ -46,11 +46,10 @@ public class PwdLoginActivity extends BaseActivity {
     @BindView(R.id.pwd_tv_notice)
     TextView pwdTvNotice;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected void initBaseView() {

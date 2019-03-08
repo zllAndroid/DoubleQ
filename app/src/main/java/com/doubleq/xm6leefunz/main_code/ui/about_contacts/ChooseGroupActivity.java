@@ -12,28 +12,21 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.doubleq.model.DataBlack;
 import com.doubleq.model.DataFriendGroup;
-import com.doubleq.model.DataGroupManage;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.AddFriendFenzuAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.PopFenzuAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_notice.NoticeAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
-import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 //位置：联系人 - 通知
 public class ChooseGroupActivity extends BaseActivity {
@@ -54,20 +47,26 @@ public class ChooseGroupActivity extends BaseActivity {
 //    @BindView(R.id.share_switch_no)
 //    SwitchButton shareSwitchNo;
 
-    String mShare= "1";
-    public  static  String CHOOSE_GROUP_KEY = "choosegroup";
-    public  static  String CHOOSE_NAME = "groupname";
-    public  static  String CHOOSE_ID= "groupid";
+    String mShare = "1";
+    public static String CHOOSE_GROUP_KEY = "choosegroup";
+    public static String CHOOSE_NAME = "groupname";
+    public static String CHOOSE_ID = "groupid";
+    public static String CHOOSE_NAME_GROUP = "groupName";
+    public static String CHOOSE_ID_GROUP = "groupId";
     //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //    }
 
-    String FriendId="";
+    String FriendId = "";
+    String GroupId = "";
+    String type;
+    @BindView(R.id.choose_group_tv_nothing)
+    TextView chooseGroupTvNothing;
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
-
 
         includeTopTvTital.setText("选择分组");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
@@ -76,40 +75,73 @@ public class ChooseGroupActivity extends BaseActivity {
 //        mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(ChooseGroupActivity.this));
         Intent intent = getIntent();
-        if (intent!=null)
-        {
-            FriendId = intent.getStringExtra("FriendId");
+        if (intent != null) {
+//            好友选择分组 1       群选择分组 2
+            type = intent.getStringExtra("type");
+            Log.e("groupingName", "-------------------------type-----------------------------" + type);
+            if (type.equals("1")) {
+                FriendId = intent.getStringExtra("FriendId");
+                sendWeb(SplitWeb.friendGroupList(FriendId));
+            } else {
+                GroupId = intent.getStringExtra("groupId");
+                sendWeb(SplitWeb.groupOfGroupList(GroupId));
+            }
         }
-        sendWeb(SplitWeb.friendGroupList(FriendId));
     }
+
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
             case "friendGroupList":
-                DataFriendGroup dataGroupManage = JSON.parseObject(responseText, DataFriendGroup.class);
-                DataFriendGroup.RecordBean record = dataGroupManage.getRecord();
-                if (record==null) {
+                DataFriendGroup dataFriendGroupManage = JSON.parseObject(responseText, DataFriendGroup.class);
+                DataFriendGroup.RecordBean record = dataFriendGroupManage.getRecord();
+                if (record == null) {
                     return;
                 }
-                List<DataFriendGroup.RecordBean.GroupInfoBean> groupInfo =  record.getGroupInfo();
+                List<DataFriendGroup.RecordBean.GroupInfoBean> groupInfo = record.getGroupInfo();
                 if (groupInfo.size() > 0) {
                     if (StrUtils.isEmpty(groupInfo.get(0).getId())) {
                         groupInfo.remove(0);
                     }
                     initAdapter(groupInfo);
+                } else {
+                    mRecyclerView.setVisibility(View.GONE);
+                    chooseGroupTvNothing.setVisibility(View.VISIBLE);
                 }
                 break;
             case "friendGroupModify":
-                    dealItemClick(item);
+                dealItemClick(item);
+                break;
+            case "groupOfGroupList":
+                DataFriendGroup dataGroupManage = JSON.parseObject(responseText, DataFriendGroup.class);
+                DataFriendGroup.RecordBean records = dataGroupManage.getRecord();
+                if (records == null) {
+                    return;
+                }
+                List<DataFriendGroup.RecordBean.GroupInfoBean> groupInfos = records.getGroupInfo();
+                if (groupInfos.size() > 0) {
+                    if (StrUtils.isEmpty(groupInfos.get(0).getId())) {
+                        groupInfos.remove(0);
+                    }
+                    initAdapter(groupInfos);
+                }else {
+                    mRecyclerView.setVisibility(View.GONE);
+                    chooseGroupTvNothing.setVisibility(View.VISIBLE);
+                }
+                break;
+            case "groupOfGroupModify":
+                dealItemClick(item);
                 break;
         }
     }
-    AddFriendFenzuAdapter blackAdapter =null;
+
+    AddFriendFenzuAdapter blackAdapter = null;
     DataFriendGroup.RecordBean.GroupInfoBean item;
     public int positions;
-    private void initAdapter( List<DataFriendGroup.RecordBean.GroupInfoBean> groupInfo) {
+
+    private void initAdapter(List<DataFriendGroup.RecordBean.GroupInfoBean> groupInfo) {
         blackAdapter = new AddFriendFenzuAdapter(groupInfo);
         mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(blackAdapter);
@@ -118,14 +150,22 @@ public class ChooseGroupActivity extends BaseActivity {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
 //                ToastUtil.show("点击同意");
-                item =(DataFriendGroup.RecordBean.GroupInfoBean) adapter.getItem(position);
-                if (!StrUtils.isEmpty(FriendId))
-                {
-                    sendWebHaveDialog(SplitWeb.friendGroupModify(FriendId,item.getId()),"设置分组中...","设置成功");
-                }else
-                {
-                    dealItemClick(item);
+                item = (DataFriendGroup.RecordBean.GroupInfoBean) adapter.getItem(position);
+                Log.e("groupingName", "-------------------------type----------111-------------------" + type);
+                if (type.equals("1")) {
+                    if (!StrUtils.isEmpty(FriendId)) {
+                        sendWebHaveDialog(SplitWeb.friendGroupModify(FriendId, item.getId()), "设置分组中...", "设置成功");
+                    } else {
+                        dealItemClick(item);
+                    }
+                } else {
+                    if (!StrUtils.isEmpty(GroupId)) {
+                        sendWebHaveDialog(SplitWeb.groupOfGroupModify(GroupId, item.getId()), "设置分组中...", "设置成功");
+                    } else {
+                        dealItemClick(item);
+                    }
                 }
+
 //                positions=position;
 //                DataBlack.RecordBean item = (DataBlack.RecordBean)adapter.getItem(position);
 //                String user_id = item.getUser_id();
@@ -137,20 +177,62 @@ public class ChooseGroupActivity extends BaseActivity {
 
     private void dealItemClick(DataFriendGroup.RecordBean.GroupInfoBean item) {
 
-        if (item.getFriendGroup().equals("2"))
-        {
+        if (item.getFriendGroup().equals("2")) {
             ToastUtil.show("好友已经在该分组");
             return;
         }
-        if (item.getId().equals("0"))
-        {
+        Log.e("groupingName", "-------------------------type------------222-----------------" + type);
+        if (type.equals("1")) {
+            if (item.getId().equals("0")) {
+                Intent intent = new Intent();
+                // 获取用户计算后的结果
+                intent.putExtra(CHOOSE_NAME, "暂无");
+                intent.putExtra(CHOOSE_ID, item.getId());
+                setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
+                AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
+            } else {
+                Intent intent = new Intent();
+                // 获取用户计算后的结果
+                intent.putExtra(CHOOSE_NAME, item.getGroupName());
+                intent.putExtra(CHOOSE_ID, item.getId());
+                setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
+                AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
+            }
+        } else {
+            if (item.getId().equals("0")) {
+                Intent intent = new Intent();
+                // 获取用户计算后的结果
+                intent.putExtra(CHOOSE_NAME_GROUP, "暂无");
+                intent.putExtra(CHOOSE_ID_GROUP, item.getId());
+                setResult(AppConfig.GROUP_DATA_GROUPING_REQUEST, intent);
+                AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
+            } else {
+                Intent intent = new Intent();
+                // 获取用户计算后的结果
+                intent.putExtra(CHOOSE_NAME_GROUP, item.getGroupName());
+                intent.putExtra(CHOOSE_ID_GROUP, item.getId());
+                setResult(AppConfig.GROUP_DATA_GROUPING_REQUEST, intent);
+                AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
+            }
+        }
+
+
+    }
+
+    private void dealGroupItemClick(DataFriendGroup.RecordBean.GroupInfoBean item) {
+
+        if (item.getFriendGroup().equals("2")) {
+            ToastUtil.show("好友已经在该分组");
+            return;
+        }
+        if (item.getId().equals("0")) {
             Intent intent = new Intent();
             // 获取用户计算后的结果
             intent.putExtra(CHOOSE_NAME, "暂无");
             intent.putExtra(CHOOSE_ID, item.getId());
             setResult(AppConfig.FRIEND_ADD_GROUP_RESULT, intent);
             AppManager.getAppManager().finishActivity(ChooseGroupActivity.this);
-        }else {
+        } else {
             Intent intent = new Intent();
             // 获取用户计算后的结果
             intent.putExtra(CHOOSE_NAME, item.getGroupName());
@@ -198,6 +280,7 @@ public class ChooseGroupActivity extends BaseActivity {
     public interface OnModifyGroupListener {
         void groupingName(String groupingName);
     }
+
     public void setOnModifyGroupListener(OnModifyGroupListener modifyGroupListener) {
         this.modifyGroupListener = modifyGroupListener;
     }

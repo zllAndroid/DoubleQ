@@ -1,10 +1,7 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_notice;
 
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,13 +13,10 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.doubleq.model.DataNews;
-import com.doubleq.model.DataNoticeDetail;
 import com.doubleq.model.DataNoticeDetails;
-import com.doubleq.model.find_friend.DataDiscoveryFriendCircle;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
-import com.doubleq.xm6leefunz.about_scan.ScanCodeActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
@@ -31,8 +25,6 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.NoticeActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.FriendNoticeDetailsAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
-import com.doubleq.xm6leefunz.main_code.ui.about_discovery.FriendCircleActivity;
-import com.doubleq.xm6leefunz.main_code.ui.about_discovery.about_discovery_fragment.DiscoveryFriendCircleAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -44,7 +36,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -84,7 +75,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
     FriendNoticeDetailsAdapter friendNoticeDetailsAdapter = null;
-    List<DataNoticeDetail> mList = new ArrayList<>();
+    List<DataNoticeDetails> mList = new ArrayList<>();
 
     @Override
     protected void initBaseView() {
@@ -110,7 +101,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
     }
 
     String reply = null;
-    private void initAdapter(List<DataNoticeDetail> mList) {
+    private void initAdapter(List<DataNoticeDetails> mList) {
 //        DataNoticeDetail dataNoticeDetail = new DataNoticeDetail();
 //        dataNoticeDetail.setNoticeDetail("第一次请求添加好友！");
 //        DataNoticeDetail dataNoticeDetail2 = new DataNoticeDetail();
@@ -181,18 +172,17 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
             case "messageDetail":
                 DataNoticeDetails dataNoticeDetails = JSON.parseObject(responseText, DataNoticeDetails.class);
                 DataNoticeDetails.RecordBean record = dataNoticeDetails.getRecord();
+                Log.e("mgsdetail","----------------------------前------------------------------------");
                 if (record != null) {
+                    Log.e("mgsdetail","----------------------------record != null------------------------------------");
                     DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfo = record.getUserDetailInfo();
 
                     if (userDetailInfo != null) {
                         initData(userDetailInfo);
                     }
-
                 }
                 break;
-
         }
-
     }
 
     private void initData(DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfo) {
@@ -266,21 +256,32 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
             if (mList.size() == 3) {
                 mList.remove(0);
                 friendNoticeDetailsAdapter.notifyItemChanged(0);
-                DataNoticeDetail dataNoticeDetail4 = new DataNoticeDetail();
-                dataNoticeDetail4.setNoticeDetail(reply);
-                mList.add(dataNoticeDetail4);
-                Log.e("remarkInfo","-------------------------------备注信息000 = "+mList.get(0).getNoticeDetail());
-                Log.e("remarkInfo","-------------------------------备注信息222 = "+mList.get(2).getNoticeDetail());
-//            friendNoticeDetailsAdapter.notifyDataSetChanged();
+                DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
+                DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
+                if (recordBean != null){
+                    DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
+                    if (userDetailInfoBean != null){
+                        List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
+                        remarkBean.get(2).setMessage(reply);
+                        mList.add(dataNoticeDetails);
+                        friendNoticeDetailsAdapter.notifyDataSetChanged();
+                    }
+                }
             }
             else {
-                DataNoticeDetail dataNoticeDetail4 = new DataNoticeDetail();
-                String reply = "来自神秘国度的阿三呀：" + this.reply;
-                dataNoticeDetail4.setNoticeDetail(reply);
-                mList.add(dataNoticeDetail4);
-                Log.e("remarkInfo","-------------------------------备注信息333 = "+mList.get(0).getNoticeDetail());
+                DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
+                DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
+                if (recordBean != null){
+                    DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
+                    if (userDetailInfoBean != null){
+                        List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
+                        remarkBean.get(mList.size()).setMessage(reply);
+                        mList.add(dataNoticeDetails);
+                        friendNoticeDetailsAdapter.notifyDataSetChanged();
+                    }
+                }
             }
-            friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this,mList );
+            friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this,mList);
 //        增加分割线
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
             mRecyclerView.setAdapter(friendNoticeDetailsAdapter);

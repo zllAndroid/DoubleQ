@@ -222,7 +222,7 @@
                         android:descendantFocusability="blocksDescendants">
 
                         <android.support.v7.widget.RecyclerView
-                            android:id="@+id/notice_detail_recyc"
+                            android:id="@+id/discover_detail_recyc"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
@@ -300,7 +300,7 @@
     </LinearLayout>
     <TextView
         android:id="@+id/fda_tv_add"
-        android:layout_width="wrap_content"
+        android:layout_width="@dimen/dp150"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"

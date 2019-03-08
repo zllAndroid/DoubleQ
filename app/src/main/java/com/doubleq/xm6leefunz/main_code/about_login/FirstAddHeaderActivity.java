@@ -89,7 +89,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
         super.initBaseView();
         mTvTopRight.setVisibility(View.VISIBLE);
         includeTopIvBack.setVisibility(View.VISIBLE);
-        includeTopTvTital.setText("注册");
+        includeTopTvTital.setText("用户设置");
         mTvTopRight.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG );
     }
 

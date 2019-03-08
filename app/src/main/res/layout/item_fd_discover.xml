@@ -4,6 +4,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 <ImageView
+    android:id="@+id/item_iv_fd_discover"
     android:layout_width="@dimen/dp50"
     android:layout_height="@dimen/dp40"
     android:layout_marginLeft="@dimen/dp10"/>

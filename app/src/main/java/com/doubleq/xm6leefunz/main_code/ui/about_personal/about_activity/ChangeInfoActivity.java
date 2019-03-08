@@ -240,6 +240,7 @@ String userId;
                     changeinfoTvCount.setText(record.getWxSno());
                     if (StrUtils.isEmpty(record.getPersonaSignature())) {
                         changeinfoTvSign.setHint("暂未签名");
+                        changeinfoTvSign.setHintTextColor(getResources().getColor(R.color.white));
                     } else {
                         changeinfoTvSign.setText(record.getPersonaSignature());
                     }
