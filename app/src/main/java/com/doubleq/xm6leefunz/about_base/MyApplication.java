@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.multidex.MultiDex;
@@ -74,6 +75,8 @@ import com.zll.websocket.WebSocketSetting;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import io.realm.Realm;
@@ -121,7 +124,30 @@ public class MyApplication extends Application implements IWebSocketPage {
         }
 //        initOneService();
         initRealm();
+
+        initRunnable();
     }
+    //    private Handler handler = new Handler();
+    private void initRunnable() {
+
+//        KeepAlive keepAlive = new KeepAlive();
+        AutoSaleTicket autoSaleTicket = new AutoSaleTicket();
+//        final   Thread thread = new Thread(keepAlive,"application");
+        Thread t1 = new Thread(autoSaleTicket, "123");
+//        thread.start();
+        t1.start();
+
+
+//        TimerTask newThread = new TimerTask(){
+//            @Override
+//            public void run() {
+//                thread.start();
+//            }
+//        };
+//        Timer timer = new Timer(true);
+//        timer.schedule(newThread, 1000, 5000000);
+    }
+
     IntentFilter intentFilter;
     private void initServerBro() {
 
@@ -291,6 +317,45 @@ public class MyApplication extends Application implements IWebSocketPage {
         return mInstance;
     }
 
+    class AutoSaleTicket implements Runnable {
+        private int ticket = 20;
+        long checkDelay=10;
+        long keepAliveDelay=5000;
+        public void run() {
+
+            while (true) {// 循环是指线程不停的去卖票
+                // 当操作的是共享数据时,用同步代码块进行包围起来,这样在执行时,只能有一个线程执行同步代码块里面的内容
+                synchronized (this) {
+                    if (System.currentTimeMillis()-lastSendTime>keepAliveDelay)
+                    {
+                        try {
+//                            sendText(SplitWeb.coroutineKeep());
+                          sendText("%android%");
+                            MyLog.e("KeepAlive","KeepAlive="+"----------------------发送心跳-----------------------------------");
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            MyLog.e("KeepAlive","KeepAlive="+"----------------------抛异常-----------------------------------");
+                            senderror();
+                        }
+                        lastSendTime=System.currentTimeMillis();
+
+                    }else {
+                        try {
+                            Thread.sleep(checkDelay);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+                // 所以把sleep放到同步代码块的外面,这样卖完一张票就休息一会,让其他线程再卖,这样所有的线程都可以卖票
+                try {
+                    Thread.sleep(200);
+                } catch (Exception ex) {
+                }
+            }
+        }
+    }
+    long lastSendTime=0;
     /**
      * 初始化当前设备屏幕宽高
      */
@@ -1231,7 +1296,7 @@ public class MyApplication extends Application implements IWebSocketPage {
             e.printStackTrace();
         }
         mConnectManager = new WebSocketServiceConnectManager(this, this);
-            mConnectManager.onCreate();
+        mConnectManager.onCreate();
 //        mConnectManager.reconnect();
 //        mConnectManager.reBind(SplitWeb.bindUid());
         MyLog.e(TAG, "----------reBind------重新配置-----reconnect------");

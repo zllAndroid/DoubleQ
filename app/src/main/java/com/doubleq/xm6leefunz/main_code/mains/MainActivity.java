@@ -47,6 +47,12 @@ public class MainActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         initUIData();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                send(SplitWeb.coroutineKeep());
+//            }
+//        }).start();
         mTabHost= findViewById(android.R.id.tabhost);
         tabs= findViewById(android.R.id.tabs);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);

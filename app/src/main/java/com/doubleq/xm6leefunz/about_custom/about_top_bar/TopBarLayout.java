@@ -11,11 +11,6 @@ import android.widget.TextView;
 
 import com.doubleq.xm6leefunz.R;
 
-/**
- * create by tts
- * create on 2019/2/14 0002
- * email : a463944185@163.com
- */
 
 public class TopBarLayout extends LinearLayout {
 

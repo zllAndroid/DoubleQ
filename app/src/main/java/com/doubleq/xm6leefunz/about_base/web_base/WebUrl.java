@@ -17,16 +17,19 @@ public class WebUrl {
         JSONArray objects = new JSONArray();
         long l = System.currentTimeMillis()/1000;
 //        String s=treemap.toString();
-        Iterator titer=treemap.entrySet().iterator();
-        String data="";
-        while(titer.hasNext()){
-            Map.Entry ent=(Map.Entry )titer.next();
-            String keyt=ent.getKey().toString();
-            String valuet=ent.getValue().toString();
-            parameters.put(keyt,valuet);
-            data+=(keyt+valuet);
+        String data = "";
+        if (treemap.size()>0&&treemap!=null) {
+            Iterator titer = treemap.entrySet().iterator();
+            while (titer.hasNext()) {
+                Map.Entry ent = (Map.Entry) titer.next();
+                String keyt = ent.getKey().toString();
+                String valuet = ent.getValue().toString();
+                parameters.put(keyt, valuet);
+                data += (keyt + valuet);
+            }
         }
         objects.add(parameters);
+
         params.put("ctn", ctnData);//控制器名
         params.put("mtn", mtnData);//方法名
         params.put("timestamp", l);//时间戳

@@ -721,6 +721,11 @@ public class SplitWeb {
         return request;
     }
 
+    public  static  String coroutineKeep(){
+        map.clear();
+        String request = WebUrl.request("ChatScript", "coroutineKeep", map);
+        return  request;
+    }
     /**
      * 用户分组管理接口
      * @param  type 1 表示获取好友分组管理 ;2 表示获取好友群分组管理
