@@ -722,7 +722,7 @@ public class SplitWeb {
     }
 
     public  static  String coroutineKeep(){
-        map.clear();
+        dealMap();
         String request = WebUrl.request("ChatScript", "coroutineKeep", map);
         return  request;
     }

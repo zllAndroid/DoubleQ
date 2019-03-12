@@ -330,7 +330,14 @@ public class MyApplication extends Application implements IWebSocketPage {
                     {
                         try {
 //                            sendText(SplitWeb.coroutineKeep());
-                          sendText("%android%");
+                            if(StrUtils.isEmpty(SplitWeb.USER_ID))
+                                SplitWeb.getUserId();
+                            if(!StrUtils.isEmpty(SplitWeb.USER_ID))
+                                sendText(SplitWeb.USER_ID);
+//                          {"api_key":"20180903","ctn":"Chat","data":[{"friendsId":"ac4b-62fa-098","message":"挪","messageType":"1","requestTime":"2019-03-11 18:51:36","token":"C7F62227-E05F-D98B-0BA1-2053245AD308","userId":"a7d2-a2c1-284"}],"mtn":"privateSend","sign":"CDC97C99868A4587DE829E94B535EAC0","timestamp":1552301496}
+//                          sendText(SplitWeb.privateSend());
+//                            sendText(SplitWeb.privateSend("ac4b-62fa-098", "我们已经是好友了，快来聊一聊吧", "1", TimeUtil.getTime()));
+
                             MyLog.e("KeepAlive","KeepAlive="+"----------------------发送心跳-----------------------------------");
                         } catch (Exception e) {
                             e.printStackTrace();
