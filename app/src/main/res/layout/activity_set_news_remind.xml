@@ -18,6 +18,7 @@
             android:background="@color/white"
             android:layout_marginTop="@dimen/dp10"
             android:orientation="vertical">
+            <!--接收新消息提醒-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -42,6 +43,7 @@
                     app:sb_checked_color="@color/swi_select"
                     app:sb_checked="true"/>
             </LinearLayout>
+            <!--接收语音邀请-->
             <View
                 style="@style/style_wei_line"
                 />
@@ -69,6 +71,7 @@
                     android:layout_gravity="center"
                     app:sb_checked="true"/>
             </LinearLayout>
+            <!--接收视频邀请-->
             <View
                 style="@style/style_wei_line"
                 />
@@ -96,13 +99,13 @@
                     android:layout_gravity="center"
                     app:sb_checked="true"/>
             </LinearLayout>
+            <!--推送显示内容-->
             <View
                 style="@style/style_wei_line"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"

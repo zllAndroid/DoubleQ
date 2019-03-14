@@ -7,9 +7,12 @@ import android.widget.TextView;
 
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
+import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.main_code.ui.about_contacts.DongTaiSetActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DiscoverSetActivity extends BaseActivity {
     @BindView(R.id.include_top_tv_tital)
@@ -36,4 +39,16 @@ public class DiscoverSetActivity extends BaseActivity {
 
     }
 
+    @OnClick({R.id.discover_lin_gifPlay, R.id.discover_lin_hideMine, R.id.discover_lin_hideHis})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.discover_lin_gifPlay:
+                IntentUtils.JumpTo(DongTaiSetActivity.class);
+                break;
+            case R.id.discover_lin_hideMine:
+                break;
+            case R.id.discover_lin_hideHis:
+                break;
+        }
+    }
 }

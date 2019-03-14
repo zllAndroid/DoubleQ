@@ -100,7 +100,6 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
         sendWeb(SplitWeb.messageDetail(item.getId()));
     }
 
-    String reply = null;
     private void initAdapter(List<DataNoticeDetails> mList) {
 //        DataNoticeDetail dataNoticeDetail = new DataNoticeDetail();
 //        dataNoticeDetail.setNoticeDetail("第一次请求添加好友！");
@@ -185,12 +184,14 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
         }
     }
 
+    String friendsName;
     private void initData(DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfo) {
         Glide.with(this).load(userDetailInfo.getHeadImg())
                 .bitmapTransform(new CropCircleTransformation(this))
                 .error(R.drawable.mine_head)
                 .into(mIvHead);
         mTvName.setText(userDetailInfo.getNickName());
+        friendsName = userDetailInfo.getNickName();
 //        noticeTvRemark.setText("备注:" + userDetailInfo.getRemark());
 
         dataSearch = new DataSearch();
@@ -198,15 +199,51 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
         dataSearch.setQrcode(userDetailInfo.getQrcode());
         dataSearch.setHeadImg(userDetailInfo.getHeadImg());
 
+        List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBeanList = userDetailInfo.getRemark();
+//        位置0是最新的消息
+        String msg = remarkBeanList.get(0).getMessage();
+        if (msg != null){
+            if (remarkBeanList.size() == 3) {  //备注信息等于三条时
+                mList.remove(0);
+                friendNoticeDetailsAdapter.notifyItemChanged(0);
+                DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
+                DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
+                if (recordBean != null){
+                    DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
+                    if (userDetailInfoBean != null){
+                        List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
+                        remarkBean.get(2).setMessage(friendsName + "：" + msg);
+                        mList.add(dataNoticeDetails);
+                        friendNoticeDetailsAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            else {  //备注信息小于三条时
+                DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
+                DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
+                if (recordBean != null){
+                    DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
+                    if (userDetailInfoBean != null){
+                        List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
+                        remarkBean.get(mList.size()).setMessage(friendsName + "：" + msg);
+                        mList.add(dataNoticeDetails);
+                        friendNoticeDetailsAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+            friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this,mList);
+//        增加分割线
+//        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+            mRecyclerView.setAdapter(friendNoticeDetailsAdapter);
+            friendNoticeDetailsAdapter.notifyDataSetChanged();
+        }
     }
-
 
     @Override
     protected int getLayoutView() {
         return R.layout.activity_notice_details;
     }
 
-    String type = "1";
     DataNews.RecordBean.ListInfoBean item;
     DataSearch dataSearch = null;
     @OnClick({R.id.notice_iv_qrcode, R.id.notice_tv_jujue, R.id.notice_tv_ok, R.id.notice_tv_reply})
@@ -250,9 +287,8 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
     }
 
     @Override
-    public void onSure(String contant) {
-        reply = contant;
-        if (reply != null){
+    public void onSure(String content) {
+        if (content != null){
             if (mList.size() == 3) {
                 mList.remove(0);
                 friendNoticeDetailsAdapter.notifyItemChanged(0);
@@ -262,7 +298,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
                     DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
                     if (userDetailInfoBean != null){
                         List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
-                        remarkBean.get(2).setMessage(reply);
+                        remarkBean.get(2).setMessage("我：" + content);
                         mList.add(dataNoticeDetails);
                         friendNoticeDetailsAdapter.notifyDataSetChanged();
                     }
@@ -275,7 +311,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
                     DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
                     if (userDetailInfoBean != null){
                         List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
-                        remarkBean.get(mList.size()).setMessage(reply);
+                        remarkBean.get(mList.size()).setMessage("我：" + content);
                         mList.add(dataNoticeDetails);
                         friendNoticeDetailsAdapter.notifyDataSetChanged();
                     }

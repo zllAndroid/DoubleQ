@@ -217,7 +217,8 @@ public class DealGroupAdd {
 //                            return;
                         } else if (groupList.size() == 1) {
                             group_info_list.remove(i);
-                        } else if (groupList.size() > 1) {
+                        } else {
+                            groupList.size();
                             for (int j = 0; j < groupList.size(); j++) {
                                 String groupOfId = groupList.get(j).getGroupOfId();
                                 if (groupId.equals(groupOfId)) {
@@ -226,14 +227,15 @@ public class DealGroupAdd {
                             }
                         }
                     }
-                }else if (type.equals("1")&&groupManageId != null && !groupManageId.equals("0"))
+                }
+                else if (type.equals("1")&&groupManageId != null && !groupManageId.equals("0"))
                 {
                     String groupManageName = mRecord.getGroupManageName();
                     if (groupList.size()>0)
                     {
                         if (groupManageName!=null&&groupManageName.equals(groupName)) {
                             for (int h = 0; h < groupList.size(); h++) {
-                                String groupOfId = groupList.get(h).getGroupOfId();
+                                String groupOfId = groupList.get(h).getGroupFenzuId();
                                 if (groupManageId.equals(groupOfId)) {
                                     group_info_list.get(i).getGroupList().remove(h);
                                 }

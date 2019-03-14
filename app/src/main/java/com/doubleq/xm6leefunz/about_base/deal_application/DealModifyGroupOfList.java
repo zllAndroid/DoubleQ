@@ -78,6 +78,8 @@ public class DealModifyGroupOfList {
             DataLinkManList.RecordBean.FriendListBean friendListBean = new DataLinkManList.RecordBean.FriendListBean();
             friendListBean.setGroupName(mRecord.getGroupName());
             friendListBean.setType("1");
+            Log.e("groupInfoListBean","------------------------------------"+mRecord.getGroupId());
+            friendListBean.setGroupId(mRecord.getGroupId());
             List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupListBean = new ArrayList<>();
             groupListBean.clear();
             friendListBean.setGroupList(groupListBean);
@@ -121,10 +123,12 @@ public class DealModifyGroupOfList {
                     }
                 }
             }
-        }else {  //如果联系人列表为空         无1无2
+        }else {  //如果群列表为空         无1无2
             DataLinkGroupList.RecordBean.GroupInfoListBean groupInfoListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean();
             groupInfoListBean.setGroupName(mRecord.getGroupName());
             groupInfoListBean.setType("1");
+            Log.e("groupInfoListBean","------------------------------------"+mRecord.getGroupId());
+            groupInfoListBean.setGroupId(mRecord.getGroupId());
             List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupListBean = new ArrayList<>();
             groupListBean.clear();
             groupInfoListBean.setGroupList(groupListBean);

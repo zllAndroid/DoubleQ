@@ -88,82 +88,86 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
 //        String assistantType = item.getAssistantType();
 
 //        群助手
-        if (item.getAssistantType()!=null&&item.getAssistantType().equals("2")) {
-//        if (item.getTotalId().equals(AppConfig.GroupAssistant)) {
-
-//            TextView mTvNum = helper.getView(R.id.item_tv_num);
-            mTvNum.setBackgroundResource(R.drawable.news_disturb);
-            helper.setText(R.id.item_tv_msg, "("+item.getGroupNumMsg()+"个群有新消息"+")");
-            helper.setText(R.id.item_tv_name, "群助手");
-            mTvMsg.setTextColor(context.getResources().getColor(R.color.app_theme));
-
-            mTvNum.setVisibility(View.GONE);
-            mTvTime.setVisibility(View.GONE);
-            mIvClick.setVisibility(View.GONE);
-            Glide.with(context).load(R.drawable.msg_grouper)
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .into(mIvHead);
-            return;
-        }
-          else
-            {
-                mTvNum.setVisibility(View.VISIBLE);
-                mTvTime.setVisibility(View.VISIBLE);
-                mIvClick.setVisibility(View.VISIBLE);
-                mTvMsg.setTextColor(context.getResources().getColor(R.color.gray999));
+//        if (item.getAssistantType()!=null&&item.getAssistantType().equals("2")) {
+////        if (item.getTotalId().equals(AppConfig.GroupAssistant)) {
+//
+////            TextView mTvNum = helper.getView(R.id.item_tv_num);
+//            mTvNum.setBackgroundResource(R.drawable.news_disturb);
+//            helper.setText(R.id.item_tv_msg, "("+item.getGroupNumMsg()+"个群有新消息"+")");
+//            helper.setText(R.id.item_tv_name, "群助手");
+//            mTvMsg.setTextColor(context.getResources().getColor(R.color.app_theme));
+//
+//            mTvNum.setVisibility(View.GONE);
+//            mTvTime.setVisibility(View.GONE);
+//            mIvClick.setVisibility(View.GONE);
+//            Glide.with(context).load(R.drawable.msg_grouper)
+//                    .bitmapTransform(new CropCircleTransformation(context))
+//                    .into(mIvHead);
+//            return;
+//        }
+//          else
+//            {
+//                mTvNum.setVisibility(View.VISIBLE);
+//                mTvTime.setVisibility(View.VISIBLE);
+//                mIvClick.setVisibility(View.VISIBLE);
+//                mTvMsg.setTextColor(context.getResources().getColor(R.color.gray999));
+//            }
+        try {
+            if (!StrUtils.isEmpty(item.getFriendId())) {
+                String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+                final int errorImg;
+                if (item.getType().equals("1"))
+                {
+                    errorImg=R.drawable.mine_head;
+                }else
+                {
+                    errorImg=R.drawable.qun_head;
+                }
+                if (imgPath != null) {
+                    Uri uri = Uri.fromFile(new File(imgPath));
+                    mIvHead.setImageURI(uri);
+    //                Glide.with(context).load(imgPath)
+    //                        .error(errorImg)
+    //                        .bitmapTransform(new CropCircleTransformation(context))
+    //                        .into(mIvHead);
+                } else {
+                    Glide.with(context).load(item.getHeadImg())
+                            .error(errorImg)
+                            .bitmapTransform(new CropCircleTransformation(context))
+    //                        .crossFade(1000)
+                            .into(mIvHead);
+                }
             }
-        if (!StrUtils.isEmpty(item.getFriendId())) {
-            String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(item.getFriendId());
-            final int errorImg;
-            if (item.getType().equals("1"))
-            {
-                errorImg=R.drawable.mine_head;
-            }else
-            {
-                errorImg=R.drawable.qun_head;
-            }
-            if (imgPath != null) {
-                Uri uri = Uri.fromFile(new File(imgPath));
-                mIvHead.setImageURI(uri);
-//                Glide.with(context).load(imgPath)
-//                        .error(errorImg)
-//                        .bitmapTransform(new CropCircleTransformation(context))
-//                        .into(mIvHead);
-            } else {
-                Glide.with(context).load(item.getHeadImg())
-                        .error(errorImg)
-                        .bitmapTransform(new CropCircleTransformation(context))
-//                        .crossFade(1000)
-                        .into(mIvHead);
-            }
-        }
-        helper.setText(R.id.item_tv_name,item.getNickName());
-        helper.setText(R.id.item_tv_msg,item.getMsg());
+            helper.setText(R.id.item_tv_name,item.getNickName());
+            helper.setText(R.id.item_tv_msg,item.getMsg());
 
-        helper.setText(R.id.item_tv_time, TimeUtil.formatDisplayTime(item.getTime(),null));
+            helper.setText(R.id.item_tv_time, TimeUtil.formatDisplayTime(item.getTime(),null));
 //        helper.setText(R.id.item_tv_time,item.getTime());
 
-        int num =0;
-        try {
-            num =item.getNum();
+            int num =0;
+            try {
+                num =item.getNum();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (num==0) {
+                mTvNum .setVisibility(View.INVISIBLE);
+            }else
+            {
+                mTvNum .setVisibility(View.VISIBLE);
+                helper.setText(R.id.item_tv_num,item.getNum()+"");
+            }
+
+//        消息免打扰  的消息背景
+            if(item.getMsgIsDisTurb()!=null)
+                if (!item.getMsgIsDisTurb().equals("2"))
+                    mTvNum.setBackgroundResource(R.drawable.linkman_news);
+                else {
+                    mTvNum.setBackgroundResource(R.drawable.news_disturb);
+                }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (num==0) {
-            mTvNum .setVisibility(View.INVISIBLE);
-        }else
-        {
-            mTvNum .setVisibility(View.VISIBLE);
-            helper.setText(R.id.item_tv_num,item.getNum()+"");
-        }
-
-//        消息免打扰  的消息背景
-        if(item.getMsgIsDisTurb()!=null)
-            if (!item.getMsgIsDisTurb().equals("2"))
-                mTvNum.setBackgroundResource(R.drawable.linkman_news);
-            else {
-                mTvNum.setBackgroundResource(R.drawable.news_disturb);
-            }
 
     }
 
@@ -183,7 +187,12 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         super.onBindViewHolder(holder, positions);
         swipeLayout = (SwipeItemLayout) holder.itemView;
         final View lMenu = holder.getView(R.id.item_notice_del_menu);
-        click(swipeLayout, lMenu,positions,data.get(positions).getNickName());
+        try {
+            //TODO   解散群聊时 getNickName() 报空指针
+            click(swipeLayout, lMenu,positions,data.get(positions).getNickName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     private void click(final SwipeItemLayout swipeLayout, final  View view,final  int positions,String name) {
         if (view != null) {

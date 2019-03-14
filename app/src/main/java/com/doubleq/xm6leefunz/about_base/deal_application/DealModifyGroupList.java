@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.doubleq.model.DataLinkGroupList;
-import com.doubleq.model.DataLinkManList;
 import com.doubleq.model.DataModifyGroupOfList;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -114,8 +113,8 @@ public class DealModifyGroupList {
         if (record==null)
             return;
         GroupList = record.getGroupInfoList();
-        String newGroupId = mRecord.getNewGroupManageId();
-        String newGroupName = mRecord.getNewGroupName();
+        String newGroupManageId = mRecord.getNewGroupManageId();
+        String newGroupManageName = mRecord.getNewGroupManageName();
         //  若列表不为空
         if (GroupList.size() > 0){
             String groupId = mRecord.getGroupId();
@@ -123,9 +122,9 @@ public class DealModifyGroupList {
                 Log.e("更改群分组（增）", "--------------------------i=" + i);
                 List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupListBeans = GroupList.get(i).getGroupList();
                 if (GroupList.get(i).getType().equals("1")) {
-                    if (groupListBeans.get(i).getGroupFenzuId() != null){
+                    if (GroupList.get(i).getGroupId() != null){
                         //  获取的新分组Id与当下的分组Id相同，则进行下一步判断
-                        if (groupListBeans.get(i).getGroupFenzuId().equals(newGroupId)) {
+                        if (GroupList.get(i).getGroupId().equals(newGroupManageId)) {
                             //  分组里的好友（小列表）不为空，则进行添判断是否已经在该组中添加该好友
                             if (groupListBeans.size() > 0) {
                                 //  判断该好友是否与该分组的成员相同，相同则不再添加
@@ -133,20 +132,20 @@ public class DealModifyGroupList {
                                     if (groupListBeans.get(i).getGroupOfId().equals(groupId))
                                         return;
                             }
-                            putCache(mRecord, i, newGroupName);
+                            putCache(mRecord, i, newGroupManageName);
                             return;
                         }
                     }
                 }
             }
         }else
-            putCache(mRecord, 0, newGroupName);
+            putCache(mRecord, 0, newGroupManageName);
     }
-    private static void putCache(DataModifyGroupOfList.RecordBean mRecord, int i, String newGroupName) {
+    private static void putCache(DataModifyGroupOfList.RecordBean mRecord, int i, String newGroupManageName) {
 
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = GroupList.get(i).getGroupList();
         DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
-        groupListBean.setGroupName(newGroupName);
+        groupListBean.setGroupName(newGroupManageName);
         groupListBean.setGroupFenzuId(mRecord.getNewGroupManageId());
         groupListBean.setHeadImg(mRecord.getNewGroupHeadImg());
         groupListBean.setNickName(mRecord.getNewGroupName());
@@ -190,10 +189,10 @@ public class DealModifyGroupList {
                             if (groupList.size()>0)
                             {
                                 for (int j = 0; j < groupList.size(); j++) {
-                                    String groupOfId2 = groupList.get(j).getGroupOfId();
-                                    if (groupOfId.equals(groupOfId2)) {
-//                                        groupList.get(i).remove(j);
-                                    }
+                                    String GroupId = groupList.get(j).getGroupOfId();
+                                    if (groupOfId.equals(GroupId)) {
+                                        GroupList.get(i).getGroupList().remove(j);
+                                       }
                                 }
                             }
                         }

@@ -159,8 +159,9 @@
         <!--朋友圈设置-->
         <View
             android:layout_width="match_parent"
-            android:layout_height="@dimen/heigt_pointfive"
-            android:background="@color/grayeee" />
+            android:background="@color/greyf3"
+            android:layout_height="@dimen/dp1"
+            />
         <LinearLayout
             android:id="@+id/set_lin_discover"
             android:layout_width="match_parent"

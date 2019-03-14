@@ -269,7 +269,7 @@ String userId;
                 break;
             case "upNickName"://修改昵称成功
                 PersonalFragment.isChange = true;
-                SPUtils.put(HelpUtils.activity, AppConfig.TYPE_NAME, contant);
+                SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_NAME, contant);
                 SplitWeb.NICK_NAME = contant;
 //                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_NO,dataLogin.getWxSno());
 //                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
@@ -280,12 +280,12 @@ String userId;
                 break;
             case "upPersonSign":
                 PersonalFragment.isChange = true;
-                SPUtils.put(HelpUtils.activity, AppConfig.TYPE_SIGN, contant);
+                SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_SIGN, contant);
                 SplitWeb.PERSON_SIGN = contant;
                 changeinfoTvSign.setText(contant);
                 break;
             case "upUserSno":
-                SPUtils.put(HelpUtils.activity, AppConfig.TYPE_NO, contant);
+                SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_NO, contant);
                 SplitWeb.WX_SNO = contant;
                 changeinfoIvWrite.setVisibility(View.GONE);
                 changeinfoTvCount.setText(contant);

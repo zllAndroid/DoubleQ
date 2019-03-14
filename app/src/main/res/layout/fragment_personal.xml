@@ -310,64 +310,64 @@
                 </LinearLayout>
 
                 <!--公益投票-->
-                <View
-                    android:layout_width="match_parent"
-                    android:background="@color/greyf3"
-                    android:layout_height="@dimen/dp1"
-                    />
-                <LinearLayout
-                    android:id="@+id/mine_lin_gongyi"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="@dimen/dp20"
-                        android:layout_height="@dimen/dp20"
-                        android:layout_marginLeft="@dimen/dp10"
-                        app:srcCompat="@drawable/mine_gongyi"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="@dimen/dp10"
-                        android:text="公益投票" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/dp10"
-                        app:srcCompat="@drawable/in_right" />
-                </LinearLayout>
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@color/greyf3"-->
+                    <!--android:layout_height="@dimen/dp1"-->
+                    <!--/>-->
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/mine_lin_gongyi"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="horizontal">-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="@dimen/dp20"-->
+                        <!--android:layout_height="@dimen/dp20"-->
+                        <!--android:layout_marginLeft="@dimen/dp10"-->
+                        <!--app:srcCompat="@drawable/mine_gongyi"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:padding="@dimen/dp10"-->
+                        <!--android:text="公益投票" />-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:padding="@dimen/dp10"-->
+                        <!--app:srcCompat="@drawable/in_right" />-->
+                <!--</LinearLayout>-->
 
                 <!--节点投票-->
-                <View
-                    android:layout_width="match_parent"
-                    android:background="@color/greyf3"
-                    android:layout_height="@dimen/dp1"
-                    />
-                <LinearLayout
-                    android:id="@+id/mine_lin_node"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="@dimen/dp20"
-                        android:layout_height="@dimen/dp20"
-                        android:layout_marginLeft="@dimen/dp10"
-                        app:srcCompat="@drawable/mine_node"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="@dimen/dp10"
-                        android:text="节点投票" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/dp10"
-                        app:srcCompat="@drawable/in_right" />
-                </LinearLayout>
+                <!--<View-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:background="@color/greyf3"-->
+                    <!--android:layout_height="@dimen/dp1"-->
+                    <!--/>-->
+                <!--<LinearLayout-->
+                    <!--android:id="@+id/mine_lin_node"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:orientation="horizontal">-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="@dimen/dp20"-->
+                        <!--android:layout_height="@dimen/dp20"-->
+                        <!--android:layout_marginLeft="@dimen/dp10"-->
+                        <!--app:srcCompat="@drawable/mine_node"/>-->
+                    <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_weight="1"-->
+                        <!--android:padding="@dimen/dp10"-->
+                        <!--android:text="节点投票" />-->
+                    <!--<ImageView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:padding="@dimen/dp10"-->
+                        <!--app:srcCompat="@drawable/in_right" />-->
+                <!--</LinearLayout>-->
             </LinearLayout>
 
 

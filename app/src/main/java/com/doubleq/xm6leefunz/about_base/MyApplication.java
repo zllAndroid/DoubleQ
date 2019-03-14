@@ -565,7 +565,7 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "modifyGroupingListSend":
                     DealModifyGroupOfList.modifyGroupOfList(this,message.getResponseText());
                     break;
-//                    好友/群修改其分组推送
+//                    好友修改其分组推送
                 case "modifyFriendListSend":
                     DealModifyFriendList.modifyGroupOfFriend(this,message.getResponseText());
                     break;
@@ -573,10 +573,11 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "modifyGroupingSortSend":
                     DealGroupingSort.groupingSort(this,message.getResponseText());
                     break;
-//                    群
-//                case "modifyGroupOfListSend":
-//                    DealModifyGroupList.modifyGroupOfGroup(this,message.getResponseText());
-//                    break;
+//                    群修改其分组推送
+                case "modifyGroupOfListSend":
+                    DealModifyGroupList.modifyGroupOfGroup(this,message.getResponseText());
+                    Log.e("modifyGroupOfListSend","---------------------------------------------------------------------------------------------");
+                    break;
             }
         }
     }

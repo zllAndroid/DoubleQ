@@ -18,8 +18,7 @@ import java.util.List;
 public class DealFriendAdd {
     private  static ACache aCache;
     private  static Context mContext;
-    public  static void updateFriendDataByAdd(Context montext,String result)
-    {
+    public  static void updateFriendDataByAdd(Context montext,String result) {
         mContext=montext;
         DataAboutFriend dataAboutFriend = JSON.parseObject(result, DataAboutFriend.class);
         DataAboutFriend.RecordBean record = dataAboutFriend.getRecord();
@@ -27,7 +26,7 @@ public class DealFriendAdd {
         if (aCache!=null)
         {
             String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
-            if (!StrUtils.isEmpty(asString)&&record!=null)
+            if (!StrUtils.isEmpty(asString) && record!=null)
             {
                 try {
                     initDataFriend(asString,record);
@@ -37,8 +36,7 @@ public class DealFriendAdd {
             }
         }
     }
-    public  static void updateFriendDataBySub(Context montext,String result)
-    {
+    public  static void updateFriendDataBySub(Context montext,String result) {
         mContext=montext;
         DataAboutFriend dataAboutFriend = JSON.parseObject(result, DataAboutFriend.class);
         DataAboutFriend.RecordBean record = dataAboutFriend.getRecord();
@@ -115,77 +113,88 @@ public class DealFriendAdd {
             mContext.sendBroadcast(intent);
         }
     }
+    private static boolean isHaveTypeTwo = true;
     private static List<DataLinkManList.RecordBean.FriendListBean> friendList;
     private static void initDataFriend(String asString, DataAboutFriend.RecordBean mRecord) {
-        boolean isTopOne=true;
-        boolean isTopTwo=true;
+        boolean isTopOne = true;
+        boolean isTopTwo = true;
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
-        if (record==null)
+        if (record == null)
             return;
         friendList = record.getFriendList();
-        String chat = mRecord.getChart();
-        String groupManageName = mRecord.getGroupName();
-        String groupId = mRecord.getGroupId();
-        if (friendList.size()>0)
-        {
-            for (int i=0;i<friendList.size();i++)
-            {
-                String groupName = friendList.get(i).getGroupName();
-                String type = friendList.get(i).getType();
-                //type 1
-                if (groupId != null && !groupId.equals("0")&&type.equals("1")) {
-                    if (groupManageName != null && groupManageName.equals(groupName)) {
-                        dealTopOneHaveGroup(mRecord,  i, groupManageName,"1");
-                        isTopOne=false;
-                    }
-                }
-                // type2
-                if (chat != null && chat.equals(groupName)&&type.equals("2")) {
-                    dealTopOneHaveGroup(mRecord,  i, groupName,"2");
-                    saveData();
-                    isTopTwo=false;
+        String chart = mRecord.getChart();  //新加好友的首字母
+        String groupManageName = mRecord.getGroupName();  //新加好友的分组名
+        String groupId = mRecord.getGroupId();  //新加好友的分组id
+        if (friendList.size() > 0) {
+            for (int i = 0; i < friendList.size(); i++) {
+                String type = friendList.get(i).getType();  //已存在的列表中的type
+                if (type.equals("2")) {
+                    isHaveTypeTwo = false;
+                    break;
                 }
             }
-            if (isTopTwo||isTopOne)
-                for (int i=0;i<friendList.size();i++)
-                {
-                    String type = friendList.get(i).getType();
-                    if (type.equals("1")&&isTopOne&&groupId != null && !groupId.equals("0"))
-                    {
-                        addTopTypeOne(mRecord,0);
+            if (isHaveTypeTwo) {
+                dealNoChartFriend(mRecord, friendList, friendList.size(), chart);
+            }
+            else {
+                for (int i = 0; i < friendList.size(); i++) {
+                    String groupName = friendList.get(i).getGroupName();  //已存在的列表中的分组名
+                    String type = friendList.get(i).getType();  //已存在的列表中的type
+                    // type 1   分组id不为空 && 不为0  && type为1
+                    if (groupId != null && !groupId.equals("0") && type.equals("1")) {
+                        if (groupManageName != null && groupManageName.equals(groupName)) {
+                            dealTopOneHaveGroup(mRecord, i, groupManageName, "1");
+                            isTopOne = false;
+                        }
                     }
-                    else if (type.equals("2")&&isTopTwo) {
+                    // type2   首字母不为空 && 首字母与已存在的列表中的分组名相同 && type为2
+                    if (chart != null && chart.equals(groupName) && type.equals("2")) {
+                        dealTopOneHaveGroup(mRecord, i, groupName, "2");
+                        saveData();
+                        isTopTwo = false;
+                    }
+//                //  type2  有type1无type2时
+//                else if (!StrUtils.isEmpty(chart)){
+//                    dealNoChartFriend(mRecord, friendList, friendList.size(), chart);
+//                    return;
+//                }
+                }
+            if (isTopTwo || isTopOne)
+                for (int i = 0; i < friendList.size(); i++) {
+                    String type = friendList.get(i).getType();
+                    if (type.equals("1") && isTopOne && groupId != null && !groupId.equals("0")) {
+                        addTopTypeOne(mRecord, 0);
+                    } else if (type.equals("2") && isTopTwo) {
                         String groupName = friendList.get(i).getGroupName();
                         int i1 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupName));
-                        int i2 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(chat));
+                        int i2 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(chart));
                         if (friendList.size() > (i + 1)) {
                             String groupNameNext = friendList.get(i + 1).getGroupName();
                             int i3 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupNameNext));
                             if (i1 < i2 && i2 < i3) {
-                                dealNoChartFriend(mRecord, friendList, (i+1), chat);
+                                dealNoChartFriend(mRecord, friendList, (i + 1), chart);
                                 return;
-                            }
-                            else if (i1 > i2)
-                            {
-                                dealNoChartFriend(mRecord, friendList, i, chat);
+                            } else if (i1 > i2) {
+                                dealNoChartFriend(mRecord, friendList, i, chart);
                                 return;
                             }
                         } else if (i1 < i2) {
-                            dealNoChartFriend(mRecord, friendList, (i+1), chat);
+                            dealNoChartFriend(mRecord, friendList, (i + 1), chart);
                             return;
                         } else if (i1 > i2) {
-                            dealNoChartFriend(mRecord, friendList, i, chat);
+                            dealNoChartFriend(mRecord, friendList, i, chart);
                             return;
                         }
                     }
                 }
         }
+    }
         else {
 //            if (!StrUtils.isEmpty(groupId)&& !groupId.equals("0"))
 //            {
 //                addTopTypeOne(mRecord,0);
 //            }
-            dealNoChartFriend(mRecord, friendList, 0, chat);
+            dealNoChartFriend(mRecord, friendList, 0, chart);
             return;
         }
         saveData();
@@ -271,6 +280,7 @@ public class DealFriendAdd {
         friendListBean.setType("2");
         friendListBean.setGroupName(chat);
         friendListBean.setGroupList(groupList);
+        friendListBean.setGroupId(mRecord.getGroupId());
 
         friendList.add(i,friendListBean);
 

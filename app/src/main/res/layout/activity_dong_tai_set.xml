@@ -16,7 +16,91 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:id="@+id/share_radioGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radioBtn_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/addr_check"
+                    android:button="@null"
+                    android:background="@color/transparent"
+                    android:padding="@dimen/dp10"
+                    android:text="自动播放" />
+                <View
+                    style="@style/style_wei_line"
+                    />
+                <RadioButton
+                    android:id="@+id/radioBtn_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/addr_check"
+                    android:button="@null"
+                    android:background="@color/transparent"
+                    android:padding="@dimen/dp10"
+                    android:text="WIFI自动播放" />
+                <View
+                    style="@style/style_wei_line"
+                    />
+                <RadioButton
+                    android:id="@+id/radioBtn_thr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableRight="@drawable/addr_check"
+                    android:button="@null"
+                    android:background="@color/transparent"
+                    android:padding="@dimen/dp10"
+                    android:text="4G自动播放" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <!--<CheckBox-->
+        <!--android:id="@+id/share_checkbox1"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:button="@null"-->
+        <!--android:drawableRight="@drawable/addr_check"-->
+        <!--android:padding="@dimen/dp10"-->
+        <!--android:text="允许分享"-->
+        <!--android:checked="true"-->
+        <!--android:textSize="@dimen/sp15" />-->
+        <!--<View-->
+        <!--style="@style/style_wei_line"-->
+        <!--/>-->
+        <!--<CheckBox-->
+        <!--android:id="@+id/share_checkbox2"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:button="@null"-->
+        <!--android:drawableRight="@drawable/addr_check"-->
+        <!--android:padding="@dimen/dp10"-->
+        <!--android:text="需要验证"-->
+        <!--android:textSize="@dimen/sp15" />-->
+        <!--<View-->
+        <!--style="@style/style_wei_line"-->
+        <!--/>-->
+        <!--<CheckBox-->
+        <!--android:id="@+id/share_checkbox3"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:button="@null"-->
+        <!--android:drawableRight="@drawable/addr_check"-->
+        <!--android:padding="@dimen/dp10"-->
+        <!--android:text="禁止被分享"-->
+        <!--android:textSize="@dimen/sp15" />-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
             android:layout_marginTop="@dimen/dp10"
+            android:visibility="gone"
             android:orientation="vertical">
             <LinearLayout
                 android:layout_width="match_parent"
@@ -29,18 +113,16 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="不让ta看我的动态"
+                    android:text="同意操作"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
-                    android:id="@+id/dongtai_switch_hideMine"
+                    android:id="@+id/share_switch_accept"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp10"
                     app:sb_show_indicator="false"
                     android:layout_gravity="center"
-                    app:sb_uncheckcircle_color="@color/swi_nor"
-                    app:sb_checked_color="@color/swi_select"
-                    app:sb_checked="false"/>
+                    app:sb_checked="true"/>
             </LinearLayout>
             <View
                 style="@style/style_wei_line"
@@ -48,7 +130,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
@@ -57,26 +138,19 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="手机号显示"
+                    android:text="无需同意"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
-                    android:id="@+id/yinsi_switch_phone"
+                    android:id="@+id/share_switch_nouse"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp10"
                     app:sb_show_indicator="false"
-                    app:sb_uncheckcircle_color="@color/swi_nor"
-                    app:sb_checked_color="@color/swi_select"
                     android:layout_gravity="center"
                     app:sb_checked="true"/>
             </LinearLayout>
-            <!--<View-->
-            <!--style="@style/style_wei_line"-->
-            <!--/>-->
             <View
-                android:layout_width="match_parent"
-                android:background="@color/greyf3"
-                android:layout_height="@dimen/dp1"
+                style="@style/style_wei_line"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
@@ -89,20 +163,17 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="不看ta的动态"
+                    android:text="禁止被分享"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
-                    android:id="@+id/dongtai_switch_hideHis"
+                    android:id="@+id/share_switch_no"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/dp10"
                     app:sb_show_indicator="false"
-                    app:sb_uncheckcircle_color="@color/swi_nor"
-                    app:sb_checked_color="@color/swi_select"
                     android:layout_gravity="center"
-                    app:sb_checked="false"/>
+                    app:sb_checked="true"/>
             </LinearLayout>
-
         </LinearLayout>
     </LinearLayout>
 

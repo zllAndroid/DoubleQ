@@ -37,10 +37,10 @@ public class NewsRemindActivity extends BaseActivity {
 //    @BindView(R.id.news_switch_xianshi)
 //    SwitchButton newsSwitchXianshi;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected void initBaseView() {

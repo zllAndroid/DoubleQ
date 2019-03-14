@@ -270,7 +270,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                     MAX_NUM = REPLY_MAX_NUM;
                     break;
             }
-            mEd.setSelection(mEd.getText().toString().length());
+//            mEd.setSelection(mEd.getText().toString().length());
             if (editable.length() > MAX_NUM) {
                 editable.delete(MAX_NUM, editable.length());
             }

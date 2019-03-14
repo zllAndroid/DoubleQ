@@ -659,7 +659,7 @@ public class ContactChildFragment extends BaseFragment {
         };
         letterBar.setonTouchLetterListener(new LetterBar.onTouchLetterListener() {
             @Override
-            public void onTouuchDown(String letter) {
+            public void onTouchDown(String letter) {
                 tv_abc.removeCallbacks(runnable);
                 tv_abc.setVisibility(View.VISIBLE);
                 tv_abc.setText(letter);
@@ -712,7 +712,7 @@ public class ContactChildFragment extends BaseFragment {
         };
         mManaBar.setonTouchLetterListener(new LetterBar.onTouchLetterListener() {
             @Override
-            public void onTouuchDown(String letter) {
+            public void onTouchDown(String letter) {
                 tv_abc_group.removeCallbacks(runnable);
                 tv_abc_group.setVisibility(View.VISIBLE);
                 tv_abc_group.setText(letter);

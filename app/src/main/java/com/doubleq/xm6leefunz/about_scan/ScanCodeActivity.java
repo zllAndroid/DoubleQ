@@ -247,23 +247,23 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
         String method = HelpUtils.backMethod(responseText);
         switch (method){
             case "addGroupOfQrCode":
-                DataScanGroupRequest dataScanGroupRequest = JSON.parseObject(responseText, DataScanGroupRequest.class);
-                DataScanGroupRequest.RecordBean recordBean = dataScanGroupRequest.getRecord();
-                DataScanGroupRequest.RecordBean.GroupDetailInfoBean groupDetailInfoBean = recordBean.getGroupDetailInfo();
-                Log.e("qrCode","----------scanCode------------------groupDetailInfoBean.getIsRelation()="+groupDetailInfoBean.getIsRelation());
-                if (groupDetailInfoBean.getIsRelation() == IS_GROUP_MEMBER){  //  2 是群成员  跳转到群聊资料界面GroupDataActivity
-                    Log.e("qrCode","---------scanCode----是群成员---------------substring="+substring);
-                    DataScanGroupRequest.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean = groupDetailInfoBean.getGroupInfo();
-                    if (groupInfoBean != null){
-                        groupId = groupInfoBean.getId();
-                        Log.e("qrCode","-------scanCode------是群成员---------------groupId="+groupId);
-                        IntentUtils.JumpToHaveTwo(GroupDataActivity.class,AppConfig.GROUP_SNO,substring,AppConfig.GROUP_ID,groupId);
-                    }
-                }
-                else{  //  非群成员  跳转到加群界面GroupDataAddActivity
-                    Log.e("qrCode","-------scanCode------非群成员---------------substring="+substring);
-                    IntentUtils.JumpToHaveOne(GroupDataAddActivity.class,AppConfig.GROUP_SNO,substring);
-                }
+//                DataScanGroupRequest dataScanGroupRequest = JSON.parseObject(responseText, DataScanGroupRequest.class);
+//                DataScanGroupRequest.RecordBean recordBean = dataScanGroupRequest.getRecord();
+//                DataScanGroupRequest.RecordBean.GroupDetailInfoBean groupDetailInfoBean = recordBean.getGroupDetailInfo();
+//                Log.e("qrCode","----------scanCode------------------groupDetailInfoBean.getIsRelation()="+groupDetailInfoBean.getIsRelation());
+//                if (groupDetailInfoBean.getIsRelation() == IS_GROUP_MEMBER){  //  2 是群成员  跳转到群聊资料界面GroupDataActivity
+//                    Log.e("qrCode","---------scanCode----是群成员---------------substring="+substring);
+//                    DataScanGroupRequest.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean = groupDetailInfoBean.getGroupInfo();
+//                    if (groupInfoBean != null){
+//                        groupId = groupInfoBean.getId();
+//                        Log.e("qrCode","-------scanCode------是群成员---------------groupId="+groupId);
+//                        IntentUtils.JumpToHaveTwo(GroupDataActivity.class,AppConfig.GROUP_SNO,substring,AppConfig.GROUP_ID,groupId);
+//                    }
+//                }
+//                else{  //  非群成员  跳转到加群界面GroupDataAddActivity
+//                    Log.e("qrCode","-------scanCode------非群成员---------------substring="+substring);
+//                    IntentUtils.JumpToHaveOne(GroupDataAddActivity.class,AppConfig.GROUP_SNO,substring);
+//                }
                 break;
         }
     }

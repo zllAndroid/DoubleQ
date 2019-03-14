@@ -159,7 +159,7 @@ public class GroupTeamActivity extends BaseActivity {
         };
         mLetterBar.setonTouchLetterListener(new LetterBar.onTouchLetterListener() {
             @Override
-            public void onTouuchDown(String letter) {
+            public void onTouchDown(String letter) {
                 mTvAbc.removeCallbacks(runnable);
                 mTvAbc.setVisibility(View.VISIBLE);
                 mTvAbc.setText(letter);

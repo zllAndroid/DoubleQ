@@ -116,14 +116,14 @@ public class LetterBar  extends View
             //监听按下
             case MotionEvent.ACTION_DOWN:
                 if (index!=0)
-                listener.onTouuchDown(ABCList.get(index));
+                listener.onTouchDown(ABCList.get(index));
 //		Toast.makeText(getContext(), ABCList.get(index), Toast.LENGTH_SHORT).show();
                 isTouch=true;
                 break;
             //监听移动
             case MotionEvent.ACTION_MOVE:
                 if (index!=0)
-                listener.onTouuchDown(ABCList.get(index));
+                listener.onTouchDown(ABCList.get(index));
 //		Toast.makeText(getContext(),ABCList.get(index), Toast.LENGTH_SHORT).show();
                 isTouch=true;
                 break;
@@ -155,7 +155,7 @@ public class LetterBar  extends View
     public  interface onTouchLetterListener{
         //按下
 
-        void onTouuchDown(String letter);
+        void onTouchDown(String letter);
 
         //移动
 
