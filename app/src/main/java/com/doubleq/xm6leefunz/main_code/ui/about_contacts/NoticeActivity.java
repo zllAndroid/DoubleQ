@@ -1,41 +1,27 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.doubleq.model.DataBlack;
 import com.doubleq.model.DataNews;
-import com.doubleq.model.DataSetAbout;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
-import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.doubleq.xm6leefunz.about_utils.TimeUtil;
-import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
-import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_notice.NoticeAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_notice.NoticeDetailsActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
-import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.BlackAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set.LaBlackActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
-import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import java.util.ArrayList;
@@ -51,7 +37,6 @@ public class NoticeActivity extends BaseActivity {
     TextView includeTopTvRight;
     @BindView(R.id.include_top_lin_back)
     LinearLayout includeTopLin;
-
     @BindView(R.id.notice_recyc)
     RecyclerView mRecyclerView;
 
@@ -183,7 +168,7 @@ public class NoticeActivity extends BaseActivity {
                         {
                             case  "0":
                                 IntentUtils.JumpToHaveObj(NoticeDetailsActivity.class,"id",item);
-                                AppManager.getAppManager().finishActivity();
+//                                AppManager.getAppManager().finishActivity();
                                 break;
                             case "1":
                                 ToastUtil.show("已经操作过，不能重复操作");

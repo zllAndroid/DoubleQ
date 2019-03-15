@@ -103,7 +103,7 @@ public class AddGoodFriendActivity extends BaseActivity {
         @Override
         public void afterTextChanged(Editable editable) {
 
-            fdaEdYanzheng.setSelection(fdaEdYanzheng.getText().toString().length());
+//            fdaEdYanzheng.setSelection(fdaEdYanzheng.getText().toString().length());
             if (editable.length() > 20) {
                 editable.delete(20, editable.length());
             }
@@ -124,7 +124,7 @@ public class AddGoodFriendActivity extends BaseActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            fdaEdBeizhu.setSelection(fdaEdBeizhu.getText().toString().length());
+//            fdaEdBeizhu.setSelection(fdaEdBeizhu.getText().toString().length());
             if (editable.length() > 10) {
                 editable.delete(10, editable.length());
             }
@@ -192,10 +192,10 @@ public class AddGoodFriendActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        // TODO: add setContentView(...) invocation
+//        ButterKnife.bind(this);
+//    }
 }

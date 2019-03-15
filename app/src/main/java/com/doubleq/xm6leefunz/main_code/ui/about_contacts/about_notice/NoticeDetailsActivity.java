@@ -1,6 +1,7 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_notice;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -30,12 +31,14 @@ import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccou
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
@@ -66,6 +69,8 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
     RecyclerView mRecyclerView;
     @BindView(R.id.notice_details_lin_main)
     LinearLayout mLinMain;
+    @BindView(R.id.notice_tv_reply)
+    TextView noticeTvReply;
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +80,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
     FriendNoticeDetailsAdapter friendNoticeDetailsAdapter = null;
-    List<DataNoticeDetails> mList = new ArrayList<>();
+    List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> mList = new ArrayList<>();
 
     @Override
     protected void initBaseView() {
@@ -85,22 +90,21 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
         includeTopTvTital.setText("好友资料");
         includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
 
-        mRecyclerView.setLayoutManager(new GridLayoutManager(NoticeDetailsActivity.this,1));
+        mRecyclerView.setLayoutManager(new GridLayoutManager(NoticeDetailsActivity.this, 1));
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setHasFixedSize(true);
 //        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(NoticeDetailsActivity.this));
 //        friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(this, mList);
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
 //        mRecyclerView.setAdapter(friendNoticeDetailsAdapter);
-        initAdapter(mList);
 //        friendNoticeDetailsAdapter.notifyDataSetChanged();
-
         Intent intent = getIntent();
         item = (DataNews.RecordBean.ListInfoBean) intent.getSerializableExtra("id");
         sendWeb(SplitWeb.messageDetail(item.getId()));
+        initAdapter(mList);
     }
 
-    private void initAdapter(List<DataNoticeDetails> mList) {
+    private void initAdapter(List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> mList) {
 //        DataNoticeDetail dataNoticeDetail = new DataNoticeDetail();
 //        dataNoticeDetail.setNoticeDetail("第一次请求添加好友！");
 //        DataNoticeDetail dataNoticeDetail2 = new DataNoticeDetail();
@@ -120,7 +124,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
 //            mList.add(dataNoticeDetail4);
 ////            friendNoticeDetailsAdapter.notifyDataSetChanged();
 //        }
-        friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this,mList );
+        friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this, mList);
 //        增加分割线
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mRecyclerView.setAdapter(friendNoticeDetailsAdapter);
@@ -164,79 +168,154 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
 //                });
                 ToastUtil.show("同意好友请求成功");
                 AppManager.getAppManager().finishActivity(NoticeDetailsActivity.this);
-                AppManager.getAppManager().finishActivity(NoticeActivity.class);
+//                AppManager.getAppManager().finishActivity(NoticeActivity.class);
 
                 break;
 //                消息通知详情页面接口
             case "messageDetail":
-                DataNoticeDetails dataNoticeDetails = JSON.parseObject(responseText, DataNoticeDetails.class);
-                DataNoticeDetails.RecordBean record = dataNoticeDetails.getRecord();
-                Log.e("mgsdetail","----------------------------前------------------------------------");
+                DataNoticeDetails dataNoticeDetail = JSON.parseObject(responseText, DataNoticeDetails.class);
+                DataNoticeDetails.RecordBean record = dataNoticeDetail.getRecord();
+                Log.e("messageDetail", "----------------------------前------------------------------------");
                 if (record != null) {
-                    Log.e("mgsdetail","----------------------------record != null------------------------------------");
+                    Log.e("messageDetail", "----------------------------record != null------------------------------------");
                     DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfo = record.getUserDetailInfo();
-
                     if (userDetailInfo != null) {
-                        initData(userDetailInfo);
+                        Log.e("messageDetail", "----------------------------initData（）------------------------------------");
+                        initData(dataNoticeDetail);
                     }
                 }
+                break;
+            case "messageReply":
+                if (mList.size() == 3) {  //备注信息等于三条时
+                    Log.e("messageDetail", "------------------------备注 > 3-----------------------recordBean");
+                    mList.remove(0);
+                    friendNoticeDetailsAdapter.notifyItemChanged(0);
+                    // 括号
+//                    List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfo.getRemark();
+//                    String message = friendsName + "：" + msg;
+//                    remarkBean.get(2).setMessage(friendsName + "：" + msg);
+//                    mList.add(2, remarkBean.get(2));
+                    // 括号
+                    mList.get(2).setMessage(friendsName + "：" + reply);
+                    friendNoticeDetailsAdapter.notifyDataSetChanged();
+
+                } else {
+                    mList.get(mList.size()-1).setMessage(friendsName + "：" + reply);
+                    friendNoticeDetailsAdapter.notifyDataSetChanged();
+                }
+                friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this, mList);
+                mRecyclerView.setAdapter(friendNoticeDetailsAdapter);
+                friendNoticeDetailsAdapter.notifyDataSetChanged();
+
+//                if (mList.size() == 3) {
+//                    mList.remove(0);
+//                    friendNoticeDetailsAdapter.notifyItemChanged(0);
+//                    DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
+//                    DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
+//                    if (recordBean != null) {
+//                        DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
+//                        if (userDetailInfoBean != null) {
+//                            List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
+//                            remarkBean.get(2).setMessage("我：" + reply);
+////                            mList.add(2, remarkBean.get(2));
+//                            friendNoticeDetailsAdapter.notifyDataSetChanged();
+//                        }
+//                    }
+//                } else {
+//                    DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
+//                    DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
+//                    if (recordBean != null) {
+//                        DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
+//                        if (userDetailInfoBean != null) {
+//                            List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
+//                            remarkBean.get(mList.size()-1).setMessage("我：" + reply);
+//                            mList.add(remarkBean.get(mList.size()-1));
+//                            friendNoticeDetailsAdapter.notifyDataSetChanged();
+//                        }
+//                    }
+//                }
+//                friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this, mList);
+////        增加分割线
+////        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
+//                mRecyclerView.setAdapter(friendNoticeDetailsAdapter);
+//                friendNoticeDetailsAdapter.notifyDataSetChanged();
                 break;
         }
     }
 
     String friendsName;
-    private void initData(DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfo) {
-        Glide.with(this).load(userDetailInfo.getHeadImg())
-                .bitmapTransform(new CropCircleTransformation(this))
-                .error(R.drawable.mine_head)
-                .into(mIvHead);
-        mTvName.setText(userDetailInfo.getNickName());
-        friendsName = userDetailInfo.getNickName();
-//        noticeTvRemark.setText("备注:" + userDetailInfo.getRemark());
+    private void initData(DataNoticeDetails dataNoticeDetails) {
+        DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
+        if (recordBean != null){
+            DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfo = recordBean.getUserDetailInfo();
+            Glide.with(this).load(userDetailInfo.getHeadImg())
+                    .bitmapTransform(new CropCircleTransformation(this))
+                    .error(R.drawable.mine_head)
+                    .into(mIvHead);
+            mTvName.setText(userDetailInfo.getNickName());
+//        TODO  添加帐号
+            noticeTvNum.setText(userDetailInfo.getWxSno());
+            String sign = StrUtils.isEmpty(userDetailInfo.getPersonaSignature())?"暂未设置签名":userDetailInfo.getPersonaSignature();
+            noticeTvSign.setText(sign);
+            friendsName = userDetailInfo.getNickName();
 
-        dataSearch = new DataSearch();
-        dataSearch.setName(userDetailInfo.getNickName());
-        dataSearch.setQrcode(userDetailInfo.getQrcode());
-        dataSearch.setHeadImg(userDetailInfo.getHeadImg());
+            dataSearch = new DataSearch();
+            dataSearch.setName(userDetailInfo.getNickName());
+            dataSearch.setQrcode(userDetailInfo.getQrcode());
+            dataSearch.setHeadImg(userDetailInfo.getHeadImg());
+            dataSearch.setPersonaSignature(userDetailInfo.getPersonaSignature());
 
-        List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBeanList = userDetailInfo.getRemark();
+            List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBeanList = userDetailInfo.getRemark();
 //        位置0是最新的消息
-        String msg = remarkBeanList.get(0).getMessage();
-        if (msg != null){
-            if (remarkBeanList.size() == 3) {  //备注信息等于三条时
-                mList.remove(0);
-                friendNoticeDetailsAdapter.notifyItemChanged(0);
-                DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
-                DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
-                if (recordBean != null){
-                    DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
-                    if (userDetailInfoBean != null){
-                        List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
-                        remarkBean.get(2).setMessage(friendsName + "：" + msg);
-                        mList.add(dataNoticeDetails);
-                        friendNoticeDetailsAdapter.notifyDataSetChanged();
-                    }
+            String msg = remarkBeanList.get(0).getMessage();
+            mList = remarkBeanList;
+            Log.e("messageDetail", "-----------------------第0条消息----------------------" + msg);
+            if (msg != null) {
+                if (remarkBeanList.size() == 3) {  //备注信息等于三条时
+                    Log.e("messageDetail", "------------------------备注条数 > 3-----------------------recordBean");
+                    mList.remove(0);
+                    friendNoticeDetailsAdapter.notifyItemChanged(0);
+//                    DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
+//                    DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
+//                    if (recordBean != null) {
+//                        DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
+//                        if (userDetailInfoBean != null) {
+                    List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfo.getRemark();
+//                    String message = friendsName + "：" + msg;
+//                    remarkBean.get(2).setMessage(friendsName + "：" + msg);
+//                    mList.add(2, remarkBean.get(2));
+                    mList.get(2).setMessage(friendsName + "：" + msg);
+                    friendNoticeDetailsAdapter.notifyDataSetChanged();
+//                        }
+//                    }
+                } else {  // 备注信息小于三条时
+//                    DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
+//                    DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
+//                    if (recordBean != null) {
+//                        Log.e("messageDetail", "------------------------备注小于三条-----------------------recordBean");
+//                        DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
+//                        if (userDetailInfoBean != null) {
+//                    List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfo.getRemark();
+//                    Log.e("messageDetail", "------------------------备注小于三条------------------------remarkBean = " + remarkBean.get(mList.size()-1).getMessage());
+//                    mList.add(mList.get(mList.size()-1));
+//                    Log.e("messageDetail", "------------------------备注小于三条------------------------mList = " + mList.get(mList.size()-1).getMessage());
+                    mList.get(mList.size()-1).setMessage(friendsName + "：" + msg);
+                    friendNoticeDetailsAdapter.notifyDataSetChanged();
+//                    friendNoticeDetailsAdapter.setData(mList.size()-1, remarkBean.get(mList.size()-1));
+//                        }
+//                    }
                 }
-            }
-            else {  //备注信息小于三条时
-                DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
-                DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
-                if (recordBean != null){
-                    DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
-                    if (userDetailInfoBean != null){
-                        List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
-                        remarkBean.get(mList.size()).setMessage(friendsName + "：" + msg);
-                        mList.add(dataNoticeDetails);
-                        friendNoticeDetailsAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-            friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this,mList);
+                friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this, mList);
 //        增加分割线
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-            mRecyclerView.setAdapter(friendNoticeDetailsAdapter);
-            friendNoticeDetailsAdapter.notifyDataSetChanged();
+                mRecyclerView.setAdapter(friendNoticeDetailsAdapter);
+                friendNoticeDetailsAdapter.notifyDataSetChanged();
+            } else {  // 若无备注信息
+                mLinMain.setBackground(getResources().getDrawable(R.drawable.friend_data_bg));
+                noticeTvReply.setVisibility(View.GONE);
+            }
         }
+
     }
 
     @Override
@@ -246,6 +325,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
 
     DataNews.RecordBean.ListInfoBean item;
     DataSearch dataSearch = null;
+
     @OnClick({R.id.notice_iv_qrcode, R.id.notice_tv_jujue, R.id.notice_tv_ok, R.id.notice_tv_reply})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -286,47 +366,15 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
         changeInfoWindow.setOnAddpopClickListener(this);
     }
 
+    String reply;
     @Override
     public void onSure(String content) {
-        if (content != null){
-            if (mList.size() == 3) {
-                mList.remove(0);
-                friendNoticeDetailsAdapter.notifyItemChanged(0);
-                DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
-                DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
-                if (recordBean != null){
-                    DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
-                    if (userDetailInfoBean != null){
-                        List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
-                        remarkBean.get(2).setMessage("我：" + content);
-                        mList.add(dataNoticeDetails);
-                        friendNoticeDetailsAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-            else {
-                DataNoticeDetails dataNoticeDetails = new DataNoticeDetails();
-                DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
-                if (recordBean != null){
-                    DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfoBean = recordBean.getUserDetailInfo();
-                    if (userDetailInfoBean != null){
-                        List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> remarkBean = userDetailInfoBean.getRemark();
-                        remarkBean.get(mList.size()).setMessage("我：" + content);
-                        mList.add(dataNoticeDetails);
-                        friendNoticeDetailsAdapter.notifyDataSetChanged();
-                    }
-                }
-            }
-            friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this,mList);
-//        增加分割线
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
-            mRecyclerView.setAdapter(friendNoticeDetailsAdapter);
-            friendNoticeDetailsAdapter.notifyDataSetChanged();
-        }
-        else {
+        if (content != null) {
+            reply = content;
+            sendWeb(SplitWeb.messageReply(item.getId(), content));
+        } else {
             ToastUtil.show("回复内容不能为空！");
         }
-
     }
 
     @Override

@@ -30,7 +30,9 @@ import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
+import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_scan.about_decode.InactivityTimer;
 import com.doubleq.xm6leefunz.about_scan.camera_view.CameraManager;
 import com.doubleq.xm6leefunz.about_scan.camera_view.ViewfinderView;
@@ -47,6 +49,7 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+import com.rance.chatui.util.Constants;
 
 import java.io.IOException;
 import java.util.Vector;
@@ -221,8 +224,10 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
 //                            sendWebHaveDialog(SplitWeb.addGroupOfQrCode(substring),"查看群信息中...","获取成功");
                     sendWeb(SplitWeb.addGroupOfQrCode(substring));
 //                    Log.e("addGroupOfQrCodes","----------------------------------------------------------");
-//                    IntentUtils.JumpToHaveOne(GroupDataAddActivity.class,AppConfig.GROUP_SNO,substring);
-                    AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
+
+//                    IntentUtils.JumpToHaveOne(ChatGroupActivity.class,AppConfig.GROUP_SNO,substring);
+//                    AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
+
 //                        }
 //                    }, new DialogUtils.OnClickCancleListener() {
 //                        @Override
@@ -241,13 +246,27 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
     }
 
     String groupId;
+    String groupChatName;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
         String method = HelpUtils.backMethod(responseText);
         switch (method){
             case "addGroupOfQrCode":
-//                DataScanGroupRequest dataScanGroupRequest = JSON.parseObject(responseText, DataScanGroupRequest.class);
+                DataScanGroupRequest dataScanGroupRequest = JSON.parseObject(responseText, DataScanGroupRequest.class);
+                DataScanGroupRequest.RecordBean recordBean = dataScanGroupRequest.getRecord();
+                if (recordBean != null){
+                    groupId = recordBean.getGroupId();
+                    groupChatName = recordBean.getGroupName();
+                    CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
+                    cusJumpChatData.setGroupId(groupId);
+                    cusJumpChatData.setGroupName(groupChatName);
+
+                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class,Constants.KEY_FRIEND_HEADER,cusJumpChatData);
+                    AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
+                }
+
+
 //                DataScanGroupRequest.RecordBean recordBean = dataScanGroupRequest.getRecord();
 //                DataScanGroupRequest.RecordBean.GroupDetailInfoBean groupDetailInfoBean = recordBean.getGroupDetailInfo();
 //                Log.e("qrCode","----------scanCode------------------groupDetailInfoBean.getIsRelation()="+groupDetailInfoBean.getIsRelation());

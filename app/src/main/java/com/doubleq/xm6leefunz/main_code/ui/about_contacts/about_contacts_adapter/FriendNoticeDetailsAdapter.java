@@ -7,24 +7,20 @@ import com.doubleq.model.DataNoticeDetails;
 import com.doubleq.xm6leefunz.R;
 import java.util.List;
 
-public class FriendNoticeDetailsAdapter extends BaseQuickAdapter<DataNoticeDetails,BaseViewHolder> {
+public class FriendNoticeDetailsAdapter extends BaseQuickAdapter<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean,BaseViewHolder> {
 
     Context context;
-    List<DataNoticeDetails> mList;
-    public FriendNoticeDetailsAdapter(Context context,List<DataNoticeDetails> mList)
+    List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> mList;
+    public FriendNoticeDetailsAdapter(Context context,List<DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean> mList)
     {
         super(R.layout.item_notice_detail,mList);
         this.context = context;
         this.mList = mList;
     }
     @Override
-    protected void convert(BaseViewHolder helper, DataNoticeDetails item)
-    {
-
-        helper.setText(R.id.item_tv_notice_detail_remark,item.getMsg());
-//        helper.setText(R.id.item_tv_notice_detail_remark,item.get());
+    protected void convert(BaseViewHolder helper, DataNoticeDetails.RecordBean.UserDetailInfoBean.RemarkBean item) {
+        helper.setText(R.id.item_tv_notice_detail_remark,item.getMessage());
     }
-
 //
 //    @Override
 //    public void onBindViewHolder(final BaseViewHolder helper, int positions) {

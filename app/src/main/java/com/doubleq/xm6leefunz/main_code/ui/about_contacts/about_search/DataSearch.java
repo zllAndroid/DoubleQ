@@ -12,6 +12,15 @@ public class DataSearch  implements Serializable{
     private String qrcode;
     private String isRelation;
     private String sign;
+    private String personaSignature;
+
+    public String getPersonaSignature() {
+        return personaSignature;
+    }
+
+    public void setPersonaSignature(String personaSignature) {
+        this.personaSignature = personaSignature;
+    }
 
     public String getSign() {
         return sign;

@@ -22,9 +22,9 @@ public class DealGroupAdd {
     private static String jsonString;
     public  static ACache aCache;
     public  static Context mContext;
-    public  static void updateGroupDataByAdd(Context montext,String result)
+    public  static void updateGroupDataByAdd(Context context,String result)
     {
-        mContext=montext;
+        mContext=context;
         DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
         aCache =  ACache.get(mContext);
@@ -37,9 +37,9 @@ public class DealGroupAdd {
             }
         }
     }
-    public  static void updateGroupDataBySub(Context montext, String result, RealmHomeHelper realmHomeHelper)
+    public  static void updateGroupDataBySub(Context context, String result, RealmHomeHelper realmHomeHelper)
     {
-        mContext=montext;
+        mContext=context;
         DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
         aCache =  ACache.get(mContext);
@@ -53,9 +53,9 @@ public class DealGroupAdd {
             }
         }
     }
-    public  static String updateGroupDataByModifySub(Context montext,String result )
+    public  static String updateGroupDataByModifySub(Context context,String result )
     {
-        mContext=montext;
+        mContext=context;
         DataAboutGroupModify dataAboutGroupModify = JSON.parseObject(result, DataAboutGroupModify.class);
         DataAboutGroupModify.RecordBean record = dataAboutGroupModify.getRecord();
         aCache =  ACache.get(mContext);
@@ -69,9 +69,9 @@ public class DealGroupAdd {
         }
         return  s;
     }
-    public  static void updateGroupDataByModifyAdd(Context montext,String result)
+    public  static void updateGroupDataByModifyAdd(Context context,String result)
     {
-        mContext=montext;
+        mContext=context;
         DataAboutGroupModify dataAboutGroupModify = JSON.parseObject(result, DataAboutGroupModify.class);
         DataAboutGroupModify.RecordBean record = dataAboutGroupModify.getRecord();
         aCache =  ACache.get(mContext);
@@ -90,7 +90,7 @@ public class DealGroupAdd {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
         if (group_info_list.size() > 0) {
-            String chat = mRecord.getOldChart();
+            String chart = mRecord.getOldChart();
             String groupManageId = mRecord.getOldGroupManageId();//分组id
             String groupId = mRecord.getGroupId();//群id
             for (int i = 0; i < group_info_list.size(); i++) {
@@ -98,7 +98,7 @@ public class DealGroupAdd {
                 String groupName = group_info_list.get(i).getGroupName();
                 List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
                 if (type.equals("2")) {
-                    if (chat != null && chat.equals(groupName)) {
+                    if (chart != null && chart.equals(groupName)) {
                         if (groupList.size() == 0) {
 //                            return;
                         } else if (groupList.size() == 1) {
@@ -152,10 +152,10 @@ public class DealGroupAdd {
                 String type = group_info_list.get(i).getType();
                 if (type.equals("2")) {
                     String groupName = group_info_list.get(i).getGroupName();
-                    String chat = mRecord.getNewChart();
+                    String chart = mRecord.getNewChart();
                     String groupManageName = mRecord.getNewGroupManageName();
                     String groupManageId = mRecord.getNewGroupManageId();
-                    if (chat != null && chat.equals(groupName)) {
+                    if (chart != null && chart.equals(groupName)) {
                         putCacheModify(mRecord, group_info_list, i, groupManageName);
                         return;
                     }
@@ -167,26 +167,26 @@ public class DealGroupAdd {
                 String type = group_info_list.get(i).getType();
                 if (type.equals("2")) {
                     String groupName = group_info_list.get(i).getGroupName();
-                    String chat = mRecord.getNewChart();
+                    String chart = mRecord.getNewChart();
                     int i1 = stringToAscii(getFirstABC(groupName));
-                    int i2 = stringToAscii(getFirstABC(chat));
+                    int i2 = stringToAscii(getFirstABC(chart));
                     if (group_info_list.size() > (i + 1)) {
                         String groupNameNext = group_info_list.get(i + 1).getGroupName();
                         int i3 = stringToAscii(getFirstABC(groupNameNext));
                         if (i1 < i2 && i2 < i3) {
-                            dealNoChartModify(mRecord, group_info_list, (i+1), chat);
+                            dealNoChartModify(mRecord, group_info_list, (i+1), chart);
                             return;
                         }
                         else if (i1 > i2)
                         {
-                            dealNoChartModify(mRecord, group_info_list, i, chat);
+                            dealNoChartModify(mRecord, group_info_list, i, chart);
                             return;
                         }
                     } else if (i1 < i2) {
-                        dealNoChartModify(mRecord, group_info_list, (i+1), chat);
+                        dealNoChartModify(mRecord, group_info_list, (i+1), chart);
                         return;
                     } else if (i1 > i2) {
-                        dealNoChartModify(mRecord, group_info_list, i, chat);
+                        dealNoChartModify(mRecord, group_info_list, i, chart);
                         return;
                     }
                 }
@@ -194,8 +194,8 @@ public class DealGroupAdd {
         }
         else
         {
-            String chat = mRecord.getNewChart();
-            dealNoChartModify(mRecord, group_info_list, 0, chat);
+            String chart = mRecord.getNewChart();
+            dealNoChartModify(mRecord, group_info_list, 0, chart);
             return;
         }
     }
@@ -204,7 +204,7 @@ public class DealGroupAdd {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
         if (group_info_list.size() > 0) {
-            String chat = mRecord.getChart();
+            String chart = mRecord.getChart();
             String groupManageId = mRecord.getGroupManageId();//分组id
             String groupId = mRecord.getGroupId();//群id
             for (int i = 0; i < group_info_list.size(); i++) {
@@ -212,7 +212,7 @@ public class DealGroupAdd {
                 String groupName = group_info_list.get(i).getGroupName();
                 List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
                 if (type.equals("2")) {
-                    if (chat != null && chat.equals(groupName)) {
+                    if (chart != null && chart.equals(groupName)) {
                         if (groupList.size() == 0) {
 //                            return;
                         } else if (groupList.size() == 1) {
@@ -261,6 +261,7 @@ public class DealGroupAdd {
         }
     }
 
+    private static boolean isHaveTypeTwo = true;
     private static void initDataGroup(String asString,DataAboutGroup.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
@@ -269,10 +270,10 @@ public class DealGroupAdd {
                 String type = group_info_list.get(i).getType();
                 if (type.equals("2")) {
                     String groupName = group_info_list.get(i).getGroupName();
-                    String chat = mRecord.getChart();
+                    String chart = mRecord.getChart();
                     String groupManageName = mRecord.getGroupManageName();
                     String groupManageId = mRecord.getGroupManageId();
-                    if (chat != null && chat.equals(groupName)) {
+                    if (chart != null && chart.equals(groupName)) {
                         putCache(mRecord, group_info_list, i, groupManageName);
                         return;
                     }
@@ -284,26 +285,26 @@ public class DealGroupAdd {
                 String type = group_info_list.get(i).getType();
                 if (type.equals("2")) {
                     String groupName = group_info_list.get(i).getGroupName();
-                    String chat = mRecord.getChart();
+                    String chart = mRecord.getChart();
                     int i1 = stringToAscii(getFirstABC(groupName));
-                    int i2 = stringToAscii(getFirstABC(chat));
+                    int i2 = stringToAscii(getFirstABC(chart));
                     if (group_info_list.size() > (i + 1)) {
                         String groupNameNext = group_info_list.get(i + 1).getGroupName();
                         int i3 = stringToAscii(getFirstABC(groupNameNext));
                         if (i1 < i2 && i2 < i3) {
-                            dealNoChart(mRecord, group_info_list, (i+1), chat);
+                            dealNoChart(mRecord, group_info_list, (i+1), chart);
                             return;
                         }
                         else if (i1 > i2)
                         {
-                            dealNoChart(mRecord, group_info_list, i, chat);
+                            dealNoChart(mRecord, group_info_list, i, chart);
                             return;
                         }
                     } else if (i1 < i2) {
-                        dealNoChart(mRecord, group_info_list, (i+1), chat);
+                        dealNoChart(mRecord, group_info_list, (i+1), chart);
                         return;
                     } else if (i1 > i2) {
-                        dealNoChart(mRecord, group_info_list, i, chat);
+                        dealNoChart(mRecord, group_info_list, i, chart);
                         return;
                     }
                 }
@@ -311,8 +312,8 @@ public class DealGroupAdd {
         }
         else
         {
-            String chat = mRecord.getChart();
-            dealNoChart(mRecord, group_info_list, 0, chat);
+            String chart = mRecord.getChart();
+            dealNoChart(mRecord, group_info_list, 0, chart);
             return;
         }
     }
@@ -327,11 +328,11 @@ public class DealGroupAdd {
         return upperCase;
     }
     private static void dealNoChart(DataAboutGroup.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list,
-                                    int i, String chat) {
+                                    int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = new ArrayList<>();
 
         DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
-        groupListBean.setGroupName(chat);
+        groupListBean.setGroupName(chart);
         groupListBean.setNickName(mRecord.getGroupName());
         groupListBean.setGroupOfId(mRecord.getGroupId());
         groupListBean.setHeadImg(mRecord.getGroupHeadImg());
@@ -340,7 +341,8 @@ public class DealGroupAdd {
 
         DataLinkGroupList.RecordBean.GroupInfoListBean groupInfoListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean();
         groupInfoListBean.setType("2");
-        groupInfoListBean.setGroupName(chat);
+        groupInfoListBean.setGroupName(chart);
+        groupInfoListBean.setGroupId(mRecord.getGroupId());
         groupInfoListBean.setGroupList(groupList);
 
         group_info_list.add(i,groupInfoListBean);
@@ -357,11 +359,11 @@ public class DealGroupAdd {
         mContext.sendBroadcast(intent);
     }
     private static void dealNoChartModify(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list,
-                                          int i, String chat) {
+                                          int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = new ArrayList<>();
 
         DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
-        groupListBean.setGroupName(chat);
+        groupListBean.setGroupName(chart);
         groupListBean.setNickName(mRecord.getNewGroupName());
         groupListBean.setGroupOfId(mRecord.getGroupId());
         groupListBean.setHeadImg(mRecord.getNewGroupHeadImg());
@@ -370,7 +372,8 @@ public class DealGroupAdd {
 
         DataLinkGroupList.RecordBean.GroupInfoListBean groupInfoListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean();
         groupInfoListBean.setType("2");
-        groupInfoListBean.setGroupName(chat);
+        groupInfoListBean.setGroupName(chart);
+        groupInfoListBean.setGroupId(mRecord.getGroupId());
         groupInfoListBean.setGroupList(groupList);
 
         group_info_list.add(i,groupInfoListBean);

@@ -601,6 +601,16 @@ public class SplitWeb {
         return  request;
     }
     /**
+     * 回复备注信息接口
+     */
+    public  static  String messageReply(String pushMsgId, String message){
+        dealMap();
+        putData("pushMsgId",pushMsgId);
+        putData("message",message);
+        String request = WebUrl.request("Contact", "messageReply", map);
+        return  request;
+    }
+    /**
      * 搜索相关
      */
     public  static  String searchDetailInfo(String group_id){

@@ -55,21 +55,9 @@ public class ChatFunctionFragment extends ChatBaseFragment {
         return rootView;
     }
 
-    @OnClick({R.id.chat_function_photo, R.id.chat_function_photograph})
+    @OnClick({R.id.chat_function_photo, R.id.chat_function_camera})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.chat_function_photograph:
-                if (ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    ActivityCompat.requestPermissions(getActivity(),
-                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                            MY_PERMISSIONS_REQUEST_CALL_PHONE2);
-
-                } else {
-                    takePhoto();
-                }
-                break;
             case R.id.chat_function_photo:
                 if (ContextCompat.checkSelfPermission(getActivity(),
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -80,6 +68,18 @@ public class ChatFunctionFragment extends ChatBaseFragment {
 
                 } else {
                     choosePhoto();
+                }
+                break;
+            case R.id.chat_function_camera:
+                if (ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            MY_PERMISSIONS_REQUEST_CALL_PHONE2);
+
+                } else {
+                    takePhoto();
                 }
                 break;
         }
