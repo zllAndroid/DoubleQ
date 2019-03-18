@@ -216,9 +216,7 @@ public class ChatActivity extends BaseActivity {
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
         friendHeader = cusJumpChatData.getFriendHeader();
         String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
-        includeTopTvTital.setText("和" + nameText + "的聊天");
-        Log.e("nameText", "----------------------------------------------------" + nameText);
-//        Log.e("nameText","----------------------------------------------------"+nameText);
+        includeTopTvTital.setText(nameText);
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);

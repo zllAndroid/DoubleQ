@@ -23,6 +23,8 @@
         >
 
         <!--title bar-->
+
+
         <ImageView
             android:id="@+id/include_frag_img_search"
             android:layout_width="@dimen/dp40"

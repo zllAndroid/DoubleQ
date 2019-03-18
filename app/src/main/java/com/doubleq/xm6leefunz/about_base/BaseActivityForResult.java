@@ -24,9 +24,11 @@ import com.doubleq.model.DataNoticAddFriendNews;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.web_base.MessageEvent;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_broadcastreceiver.NetEvent;
 import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.DialogLoginUtils;
 import com.doubleq.xm6leefunz.about_custom.loding.LoadingDialog;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.NetUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.DialogExitUtils;
@@ -80,6 +82,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         AppManager.getAppManager().addActivity(this);
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -163,7 +166,11 @@ public class BaseActivityForResult extends AppCompatActivity  {
         initBaseView();
         EventBus.getDefault().register(this);
     }
-
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onEventMainThread(NetEvent event) {
+//        ToastUtil.show("沒有網絡了");
+////        mLinNet.setVisibility(event.isNet ? View.GONE : View.VISIBLE);
+//    }
     private void dealObs(String data) {
 
         //        判断返回成功的  字段
@@ -251,7 +258,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     boolean isSend=false;
     protected void sendWeb(String text) {
         isSendDialog=false;
-        boolean isConnected = HelpUtils.isNetworkConnected(this);
+        boolean isConnected = NetUtils.isWifi(this);
         if (isConnected)
             MyApplication.getmConnectManager().sendText(text);
         else
@@ -278,7 +285,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         }
     }
     protected void sendWebHaveDialog(String text,String loadText,String loadSuccessText) {
-        boolean isConnected = HelpUtils.isNetworkConnected(this);
+        boolean isConnected = NetUtils.isWifi(this);
         if (!isConnected) {
             try {
                 ToastUtil.show(AppManager.getAppManager().currentActivity().getResources().getString(R.string.no_net));

@@ -42,6 +42,7 @@ import com.doubleq.xm6leefunz.about_chat.chat_group.ChatGroupActivity;
 import com.doubleq.xm6leefunz.about_chat.chat_group.GroupChatDetailsActivity;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.doubleq.xm6leefunz.about_custom.WrapContentLinearLayoutManager;
+import com.doubleq.xm6leefunz.about_custom.about_top_bar.FragmentTopBarLayout;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.NetUtils;
@@ -87,11 +88,32 @@ public class MsgFragment extends BaseFragment {
     View view =null;
     RecyclerView mRecyclerView;
     LinearLayout mLinTop;
+//    FragmentTopBarLayout mFgTopBar;
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+////        if (view==null) {
+//        view = inflater.inflate(R.layout.fragment_msg, container, false);
+////        }
+//        initFriend(view);
+//        initRealmData();
+////        首页消息广播处理
+//        initReceiver();
+//
+////        网络连接状态的广播接收
+//        initNetReceive();
+//
+//        return view;
+//    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        if (view==null) {
-        view = inflater.inflate(R.layout.fragment_msg, container, false);
-//        }
+    protected int setFragmentLayout() {
+        return R.layout.fragment_msg;
+    }
+
+    @Override
+    protected void initBaseUI(View view) {
+        super.initBaseUI(view);
+         view = getTopBarView();
         initFriend(view);
         initRealmData();
 //        首页消息广播处理
@@ -100,8 +122,15 @@ public class MsgFragment extends BaseFragment {
 //        网络连接状态的广播接收
         initNetReceive();
 
-        return view;
+
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+//        mFgTopBar.setTop(getActivity());
+    }
+
     private NetReceiver mReceiver;
     private void initNetReceive() {
         mReceiver = new NetReceiver();
@@ -120,6 +149,7 @@ public class MsgFragment extends BaseFragment {
             intentFilter = new IntentFilter();
             intentFilter.addAction("action.refreshMsgFragment");
             intentFilter.addAction("zll.refreshMsgFragment");
+            intentFilter.addAction("add.refreshMsgFragment");
             intentFilter.addAction("zero.refreshMsgFragment");
             intentFilter.addAction("del.refreshMsgFragment");
             intentFilter.addAction("action.dialog");
@@ -165,6 +195,7 @@ public class MsgFragment extends BaseFragment {
         });
         TextView tv_title = view.findViewById(R.id.include_frag_tv_title);
         mLinNet = view.findViewById(R.id.frag_home_lin_net);
+//        mFgTopBar = view.findViewById(R.id.fg_top_bar);
         tv_title.setText("消息");
         mRecyclerView = view.findViewById(R.id.frag_home_recyc);
         mLinTop = view.findViewById(R.id.msg_lin_top);
@@ -175,6 +206,27 @@ public class MsgFragment extends BaseFragment {
                 NetUtils.startToSettings(getActivity());
             }
         });
+//        initTop();
+    }
+//    private void initTop() {
+//        mFgTopBar.setOnRightClick (new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));
+//            }
+//        });
+//        mFgTopBar.setOnSearchClick(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                IntentUtils.JumpTo(LoadDataActivity.class);
+//            }
+//        });
+//        mFgTopBar.setTitle("消息");
+//    }
+
+    @Override
+    protected String setFragmentTital() {
+        return "消息";
     }
     @Override
     public void onResume() {
@@ -197,6 +249,10 @@ public class MsgFragment extends BaseFragment {
         if (action.equals("action.refreshMsgFragment"))
         {
             initRefresh(intent);
+        }
+        if (action.equals("add.refreshMsgFragment"))
+        {
+            initRealmData();
         }
         if (action.equals("assistant.refreshMsgFragment"))
         {

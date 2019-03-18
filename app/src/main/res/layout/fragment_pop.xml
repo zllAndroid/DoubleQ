@@ -8,42 +8,49 @@
 
         <TextView
             android:id="@+id/fp_tv_qunliao"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp15"
+            android:paddingTop="@dimen/dp8"
+            android:paddingBottom="@dimen/dp5"
             android:gravity="center"
             android:layout_weight="1"
             android:layout_gravity="center"
             android:text="创建群聊"
             android:textSize="@dimen/sp14" />
         <View
-           style="@style/style_wei_line"
-            android:layout_margin="@dimen/dp10"
-                />
+            style="@style/style_wei_line"
+            />
+
         <TextView
             android:id="@+id/fp_tv_add"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
+            android:paddingTop="@dimen/dp5"
+            android:paddingBottom="@dimen/dp5"
             android:layout_gravity="center"
             android:text="添加好友/群"
             android:textSize="@dimen/sp14" />
         <View
             style="@style/style_wei_line"
-            android:layout_margin="@dimen/dp10"
             />
         <TextView
             android:id="@+id/fp_tv_scan"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/dp20"
+            android:paddingTop="@dimen/dp5"
+            android:paddingBottom="@dimen/dp5"
             android:text="扫一扫"
             android:textSize="@dimen/sp14" />
 
-
+        <View
+            style="@style/style_wei_line"
+            android:layout_height="@dimen/dp5"
+            android:background="@color/trans"
+            />
 
 </LinearLayout>

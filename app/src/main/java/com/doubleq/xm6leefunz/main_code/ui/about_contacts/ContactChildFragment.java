@@ -31,6 +31,7 @@ import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.main_code.mains.LinkManFragment;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.LinkFriendAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter.LinkGroupAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar;
@@ -673,7 +674,6 @@ public class ContactChildFragment extends BaseFragment {
                     return;
                 }
                 for (int i = 0; i < mFriendList.size(); i++) {
-
                     //获取所有城市的首字母
                     if (mFriendList.get(i).getType().equals("2")) {
                         String firstLetter = getFirstABC
@@ -690,9 +690,7 @@ public class ContactChildFragment extends BaseFragment {
                 }
             }
             @Override
-            public void onTouchUp() {
-                tv_abc.postDelayed(runnable, 500);
-            }
+            public void onTouchUp() { tv_abc.postDelayed(runnable, 200); }
         });
     }
     public void initABCByGroup()
@@ -748,11 +746,10 @@ public class ContactChildFragment extends BaseFragment {
             }
             @Override
             public void onTouchUp() {
-                tv_abc_group.postDelayed(runnable, 500);
+                tv_abc_group.postDelayed(runnable, 200);
             }
         });
     }
-
     private void initGroupUI(View view) {
         inflater = LayoutInflater.from(getActivity());
         titleView = (LinearLayout) inflater.inflate(R.layout.item_linkman_header, null);//得到头部的布局

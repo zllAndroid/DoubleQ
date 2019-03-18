@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.doubleq.model.DataIsRealWeb;
 import com.doubleq.model.DataLinkGroupList;
 import com.doubleq.model.DataLinkManList;
 import com.doubleq.model.DataNewLinkMan;
@@ -21,12 +22,14 @@ import com.doubleq.xm6leefunz.about_base.web_base.MessageEvent;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
 import com.doubleq.xm6leefunz.about_utils.about_file.BaseFilePathUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -61,9 +64,19 @@ public class LoadDataActivity extends BaseActivity {
 //        electricFanView.setLoadingRenderer(builder.build());
 
 //        sendWebHaveData("获取数据中...","获取成功");
-        sendWeb(SplitWeb.contactsList());
-//        sendWeb(SplitWeb.getFriendList());
+//        contactsListHttp
         timer.start();
+        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.contactsListHttp(), new NetWorkUtlis.OnNetWork() {
+            @Override
+            public void onNetSuccess(String result) {
+                if (result!=null)
+                initContact(result);
+            }
+        });
+//        sendWeb(SplitWeb.contactsList());
+//        sendWeb(SplitWeb.getFriendList());
+
     }
     int durlation=5000;
 
@@ -88,19 +101,19 @@ public class LoadDataActivity extends BaseActivity {
     }
     boolean isFriend=false;
 //    boolean isGroup=false;
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(MessageEvent messageEvent){
-        String responseText = messageEvent.getMessage();
-        String isSucess = HelpUtils.HttpIsSucess(responseText);
-        if (isSucess.equals(AppAllKey.CODE_OK)) {
-            dealDataMsg(responseText);
-        }
-
-//        if (timer == null) {
-//            timer = new Timer();
-//            timer.schedule(task, 1500);
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onEvent(MessageEvent messageEvent){
+//        String responseText = messageEvent.getMessage();
+//        String isSucess = HelpUtils.HttpIsSucess(responseText);
+//        if (isSucess.equals(AppAllKey.CODE_OK)) {
+//            dealDataMsg(responseText);
 //        }
-    }
+//
+////        if (timer == null) {
+////            timer = new Timer();
+////            timer.schedule(task, 1500);
+////        }
+//    }
     private CountDownTimer timer =new CountDownTimer(durlation, 1000) {
         @Override
         public void onTick(long l) {
@@ -163,24 +176,28 @@ public class LoadDataActivity extends BaseActivity {
 //                {
 //                    return;
 //                }
-                String friend = HelpUtils.backLinkMan(responseText, true);
-                String group = HelpUtils.backLinkMan(responseText, false);
-                if (!StrUtils.isEmpty(friend))
-                {
-//                    Log.e("backLinkMan","friend="+friend);
-                    DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
-//                    DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
-                    dealFriendData(record);
-                }
-                if (!StrUtils.isEmpty(group))
-                {
-//                    Log.e("backLinkMan","group="+group);
-                    DataLinkGroupList.RecordBean recordBean = JSON.parseObject(group, DataLinkGroupList.RecordBean.class);
-                    dealGroupData(recordBean);
-                }
-                isFriend=true;
+//                initContact(responseText);
                 break;
         }
+    }
+
+    private void initContact(String responseText) {
+        String friend = HelpUtils.backLinkMan(responseText, true);
+        String group = HelpUtils.backLinkMan(responseText, false);
+        if (!StrUtils.isEmpty(friend))
+        {
+//                    Log.e("backLinkMan","friend="+friend);
+            DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
+//                    DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
+            dealFriendData(record);
+        }
+        if (!StrUtils.isEmpty(group))
+        {
+//                    Log.e("backLinkMan","group="+group);
+            DataLinkGroupList.RecordBean recordBean = JSON.parseObject(group, DataLinkGroupList.RecordBean.class);
+            dealGroupData(recordBean);
+        }
+        isFriend=true;
     }
 
     private void dealGroupData(DataLinkGroupList.RecordBean  record_group) {

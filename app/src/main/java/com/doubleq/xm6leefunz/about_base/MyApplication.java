@@ -2,7 +2,9 @@ package com.doubleq.xm6leefunz.about_base;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.Application;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -45,6 +47,7 @@ import com.doubleq.xm6leefunz.about_chat.cus_data_group.CusGroupChatData;
 import com.doubleq.xm6leefunz.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.MathUtils;
+import com.doubleq.xm6leefunz.about_utils.NetUtils;
 import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
@@ -55,6 +58,7 @@ import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.main_code.mains.MsgFragment;
+import com.doubleq.xm6leefunz.main_code.mains.test_service.DaemonService;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
@@ -125,7 +129,7 @@ public class MyApplication extends Application implements IWebSocketPage {
 //        initOneService();
         initRealm();
 
-        initRunnable();
+//        initRunnable();
     }
     //    private Handler handler = new Handler();
     private void initRunnable() {
@@ -136,7 +140,8 @@ public class MyApplication extends Application implements IWebSocketPage {
         Thread t1 = new Thread(autoSaleTicket, "123");
 //        thread.start();
         t1.start();
-
+        Intent intent = new Intent(this, DaemonService.class);
+        startService(intent);
 
 //        TimerTask newThread = new TimerTask(){
 //            @Override
@@ -330,15 +335,17 @@ public class MyApplication extends Application implements IWebSocketPage {
                     {
                         try {
 //                            sendText(SplitWeb.coroutineKeep());
-                            if(StrUtils.isEmpty(SplitWeb.USER_ID))
-                                SplitWeb.getUserId();
-                            if(!StrUtils.isEmpty(SplitWeb.USER_ID))
-                                sendText(SplitWeb.USER_ID);
+//                            if(StrUtils.isEmpty(SplitWeb.USER_ID))
+//                                SplitWeb.getUserId();
+//                            if(!StrUtils.isEmpty(SplitWeb.USER_ID))
+//                                sendText(SplitWeb.USER_ID);
 //                          {"api_key":"20180903","ctn":"Chat","data":[{"friendsId":"ac4b-62fa-098","message":"挪","messageType":"1","requestTime":"2019-03-11 18:51:36","token":"C7F62227-E05F-D98B-0BA1-2053245AD308","userId":"a7d2-a2c1-284"}],"mtn":"privateSend","sign":"CDC97C99868A4587DE829E94B535EAC0","timestamp":1552301496}
-//                          sendText(SplitWeb.privateSend());
+                            boolean b = NetUtils.isWifi(getAppContext());
+                            if ( b)
+                                sendText("01");
 //                            sendText(SplitWeb.privateSend("ac4b-62fa-098", "我们已经是好友了，快来聊一聊吧", "1", TimeUtil.getTime()));
 
-                            MyLog.e("KeepAlive","KeepAlive="+"----------------------发送心跳-----------------------------------");
+                            MyLog.e("KeepAlive","KeepAlive="+b+"----------------------发送心跳-----------------------------------");
                         } catch (Exception e) {
                             e.printStackTrace();
                             MyLog.e("KeepAlive","KeepAlive="+"----------------------抛异常-----------------------------------");
@@ -381,12 +388,14 @@ public class MyApplication extends Application implements IWebSocketPage {
     }
     @Override
     public void sendText(String text) {
-        boolean isConnected = HelpUtils.isNetworkConnected(AppManager.getAppManager().currentActivity());
+        boolean isConnected =NetUtils.isWifi(AppManager.getAppManager().currentActivity());
         if (isConnected)
         {
 //            aCache.remove(AppConfig.TYPE_METHON);
 //            aCache.put(AppConfig.TYPE_METHON,text);
             mConnectManager.sendText(text);
+        }else {
+            ToastUtil.show("网络连接失败");
         }
     }
 
@@ -999,7 +1008,7 @@ public class MyApplication extends Application implements IWebSocketPage {
             Intent intent = new Intent();
             intent.putExtra("message", "我们已经是好友了，快来聊一聊吧");
             intent.putExtra("id", record.getFriendsId());
-            intent.setAction("action.refreshMsgFragment");
+            intent.setAction("add.refreshMsgFragment");
             sendBroadcast(intent);
         }
     }
@@ -1273,27 +1282,44 @@ public class MyApplication extends Application implements IWebSocketPage {
         senderror();
     }
     private void senderror() {
-        try {
-            NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-            netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.errorRequest(aCache.getAsString(AppConfig.TYPE_URL)), new NetWorkUtlis.OnNetWork() {
-                @Override
-                public void onNetSuccess(String result) {
-                    MyLog.e("errorRequest", result+ "---------------------result------");
-                    DataIsRealWeb dataIsRealWeb = JSON.parseObject(result, DataIsRealWeb.class);
-                    String status = dataIsRealWeb.getStatus();
-                    if (status.equals("1"))
-                    {
-                        dealStatusOne();
-                    }else
-                    {
-                        errorRequest();
+        boolean isConnected = NetUtils.isWifi(getAppContext());
+        if (isConnected) {
+            try {
+                NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+                netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.errorRequest(aCache.getAsString(AppConfig.TYPE_URL)), new NetWorkUtlis.OnNetWork() {
+                    @Override
+                    public void onNetSuccess(String result) {
+                        MyLog.e("errorRequest", result + "---------------------result------");
+                        DataIsRealWeb dataIsRealWeb = JSON.parseObject(result, DataIsRealWeb.class);
+                        String status = dataIsRealWeb.getStatus();
+                        if (status.equals("1")) {
+                            dealStatusOne();
+//                        reStartApp();
+                        } else {
+                            errorRequest();
+                        }
                     }
-                }
-            });
-        } catch (Exception e) {
-            e.printStackTrace();
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            MyLog.e(TAG,"---------------onSendMessageError----------请检查网络连接是否正常--------");
+            ToastUtil.show("请检查网络连接是否正常");
         }
     }
+
+    private void reStartApp() {
+//        ToastUtil.show("一秒后重启应用");
+        Intent intent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
+        AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, restartIntent); // 1秒钟后重启应用
+        System.exit(0);
+    }
+
     private void dealStatusOne() {
         try {
             if (mConnectManager!=null) {
@@ -1360,51 +1386,55 @@ public class MyApplication extends Application implements IWebSocketPage {
         aCache.remove(AppConfig.TYPE_URL);
         aCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
         aCache.put(AppConfig.TYPE_URL,http);
-        if (mConnectManager!=null) {
-            mConnectManager.onDestroy();
-            mConnectManager = null;
-        }
 
-        if (StrUtils.isEmpty(serverIpWs))
-        {
-            ToastUtil.show("系统错误，请联系管理员...");
-            return;
-        }
-        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_WS_REQUEST));//必选
+        reStartApp();
 
-        mConnectManager = new WebSocketServiceConnectManager(this, this);
-        mConnectManager.onCreate();
-//        mConnectManager.reconnect();
-//        mConnectManager.reBind(SplitWeb.bindUid());
-        MyLog.e(TAG, "----------reBind------000-----reconnect------");
-//        AppResponseDispatcher appResponseDispatcher = new AppResponseDispatcher();
-//        WebSocketSetting.setResponseProcessDelivery(appResponseDispatcher);
-//        WebSocketSetting.setReconnectWithNetworkChanged(true);
-//        //启动 WebSocket 服务.
-//        boolean webSocketService = isServiceRunning("WebSocketService", getAppContext());
-//        if (!webSocketService)
-//        {
-//            try {
-//                MyLog.e("errorRequest", aCache.getAsString(AppConfig.TYPE_WS_REQUEST) + "---------------------initFirstService------");
-//                Intent bindIntent = new Intent(AppManager.getAppManager().currentActivity(), WebSocketService.class);
-//                bindService(bindIntent, connection, BIND_AUTO_CREATE);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//        }else
-//        {
-//            Intent intent = new Intent(this, WebSocketService.class);
-//            startService(intent);
+
+//        if (mConnectManager!=null) {
+//            mConnectManager.onDestroy();
+//            mConnectManager = null;
 //        }
-////        MyLog.e("initFirstService",AppManager.getAppManager().currentActivity().getClass().getSimpleName()+"");
+//
+//        if (StrUtils.isEmpty(serverIpWs))
+//        {
+//            ToastUtil.show("系统错误，请联系管理员...");
+//            return;
+//        }
+//        WebSocketSetting.setConnectUrl(aCache.getAsString(AppConfig.TYPE_WS_REQUEST));//必选
+//
 //        mConnectManager = new WebSocketServiceConnectManager(this, this);
 //        mConnectManager.onCreate();
-
-
-        MyLog.e("TYPE_WS_REQUEST=", aCache.getAsString(AppConfig.TYPE_WS_REQUEST) + "---------------------initjiqun------");
-        Intent intent2 = new Intent();
-        intent2.setAction("start_application");
-        sendBroadcast(intent2);
+////        mConnectManager.reconnect();
+////        mConnectManager.reBind(SplitWeb.bindUid());
+//        MyLog.e(TAG, "----------reBind------000-----reconnect------");
+////        AppResponseDispatcher appResponseDispatcher = new AppResponseDispatcher();
+////        WebSocketSetting.setResponseProcessDelivery(appResponseDispatcher);
+////        WebSocketSetting.setReconnectWithNetworkChanged(true);
+////        //启动 WebSocket 服务.
+////        boolean webSocketService = isServiceRunning("WebSocketService", getAppContext());
+////        if (!webSocketService)
+////        {
+////            try {
+////                MyLog.e("errorRequest", aCache.getAsString(AppConfig.TYPE_WS_REQUEST) + "---------------------initFirstService------");
+////                Intent bindIntent = new Intent(AppManager.getAppManager().currentActivity(), WebSocketService.class);
+////                bindService(bindIntent, connection, BIND_AUTO_CREATE);
+////            } catch (Exception e) {
+////                e.printStackTrace();
+////            }
+////        }else
+////        {
+////            Intent intent = new Intent(this, WebSocketService.class);
+////            startService(intent);
+////        }
+//////        MyLog.e("initFirstService",AppManager.getAppManager().currentActivity().getClass().getSimpleName()+"");
+////        mConnectManager = new WebSocketServiceConnectManager(this, this);
+////        mConnectManager.onCreate();
+//
+//
+//        MyLog.e("TYPE_WS_REQUEST=", aCache.getAsString(AppConfig.TYPE_WS_REQUEST) + "---------------------initjiqun------");
+//        Intent intent2 = new Intent();
+//        intent2.setAction("start_application");
+//        sendBroadcast(intent2);
     }
     /**
      * 判断服务是否处于运行状态.

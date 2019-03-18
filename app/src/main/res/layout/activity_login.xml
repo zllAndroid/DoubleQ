@@ -132,7 +132,7 @@
                     android:textSize="@dimen/sp14"
                     android:paddingBottom="@dimen/dp10"
                     android:paddingLeft="@dimen/dp5"
-                    android:text="忘记密码"/>
+                    android:text="短信登录"/>
 
             </LinearLayout>
         </LinearLayout>

@@ -36,6 +36,14 @@ public class FilePath {
 //        File file = new File(getPath());
         return  appFilePath;
     }
+    public  static  String getAbsPath(String mFileName){
+        File file = new File(mFileName);
+        if (!file.exists()){
+            file.getParentFile().mkdirs();
+        }
+//        File file = new File(getPath());
+        return  mFileName;
+    }
     private static  String getPath(){
         File file = new File(appPath);
         if (!file.exists()){

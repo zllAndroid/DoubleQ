@@ -10,7 +10,12 @@
     tools:context="com.doubleq.xm6leefunz.main_code.mains.LinkManFragment">
 
     <!--title bar-->
-    <include layout="@layout/fragment_include_title_bar"/>
+    <!--<include layout="@layout/fragment_include_title_bar"/>-->
+    <com.doubleq.xm6leefunz.about_custom.about_top_bar.FragmentTopBarLayout
+        android:id="@+id/fg_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

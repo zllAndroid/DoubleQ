@@ -9,14 +9,20 @@
     android:background="@color/greyf3"
     tools:context="com.doubleq.xm6leefunz.main_code.mains.FindFragment">
     <!--title bar-->
-    <include layout="@layout/fragment_include_title_bar"/>
+    <!--<include layout="@layout/fragment_include_title_bar"/>-->
 
     <!--<include layout="@layout/fragment_include_title_bar"/>-->
     <!--朋友圈-->
+    <com.doubleq.xm6leefunz.about_custom.about_top_bar.FragmentTopBarLayout
+        android:id="@+id/fg_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -236,11 +242,8 @@
                 </LinearLayout>
 
                 <!--吱一吱，加好友-->
-                <View
-                    android:layout_width="match_parent"
-                    android:background="@color/greyf3"
-                    android:layout_height="@dimen/dp1"
-                    />
+                <View  style="@style/style_wei_line" />
+
                 <LinearLayout
                     android:id="@+id/discover_lin_zhi_addFriend"
                     android:layout_width="match_parent"

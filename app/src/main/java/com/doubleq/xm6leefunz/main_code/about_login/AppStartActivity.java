@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,6 +21,7 @@ import com.doubleq.model.DataLogin;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
+import com.doubleq.xm6leefunz.about_broadcastreceiver.NetReceiver;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.main_code.mains.LoadDataActivity;
 import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
@@ -75,11 +78,19 @@ public class AppStartActivity extends BaseActivity {
 //                .create();
 //
 //        serviceConnection = new MyServiceConnection();
+//        initNetReceive();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             AppStartActivityPermissionsDispatcher.needWithCheck(this);
 //            need();
         else
             need();
+    }
+    private NetReceiver mReceiver;
+    private void initNetReceive() {
+        mReceiver = new NetReceiver();
+        IntentFilter mFilter = new IntentFilter();
+        mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+       this.registerReceiver(mReceiver, mFilter);
     }
     private WindowService.MyBinder mybinder;
 
@@ -142,11 +153,11 @@ public class AppStartActivity extends BaseActivity {
 //            AppManager.getAppManager().finishActivity(AppStartActivity.this);
             initCaChe();
 
-            if (isClick) {
-//                IntentUtils.JumpFinishTo(MainActivity.class);
-//                openingStartAnimation.show(AppStartActivity.this);
-
-            }
+//            if (isClick) {
+////                IntentUtils.JumpFinishTo(MainActivity.class);
+////                openingStartAnimation.show(AppStartActivity.this);
+//
+//            }
         }
     };
 
@@ -165,6 +176,13 @@ public class AppStartActivity extends BaseActivity {
         super.onDestroy();
         if (timer != null)
             timer.cancel();
+
+        try {
+            if (mReceiver!=null)
+               unregisterReceiver(mReceiver);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     //    @OnClick(R.id.appstart_lin)
 //    public void onViewClicked() {
@@ -187,7 +205,8 @@ public class AppStartActivity extends BaseActivity {
     }
     private ACache mCache;
     private void initCaChe() {
-        mCache = ACache.get(this);
+        if (mCache==null)
+            mCache = ACache.get(this);
         if (mCache!=null){
             String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
             if (!StrUtils.isEmpty(asString))

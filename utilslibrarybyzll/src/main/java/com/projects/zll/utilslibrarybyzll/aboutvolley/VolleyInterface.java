@@ -23,7 +23,10 @@ public abstract class VolleyInterface {
 			@Override
 			public void onResponse(String result) {
 				// TODO Auto-generated method stub
-				onSuccess(result);
+				if (!result.contains("()"))
+					onSuccess(result);
+				else
+					onError(null);
 			}
 		};
 		return listener;

@@ -205,16 +205,19 @@ public class MineSetActivity extends BaseActivity {
                             switch (checkingId){
                                 case "1":
 //                                    ToastUtil.show("1");
+                                    SplitWeb.IS_SET_PERSON_HEAD=true;
                                     sendWeb(SplitWeb.kickUid());
                                     SplitWeb.USER_ID="";
+                                    ACache.get(MineSetActivity.this).clear();
+                                    SPUtils.clear(MineSetActivity.this);
+
                                     AppManager.getAppManager().finishAllActivity();
 //                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
 //                                    startActivity(intent_recharge);
 //                                    Log.e("userPhone","-------------mineSet-----------------"+userPhone);
                                     IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",userPhone);
                                     overridePendingTransition(0,0);
-                                    ACache.get(MineSetActivity.this).clear();
-                                    SPUtils.clear(MineSetActivity.this);
+
                                     if (MyApplication.getmConnectManager()!=null) {
                                         MyApplication.getmConnectManager().onDestroy();
                                         MyApplication.mConnectManager = null;
@@ -222,15 +225,18 @@ public class MineSetActivity extends BaseActivity {
 //                                    MyApplication.getmConnectManager().onDestroyService();
                                     break;
                                 case "2":
+                                    SplitWeb.IS_SET_PERSON_HEAD=true;
 //                                    ToastUtil.show("2");
                                     sendWeb(SplitWeb.kickUid());
                                     SplitWeb.USER_ID="";
+                                    ACache.get(MineSetActivity.this).clear();
+                                    SPUtils.clear(MineSetActivity.this);
+
                                     AppManager.getAppManager().finishAllActivity();
                                     Intent intent = new Intent(MineSetActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                     overridePendingTransition(0,0);
-                                    ACache.get(MineSetActivity.this).clear();
-                                    SPUtils.clear(MineSetActivity.this);
+
                                     realmHelper.deleteAll();
                                     realmChatHelper.deleteAll();
                                     realmGroupHelper.deleteAll();

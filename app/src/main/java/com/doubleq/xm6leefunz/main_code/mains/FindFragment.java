@@ -26,23 +26,32 @@ public class FindFragment extends BaseFragment {
     }
 
     View view;
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//        if(view == null) {
+//            view = inflater.inflate(R.layout.fragment_discovery, container, false);
+//        }
+//        initUI(view);
+//        return view;
+//    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        if(view == null) {
-            view = inflater.inflate(R.layout.fragment_discovery, container, false);
-        }
-        initUI(view);
-        return view;
+    protected int setFragmentLayout() {
+        return R.layout.fragment_discovery;
     }
 
+    @Override
+    protected void initBaseUI(View view) {
+        super.initBaseUI(view);
+        view = getTopBarView();
+        initUI(view);
+    }
+    @Override
+    protected String setFragmentTital() {
+        return "朋友圈";
+    }
     private void initUI(final View view) {
-        TextView head;
-        ImageView search,add;
-        head = view.findViewById(R.id.include_frag_tv_title);
-        search = view.findViewById(R.id.include_frag_img_search);
-        add = view.findViewById(R.id.include_frag_img_add);
-        head.setText("朋友圈");
         view.findViewById(R.id.include_frag_img_add).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -63,5 +72,4 @@ public class FindFragment extends BaseFragment {
             }
         });
     }
-
 }

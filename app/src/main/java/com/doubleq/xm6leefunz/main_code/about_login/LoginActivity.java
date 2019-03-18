@@ -147,8 +147,10 @@ public class LoginActivity extends BaseActivity {
         SPUtils.put(this, AppConfig.TYPE_NAME,dataLogin.getNickName());
         SPUtils.put(this,AppConfig.TYPE_NO,dataLogin.getWxSno());
         SPUtils.put(this,AppConfig.TYPE_PHONE,dataLogin.getWxSno());
-
+        SPUtils.put(this,AppConfig.User_HEAD_URL,dataLogin.getHeadImg());
         SPUtils.put(this,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
+
+
 //        SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIpWs());
         SplitWeb.USER_TOKEN = dataLogin.getUserToken();
         SplitWeb.MOBILE = dataLogin.getMobile();
@@ -226,8 +228,8 @@ public class LoginActivity extends BaseActivity {
         if (s.equals("bindUid")) {
             if (!isFirst) {
 //                TODO 修改
-//                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
-                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
+                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+//                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
             }
             else
                 IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);

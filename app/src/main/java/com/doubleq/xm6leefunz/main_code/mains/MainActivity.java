@@ -79,13 +79,13 @@ public class MainActivity extends BaseActivity {
         }
 
 //        版本更新
-        int localVersion = 0;
-        try {
-            localVersion = HelpUtils.getLocalVersion(MainActivity.this);
-            sendWeb(SplitWeb.appUpdate(""+localVersion));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        int localVersion = 0;
+//        try {
+//            localVersion = HelpUtils.getLocalVersion(MainActivity.this);
+//            sendWeb(SplitWeb.appUpdate(""+localVersion));
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
 

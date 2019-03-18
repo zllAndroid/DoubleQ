@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.doubleq.model.DataJieShou;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
 import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
@@ -19,6 +20,7 @@ import com.doubleq.xm6leefunz.about_utils.GlideCacheUtil;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
 import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
 import com.rance.chatui.enity.MessageInfo;
@@ -90,6 +92,14 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
                     .dontAnimate()
                     .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(chatItemHeader);
+        }else {
+            String mUrl = (String) SPUtils.get(getContext(), AppConfig.User_HEAD_URL, "");
+            if (mUrl!=null) {
+                Glide.with(getContext()).load(mUrl)
+                        .dontAnimate()
+                        .bitmapTransform(new CropCircleTransformation(getContext()))
+                        .into(chatItemHeader);
+            }
         }
 
 //        Glide.with(getContext()).load(SplitWeb.USER_HEADER)

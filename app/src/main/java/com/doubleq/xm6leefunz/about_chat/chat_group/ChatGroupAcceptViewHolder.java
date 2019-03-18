@@ -39,10 +39,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-/**
- * 作者：Rance on 2016/11/29 10:47
- * 邮箱：rance935@163.com
- */
 public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> {
     public static final String TAG = "ChatGroupAcceptViewHolder";
     @BindView(R.id.chat_item_date)
@@ -157,7 +153,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
             switch (data.getMessageType())
             {
                 case Constants.CHAT_TEXT:
-                    chatItemContentText.setSpanText(handler, data.getMessage(), true);
+                    chatItemContentText.setSpanText(handler, data.getMessage(), false);
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.VISIBLE);
                     chatItemLayoutContent.setVisibility(View.VISIBLE);
@@ -193,7 +189,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                     });
                     break;
                 case Constants.CHAT_EMOTION:
-                    chatItemContentText.setSpanText(handler, data.getMessage(), true);
+                    chatItemContentText.setSpanText(handler, data.getMessage(), false);
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.VISIBLE);
                     chatItemLayoutContent.setVisibility(View.VISIBLE);

@@ -12,6 +12,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
@@ -35,8 +36,10 @@ import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -53,7 +56,7 @@ public class HelpUtils {
 
         return AppManager.getAppManager().currentActivity();
     }
-    // 判断网络连接状态
+//    // 判断网络连接状态
     public static boolean isNetworkConnected(Context context) {
         if (context != null) {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context
@@ -67,6 +70,104 @@ public class HelpUtils {
         return false;
     }
 
+//    /**
+//     * 判断当前网络是否可用(6.0以上版本)
+//     * 实时
+//     * @param context
+//     * @return
+//     */
+//    public static boolean isNetworkConnected(Context context){
+//        boolean isNetUsable = false;
+//
+//        ConnectivityManager manager = (ConnectivityManager)
+//                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+//        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+//            NetworkCapabilities networkCapabilities =manager.getNetworkCapabilities(manager.getActiveNetwork());
+//            isNetUsable = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+//        }else
+//        {
+//            NetworkInfo mNetworkInfo = manager.getActiveNetworkInfo();
+//            if (mNetworkInfo != null) {
+//                return mNetworkInfo.isAvailable();
+//            }
+//        }
+//
+//
+//        return isNetUsable;
+//    }
+
+    /* @author suncat
+     * @category 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
+     * @return
+     */
+//    public static final boolean ping() {
+//        String result = null;
+//        try {
+//            String ip = "www.baidu.com";// ping 的地址，可以换成任何一种可靠的外网
+//            Process p = Runtime.getRuntime().exec("ping -c 3 -w 100 " + ip);// ping网址3次
+//            // 读取ping的内容，可以不加
+//            InputStream input = p.getInputStream();
+//            BufferedReader in = new BufferedReader(new InputStreamReader(input));
+//            StringBuffer stringBuffer = new StringBuffer();
+//            String content = "";
+//            while ((content = in.readLine()) != null) {
+//                stringBuffer.append(content);
+//            }
+//            Log.d("------ping-----", "result content : " + stringBuffer.toString());
+//            // ping的状态
+//            int status = p.waitFor();
+//            if (status == 0) {
+//                result = "success";
+//                return true;
+//            } else {
+//                result = "failed";
+//            }
+//        } catch (IOException e) {
+//            result = "IOException";
+//        } catch (InterruptedException e) {
+//            result = "InterruptedException";
+//        } finally {
+//            Log.d("----result---", "result = " + result);
+//        }
+//        return false;
+//    }
+//    public static final boolean NetworkPing(Context context) {
+//
+//        if (isNetworkConnected(context)) {
+//            String result = null;
+//            try {
+//                String ip = "https://www.baidu.com/";// ping 的地址，可以换成任何一种可靠的外网
+//                Process p = Runtime.getRuntime().exec("ping -c 3 -w 100 " + ip);// ping网址3次
+//                // 读取ping的内容，可以不加
+//                InputStream input = p.getInputStream();
+//                BufferedReader in = new BufferedReader(new InputStreamReader(input));
+//                StringBuffer stringBuffer = new StringBuffer();
+//                String content = "";
+//                while ((content = in.readLine()) != null) {
+//                    stringBuffer.append(content);
+//                }
+//                Log.d("------ping-----", "result content : " + stringBuffer.toString());
+//                // ping的状态
+//                int status = p.waitFor();
+//                if (status == 0) {
+//                    result = "success";
+//                    return true;
+//                } else {
+//                    result = "failed";
+//                }
+//            } catch (IOException e) {
+//                result = "IOException";
+//            } catch (InterruptedException e) {
+//                result = "InterruptedException";
+//            } finally {
+//                Log.d("----result---", "result = " + result);
+//            }
+//            return false;
+//        }else
+//        {
+//            return false;
+//        }
+//    }
     public static int getLocalVersion(Context mcon) {
         int localVersion = 0;
         try {
@@ -112,14 +213,14 @@ public class HelpUtils {
                         return code;
                     case AppConfig.CODE_TIMEOUT:
                         return "1007";
-    //                    break;
+                    //                    break;
                     case AppConfig.CODE_TOKEN_OUT:
-    //                    SplitWeb.USER_ID="";
-    ////                    AppManager.getAppManager().finishAllActivity();
-    //                    IntentUtils.JumpTo(LoginActivity.class);
-    //                    getACt().overridePendingTransition(0,0);
-    //                    ACache.get(getACt()).clear();
-    //                    SPUtils.clear(getACt());
+                        //                    SplitWeb.USER_ID="";
+                        ////                    AppManager.getAppManager().finishAllActivity();
+                        //                    IntentUtils.JumpTo(LoginActivity.class);
+                        //                    getACt().overridePendingTransition(0,0);
+                        //                    ACache.get(getACt()).clear();
+                        //                    SPUtils.clear(getACt());
                         return code;
                     default:
                         String msg = object.optString("msg").toString().trim();
@@ -226,8 +327,8 @@ public class HelpUtils {
                         params.put("groupInfoList", objects);
                     String s = params.toJSONString();
                     String mStr=s.replace("\\","");
-                     mStr=mStr.replace("\"[","");
-                     mStr=mStr.replace("\"]","");
+                    mStr=mStr.replace("\"[","");
+                    mStr=mStr.replace("\"]","");
 //                    MyLog.e("friendList","列表="+mStr);
 
 //                    String json = JSON.toJSON(record).toString();

@@ -16,6 +16,7 @@ public class SplitWeb {
     //    是否需要首页叠加消息条数   true显示
     public static boolean IS_CHAT_Zero= true;
 
+    public static boolean IS_SET_PERSON_HEAD=false;
     public static String IS_CHAT= "00";
     public static String IS_SET_ACTIVITY= "00";
     public static String IS_CHAT_GROUP= "33";
@@ -171,8 +172,20 @@ public class SplitWeb {
         mList.add("mobile="+mobile);
         mList.add("code="+code);
         return getURLRequest()+"smsLogin?"+ SignForXm6leefunJava.getSing(mList);
-    }
 
+    }
+    public static String contactsListHttp(){
+        mList.clear();
+        if(StrUtils.isEmpty(USER_ID))
+            getUserId();
+        mList.add("userId="+USER_ID);
+        if(StrUtils.isEmpty(USER_TOKEN))
+            getUserToken();
+        mList.add("token="+USER_TOKEN);
+        return getURLRequest()+"contactsList?"+ SignForXm6leefunJava.getSing(mList);
+//        String request = WebUrl.request("Contact", "contactsList", map);
+//        return  request;
+    }
     /**
      * -------------------------------------------------------------------------------------------------------------------------------------------
      */

@@ -16,7 +16,7 @@ public class NetReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
         if (ConnectivityManager.CONNECTIVITY_ACTION.equals(action)) {
-            boolean isConnected = HelpUtils.isNetworkConnected(context);
+            boolean isConnected = NetUtils.isWifi(context);
 //            System.out.println("网络状态：" + isConnected);
 //            System.out.println("wifi状态：" + NetUtils.isWifiConnected(context));
 //            System.out.println("移动网络状态：" + NetUtils.isMobileConnected(context));
@@ -24,6 +24,14 @@ public class NetReceiver extends BroadcastReceiver {
             if (isConnected) {
 //                Toast.makeText(context, "已经连接网络", Toast.LENGTH_LONG).show();
                 EventBus.getDefault().post(new NetEvent(true));
+//                boolean ping = HelpUtils.ping();
+//                if (ping)
+//                {
+//                    EventBus.getDefault().post(new NetEvent(true));
+//                }else
+//                {
+//                    EventBus.getDefault().post(new NetEvent(false));
+//                }
             } else {
                 EventBus.getDefault().post(new NetEvent(false));
 //                Toast.makeText(context, "已经断开网络", Toast.LENGTH_LONG).show();

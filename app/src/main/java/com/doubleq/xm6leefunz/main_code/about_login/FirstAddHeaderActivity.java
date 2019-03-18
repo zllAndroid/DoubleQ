@@ -166,9 +166,12 @@ public class FirstAddHeaderActivity extends BaseActivity {
 //            把图片保存至本地文件
             if (record!=null) {
                 String headImg = record.getHeadImg();
-                SPUtils.put(this,AppConfig.User_HEAD_URL,headImg);
-                SPUtils.put(this, AppConfig.TYPE_NAME,record.getNickName());
-                if (!StrUtils.isEmpty(headImg))
+                String nickName = record.getNickName();
+                if (!StrUtils.isEmpty(nickName))
+                    SPUtils.put(this, AppConfig.TYPE_NAME, nickName);
+
+                if (!StrUtils.isEmpty(headImg)) {
+                    SPUtils.put(this,AppConfig.User_HEAD_URL,headImg);
                     Glide.with(this)
                             .load(headImg)
                             .downloadOnly(new SimpleTarget<File>() {
@@ -178,6 +181,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
                                     File file = HeadFileUtils.saveHeadPath(FirstAddHeaderActivity.this, resource);
                                 }
                             });
+                }
             }
             IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
 //                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);

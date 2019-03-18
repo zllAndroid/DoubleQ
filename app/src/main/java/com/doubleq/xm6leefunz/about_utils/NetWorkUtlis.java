@@ -7,6 +7,7 @@ import android.view.View;
 
 import com.android.volley.VolleyError;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
+import com.doubleq.xm6leefunz.about_broadcastreceiver.NetEvent;
 import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.CusLoginDialog;
 import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.DialogLoginUtils;
 import com.doubleq.xm6leefunz.about_custom.loding.LoadingDialog;
@@ -18,6 +19,8 @@ import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyInterface;
 import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.Timer;
 
@@ -297,11 +300,13 @@ public class NetWorkUtlis {
         VolleyRequest.RequestGet(activity,url, new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
             @Override
             public void onSuccess(final String result) {
+                MyLog.e("result","result----------=="+result);
                 onNetWork.onNetSuccess(result);
             }
             @Override
             public void onError(VolleyError result) {
-                ToastUtil.show(AppConfig.ERROR);
+                EventBus.getDefault().post(new NetEvent(false));
+//                ToastUtil.show(AppConfig.ERROR);
 //                Tip.getError(CommonParameter.ERROR);
             }
         });

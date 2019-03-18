@@ -32,6 +32,8 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <uses-permission android:name="android.permission.WAKE_LOCK " />
+
     <uses-feature android:name="android.hardware.camera" /> <!-- 使用照相机权限 -->
     <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 自动聚焦权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -55,13 +57,14 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <service
+            android:name="com.doubleq.xm6leefunz.main_code.mains.test_service.DaemonService"
+            android:process=":daemon">
+        </service>
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-        <uses-library
-            android:name="org.apache.http.legacy"
-            android:required="false" />
-        android:theme="@style/AppTheme">
     <!--<application-->
         <!--android:name=".about_base.MyApplication"-->
         <!--android:allowBackup="true"-->

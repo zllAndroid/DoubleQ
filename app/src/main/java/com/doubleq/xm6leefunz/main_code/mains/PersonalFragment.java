@@ -87,37 +87,44 @@ public class PersonalFragment extends BaseFragment  {
     TextView tv_title;
     Unbinder unbinder;
 
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//        if (view == null) {
+//            view = inflater.inflate(R.layout.fragment_personal, container, false);
+//        }
+//        unbinder = ButterKnife.bind(this, view);
+//        initUI();
+//////圆形头像
+//        return view;
+//    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        if (view == null) {
-            view = inflater.inflate(R.layout.fragment_personal, container, false);
-        }
+    protected int setFragmentLayout() {
+        return R.layout.fragment_personal;
+    }
+
+    @Override
+    protected void initBaseUI(View view) {
+        super.initBaseUI(view);
+        view = getTopBarView();
         unbinder = ButterKnife.bind(this, view);
         initUI();
-////圆形头像
-        return view;
+    }
+
+    @Override
+    protected String setFragmentTital() {
+        return "个人中心";
+    }
+
+    @Override
+    protected int setTopBarBackground() {
+        return getContext().getResources().getColor(R.color.app_theme);
     }
     private void initUI() {
-        LinearLayout mLinBac = view.findViewById(R.id.include_frag_lin_bac);
-        mLinBac.setBackgroundColor(getActivity().getResources().getColor(R.color.app_theme));
-        includeFragTvTitle.setText("个人中心");
         initName();
-        getHead();
-
-//        Glide.with(this).load(record.getHead_img())
-//                .bitmapTransform(new CropCircleTransformation(getActivity()))
-//               .into(mineIvPerson);
-//        Glide.with(this).load(R.drawable.login_bac)
-////                    .asBitmap()
-//                .bitmapTransform(new CropCircleTransformation(getActivity()))
-//                .thumbnail(0.1f)
-//                .into(mineIvPerson);
-
-
-//            Glide.with(getActivity()).load(FilePath.getHeadPath())
-//                    .bitmapTransform(new CropCircleTransformation(getActivity())
-//                   .into(mineIvPerson);
+        if (!SplitWeb.IS_SET_PERSON_HEAD)
+            getHead();
     }
 
     private void initName() {
@@ -153,9 +160,11 @@ public class PersonalFragment extends BaseFragment  {
         {
             getHead();
         }
-
+        if (SplitWeb.IS_SET_PERSON_HEAD)
+            sendWeb(SplitWeb.personalCenter());
         isChange=false;
         isChangeHead=false;
+        SplitWeb.IS_SET_PERSON_HEAD=false;
 //        if (!StrUtils.isEmpty(FilePath.getHeadPath()))
 //        mineIvPerson.setBackgroundResource(0);
 //        Glide.get(getActivity()).clearMemory();//清理内存缓存 可以在UI主线程中进行
@@ -216,11 +225,20 @@ public class PersonalFragment extends BaseFragment  {
 //                        mineTvSign.setText(record.getPersonaSignature());
 //                    }
 //                    GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-                    List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
+                    String userId = SplitWeb.getUserId();
+                   String path= FilePath.getAbsPath(FilePath.appPath+userId+"/")+"chatHead/";
+                    Log.e("fileName",userId+"--------------USER_ID--------------------------"+path);
+                    List<String> fileName = FilePath.getFilesAllName(path);
                     if (fileName!=null&&fileName.size()>0)
                     {
+                        Glide.with(getActivity()).load(fileName.get((fileName.size()-1)))
+                                .bitmapTransform(new CropCircleTransformation(getActivity()))
+//                            .thumbnail(0.1f)
+                                .into(mineIvPerson);
+                        Log.e("fileName",userId+"----------------------------------------"+fileName.get((fileName.size()-1)));
                     }else
                     {
+                        Log.e("fileName","----------------saveHeadPath------------------------");
                         String headImg = record.getHeadImg();
                         if (!StrUtils.isEmpty(headImg))
                             Glide.with(this)

@@ -3,25 +3,50 @@ package com.doubleq.xm6leefunz.about_utils;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.os.Build;
 
 public class NetUtils {
 
     // 判断网络连接状态
-    public static boolean isNetworkConnected(Context context) {
-        if (context != null) {
-            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo mNetworkInfo = mConnectivityManager
-                    .getActiveNetworkInfo();
+//    public static boolean isNetworkConnected(Context context) {
+//        if (context != null) {
+//            ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+//                    .getSystemService(Context.CONNECTIVITY_SERVICE);
+//            NetworkInfo mNetworkInfo = mConnectivityManager
+//                    .getActiveNetworkInfo();
+//            if (mNetworkInfo != null) {
+//                return mNetworkInfo.isAvailable();
+//            }
+//        }
+//        return false;
+//    }
+    /**
+     * 判断当前网络是否可用(6.0以上版本)
+     * 实时
+     * @param context
+     * @return
+     */
+    public static boolean isNetworkConnected(Context context){
+        boolean isNetUsable = false;
+
+        ConnectivityManager manager = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            NetworkCapabilities networkCapabilities =manager.getNetworkCapabilities(manager.getActiveNetwork());
+            isNetUsable = networkCapabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+        }else
+        {
+            NetworkInfo mNetworkInfo = manager.getActiveNetworkInfo();
             if (mNetworkInfo != null) {
                 return mNetworkInfo.isAvailable();
             }
         }
-        return false;
-    }
 
+
+        return isNetUsable;
+    }
     // 判断wifi状态
     public static boolean isWifiConnected(Context context) {
         if (context != null) {
@@ -31,6 +56,20 @@ public class NetUtils {
                     .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
             if (mWiFiNetworkInfo != null) {
                 return mWiFiNetworkInfo.isAvailable();
+            }
+        }
+        return false;
+    }
+    public static boolean isWifi(Context context) {
+        if (isNetworkConnected(context)) {
+            if (context != null) {
+                ConnectivityManager mConnectivityManager = (ConnectivityManager) context
+                        .getSystemService(Context.CONNECTIVITY_SERVICE);
+                NetworkInfo mWiFiNetworkInfo = mConnectivityManager
+                        .getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+                if (mWiFiNetworkInfo != null) {
+                    return mWiFiNetworkInfo.isAvailable();
+                }
             }
         }
         return false;
