@@ -47,17 +47,20 @@ public class FindFragment extends BaseFragment {
         view = getTopBarView();
         initUI(view);
     }
+//    ConfirmPopWindow confirmPopWindow=null;
     @Override
     protected String setFragmentTital() {
         return "朋友圈";
     }
     private void initUI(final View view) {
-        view.findViewById(R.id.include_frag_img_add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));
-            }
-        });
+//        view.findViewById(R.id.include_frag_img_add).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (confirmPopWindow==null)
+//                    confirmPopWindow = new ConfirmPopWindow(getActivity());
+//                confirmPopWindow.showAtBottom(view.findViewById(R.id.include_frag_img_add));
+//            }
+//        });
         view.findViewById(R.id.include_frag_img_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -81,8 +81,9 @@ public class BaseActivityForResult extends AppCompatActivity  {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        initBeforeContentView();
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         AppManager.getAppManager().addActivity(this);
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -105,24 +106,36 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //
 ////设置状态栏的颜色，和你的app主题或者标题栏颜色设置一致就ok了
 //            window.setStatusBarColor(getResources().getColor(R.color.app_theme));
-            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
+//            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
 //            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 0);
             //            //透明导航栏
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
+//            WindowBugDeal.checkDeviceHasNavigationBar(AppManager.getAppManager().currentActivity());
 //            显示 内屏返回键
-//            if (!simpleName.equals("MainActivity")) {
+//            if (simpleName.equals("MainActivity")) {
 //                WindowBugDeal.checkDeviceHasNavigationBar(AppManager.getAppManager().currentActivity());
 //            } else
 //                WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
         }
 
-        initBeforeContentView();
+
 
 //        if (getLayoutView()!=0)
 //        {
 //            LayoutInflater  mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 //            View mContentView = mInflater.inflate(getLayoutView(), null);
 //            mContentView.setBackgroundColor(getResources().getColor(android.R.color.white));
+//        }
+
+
+
+//        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT) {
+//            //透明状态栏
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            //透明导航栏
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 //        }
         setContentView(getLayoutView());
         initStateBar();
@@ -356,6 +369,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     }
 
     protected void initBeforeContentView() {
+//        WindowBugDeal.SetTop(this);
     }
 
     protected void initBaseView() {
@@ -482,8 +496,12 @@ public class BaseActivityForResult extends AppCompatActivity  {
     }
 
     private void isGone() {
+
         View mtv;
         mtv = (View) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_margin10);
+        LinearLayout mLinBac = (LinearLayout) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_lin_background);
+        mLinBac.setBackgroundColor(getResources().getColor(R.color.app_theme));
+        mtv.setBackgroundColor(getResources().getColor(R.color.app_theme));
         // 设置状态栏高度
         int statusBarHeight = WindowBugDeal.getStatusBarHeight(this);
         //这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
@@ -493,7 +511,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         layout.height=statusBarHeight;
         //设置button的新位置属性,left，top，right，bottom
         mtv.setLayoutParams(layout);
-
+//        mtv.getBackground().setAlpha(0);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             mtv.setVisibility(View.VISIBLE);
         }else
@@ -507,7 +525,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         initview();
     }
 
-    protected boolean isSupportSwipeBack() {
+    public boolean isSupportSwipeBack() {
         return true;
     }
     protected boolean isTopBack() {

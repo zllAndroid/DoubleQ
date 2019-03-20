@@ -105,7 +105,9 @@
 
         <activity
             android:name=".main_code.mains.MainActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+
+            />
         <activity
             android:name=".main_code.mains.LoadDataActivity"
             android:launchMode="singleTop" />
@@ -173,7 +175,7 @@
         <activity
             android:name=".about_chat.FullImageActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+            android:theme="@style/SwipeBack.Transparent.Mains" />
         <!-- 聊天界面 -->
         <activity
             android:name=".about_chat.ChatActivity"
@@ -214,7 +216,7 @@
         <activity
             android:name=".main_code.ui.about_contacts.CreatGroupChatActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+            />
         <activity
             android:name=".about_scan.ScanCodeActivity"
             android:launchMode="singleTop"

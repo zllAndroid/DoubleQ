@@ -154,7 +154,7 @@ public class TestBaseActivity extends AppCompatActivity  {
         initview();
     }
 
-    protected boolean isSupportSwipeBack() {
+    public boolean isSupportSwipeBack() {
         return true;
     }
     private void initSwiBack() {

@@ -64,6 +64,8 @@ dependencies {
         exclude group: 'com.android.support'
         exclude group: 'org.greenrobot:eventbus:3.1.1'
     })
+
+
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support:support-v4:28.+'
     implementation 'com.android.support:design:28.+'
@@ -109,6 +111,7 @@ dependencies {
     implementation project(':websocketlib')
     implementation project(':jnotice')
     implementation project(':libLoading')
+    implementation project(':libswipebacklayout')
 //    implementation project(':libswicthbutton')
 //    implementation files('libs/autobahn-0.5.0.jar')
 
@@ -121,4 +124,6 @@ dependencies {
     implementation 'com.example.zhouwei.library:library:1.0.0'
 
 //    implementation 'com.hgDendi:expandable-recyclerview-adapter:1.0.1'
+
+    implementation 'com.jaeger.statusbaruitl:library:1.4.0'
 }

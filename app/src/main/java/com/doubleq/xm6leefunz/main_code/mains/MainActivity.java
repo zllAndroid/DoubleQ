@@ -43,6 +43,12 @@ public class MainActivity extends BaseActivity {
     protected int getLayoutView() {
         return R.layout.activity_main;
     }
+
+    @Override
+    protected boolean isGones() {
+        return false;
+    }
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -181,7 +187,7 @@ public class MainActivity extends BaseActivity {
 //    int[] imgs = {R.drawable.tab_ac_main_msg,R.drawable.tab_ac_main_contacts, R.drawable.tab_ac_main_pesonal};
     int[] imgs = {R.drawable.tab_ac_main_msg,R.drawable.tab_ac_main_contacts, R.drawable.tab_ac_main_discovery,R.drawable.tab_ac_main_pesonal};
     @Override
-    protected boolean isSupportSwipeBack() {
+    public boolean isSupportSwipeBack() {
         return false;
     }
 

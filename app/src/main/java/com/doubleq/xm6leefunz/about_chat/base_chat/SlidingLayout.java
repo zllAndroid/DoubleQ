@@ -9,15 +9,13 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.Scroller;
 
 import com.doubleq.xm6leefunz.R;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 
-/**
- * Created by chenyan.wang on 2015/10/29.
- */
 public class SlidingLayout extends FrameLayout {
     // 页面边缘阴影的宽度默认值
     private static final int SHADOW_WIDTH = 16;
@@ -49,6 +47,8 @@ public class SlidingLayout extends FrameLayout {
     }
 
     private void initView(Context context) {
+//        context.getWindow().setFlags(WindowManager.LayoutParams. FLAG_FULLSCREEN ,
+//                WindowManager.LayoutParams. FLAG_FULLSCREEN);
         mScroller = new Scroller(context);
         mLeftShadow = getResources().getDrawable(R.drawable.left_shadow);
         int density = (int) getResources().getDisplayMetrics().density;
@@ -62,7 +62,8 @@ public class SlidingLayout extends FrameLayout {
         mActivity = activity;
         ViewGroup decorView = (ViewGroup) mActivity.getWindow().getDecorView();
         View child = decorView.getChildAt(0);
-        child.setBackgroundColor(getResources().getColor(android.R.color.white));
+
+        child.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         decorView.removeView(child);
         addView(child);
         decorView.addView(this);

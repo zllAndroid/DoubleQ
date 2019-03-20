@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -42,6 +43,8 @@ public class MyAccountActivity extends BaseActivity {
     TextView qrcodeTvSao;
     @BindView(R.id.qrcode_iv_qrcode)
     ImageView qrcodeIvQrcode;
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout includeTopLinBackground;
     public  static final String TITAL_NAME = "tital_name";
     public  static  String USER_NAME = "user_name";
     public  static  String QRCODE = "code";
@@ -54,6 +57,7 @@ public class MyAccountActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
         Intent intent = getIntent();
         if (intent!=null)
         {

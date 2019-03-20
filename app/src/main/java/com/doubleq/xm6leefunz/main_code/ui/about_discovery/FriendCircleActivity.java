@@ -83,7 +83,15 @@ public class FriendCircleActivity extends BaseActivity {
         initData();
 
     }
+    @Override
+    protected boolean isTopBack() {
+        return true;
+    }
 
+    @Override
+    protected boolean isGones() {
+        return true;
+    }
     private void getHead() {
         String userNewHead = FilePath.getUserNewHead(this);
         if (!StrUtils.isEmpty(userNewHead)) {

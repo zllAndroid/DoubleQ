@@ -113,7 +113,7 @@ public class MsgFragment extends BaseFragment {
     @Override
     protected void initBaseUI(View view) {
         super.initBaseUI(view);
-         view = getTopBarView();
+        view = getTopBarView();
         initFriend(view);
         initRealmData();
 //        首页消息广播处理
@@ -180,13 +180,16 @@ public class MsgFragment extends BaseFragment {
     }
 
     LinearLayout mLinNet;
+//    ConfirmPopWindow confirmPopWindow=null;
     private void initFriend(final  View view) {
-        view.findViewById(R.id.include_frag_img_add).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));
-            }
-        });
+//        view.findViewById(R.id.include_frag_img_add).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (confirmPopWindow==null)
+//                    confirmPopWindow = new ConfirmPopWindow(getActivity());
+//                confirmPopWindow.showAtBottom(view.findViewById(R.id.include_frag_img_add));
+//            }
+//        });
         view.findViewById(R.id.include_frag_img_search).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -80,7 +80,7 @@ public class PwdLoginActivity extends BaseActivity {
     }
 
     @Override
-    protected boolean isSupportSwipeBack() {
+    public boolean isSupportSwipeBack() {
         return false;
     }
 

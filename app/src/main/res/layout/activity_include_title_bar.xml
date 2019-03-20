@@ -4,17 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/include_top_lin_back"
-    android:background="@color/fg_top_bac"
     android:orientation="vertical"
     >
     <View
         android:id="@+id/include_top_margin10"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp25"
-        android:background="@color/trans"
         android:visibility="gone"
-        />
 
+        />
     <LinearLayout
         android:id="@+id/include_top_lin_background"
         android:layout_width="match_parent"

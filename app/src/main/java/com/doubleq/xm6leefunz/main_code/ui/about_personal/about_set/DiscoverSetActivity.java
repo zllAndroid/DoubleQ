@@ -3,6 +3,8 @@ package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_set;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.doubleq.xm6leefunz.R;
@@ -19,7 +21,10 @@ public class DiscoverSetActivity extends BaseActivity {
     TextView includeTopTvTital;
     @BindView(R.id.inclu_tv_right)
     TextView incluTvRight;
-
+    @BindView(R.id.include_top_iv_back)
+    ImageView includeTopIvBack;
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout includeTopLinBackground;
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -34,11 +39,20 @@ public class DiscoverSetActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        includeTopTvTital.setText("朋友圈设置");
         incluTvRight.setVisibility(View.VISIBLE);
-
+        includeTopTvTital.setText("朋友圈设置");
+        includeTopIvBack.setVisibility(View.VISIBLE);
+        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
+    }
+    @Override
+    protected boolean isTopBack() {
+        return true;
     }
 
+    @Override
+    protected boolean isGones() {
+        return true;
+    }
     @OnClick({R.id.discover_lin_gifPlay, R.id.discover_lin_hideMine, R.id.discover_lin_hideHis})
     public void onViewClicked(View view) {
         switch (view.getId()) {

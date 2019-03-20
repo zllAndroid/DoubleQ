@@ -121,7 +121,7 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
             }
         }
     }
-//    @Override
+    //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //        includeTopTvTital.setText(getResources().getString(R.string.scan_sao));
@@ -138,11 +138,21 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
 //            initScan();
 //        }
 //    }
+    @Override
+    protected boolean isTopBack() {
+        return true;
+    }
 
+    @Override
+    protected boolean isGones() {
+        return true;
+    }
     @Override
     protected void initBaseView() {
         super.initBaseView();
         includeTopTvTital.setText(getResources().getString(R.string.scan_sao));
+
+
 //        mRealmHelper = new RealmHelper(this);
         surfaceView_width = surfaceView.getWidth();
         surfaceView_height = surfaceView.getHeight();

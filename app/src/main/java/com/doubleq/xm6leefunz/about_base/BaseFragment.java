@@ -79,14 +79,17 @@ public class BaseFragment extends Fragment  {
 	protected void initBaseUI(View view) {
 
 	}
-
+	ConfirmPopWindow confirmPopWindow=null;
 	private void initTopBarEvent() {
 		FragmentTopBarLayout mTopBar = view.findViewById(R.id.fg_top_bar);
 		mTopBar.setTitle(setFragmentTital());
 		mTopBar.setOnRightClick(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));
+
+				if (confirmPopWindow==null)
+					confirmPopWindow = new ConfirmPopWindow(getActivity());
+				confirmPopWindow.showAtBottom(view.findViewById(R.id.include_frag_img_add));
 			}
 		});
 		mTopBar.setOnSearchClick(new View.OnClickListener() {

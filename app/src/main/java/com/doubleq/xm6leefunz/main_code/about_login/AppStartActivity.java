@@ -136,6 +136,11 @@ public class AppStartActivity extends BaseActivity {
     }
 
     @Override
+    protected boolean isGones() {
+        return false;
+    }
+
+    @Override
     public int getLayoutView() {
         return R.layout.activity_app_start;
     }
@@ -162,7 +167,7 @@ public class AppStartActivity extends BaseActivity {
     };
 
     @Override
-    protected boolean isSupportSwipeBack() {
+    public boolean isSupportSwipeBack() {
         return false;
     }
 

@@ -141,7 +141,6 @@ public class PersonalFragment extends BaseFragment  {
         }
         if (!StrUtils.isEmpty(phone)){
             userPhone = phone;
-//            Log.e("userPhone","------------------------------getMobile()="+userPhone);
         }
     }
 
@@ -227,7 +226,6 @@ public class PersonalFragment extends BaseFragment  {
 //                    GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
                     String userId = SplitWeb.getUserId();
                    String path= FilePath.getAbsPath(FilePath.appPath+userId+"/")+"chatHead/";
-                    Log.e("fileName",userId+"--------------USER_ID--------------------------"+path);
                     List<String> fileName = FilePath.getFilesAllName(path);
                     if (fileName!=null&&fileName.size()>0)
                     {
@@ -235,10 +233,8 @@ public class PersonalFragment extends BaseFragment  {
                                 .bitmapTransform(new CropCircleTransformation(getActivity()))
 //                            .thumbnail(0.1f)
                                 .into(mineIvPerson);
-                        Log.e("fileName",userId+"----------------------------------------"+fileName.get((fileName.size()-1)));
                     }else
                     {
-                        Log.e("fileName","----------------saveHeadPath------------------------");
                         String headImg = record.getHeadImg();
                         if (!StrUtils.isEmpty(headImg))
                             Glide.with(this)
@@ -282,8 +278,8 @@ public class PersonalFragment extends BaseFragment  {
             unbinder=null;
         }
     }
-
-    @OnClick({R.id.mine_iv_qrcode,R.id.mine_iv_person,R.id.include_frag_img_search, R.id.include_frag_img_add, R.id.mine_lin_person_info,
+//    ConfirmPopWindow confirmPopWindow=null;
+    @OnClick({R.id.mine_iv_qrcode,R.id.mine_iv_person,R.id.include_frag_img_search, R.id.mine_lin_person_info,
             R.id.mine_lin_share, R.id.mine_lin_set,R.id.mine_lin_discover})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -310,10 +306,12 @@ public class PersonalFragment extends BaseFragment  {
             case R.id.include_frag_img_search:
                 IntentUtils.JumpTo(SearchActivity.class);
                 break;
-            case R.id.include_frag_img_add:
-                new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));
-//                showNoticePopWindow();
-                break;
+//            case R.id.include_frag_img_add:
+//                if (confirmPopWindow==null)
+//                    confirmPopWindow = new ConfirmPopWindow(getActivity());
+//                confirmPopWindow.showAtBottom(view.findViewById(R.id.include_frag_img_add));
+////                showNoticePopWindow();
+//                break;
             case R.id.mine_lin_person_info:
                 IntentUtils.JumpTo(ChangeInfoActivity.class);
                 break;

@@ -98,6 +98,8 @@ public class SearchActivity extends BaseActivity {
             type = intent.getStringExtra(SeacchKey);
 
         includeTopTvTital.setText("搜索");
+
+
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setLayoutManager(new GridLayoutManager(SearchActivity.this, 1));
@@ -139,6 +141,15 @@ public class SearchActivity extends BaseActivity {
         return R.layout.activity_add_friend_search;
     }
 
+    @Override
+    protected boolean isTopBack() {
+        return true;
+    }
+
+    @Override
+    protected boolean isGones() {
+        return true;
+    }
 
     @OnClick({R.id.seach_iv_close, R.id.seach_iv_find})
     public void onViewClicked(View view) {

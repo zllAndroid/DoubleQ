@@ -38,7 +38,15 @@ public class CountAndSafeActivity extends BaseActivity {
         includeTopTvTital.setText("帐号与安全");
         includeTopIvBack.setVisibility(View.VISIBLE);
     }
+    @Override
+    protected boolean isTopBack() {
+        return true;
+    }
 
+    @Override
+    protected boolean isGones() {
+        return true;
+    }
     @Override
     public int getLayoutView() {
         return R.layout.activity_count_and_safe;

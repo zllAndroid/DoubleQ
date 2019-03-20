@@ -20,7 +20,7 @@ public abstract class SlidingActivity extends BaseActivity {
         return true;
     }
     @Override
-    protected boolean isSupportSwipeBack() {
+    public boolean isSupportSwipeBack() {
         return false;
     }
 }

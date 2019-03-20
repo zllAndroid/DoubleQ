@@ -18,7 +18,7 @@ import com.ogaclejapan.smarttablayout.SmartTabLayout;
 import butterknife.BindView;
 
 
-public class AddFriendActivity extends SlidingActivity {
+public class AddFriendActivity extends BaseActivity {
 
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
@@ -31,15 +31,7 @@ public class AddFriendActivity extends SlidingActivity {
 
     boolean ismPager = true;
     private MyPagerAdapter myPagerAdapter;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
-    @Override
-    protected boolean isSupportSwipeBack() {
-        return false;
-    }
 
     @Override
     protected void initBaseView() {

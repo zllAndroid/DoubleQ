@@ -217,7 +217,7 @@ public class LoginActivity extends BaseActivity {
         return true;
     }
     @Override
-    protected boolean isSupportSwipeBack() {
+    public boolean isSupportSwipeBack() {
         return false;
     }
 
