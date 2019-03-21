@@ -12,6 +12,7 @@
             <option value="$PROJECT_DIR$/chat" />
             <option value="$PROJECT_DIR$/jnotice" />
             <option value="$PROJECT_DIR$/libLoading" />
+            <option value="$PROJECT_DIR$/libswipebacklayout" />
             <option value="$PROJECT_DIR$/utilslibrarybyzll" />
             <option value="$PROJECT_DIR$/websocketlib" />
           </set>

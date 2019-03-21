@@ -83,7 +83,16 @@ public class BaseActivityForResult extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         initBeforeContentView();
         super.onCreate(savedInstanceState);
+        /**
+         * 切换为非全屏
+         */
+//        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
+//                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+//        getWindow().setBackgroundDrawableResource(android.R.color.transparent);// 将 Activity 的背景色取消
+
+
         AppManager.getAppManager().addActivity(this);
 
         supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -107,11 +116,12 @@ public class BaseActivityForResult extends AppCompatActivity  {
 ////设置状态栏的颜色，和你的app主题或者标题栏颜色设置一致就ok了
 //            window.setStatusBarColor(getResources().getColor(R.color.app_theme));
 //            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
-//            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 0);
-           //透明导航栏
+            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+//           getWindow().setNavigationBarColor(getResources().getColor(com.projects.zll.utilslibrarybyzll.R.color.white));
+            //透明导航栏
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
+//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+//            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
 //            WindowBugDeal.checkDeviceHasNavigationBar(AppManager.getAppManager().currentActivity());
 //            显示 内屏返回键
 //            if (simpleName.equals("MainActivity")) {
@@ -137,7 +147,9 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //            //透明导航栏
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
 //        }
+
         setContentView(getLayoutView());
+//        hideBottomMenu();
         initStateBar();
         bind = ButterKnife.bind(this);
 
@@ -179,7 +191,34 @@ public class BaseActivityForResult extends AppCompatActivity  {
         initBaseView();
         EventBus.getDefault().register(this);
     }
-//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public static void setNavigationBar(Activity activity,int visible){
+//        View decorView = activity.getWindow().getDecorView();
+//        //显示NavigationBar
+//        if (View.GONE == visible){
+//            int option =  View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+//            decorView.setSystemUiVisibility(option);
+//        }
+//    }
+    protected void hideBottomMenu() {
+
+
+        //隐藏虚拟按键
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            if(v!=null){
+                v.setSystemUiVisibility(View.GONE);
+            }
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+            if (decorView != null) {
+                decorView.setSystemUiVisibility(uiOptions);
+            }
+
+        }
+    }
+    //    @Subscribe(threadMode = ThreadMode.MAIN)
 //    public void onEventMainThread(NetEvent event) {
 //        ToastUtil.show("沒有網絡了");
 ////        mLinNet.setVisibility(event.isNet ? View.GONE : View.VISIBLE);
@@ -260,6 +299,10 @@ public class BaseActivityForResult extends AppCompatActivity  {
     }
 
     public void initStateBar() {
+//        if (simpleName.equals("MainActivity")) {
+//            WindowBugDeal.checkDeviceHasNavigationBar(AppManager.getAppManager().currentActivity());
+//        } else
+//            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
     }
 
     public RealmHomeHelper getRealm() {
@@ -381,6 +424,9 @@ public class BaseActivityForResult extends AppCompatActivity  {
     protected boolean isGones() {
         return false;
     }
+    protected boolean isChat() {
+        return false;
+    }
 
     @Override
     protected void onDestroy() {
@@ -493,10 +539,38 @@ public class BaseActivityForResult extends AppCompatActivity  {
         {
             isGone();
         }
+        if (isChat())
+        {
+            isChatWindow();
+        }
     }
 
     private void isGone() {
 
+//        View mtv;
+//        mtv = (View) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_margin10);
+//        LinearLayout mLinBac = (LinearLayout) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_lin_background);
+//        mLinBac.setBackgroundColor(getResources().getColor(R.color.app_theme));
+//        mtv.setBackgroundColor(getResources().getColor(R.color.app_theme));
+//        // 设置状态栏高度
+//        int statusBarHeight = WindowBugDeal.getStatusBarHeight(this);
+//        //这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
+//        LinearLayout.LayoutParams layout=(LinearLayout.LayoutParams)mtv.getLayoutParams();
+//        //获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
+////        layout.setMargins(0,-statusBarHeight,0,0);
+//        layout.height=statusBarHeight;
+//        //设置button的新位置属性,left，top，right，bottom
+//        mtv.setLayoutParams(layout);
+////        mtv.getBackground().setAlpha(0);
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            mtv.setVisibility(View.VISIBLE);
+//        }else
+//        {
+//            mtv.setVisibility(View.GONE);
+//        }
+    }
+    private void isChatWindow() {
+//聊天界面因为window，需要状态栏高度撑起
         View mtv;
         mtv = (View) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_margin10);
         LinearLayout mLinBac = (LinearLayout) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_lin_background);

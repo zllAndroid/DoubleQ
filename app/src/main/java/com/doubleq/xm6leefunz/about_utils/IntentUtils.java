@@ -39,9 +39,11 @@ public class IntentUtils {
 //    }
     public static void JumpFinishTo(AppCompatActivity activity, Class<?> resultactivity) {
         Intent intent = new Intent( activity, resultactivity);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         activity.startActivity(intent);
 //        Log.e("finishActivity", AppManager.getAppManager().currentActivity().getCallingPackage());
         AppManager.getAppManager().finishActivity(activity);
+        activity.overridePendingTransition(0,0);
     }
     public static void JumpTo(Class<?> resultactivity) {
         Intent intent = new Intent( activity, resultactivity);
@@ -71,6 +73,7 @@ public class IntentUtils {
         bundle.putSerializable(key,value);
         intent.putExtras(bundle);
         activity.startActivity(intent);
+        activity.overridePendingTransition(0,0);
     }
     public static void JumpToHaveObjAndStr(Class<?> resultactivity,String key,Serializable value,String key1,String value1) {
         Intent intent = new Intent(activity, resultactivity);

@@ -37,6 +37,8 @@
     <uses-feature android:name="android.hardware.camera" /> <!-- 使用照相机权限 -->
     <uses-feature android:name="android.hardware.camera.autofocus" /> <!-- 自动聚焦权限 -->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.PARTIAL_WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
     <uses-permission android:name="android.permission.GET_TASKS" />
 
     <!-- 必选 -->
@@ -106,11 +108,13 @@
         <activity
             android:name=".main_code.mains.MainActivity"
             android:launchMode="singleTop"
-
+            android:theme="@style/CusAppTheme"
             />
         <activity
             android:name=".main_code.mains.LoadDataActivity"
-            android:launchMode="singleTop" />
+            android:launchMode="singleTop"
+
+            />
         <activity
             android:name=".main_code.popular_activity.GoH5Activity"
             android:launchMode="singleTask" />
@@ -123,7 +127,7 @@
         <activity
             android:name=".main_code.ui.about_personal.about_activity.MineSetActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+            />
         <!-- 我的账户 -->
         <activity
             android:name=".main_code.ui.about_personal.about_activity.MyAccountActivity"

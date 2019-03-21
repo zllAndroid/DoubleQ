@@ -61,20 +61,20 @@ public class FragmentTopBarLayout extends LinearLayout {
     }
 
     public void setTop(Context mContext){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            View viewById = mContext.findViewById(R.id.main_view_top);
-            // 设置状态栏高度
-            int statusBarHeight = WindowBugDeal.getStatusBarHeight(mContext);
-            //这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
-            LinearLayout.LayoutParams layout=(LinearLayout.LayoutParams)mTopView.getLayoutParams();
-            //获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
-//        layout.setMargins(0,-statusBarHeight,0,0);
-            layout.height=statusBarHeight;
-            //设置button的新位置属性,left，top，right，bottom
-            mTopView.setLayoutParams(layout);
-            if (mTopView!=null)
-                mTopView .setVisibility(View.VISIBLE);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+////            View viewById = mContext.findViewById(R.id.main_view_top);
+//            // 设置状态栏高度
+//            int statusBarHeight = WindowBugDeal.getStatusBarHeight(mContext);
+//            //这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
+//            LinearLayout.LayoutParams layout=(LinearLayout.LayoutParams)mTopView.getLayoutParams();
+//            //获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
+////        layout.setMargins(0,-statusBarHeight,0,0);
+//            layout.height=statusBarHeight;
+//            //设置button的新位置属性,left，top，right，bottom
+//            mTopView.setLayoutParams(layout);
+//            if (mTopView!=null)
+//                mTopView .setVisibility(View.VISIBLE);
+//        }
     }
 
     public void setOnSearchClick(OnClickListener backClick){

@@ -176,7 +176,10 @@ public class ChatGroupActivity extends BaseActivity {
     CusChatPop cusChatPop;
     String cardName;
     String isChecked = "3";
-
+    @Override
+    protected boolean isChat() {
+        return true;
+    }
     @Override
     protected void initBaseView() {
         super.initBaseView();

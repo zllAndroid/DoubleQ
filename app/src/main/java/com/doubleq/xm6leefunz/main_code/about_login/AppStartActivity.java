@@ -198,7 +198,9 @@ public class AppStartActivity extends BaseActivity {
 //        IntentUtils.JumpFinishTo(LoginDealActivity.class);
 //    }
 //    SYSTEM_ALERT_WINDOW
-    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE})
+    @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.READ_EXTERNAL_STORAGE
+            ,Manifest.permission.WRITE_EXTERNAL_STORAGE
+    })
     void need() {
 //        openingStartAnimation.show(AppStartActivity.this);
         if (timer == null) {

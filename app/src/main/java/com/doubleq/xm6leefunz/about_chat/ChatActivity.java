@@ -174,6 +174,11 @@ public class ChatActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected boolean isChat() {
+        return true;
+    }
+
     //    好友id
     public static String FriendId = "";
     //    消息类型

@@ -1,2 +1,2 @@
-include ':app', ':utilslibrarybyzll','chat','websocketlib','jnotice','libLoading'
+include ':app', ':utilslibrarybyzll','chat','websocketlib','jnotice','libLoading','libswipebacklayout'
 //,'libswicthbutton'

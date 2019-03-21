@@ -137,7 +137,7 @@ public class MyApplication extends Application implements IWebSocketPage {
 //        initOneService();
         initRealm();
 
-//        initRunnable();
+        initRunnable();
     }
     //    private Handler handler = new Handler();
     private void initRunnable() {
@@ -148,8 +148,8 @@ public class MyApplication extends Application implements IWebSocketPage {
         Thread t1 = new Thread(autoSaleTicket, "123");
 //        thread.start();
         t1.start();
-        Intent intent = new Intent(this, DaemonService.class);
-        startService(intent);
+//        Intent intent = new Intent(this, DaemonService.class);
+//        startService(intent);
 
 //        TimerTask newThread = new TimerTask(){
 //            @Override
@@ -202,6 +202,7 @@ public class MyApplication extends Application implements IWebSocketPage {
             mConnectManager.onDestroy();
             mConnectManager = null;
         }
+        releaseWakeLock();
 //        Intent intent = new Intent(mContext,ScreenAndLockService.class);
 //        stopService(intent);
     }
@@ -329,11 +330,34 @@ public class MyApplication extends Application implements IWebSocketPage {
     public static Context getInstance() {
         return mInstance;
     }
+    PowerManager.WakeLock wakeLock = null;
+    //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
+    private void acquireWakeLock()
+    {
+        if (null == wakeLock)
+        {
+            PowerManager pm = (PowerManager)this.getSystemService(Context.POWER_SERVICE);
+            wakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK|PowerManager.ON_AFTER_RELEASE, "PostLocationService");
+            if (null != wakeLock)
+            {
+                wakeLock.acquire();
+            }
+        }
+    }
 
+    //释放设备电源锁
+    private void releaseWakeLock()
+    {
+        if (null != wakeLock)
+        {
+            wakeLock.release();
+            wakeLock = null;
+        }
+    }
     class AutoSaleTicket implements Runnable {
         private int ticket = 20;
         long checkDelay=10;
-        long keepAliveDelay=5000;
+        long keepAliveDelay=60000;
         public void run() {
 
             while (true) {// 循环是指线程不停的去卖票
@@ -341,24 +365,25 @@ public class MyApplication extends Application implements IWebSocketPage {
                 synchronized (this) {
                     if (System.currentTimeMillis()-lastSendTime>keepAliveDelay)
                     {
-                        try {
-//                            sendText(SplitWeb.coroutineKeep());
-//                            if(StrUtils.isEmpty(SplitWeb.USER_ID))
-//                                SplitWeb.getUserId();
-//                            if(!StrUtils.isEmpty(SplitWeb.USER_ID))
-//                                sendText(SplitWeb.USER_ID);
-//                          {"api_key":"20180903","ctn":"Chat","data":[{"friendsId":"ac4b-62fa-098","message":"挪","messageType":"1","requestTime":"2019-03-11 18:51:36","token":"C7F62227-E05F-D98B-0BA1-2053245AD308","userId":"a7d2-a2c1-284"}],"mtn":"privateSend","sign":"CDC97C99868A4587DE829E94B535EAC0","timestamp":1552301496}
-                            boolean b = NetUtils.isWifi(getAppContext());
-                            if ( b)
-                                sendText("01");
-//                            sendText(SplitWeb.privateSend("ac4b-62fa-098", "我们已经是好友了，快来聊一聊吧", "1", TimeUtil.getTime()));
-
-                            MyLog.e("KeepAlive","KeepAlive="+b+"----------------------发送心跳-----------------------------------");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            MyLog.e("KeepAlive","KeepAlive="+"----------------------抛异常-----------------------------------");
-                            senderror();
-                        }
+                        acquireWakeLock();
+//                        try {
+////                            sendText(SplitWeb.coroutineKeep());
+////                            if(StrUtils.isEmpty(SplitWeb.USER_ID))
+////                                SplitWeb.getUserId();
+////                            if(!StrUtils.isEmpty(SplitWeb.USER_ID))
+////                                sendText(SplitWeb.USER_ID);
+////                          {"api_key":"20180903","ctn":"Chat","data":[{"friendsId":"ac4b-62fa-098","message":"挪","messageType":"1","requestTime":"2019-03-11 18:51:36","token":"C7F62227-E05F-D98B-0BA1-2053245AD308","userId":"a7d2-a2c1-284"}],"mtn":"privateSend","sign":"CDC97C99868A4587DE829E94B535EAC0","timestamp":1552301496}
+//                            boolean b = NetUtils.isWifi(getAppContext());
+//                            if ( b)
+//                                sendText("01");
+////                            sendText(SplitWeb.privateSend("ac4b-62fa-098", "我们已经是好友了，快来聊一聊吧", "1", TimeUtil.getTime()));
+//
+//                            MyLog.e("KeepAlive","KeepAlive="+b+"----------------------发送心跳-----------------------------------");
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                            MyLog.e("KeepAlive","KeepAlive="+"----------------------抛异常-----------------------------------");
+//                            senderror();
+//                        }
                         lastSendTime=System.currentTimeMillis();
 
                     }else {
