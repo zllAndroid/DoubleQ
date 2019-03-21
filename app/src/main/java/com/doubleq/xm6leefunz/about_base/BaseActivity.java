@@ -89,7 +89,8 @@ public class BaseActivity extends BaseActivityForResult  implements BGASwipeBack
     public void onSwipeBackLayoutExecuted() {
         mSwipeBackHelper.swipeBackward();
         AppManager.getAppManager().finishActivity(this);
-        overridePendingTransition(0,0);
+       overridePendingTransition(cn.bingoogolapple.swipebacklayout.R.anim.bga_sbl_activity_swipeback_enter, cn.bingoogolapple.swipebacklayout.R.anim.bga_sbl_activity_swipeback_exit);
+//        overridePendingTransition(0,0);
 
     }
 
@@ -101,7 +102,9 @@ public class BaseActivity extends BaseActivityForResult  implements BGASwipeBack
         }
         mSwipeBackHelper.backward();
         AppManager.getAppManager().finishActivity(this);
-        overridePendingTransition(0,0);
+        overridePendingTransition(cn.bingoogolapple.swipebacklayout.R.anim.bga_sbl_activity_swipeback_enter, cn.bingoogolapple.swipebacklayout.R.anim.bga_sbl_activity_swipeback_exit);
+
+//        overridePendingTransition(0,0);
     }
 
     /**

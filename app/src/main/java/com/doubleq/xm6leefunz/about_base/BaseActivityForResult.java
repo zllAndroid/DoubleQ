@@ -108,7 +108,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //            window.setStatusBarColor(getResources().getColor(R.color.app_theme));
 //            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
 //            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 0);
-            //            //透明导航栏
+           //透明导航栏
 //            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
