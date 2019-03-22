@@ -10,6 +10,7 @@
     >
     <include layout="@layout/activity_include_title_bar"/>
     <LinearLayout
+        android:id="@+id/group_manage_lin_dragList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
@@ -24,32 +25,43 @@
             android:dividerHeight="0px"
             android:listSelector="@android:color/transparent"/>
         <!--<RelativeLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:descendantFocusability="blocksDescendants">-->
-            <!--&lt;!&ndash;<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView&ndash;&gt;-->
-            <!--<android.support.v7.widget.RecyclerView-->
-                <!--android:id="@+id/group_recyc"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:fadingEdge="none"-->
-                <!--/>-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:descendantFocusability="blocksDescendants">-->
+        <!--&lt;!&ndash;<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView&ndash;&gt;-->
+        <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/group_recyc"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:fadingEdge="none"-->
+        <!--/>-->
         <!--</RelativeLayout>-->
     </LinearLayout>
-           <TextView
-               android:id="@+id/group_manage_tv_add"
-               android:layout_width="@dimen/dp150"
-               android:layout_height="wrap_content"
-               android:background="@drawable/btn_stroke_sel"
-               android:textColor="@color/white"
-               android:paddingLeft="@dimen/dp30"
-               android:paddingRight="@dimen/dp30"
-               android:paddingTop="@dimen/dp10"
-               android:layout_gravity="center_horizontal"
-               android:gravity="center"
-               android:layout_marginTop="@dimen/dp10"
-               android:layout_marginBottom="@dimen/dp30"
-               android:paddingBottom="@dimen/dp10"
-               android:textSize="@dimen/sp16"
-               android:text="增加分组"/>
+    <TextView
+        android:id="@+id/group_manage_tv_nothing"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:textSize="@dimen/sp18"
+        android:textColor="@color/grey999"
+        android:text="您尚未创建分组"/>
+    <TextView
+        android:id="@+id/group_manage_tv_add"
+        android:layout_width="@dimen/dp150"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_stroke_sel"
+        android:textColor="@color/white"
+        android:paddingLeft="@dimen/dp30"
+        android:paddingRight="@dimen/dp30"
+        android:paddingTop="@dimen/dp10"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/dp10"
+        android:layout_marginBottom="@dimen/dp30"
+        android:paddingBottom="@dimen/dp10"
+        android:textSize="@dimen/sp16"
+        android:text="增加分组"/>
 </LinearLayout>

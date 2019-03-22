@@ -1,5 +1,11 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_contacts_adapter;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
+import android.widget.ImageView;
+
+import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.doubleq.model.DataFriendGroup;
@@ -7,14 +13,18 @@ import com.doubleq.xm6leefunz.R;
 
 import java.util.List;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 public class AddFriendFenzuAdapter extends BaseQuickAdapter<DataFriendGroup.RecordBean.GroupInfoBean,BaseViewHolder> {
 
-    List<String> searchCityList;
-//    Context context;
-    public AddFriendFenzuAdapter(List<DataFriendGroup.RecordBean.GroupInfoBean> searchCityList)
+    List<DataFriendGroup.RecordBean.GroupInfoBean> searchCityList;
+    Context context;
+
+    public AddFriendFenzuAdapter(Context context, List<DataFriendGroup.RecordBean.GroupInfoBean> searchCityList)
     {
         super(R.layout.item_pop_fenzu,searchCityList);
-//        this.context = context;
+        this.context = context;
+        this.searchCityList = searchCityList;
     }
     @Override
     protected void convert(BaseViewHolder helper, DataFriendGroup.RecordBean.GroupInfoBean item)
@@ -27,4 +37,14 @@ public class AddFriendFenzuAdapter extends BaseQuickAdapter<DataFriendGroup.Reco
         helper.setText(R.id.item_tv_fenzu,item.getGroupName());
     }
 
+    @Override
+    public void onBindViewHolder(BaseViewHolder holder, int positions) {
+        super.onBindViewHolder(holder, positions);
+        if (searchCityList.size() > 0){
+            String groupName = searchCityList.get(searchCityList.size() - 1).getGroupName();
+            if (positions == (searchCityList.size()-1) && groupName.equals("移出该分组")){
+                holder.setTextColor(R.id.item_tv_fenzu, ContextCompat.getColor(context,R.color.app_theme));
+            }
+        }
+    }
 }

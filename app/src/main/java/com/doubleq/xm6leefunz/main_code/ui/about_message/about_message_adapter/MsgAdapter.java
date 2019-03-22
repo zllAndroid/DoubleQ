@@ -155,7 +155,12 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
             }else
             {
                 mTvNum .setVisibility(View.VISIBLE);
-                helper.setText(R.id.item_tv_num,item.getNum()+"");
+                if (item.getNum()>99) {
+//                    mTvNum.setTextSize(context.getResources().getDimension(R.dimen.sp10));
+                    helper.setText(R.id.item_tv_num,"99+");
+                }else {
+                    helper.setText(R.id.item_tv_num, String.valueOf(item.getNum()));
+                }
             }
 
 //        消息免打扰  的消息背景

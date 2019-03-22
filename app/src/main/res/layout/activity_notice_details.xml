@@ -47,10 +47,10 @@
                         android:id="@+id/notice_tv_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/dp20"
+                        android:layout_marginTop="@dimen/dp10"
                         android:layout_marginLeft="@dimen/dp30"
                         android:textColor="@color/white"
-                        android:textSize="@dimen/sp20"
+                        android:textSize="@dimen/sp18"
                         android:text="龙哥（张龙龙）"/>
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -123,10 +123,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="备注:"
+                    android:visibility="gone"
                     android:layout_marginTop="@dimen/dp10"
                     android:textColor="@color/gray666"
                     android:textSize="@dimen/sp14"
-                    android:visibility="gone"
                     android:layout_marginLeft="@dimen/dp10"/>
 
                 <RelativeLayout

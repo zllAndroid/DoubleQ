@@ -128,7 +128,7 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (LinkFriendAdapter.ChildHolder) convertView.getTag();
         }
-     final    DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
+        final    DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
 
 //            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);
         if (!StrUtils.isEmpty(groupListBean.getUserId())) {
@@ -170,10 +170,9 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
             String name =groupListBean.getNickName();
             if(!StrUtils.isEmpty(groupListBean.getRemarkName()))
             {
-                name=name+" ("+groupListBean.getRemarkName()+")";
-
+                name=groupListBean.getRemarkName();
             }
-                holder.tv_contacts_child_name.setText(name);
+            holder.tv_contacts_child_name.setText(name);
 
         }else {
 //            delItem(groupPosition);

@@ -42,6 +42,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MineSet
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.MyDiscoverActivity;
+import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.OrangePocketActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -280,7 +281,7 @@ public class PersonalFragment extends BaseFragment  {
     }
 //    ConfirmPopWindow confirmPopWindow=null;
     @OnClick({R.id.mine_iv_qrcode,R.id.mine_iv_person,R.id.include_frag_img_search, R.id.mine_lin_person_info,
-            R.id.mine_lin_share, R.id.mine_lin_set,R.id.mine_lin_discover})
+            R.id.mine_lin_share, R.id.mine_lin_set,R.id.mine_lin_discover, R.id.mine_lin_orange_pocket})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.mine_iv_person:
@@ -332,6 +333,9 @@ public class PersonalFragment extends BaseFragment  {
 //                break;
             case R.id.mine_lin_discover:
                 IntentUtils.JumpToHaveOne(MyDiscoverActivity.class,"userId",userId);
+                break;
+            case R.id.mine_lin_orange_pocket:
+                IntentUtils.JumpToHaveOne(OrangePocketActivity.class,"userId",userId);
                 break;
         }
     }

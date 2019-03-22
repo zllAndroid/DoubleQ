@@ -60,7 +60,7 @@ public class DealFriendAdd {
         if (record==null)
             return;
         friendList = record.getFriendList();
-        String chat = mRecord.getChart();
+        String chart = mRecord.getChart();
         String mRecordGroupName = mRecord.getGroupName();
         String groupId = mRecord.getGroupId();
         if (friendList.size() > 0) {
@@ -70,7 +70,7 @@ public class DealFriendAdd {
                 String groupName = friendList.get(i).getGroupName();
                 List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
                 if (type.equals("2")) {
-                    if (chat != null && chat.equals(groupName)) {
+                    if (chart != null && chart.equals(groupName)) {
                         if (groupList.size() == 0) {
 //                            return;
                         } else if (groupList.size() == 1) {
@@ -217,6 +217,8 @@ public class DealFriendAdd {
         groupList.add(groupListBean);
         friendList.get(i).setGroupList(groupList);
         friendList.get(i).setType(type);
+        friendList.get(i).setGroupName(mRecord.getGroupName());
+        friendList.get(i).setGroupId(mRecord.getGroupId());
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
         String jsonString = JSON.toJSONString(recordBean);
@@ -255,6 +257,9 @@ public class DealFriendAdd {
         friendListBean.setGroupName(mRecord.getGroupName());
         friendListBean.setGroupList(groupList);
         friendList.add(where,friendListBean);
+        friendList.get(where).setGroupName(mRecord.getGroupName());
+        friendList.get(where).setGroupId(mRecord.getGroupId());
+        friendList.get(where).setType("1");
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
         String jsonString = JSON.toJSONString(recordBean);

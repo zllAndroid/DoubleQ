@@ -45,6 +45,8 @@
     <color name="doubleq_theme">#1edec9</color>
     <color name="normal">#FF1427A1</color>
     <color name="doubleq_msg_num">#ff8063</color>
+    <color name="orange_only">#ff6515</color>
+    <color name="orange_orange">#f7941f</color>
 
     <!--底部tab颜色-->
     <color name="tab_select">#1edec9</color>

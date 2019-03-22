@@ -49,6 +49,7 @@ public class DealModifyGroupOfList {
             }
         }
     }
+    static String friendGroupId;
     private static void initDataFriend(String asString, DataAgreeGroupList.RecordBean mRecord) {
 //        DataLinkManList.RecordBean recordBean = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
@@ -62,12 +63,14 @@ public class DealModifyGroupOfList {
                 String type = friendList.get(i).getType();
                 if (type.equals("2")) {  //有1有2 & 无1有2
                     String groupName = mRecord.getGroupName();
+                    friendGroupId = mRecord.getGroupId();
                     if (groupName != null){
                         putCache(friendList, i, groupName);
                         return;
                     }
                 }else if (friendList.size() == (i + 1)){  //有1无2
                     String groupName = mRecord.getGroupName();
+                    friendGroupId = mRecord.getGroupId();
                     if (groupName != null){
                         putCache(friendList, friendList.size(), groupName);
                         return;
@@ -98,6 +101,7 @@ public class DealModifyGroupOfList {
 
         }
     }
+    static String groupId;
     private static void initDataGroup(String asString, DataAgreeGroupList.RecordBean mRecord) {
 //        DataLinkManList.RecordBean recordBean = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
@@ -111,12 +115,14 @@ public class DealModifyGroupOfList {
                 String type = groupList.get(i).getType();
                 if (type.equals("2")) {  //有1有2 & 无1有2
                     String groupName = mRecord.getGroupName();
+                    groupId = mRecord.getGroupId();
                     if (groupName != null){
                         putCacheGroup(groupList, i, groupName);
                         return;
                     }
                 }else if (groupList.size() == (i + 1)){  //有1无2
                     String groupName = mRecord.getGroupName();
+                    groupId = mRecord.getGroupId();
                     if (groupName != null){
                         putCacheGroup(groupList, groupList.size(), groupName);
                         return;
@@ -154,6 +160,7 @@ public class DealModifyGroupOfList {
         friendListBean.setGroupList(groupList);
         friendListBean.setGroupName(groupName);
         friendListBean.setType("1");
+        friendListBean.setGroupId(friendGroupId);
         friend_info_list.add(i, friendListBean);
 
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
@@ -177,6 +184,7 @@ public class DealModifyGroupOfList {
         groupInfoListBean.setGroupList(groupListBean);
         groupInfoListBean.setGroupName(groupName);
         groupInfoListBean.setType("1");
+        groupInfoListBean.setGroupId(groupId);
         group_info_list.add(i, groupInfoListBean);
 
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();

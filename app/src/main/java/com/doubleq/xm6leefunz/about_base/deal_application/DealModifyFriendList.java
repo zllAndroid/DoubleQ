@@ -7,11 +7,13 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.doubleq.model.DataLinkManList;
 import com.doubleq.model.DataModifyFriendList;
+import com.doubleq.model.push_data.DataAboutFriend;
 import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -36,6 +38,27 @@ public class DealModifyFriendList {
             String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
             if (!StrUtils.isEmpty(asString)&&record!=null)
             {
+                /**
+                 * 修改备注
+                 */
+                //  1旧：""  新："NewRemarkName"
+                if (isOld(record.getOldRemarkName()) && !isOld(record.getNewRemarkName())){
+                    initDataUpdate(asString,record);
+                    return;
+                }
+                //  2旧："OldRemarkName"  新："NewRemarkName"   OldRemarkName != NewRemarkName
+                else if (!isOld(record.getOldRemarkName()) && !isOld(record.getNewRemarkName()) && !record.getOldRemarkName().equals(record.getNewRemarkName())){
+                    initDataUpdate(asString,record);
+                    return;
+                }
+                //  3旧："OldRemarkName"  新：""
+                else if (!isOld(record.getOldRemarkName()) && isOld(record.getNewRemarkName())){
+                    initDataUpdate(asString,record);
+                    return;
+                }
+                /**
+                 * 修改分组
+                 */
                 //  1增   无到有
                 if (isOld(record.getOldGroupId())&&!isOld(record.getNewGroupId()))
                 {
@@ -43,7 +66,7 @@ public class DealModifyFriendList {
                     initDataAdd(asString,record);
                 }
                 //  2改  有到有
-                if (!isOld(record.getOldGroupId())&&!isOld(record.getNewGroupId()))
+                else if (!isOld(record.getOldGroupId())&&!isOld(record.getNewGroupId()))
                 {
                     Log.e("更改好友分组（改）","----------------------------------------------------------------");
                     String s = initDataSub(asString, record);
@@ -53,13 +76,194 @@ public class DealModifyFriendList {
                     }
                 }
                 //  3删  有到无
-                if (!isOld(record.getOldGroupId())&&isOld(record.getNewGroupId()))
+                else if (!isOld(record.getOldGroupId())&&isOld(record.getNewGroupId()))
                 {
                     Log.e("更改好友分组（删）","----------------------------------------------------------------");
                     initDataSub(asString,record);
                 }
             }
         }
+    }
+    private static int groupListSize = 0;
+    private static void initDataUpdate(String asString, DataModifyFriendList.RecordBean mRecord) {
+        DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
+        if (record==null)
+            return;
+        friendList = record.getFriendList();
+        if (friendList.size() > 0){
+            groupListSize = 0;
+            for (int i = 0;i < friendList.size(); i++){
+                if (friendList.get(i).getType().equals("1")){
+//                    groupListSize = groupListSize + 1;
+                    groupListSize++;
+                }
+            }
+            String friendsId = mRecord.getFriendsId();
+//            String oldRemarkName = mRecord.getOldRemarkName();
+            String newRemarkName = mRecord.getNewRemarkName();
+            String chart = mRecord.getNewChart();  //好友的新首字母
+            for (int i = 0; i < friendList.size();i++) {
+                DataLinkManList.RecordBean.FriendListBean friendListBean = friendList.get(i);
+                List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendListBean.getGroupList();
+                // type为1的好友分组
+                if (friendListBean.getType().equals("1")) {
+                    for (int j = 0; j < groupList.size(); j++){
+                        String userId = groupList.get(j).getUserId();
+                        if (friendsId.equals(userId)){
+                            friendList.get(i).getGroupList().remove(j);
+                            putCacheUpdate(mRecord,i,newRemarkName);
+                        }
+                    }
+                }
+                // type为2的好友列表
+                else {
+                    for (int j = 0; j < groupList.size(); j++){
+                        String userId = groupList.get(j).getUserId();
+                        if (friendsId.equals(userId)){
+                            //  若该字母下只有一个好友
+                            if (friendList.get(i).getGroupList().size() == 1){
+                                friendList.remove(i);
+                                Log.e("friendLists","-------------------------------------------------"+friendList.size());
+                                updateFriendAdd(mRecord, chart, newRemarkName);
+                                return;
+                            }
+                            else {
+                                friendList.get(i).getGroupList().remove(j);
+                                updateFriendAdd(mRecord, chart, newRemarkName);
+                                return;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static void updateFriendAdd(DataModifyFriendList.RecordBean mRecord, String chart, String newRemarkName) {
+        for (int i = groupListSize; i < friendList.size(); i++) {
+            String groupName = friendList.get(i).getGroupName();
+            int i1 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupName));  // 分组名
+            int i2 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(chart));
+            if (friendList.size() > (i + 1)) {
+                String groupNameNext = friendList.get(i + 1).getGroupName();
+                int i3 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupNameNext));
+                if (i1 < i2 && i2 < i3) {
+                    dealNoChartFriend(mRecord, friendList, (i + 1), chart, newRemarkName);
+                    return;
+                }
+                else if (i1 > i2) {
+                    dealNoChartFriend(mRecord, friendList, i, chart, newRemarkName);
+                    return;
+                }
+                else if (i1 == i2){
+                    dealTopOneHaveGroup(mRecord,i,chart,newRemarkName);
+                }
+                else if (i1 == i3){
+                    dealTopOneHaveGroup(mRecord,(i+1),chart,newRemarkName);
+                }
+            }
+            else if (i1 < i2) {
+                dealNoChartFriend(mRecord, friendList, (i + 1), chart, newRemarkName);
+                return;
+            }
+            else if (i1 > i2) {
+                dealNoChartFriend(mRecord, friendList, i, chart, newRemarkName);
+                return;
+            }
+            else if (i1 == i2){
+                dealTopOneHaveGroup(mRecord,i,chart,newRemarkName);
+            }
+        }
+    }
+    private static void dealTopOneHaveGroup(DataModifyFriendList.RecordBean mRecord, int i, String groupName, String newRemarkName) {
+
+        List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
+        DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
+        groupListBean.setGroupName(groupName);
+        String name = StrUtils.isEmpty(newRemarkName)? mRecord.getNewNickName() :  newRemarkName;
+        groupListBean.setNickName(name);
+        groupListBean.setGroupId(mRecord.getNewGroupId());
+        groupListBean.setHeadImg(mRecord.getNewHeadImg());
+        groupListBean.setRemarkName(mRecord.getRemarkName());
+        groupListBean.setModified(mRecord.getModified());
+        groupListBean.setUserId(mRecord.getFriendsId());
+        groupList.add(groupListBean);
+
+        friendList.get(i).setGroupList(groupList);
+        friendList.get(i).setType("2");
+        friendList.get(i).setGroupName(groupName);
+        friendList.get(i).setGroupId(mRecord.getNewGroupId());
+
+        DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
+        recordBean.setFriendList(friendList);
+        String jsonString = JSON.toJSONString(recordBean);
+        aCache.remove(AppAllKey.FRIEND_DATA);
+        aCache.put(AppAllKey.FRIEND_DATA, jsonString);
+
+        Intent intent = new Intent();
+        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+        mContext.sendBroadcast(intent);
+    }
+    private static void dealNoChartFriend(DataModifyFriendList.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart, String newRemarkName) {
+        List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = new ArrayList<>();
+
+        DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
+        groupListBean.setGroupName(chart);
+        String name = StrUtils.isEmpty(newRemarkName)? mRecord.getNewNickName() :  newRemarkName;
+        groupListBean.setNickName(name);
+//        groupListBean.setNickName(mRecord.getNewNickName());
+        groupListBean.setRemarkName(newRemarkName);
+        groupListBean.setGroupId(mRecord.getNewGroupId());
+        groupListBean.setHeadImg(mRecord.getNewHeadImg());
+        groupListBean.setModified(mRecord.getModified());
+        groupListBean.setUserId(mRecord.getFriendsId());
+        groupList.add(groupListBean);
+
+        DataLinkManList.RecordBean.FriendListBean friendListBean = new DataLinkManList.RecordBean.FriendListBean();
+        friendListBean.setType("2");
+        friendListBean.setGroupName(chart);
+        friendListBean.setGroupList(groupList);
+        friendListBean.setGroupId(mRecord.getNewGroupId());
+
+        friendList.add(i,friendListBean);
+
+        DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
+        recordBean.setFriendList(friendList);
+        String jsonString = JSON.toJSONString(recordBean);
+        aCache.remove(AppAllKey.FRIEND_DATA);
+        aCache.put(AppAllKey.FRIEND_DATA, jsonString);
+
+        Intent intent = new Intent();
+        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+        mContext.sendBroadcast(intent);
+    }
+    private static void putCacheUpdate(DataModifyFriendList.RecordBean mRecord, int i, String newRemarkName) {
+        List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
+        DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
+        groupListBean.setRemarkName(newRemarkName);
+        groupListBean.setGroupId(mRecord.getNewGroupId());
+        groupListBean.setGroupName(mRecord.getNewGroupName());
+        groupListBean.setHeadImg(mRecord.getNewHeadImg());
+        String name = StrUtils.isEmpty(newRemarkName)? mRecord.getNewNickName() : newRemarkName;
+        groupListBean.setNickName(name);
+        groupListBean.setModified(mRecord.getModified());
+        groupListBean.setUserId(mRecord.getFriendsId());
+        groupList.add(groupListBean);
+        friendList.get(i).setGroupList(groupList);
+        friendList.get(i).setType("1");
+        friendList.get(i).setGroupId(mRecord.getNewGroupId());
+        friendList.get(i).setGroupName(mRecord.getNewGroupName());
+
+        DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
+        recordBean.setFriendList(friendList);
+        String jsonString = JSON.toJSONString(recordBean);
+        Log.e("jsonString","展开（好友添加至分组）="+jsonString);
+        aCache.remove(AppAllKey.FRIEND_DATA);
+        aCache.put(AppAllKey.FRIEND_DATA, jsonString);
+
+        Intent intent = new Intent();
+        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+        mContext.sendBroadcast(intent);
     }
 //    public  static void modifyGroupOfFriend(Context context, String result){
 //        mContext = context;
@@ -146,16 +350,19 @@ public class DealModifyFriendList {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
         groupListBean.setGroupName(newGroupName);
-//        groupListBean.setNickName(mRecord.getNewNickName());
         groupListBean.setGroupId(mRecord.getNewGroupId());
         groupListBean.setHeadImg(mRecord.getNewHeadImg());
-        String name = StrUtils.isEmpty(mRecord.getRemarkName())? mRecord.getNewNickName() : mRecord.getRemarkName();
+        String name = StrUtils.isEmpty(mRecord.getRemarkName())? mRecord.getNewNickName() : mRecord.getNewRemarkName();
         groupListBean.setNickName(name);
+//        groupListBean.setNickName(mRecord.getNewNickName());
+        groupListBean.setRemarkName(mRecord.getNewRemarkName());
         groupListBean.setModified(mRecord.getModified());
         groupListBean.setUserId(mRecord.getFriendsId());
         groupList.add(groupListBean);
         friendList.get(i).setGroupList(groupList);
         friendList.get(i).setType("1");
+        friendList.get(i).setGroupId(mRecord.getNewGroupId());
+        friendList.get(i).setGroupName(mRecord.getNewGroupName());
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
         String jsonString = JSON.toJSONString(recordBean);
@@ -167,7 +374,6 @@ public class DealModifyFriendList {
         intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
         mContext.sendBroadcast(intent);
     }
-
     private static String initDataSub(String asString, DataModifyFriendList.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)

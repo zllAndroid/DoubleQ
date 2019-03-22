@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
 
+import android.content.Intent;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +12,7 @@ import com.alibaba.fastjson.JSON;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.doubleq.model.DataNews;
 import com.doubleq.xm6leefunz.R;
+import com.doubleq.xm6leefunz.about_base.AppConfig;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
@@ -22,6 +24,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_notice.NoticeDet
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import java.util.ArrayList;
@@ -69,6 +72,12 @@ public class NoticeActivity extends BaseActivity {
         mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(NoticeActivity.this));
         sendWeb(SplitWeb.messageList());
         initAdapter();
+
+        SPUtils.put(this, AppConfig.LINKMAN_FRIEND_NUM,0);
+        Intent intent = new Intent();
+        intent.putExtra("num", 0);
+        intent.setAction("action.addFriend");
+        sendBroadcast(intent);
     }
     List<DataNews.RecordBean.ListInfoBean> mList=new ArrayList<>();
     @Override

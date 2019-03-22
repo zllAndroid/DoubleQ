@@ -12,7 +12,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
-import android.os.Handler;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.multidex.MultiDex;
@@ -31,15 +30,17 @@ import com.doubleq.model.DataGroupChatSend;
 import com.doubleq.model.DataIsRealWeb;
 import com.doubleq.model.DataJieShou;
 import com.doubleq.model.DataJiqun;
-import com.doubleq.model.DataLogin;
 import com.doubleq.model.off_line_msg.DataOffLineChat;
 import com.doubleq.model.off_line_msg.DataOffLineGroupChat;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealFriendAdd;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupAdd;
+import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupInvitation;
+import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupInvitationQrCode;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealGroupingSort;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyFriendList;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyGroupList;
 import com.doubleq.xm6leefunz.about_base.deal_application.DealModifyGroupOfList;
+import com.doubleq.xm6leefunz.about_base.deal_application.DealUpdateFriend;
 import com.doubleq.xm6leefunz.about_base.web_base.AppResponseDispatcher;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_chat.ChatActivity;
@@ -79,8 +80,6 @@ import com.zll.websocket.WebSocketSetting;
 
 import java.text.ParseException;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import cn.bingoogolapple.swipebacklayout.BGASwipeBackHelper;
@@ -493,11 +492,11 @@ public class MyApplication extends Application implements IWebSocketPage {
                     isBind = false;
             }
         }
-        try {
+//        try {
             initReceiver(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
     }
 
     private void initReceiver(Response message) {
@@ -571,7 +570,7 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "removeGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
                     break;
-//                    给成员发送 联系人变动信息接口
+//                    给成员发送 联系人变动信息接口  （含：用户修改自己群的名称）
                 case "modifyGroupListSend":
                     String s1 = DealGroupAdd.updateGroupDataByModifySub(this, message.getResponseText());
                     if (!StrUtils.isEmpty(s1))
@@ -583,7 +582,7 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "dissolutionGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(this, message.getResponseText(),realmHelper);
                     break;
-                //添加好友
+//                    添加好友
                 case "agreeFriendListSend":
                     DealFriendAdd.updateFriendDataByAdd(this, message.getResponseText());
                     break;
@@ -607,7 +606,7 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "modifyGroupingListSend":
                     DealModifyGroupOfList.modifyGroupOfList(this,message.getResponseText());
                     break;
-//                    好友修改其分组推送
+//                    好友修改其分组\备注推送
                 case "modifyFriendListSend":
                     DealModifyFriendList.modifyGroupOfFriend(this,message.getResponseText());
                     break;
@@ -619,6 +618,17 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "modifyGroupOfListSend":
                     DealModifyGroupList.modifyGroupOfGroup(this,message.getResponseText());
                     Log.e("modifyGroupOfListSend","---------------------------------------------------------------------------------------------");
+                    break;
+//                    扫码入群推送
+                case "invitationQrCodeGroupListSend":
+                    DealGroupInvitationQrCode.updateGroupDataByInvitation(this, message.getResponseText());
+                    break;
+//                    好友邀请入群推送
+                case "invitationGroupListSend":
+                    DealGroupInvitation.updateGroupDataByInvitation(this, message.getResponseText());
+                    break;
+                case "updateFriendSend":
+                    DealUpdateFriend.updateFriend(this,message.getResponseText());
                     break;
             }
         }

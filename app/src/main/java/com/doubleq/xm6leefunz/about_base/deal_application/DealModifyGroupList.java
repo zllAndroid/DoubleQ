@@ -154,6 +154,8 @@ public class DealModifyGroupList {
         groupList.add(groupListBean);
         GroupList.get(i).setGroupList(groupList);
         GroupList.get(i).setType("1");
+        GroupList.get(i).setGroupId(mRecord.getNewGroupManageId());
+        GroupList.get(i).setGroupName(mRecord.getNewGroupManageName());
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(GroupList);
         String jsonString = JSON.toJSONString(recordBean);

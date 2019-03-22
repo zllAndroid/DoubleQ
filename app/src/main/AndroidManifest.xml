@@ -108,13 +108,10 @@
         <activity
             android:name=".main_code.mains.MainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/CusAppTheme"
-            />
+            android:theme="@style/CusAppTheme" />
         <activity
             android:name=".main_code.mains.LoadDataActivity"
-            android:launchMode="singleTop"
-
-            />
+            android:launchMode="singleTop" />
         <activity
             android:name=".main_code.popular_activity.GoH5Activity"
             android:launchMode="singleTask" />
@@ -127,7 +124,7 @@
         <activity
             android:name=".main_code.ui.about_personal.about_activity.MineSetActivity"
             android:launchMode="singleTop"
-            />
+            android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 我的账户 -->
         <activity
             android:name=".main_code.ui.about_personal.about_activity.MyAccountActivity"
@@ -219,8 +216,7 @@
             android:theme="@style/SwipeBack.Transparent.Theme" />
         <activity
             android:name=".main_code.ui.about_contacts.CreatGroupChatActivity"
-            android:launchMode="singleTop"
-            />
+            android:launchMode="singleTop" />
         <activity
             android:name=".about_scan.ScanCodeActivity"
             android:launchMode="singleTop"
@@ -300,7 +296,8 @@
         <activity
             android:name=".main_code.ui.about_contacts.ChooseGroupActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+            android:theme="@style/SwipeBack.Transparent.Theme"
+            android:windowSoftInputMode="adjustResize" />
         <!-- 群聊资料 -->
         <!-- <activity -->
         <!-- android:name=".main_code.ui.about_contacts.GroupDetailsActivity" -->
@@ -411,19 +408,30 @@
         <!-- android:name=".main_code.mains.TestActivity" -->
         <!-- android:launchMode="singleTop" -->
         <!-- android:theme="@style/SwipeBack.Transparent.Theme" /> -->
+
         <!-- 朋友圈设置 -->
         <activity
             android:name=".main_code.ui.about_personal.about_set.DiscoverSetActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 动态设置 -->
         <activity
             android:name=".main_code.ui.about_contacts.DongTaiSetActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <activity android:name=".main_code.ui.about_personal.about_activity.MyDiscoverActivity"
+        <!-- 用户自己的朋友圈 -->
+        <activity
+            android:name=".main_code.ui.about_personal.about_activity.MyDiscoverActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme"
-            />
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!-- 橙子口袋 -->
+        <activity
+            android:name=".main_code.ui.about_personal.about_activity.OrangePocketActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".main_code.ui.about_personal.about_activity.SideChainActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
     </application>
 
 </manifest>

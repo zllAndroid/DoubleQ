@@ -1,36 +1,23 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_contacts;
 
-import android.app.Service;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Rect;
-import android.os.Vibrator;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.doubleq.model.DataGroupManage;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.DefaultItemTouchHelpCallback;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.DefaultItemTouchHelper;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.GroupManageAdapter;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_group.IDragListener;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_move.DragListView;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_move.GroupManageMoveAdapter;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_move.ViewUtil;
@@ -45,10 +32,11 @@ import java.util.Collections;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 //位置：联系人 - 分组信息
-public class GroupManageActivity extends BaseActivity implements ChangeInfoWindow.OnAddContantClickListener,GroupManageMoveAdapter.OnItemMoveClickListener {
+public class GroupManageActivity extends BaseActivity implements ChangeInfoWindow.OnAddContantClickListener, GroupManageMoveAdapter.OnItemMoveClickListener {
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
     @BindView(R.id.inclu_tv_right)
@@ -64,6 +52,10 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //    RecyclerView mRecyclerView;
     @BindView(R.id.draglist)
     DragListView mListView;
+    @BindView(R.id.group_manage_lin_dragList)
+    LinearLayout groupManageLinDragList;
+    @BindView(R.id.group_manage_tv_nothing)
+    TextView groupManageTvNothing;
 
 
     String mShare = "1";
@@ -72,17 +64,16 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //    }
-    String type ="1";
+    String type = "1";
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
         Intent intent = getIntent();
         type = intent.getStringExtra(ManagerType);
-        if (type.equals("1"))
-        {
+        if (type.equals("1")) {
             includeTopTvTital.setText("好友分组管理");
-        }else
-        {
+        } else {
             includeTopTvTital.setText("群组分组管理");
         }
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
@@ -155,7 +146,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 
                     includeTopTvRight.setVisibility(View.VISIBLE);
 //                    blackAdapter.notifyDataSetChanged();
-                    return  true;
+                    return true;
                 }
                 return false;
 //        }
@@ -168,7 +159,8 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 
     //    public List<DataBlack.RecordBean> record =null;
     List<DataGroupManage.RecordBean.GroupInfoBean> group_info;
-    boolean isChange=false;
+    boolean isChange = false;
+
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -178,21 +170,28 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                 DataGroupManage dataGroupManage = JSON.parseObject(responseText, DataGroupManage.class);
                 DataGroupManage.RecordBean record = dataGroupManage.getRecord();
                 mListGroupInfo.clear();
-                if (record==null) {
+                if (record == null) {
                     return;
                 }
                 group_info = record.getGroupInfo();
                 if (group_info.size() > 0) {
-                    if (StrUtils.isEmpty(group_info.get(0).getId()))
-                    {
+                    if (StrUtils.isEmpty(group_info.get(0).getId())) {
                         group_info.remove(0);
                     }
-                    mListGroupInfo.addAll(group_info);
-                    if (isChange)
-                    {
+                    if (group_info.size() > 0){
+                        mListGroupInfo.addAll(group_info);
+                        groupManageLinDragList.setVisibility(View.VISIBLE);
+                        groupManageTvNothing.setVisibility(View.GONE);
+                    }
+                    else {
+                        groupManageLinDragList.setVisibility(View.GONE);
+                        groupManageTvNothing.setVisibility(View.VISIBLE);
+                    }
+                    if (isChange) {
                         blackAdapter.notifyData();
-                    }else
+                    } else{
                         initAdapter();
+                    }
                 }
                 break;
             case "moveGroupSort":
@@ -215,12 +214,12 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                         break;
 //                        添加
                     case "2":
-                        isChange=true;
+                        isChange = true;
                         sendWeb(SplitWeb.groupManageInfo(type));
                         break;
 //                        改
                     case "3":
-                        isChange=true;
+                        isChange = true;
                         sendWeb(SplitWeb.groupManageInfo(type));
                         break;
                 }
@@ -234,9 +233,10 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
     String item_type = "1";
     GroupManageMoveAdapter blackAdapter = null;
     public int positions;
-    List<DataGroupManage.RecordBean.GroupInfoBean> mListGroupInfo =new ArrayList<>();
+    List<DataGroupManage.RecordBean.GroupInfoBean> mListGroupInfo = new ArrayList<>();
+
     private void initAdapter() {
-        blackAdapter = new GroupManageMoveAdapter(this, mListGroupInfo,this);
+        blackAdapter = new GroupManageMoveAdapter(this, mListGroupInfo, this);
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mListView.setAdapter(blackAdapter);
         blackAdapter.notifyDataSetChanged();
@@ -247,6 +247,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //            }
 //        });
     }
+
     @Override
     protected int getLayoutView() {
         return R.layout.activity_group_manage;
@@ -262,13 +263,14 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 
     //    默认为增加分组（字段判断点击的popwindow）
     String isAddOrChange = "0";
+
     @Override
     public void onSure(String contant) {
         switch (isAddOrChange) {
             case "0"://增加
                 item_type = "2";
                 sendWeb(SplitWeb.addFriendGroup(type, "1", contant, ""));//增加分组  type = 1
-                if(blackAdapter != null)
+                if (blackAdapter != null)
                     blackAdapter.notifyDataSetChanged();
                 break;
             case "1"://修改
@@ -277,24 +279,25 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                 break;
         }
     }
+
     @Override
     public void onCancle() {
     }
-    public String dataInfo(){
+
+    public String dataInfo() {
         JSONArray jsonArray = new JSONArray();
         JSONObject jsonObject = new JSONObject();
         JSONObject tmpObj = null;
         jsonArray.clear();
         int count = group_info.size();
-        for(int i = 0; i < count; i++)
-        {
+        for (int i = 0; i < count; i++) {
             /**
              * id : 1
              * group_name : 好友
              * sort_id : 1
              */
             tmpObj = new JSONObject();
-            tmpObj.put("group_name" , mListGroupInfo.get(i).getGroupName());
+            tmpObj.put("group_name", mListGroupInfo.get(i).getGroupName());
             tmpObj.put("id", mListGroupInfo.get(i).getId());
             tmpObj.put("sort_id", mListGroupInfo.get(i).getSortId());
             jsonArray.add(tmpObj);
@@ -302,18 +305,19 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 
         }
         String personInfos = jsonArray.toString(); // 将JSONArray转换得到String
-        jsonObject.put("personInfos" , personInfos);   // 获得JSONObject的String
+        jsonObject.put("personInfos", personInfos);   // 获得JSONObject的String
         return personInfos;
     }
+
     @OnClick(R.id.inclu_tv_right)
     public void onSave() {
         sendWeb(SplitWeb.moveGroupSort(dataInfo()));//拖拽移动的
-        Log.e("personInfos","----------------personInfos----------------------------"+dataInfo());
+        Log.e("personInfos", "----------------personInfos----------------------------" + dataInfo());
     }
 
     @Override
     public void onName(int position) {
-     final    DataGroupManage.RecordBean.GroupInfoBean item = mListGroupInfo.get(position);
+        final DataGroupManage.RecordBean.GroupInfoBean item = mListGroupInfo.get(position);
         isAddOrChange = "1";
         ChangeInfoWindow changeInfoWindowsign = new ChangeInfoWindow(this, "修改分组", item.getGroupName());
         changeInfoWindowsign.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
@@ -323,6 +327,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                 item_type = "3";
                 sendWeb(SplitWeb.addFriendGroup(type, "2", contant, item.getId()));//修改分组  type = 2
             }
+
             @Override
             public void onCancle() {
             }

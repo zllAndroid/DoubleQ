@@ -89,7 +89,7 @@ public class DataAboutGroup {
 
     public static class RecordBean {
         /**
-         * chat : H
+         * chart : H
          * groupHeadImg : http://192.168.4.131:40005/default/img/default_group.png
          * groupId : 42
          * groupManageId : 0

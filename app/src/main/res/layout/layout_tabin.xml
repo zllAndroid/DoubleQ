@@ -19,6 +19,7 @@
             android:adjustViewBounds="true"
             android:layout_gravity="center"
             android:layout_centerHorizontal="true"
+            android:src="@drawable/tab_ac_main_msg"
             android:paddingTop="@dimen/dp5" />
         <ImageView
             android:id="@+id/img_main_point"
@@ -34,11 +35,11 @@
             />
         <RelativeLayout
             android:id="@+id/main_re_num"
-            android:layout_width="@dimen/dp15"
-            android:layout_height="@dimen/dp15"
+            android:layout_width="@dimen/dp18"
+            android:layout_height="@dimen/dp18"
             android:layout_toRightOf="@+id/img_main_tab"
-            android:layout_marginRight="@dimen/dp5"
             android:visibility="gone"
+            android:layout_marginRight="@dimen/dp2"
             android:gravity="center">
             <ImageView
                 android:layout_width="match_parent"

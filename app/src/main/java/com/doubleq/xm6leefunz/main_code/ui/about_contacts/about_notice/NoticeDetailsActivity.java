@@ -196,11 +196,19 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
 //                    remarkBean.get(2).setMessage(friendsName + "：" + msg);
 //                    mList.add(2, remarkBean.get(2));
                     // 括号
-                    mList.get(2).setMessage(friendsName + "：" + reply);
+                    if (!StrUtils.isEmpty(reply)){
+                        mList.get(2).setMessage(friendsName + "：" + reply);
+                    }else{
+                        mLinMain.setBackground(getResources().getDrawable(R.drawable.friend_data_bg));
+                    }
                     friendNoticeDetailsAdapter.notifyDataSetChanged();
 
                 } else {
-                    mList.get(mList.size()-1).setMessage(friendsName + "：" + reply);
+                    if (!StrUtils.isEmpty(reply)){
+                        mList.get(mList.size()-1).setMessage(friendsName + "：" + reply);
+                    }else{
+                        mLinMain.setBackground(getResources().getDrawable(R.drawable.friend_data_bg));
+                    }
                     friendNoticeDetailsAdapter.notifyDataSetChanged();
                 }
                 friendNoticeDetailsAdapter = new FriendNoticeDetailsAdapter(NoticeDetailsActivity.this, mList);
@@ -284,7 +292,11 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
 //                    String message = friendsName + "：" + msg;
 //                    remarkBean.get(2).setMessage(friendsName + "：" + msg);
 //                    mList.add(2, remarkBean.get(2));
-                    mList.get(2).setMessage(friendsName + "：" + msg);
+                    if (!StrUtils.isEmpty(msg)){
+                        mList.get(2).setMessage(friendsName + "：" + msg);
+                    }else{
+                        mLinMain.setBackground(getResources().getDrawable(R.drawable.friend_data_bg));
+                    }
                     friendNoticeDetailsAdapter.notifyDataSetChanged();
 //                        }
 //                    }
@@ -299,7 +311,11 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
 //                    Log.e("messageDetail", "------------------------备注小于三条------------------------remarkBean = " + remarkBean.get(mList.size()-1).getMessage());
 //                    mList.add(mList.get(mList.size()-1));
 //                    Log.e("messageDetail", "------------------------备注小于三条------------------------mList = " + mList.get(mList.size()-1).getMessage());
-                    mList.get(mList.size()-1).setMessage(friendsName + "：" + msg);
+                    if (!StrUtils.isEmpty(msg)){
+                        mList.get(mList.size()-1).setMessage(friendsName + "：" + msg);
+                    }else{
+                        mLinMain.setBackground(getResources().getDrawable(R.drawable.friend_data_bg));
+                    }
                     friendNoticeDetailsAdapter.notifyDataSetChanged();
 //                    friendNoticeDetailsAdapter.setData(mList.size()-1, remarkBean.get(mList.size()-1));
 //                        }

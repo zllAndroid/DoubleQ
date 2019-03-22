@@ -297,7 +297,11 @@ public class MainActivity extends BaseActivity {
             if (count > 0) {
                 mReNum.setVisibility(View.VISIBLE);
                 mImgPoint.setVisibility(View.GONE);
-                mTvNewMsg.setText(String.valueOf(count));
+                if (count>99) {
+                    mTvNewMsg.setText("99+");
+                }else {
+                    mTvNewMsg.setText(String.valueOf(count));
+                }
             }else
             {
                 mReNum.setVisibility(View.GONE);

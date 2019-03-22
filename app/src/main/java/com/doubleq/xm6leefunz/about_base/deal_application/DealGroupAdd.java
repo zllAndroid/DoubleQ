@@ -84,8 +84,8 @@ public class DealGroupAdd {
             }
         }
     }
-   private static String s;
-//  修改群名
+    private static String s;
+    //  修改群名
     private static String initDataGroupModifySub(String asString, DataAboutGroupModify.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
@@ -112,15 +112,16 @@ public class DealGroupAdd {
                             }
                         }
                     }
-                }else if (type.equals("1")&&groupManageId != null && !groupManageId.equals("0"))
+                }
+                else if (type.equals("1")&&groupManageId != null && !groupManageId.equals("0"))
                 {
                     String groupManageName = mRecord.getOldGroupManageName();
                     if (groupList.size()>0)
                     {
-                        if (groupManageName!=null&&groupManageName.equals(groupName)) {
+                        if (groupManageName!=null && groupManageName.equals(groupName)) {
                             for (int h = 0; h < groupList.size(); h++) {
                                 String groupOfId = groupList.get(h).getGroupOfId();
-                                if (groupManageId.equals(groupOfId)) {
+                                if (mRecord.getGroupId().equals(groupOfId)) {
                                     group_info_list.get(i).getGroupList().remove(h);
                                 }
                             }
@@ -160,6 +161,12 @@ public class DealGroupAdd {
                         return;
                     }
                 }
+                else {
+                    String groupName = group_info_list.get(i).getGroupName();
+                    String newGroupManageName = mRecord.getNewGroupManageName();
+                    if (newGroupManageName != null && newGroupManageName.equals(groupName))
+                        putCacheModifyTypeOne(mRecord, group_info_list, i);
+                }
             }
 //            如果列表中没有当前的字母，则判断外围新增
             for (int i = 0; i < group_info_list.size(); i++)
@@ -198,6 +205,34 @@ public class DealGroupAdd {
             dealNoChartModify(mRecord, group_info_list, 0, chart);
             return;
         }
+    }
+
+    private static void putCacheModifyTypeOne(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i) {
+        List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
+        DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
+        groupListBean.setGroupName(mRecord.getNewGroupManageName());
+        groupListBean.setNickName(mRecord.getNewGroupName());
+        groupListBean.setGroupOfId(mRecord.getGroupId());
+        groupListBean.setHeadImg(mRecord.getNewGroupHeadImg());
+        groupListBean.setGroupFenzuId(mRecord.getNewGroupManageId());
+        groupList.add(groupListBean);
+        group_info_list.get(i).setGroupList(groupList);
+        group_info_list.get(i).setGroupName(mRecord.getNewGroupManageName());
+        group_info_list.get(i).setGroupId(mRecord.getNewGroupManageId());
+        group_info_list.get(i).setType("1");
+
+        DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
+        recordBean.setGroupInfoList(group_info_list);
+
+        String jsonString = JSON.toJSONString(recordBean);
+
+        Log.e("jsonString","不展开（修改）="+jsonString);
+        aCache.remove(AppAllKey.GROUD_DATA);
+        aCache.put(AppAllKey.GROUD_DATA, jsonString);
+
+        Intent intent = new Intent();
+        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+        mContext.sendBroadcast(intent);
     }
 
     private static void initDataGroupSub(String asString,DataAboutGroup.RecordBean mRecord) {
@@ -261,10 +296,12 @@ public class DealGroupAdd {
         }
     }
 
-    private static boolean isHaveTypeTwo = true;
     private static void initDataGroup(String asString,DataAboutGroup.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
+        if (record == null){
+            return;
+        }
         if (group_info_list.size()>0) {
             for (int i = 0; i < group_info_list.size(); i++) {
                 String type = group_info_list.get(i).getType();
@@ -415,6 +452,9 @@ public class DealGroupAdd {
         groupListBean.setGroupFenzuId(mRecord.getGroupManageId());
         groupList.add(groupListBean);
         group_info_list.get(i).setGroupList(groupList);
+        group_info_list.get(i).setGroupName(mRecord.getChart());
+        group_info_list.get(i).setGroupId(mRecord.getGroupManageId());
+        group_info_list.get(i).setType("2");
 
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
@@ -439,6 +479,9 @@ public class DealGroupAdd {
         groupListBean.setGroupFenzuId(mRecord.getNewGroupManageId());
         groupList.add(groupListBean);
         group_info_list.get(i).setGroupList(groupList);
+        group_info_list.get(i).setGroupName(mRecord.getNewGroupManageName());
+        group_info_list.get(i).setGroupId(mRecord.getNewGroupManageId());
+        group_info_list.get(i).setType("2");
 
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
