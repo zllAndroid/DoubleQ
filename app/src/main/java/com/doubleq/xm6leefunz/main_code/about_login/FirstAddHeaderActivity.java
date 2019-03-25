@@ -64,7 +64,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
 
-    @BindView(R.id.include_top_tv_right)
+    @BindView(R.id.inclu_tv_right)
     TextView mTvTopRight;
     @BindView(R.id.first_iv_head)
     ImageView firstIvHead;
@@ -88,9 +88,11 @@ public class FirstAddHeaderActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         mTvTopRight.setVisibility(View.VISIBLE);
+        mTvTopRight.setText("跳过");
+//        mTvTopRight.setTextColor(getResources().getColor(R.color.gray666));
+        mTvTopRight.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG );
         includeTopIvBack.setVisibility(View.VISIBLE);
         includeTopTvTital.setText("用户设置");
-        mTvTopRight.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG );
     }
 
     @Override
@@ -120,10 +122,10 @@ public class FirstAddHeaderActivity extends BaseActivity {
     }
 
     private PhotoPopWindow photoPopWindow = null;
-    @OnClick({R.id.include_top_tv_right, R.id.first_re_head, R.id.first_btn_sure})
+    @OnClick({R.id.inclu_tv_right, R.id.first_re_head, R.id.first_btn_sure})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.include_top_tv_right:
+            case R.id.inclu_tv_right:
                 if (NoDoubleClickUtils.isDoubleClick())
                 {
                     IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);

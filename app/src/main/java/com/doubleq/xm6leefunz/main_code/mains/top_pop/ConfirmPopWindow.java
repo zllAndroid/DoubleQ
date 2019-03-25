@@ -16,6 +16,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_add.AddGoodFrien
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.CreatGroupChatActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.AddFriendActivity;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
+//import com.vondear.rxfeature.activity.ActivityScanerCode;
 
 
 /**
@@ -88,6 +89,7 @@ public class ConfirmPopWindow extends PopupWindow implements View.OnClickListene
                 break;
             case R.id.fp_tv_scan:
                 IntentUtils.JumpTo(ScanCodeActivity.class);
+//                IntentUtils.JumpTo(ActivityScanerCode.class);
                 dismiss();
                 break;
             default:

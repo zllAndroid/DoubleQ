@@ -99,7 +99,8 @@ public class FilePath {
     public static List<String> getFilesAllName(String path) {
         File file=new File(path);
         File[] files=file.listFiles();
-        if (files == null){Log.e("error","空目录");return null;}
+        if (files == null){
+            Log.e("error","空目录");return null;}
         List<String> s = new ArrayList<>();
         for(int i =0;i<files.length;i++){
             s.add(files[i].getAbsolutePath());

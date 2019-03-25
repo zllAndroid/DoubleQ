@@ -17,6 +17,7 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import com.doubleq.xm6leefunz.main_code.ui.about_discovery.ZllActivity;
 
 
 /**
@@ -50,13 +51,11 @@ public class FindFragment extends BaseFragment {
         view = getTopBarView();
         initUI(view);
     }
-
-    //    ConfirmPopWindow confirmPopWindow=null;
+//    ConfirmPopWindow confirmPopWindow=null;
     @Override
     protected String setFragmentTital() {
         return "朋友圈";
     }
-
     private void initUI(final View view) {
 //        view.findViewById(R.id.include_frag_img_add).setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -77,6 +76,12 @@ public class FindFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), FriendCircleActivity.class));
+            }
+        });
+        view.findViewById(R.id.find_fuhua).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ZllActivity.class));
             }
         });
     }

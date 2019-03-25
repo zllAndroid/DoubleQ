@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:id="@+id/include_top_lin_back"
-    android:background="@color/trans"
-    android:layout_height="wrap_content">
-
+    android:background="@color/transparent"
+    android:orientation="vertical"
+    >
     <View
         android:id="@+id/include_top_margin10"
         android:layout_width="match_parent"
@@ -116,62 +116,4 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-    <!--<LinearLayout-->
-        <!--android:id="@+id/include_top2_lin"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="@dimen/dp48"-->
-        <!--android:orientation="horizontal"-->
-        <!--&gt;-->
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:orientation="horizontal"-->
-            <!--&gt;-->
-
-            <!--<ImageView-->
-                <!--android:id="@+id/include_top_iv_back"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="@dimen/dp24"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:paddingLeft="@dimen/dp10"-->
-                <!--android:visibility="invisible"-->
-                <!--android:paddingRight="@dimen/dp10"-->
-                <!--android:clickable="true"-->
-                <!--app:srcCompat="@drawable/to_left" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/include_top_tv_tital"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center"-->
-                <!--android:text="标题"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:textSize="@dimen/sp18" />-->
-            <!--<TextView-->
-                <!--android:id="@+id/include_top_tv_right"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:gravity="center"-->
-                <!--android:text="跳过"-->
-                <!--android:visibility="invisible"-->
-                <!--android:padding="@dimen/dp10"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:textSize="@dimen/sp16" />-->
-
-            <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_height="@dimen/dp24"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:layout_gravity="center_vertical"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:paddingLeft="@dimen/dp10"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:paddingRight="@dimen/dp10"&ndash;&gt;-->
-                <!--&lt;!&ndash;android:visibility="invisible"&ndash;&gt;-->
-                <!--&lt;!&ndash;app:srcCompat="@drawable/to_left" />&ndash;&gt;-->
-
-        <!--</LinearLayout>-->
-
-    <!--</LinearLayout>-->
 </LinearLayout>

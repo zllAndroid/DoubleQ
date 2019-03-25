@@ -30,6 +30,8 @@ import com.doubleq.xm6leefunz.about_custom.loding.LoadingDialog;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.NetUtils;
 import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
+import com.doubleq.xm6leefunz.about_utils.about_immersive.StateBarUtils;
+import com.doubleq.xm6leefunz.about_utils.about_immersive.StatusBarUtil;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.doubleq.xm6leefunz.about_custom.about_cus_dialog.DialogExitUtils;
 import com.doubleq.xm6leefunz.about_utils.windowStatusBar;
@@ -81,7 +83,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        initBeforeContentView();
+
         super.onCreate(savedInstanceState);
         /**
          * 切换为非全屏
@@ -102,52 +104,10 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //        ScreenUtils.setWindowStatusBarColor(AppManager.getAppManager().currentActivity(),R.color.red);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-            //添加变色标志
-//           getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
-////导航栏颜色
-//           getWindow().setNavigationBarColor(getResources().getColor(com.projects.zll.utilslibrarybyzll.R.color.white));
-//          getWindow().setStatusBarColor(getResources().getColor(com.projects.zll.utilslibrarybyzll.R.color.app_theme));
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            Window window = getWindow();
-//
-////设置修改状态栏
-////            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//
-////设置状态栏的颜色，和你的app主题或者标题栏颜色设置一致就ok了
-//            window.setStatusBarColor(getResources().getColor(R.color.app_theme));
-//            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
-            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
-//           getWindow().setNavigationBarColor(getResources().getColor(com.projects.zll.utilslibrarybyzll.R.color.white));
-            //透明导航栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
-//            WindowBugDeal.checkDeviceHasNavigationBar(AppManager.getAppManager().currentActivity());
-//            显示 内屏返回键
-//            if (simpleName.equals("MainActivity")) {
-//                WindowBugDeal.checkDeviceHasNavigationBar(AppManager.getAppManager().currentActivity());
-//            } else
-//                WindowBugDeal.SetTop(AppManager.getAppManager().currentActivity());
+//            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+            getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
         }
-
-
-
-//        if (getLayoutView()!=0)
-//        {
-//            LayoutInflater  mInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            View mContentView = mInflater.inflate(getLayoutView(), null);
-//            mContentView.setBackgroundColor(getResources().getColor(android.R.color.white));
-//        }
-
-
-
-//        if(Build.VERSION.SDK_INT>= Build.VERSION_CODES.KITKAT) {
-//            //透明状态栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            //透明导航栏
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        }
-
+        initBeforeContentView();
         setContentView(getLayoutView());
 //        hideBottomMenu();
         initStateBar();
@@ -191,7 +151,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         initBaseView();
         EventBus.getDefault().register(this);
     }
-//    public static void setNavigationBar(Activity activity,int visible){
+    //    public static void setNavigationBar(Activity activity,int visible){
 //        View decorView = activity.getWindow().getDecorView();
 //        //显示NavigationBar
 //        if (View.GONE == visible){
@@ -299,6 +259,20 @@ public class BaseActivityForResult extends AppCompatActivity  {
     }
 
     public void initStateBar() {
+        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+//        StatusBarUtil.setRootViewFitsSystemWindows(this,true);
+//        //设置状态栏透明
+////        StatusBarUtil.setStatusBarColor(this,0x1edec9);
+//        windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+//           getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
+//        StatusBarUtil.setTranslucentStatus(this);
+        //一般的手机的状态栏文字和图标都是白色的, 可如果你的应用也是纯白色的, 或导致状态栏文字看不清
+        //所以如果你是这种情况,请使用以下代码, 设置状态使用深色文字图标风格, 否则你可以选择性注释掉这个if内容
+//        if (!StatusBarUtil.setStatusBarDarkTheme(this, true)) {
+//            //如果不支持设置深色风格 为了兼容总不能让状态栏白白的看不清, 于是设置一个状态栏颜色为半透明,
+//            //这样半透明+白=灰, 状态栏的文字能看得清
+//            StatusBarUtil.setStatusBarColor(this,0x1edec9);
+//        }
 //        if (simpleName.equals("MainActivity")) {
 //            WindowBugDeal.checkDeviceHasNavigationBar(AppManager.getAppManager().currentActivity());
 //        } else
@@ -412,7 +386,17 @@ public class BaseActivityForResult extends AppCompatActivity  {
     }
 
     protected void initBeforeContentView() {
-//        WindowBugDeal.SetTop(this);
+        if(isGonesStatus()) {
+            //全屏不显示状态栏导航栏
+            StateBarUtils.setFullscreen(this,false,false);
+        }
+        else {
+            //全屏显示状态栏隐藏导航栏
+            StateBarUtils.setFullscreen(this,true,false);
+//            设置状态栏的颜色
+            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+//            StateBarUtils.setFullscreen(this,true,true);
+        }
     }
 
     protected void initBaseView() {
@@ -422,9 +406,17 @@ public class BaseActivityForResult extends AppCompatActivity  {
     }
 
     protected boolean isGones() {
+        return true;
+    }
+
+    //    是否隐藏状态栏，默认不隐藏
+    protected boolean isGonesStatus() {
         return false;
     }
     protected boolean isChat() {
+        return false;
+    }
+    protected boolean isLogin() {
         return false;
     }
 
@@ -543,31 +535,45 @@ public class BaseActivityForResult extends AppCompatActivity  {
         {
             isChatWindow();
         }
+        if (isLogin())
+        {
+            isLoginWindow();
+        }
     }
 
     private void isGone() {
-
-//        View mtv;
-//        mtv = (View) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_margin10);
+        //当FitsSystemWindows设置 true 时，会在屏幕最上方预留出状态栏高度的 padding
+//        StatusBarUtil.setRootViewFitsSystemWindows(this,true);
+        View mtv=null;
+        try {
+            mtv = (View) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_margin10);
+        } catch (Exception e) {
+            e.printStackTrace();
+            mtv=null;
+        }
+        if (mtv==null)
+        {
+            return;
+        }
 //        LinearLayout mLinBac = (LinearLayout) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_lin_background);
 //        mLinBac.setBackgroundColor(getResources().getColor(R.color.app_theme));
-//        mtv.setBackgroundColor(getResources().getColor(R.color.app_theme));
-//        // 设置状态栏高度
-//        int statusBarHeight = WindowBugDeal.getStatusBarHeight(this);
-//        //这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
-//        LinearLayout.LayoutParams layout=(LinearLayout.LayoutParams)mtv.getLayoutParams();
-//        //获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
-////        layout.setMargins(0,-statusBarHeight,0,0);
-//        layout.height=statusBarHeight;
-//        //设置button的新位置属性,left，top，right，bottom
-//        mtv.setLayoutParams(layout);
-////        mtv.getBackground().setAlpha(0);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            mtv.setVisibility(View.VISIBLE);
-//        }else
-//        {
-//            mtv.setVisibility(View.GONE);
-//        }
+        mtv.setBackgroundColor(getResources().getColor(R.color.app_theme));
+        // 设置状态栏高度
+        int statusBarHeight = WindowBugDeal.getStatusBarHeight(this);
+        //这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
+        LinearLayout.LayoutParams layout=(LinearLayout.LayoutParams)mtv.getLayoutParams();
+        //获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
+//        layout.setMargins(0,-statusBarHeight,0,0);
+        layout.height=statusBarHeight;
+        //设置button的新位置属性,left，top，right，bottom
+        mtv.setLayoutParams(layout);
+//        mtv.getBackground().setAlpha(0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            mtv.setVisibility(View.VISIBLE);
+        }else
+        {
+            mtv.setVisibility(View.GONE);
+        }
     }
     private void isChatWindow() {
 //聊天界面因为window，需要状态栏高度撑起
@@ -575,6 +581,28 @@ public class BaseActivityForResult extends AppCompatActivity  {
         mtv = (View) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_margin10);
         LinearLayout mLinBac = (LinearLayout) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_lin_background);
         mLinBac.setBackgroundColor(getResources().getColor(R.color.app_theme));
+        mtv.setBackgroundColor(getResources().getColor(R.color.app_theme));
+        // 设置状态栏高度
+        int statusBarHeight = WindowBugDeal.getStatusBarHeight(this);
+        //这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
+        LinearLayout.LayoutParams layout=(LinearLayout.LayoutParams)mtv.getLayoutParams();
+        //获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
+//        layout.setMargins(0,-statusBarHeight,0,0);
+        layout.height=statusBarHeight;
+        //设置button的新位置属性,left，top，right，bottom
+        mtv.setLayoutParams(layout);
+//        mtv.getBackground().setAlpha(0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            mtv.setVisibility(View.VISIBLE);
+        }else
+        {
+            mtv.setVisibility(View.GONE);
+        }
+    }
+    private void isLoginWindow() {
+//聊天界面因为window，需要状态栏高度撑起
+        View mtv;
+        mtv = (View) AppManager.getAppManager().currentActivity().findViewById(R.id.include_top_margin10);
         mtv.setBackgroundColor(getResources().getColor(R.color.app_theme));
         // 设置状态栏高度
         int statusBarHeight = WindowBugDeal.getStatusBarHeight(this);

@@ -92,7 +92,8 @@ public class NotificationUtil extends ContextWrapper {
                     (title, content)
                     .setLargeIcon(bitmap)
                     .setContentIntent(pendingIntent)
-                    .setDefaults(Notification.DEFAULT_SOUND)
+                    .setDefaults(R.raw.ring)
+//                    .setDefaults(Notification.DEFAULT_SOUND)
                     .build();
             getManager().notify(1,notification);
         }else{
@@ -117,7 +118,7 @@ public class NotificationUtil extends ContextWrapper {
             Notification notification = getChannelNotification(title, content)
                     .setLargeIcon(bitmap)
                     .setContentIntent(pendingIntent)
-                    .setDefaults(Notification.DEFAULT_SOUND)
+                    .setDefaults(R.raw.ring)
                     .build();
             notification.ledOnMS = 5000; //闪光时间，毫秒
 
@@ -140,7 +141,8 @@ public class NotificationUtil extends ContextWrapper {
                 .setSmallIcon(R.drawable.dou_logo)
                 .setLargeIcon(bitmap)
 //                .setFullScreenIntent(true);
-                .setDefaults(Notification.DEFAULT_SOUND)
+                .setDefaults(R.raw.ring)
+//                .setDefaults(Notification.DEFAULT_SOUND)
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true);
     }

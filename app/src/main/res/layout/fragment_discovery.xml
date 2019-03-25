@@ -54,6 +54,7 @@
             </LinearLayout>
             <!--宠物-->
             <LinearLayout
+                android:id="@+id/find_fuhua"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp10"

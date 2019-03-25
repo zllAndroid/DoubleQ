@@ -120,6 +120,10 @@
             android:name=".main_code.ui.about_discovery.FriendCircleActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity
+            android:name=".main_code.ui.about_discovery.ZllActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 设置 -->
         <activity
             android:name=".main_code.ui.about_personal.about_activity.MineSetActivity"

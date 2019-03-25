@@ -9,7 +9,12 @@
    >
 
     <!--<include layout="@layout/activity_include_title_bar"/>-->
-
+    <View
+        android:id="@+id/include_top_margin10"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp25"
+        android:visibility="gone"
+        />
     <android.support.v4.app.FragmentTabHost
         android:id="@android:id/tabhost"
         android:layout_width="match_parent"

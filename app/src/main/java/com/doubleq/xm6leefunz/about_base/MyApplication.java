@@ -107,6 +107,8 @@ public class MyApplication extends Application implements IWebSocketPage {
     @Override
     public void onCreate() {
         super.onCreate();
+
+//        RxTool.init(this);
         mContext = this;
         mInstance = this;
         /**
@@ -1065,6 +1067,13 @@ public class MyApplication extends Application implements IWebSocketPage {
         intent.putExtra("num", num + 1);
         intent.setAction("action.addFriend");
         sendBroadcast(intent);
+    }
+    public static  ACache getaCache(){
+        if (aCache==null)
+        {
+            aCache =  ACache.get(getAppContext());
+        }
+        return aCache;
     }
 
     private void dealSend(String message) {

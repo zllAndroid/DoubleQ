@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.doubleq.xm6leefunz.main_code.ui.about_discovery.FriendCircleActivity">
+
+    <com.race604.flyrefresh.FlyRefreshLayout
+        android:id="@+id/fly_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+            <!--<include layout="@layout/activity_include_discover_top"/>-->
+
+            <!--&lt;!&ndash;<LinearLayout&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:layout_height="@dimen/dp150"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:background="@drawable/discover_background"&ndash;&gt;-->
+                <!--&lt;!&ndash;android:orientation="vertical">&ndash;&gt;-->
+                <!--&lt;!&ndash;<ImageView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/discover_iv_head"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="@dimen/dp80"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="@dimen/dp80"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_gravity="center"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_marginTop="@dimen/dp20"/>&ndash;&gt;-->
+                <!--&lt;!&ndash;<TextView&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:id="@+id/discover_tv_name"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:gravity="center"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:text="我是大美人啦"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textColor="@color/white"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:textSize="@dimen/sp16"&ndash;&gt;-->
+                    <!--&lt;!&ndash;android:layout_margin="@dimen/dp10"&ndash;&gt;-->
+                    <!--&lt;!&ndash;/>&ndash;&gt;-->
+
+            <!--&lt;!&ndash;</LinearLayout>&ndash;&gt;-->
+
+            <!--<LinearLayout-->
+                <!--android:id="@+id/discover_lin_new_msg"-->
+                <!--android:layout_width="@dimen/dp140"-->
+                <!--android:layout_height="@dimen/dp35"-->
+                <!--android:gravity="center"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_marginTop="@dimen/dp10"-->
+                <!--android:background="@drawable/login_btn_bac"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="@dimen/dp25"-->
+                    <!--android:layout_height="@dimen/dp25" />-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="@dimen/sp18"-->
+                    <!--android:textColor="@color/white"-->
+                    <!--android:layout_marginLeft="@dimen/dp5"-->
+                    <!--android:text="2条新消息"/>-->
+            <!--</LinearLayout>-->
+
+            <!--<RelativeLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_marginTop="@dimen/dp10"-->
+                <!--android:layout_marginLeft="@dimen/dp10"-->
+                <!--android:layout_marginRight="@dimen/dp10"-->
+                <!--android:descendantFocusability="blocksDescendants">-->
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/friendcircle_recyc"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:fadingEdge="none"
+                    />
+            <!--</RelativeLayout>-->
+
+    </com.race604.flyrefresh.FlyRefreshLayout>
+
+
+
+</LinearLayout>

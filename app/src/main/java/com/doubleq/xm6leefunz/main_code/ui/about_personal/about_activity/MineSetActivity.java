@@ -209,8 +209,8 @@ public class MineSetActivity extends BaseActivity {
                                     sendWeb(SplitWeb.kickUid());
                                     SplitWeb.USER_ID="";
                                     ACache.get(MineSetActivity.this).clear();
+                                    SPUtils.put(MineSetActivity.this,AppAllKey.USER_ID_KEY,"");
                                     SPUtils.clear(MineSetActivity.this);
-
                                     AppManager.getAppManager().finishAllActivity();
 //                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
 //                                    startActivity(intent_recharge);

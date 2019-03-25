@@ -76,7 +76,7 @@ public class PwdLoginActivity extends BaseActivity {
 
     @Override
     protected boolean isGones() {
-        return true;
+        return false;
     }
 
     @Override

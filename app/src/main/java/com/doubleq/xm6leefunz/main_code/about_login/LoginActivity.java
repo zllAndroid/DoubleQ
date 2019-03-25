@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -29,6 +30,7 @@ import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.EditCheckUtils;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.NetWorkUtlis;
+import com.doubleq.xm6leefunz.about_utils.about_immersive.StateBarUtils;
 import com.doubleq.xm6leefunz.main_code.mains.LoadDataActivity;
 import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -57,6 +59,8 @@ public class LoginActivity extends BaseActivity {
     EditText loginEdPhone;
     @BindView(R.id.login_ed_psw)
     EditText loginEdPsw;
+    @BindView(R.id.include_top_lin_newback)
+    LinearLayout mLinBack;
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,16 @@ public class LoginActivity extends BaseActivity {
 //    @Override
 //    public void onServiceBindSuccess() {
 //        super.onServiceBindSuccess();
+//    }
+//    @Override
+//    public boolean isGonesStatus() {
+//        return true;
+//    }
+
+//    @Override
+//    protected void initBeforeContentView() {
+//        super.initBeforeContentView();
+//        StateBarUtils.setFullscreen(this,false,true);
 //    }
 
     public static int screenWidth;
@@ -84,7 +98,7 @@ public class LoginActivity extends BaseActivity {
         screenWidth = displayMetrics.widthPixels;
         screenHeight = displayMetrics.heightPixels;
         includeTopTvTital.setText("登录");
-
+        mLinBack.setVisibility(View.INVISIBLE);
         Bundle bundle = this.getIntent().getExtras();
         String userPhone = null;
         if (bundle != null) {
@@ -161,7 +175,7 @@ public class LoginActivity extends BaseActivity {
         SplitWeb.WX_SNO = dataLogin.getWxSno();
         SplitWeb.USER_ID = dataLogin.getUserId();
         SplitWeb.USER_HEADER = dataLogin.getHeadImg();
-
+        mCache.put(AppAllKey.USER_ID_KEY,dataLogin.getUserId());
         //TODO 集群
         try {
             SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
@@ -207,6 +221,10 @@ public class LoginActivity extends BaseActivity {
         return R.layout.activity_login;
     }
 
+    @Override
+    protected boolean isLogin() {
+        return true;
+    }
     @Override
     protected boolean isTopBack() {
         return false;

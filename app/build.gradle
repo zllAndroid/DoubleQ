@@ -93,6 +93,29 @@ dependencies {
     implementation 'com.jungly:gridPasswordView:0.3'
     //    二维码
 //    implementation files('libs/zixing-core-3.2.0.jar')
+
+//        implementation 'com.github.vondear.RxTool:RxArcGisKit:v2.2.7'
+
+    //基础工具库
+//    implementation "com.github.vondear.RxTool:RxKit:v2.2.8"
+//
+//    //UI库
+//    implementation "com.github.vondear.RxTool:RxUI:v2.2.8"
+//
+//    //相机库
+//    implementation 'com.github.vondear.RxTool:RxCamera:v2.2.8'
+//
+//    //功能库（Zxing扫描与生成二维码条形码 支付宝 微信）
+//    implementation "com.github.vondear.RxTool:RxFeature:v2.2.8"
+//
+//    //ArcGis For Android工具库（API：100.1以上版本）
+//    implementation "com.github.vondear.RxTool:RxArcGisKit:v2.2.8"
+
+    //相机库
+//    implementation 'com.github.vondear.RxTool:RxCamera:v2.2.8'
+//    //功能库（Zxing扫描与生成二维码条形码 支付宝 微信）
+//    implementation "com.github.vondear.RxTool:RxFeature:v2.2.8"
+
     //    三级市联动PickerView
     implementation 'com.bigkoo:pickerview:2.1.0'
     implementation files('libs/alibaba-json-1.1.0.jar')
@@ -126,4 +149,7 @@ dependencies {
 //    implementation 'com.hgDendi:expandable-recyclerview-adapter:1.0.1'
 
     implementation 'com.jaeger.statusbaruitl:library:1.4.0'
+
+
+    implementation 'com.race604.flyrefresh:library:1.0.1'
 }

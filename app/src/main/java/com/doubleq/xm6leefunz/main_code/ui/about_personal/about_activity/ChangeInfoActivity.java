@@ -117,23 +117,26 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         includeTopIvBack.setVisibility(View.VISIBLE);
         includeTopTvTital.setText("我的资料");
         includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
-        setHeadForFile();
+//        setHeadForFile();
         sendWeb(SplitWeb.personalCenter());
     }
 
     //    从文件中设置头像
     private void setHeadForFile() {
-        GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
-        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
+//        GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
+//        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
+        String userId = SplitWeb.getUserId();
+        String mPath= FilePath.getAbsPath(FilePath.appPath+userId+"/")+"chatHead/";
+        List<String> fileName = FilePath.getFilesAllName(mPath);
+        Log.e("setHeadForFile","mPath="+mPath+"--------"+fileName.size());
         if (fileName != null && fileName.size() > 0) {
             String path = fileName.get(fileName.size() - 1);
+            Log.e("setHeadForFile","path="+path);
             Glide.with(this).load(path)
                     .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
                     .thumbnail(0.1f)
-
                     .into(changeinfoIvHead);
         }
-
         else {
             Glide.with(this).load(R.drawable.first_head_nor)
                     .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
@@ -219,7 +222,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         }
     };
     DataMyZiliao.RecordBean record;
-String userId;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
@@ -245,8 +247,17 @@ String userId;
                         changeinfoTvSign.setText(record.getPersonaSignature());
                     }
 
-                    List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
+                    String userId = SplitWeb.getUserId();
+                    String mPath= FilePath.getAbsPath(FilePath.appPath+userId+"/")+"chatHead/";
+                    List<String> fileName = FilePath.getFilesAllName(mPath);
+                    Log.e("setHeadForFile","mPath="+mPath+"--------");
                     if (fileName != null && fileName.size() > 0) {
+                        String path = fileName.get(fileName.size() - 1);
+                        Log.e("setHeadForFile","path="+path+"\nsize="+fileName.size());
+                        Glide.with(this).load(path)
+                                .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
+                                .thumbnail(0.1f)
+                                .into(changeinfoIvHead);
                     } else {
                         String headImg = record.getHeadImg();
                         if (!StrUtils.isEmpty(headImg))

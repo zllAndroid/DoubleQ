@@ -1,8 +1,11 @@
 package com.doubleq.xm6leefunz.about_base.web_base;
 
 import android.content.Context;
+import android.util.Log;
+
 
 import com.doubleq.xm6leefunz.about_base.AppConfig;
+import com.doubleq.xm6leefunz.about_base.MyApplication;
 import com.doubleq.xm6leefunz.about_base.SignForXm6leefunJava;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -47,9 +50,16 @@ public class SplitWeb {
         USER_HEADER=(String ) SPUtils.get(HelpUtils.getACt(),"header","");
         return USER_HEADER;
     }
+//    public static String getUserId() {
+//        if(StrUtils.isEmpty(USER_ID))
+//            USER_ID=(String ) SPUtils.get(MyApplication.getAppContext(), AppAllKey.USER_ID_KEY,"");
+//        Log.e("getUserId","getUserId="+USER_ID);
+//        return USER_ID;
+//    }
     public static String getUserId() {
-        if(StrUtils.isEmpty(USER_ID)&&HelpUtils.activity!=null)
-            USER_ID=(String ) SPUtils.get(HelpUtils.activity, AppAllKey.USER_ID_KEY,"");
+//        if(StrUtils.isEmpty(USER_ID))
+            USER_ID= MyApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);
+        Log.e("getUserId","getUserId="+USER_ID);
         return USER_ID;
     }
 
@@ -61,7 +71,7 @@ public class SplitWeb {
     }
     public static String getUserMobile() {
         if(StrUtils.isEmpty(MOBILE)&&HelpUtils.activity!=null)
-            MOBILE=(String ) SPUtils.get(HelpUtils.activity, AppConfig.TYPE_PHONE,"");
+            MOBILE=(String ) SPUtils.get(MyApplication.getAppContext(), AppConfig.TYPE_PHONE,"");
         return MOBILE;
     }
     public static String getUserPSW() {
@@ -70,18 +80,18 @@ public class SplitWeb {
         return PSW;
     }
     public static String getName() {
-        if(StrUtils.isEmpty(NICK_NAME)&&HelpUtils.activity!=null)
-            NICK_NAME=(String )SPUtils.get(HelpUtils.activity, AppConfig.TYPE_NAME,"");
+        if(StrUtils.isEmpty(NICK_NAME))
+            NICK_NAME=(String )SPUtils.get(MyApplication.getAppContext(), AppConfig.TYPE_NAME,"");
         return NICK_NAME;
     }
     public static String getSign() {
-        if(StrUtils.isEmpty(PERSON_SIGN)&&HelpUtils.activity!=null)
-            PERSON_SIGN=(String )SPUtils.get(HelpUtils.activity, AppConfig.TYPE_SIGN,"");
+        if(StrUtils.isEmpty(PERSON_SIGN))
+            PERSON_SIGN=(String )SPUtils.get(MyApplication.getAppContext(), AppConfig.TYPE_SIGN,"");
         return PERSON_SIGN;
     }
     public static String getUserToken() {
 //        if(StrUtils.isEmpty(USER_TOKEN))
-            USER_TOKEN= (String )SPUtils.get(HelpUtils.activity,AppAllKey.USER_Token,"");
+            USER_TOKEN= (String )SPUtils.get(MyApplication.getAppContext(),AppAllKey.USER_Token,"");
         return USER_TOKEN;
     }
 

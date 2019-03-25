@@ -174,10 +174,14 @@ public class PersonalFragment extends BaseFragment  {
 
     private void getHead() {
 
-        String userNewHead = FilePath.getUserNewHead(getContext());
-        if (!StrUtils.isEmpty(userNewHead))
+//        String userNewHead = FilePath.getUserNewHead(getContext());
+        String userId = SplitWeb.getUserId();
+        String mPath= FilePath.getAbsPath(FilePath.appPath+userId+"/")+"chatHead/";
+        List<String> fileName = FilePath.getFilesAllName(mPath);
+        if (fileName != null && fileName.size() > 0)
         {
-            GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
+            String userNewHead = fileName.get(fileName.size() - 1);
+//            GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
             mineIvPerson.setImageURI(Uri.fromFile(new File(userNewHead)));
         }
 //        GlideCacheUtil.getInstance().clearImageAllCache(getActivity());

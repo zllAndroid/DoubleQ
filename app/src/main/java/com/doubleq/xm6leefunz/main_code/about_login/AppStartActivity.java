@@ -15,6 +15,7 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.util.Log;
+import android.view.View;
 
 import com.alibaba.fastjson.JSON;
 import com.doubleq.model.DataLogin;
@@ -23,6 +24,7 @@ import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_broadcastreceiver.NetReceiver;
 import com.doubleq.xm6leefunz.about_utils.HelpUtils;
+import com.doubleq.xm6leefunz.about_utils.about_immersive.StatusBarUtil;
 import com.doubleq.xm6leefunz.main_code.mains.LoadDataActivity;
 import com.doubleq.xm6leefunz.main_code.mains.MainActivity;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.WindowService;
@@ -167,8 +169,19 @@ public class AppStartActivity extends BaseActivity {
     };
 
     @Override
+    public void initStateBar() {
+        StatusBarUtil.setRootViewFitsSystemWindows(this,false);
+
+    }
+
+
+    @Override
     public boolean isSupportSwipeBack() {
         return false;
+    }
+    @Override
+    public boolean isGonesStatus() {
+        return true;
     }
 
     @Override

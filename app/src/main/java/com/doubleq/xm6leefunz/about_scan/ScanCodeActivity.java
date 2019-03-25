@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.widget.CheckBox;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -76,6 +77,10 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
     ViewfinderView viewfinderView;
     @BindView(R.id.scan_check_open)
     CheckBox mCheckOpen;
+    @BindView(R.id.include_top_lin_background)
+    LinearLayout mTopLin;
+    @BindView(R.id.include_top_lin_back)
+    LinearLayout mTopMainLin;
 
     private ExScanActivityHandler handler;
     private boolean hasSurface;
@@ -121,36 +126,23 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
             }
         }
     }
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        includeTopTvTital.setText(getResources().getString(R.string.scan_sao));
-////        mRealmHelper = new RealmHelper(this);
-//        surfaceView_width = surfaceView.getWidth();
-//        surfaceView_height = surfaceView.getHeight();
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-//        {
-//            ScanCodeActivityPermissionsDispatcher.takeScanWithCheck(this);
-//        }
-//        else
-//        {
-//            initScan();
-//        }
-//    }
     @Override
     protected boolean isTopBack() {
-        return true;
+        return false;
     }
 
     @Override
     protected boolean isGones() {
-        return true;
+        return false;
     }
     @Override
     protected void initBaseView() {
         super.initBaseView();
         includeTopTvTital.setText(getResources().getString(R.string.scan_sao));
+        mTopLin.setBackgroundColor(getResources().getColor(R.color.graye5));
+//        mTopLin.setBackgroundResource(R.color.graye5);
+//        mTopMainLin.setBackgroundResource(R.color.transparent);
+//        mTopMainLin.setBackgroundColor(getResources().getColor(R.color.transparent));
 
 
 //        mRealmHelper = new RealmHelper(this);
@@ -163,7 +155,7 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
         }
         else
         {
-            initScan();
+            takeScan();
         }
     }
 
@@ -195,8 +187,9 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
             if (!qrCode.contains("xm6leefun"))
             {
                 Log.e("qrCode","----------qrCode_scanCode------------"+qrCode);
-//                ToastUtil.show("非本应用二维码！");
-                MakeDialog("非本应用二维码,是否退出扫描？");
+                ToastUtil.show("非本应用二维码！");
+                reScan();
+//                MakeDialog("非本应用二维码,是否退出扫描？");
             }else {
 
                 Log.e("qrCode","----------qrCode_scanCode------------"+qrCode);
@@ -206,46 +199,14 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
                 //  好友的二维码
                 if (c.equals("1")){
                     substring = qrCode.substring(12);
-//                    Log.e("qrCode","----------substring_scanCode=" + substring);
-//                    DialogUtils.showDialog("扫描成功，是否添加此好友？", new DialogUtils.OnClickSureListener() {
-//                        @Override
-//                        public void onClickSure() {
-//                            sendWebHaveDialog(SplitWeb.addFriendQrCode(substring),"查看好友信息中...","获取成功");
                     sendWeb(SplitWeb.addFriendQrCode(substring));
                     IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",substring);
                     AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
-//                        }
-//                    }, new DialogUtils.OnClickCancleListener() {
-//                        @Override
-//                        public void onClickCancle() {
-//                            resultScan=null;
-//                            reScan();
-//                        }
-//                    });
                 }
                 //  群的二维码
                 else if (c.equals(IS_GROUP)){
                     substring = qrCode.substring(12);
-
-//                    Log.e("qrCode","--------------------------sub_scanCode_group=" + substring);
-//                    DialogUtils.showDialog("扫描成功，是否加入该群？", new DialogUtils.OnClickSureListener() {
-//                        @Override
-//                        public void onClickSure() {
-//                            sendWebHaveDialog(SplitWeb.addGroupOfQrCode(substring),"查看群信息中...","获取成功");
                     sendWeb(SplitWeb.addGroupOfQrCode(substring));
-//                    Log.e("addGroupOfQrCodes","----------------------------------------------------------");
-
-//                    IntentUtils.JumpToHaveOne(ChatGroupActivity.class,AppConfig.GROUP_SNO,substring);
-//                    AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
-
-//                        }
-//                    }, new DialogUtils.OnClickCancleListener() {
-//                        @Override
-//                        public void onClickCancle() {
-//                            resultScan=null;
-//                            reScan();
-//                        }
-//                    });
                 }
 
 //                sendWebHaveDialog(SplitWeb.addFriendQrCode(substring),"查看好友信息中...","获取成功");
@@ -307,7 +268,6 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
         }, new DialogUtils.OnClickCancleListener() {
             @Override
             public void onClickCancle() {
-                resultScan=null;
                 reScan();
             }
         });

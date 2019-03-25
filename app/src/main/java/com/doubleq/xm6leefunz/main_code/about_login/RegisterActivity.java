@@ -75,7 +75,7 @@ public class RegisterActivity extends BaseActivity {
 
     @Override
     protected boolean isGones() {
-        return true;
+        return false;
     }
 
     @OnClick({R.id.reg_tv_send_code, R.id.reg_btn_login})
