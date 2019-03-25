@@ -184,6 +184,7 @@
             <!--第三部分-->
             <!--Only（奥力橙）-->
             <LinearLayout
+                android:id="@+id/orange_bag_lin_only"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp10"

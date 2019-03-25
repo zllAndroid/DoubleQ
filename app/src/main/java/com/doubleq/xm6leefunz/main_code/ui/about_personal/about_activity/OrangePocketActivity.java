@@ -20,6 +20,7 @@ import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
 import com.doubleq.xm6leefunz.about_utils.ZXingUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
+import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -67,8 +68,6 @@ public class OrangePocketActivity extends BaseActivity {
 
     private void initText() {
 
-
-
         // 寻“橙”记
         SpannableString xunChengJi = new SpannableString(orangeBagTvXunChengJi.getText());
         xunChengJi.setSpan(new ForegroundColorSpan(Color.parseColor("#f7941f")), 1, 4, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
@@ -90,7 +89,7 @@ public class OrangePocketActivity extends BaseActivity {
         orangeBagTvGongYiCheng.setText(gongYiCheng);
     }
 
-    @OnClick({R.id.orange_bag_lin_sideChain, R.id.orange_bag_tv_xunChengJi, R.id.orange_bag_tv_xiLeCheng, R.id.orange_bag_tv_shangJiaSongCheng, R.id.orange_bag_tv_gongYiCheng})
+    @OnClick({R.id.orange_bag_lin_only, R.id.orange_bag_lin_sideChain, R.id.orange_bag_tv_xunChengJi, R.id.orange_bag_tv_xiLeCheng, R.id.orange_bag_tv_shangJiaSongCheng, R.id.orange_bag_tv_gongYiCheng})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 
@@ -101,18 +100,22 @@ public class OrangePocketActivity extends BaseActivity {
 
             // 寻“橙”记
             case R.id.orange_bag_tv_xunChengJi:
+                DialogUtils.showDialog("敬请期待！");
                 break;
 
             // 喜乐“橙”
             case R.id.orange_bag_tv_xiLeCheng:
+                DialogUtils.showDialog("敬请期待！");
                 break;
 
             // 商家送“橙”
             case R.id.orange_bag_tv_shangJiaSongCheng:
+                DialogUtils.showDialog("敬请期待！");
                 break;
 
             // 公益“橙”
             case R.id.orange_bag_tv_gongYiCheng:
+                DialogUtils.showDialog("敬请期待！");
                 break;
         }
     }

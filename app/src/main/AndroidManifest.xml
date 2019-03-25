@@ -429,6 +429,7 @@
             android:name=".main_code.ui.about_personal.about_activity.OrangePocketActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
+        <!--2种侧链资产-->
         <activity android:name=".main_code.ui.about_personal.about_activity.SideChainActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme"/>

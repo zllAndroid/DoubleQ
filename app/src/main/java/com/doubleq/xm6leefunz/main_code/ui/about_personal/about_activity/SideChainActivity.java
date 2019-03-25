@@ -1,5 +1,6 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -14,7 +15,7 @@ public class SideChainActivity extends BaseActivity {
 //        setContentView(R.layout.activity_side_chain);
 //    }
 
-
+    String userId;
     @Override
     protected int getLayoutView() {
         return R.layout.activity_side_chain;
@@ -24,6 +25,11 @@ public class SideChainActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
 
+        Intent intent = getIntent();
+        if (intent!=null)
+        {
+            userId = intent.getStringExtra("userId");
+        }
 
     }
 }
