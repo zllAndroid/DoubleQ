@@ -50,10 +50,10 @@ public class AddGroupWayActivity extends BaseActivity {
 
 
 //    String mShare= "1";
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected int getLayoutView() {

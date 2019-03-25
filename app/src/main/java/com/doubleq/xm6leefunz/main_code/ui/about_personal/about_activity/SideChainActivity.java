@@ -32,4 +32,9 @@ public class SideChainActivity extends BaseActivity {
         }
 
     }
+
+    @Override
+    protected boolean isGonesStatus() {
+        return true;
+    }
 }

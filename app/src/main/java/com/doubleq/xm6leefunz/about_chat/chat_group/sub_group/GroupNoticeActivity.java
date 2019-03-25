@@ -79,9 +79,6 @@ public class GroupNoticeActivity extends BaseActivity {
             groupofId = intent.getStringExtra("groupId");
             isGrouper = intent.getBooleanExtra("isGrouper", false);
             content = intent.getStringExtra("content");
-//            Log.e("groupid", "++++++++++++++groupid++++++++++++++" + groupofId);
-//            Log.e("isGrouper", "++++++++++++++isGrouper++++++++++++++" + isGrouper);
-//            Log.e("content", "++++++++++++++isGrouper++++++++++++++" + content);
             sendWeb(SplitWeb.groupNoticeInfo(groupofId));
         }
         initNotice();

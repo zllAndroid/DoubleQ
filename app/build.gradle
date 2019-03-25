@@ -150,6 +150,5 @@ dependencies {
 
     implementation 'com.jaeger.statusbaruitl:library:1.4.0'
 
-
-    implementation 'com.race604.flyrefresh:library:1.0.1'
+//    implementation 'com.race604.flyrefresh:library:1.0.1'
 }

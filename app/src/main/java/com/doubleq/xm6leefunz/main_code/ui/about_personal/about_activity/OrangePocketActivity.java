@@ -66,6 +66,11 @@ public class OrangePocketActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected boolean isGonesStatus() {
+        return true;
+    }
+
     private void initText() {
 
         // 寻“橙”记

@@ -97,7 +97,7 @@
                     android:layout_height="@dimen/dp1"
                     />
                 <LinearLayout
-                    android:id="@+id/discover_lin_AI"
+                    android:id="@+id/discover_lin_ai"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"

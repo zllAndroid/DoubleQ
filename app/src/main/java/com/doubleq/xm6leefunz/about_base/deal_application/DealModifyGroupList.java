@@ -194,7 +194,7 @@ public class DealModifyGroupList {
                                     String GroupId = groupList.get(j).getGroupOfId();
                                     if (groupOfId.equals(GroupId)) {
                                         GroupList.get(i).getGroupList().remove(j);
-                                       }
+                                    }
                                 }
                             }
                         }

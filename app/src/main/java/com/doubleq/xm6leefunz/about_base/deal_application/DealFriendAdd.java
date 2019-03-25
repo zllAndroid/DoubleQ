@@ -159,36 +159,36 @@ public class DealFriendAdd {
 //                    return;
 //                }
                 }
-            if (isTopTwo || isTopOne)
-                for (int i = 0; i < friendList.size(); i++) {
-                    String type = friendList.get(i).getType();
-                    if (type.equals("1") && isTopOne && groupId != null && !groupId.equals("0")) {
-                        addTopTypeOne(mRecord, 0);
-                    } else if (type.equals("2") && isTopTwo) {
-                        String groupName = friendList.get(i).getGroupName();
-                        int i1 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupName));
-                        int i2 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(chart));
-                        if (friendList.size() > (i + 1)) {
-                            String groupNameNext = friendList.get(i + 1).getGroupName();
-                            int i3 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupNameNext));
-                            if (i1 < i2 && i2 < i3) {
+                if (isTopTwo || isTopOne)
+                    for (int i = 0; i < friendList.size(); i++) {
+                        String type = friendList.get(i).getType();
+                        if (type.equals("1") && isTopOne && groupId != null && !groupId.equals("0")) {
+                            addTopTypeOne(mRecord, 0);
+                        } else if (type.equals("2") && isTopTwo) {
+                            String groupName = friendList.get(i).getGroupName();
+                            int i1 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupName));
+                            int i2 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(chart));
+                            if (friendList.size() > (i + 1)) {
+                                String groupNameNext = friendList.get(i + 1).getGroupName();
+                                int i3 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupNameNext));
+                                if (i1 < i2 && i2 < i3) {
+                                    dealNoChartFriend(mRecord, friendList, (i + 1), chart);
+                                    return;
+                                } else if (i1 > i2) {
+                                    dealNoChartFriend(mRecord, friendList, i, chart);
+                                    return;
+                                }
+                            } else if (i1 < i2) {
                                 dealNoChartFriend(mRecord, friendList, (i + 1), chart);
                                 return;
                             } else if (i1 > i2) {
                                 dealNoChartFriend(mRecord, friendList, i, chart);
                                 return;
                             }
-                        } else if (i1 < i2) {
-                            dealNoChartFriend(mRecord, friendList, (i + 1), chart);
-                            return;
-                        } else if (i1 > i2) {
-                            dealNoChartFriend(mRecord, friendList, i, chart);
-                            return;
                         }
                     }
-                }
+            }
         }
-    }
         else {
 //            if (!StrUtils.isEmpty(groupId)&& !groupId.equals("0"))
 //            {
@@ -198,9 +198,6 @@ public class DealFriendAdd {
             return;
         }
         saveData();
-    }
-
-    private static void dealTypeTwoHaveChart(DataAboutFriend.RecordBean mRecord, int i, String groupName) {
     }
 
     private static void dealTopOneHaveGroup(DataAboutFriend.RecordBean mRecord, int i, String groupName,String type) {
@@ -268,11 +265,11 @@ public class DealFriendAdd {
     }
 
     //存放type2时候，列表中没有当前组名；
-    private static void dealNoChartFriend(DataAboutFriend.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chat) {
+    private static void dealNoChartFriend(DataAboutFriend.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = new ArrayList<>();
 
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
-        groupListBean.setGroupName(chat);
+        groupListBean.setGroupName(chart);
         groupListBean.setNickName(mRecord.getNickName());
         groupListBean.setGroupId(mRecord.getGroupId());
         groupListBean.setHeadImg(mRecord.getHeadImg());
@@ -283,7 +280,7 @@ public class DealFriendAdd {
 
         DataLinkManList.RecordBean.FriendListBean friendListBean = new DataLinkManList.RecordBean.FriendListBean();
         friendListBean.setType("2");
-        friendListBean.setGroupName(chat);
+        friendListBean.setGroupName(chart);
         friendListBean.setGroupList(groupList);
         friendListBean.setGroupId(mRecord.getGroupId());
 

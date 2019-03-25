@@ -43,9 +43,7 @@ public class DealUpdateFriend {
                     return;
                 }
                 // TODO   好友修改头像
-//                if (){
-//
-//                }
+
             }
         }
     }
@@ -56,53 +54,52 @@ public class DealUpdateFriend {
         if (record==null)
             return;
         friendList = record.getFriendList();
-        if (friendList.size() > 0){
+        if (friendList.size() > 0) {
             groupListSize = 0;
-            for (int i = 0;i < friendList.size(); i++){
-                if (friendList.get(i).getType().equals("1")){
-//                    groupListSize = groupListSize + 1;
-                    groupListSize++;
+            for (int i = 0; i < friendList.size(); i++) {
+                if (friendList.get(i).getType().equals("1")) {
+                    groupListSize = groupListSize + 1;
+//                    groupListSize++;
                 }
             }
-            String friendsId = mRecord.getFriendsId();
-            String newNickName = mRecord.getNewNickName();  //好友的新昵称
-            String chart = mRecord.getNewChart();  //好友的新首字母
-            for (int i = 0; i < friendList.size();i++) {
-                DataLinkManList.RecordBean.FriendListBean friendListBean = friendList.get(i);
-                List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendListBean.getGroupList();
-                // type为1的好友分组
-                if (friendListBean.getType().equals("1")) {
-                    for (int j = 0; j < groupList.size(); j++){
-                        String userId = groupList.get(j).getUserId();
-                        if (friendsId.equals(userId)){
-                            friendList.get(i).getGroupList().remove(j);
-                            putCacheUpdate(mRecord,i,newNickName);
-                        }
+        }
+        String friendsId = mRecord.getFriendsId();
+        String newNickName = mRecord.getNewNickName();  //好友的新昵称
+        String chart = mRecord.getNewChart();  //好友的新首字母
+        for (int i = 0; i < friendList.size();i++) {
+            DataLinkManList.RecordBean.FriendListBean friendListBean = friendList.get(i);
+            List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendListBean.getGroupList();
+            // type为1的好友分组
+            if (friendListBean.getType().equals("1")) {
+                for (int j = 0; j < groupList.size(); j++){
+                    String userId = groupList.get(j).getUserId();
+                    if (friendsId.equals(userId)){
+                        friendList.get(i).getGroupList().remove(j);
+                        putCacheUpdate(mRecord,i,newNickName);
                     }
                 }
-                // type为2的好友列表
-                else {
-                    for (int j = 0; j < groupList.size(); j++){
-                        String userId = groupList.get(j).getUserId();
-                        if (friendsId.equals(userId)){
-                            //  若该字母下只有一个好友
-                            if (friendList.get(i).getGroupList().size() == 1){
-                                friendList.remove(i);
-                                Log.e("friendLists","-------------------------------------------------"+friendList.size());
-                                updateFriendAdd(mRecord, chart, newNickName);
-                                return;
-                            }
-                            else {
-                                friendList.get(i).getGroupList().remove(j);
-                                updateFriendAdd(mRecord, chart, newNickName);
-                                return;
-                            }
+            }
+            // type为2的好友列表
+            else {
+                for (int j = 0; j < groupList.size(); j++){
+                    String userId = groupList.get(j).getUserId();
+                    if (friendsId.equals(userId)){
+                        //  若该字母下只有一个好友
+                        if (friendList.get(i).getGroupList().size() == 1){
+                            friendList.remove(i);
+                            Log.e("friendLists","-------------------------------------------------"+friendList.size());
+                            updateFriendAdd(mRecord, chart, newNickName);
+                            return;
+                        }
+                        else {
+                            friendList.get(i).getGroupList().remove(j);
+                            updateFriendAdd(mRecord, chart, newNickName);
+                            return;
                         }
                     }
                 }
             }
         }
-
     }
 
     private static void updateFriendAdd(DataUpdateFriend.RecordBean mRecord, String chart, String newNickName) {
@@ -123,9 +120,11 @@ public class DealUpdateFriend {
                 }
                 else if (i1 == i2){
                     dealTopOneHaveGroup(mRecord,i,chart,newNickName);
+                    return;
                 }
                 else if (i1 == i3){
                     dealTopOneHaveGroup(mRecord,(i+1),chart,newNickName);
+                    return;
                 }
             }
             else if (i1 < i2) {
@@ -138,6 +137,7 @@ public class DealUpdateFriend {
             }
             else if (i1 == i2){
                 dealTopOneHaveGroup(mRecord,i,chart,newNickName);
+                return;
             }
         }
     }

@@ -270,8 +270,9 @@ public class MyApplication extends Application implements IWebSocketPage {
 
         //启动 WebSocket 服务
         Intent intent = new Intent(this, WebSocketService.class);
-        startService(intent);
-
+        boolean webSocketService = isServiceRunning("WebSocketService", MyApplication.getAppContext());
+        if (!webSocketService)
+            startService(intent);
         if (mConnectManager!=null) {
             mConnectManager.onDestroy();
             mConnectManager = null;
@@ -495,7 +496,7 @@ public class MyApplication extends Application implements IWebSocketPage {
             }
         }
 //        try {
-            initReceiver(message);
+        initReceiver(message);
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //        }
@@ -608,7 +609,7 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "modifyGroupingListSend":
                     DealModifyGroupOfList.modifyGroupOfList(this,message.getResponseText());
                     break;
-//                    好友修改其分组\备注推送
+//                    好友修改其分组/备注推送
                 case "modifyFriendListSend":
                     DealModifyFriendList.modifyGroupOfFriend(this,message.getResponseText());
                     break;
@@ -619,7 +620,6 @@ public class MyApplication extends Application implements IWebSocketPage {
 //                    群修改其分组推送
                 case "modifyGroupOfListSend":
                     DealModifyGroupList.modifyGroupOfGroup(this,message.getResponseText());
-                    Log.e("modifyGroupOfListSend","---------------------------------------------------------------------------------------------");
                     break;
 //                    扫码入群推送
                 case "invitationQrCodeGroupListSend":
@@ -629,6 +629,7 @@ public class MyApplication extends Application implements IWebSocketPage {
                 case "invitationGroupListSend":
                     DealGroupInvitation.updateGroupDataByInvitation(this, message.getResponseText());
                     break;
+//                    好友修改Ta的信息
                 case "updateFriendSend":
                     DealUpdateFriend.updateFriend(this,message.getResponseText());
                     break;

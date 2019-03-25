@@ -17,7 +17,6 @@ import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import com.doubleq.xm6leefunz.main_code.ui.about_discovery.ZllActivity;
 
 
 /**
@@ -51,7 +50,7 @@ public class FindFragment extends BaseFragment {
         view = getTopBarView();
         initUI(view);
     }
-//    ConfirmPopWindow confirmPopWindow=null;
+    //    ConfirmPopWindow confirmPopWindow=null;
     @Override
     protected String setFragmentTital() {
         return "朋友圈";
@@ -78,12 +77,12 @@ public class FindFragment extends BaseFragment {
                 startActivity(new Intent(getActivity(), FriendCircleActivity.class));
             }
         });
-        view.findViewById(R.id.find_fuhua).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(), ZllActivity.class));
-            }
-        });
+//        view.findViewById(R.id.find_fuhua).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(getActivity(), ZllActivity.class));
+//            }
+//        });
     }
 
     @Override
@@ -100,7 +99,7 @@ public class FindFragment extends BaseFragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.discover_lin_animal_fuhua, R.id.discover_lin_AI, R.id.discover_lin_animal_shop, R.id.discover_lin_animal_life, R.id.discover_lin_yuyanjia, R.id.discover_lin_gaoBaiQiang, R.id.discover_lin_zhi_addFriend, R.id.discover_lin_app_store, R.id.discover_lin_music, R.id.discover_lin_shiYong, R.id.discover_lin_fangWei, R.id.discover_lin_guangGao})
+    @OnClick({R.id.discover_lin_animal_fuhua, R.id.discover_lin_ai, R.id.discover_lin_animal_shop, R.id.discover_lin_animal_life, R.id.discover_lin_yuyanjia, R.id.discover_lin_gaoBaiQiang, R.id.discover_lin_zhi_addFriend, R.id.discover_lin_app_store, R.id.discover_lin_music, R.id.discover_lin_shiYong, R.id.discover_lin_fangWei, R.id.discover_lin_guangGao})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 //            case R.id.discover_lin_friendcircle:
@@ -109,7 +108,7 @@ public class FindFragment extends BaseFragment {
             case R.id.discover_lin_animal_fuhua:
                 DialogUtils.showDialog("敬请期待！");
                 break;
-            case R.id.discover_lin_AI:
+            case R.id.discover_lin_ai:
                 DialogUtils.showDialog("敬请期待！");
                 break;
             case R.id.discover_lin_animal_shop:

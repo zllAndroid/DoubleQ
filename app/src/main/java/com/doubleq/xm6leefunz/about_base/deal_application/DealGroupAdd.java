@@ -157,7 +157,7 @@ public class DealGroupAdd {
                     String groupManageName = mRecord.getNewGroupManageName();
                     String groupManageId = mRecord.getNewGroupManageId();
                     if (chart != null && chart.equals(groupName)) {
-                        putCacheModify(mRecord, group_info_list, i, groupManageName);
+                        putCacheModify(mRecord, group_info_list, i, chart);
                         return;
                     }
                 }
@@ -311,7 +311,7 @@ public class DealGroupAdd {
                     String groupManageName = mRecord.getGroupManageName();
                     String groupManageId = mRecord.getGroupManageId();
                     if (chart != null && chart.equals(groupName)) {
-                        putCache(mRecord, group_info_list, i, groupManageName);
+                        putCache(mRecord, group_info_list, i, chart);
                         return;
                     }
                 }
@@ -442,17 +442,17 @@ public class DealGroupAdd {
         }
         return Integer.parseInt(sbu.toString());
     }
-    private static void putCache(DataAboutGroup.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String groupManageName) {
+    private static void putCache(DataAboutGroup.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
         DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
-        groupListBean.setGroupName(groupManageName);
+        groupListBean.setGroupName(chart);
         groupListBean.setNickName(mRecord.getGroupName());
         groupListBean.setGroupOfId(mRecord.getGroupId());
         groupListBean.setHeadImg(mRecord.getGroupHeadImg());
         groupListBean.setGroupFenzuId(mRecord.getGroupManageId());
         groupList.add(groupListBean);
         group_info_list.get(i).setGroupList(groupList);
-        group_info_list.get(i).setGroupName(mRecord.getChart());
+        group_info_list.get(i).setGroupName(chart);
         group_info_list.get(i).setGroupId(mRecord.getGroupManageId());
         group_info_list.get(i).setType("2");
 
@@ -469,17 +469,17 @@ public class DealGroupAdd {
         intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
         mContext.sendBroadcast(intent);
     }
-    private static void putCacheModify(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String groupManageName) {
+    private static void putCacheModify(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
         DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
-        groupListBean.setGroupName(groupManageName);
+        groupListBean.setGroupName(chart);
         groupListBean.setNickName(mRecord.getNewGroupName());
         groupListBean.setGroupOfId(mRecord.getGroupId());
         groupListBean.setHeadImg(mRecord.getNewGroupHeadImg());
         groupListBean.setGroupFenzuId(mRecord.getNewGroupManageId());
         groupList.add(groupListBean);
         group_info_list.get(i).setGroupList(groupList);
-        group_info_list.get(i).setGroupName(mRecord.getNewGroupManageName());
+        group_info_list.get(i).setGroupName(chart);
         group_info_list.get(i).setGroupId(mRecord.getNewGroupManageId());
         group_info_list.get(i).setType("2");
 
