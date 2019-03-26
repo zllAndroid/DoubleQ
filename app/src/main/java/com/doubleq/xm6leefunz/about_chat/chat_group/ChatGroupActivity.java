@@ -14,6 +14,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -64,7 +65,9 @@ import com.doubleq.xm6leefunz.about_utils.MathUtils;
 import com.doubleq.xm6leefunz.about_utils.SoftKeyboardUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.about_utils.about_immersive.StateBarUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.about_utils.windowStatusBar;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ChatPopWindow;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_search.DataSearch;
@@ -176,9 +179,22 @@ public class ChatGroupActivity extends BaseActivity {
     CusChatPop cusChatPop;
     String cardName;
     String isChecked = "3";
+
     @Override
-    protected boolean isChat() {
-        return true;
+    protected boolean isChenjinshi() {
+        return false;
+    }
+    @Override
+    protected void initBeforeContentView() {
+        super.initBeforeContentView();
+        WindowBugDeal.SetTop(this);
+        windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+//        StateBarUtils.setFullscreen(this, false, false);
+
+//        设置状态栏字体颜色为浅色（白色）
+        StateBarUtils.setAndroidNativeLightStatusBar(this,false);
+        if (Build.VERSION.SDK_INT >= 21)
+            getWindow().setNavigationBarColor(Color.WHITE);
     }
     @Override
     protected void initBaseView() {

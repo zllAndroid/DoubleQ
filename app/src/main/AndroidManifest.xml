@@ -70,7 +70,7 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-    <!--<application-->
+        <!--<application-->
         <!--android:name=".about_base.MyApplication"-->
         <!--android:allowBackup="true"-->
         <!--android:icon="@mipmap/app_new"-->
@@ -185,12 +185,19 @@
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Mains" />
         <!-- 聊天界面 -->
+        <!--<activity-->
+            <!--android:name=".about_chat.ChatActivity"-->
+            <!--android:launchMode="singleTop"-->
+            <!--android:theme="@style/SwipeBack.Transparent.Theme"-->
+            <!--android:windowSoftInputMode="stateVisible|adjustResize"-->
+            <!--/>-->
         <activity
-            android:name=".about_chat.ChatActivity"
-            android:configChanges="orientation|keyboardHidden|navigation|screenSize"
-            android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize" />
+        android:name=".about_chat.ChatActivity"
+        android:configChanges="orientation|keyboardHidden|navigation|screenSize"
+        android:launchMode="singleTop"
+        android:theme="@style/SwipeBack.Transparent.Theme"
+        android:windowSoftInputMode="stateHidden|adjustResize"
+        />
         <!-- android:windowSoftInputMode="stateHidden|adjustResize" -->
         <activity
             android:name=".about_chat.chat_group.ChatGroupActivity"

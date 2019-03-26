@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.v4.view.ViewPager;
@@ -26,6 +27,9 @@ import com.doubleq.model.DataJieShou;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.about_utils.about_immersive.StateBarUtils;
+import com.doubleq.xm6leefunz.about_utils.about_immersive.StatusBarUtil;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.rance.chatui.R;
 import com.rance.chatui.enity.MessageInfo;
 import com.rance.chatui.util.AudioRecoderUtils;
@@ -36,11 +40,6 @@ import com.zll.websocket.MyWebSocketService;
 
 import org.greenrobot.eventbus.EventBus;
 
-/**
- * 作者：Rance on 2016/12/13 15:19
- * 邮箱：rance935@163.com
- * 输入框管理类
- */
 public class EmotionInputDetector {
 
     private static final String SHARE_PREFERENCE_NAME = "com.dss886.emotioninputdetector";
@@ -129,79 +128,45 @@ public class EmotionInputDetector {
     }
     public EmotionInputDetector bindToEmotionButton(View emotionButton) {
         mEmotionButton=emotionButton;
-//        emotionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                if (mEmotionLayout.getVisibility()==View.VISIBLE) {
-//                if (mEmotionLayout.isShown()) {
-//                    if (isShowAdd) {
-//                        mViewPager.setCurrentItem(0);
-//                        isShowEmotion = true;
-//                        isShowAdd = false;
-//                    } else {
-//                        lockContentHeight();
-//                        hideEmotionLayout(true);
-//                        isShowEmotion = false;
-//                        unlockContentHeightDelayed();
-//                    }
-//                }
-//                else
-//                {
-//                    if (isSoftInputShown()) {
-//                        lockContentHeight();
-//                        hideEmotionLayout(true);
-//                        showEmotionLayout();
-//                        unlockContentHeightDelayed();
-//                    } else {
-//                        showEmotionLayout();
-//                    }
-//                    mViewPager.setCurrentItem(0);
-//                    isShowEmotion = true;
-//                }
-//            }
-//        });
-        mEmotionButton.requestFocus();
-        mEmotionButton.setOnTouchListener(new View.OnTouchListener() {
+        emotionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_DOWN: //手指按下
-                        if (mEmotionLayout.getVisibility()==View.VISIBLE) {
-//                if (mEmotionLayout.isShown()) {
-                            if (isShowAdd) {
-                                mViewPager.setCurrentItem(0);
-                                isShowEmotion = true;
-                                isShowAdd = false;
-                            } else {
-                                lockContentHeight();
-                                hideEmotionLayout(true);
-                                isShowEmotion = false;
-                                unlockContentHeightDelayed();
-                            }
-                        } else {
-                            mViewPager.setCurrentItem(0);
-                            if (isSoftInputShown()) {
-                                lockContentHeight();
-                                showEmotionLayout();
-                                unlockContentHeightDelayed();
-                            } else {
-                                showEmotionLayout();
-                            }
-                            isShowEmotion = true;
-                        }
-
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_POINTER_UP:
-                        break;
-                    case MotionEvent.ACTION_POINTER_DOWN:
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        break;
-                } //end switch
-//                return mEmotionLayout.isShown();
-
-                return false;
+            public void onClick(View v) {
+//                if (mEmotionLayout.getVisibility()==View.VISIBLE) {
+//                是否显示表情
+                if (mEmotionLayout.isShown()) {
+                    if (isShowAdd) {
+//                    在文件状态切换显示表情
+                        mViewPager.setCurrentItem(0);
+                        isShowEmotion = true;
+                        isShowAdd = false;
+                    } else {
+                        lockContentHeight();
+                        hideEmotionLayout(true);
+//                        showEmotionLayout();
+                        unlockContentHeightDelayed();
+//                        mViewPager.setCurrentItem(0);
+                        isShowEmotion = false;
+                        isShowAdd = false;
+                    }
+                }
+                else
+                {
+                    if (isSoftInputShown()) {
+                        lockContentHeight();
+                        showEmotionLayout();
+                        unlockContentHeightDelayed();
+                        mViewPager.setCurrentItem(0);
+                        isShowEmotion = true;
+                        isShowAdd = false;
+                    }else
+                    {
+                        showEmotionLayout();
+                        unlockContentHeightDelayed();
+                        mViewPager.setCurrentItem(0);
+                        isShowEmotion = true;
+                        isShowAdd = false;
+                    }
+                }
             }
         });
         return this;
@@ -212,8 +177,8 @@ public class EmotionInputDetector {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mEmotionLayout.getVisibility()==View.VISIBLE) {
-//                if (mEmotionLayout.isShown()) {
+//                if (mEmotionLayout.getVisibility()==View.VISIBLE) {
+                if (mEmotionLayout.isShown()) {
                     if (isShowEmotion) {
                         mViewPager.setCurrentItem(1);
                         isShowAdd = true;
@@ -221,19 +186,44 @@ public class EmotionInputDetector {
                     } else {
                         lockContentHeight();
                         hideEmotionLayout(true);
-                        isShowAdd = false;
+//                        showEmotionLayout();
                         unlockContentHeightDelayed();
+//                        mViewPager.setCurrentItem(0);
+                        isShowEmotion = false;
+                        isShowAdd = false;
+
+
+//                        lockContentHeight();
+//                        hideEmotionLayout(true);
+//                        isShowAdd = false;
+//                        unlockContentHeightDelayed();
                     }
                 } else {
+
+//                    if (isSoftInputShown()) {
+//                        lockContentHeight();
+//                        showEmotionLayout();
+//                        unlockContentHeightDelayed();
+//                        mViewPager.setCurrentItem(1);
+//                        isShowAdd = true;
+//                        isShowEmotion = false;
+//                    }
+
                     if (isSoftInputShown()) {
                         lockContentHeight();
                         showEmotionLayout();
                         unlockContentHeightDelayed();
-                    } else {
+                        mViewPager.setCurrentItem(1);
+                        isShowEmotion = false;
+                        isShowAdd = true;
+                    }else
+                    {
                         showEmotionLayout();
+                        unlockContentHeightDelayed();
+                        mViewPager.setCurrentItem(1);
+                        isShowEmotion = false;
+                        isShowAdd = true;
                     }
-                    mViewPager.setCurrentItem(1);
-                    isShowAdd = true;
                 }
             }
         });
@@ -398,15 +388,46 @@ public class EmotionInputDetector {
         }
         return false;
     }
+    /**
+     * 隐藏虚拟按键，并且全屏
+     */
+    protected void hideBottomUIMenu() {
 
+        //隐藏虚拟按键，并且全屏
+//        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+//            View v = mActivity.getWindow().getDecorView();
+//            v.setSystemUiVisibility(View.GONE);
+//        } else if (Build.VERSION.SDK_INT >= 19) {
+//            //for new api versions.
+//            View decorView = mActivity.getWindow().getDecorView();
+//            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY ;
+//            decorView.setSystemUiVisibility(uiOptions);
+//        }
+    }
     private void showEmotionLayout() {
         int softInputHeight = getSupportSoftInputHeight();
-        if (softInputHeight == 0) {
-            softInputHeight = sp.getInt(SHARE_PREFERENCE_TAG, 768);
+        int daoHangHeight = StatusBarUtil.getDaoHangHeight(mActivity);
+        if (softInputHeight <50) {
+            softInputHeight = sp.getInt(SHARE_PREFERENCE_TAG, 786);
+            if (!mEmotionLayout.isShown())
+            softInputHeight+=daoHangHeight;
+//            else if (mEmotionLayout.isShown())
+//                softInputHeight-=daoHangHeight;
         }
         mEmotionLayout.getLayoutParams().height = softInputHeight;
         mEmotionLayout.setVisibility(View.VISIBLE);
         hideSoftInput();
+//        int statusBarHeight = WindowBugDeal.getStatusBarHeight(mActivity);
+////        这里我用RelativeLayout布局为列，其他布局设置方法一样，只需改变布局名就行
+//        LinearLayout.LayoutParams layout = (LinearLayout.LayoutParams) mEmotionLayout.getLayoutParams();
+////        获得button控件的位置属性，需要注意的是，可以将button换成想变化位置的其它控件
+//        layout.setMargins(0, 0, 0, -daoHangHeight);
+////        设置button的新位置属性,left，top，right，bottom
+//        mEmotionLayout.setLayoutParams(layout);
+//        StateBarUtils.setFullscreen(mActivity, false, true);
+        mActivity.getWindow().getDecorView().setBackgroundColor(Color.WHITE);
+        hideBottomUIMenu();
 //        mEmotionLayout.getLayoutParams().height = ViewGroup.LayoutParams.WRAP_CONTENT;
     }
 
@@ -443,6 +464,7 @@ public class EmotionInputDetector {
         mEditText.findFocus();
         InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(mEditText, InputMethodManager.SHOW_FORCED);// 显示输入法
+//        hideBottomUIMenu();
 //        mEditText.requestFocus();
 //        mEditText.post(new Runnable() {
 //            @Override
@@ -450,9 +472,26 @@ public class EmotionInputDetector {
 //                mInputManager.showSoftInput(mEditText, 0);
 //            }
 //        });
+
+
+//        if (mActivity != null) {
+//            InputMethodManager imm = (InputMethodManager) mActivity
+//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+//            imm.showSoftInputFromInputMethod(mActivity.getCurrentFocus()
+//                    .getWindowToken(), 0);
+//            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+//        }
     }
 
     public void hideSoftInput() {
+//        if (mActivity != null) {
+//            InputMethodManager imm = (InputMethodManager) mActivity
+//                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+//            if (imm.isActive() && mActivity.getCurrentFocus() != null) {
+//                imm.hideSoftInputFromWindow(mActivity.getCurrentFocus()
+//                        .getWindowToken(), 0);
+//            }
+//        }
         mEditText.clearFocus();
 //        InputMethodManager imm = (InputMethodManager) mActivity.getSystemService(Context.INPUT_METHOD_SERVICE);
 //        imm.hideSoftInputFromWindow(mActivity.getWindow().getDecorView().getWindowToken(), 0);
@@ -460,7 +499,7 @@ public class EmotionInputDetector {
     }
 
     private boolean isSoftInputShown() {
-        return getSupportSoftInputHeight() != 0;
+        return getSupportSoftInputHeight() > 100;
     }
     private boolean isSoftShowing() {
         //获取当前屏幕内容的高度

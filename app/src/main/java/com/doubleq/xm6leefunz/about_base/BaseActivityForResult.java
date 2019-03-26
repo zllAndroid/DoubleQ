@@ -90,6 +90,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
          */
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
+        if (isChenjinshi())
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 //        getWindow().setBackgroundDrawableResource(android.R.color.transparent);// 将 Activity 的背景色取消
@@ -102,6 +103,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         simpleName = getClass().getSimpleName();
 //        ScreenUtils.setWindowStatusBarColor(AppManager.getAppManager().currentActivity(),R.color.red);
+        if (isChenjinshi())
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
 //            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
@@ -386,16 +388,17 @@ public class BaseActivityForResult extends AppCompatActivity  {
     }
 
     protected void initBeforeContentView() {
-        if(isGonesStatus()) {
-            //全屏不显示状态栏导航栏
-            StateBarUtils.setFullscreen(this,false,false);
-        }
-        else {
-            //全屏显示状态栏隐藏导航栏
-            StateBarUtils.setFullscreen(this,true,false);
+        if (isChenjinshi()) {
+            if (isGonesStatus()) {
+                //全屏不显示状态栏导航栏
+                StateBarUtils.setFullscreen(this, false, false);
+            } else {
+                //全屏显示状态栏隐藏导航栏
+                StateBarUtils.setFullscreen(this, true, false);
 //            设置状态栏的颜色
-            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+                windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
 //            StateBarUtils.setFullscreen(this,true,true);
+            }
         }
     }
 
@@ -412,6 +415,9 @@ public class BaseActivityForResult extends AppCompatActivity  {
     //    是否隐藏状态栏，默认不隐藏
     protected boolean isGonesStatus() {
         return false;
+    }
+    protected boolean isChenjinshi() {
+        return true;
     }
     protected boolean isChat() {
         return false;

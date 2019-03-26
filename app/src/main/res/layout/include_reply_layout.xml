@@ -4,9 +4,10 @@
     android:layout_height="match_parent"
     android:clickable="true"
     android:id="@+id/input_lin_main"
+    android:background="@color/white"
     android:orientation="vertical">
 
-    <LinearLayout
+    <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/divider_line" />
@@ -89,13 +90,13 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="1dp"
         android:background="@color/divider_line" />
     <RelativeLayout
         android:id="@+id/emotion_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/bg_content"
+        android:background="@color/white"
         android:orientation="vertical"
         android:visibility="gone"
         >

@@ -108,28 +108,28 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
                 onItemClickListener.onHeaderClick(getDataPosition(),Constants.CHAT_ITEM_TYPE_LEFT,data.getFriendsId());
             }
         });
-        chatItemContentText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent e) {
-                switch (e.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        event = e;
-                        break;
-                    default:
-                        break;
-                }
-                // 如果onTouch返回false,首先是onTouch事件的down事件发生，此时，如果长按，触发onLongClick事件；
-                // 然后是onTouch事件的up事件发生，up完毕，最后触发onClick事件。
-                return true;
-            }
-        });
-        chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                onItemClickListener.onConClick(v,event,getAdapterPosition(),data.getMessage());
-                return false;
-            }
-        });
+//        chatItemContentText.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent e) {
+//                switch (e.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        event = e;
+//                        break;
+//                    default:
+//                        break;
+//                }
+//                // 如果onTouch返回false,首先是onTouch事件的down事件发生，此时，如果长按，触发onLongClick事件；
+//                // 然后是onTouch事件的up事件发生，up完毕，最后触发onClick事件。
+//                return true;
+//            }
+//        });
+//        chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                onItemClickListener.onConClick(v,event,getAdapterPosition(),data.getMessage());
+//                return false;
+//            }
+//        });
 //        chatItemContentText.setTextIsSelectable(true);
         try {
             switch (data.getMessageType())

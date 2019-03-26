@@ -12,6 +12,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -57,10 +58,12 @@ import com.doubleq.xm6leefunz.about_utils.NotificationUtil;
 import com.doubleq.xm6leefunz.about_utils.SoftKeyboardUtils;
 import com.doubleq.xm6leefunz.about_utils.SysRunUtils;
 import com.doubleq.xm6leefunz.about_utils.TimeUtil;
+import com.doubleq.xm6leefunz.about_utils.about_immersive.StateBarUtils;
 import com.doubleq.xm6leefunz.about_utils.about_realm.RealmLinkManHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.CusChatData;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmChatHelper;
 import com.doubleq.xm6leefunz.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.doubleq.xm6leefunz.about_utils.windowStatusBar;
 import com.doubleq.xm6leefunz.main_code.mains.top_pop.ChatPopWindow;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.ChooseGroupActivity;
 import com.doubleq.xm6leefunz.main_code.ui.about_contacts.FriendDataMixActivity;
@@ -68,6 +71,7 @@ import com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity.ChangeI
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -169,15 +173,58 @@ public class ChatActivity extends BaseActivity {
 //        super.onCreate(savedInstanceState);
 //    }
 
+    @Override
+    protected void initBeforeContentView() {
+        super.initBeforeContentView();
+        WindowBugDeal.SetTop(this);
+        windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+//        StateBarUtils.setFullscreen(this, false, false);
+        StateBarUtils.setAndroidNativeLightStatusBar(this,false);
+        if (Build.VERSION.SDK_INT >= 21)
+           getWindow().setNavigationBarColor(Color.WHITE);
+    }
+
     //        设置导航栏颜色
     public void initStateBar() {
-
+//        hideBottomUIMenu();
     }
 
     @Override
-    protected boolean isChat() {
-        return true;
+    protected boolean isChenjinshi() {
+        return false;
     }
+
+    /**
+     * 隐藏虚拟按键，并且全屏
+     */
+    protected void hideBottomUIMenu() {
+        //隐藏虚拟按键，并且全屏
+        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
+            View v = this.getWindow().getDecorView();
+            v.setSystemUiVisibility(View.GONE);
+        } else if (Build.VERSION.SDK_INT >= 19) {
+            //for new api versions.
+            View decorView = getWindow().getDecorView();
+            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
+            decorView.setSystemUiVisibility(uiOptions);
+        }
+
+    }
+//    @Override
+//    protected void initBeforeContentView() {
+//        super.initBeforeContentView();
+//
+//        StateBarUtils.setFullscreen(this,true,false);
+////            设置状态栏的颜色
+//        windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+//    }
+
+//    @Override
+//    protected boolean isChat() {
+//        return true;
+//    }
+
 
     //    好友id
     public static String FriendId = "";
@@ -269,7 +316,6 @@ public class ChatActivity extends BaseActivity {
             }
         });
     }
-
     @OnClick({R.id.include_top_iv_more, R.id.include_top_lin_title, R.id.include_top_iv_drop})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -444,9 +490,9 @@ public class ChatActivity extends BaseActivity {
                 .build();
 
         //获取屏幕高度
-        screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
-        //阀值设置为屏幕高度的1/3
-        keyHeight = screenHeight / 3;
+//        screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
+//        //阀值设置为屏幕高度的1/3
+//        keyHeight = screenHeight / 3;
 //        mInputLin.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View v, MotionEvent event) {
@@ -479,46 +525,58 @@ public class ChatActivity extends BaseActivity {
         chatList.setLayoutManager(layoutManager);
         chatList.setAdapter(chatAdapter);
 
-        chatAdapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(int position) {
-                return false;
-            }
-        });
-        chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                switch (newState) {
-                    case RecyclerView.SCROLL_STATE_IDLE:
-                        chatAdapter.handler.removeCallbacksAndMessages(null);
-                        chatAdapter.notifyDataSetChanged();
-                        break;
-                    case RecyclerView.SCROLL_STATE_DRAGGING:
-                        if (emotionLayout.isShown()) {
-                            emotionLayout.setVisibility(View.GONE);
-                        }
-                        chatAdapter.handler.removeCallbacksAndMessages(null);
-                        mDetector.hideEmotionLayout(false);
-                        mDetector.hideSoftInput();
-                        break;
-                    default:
-                        break;
-                }
-            }
-
-            @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
+//        chatAdapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
+//            @Override
+//            public boolean onItemLongClick(int position) {
+//                return false;
+//            }
+//        });
+//        chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//            @Override
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                switch (newState) {
+//                    case RecyclerView.SCROLL_STATE_IDLE:
+//                        chatAdapter.handler.removeCallbacksAndMessages(null);
+//                        chatAdapter.notifyDataSetChanged();
+//                        break;
+//                    case RecyclerView.SCROLL_STATE_DRAGGING:
+//                        if (emotionLayout.isShown()) {
+//                            emotionLayout.setVisibility(View.GONE);
+//                        }
+//                        chatAdapter.handler.removeCallbacksAndMessages(null);
+//                        mDetector.hideEmotionLayout(false);
+//                        mDetector.hideSoftInput();
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//
+//            @Override
+//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+//                super.onScrolled(recyclerView, dx, dy);
+//            }
+//        });
         chatAdapter.addItemClickListener(itemClickListener);
-
+//        chatList.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.e("chatList",isSoftShowing()+"---"+emotionLayout.isShown());
+//                if (isSoftShowing() || emotionLayout.isShown()) {
+//                    emotionLayout.setVisibility(View.GONE);
+//                    chatAdapter.handler.removeCallbacksAndMessages(null);
+//                    mDetector.hideEmotionLayout(false);
+//                    mDetector.hideSoftInput();
+//                }
+//            }
+//        });
         chatList.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-                    case MotionEvent.ACTION_DOWN: //手指按下
+                if (event.getAction()==MotionEvent.ACTION_DOWN) {
+//                    case MotionEvent.ACTION_DOWN: //手指按下
 //                        点击列表，软键盘或者表情列表存在，则关闭他们；
+                        Log.e("chatList",isSoftShowing()+"---"+emotionLayout.isShown());
                         if (isSoftShowing() || emotionLayout.isShown()) {
                             emotionLayout.setVisibility(View.GONE);
                             chatAdapter.handler.removeCallbacksAndMessages(null);
@@ -526,24 +584,37 @@ public class ChatActivity extends BaseActivity {
                             mDetector.hideSoftInput();
                         }
 //                        initChatPopWindow();
-                        break;
-                    case MotionEvent.ACTION_UP:
-                    case MotionEvent.ACTION_POINTER_UP:
-//                        initChatPopWindow();
-                        break;
-                    case MotionEvent.ACTION_POINTER_DOWN:
-//                        initChatPopWindow();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-//                        initChatPopWindow();
-                        break;
+//                        break;
                 } //end switch
-                return isSoftShowing();
+                return false;
             }
         });
-//        LoadData();
+//        getWindow().getDecorView().setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent motionEvent) {
+//                int top = mInputLinMain.getTop();
+//                int y = (int) motionEvent.getY();
+//                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+//                    Log.e("chatList",isSoftShowing()+"---"+emotionLayout.isShown()+"-----top="+top+"-----y="+y);
+//                    if (absInt(y) < top) {
+//                        if (isSoftShowing() || emotionLayout.isShown()) {
+//                            emotionLayout.setVisibility(View.GONE);
+//                            chatAdapter.handler.removeCallbacksAndMessages(null);
+//                            mDetector.hideEmotionLayout(false);
+//                            mDetector.hideSoftInput();
+//                        }
+//                    }
+//                }
+//                return false;
+//            }
+//        });
     }
-
+    public int absInt(int a) {
+        if (a < 0) {
+            a = -a;
+        }
+        return a;
+    }
     private void sofeDeal() {
         if (isSoftShowing()) {
 //                if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
