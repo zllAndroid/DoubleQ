@@ -18,7 +18,7 @@
             />
     </LinearLayout>
 
-    <com.doubleq.xm6leefunz.about_chat.ui.IndicatorView
+    <com.mding.chatfeng.about_chat.ui.IndicatorView
         android:id="@+id/fragment_chat_group"
         android:layout_width="match_parent"
         android:layout_height="30dp"

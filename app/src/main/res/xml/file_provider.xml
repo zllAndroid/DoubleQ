@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-path name="ext_root" path="Android/data/com.doubleq.xm6leefunz/chat_image" />
+<paths>
+    <external-path name="ext_root" path="Android/data/com.mding.chatfeng/chat_image" />
 </paths>

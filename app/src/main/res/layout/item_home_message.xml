@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout
+<com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipe_layout"
@@ -132,4 +132,4 @@
 
     <!--<include layout="@layout/item_noice" />-->
 
-</com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeItemLayout>
+</com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayout>

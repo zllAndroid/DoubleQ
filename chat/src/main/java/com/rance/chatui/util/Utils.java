@@ -14,8 +14,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 作者：Rance on 2016/12/20 16:41
- * 邮箱：rance935@163.com
+ * 项目：DoubleQ
+ * 文件描述：工具类
+ * 作者：zll
  */
 public class Utils {
     /**

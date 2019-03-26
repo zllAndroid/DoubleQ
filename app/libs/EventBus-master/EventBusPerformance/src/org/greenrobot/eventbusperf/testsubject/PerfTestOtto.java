@@ -24,14 +24,14 @@ import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
 import com.squareup.otto.ThreadEnforcer;
 
+import org.greenrobot.eventbusperf.Test;
+import org.greenrobot.eventbusperf.TestEvent;
+import org.greenrobot.eventbusperf.TestParams;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
-
-import org.greenrobot.eventbusperf.Test;
-import org.greenrobot.eventbusperf.TestEvent;
-import org.greenrobot.eventbusperf.TestParams;
 
 public abstract class PerfTestOtto extends Test {
 

@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/group_chat_lin_main"
-    >
+    android:id="@+id/group_chat_lin_main">
     <include layout="@layout/activity_include_title_bar"/>
 
     <LinearLayout
@@ -125,7 +123,7 @@
                 </LinearLayout>
 
 
-                <com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_custom.LetterBar
+                <com.mding.chatfeng.main_code.ui.about_contacts.about_custom.LetterBar
                     android:layout_height="wrap_content"
                     android:layout_width="@dimen/dp30"
                     android:id="@+id/group_team_letter"

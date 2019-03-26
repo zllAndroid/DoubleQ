@@ -16,9 +16,8 @@
 
 package org.greenrobot.eventbus.indexed;
 
-import org.junit.Before;
-
 import org.greenrobot.eventbus.EventBusSubscriberExceptionTest;
+import org.junit.Before;
 
 public class EventBusSubscriberExceptionTestWithIndex extends EventBusSubscriberExceptionTest {
     @Before

@@ -16,9 +16,8 @@
 
 package org.greenrobot.eventbus.indexed;
 
-import org.junit.Before;
-
 import org.greenrobot.eventbus.EventBusGenericsTest;
+import org.junit.Before;
 
 public class EventBusGenericsTestWithIndex extends EventBusGenericsTest {
     @Before

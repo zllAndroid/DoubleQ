@@ -21,15 +21,14 @@ import android.content.Context;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-
 import org.greenrobot.eventbusperf.MyEventBusIndex;
 import org.greenrobot.eventbusperf.Test;
 import org.greenrobot.eventbusperf.TestEvent;
 import org.greenrobot.eventbusperf.TestParams;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
 
 public abstract class PerfTestEventBus extends Test {
 

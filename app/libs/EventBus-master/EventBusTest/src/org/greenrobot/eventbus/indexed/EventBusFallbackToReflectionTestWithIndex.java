@@ -16,9 +16,8 @@
 
 package org.greenrobot.eventbus.indexed;
 
-import org.junit.Before;
-
 import org.greenrobot.eventbus.EventBusFallbackToReflectionTest;
+import org.junit.Before;
 
 public class EventBusFallbackToReflectionTestWithIndex extends EventBusFallbackToReflectionTest {
     @Before
