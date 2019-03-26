@@ -964,7 +964,8 @@ public class MyApplication extends Application implements IWebSocketPage {
         }else {
             if (!SplitWeb.IS_CHAT_GROUP.equals("2")) {
 //            不在聊天界面收到消息时候的处理
-                setGroupNotify(record);
+                if (record.getDisturbType().equals("1"))
+                    setGroupNotify(record);
             }
             noChatUI(record.getMessage(), record.getGroupId());
         }
@@ -1169,8 +1170,10 @@ public class MyApplication extends Application implements IWebSocketPage {
 //            不在聊天界面收到消息时候的处理
             noChatUI(record.getMessage(),record.getFriendsId());
         }
-        if (!record.getDisturbType().equals("2"))
-            xipinhuanxing(record);
+        if (!record.getDisturbType().equals("2")) {
+            if (record.getDisturbType().equals("1"))
+                xipinhuanxing(record);
+        }
         cusRealmChatMsg.setCreated(Mytime);
         cusRealmChatMsg.setMessage(record.getMessage());
         cusRealmChatMsg.setMessageType(record.getMessageType());

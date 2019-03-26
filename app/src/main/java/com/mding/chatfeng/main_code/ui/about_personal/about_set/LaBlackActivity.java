@@ -42,10 +42,10 @@ public class LaBlackActivity extends BaseActivity {
 //    SwitchButton shareSwitchNo;
 
     String mShare= "1";
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected void initBaseView() {
@@ -70,7 +70,12 @@ public class LaBlackActivity extends BaseActivity {
 
                 if (record!=null)
                 {
-                    initAdapter(record);
+                    try {
+                        if (record.size()>0&&!StrUtils.isEmpty(record.get(0).getUserId()))
+                                initAdapter(record);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
                 break;
             case "removeBlack":
