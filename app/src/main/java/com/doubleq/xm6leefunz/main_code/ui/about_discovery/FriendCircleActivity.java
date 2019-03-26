@@ -26,6 +26,7 @@ import com.doubleq.xm6leefunz.about_utils.HelpUtils;
 import com.doubleq.xm6leefunz.about_utils.about_file.FilePath;
 import com.doubleq.xm6leefunz.about_utils.about_file.HeadFileUtils;
 import com.doubleq.xm6leefunz.main_code.ui.about_discovery.about_discovery_fragment.DiscoveryFriendCircleAdapter;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.io.File;
@@ -34,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class FriendCircleActivity extends BaseActivity {
@@ -42,24 +44,25 @@ public class FriendCircleActivity extends BaseActivity {
     TextView includeTopTvTital;
     @BindView(R.id.friendcircle_recyc)
     RecyclerView tvRecyclerView;
-    @BindView(R.id.include_top_lin_background)
-    LinearLayout includeTopLinBackground;
+    //    @BindView(R.id.include_top_lin_background)
+//    LinearLayout includeTopLinBackground;
     @BindView(R.id.include_top_iv_more)
     ImageView includeTopIvMore;
-    @BindView(R.id.inclu_tv_right)
-    TextView incluTvRight;
-    @BindView(R.id.include_top_lin_newback)
-    LinearLayout includeTopLinNewback;
+    //    @BindView(R.id.inclu_tv_right)
+//    TextView incluTvRight;
+//    @BindView(R.id.include_top_lin_newback)
+//    LinearLayout includeTopLinNewback;
     @BindView(R.id.include_top_lin_right)
     LinearLayout includeTopLinRight;
-    @BindView(R.id.include_top_lin_back)
-    LinearLayout includeTopLinBack;
+    //    @BindView(R.id.include_top_lin_back)
+//    LinearLayout includeTopLinBack;
     @BindView(R.id.include_discover_iv_head)
     ImageView includeDiscoverIvHead;
     @BindView(R.id.include_discover_tv_name)
     TextView includeDiscoverTvName;
 
     String nickName;
+
     @Override
     protected int getLayoutView() {
         return R.layout.activity_friend_circle;
@@ -69,11 +72,11 @@ public class FriendCircleActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         includeTopTvTital.setText("朋友圈");
-        includeTopTvTital.setBackgroundColor(getResources().getColor(R.color.trans));
-        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.trans));
-        includeTopLinNewback.setBackgroundColor(getResources().getColor(R.color.trans));
-        includeTopLinRight.setBackgroundColor(getResources().getColor(R.color.trans));
-        incluTvRight.setVisibility(View.GONE);
+//        includeTopTvTital.setBackgroundColor(getResources().getColor(R.color.trans));
+//        includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.trans));
+//        includeTopLinNewback.setBackgroundColor(getResources().getColor(R.color.trans));
+//        includeTopLinRight.setBackgroundColor(getResources().getColor(R.color.trans));
+//        incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.discover_publish);
         tvRecyclerView.setHasFixedSize(true);
@@ -83,15 +86,22 @@ public class FriendCircleActivity extends BaseActivity {
         initData();
 
     }
+
     @Override
     protected boolean isTopBack() {
-        return true;
+        return false;
     }
 
     @Override
     protected boolean isGones() {
+        return false;
+    }
+
+    @Override
+    protected boolean isGonesStatus() {
         return true;
     }
+
     private void getHead() {
         String userNewHead = FilePath.getUserNewHead(this);
         if (!StrUtils.isEmpty(userNewHead)) {
@@ -153,7 +163,7 @@ public class FriendCircleActivity extends BaseActivity {
         discoveryFriendCircleAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                Toast.makeText(FriendCircleActivity.this, "我是item", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FriendCircleActivity.this, "我是第" + (position+1) + "条朋友圈！" , Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -193,5 +203,10 @@ public class FriendCircleActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+
+    @OnClick(R.id.include_top_lin_newback_discover)
+    public void onViewClicked() {
+        AppManager.getAppManager().finishActivity(this);
     }
 }

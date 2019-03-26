@@ -18,7 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginTop="@dimen/dp10"
             android:orientation="horizontal">
             <LinearLayout
                 android:id="@+id/include_top_lin_newback"
@@ -71,21 +71,20 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-
                 <!--第二部分-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:background="@drawable/orange_bag_background_bottom"
-                    android:paddingTop="@dimen/dp30"
+                    android:paddingTop="@dimen/dp20"
                     android:paddingLeft="@dimen/dp20"
                     android:paddingRight="@dimen/dp20"
                     android:paddingBottom="@dimen/dp20"
                     android:orientation="horizontal">
                     <!--收付宝-->
-
                     <LinearLayout
+                        android:id="@+id/orange_bag_lin_shouFuBao"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -111,8 +110,10 @@
                         android:layout_width="@dimen/dp1"
                         android:layout_height="match_parent"
                         android:background="@color/white"/>
+
                     <!--合计-->
                     <LinearLayout
+                        android:id="@+id/orange_bag_lin_total"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:orientation="vertical"
@@ -152,8 +153,10 @@
                         android:layout_width="@dimen/dp1"
                         android:layout_height="match_parent"
                         android:background="@color/white"/>
+
                     <!--节点投票-->
                     <LinearLayout
+                        android:id="@+id/orange_bag_lin_node"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -289,6 +292,7 @@
                 android:orientation="horizontal">
                 <!--寻“橙”记-->
                 <LinearLayout
+                    android:id="@+id/orange_bag_lin_xunChengJi"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -320,6 +324,7 @@
 
                 <!--喜乐“橙”-->
                 <LinearLayout
+                    android:id="@+id/orange_bag_lin_xiLeCheng"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -351,6 +356,7 @@
 
                 <!--商家送橙-->
                 <LinearLayout
+                    android:id="@+id/orange_bag_lin_shangJiaSongCheng"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -388,6 +394,7 @@
                 android:orientation="horizontal">
                 <!--公益橙-->
                 <LinearLayout
+                    android:id="@+id/orange_bag_lin_gongYiCheng"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -419,6 +426,7 @@
 
                 <!--更多-->
                 <LinearLayout
+                    android:id="@+id/orange_bag_lin_more"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -480,6 +488,7 @@
                 android:orientation="horizontal">
                 <!--硬件钱包-->
                 <LinearLayout
+                    android:id="@+id/orange_bag_lin_wallet"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -502,8 +511,9 @@
                     android:layout_width="@dimen/dp1"
                     android:layout_height="match_parent"
                     android:background="@color/greyf3"/>
-                <!--硬件钱包-->
+                <!--区块浏览器-->
                 <LinearLayout
+                    android:id="@+id/orange_bag_lin_browser"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -534,8 +544,9 @@
                 android:paddingTop="@dimen/dp10"
                 android:paddingBottom="@dimen/dp20"
                 android:orientation="horizontal">
-                <!--硬件钱包-->
+                <!--行情-->
                 <LinearLayout
+                    android:id="@+id/orange_bag_lin_quotes"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -557,8 +568,9 @@
                     android:layout_width="@dimen/dp1"
                     android:layout_height="match_parent"
                     android:background="@color/greyf3"/>
-                <!--硬件钱包-->
+                <!--矿工专区-->
                 <LinearLayout
+                    android:id="@+id/orange_bag_lin_miner"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"

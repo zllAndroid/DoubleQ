@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/dp200"
+    android:layout_height="@dimen/dp220"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/include_top_lin_discover"
     android:background="@drawable/discover_background"
     android:orientation="vertical">
     <LinearLayout
-        android:id="@+id/include_top_lin_background"
+        android:id="@+id/include_top_lin_background_discover"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp10"
         android:background="@drawable/discover_top_background"
         >
         <LinearLayout
-            android:id="@+id/include_top_lin_newback"
+            android:id="@+id/include_top_lin_newback_discover"
             android:layout_width="0dp"
             android:layout_height="@dimen/dp45"
             android:orientation="horizontal"

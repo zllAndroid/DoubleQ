@@ -1,31 +1,23 @@
 package com.doubleq.xm6leefunz.main_code.ui.about_personal.about_activity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.doubleq.xm6leefunz.R;
 import com.doubleq.xm6leefunz.about_base.BaseActivity;
 import com.doubleq.xm6leefunz.about_utils.IntentUtils;
-import com.doubleq.xm6leefunz.about_utils.ZXingUtils;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.PersonData;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class OrangePocketActivity extends BaseActivity {
 
@@ -47,6 +39,7 @@ public class OrangePocketActivity extends BaseActivity {
 //    }
 
     String userId;
+
     @Override
     protected int getLayoutView() {
         return R.layout.activity_orange_pocket;
@@ -57,8 +50,7 @@ public class OrangePocketActivity extends BaseActivity {
         super.initBaseView();
 
         Intent intent = getIntent();
-        if (intent!=null)
-        {
+        if (intent != null) {
             userId = intent.getStringExtra("userId");
         }
 
@@ -94,32 +86,79 @@ public class OrangePocketActivity extends BaseActivity {
         orangeBagTvGongYiCheng.setText(gongYiCheng);
     }
 
-    @OnClick({R.id.orange_bag_lin_only, R.id.orange_bag_lin_sideChain, R.id.orange_bag_tv_xunChengJi, R.id.orange_bag_tv_xiLeCheng, R.id.orange_bag_tv_shangJiaSongCheng, R.id.orange_bag_tv_gongYiCheng})
+    @OnClick({R.id.orange_bag_lin_shouFuBao, R.id.orange_bag_lin_total, R.id.orange_bag_lin_node,
+            R.id.orange_bag_lin_only, R.id.orange_bag_lin_sideChain,
+            R.id.orange_bag_lin_xunChengJi, R.id.orange_bag_lin_xiLeCheng, R.id.orange_bag_lin_shangJiaSongCheng, R.id.orange_bag_lin_gongYiCheng,
+            R.id.orange_bag_lin_more, R.id.orange_bag_lin_wallet, R.id.orange_bag_lin_browser, R.id.orange_bag_lin_quotes, R.id.orange_bag_lin_miner})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+            // 收付宝
+            case R.id.orange_bag_lin_shouFuBao:
+                DialogUtils.showDialog("敬请期待！");
+                break;
+
+            // 合计
+            case R.id.orange_bag_lin_total:
+                DialogUtils.showDialog("敬请期待！");
+                break;
+
+            // 节点投票
+            case R.id.orange_bag_lin_node:
+                DialogUtils.showDialog("敬请期待！");
+                break;
+
+            // Only（奥力橙）
+            case R.id.orange_bag_lin_only:
+                DialogUtils.showDialog("敬请期待！");
+                break;
 
             // 2种侧链资产
             case R.id.orange_bag_lin_sideChain:
-                IntentUtils.JumpToHaveOne(SideChainActivity.class,"userId",userId);
+                IntentUtils.JumpToHaveOne(SideChainActivity.class, "userId", userId);
                 break;
 
             // 寻“橙”记
-            case R.id.orange_bag_tv_xunChengJi:
+            case R.id.orange_bag_lin_xunChengJi:
                 DialogUtils.showDialog("敬请期待！");
                 break;
 
             // 喜乐“橙”
-            case R.id.orange_bag_tv_xiLeCheng:
+            case R.id.orange_bag_lin_xiLeCheng:
                 DialogUtils.showDialog("敬请期待！");
                 break;
 
             // 商家送“橙”
-            case R.id.orange_bag_tv_shangJiaSongCheng:
+            case R.id.orange_bag_lin_shangJiaSongCheng:
                 DialogUtils.showDialog("敬请期待！");
                 break;
 
             // 公益“橙”
-            case R.id.orange_bag_tv_gongYiCheng:
+            case R.id.orange_bag_lin_gongYiCheng:
+                DialogUtils.showDialog("敬请期待！");
+                break;
+
+            // 更多
+            case R.id.orange_bag_lin_more:
+                DialogUtils.showDialog("敬请期待！");
+                break;
+
+            // 硬件钱包
+            case R.id.orange_bag_lin_wallet:
+                DialogUtils.showDialog("敬请期待！");
+                break;
+
+            // 区块浏览器
+            case R.id.orange_bag_lin_browser:
+                DialogUtils.showDialog("敬请期待！");
+                break;
+
+            // 行情
+            case R.id.orange_bag_lin_quotes:
+                DialogUtils.showDialog("敬请期待！");
+                break;
+
+            // 矿工专区
+            case R.id.orange_bag_lin_miner:
                 DialogUtils.showDialog("敬请期待！");
                 break;
         }

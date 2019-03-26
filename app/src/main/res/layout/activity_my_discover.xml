@@ -15,7 +15,8 @@
     </com.doubleq.xm6leefunz.about_custom.about_top_bar.TopBarLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
