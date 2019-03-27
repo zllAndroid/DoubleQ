@@ -784,11 +784,13 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             case R.id.group_details_lin_group_notice:
 
                 break;
+                // 聊天记录
             case R.id.group_details_lin_chat_old:
-
+                DialogUtils.showDialog("敬请期待");
                 break;
+                // 删除聊天记录
             case R.id.group_details_lin_del_chat:
-
+                DialogUtils.showDialog("敬请期待");
                 break;
             case R.id.include_top_iv_zhuanfa:
 
