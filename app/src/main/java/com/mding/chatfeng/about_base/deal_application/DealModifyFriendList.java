@@ -121,7 +121,7 @@ public class DealModifyFriendList {
                     for (int j = 0; j < groupList.size(); j++){
                         String userId = groupList.get(j).getUserId();
                         if (friendsId.equals(userId)){
-                            if((friendList.size()-groupListSize)==1)
+                            if((friendList.size()-groupListSize)==1 && friendList.get(i).getGroupList().size() == 1)
                             {
 //                       TODO      整个数据只有一条数据的情况，删掉本条数据   直接添加type2
                                 friendList.remove(i);
