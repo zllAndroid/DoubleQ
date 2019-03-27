@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
+import android.support.design.widget.TabItem;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.view.KeyEvent;
@@ -85,18 +86,19 @@ public class MainActivity extends BaseActivity {
             intent.setAction("action.addFriend");
             sendBroadcast(intent);
         }
-
+        if (isMain) {
 //        版本更新
-        int localVersion = 0;
-        try {
-            localVersion = HelpUtils.getLocalVersion(MainActivity.this);
-            sendWeb(SplitWeb.appUpdate(""+localVersion));
-        } catch (Exception e) {
-            e.printStackTrace();
+            int localVersion = 0;
+            try {
+                localVersion = HelpUtils.getLocalVersion(MainActivity.this);
+                sendWeb(SplitWeb.appUpdate("" + localVersion));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-
+        isMain=false;
     }
-
+    boolean isMain=true;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);

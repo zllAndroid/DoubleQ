@@ -74,7 +74,6 @@ public class PwdLoginActivity extends BaseActivity {
         mCache = ACache.get(this);
         initUrl();
         listenEnter();
-
         if (intentFilter == null) {
             intentFilter = new IntentFilter();
             intentFilter.addAction("start_application");

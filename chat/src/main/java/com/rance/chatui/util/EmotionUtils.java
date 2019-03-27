@@ -183,7 +183,6 @@ public class EmotionUtils {
 
 //        其他
         EMPTY_GIF_MAP.put("[ok]", R.drawable.emoji_ok);
-        EMPTY_GIF_MAP.put("[Rock]", R.drawable.emoji_rock);
         EMPTY_GIF_MAP.put("[鼓掌]", R.drawable.emoji_guzhang);
         EMPTY_GIF_MAP.put("[祈祷]", R.drawable.emoji_qidao);
         EMPTY_GIF_MAP.put("[手掌]", R.drawable.emoji_shouzhang);
@@ -553,7 +552,6 @@ public class EmotionUtils {
 
 //        其他
         EMOTION_STATIC_MAP.put("[ok]", R.drawable.emoji_ok);
-        EMOTION_STATIC_MAP.put("[Rock]", R.drawable.emoji_rock);
         EMOTION_STATIC_MAP.put("[鼓掌]", R.drawable.emoji_guzhang);
         EMOTION_STATIC_MAP.put("[祈祷]", R.drawable.emoji_qidao);
         EMOTION_STATIC_MAP.put("[手掌]", R.drawable.emoji_shouzhang);
