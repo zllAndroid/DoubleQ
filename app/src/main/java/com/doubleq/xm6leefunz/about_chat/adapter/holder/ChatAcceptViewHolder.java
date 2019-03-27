@@ -14,17 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-import com.doubleq.model.DataJieShou;
-import com.doubleq.xm6leefunz.about_base.web_base.SplitWeb;
-import com.doubleq.xm6leefunz.about_chat.ChatActivity;
-import com.doubleq.xm6leefunz.about_chat.adapter.ChatAdapter;
-import com.doubleq.xm6leefunz.about_chat.chat_group.group_realm.RealmGroupChatHeaderHelper;
-import com.doubleq.xm6leefunz.about_utils.TimeUtil;
-import com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
+import com.mding.chatfeng.about_utils.TimeUtil;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
+import com.mding.model.DataJieShou;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
 import com.rance.chatui.enity.MessageInfo;
@@ -98,7 +92,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
             Glide.with(getContext())
                     .load(data.getHeadImg())
                     .dontAnimate()
-                    .error(com.doubleq.xm6leefunz.R.drawable.mine_head)
+                    .error(R.drawable.mine_head)
                     .bitmapTransform(new CropCircleTransformation(getContext()))
                     .into(chatItemHeader);
         }
