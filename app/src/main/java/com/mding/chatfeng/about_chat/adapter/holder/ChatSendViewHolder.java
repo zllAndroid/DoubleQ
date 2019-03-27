@@ -152,7 +152,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
                 case Constants.CHAT_NO_FRIEND:
                     if (data.getMessage().length()>=14) {
                         SpannableString xunChengJi = new SpannableString(data.getMessage());
-                        xunChengJi.setSpan(new ForegroundColorSpan(Color.parseColor("#1edec9")), 11, 15, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                        xunChengJi.setSpan(new ForegroundColorSpan(Color.parseColor("#1edec8")), 11, 15, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
                         chatItemDate.setText(xunChengJi, null);
                     }else
                     {
