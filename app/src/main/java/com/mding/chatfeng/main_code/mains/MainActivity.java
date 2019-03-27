@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.TabItem;
 import android.support.v4.app.Fragment;
@@ -20,9 +22,12 @@ import com.mding.chatfeng.about_base.MyApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.VersionCheckUtils;
+import com.mding.chatfeng.about_utils.about_immersive.StateBarUtils;
 import com.mding.chatfeng.about_utils.about_immersive.StatusBarUtil;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.mding.chatfeng.about_utils.windowStatusBar;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 
 import java.util.ArrayList;
@@ -45,12 +50,33 @@ public class MainActivity extends BaseActivity {
         return R.layout.activity_main;
     }
 
-    @Override
-    protected boolean isGones() {
-        return true;
-    }
+//    @Override
+//    protected boolean isGones() {
+//        return true;
+//    }
     public static  int stateHight;
     public static  int naigertionHight;
+    @Override
+    protected void initBeforeContentView() {
+        super.initBeforeContentView();
+        WindowBugDeal.SetTop(this);
+        windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+//        StateBarUtils.setFullscreen(this, false, false);
+        StateBarUtils.setAndroidNativeLightStatusBar(this,false);
+        if (Build.VERSION.SDK_INT >= 21)
+            getWindow().setNavigationBarColor(Color.WHITE);
+    }
+
+    //        设置导航栏颜色
+    public void initStateBar() {
+//        hideBottomUIMenu();
+    }
+
+    @Override
+    protected boolean isChenjinshi() {
+        return false;
+    }
+
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -137,33 +163,36 @@ public class MainActivity extends BaseActivity {
             mFragmentList.get(tabIndex).setNewMsgCount(msgCount);
     }
 
-    private List<TabItem> mFragmentList;
+    private List<TabItem> mFragmentList=null;
     private void initUIData() {
+        if(mFragmentList==null) {
+            mFragmentList = new ArrayList<>();
+            mFragmentList.clear();
+            mFragmentList.add(new TabItem(
+                    MsgFragment.class
+            ));
 
-        mFragmentList = new ArrayList<>();
-        mFragmentList.clear();
-        mFragmentList.add(new TabItem(
-                MsgFragment.class
-        ));
+            mFragmentList.add(new TabItem(
+                    LinkManFragment.class
+            ));
 
-        mFragmentList.add(new TabItem(
-                LinkManFragment.class
-        ));
+            mFragmentList.add(new TabItem(
+                    FindFragment.class
+            ));
 
-        mFragmentList.add(new TabItem(
-                FindFragment.class
-        ));
-
-        mFragmentList.add(new TabItem(
-                PersonalFragment.class
-        ));
+            mFragmentList.add(new TabItem(
+                    PersonalFragment.class
+            ));
+        }
     }
-
+    IntentFilter intentFilter=null;
     private void initBro() {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("action.refreshMain");
-        intentFilter.addAction("action.addFriend");
-        registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+        if (intentFilter==null) {
+            intentFilter = new IntentFilter();
+            intentFilter.addAction("action.refreshMain");
+            intentFilter.addAction("action.addFriend");
+            registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+        }
     }
     //    private void initBroc() {
 //        IntentFilter intentFilter = new IntentFilter();

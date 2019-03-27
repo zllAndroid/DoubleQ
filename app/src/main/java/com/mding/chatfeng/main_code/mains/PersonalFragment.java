@@ -280,7 +280,8 @@ public class PersonalFragment extends BaseFragment {
                 fullImageInfo.setWidth(view.getWidth());
                 fullImageInfo.setHeight(view.getHeight());
                 GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-                List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
+                String mPath= FilePath.getAbsPath(FilePath.appPath+ SplitWeb.getUserId()+"/")+"chatHead/";
+                List<String> fileName = FilePath.getFilesAllName(mPath);
                 if (fileName!=null&&fileName.size()>0)
                 {
                     String path=fileName.get(fileName.size()-1);
