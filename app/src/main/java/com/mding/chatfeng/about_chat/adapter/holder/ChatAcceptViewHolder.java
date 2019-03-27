@@ -58,6 +58,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
         this.handler = handler;
         this.isScrolling = isScrolling;
         this.context = context;
+        if (realmLinkFriendHelper==null)
         realmLinkFriendHelper = new RealmLinkFriendHelper(getContext());
     }
     @Override

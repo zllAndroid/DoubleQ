@@ -440,7 +440,15 @@ public class DealGroupAdd {
                 sbu.append((int)chars[i]);
             }
         }
-        return Integer.parseInt(sbu.toString());
+        int i = 0;
+        try {
+            i = Integer.parseInt(sbu.toString());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+
+        return  i;
     }
     private static void putCache(DataAboutGroup.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
