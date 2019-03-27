@@ -26,7 +26,6 @@
                 android:textSize="@dimen/sp16"
                 android:gravity="center"
                 android:text="暂无新成员数据"
-                android:background="@color/grayeee"
                 android:layout_gravity="center"
                 />
 

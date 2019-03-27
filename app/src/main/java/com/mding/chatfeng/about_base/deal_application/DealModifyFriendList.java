@@ -44,7 +44,6 @@ public class DealModifyFriendList {
                 //  1旧：""  新："NewRemarkName"
                 if (isOld(record.getOldRemarkName()) && !isOld(record.getNewRemarkName())){
                     initDataUpdate(asString,record);
-
                     return;
                 }
                 //  2旧："OldRemarkName"  新："NewRemarkName"   OldRemarkName != NewRemarkName
@@ -127,7 +126,7 @@ public class DealModifyFriendList {
 //                       TODO      整个数据只有一条数据的情况，删掉本条数据   直接添加type2
                                 friendList.remove(i);
                                 dealNoChartFriend(mRecord, friendList, friendList.size(), chart);
-                              return;
+                                return;
                             }
                             //  若该字母下只有一个好友
                             if (friendList.get(i).getGroupList().size() == 1){
@@ -197,9 +196,11 @@ public class DealModifyFriendList {
                 }
                 else if (i1 == i2){
                     dealTopOneHaveGroup(mRecord,i,chart,newRemarkName);
+                    return;
                 }
                 else if (i1 == i3){
                     dealTopOneHaveGroup(mRecord,(i+1),chart,newRemarkName);
+                    return;
                 }
             }
             else if (i1 < i2) {
