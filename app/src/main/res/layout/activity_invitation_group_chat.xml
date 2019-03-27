@@ -15,9 +15,7 @@
             android:id="@+id/invitation_lin_nodata"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp120"
-            android:background="@color/grayeee"
-            android:visibility="gone"
-            >
+            android:visibility="gone">
             <TextView
                 android:id="@+id/invitation_tv_nodata"
                 android:layout_width="match_parent"
