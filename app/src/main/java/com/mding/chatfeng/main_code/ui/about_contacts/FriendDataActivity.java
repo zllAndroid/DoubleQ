@@ -45,7 +45,9 @@ import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
- * 位置：联系人-好友资料-界面（好友资料）
+ * 位置：联系人-
+ *
+ * 好友资料-界面（好友资料）
  */
 public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow.OnAddContantClickListener {
 

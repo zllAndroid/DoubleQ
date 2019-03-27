@@ -297,7 +297,8 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
 
     CustomPopWindow popWindow;
 
-    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode, R.id.fd_iv_head, R.id.fd_tv_send_call, R.id.fd_tv_send_msg, R.id.fda_tv_add, R.id.fd_lin_name, R.id.fd_lin_fenzu})
+    @OnClick({R.id.include_top_iv_more, R.id.fd_iv_qrcode, R.id.fd_iv_head, R.id.fd_tv_send_call, R.id.fd_tv_send_msg,
+            R.id.fda_tv_add, R.id.fd_lin_name, R.id.fd_lin_fenzu,R.id.fd_lin_discover})
     public void onViewClicked(View view) {
         switch (view.getId()) {
 //            顶部点点点按钮
@@ -400,6 +401,10 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
             case R.id.fd_lin_name:
                 if (NoDoubleClickUtils.isDoubleClick())
                     doChangeName();
+                break;
+            case R.id.fd_lin_discover:
+                if (NoDoubleClickUtils.isDoubleClick())
+                    DialogUtils.showDialog("敬请期待");
                 break;
         }
     }
