@@ -190,7 +190,7 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
                 //  好友的二维码
                 if (c.equals("1")){
                     substring = qrCode.substring(12);
-                    sendWeb(SplitWeb.addFriendQrCode(substring));
+//                    sendWeb(SplitWeb.addFriendQrCode(substring));
                     IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",substring);
                     AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
                 }

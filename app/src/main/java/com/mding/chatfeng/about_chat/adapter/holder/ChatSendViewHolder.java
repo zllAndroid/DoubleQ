@@ -2,6 +2,9 @@ package com.mding.chatfeng.about_chat.adapter.holder;
 
 import android.graphics.Color;
 import android.os.Handler;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -111,26 +114,26 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
         });
 
 
-        chatItemContentText.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent e) {
-                switch (e.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        event = e;
-                        break;
-                    default:
-                        break;
-                }
-                // 如果onTouch返回false,首先是onTouch事件的down事件发生，此时，如果长按，触发onLongClick事件；
-                // 然后是onTouch事件的up事件发生，up完毕，最后触发onClick事件。
-                return false;
-            }
-        });
+//        chatItemContentText.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View view, MotionEvent e) {
+//                switch (e.getAction()) {
+//                    case MotionEvent.ACTION_DOWN:
+//                        event = e;
+//                        break;
+//                    default:
+//                        break;
+//                }
+//                // 如果onTouch返回false,首先是onTouch事件的down事件发生，此时，如果长按，触发onLongClick事件；
+//                // 然后是onTouch事件的up事件发生，up完毕，最后触发onClick事件。
+//                return false;
+//            }
+//        });
         chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 onItemClickListener.onConClick(getAdapterPosition(),data.getMessage());
-                return true;
+                return false;
             }
         });
 //        chatItemContentText.setTextIsSelectable(true);
@@ -143,6 +146,30 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.VISIBLE);
                     chatItemLayoutContent.setVisibility(View.VISIBLE);
+                    chatItemVoiceTime.setVisibility(View.GONE);
+                    chatItemContentImage.setVisibility(View.GONE);
+                    break;
+                case Constants.CHAT_NO_FRIEND:
+                    if (data.getMessage().length()>=14) {
+                        SpannableString xunChengJi = new SpannableString(data.getMessage());
+                        xunChengJi.setSpan(new ForegroundColorSpan(Color.parseColor("#1edec9")), 11, 15, Spanned.SPAN_INCLUSIVE_INCLUSIVE);
+                        chatItemDate.setText(xunChengJi, null);
+                    }else
+                    {
+                        chatItemDate.setText(data.getMessage(), null);
+                    }
+                    chatItemDate.setVisibility(View.VISIBLE);
+
+                    chatItemDate.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onItemClickListener.onAddFriendClick(true,getAdapterPosition());
+                        }
+                    });
+                    chatItemVoice.setVisibility(View.GONE);
+                    chatItemContentText.setVisibility(View.GONE);
+                    chatItemHeader.setVisibility(View.GONE);
+                    chatItemLayoutContent.setVisibility(View.GONE);
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.GONE);
                     break;

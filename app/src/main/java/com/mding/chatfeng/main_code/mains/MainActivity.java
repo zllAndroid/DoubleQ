@@ -16,6 +16,7 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_base.MyApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.VersionCheckUtils;
@@ -86,7 +87,7 @@ public class MainActivity extends BaseActivity {
             intent.setAction("action.addFriend");
             sendBroadcast(intent);
         }
-        if (isMain) {
+        if (MyApplication.isMain) {
 //        版本更新
             int localVersion = 0;
             try {
@@ -96,9 +97,9 @@ public class MainActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
-        isMain=false;
+        MyApplication.isMain=false;
     }
-    boolean isMain=true;
+
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);

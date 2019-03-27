@@ -812,6 +812,15 @@ public class ChatActivity extends BaseActivity {
                 }
             });
         }
+
+        @Override
+        public void onAddFriendClick(boolean isCancleClick, int position) {
+            DataJieShou.RecordBean item = chatAdapter.getItem(position);
+            if (isCancleClick&&item.getMessageType().equals(Constants.CHAT_NO_FRIEND))
+            {
+                IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",item.getFriendsId());
+            }
+        }
     };
 
     @Override

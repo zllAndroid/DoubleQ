@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.mding.chatfeng">
 
     <!-- 安装更新 -->
@@ -57,7 +58,8 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:ignore="GoogleAppIndexingWarning">
         <meta-data
             android:name="channeltest"
             android:value="1"/>
@@ -280,7 +282,8 @@
         <activity
             android:name=".main_code.ui.about_contacts.about_search.FriendGroupListActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme" />
+            android:theme="@style/SwipeBack.Transparent.Theme"
+            android:windowSoftInputMode="adjustPan"/>
         <!-- 添加好友 -->
         <activity
             android:name=".main_code.ui.about_contacts.about_add.AddGoodFriendActivity"

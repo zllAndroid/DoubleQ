@@ -63,5 +63,6 @@ public class ChatAdapter extends RecyclerArrayAdapter<DataJieShou.RecordBean> {
         void onImageClick(View view, int position);
 
         void onVoiceClick(ImageView imageView, int position);
+        void onAddFriendClick(boolean isCancleClick, int position);
     }
 }

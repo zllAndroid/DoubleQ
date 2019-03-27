@@ -48,7 +48,7 @@ public class FindFragment extends BaseFragment {
 
     @Override
     protected void searchClickEvent() {
-        JumpTo(SearchActivity.class);
+        JumpTo(LoadDataActivity.class);
     }
     @Override
     protected void initBaseUI(View view) {

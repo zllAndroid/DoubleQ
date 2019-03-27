@@ -134,6 +134,15 @@ public class DealFriendAdd {
                 }
             }
             if (isHaveTypeTwo) {
+                for (int i = 0; i < friendList.size(); i++) {
+                    String groupName = friendList.get(i).getGroupName();  //已存在的列表中的分组名
+                    String type = friendList.get(i).getType();  //已存在的列表中的type
+                    if (groupId != null && !groupId.equals("0") && type.equals("1")) {
+                        if (groupManageName != null && groupManageName.equals(groupName)) {
+                            dealTopOneHaveGroup(mRecord, i, groupManageName, "1");
+                        }
+                    }
+                }
                 dealNoChartFriend(mRecord, friendList, friendList.size(), chart);
             }
             else {

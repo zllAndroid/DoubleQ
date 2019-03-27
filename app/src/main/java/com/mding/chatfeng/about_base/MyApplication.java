@@ -102,10 +102,11 @@ public class MyApplication extends Application implements IWebSocketPage {
     public static float screenDensity;
     public static WebSocketServiceConnectManager mConnectManager =null;
     public static ACache aCache;
+    public static  boolean isMain;
     @Override
     public void onCreate() {
         super.onCreate();
-
+         isMain=true;
 //        RxTool.init(this);
         mContext = this;
         mInstance = this;

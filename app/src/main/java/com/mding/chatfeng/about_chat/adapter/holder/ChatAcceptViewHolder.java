@@ -130,6 +130,8 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.GONE);
                     break;
+
+
                 case Constants.CHAT_PICTURE:
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemLayoutContent.setVisibility(View.GONE);
