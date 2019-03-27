@@ -99,9 +99,9 @@ public class LoginActivity extends BaseActivity {
             loginEdPhone.setSelection(userPhone.length());//将光标移至文字末尾
         }
         mCache = ACache.get(this);
-        listenEnter();
         //TODO  获取第一层url
         initUrl();
+        listenEnter();
 
         if (intentFilter == null) {
             intentFilter = new IntentFilter();

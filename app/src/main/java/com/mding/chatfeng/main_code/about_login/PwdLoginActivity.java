@@ -1,13 +1,23 @@
 package com.mding.chatfeng.main_code.about_login;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.CountDownTimer;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.main_code.mains.LoadDataActivity;
 import com.mding.model.DataLogin;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
@@ -16,6 +26,7 @@ import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.main_code.mains.MainActivity;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.mding.model.DataServer;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
@@ -47,7 +58,8 @@ public class PwdLoginActivity extends BaseActivity {
     TextView pwdTvNewResgister;
     @BindView(R.id.pwd_tv_notice)
     TextView pwdTvNotice;
-
+    @BindView(R.id.include_top_lin_newback)
+    LinearLayout mLinBack;
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -58,9 +70,57 @@ public class PwdLoginActivity extends BaseActivity {
         super.initBaseView();
 //        includeTopIvBack.setVisibility(View.INVISIBLE);
         includeTopTvTital.setText("短信登录");
+        mLinBack.setVisibility(View.INVISIBLE);
         mCache = ACache.get(this);
-    }
+        initUrl();
+        listenEnter();
 
+        if (intentFilter == null) {
+            intentFilter = new IntentFilter();
+            intentFilter.addAction("start_application");
+            registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+        }
+    }
+    IntentFilter intentFilter;
+    public BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals("start_application"))
+            {
+                if (!StrUtils.isEmpty(SplitWeb.getUserId()))
+                    sendWeb(SplitWeb.bindUid());
+            }
+        }
+    };
+    private void initUrl() {
+        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.PreRequest, new NetWorkUtlis.OnNetWork() {
+            @Override
+            public void onNetSuccess(String result) {
+                Log.e("result=", result + "---------------------------");
+                DataServer dataServer = JSON.parseObject(result, DataServer.class);
+                String swooleServer = dataServer.getSwooleServer();
+
+                SplitWeb.HttpURL = swooleServer;
+                SPUtils.put(PwdLoginActivity.this, AppConfig.TYPE_URL, swooleServer+"");
+            }
+        });
+    }
+    private void listenEnter() {
+        pwdEdCode.setImeOptions(EditorInfo.IME_ACTION_SEND);
+        pwdEdCode.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEND) {
+                    //处理事件
+                    initCodeLogin();
+                }
+                return false;
+            }
+        });
+    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -78,7 +138,7 @@ public class PwdLoginActivity extends BaseActivity {
 
     @Override
     protected boolean isGones() {
-        return false;
+        return true;
     }
 
     @Override
@@ -171,26 +231,50 @@ public class PwdLoginActivity extends BaseActivity {
     }
 
     private ACache mCache;
-
+    boolean isFirst = false;
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
         String s = HelpUtils.backMethod(responseText);
         if (s.equals("bindUid"))
-            IntentUtils.JumpFinishTo(PwdLoginActivity.this, MainActivity.class);
+        if (!isFirst) {
+//                TODO 修改
+            IntentUtils.JumpFinishTo(PwdLoginActivity.this,LoadDataActivity.class);
+//                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
+        }
+        else
+            IntentUtils.JumpFinishTo(PwdLoginActivity.this,FirstAddHeaderActivity.class);
     }
 
     private void SaveLoginResultData(DataLogin.RecordBean userInfo) {
         String json = JSON.toJSON(userInfo).toString();
         mCache.clear();
         mCache.put(AppAllKey.TOKEN_KEY, json);
-        if (userInfo != null)
+        if (userInfo != null) {
+            String is_first_login = userInfo.getIsFirstLogin();
+            if (is_first_login.equals("1"))
+                isFirst = true;
+            else
+                isFirst = false;
+
             initSetData(userInfo);
-        if (!StrUtils.isEmpty(SplitWeb.getUserId()))
-        sendWeb(SplitWeb.bindUid());
+        }
+//        if (!StrUtils.isEmpty(SplitWeb.getUserId()))
+//        sendWeb(SplitWeb.bindUid());
     }
 
     private void initSetData(DataLogin.RecordBean dataLogin) {
+        SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
+        SPUtils.put(this,AppAllKey.USER_Token,dataLogin.getUserToken());
+
+        SPUtils.put(this, AppConfig.TYPE_NAME,dataLogin.getNickName());
+        SPUtils.put(this,AppConfig.TYPE_NO,dataLogin.getWxSno());
+        SPUtils.put(this,AppConfig.TYPE_PHONE,dataLogin.getWxSno());
+        SPUtils.put(this,AppConfig.User_HEAD_URL,dataLogin.getHeadImg());
+        SPUtils.put(this,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
+
+
+//        SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIpWs());
         SplitWeb.USER_TOKEN = dataLogin.getUserToken();
         SplitWeb.MOBILE = dataLogin.getMobile();
         SplitWeb.QR_CODE = dataLogin.getQrcode();
@@ -199,6 +283,26 @@ public class PwdLoginActivity extends BaseActivity {
         SplitWeb.QR_CODE = dataLogin.getQrcode();
         SplitWeb.WX_SNO = dataLogin.getWxSno();
         SplitWeb.USER_ID = dataLogin.getUserId();
+        SplitWeb.USER_HEADER = dataLogin.getHeadImg();
+        mCache.put(AppAllKey.USER_ID_KEY,dataLogin.getUserId());
+        //TODO 集群
+        try {
+            SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
+            SplitWeb.HTTP_REQUEST = dataLogin.getServerIpHttp();
+            String serverIpWs = dataLogin.getServerIpWs();
+            String serverIpHttp = dataLogin.getServerIpHttp();
+            mCache.remove(AppConfig.TYPE_WS_REQUEST);
+            mCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
+            mCache.remove(AppConfig.TYPE_URL);
+            mCache.put(AppConfig.TYPE_URL,serverIpHttp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //TODO 集群
+        Intent intent = new Intent();
+        intent.setAction("server_application");
+        sendBroadcast(intent);
     }
 
     private CountDownTimer timer = new CountDownTimer(60000, 1000) {
