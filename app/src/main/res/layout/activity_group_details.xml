@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/add_bg"
     android:id="@+id/group_details_lin_main"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
     <!--s搜索后添加群的群聊资料页面-->
     <include layout="@layout/activity_include_title_bar"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.doubleq.xm6leefunz.about_custom.CusScrollView
+        <com.mding.chatfeng.about_custom.CusScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
@@ -495,7 +493,7 @@
                     android:paddingRight="@dimen/dp30"
                     android:text="进入群聊"/>
             </LinearLayout>
-        </com.doubleq.xm6leefunz.about_custom.CusScrollView>
+        </com.mding.chatfeng.about_custom.CusScrollView>
 
 
     </RelativeLayout>

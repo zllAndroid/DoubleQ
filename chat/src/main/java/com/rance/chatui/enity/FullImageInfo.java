@@ -1,8 +1,9 @@
 package com.rance.chatui.enity;
 
 /**
- * 作者：Rance on 2016/12/21 16:22
- * 邮箱：rance935@163.com
+ * 项目：DoubleQ
+ * 文件描述：
+ * 作者：zll
  */
 public class FullImageInfo {
     private int locationX;

@@ -26,11 +26,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.ArrayList;
-
 import org.greenrobot.eventbusperf.testsubject.PerfTestEventBus;
 import org.greenrobot.eventbusperf.testsubject.PerfTestOtto;
+
+import java.util.ArrayList;
 
 public class TestSetupActivity extends Activity {
 

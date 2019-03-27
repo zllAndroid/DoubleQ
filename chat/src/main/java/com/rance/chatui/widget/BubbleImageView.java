@@ -13,12 +13,12 @@ import android.util.TypedValue;
 import android.widget.ImageView;
 
 import com.rance.chatui.R;
-
 /**
- * 作者：Rance on 2016/12/15 10:49
- * 邮箱：rance935@163.com
- * 自定义聊天气泡图片
+ * 项目：DoubleQ
+ * 文件描述：自定义聊天气泡图片
+ * 作者：zll
  */
+
 public class BubbleImageView extends ImageView {
     private BubbleDrawable bubbleDrawable;
     private Drawable sourceDrawable;

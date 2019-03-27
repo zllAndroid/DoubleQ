@@ -73,7 +73,7 @@
             android:scaleType="centerCrop"
             android:src="@mipmap/icon_chat_add" />
 
-        <com.doubleq.xm6leefunz.about_chat.ui.StateButton
+        <com.mding.chatfeng.about_chat.ui.StateButton
             android:id="@+id/emotion_send"
             android:layout_width="40dp"
             android:layout_height="30dp"

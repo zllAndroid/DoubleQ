@@ -6,8 +6,9 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * 作者：Rance on 2016/11/25 16:55
- * 邮箱：rance935@163.com
+ * 项目：DoubleQ
+ * 文件描述：自定义聊天气泡图片
+ * 作者：zll
  */
 public class NoScrollViewPager extends ViewPager {
 

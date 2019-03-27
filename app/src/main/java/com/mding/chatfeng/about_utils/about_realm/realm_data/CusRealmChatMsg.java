@@ -1,0 +1,76 @@
+package com.mding.chatfeng.about_utils.about_realm.realm_data;
+
+import io.realm.RealmObject;
+
+/**
+ * 聊天内容相关的数据
+ */
+
+public  class CusRealmChatMsg extends RealmObject {
+    //    消息存储ID messageStoId varchar 13
+    String  messageStoId;
+    String  sendId;//    发送者ID
+    String  receiveId;//    接收者ID
+    String  messageType;//    消息类型 1文字 2图 3表情 4文件
+    int  userMessageType; //1右 发送，2左 接收
+    String  message; //    消息内容
+
+    String  created; //    发送时间
+
+
+    public String getMessageStoId() {
+        return messageStoId;
+    }
+
+    public void setMessageStoId(String messageStoId) {
+        this.messageStoId = messageStoId;
+    }
+
+    public String getSendId() {
+        return sendId;
+    }
+
+    public void setSendId(String sendId) {
+        this.sendId = sendId;
+    }
+
+    public String getReceiveId() {
+        return receiveId;
+    }
+
+    public void setReceiveId(String receiveId) {
+        this.receiveId = receiveId;
+    }
+
+    public String getMessageType() {
+        return messageType;
+    }
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
+    public int getUserMessageType() {
+        return userMessageType;
+    }
+
+    public void setUserMessageType(int userMessageType) {
+        this.userMessageType = userMessageType;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+
+    public String getCreated() {
+        return created;
+    }
+
+    public void setCreated(String created) {
+        this.created = created;
+    }
+}

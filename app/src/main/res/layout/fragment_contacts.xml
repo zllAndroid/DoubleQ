@@ -7,11 +7,11 @@
     android:orientation="vertical"
     android:background="@color/greyf3"
     android:id="@+id/linkman_lin_top"
-    tools:context="com.doubleq.xm6leefunz.main_code.mains.LinkManFragment">
+    tools:context="com.mding.chatfeng.main_code.mains.LinkManFragment">
 
     <!--title bar-->
     <!--<include layout="@layout/fragment_include_title_bar"/>-->
-    <com.doubleq.xm6leefunz.about_custom.about_top_bar.FragmentTopBarLayout
+    <com.mding.chatfeng.about_custom.about_top_bar.FragmentTopBarLayout
         android:id="@+id/fg_top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -139,12 +139,12 @@
             android:layout_gravity="center"
             android:background="@color/greye5"/>
 
-        <com.doubleq.xm6leefunz.about_custom.CustomViewPager
+        <com.mding.chatfeng.about_custom.CustomViewPager
             android:id="@+id/contacts_viewpager"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-        </com.doubleq.xm6leefunz.about_custom.CustomViewPager>
+        </com.mding.chatfeng.about_custom.CustomViewPager>
 
         <!--<View-->
         <!--android:layout_width="match_parent"-->

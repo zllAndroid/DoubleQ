@@ -10,8 +10,9 @@ import android.provider.Settings;
 import android.support.v7.app.AlertDialog;
 
 /**
- * 作者：Rance on 2016/12/14 11:09
- * 邮箱：rance935@163.com
+ * 项目：DoubleQ
+ * 文件描述：权限工具类
+ * 作者：zll
  */
 public class CheckPermissionUtils {
     // 音频获取源

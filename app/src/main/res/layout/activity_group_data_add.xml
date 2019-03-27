@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/add_bg"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
     <!--s搜索后添加群的群聊资料页面-->
     <include layout="@layout/activity_include_title_bar"/>
 
@@ -16,7 +14,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.doubleq.xm6leefunz.about_custom.CusScrollView
+        <com.mding.chatfeng.about_custom.CusScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -93,7 +91,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:descendantFocusability="blocksDescendants">
-                            <!--<com.doubleq.xm6leefunz.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView-->
+                            <!--<com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView-->
 
                             <android.support.v7.widget.RecyclerView
                                 android:id="@+id/group_data_recyc"
@@ -142,7 +140,7 @@
 
                 </LinearLayout>
             </LinearLayout>
-        </com.doubleq.xm6leefunz.about_custom.CusScrollView>
+        </com.mding.chatfeng.about_custom.CusScrollView>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

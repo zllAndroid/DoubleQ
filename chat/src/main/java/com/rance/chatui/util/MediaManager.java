@@ -6,8 +6,9 @@ import android.media.MediaPlayer.OnCompletionListener;
 import android.media.MediaPlayer.OnErrorListener;
 
 /**
- * 作者：Rance on 2016/12/15 15:11
- * 邮箱：rance935@163.com
+ * 项目：DoubleQ
+ * 文件描述：音视频管理
+ * 作者：zll
  */
 public class MediaManager {
 
