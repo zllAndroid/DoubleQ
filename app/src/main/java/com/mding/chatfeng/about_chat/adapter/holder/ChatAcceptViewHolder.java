@@ -27,7 +27,7 @@ import java.io.File;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-
+//接收
 public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
 
     @BindView(R.id.chat_item_date)
@@ -70,6 +70,13 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
             chatItemDate.setText(TimeUtil.formatDisplayTime(data.getRequestTime(),null));
             chatItemDate.setVisibility(View.VISIBLE);
         }
+
+//        Glide.with(getContext())
+//                .load(data.getHeadImg())
+//                .dontAnimate()
+//                .error(com.mding.chatfeng.R.drawable.mine_head)
+//                .bitmapTransform(new CropCircleTransformation(getContext()))
+//                .into(chatItemHeader);
         String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
         if (imgPath!=null) {
             Uri uri = Uri.fromFile(new File(imgPath));

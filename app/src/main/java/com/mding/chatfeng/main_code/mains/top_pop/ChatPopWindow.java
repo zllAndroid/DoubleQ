@@ -25,6 +25,7 @@ import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoW
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.MyApplication;
 import com.mding.model.CusChatPop;
+import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.suke.widget.SwitchButton;
 
@@ -273,6 +274,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
                 onClickLockListener.Locked(isLocked);
                 onClickBacListener.Clicked("");
                 dismiss();
+                DialogUtils.showDialog("敬请期待");
                 break;
             default:
                 break;
