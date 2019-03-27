@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -47,7 +48,8 @@ public class PwdLoginActivity extends BaseActivity {
     TextView pwdTvNewResgister;
     @BindView(R.id.pwd_tv_notice)
     TextView pwdTvNotice;
-
+    @BindView(R.id.include_top_lin_newback)
+    LinearLayout mLinBack;
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class PwdLoginActivity extends BaseActivity {
         super.initBaseView();
 //        includeTopIvBack.setVisibility(View.INVISIBLE);
         includeTopTvTital.setText("短信登录");
+        mLinBack.setVisibility(View.INVISIBLE);
         mCache = ACache.get(this);
     }
 
@@ -78,7 +81,7 @@ public class PwdLoginActivity extends BaseActivity {
 
     @Override
     protected boolean isGones() {
-        return false;
+        return true;
     }
 
     @Override
