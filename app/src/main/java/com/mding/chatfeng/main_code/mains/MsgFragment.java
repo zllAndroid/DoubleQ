@@ -57,6 +57,10 @@ import static com.mding.chatfeng.about_utils.IntentUtils.JumpTo;
  */
 public class MsgFragment extends BaseFragment {
     public MsgFragment() {}
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(true);
+    }
     View view =null;
     RecyclerView mRecyclerView;
     LinearLayout mLinTop;

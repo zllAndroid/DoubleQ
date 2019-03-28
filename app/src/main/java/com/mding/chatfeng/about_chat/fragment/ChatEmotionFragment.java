@@ -89,6 +89,7 @@ public class ChatEmotionFragment extends ChatBaseFragment {
         int itemWidth = (screenWidth - spacing * 8) / 7;
         //动态计算gridview的总高度
         int gvHeight = itemWidth * 3 + spacing * 6;
+//        int gvHeight = itemWidth * 3;
 
         List<GridView> emotionViews = new ArrayList<>();
         List<String> emotionNames = new ArrayList<>();
@@ -134,6 +135,9 @@ public class ChatEmotionFragment extends ChatBaseFragment {
         gv.setPadding(padding, padding, padding, padding);
         gv.setHorizontalSpacing(padding);
         gv.setVerticalSpacing(padding * 2);
+//        gv.setPadding(0, 0, 0, 0);
+//        gv.setHorizontalSpacing(0);
+//        gv.setVerticalSpacing(padding/8);
         //设置GridView的宽高
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(gvWidth, gvHeight);
         gv.setLayoutParams(params);

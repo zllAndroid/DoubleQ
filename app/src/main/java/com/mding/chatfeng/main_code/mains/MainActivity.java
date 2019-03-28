@@ -7,9 +7,9 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
-import android.support.design.widget.TabItem;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.MyApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_custom.about_cus_dialog.DialogRiskTestUtils;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.VersionCheckUtils;
 import com.mding.chatfeng.about_utils.about_immersive.StateBarUtils;
@@ -50,7 +51,7 @@ public class MainActivity extends BaseActivity {
         return R.layout.activity_main;
     }
 
-//    @Override
+    //    @Override
 //    protected boolean isGones() {
 //        return true;
 //    }
@@ -76,7 +77,7 @@ public class MainActivity extends BaseActivity {
     protected boolean isChenjinshi() {
         return false;
     }
-
+    boolean isLogin = false;
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -112,6 +113,20 @@ public class MainActivity extends BaseActivity {
             intent.putExtra("num", num );
             intent.setAction("action.addFriend");
             sendBroadcast(intent);
+        }
+        Intent intent_dialog = getIntent();
+        if (intent_dialog != null){
+            isLogin = intent_dialog.getBooleanExtra(AppConfig.IS_LOGIN, false);
+            Log.e("MainActivity","--------------------------------------------------------------"+isLogin);
+            if (isLogin){
+                DialogRiskTestUtils.showDialog("风测", getResources().getString(R.string.risk_test), new DialogRiskTestUtils.OnClickSureListener() {
+                    @Override
+                    public void onClickSure() {
+
+                    }
+                });
+                Log.e("MainActivity","--------------------------------------------------------------"+getResources().getString(R.string.risk_test));
+            }
         }
         if (MyApplication.isMain) {
 //        版本更新
@@ -150,6 +165,7 @@ public class MainActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        DialogRiskTestUtils.isShow();
     }
 
     /**
@@ -199,6 +215,7 @@ public class MainActivity extends BaseActivity {
 //        intentFilter.addAction("action.addFriend");
 //        registerReceiver(mRefreshBroadcastReceiver, intentFilter);
 //    }
+
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {

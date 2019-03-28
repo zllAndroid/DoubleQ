@@ -44,6 +44,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:background">@color/graye5</item>
     </style>
+    <style name="style_wei_line_pop">
+        <item name="android:layout_height">@dimen/divider_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginLeft">@dimen/dp10</item>
+        <item name="android:layout_marginRight">@dimen/dp15</item>
+        <item name="android:background">@color/graye5</item>
+    </style>
     <style name="style_chat_pop_line">
         <item name="android:layout_height">@dimen/divider_height</item>
         <item name="android:layout_width">wrap_content</item>

@@ -29,7 +29,10 @@ public class FindFragment extends BaseFragment {
 
     public FindFragment() {
     }
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(true);
+    }
     View view;
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

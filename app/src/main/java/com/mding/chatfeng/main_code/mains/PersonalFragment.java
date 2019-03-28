@@ -65,6 +65,11 @@ public class PersonalFragment extends BaseFragment {
     public PersonalFragment() {
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(true);
+    }
+
     private PopupWindow mNoticePopWindow;
     View view;
     int head;

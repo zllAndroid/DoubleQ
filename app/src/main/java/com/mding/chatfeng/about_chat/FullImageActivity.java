@@ -84,7 +84,7 @@ public class FullImageActivity extends AppCompatActivity {
         fullImage.setTranslationX(mLeft);
         fullImage.setTranslationY(mTop);
         fullImage.animate().scaleX(1).scaleY(1).translationX(0).translationY(0).
-                setDuration(500).setInterpolator(new DecelerateInterpolator()).start();
+                setDuration(200).setInterpolator(new DecelerateInterpolator()).start();
         ObjectAnimator objectAnimator = ObjectAnimator.ofInt(mBackground, "alpha", 0, 180);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.setDuration(500);
@@ -95,10 +95,10 @@ public class FullImageActivity extends AppCompatActivity {
     private void activityExitAnim(Runnable runnable) {
         fullImage.setPivotX(0);
         fullImage.setPivotY(0);
-        fullImage.animate().scaleX(mScaleX).scaleY(mScaleY).translationX(mLeft).translationY(mTop).
+        fullImage.animate().scaleX(1).scaleY(1).translationX(0).translationY(0).
                 withEndAction(runnable).
-                setDuration(500).setInterpolator(new DecelerateInterpolator()).start();
-        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(mBackground, "alpha", 180, 0);
+                setDuration(100).setInterpolator(new DecelerateInterpolator()).start();
+        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(mBackground, "alpha", 180, 180);
         objectAnimator.setInterpolator(new DecelerateInterpolator());
         objectAnimator.setDuration(500);
         objectAnimator.start();

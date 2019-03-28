@@ -10,7 +10,7 @@
             android:id="@+id/fp_tv_qunliao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="@dimen/dp8"
+            android:paddingTop="@dimen/dp10"
             android:paddingBottom="@dimen/dp5"
             android:gravity="center"
             android:layout_weight="1"
@@ -18,7 +18,7 @@
             android:text="创建群聊"
             android:textSize="@dimen/sp14" />
         <View
-            style="@style/style_wei_line"
+            style="@style/style_wei_line_pop"
             />
 
         <TextView
@@ -33,7 +33,7 @@
             android:text="添加好友/群"
             android:textSize="@dimen/sp14" />
         <View
-            style="@style/style_wei_line"
+            style="@style/style_wei_line_pop"
             />
         <TextView
             android:id="@+id/fp_tv_scan"

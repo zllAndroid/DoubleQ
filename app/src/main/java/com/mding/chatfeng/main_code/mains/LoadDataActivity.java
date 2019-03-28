@@ -114,7 +114,8 @@ public class LoadDataActivity extends BaseActivity {
             }
             if (isFriend)
             {
-                IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);
+//                IntentUtils.JumpFinishTo(LoadDataActivity.this,MainActivity.class);
+                IntentUtils.JumpFinishToHaveOneBoolean(LoadDataActivity.this,MainActivity.class,AppConfig.IS_LOGIN,true);
                 overridePendingTransition(0,0);
 //                new Handler().postDelayed(new Runnable(){
 //                    public void run() {

@@ -42,6 +42,15 @@ public class IntentUtils {
         AppManager.getAppManager().finishActivity(activity);
         activity.overridePendingTransition(0,0);
     }
+    public static void JumpFinishToHaveOneBoolean(AppCompatActivity activity, Class<?> resultactivity,String key,boolean value) {
+        Intent intent = new Intent( activity, resultactivity);
+        Bundle bundle = new Bundle();
+        bundle.putBoolean(key,value);
+        intent.putExtras(bundle);
+        activity.startActivity(intent);
+        AppManager.getAppManager().finishActivity(activity);
+        activity.overridePendingTransition(0,0);
+    }
     public static void JumpTo(Class<?> resultactivity) {
         Intent intent = new Intent( activity, resultactivity);
         activity.startActivity(intent);

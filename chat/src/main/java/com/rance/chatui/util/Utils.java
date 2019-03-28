@@ -32,7 +32,7 @@ public class Utils {
     }
 
     /**
-     * 文本中的emojb字符处理为表情图片
+     * 文本中的emoji字符处理为表情图片
      *
      * @param context
      * @param tv

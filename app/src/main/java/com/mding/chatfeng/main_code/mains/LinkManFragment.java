@@ -25,7 +25,10 @@ import static com.mding.chatfeng.about_utils.IntentUtils.JumpTo;
 public class LinkManFragment extends BaseFragment {
 
     public LinkManFragment() {}
-
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(true);
+    }
     View mView =null;
     CustomViewPager mViewpager;
     private SmartTabLayout viewPagerTab;

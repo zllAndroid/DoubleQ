@@ -54,6 +54,9 @@ public class BaseFragment extends Fragment  {
 	}
 
 	View view =null;
+	boolean mIsPrepare = false;		//视图还没准备好
+	boolean mIsVisible= false;		//不可见
+	boolean mIsFirstLoad = true;	//第一次加载
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,6 +67,36 @@ public class BaseFragment extends Fragment  {
 		return view;
 	}
 
+	@Override
+	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		mIsPrepare = true;
+		lazyLoad();
+	}
+
+	@Override
+	public void setUserVisibleHint(boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (isVisibleToUser) {
+			mIsVisible = true;
+			lazyLoad();
+		} else {
+			mIsVisible = false;
+		}
+	}
+	private void lazyLoad() {
+		//这里进行三个条件的判断，如果有一个不满足，都将不进行加载
+		if (!mIsPrepare || !mIsVisible||!mIsFirstLoad) {
+			return;
+		}
+		loadData();
+		//数据加载完毕,恢复标记,防止重复加载
+		mIsFirstLoad = false;
+	}
+
+	private void loadData() {
+		//这里进行网络请求和数据装载
+	}
 	protected void initBaseUI(View view) {
 
 	}
@@ -133,6 +166,17 @@ public class BaseFragment extends Fragment  {
 ////				else
 ////					viewById.setVisibility(View.GONE);
 //		}
+	}
+
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		mIsFirstLoad=true;
+		mIsPrepare=false;
+		mIsVisible = false;
+		if (view != null) {
+			((ViewGroup) view.getParent()).removeView(view);
+		}
 	}
 
 	@Override

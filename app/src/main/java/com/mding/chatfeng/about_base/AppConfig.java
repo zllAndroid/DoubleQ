@@ -11,41 +11,41 @@ public class AppConfig {
 //    public static final String LINK_GROUP_BRO= "link_group";
 
     public static final String  GroupAssistant= "GroupAssistant";//在首页群助手的专属id
-
+    public static final String IS_LOGIN= "isLogin";
     //昵称 账号、签名、手机
     public static final String TYPE_NAME= "name";//
-public static final String TYPE_NO= "no";//
-public static final String TYPE_SIGN= "sign";//
-public static final String TYPE_PHONE= "phone";//
-public static final String TYPE_PSW= "psw";//
-public static final String TYPE_URL= "URL";//
-public static final String TYPE_WS_REQUEST= "ws_requst";//
+    public static final String TYPE_NO= "no";//
+    public static final String TYPE_SIGN= "sign";//
+    public static final String TYPE_PHONE= "phone";//
+    public static final String TYPE_PSW= "psw";//
+    public static final String TYPE_URL= "URL";//
+    public static final String TYPE_WS_REQUEST= "ws_requst";//
 
-public static final String TYPE_METHON= "methon_request";//
+    public static final String TYPE_METHON= "methon_request";//
 
-//    保存图片位置
-public static final String TYPE_FRIEND= "friendimg";//好友头像
-public static final String TYPE_GROUP= "groupimg";//群组头像
-public static final String TYPE_GROUP_CHAT= "groupimgchat";//群组群成员头像
+    //    保存图片位置
+    public static final String TYPE_FRIEND= "friendimg";//好友头像
+    public static final String TYPE_GROUP= "groupimg";//群组头像
+    public static final String TYPE_GROUP_CHAT= "groupimgchat";//群组群成员头像
 
-//    联系人广播
-public static final String LINK_FRIEND_ADD_ACTION= "linkfriend_add";//增加好友
-public static final String LINK_FRIEND_DEL_ACTION= "linkfriend_del";//删除好友
-public static final String LINK_GROUP_ADD_ACTION= "linkgroup_add";//增加好友
-public static final String LINK_GROUP_DEL_ACTION= "linkgroup_del";//删除好友
+    //    联系人广播
+    public static final String LINK_FRIEND_ADD_ACTION= "linkfriend_add";//增加好友
+    public static final String LINK_FRIEND_DEL_ACTION= "linkfriend_del";//删除好友
+    public static final String LINK_GROUP_ADD_ACTION= "linkgroup_add";//增加好友
+    public static final String LINK_GROUP_DEL_ACTION= "linkgroup_del";//删除好友
 
-//    分组管理
-public static final String FRIEND_GROUP_ADD_ACTION= "friendgroup_add";//增加分组
-public static final String FRIEND_GROUP_DELETE_ACTION= "friendgroup_del";//删除分组
-public static final String FRIEND_GROUP_MODIFY_ACTION= "friendgroup_modify";//修改分组
+    //    分组管理
+    public static final String FRIEND_GROUP_ADD_ACTION= "friendgroup_add";//增加分组
+    public static final String FRIEND_GROUP_DELETE_ACTION= "friendgroup_del";//删除分组
+    public static final String FRIEND_GROUP_MODIFY_ACTION= "friendgroup_modify";//修改分组
 
-//    群/好友分组列表  传参
-public static final String KEY_FRIEND_GROUP= "friend_group";
-public static final String VALUE_FRIEND= "1";//"friend";
-public static final String VALUE_GROUP= "2";//"group";
+    //    群/好友分组列表  传参
+    public static final String KEY_FRIEND_GROUP= "friend_group";
+    public static final String VALUE_FRIEND= "1";//"friend";
+    public static final String VALUE_GROUP= "2";//"group";
 
-//MD5消息存储sp
-public static final String KEY_MD5= "md5";//"md5";
+    //MD5消息存储sp
+    public static final String KEY_MD5= "md5";//"md5";
     //    notification
     //     类型
     public static final String TYPE_NOTICE= "notice";//好友通知
@@ -84,7 +84,7 @@ public static final String KEY_MD5= "md5";//"md5";
 
     public static final String LINKMAN_FRIEND_NUM= "friendNum";//联系人好友 界面的数量
 
-//1文字 2图片 3表情 4文件
+    //1文字 2图片 3表情 4文件
     public static final String SEND_MESSAGE_TYPE_TEXT= "1";//消息类型
     public static final String SEND_MESSAGE_TYPE_IMG= "2";//消息类型
     public static final String SEND_MESSAGE_TYPE_EMONI= "3";//消息类型

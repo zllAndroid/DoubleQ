@@ -158,7 +158,7 @@ public class DealFriendAdd {
                     }
                     // type2   首字母不为空 && 首字母与已存在的列表中的分组名相同 && type为2
                     if (chart != null && chart.equals(groupName) && type.equals("2")) {
-                        dealTopOneHaveGroup(mRecord, i, groupName, "2");
+                        dealTopOneHaveGroup(mRecord, i, chart, "2");
                         saveData();
                         isTopTwo = false;
                     }
@@ -223,7 +223,7 @@ public class DealFriendAdd {
         groupList.add(groupListBean);
         friendList.get(i).setGroupList(groupList);
         friendList.get(i).setType(type);
-        friendList.get(i).setGroupName(mRecord.getGroupName());
+        friendList.get(i).setGroupName(groupName);
         friendList.get(i).setGroupId(mRecord.getGroupId());
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
