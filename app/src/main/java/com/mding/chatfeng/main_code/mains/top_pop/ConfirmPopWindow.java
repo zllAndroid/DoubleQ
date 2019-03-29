@@ -55,7 +55,10 @@ public class ConfirmPopWindow extends PopupWindow implements View.OnClickListene
         ColorDrawable dw = new ColorDrawable(0x00000000);
         //设置SelectPicPopupWindow弹出窗体的背景
         this.setBackgroundDrawable(dw);
-        backgroundAlpha((Activity) context, 0.8f);//0.0-1.0
+//        黑色透明背景
+//        backgroundAlpha((Activity) context, 0.8f);//0.0-1.0
+//        设置为全透明背景，相当于无背景
+        backgroundAlpha((Activity) context, 1f);//0.0-1.0
         this.setOnDismissListener(new OnDismissListener() {
             @Override
             public void onDismiss() {

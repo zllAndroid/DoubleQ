@@ -119,7 +119,9 @@ public class MainActivity extends BaseActivity {
             isLogin = intent_dialog.getBooleanExtra(AppConfig.IS_LOGIN, false);
             Log.e("MainActivity","--------------------------------------------------------------"+isLogin);
             if (isLogin){
-                DialogRiskTestUtils.showDialog("风测", getResources().getString(R.string.risk_test), new DialogRiskTestUtils.OnClickSureListener() {
+                DialogRiskTestUtils.showDialog(getResources().getString(R.string.risk_test_title), getResources().getString(R.string.risk_test),
+                        getResources().getString(R.string.risk_test_organization), getResources().getString(R.string.risk_test_time),
+                        new DialogRiskTestUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
 

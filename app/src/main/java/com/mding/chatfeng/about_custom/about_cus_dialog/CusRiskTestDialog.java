@@ -23,9 +23,13 @@ public class CusRiskTestDialog extends Dialog {
     private Button mNegativeBtn;
     private TextView tvTitle;
     private TextView tvContent;
+    private TextView tvOrganization;
+    private TextView tvTime;
 
     private String mTitle;
     private String mContent;
+    private String mOrganization;
+    private String mTime;
     private String positiveButtonText;
     private String negativeButtonText;
     private OnClickListener positiveButtonClickListener;
@@ -46,6 +50,8 @@ public class CusRiskTestDialog extends Dialog {
         mNegativeBtn = findViewById(R.id.btn_dialog_negative);
         tvTitle = findViewById(R.id.dialog_tv_title);
         tvContent = findViewById(R.id.dialog_tv_content);
+        tvOrganization = findViewById(R.id.dialog_tv_organization);
+        tvTime = findViewById(R.id.dialog_tv_time);
 
 
         if (positiveButtonText != null){
@@ -83,14 +89,24 @@ public class CusRiskTestDialog extends Dialog {
         if (mContent != null){
             tvContent.setText(mContent);
         }
+
+        if (mOrganization != null){
+            tvOrganization.setText(mOrganization);
+        }
+
+        if (mTime != null){
+            tvTime.setText(mTime);
+        }
     }
     protected static Context mContext() {
         return AppManager.getAppManager().currentActivity();
     }
 
-    private void setMessage(String title,String content){
+    private void setMessage(String title,String content, String organization, String time){
         mTitle = title;
         mContent= content;
+        mOrganization= organization;
+        mTime= time;
     }
 
     private void setPositiveButtonText(String text){
@@ -112,6 +128,8 @@ public class CusRiskTestDialog extends Dialog {
         private Context context;
         private String title;
         private String content;
+        private String time;
+        private String organization;
         private String positiveButtonText;
         private String negativeButtonText;
         private OnClickListener positiveButtonClickListener;
@@ -121,9 +139,11 @@ public class CusRiskTestDialog extends Dialog {
             this.context = context;
         }
 
-        public Builder setMessage(String title,String content){
+        public Builder setMessage(String title,String content,String organization, String time){
             this.title = title;
             this.content = content;
+            this.organization = organization;
+            this.time = time;
             return this;
         }
 
@@ -171,7 +191,7 @@ public class CusRiskTestDialog extends Dialog {
             dialog.getWindow().setGravity(Gravity.CENTER);
             dialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
             dialog.getWindow().setDimAmount((float) 0.3);
-            dialog.setMessage(title,content);
+            dialog.setMessage(title,content,organization,time);
             dialog.setNegativeButtonText(negativeButtonText);
             dialog.setPositiveButtonText(positiveButtonText);
             dialog.setOnNegativeListener(negativeButtonClickListener);

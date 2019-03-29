@@ -52,16 +52,16 @@ public class DialogRiskTestUtils {
             e.printStackTrace();
         }
     }
-    public static void showDialog(String text,String text_second,OnClickSureListener onClickSureListener){
+    public static void showDialog(String text,String text_second,String organization, String time,OnClickSureListener onClickSureListener){
         haveShow();
-        show(text,text_second,onClickSureListener);
+        show(text,text_second,organization,time,onClickSureListener);
     }
     static DialogInterface dialogs =null;
-    protected static void show(final String text, final String text_second,final  OnClickSureListener onClickSureListener) {
+    protected static void show(final String text, final String text_second,String organization, String time,final  OnClickSureListener onClickSureListener) {
         if (BUILDER == null)
             BUILDER = new CusRiskTestDialog.Builder(mContext());
 
-        BUILDER.setMessage(text,text_second);
+        BUILDER.setMessage(text,text_second,organization,time);
         BUILDER.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -91,13 +91,13 @@ public class DialogRiskTestUtils {
     }
 
     protected static void custom() {
-//        try {
+        try {
             cusRiskTestDialog = BUILDER.create();
             cusRiskTestDialog.setCancelable(false);
             cusRiskTestDialog.show();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

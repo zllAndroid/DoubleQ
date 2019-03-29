@@ -78,9 +78,10 @@
     <color name="black_half_trans">#66000000</color>
     <color name="black_trans">#33000000</color>
 
-    <color name="transparent">#00000000</color>
+    <color name="trans_all">#ffffffff</color>
     <color name="trans77">#77ffffff</color>
     <color name="trans">#00ffffff</color>
+    <color name="transparent">#00000000</color>
 
     <!--<color name="orangef32">#f32207</color>-->
     <!--<color name="orangee06">#e0620d</color>-->

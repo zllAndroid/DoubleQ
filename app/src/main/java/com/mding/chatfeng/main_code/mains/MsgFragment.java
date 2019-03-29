@@ -41,6 +41,7 @@ import com.mding.chatfeng.main_code.mains.top_pop.data_bus.BusDataGroupOrFriend;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
+import com.zll.websocket.Response;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -157,7 +158,7 @@ public class MsgFragment extends BaseFragment {
     }
 
     LinearLayout mLinNet;
-//    ConfirmPopWindow confirmPopWindow=null;
+    //    ConfirmPopWindow confirmPopWindow=null;
     private void initFriend(final  View view) {
 //        view.findViewById(R.id.include_frag_img_add).setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -584,13 +585,12 @@ public class MsgFragment extends BaseFragment {
             isZero=false;
         }
         if (item.getType().equals("1")) {
-
-            //                            点击进入详情后，消息个数清零
+            // 点击进入详情后，消息个数清零
             item.setNum(0);
             realmHelper.updateNumZero(item.getFriendId());
             if (msgAdapter!=null)
                 msgAdapter.notifyItemChanged(position);
-//                            mRecyclerView.smoothScrollToPosition(0);
+//            mRecyclerView.smoothScrollToPosition(0);
             // 好友
             CusJumpChatData cusJumpChatData = new CusJumpChatData();
             cusJumpChatData.setFriendHeader(item.getHeadImg());
@@ -603,7 +603,7 @@ public class MsgFragment extends BaseFragment {
             item.setNum(0);
             realmHelper.updateNumZero(item.getFriendId());
             msgAdapter.notifyItemChanged(position);
-//                            mRecyclerView.smoothScrollToPosition(0);
+//            mRecyclerView.smoothScrollToPosition(0);
             CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
             cusJumpGroupChatData.setGroupId(item.getFriendId());
             cusJumpGroupChatData.setGroupName(item.getNickName());
