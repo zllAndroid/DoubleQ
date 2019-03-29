@@ -2,45 +2,49 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     >
 
     <LinearLayout
-        android:layout_width="@dimen/dp280"
-        android:layout_height="@dimen/dp400"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/dialog_risk_test_background_nor"
+        android:layout_marginLeft="@dimen/dp30"
+        android:layout_marginRight="@dimen/dp30"
         android:orientation="vertical">
+
 
         <TextView
             android:id="@+id/dialog_tv_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp60"
             android:text="通知"
             android:textSize="@dimen/sp18"
             android:padding="@dimen/dp10"
-            android:gravity="center"
+            android:gravity="center|top"
             android:textColor="@color/white"
-            android:layout_marginTop="@dimen/dp10"
-            android:layout_gravity="center" />
+            android:background="@drawable/dialog_risk_test_background_topses"
+            android:layout_gravity="" />
         <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="@dimen/dp30"
-            android:layout_marginRight="@dimen/dp30"
-            android:layout_marginTop="@dimen/dp30"
+            android:layout_height="@dimen/dp350"
+            android:paddingLeft="@dimen/dp30"
+            android:paddingRight="@dimen/dp30"
+            android:paddingTop="@dimen/dp10"
+            android:background="@color/white"
             android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
+
                 <TextView
                     android:id="@+id/dialog_tv_content"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="这是封闭式测试的内容！请注意！！"
-                    android:textSize="@dimen/sp15"/>
+                    android:layout_height="379dp"
+                    android:text="@string/risk_test"
+                    android:textSize="@dimen/sp15" />
                 <TextView
                     android:id="@+id/dialog_tv_organization"
                     android:layout_width="match_parent"
@@ -64,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:gravity="center"
+            android:background="@color/white"
             android:orientation="horizontal">
             <Button
                 android:id="@+id/btn_dialog_negative"
@@ -82,14 +87,14 @@
 
             <Button
                 android:id="@+id/btn_dialog_positive"
-                android:layout_width="wrap_content"
+                android:layout_width="160dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/bac_dialog_btn"
+                android:background="@drawable/btn_stroke_sel"
                 android:text="确定"
                 android:textColor="@color/white"
                 android:layout_marginBottom="@dimen/dp20"
                 android:layout_marginTop="@dimen/dp20"
-                android:textSize="@dimen/sp16" />
+                android:textSize="17sp" />
 
         </LinearLayout>
 

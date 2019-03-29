@@ -211,7 +211,8 @@ public class MyApplication extends Application implements IWebSocketPage {
         String asString = aCache.getAsString(AppConfig.TYPE_WS_REQUEST);
         if (StrUtils.isEmpty(asString))
         {
-            ToastUtil.show("系统错误，请联系管理员...");
+            // TODO   Toast
+//            ToastUtil.show("系统错误，请联系管理员...");
             return;
         }
         WebSocketSetting.setConnectUrl(asString);//必选
@@ -258,7 +259,8 @@ public class MyApplication extends Application implements IWebSocketPage {
         String asString = aCache.getAsString(AppConfig.TYPE_WS_REQUEST);
         if (StrUtils.isEmpty(asString))
         {
-            ToastUtil.show("系统错误，请联系管理员...");
+            // TODO  Toast
+//            ToastUtil.show("系统错误，请联系管理员...");
             return;
         }
         WebSocketSetting.setConnectUrl(asString);//必选

@@ -202,8 +202,7 @@ public class ChatSetActivity extends BaseActivity {
                 break;
 
             case R.id.chatset_lin_chat_history:
-
-
+                DialogUtils.showDialog(getResources().getString(R.string.coming_soon));
                 break;
             case R.id.chatset_lin_del_chat_history:
                 DialogUtils.showDialog("确定删除与该好友的聊天记录？", new DialogUtils.OnClickSureListener() {

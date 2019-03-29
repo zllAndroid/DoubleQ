@@ -26,6 +26,7 @@ import com.mding.chatfeng.about_utils.ZXingUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.PersonData;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
@@ -157,8 +158,10 @@ public class QunCodeActivity extends BaseActivity {
                 {
                     new Thread(runnable).start();
                 }
+                DialogUtils.showDialog(getResources().getString(R.string.coming_soon));
                 break;
             case R.id.quncode_tv_share:
+                DialogUtils.showDialog(getResources().getString(R.string.coming_soon));
                 break;
         }
     }

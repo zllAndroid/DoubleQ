@@ -179,10 +179,12 @@ public class NoticeActivity extends BaseActivity {
 //                                AppManager.getAppManager().finishActivity();
                                 break;
                             case "1":
-                                ToastUtil.show("已经操作过，不能重复操作");
+                                // TODO
+//                                ToastUtil.show("已经操作过，不能重复操作");
                                 break;
                             case "2":
-                                ToastUtil.show("已经操作过，不能重复操作");
+                                // TODO
+//                                ToastUtil.show("已经操作过，不能重复操作");
                                 break;
                         }
 
