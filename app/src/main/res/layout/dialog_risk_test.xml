@@ -42,7 +42,7 @@
                 <TextView
                     android:id="@+id/dialog_tv_content"
                     android:layout_width="match_parent"
-                    android:layout_height="379dp"
+                    android:layout_height="wrap_content"
                     android:text="@string/risk_test"
                     android:textSize="@dimen/sp15" />
                 <TextView
