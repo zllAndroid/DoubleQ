@@ -3,9 +3,11 @@ package com.mding.chatfeng.main_code.about_login;
 import android.Manifest;
 import android.app.Service;
 import android.content.ComponentName;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
@@ -26,12 +28,15 @@ import com.mding.chatfeng.main_code.mains.LoadDataActivity;
 import com.mding.chatfeng.main_code.mains.MainActivity;
 import com.mding.chatfeng.main_code.mains.top_pop.WindowService;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.mding.sql.DBgreatTable;
+import com.mding.sql.TotalEntry;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -81,6 +86,15 @@ public class AppStartActivity extends BaseActivity {
 //
 //        serviceConnection = new MyServiceConnection();
 //        initNetReceive();
+//        TODO 测试创建数据库，添加一条数据在home_msg表
+        DBgreatTable dBgreatTable = new DBgreatTable(this);
+        SQLiteDatabase writableDatabase = dBgreatTable.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("userId","1234");
+        values.put("friendId","456");
+        writableDatabase.insert(TotalEntry.TABLE_NAME_Msg,null,values);
+
+//        SQLiteDatabase   db= (new DBgreatTable(this)).getWritableDatabase();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             AppStartActivityPermissionsDispatcher.needWithCheck(this);
 //            need();

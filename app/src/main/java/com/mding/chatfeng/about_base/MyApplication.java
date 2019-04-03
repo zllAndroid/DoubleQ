@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -58,6 +59,7 @@ import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.mains.MsgFragment;
+import com.mding.sql.DBgreatTable;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
@@ -136,9 +138,10 @@ public class MyApplication extends Application implements IWebSocketPage {
         }
 //        initOneService();
         initRealm();
-
+         db= (new DBgreatTable(this)).getWritableDatabase();
         initRunnable();
     }
+    SQLiteDatabase   db;
     //    private Handler handler = new Handler();
     private void initRunnable() {
 

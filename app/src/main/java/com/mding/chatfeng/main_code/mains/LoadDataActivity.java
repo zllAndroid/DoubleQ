@@ -1,5 +1,6 @@
 package com.mding.chatfeng.main_code.mains;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
 import android.os.CountDownTimer;
 
@@ -19,6 +20,8 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataLi
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.mding.sql.DBgreatTable;
+import com.mding.sql.TotalEntry;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
@@ -41,11 +44,13 @@ public class LoadDataActivity extends BaseActivity {
 
     ACache aCache;
     RealmLinkFriendHelper realmLinkFriendHelper;
+    SQLiteDatabase db;
     @Override
     protected void initBaseView() {
         super.initBaseView();
 
         aCache =  ACache.get(this);
+         db= (new DBgreatTable(this)).getWritableDatabase();
         realmLinkFriendHelper = new RealmLinkFriendHelper(this);
 //        ElectricFanLoadingRenderer.Builder builder = new ElectricFanLoadingRenderer.Builder(this);
 //        electricFanView.setLoadingRenderer(builder.build());
@@ -258,7 +263,10 @@ public class LoadDataActivity extends BaseActivity {
 //                                    这里拿到的resource就是下载好的文件，
                         File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, friendId, modified);
                         if (isSame)
+                        {
+//                            db.insert(TotalEntry.)
                             realmLinkFriendHelper.updateHeadPath(friendId, file.toString(), headImg, modified);
+                        }
                         else
                         {
                             CusDataLinkFriend linkFriend = new CusDataLinkFriend();

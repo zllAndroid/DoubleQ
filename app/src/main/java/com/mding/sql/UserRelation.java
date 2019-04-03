@@ -11,7 +11,7 @@ package com.mding.sql;
  */
 public class UserRelation {
 
-    public static String _USER_ID ="userid";
+    public static String _USER_ID ="userId";
     String friendId;//好友id
 
     String groupId;//对应好友分组id 关联表t_group_manage
@@ -31,4 +31,21 @@ public class UserRelation {
     String modified;//修改时间
 
     String recordTime;//清除聊天记录的时间
+
+    public static String toUserRelationEntryString(){
+        return
+                        "friendId" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "groupId" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "status" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "remarkName" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "shieldType" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "queueType" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "disturbType" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "nickName" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "topType" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "headImg" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "created" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "modified" + TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +
+                        "recordTime" + TotalEntry.TEXT_TYPE ;
+    }
 }

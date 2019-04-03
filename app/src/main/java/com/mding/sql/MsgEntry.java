@@ -44,6 +44,119 @@ public class MsgEntry {
 
 
   private String groupNumMsg;//有几个群有新消息
+
+  public static String getUserId() {
+    return _USER_ID;
+  }
+
+  public static void setUserId(String UserId) {
+    _USER_ID = UserId;
+  }
+
+  public String getFriendId() {
+    return friendId;
+  }
+
+  public void setFriendId(String friendId) {
+    this.friendId = friendId;
+  }
+
+  public String getType() {
+    return type;
+  }
+
+  public void setType(String type) {
+    this.type = type;
+  }
+
+  public String getNickName() {
+    return nickName;
+  }
+
+  public void setNickName(String nickName) {
+    this.nickName = nickName;
+  }
+
+  public String getHeadImg() {
+    return headImg;
+  }
+
+  public void setHeadImg(String headImg) {
+    this.headImg = headImg;
+  }
+
+  public String getTime() {
+    return time;
+  }
+
+  public void setTime(String time) {
+    this.time = time;
+  }
+
+  public int getNum() {
+    return num;
+  }
+
+  public void setNum(int num) {
+    this.num = num;
+  }
+
+  public String getMsg() {
+    return msg;
+  }
+
+  public void setMsg(String msg) {
+    this.msg = msg;
+  }
+
+  public String getIsShield() {
+    return isShield;
+  }
+
+  public void setIsShield(String isShield) {
+    this.isShield = isShield;
+  }
+
+  public String getBannedType() {
+    return bannedType;
+  }
+
+  public void setBannedType(String bannedType) {
+    this.bannedType = bannedType;
+  }
+
+  public String getAssistantType() {
+    return assistantType;
+  }
+
+  public void setAssistantType(String assistantType) {
+    this.assistantType = assistantType;
+  }
+
+  public String getOperationType() {
+    return operationType;
+  }
+
+  public void setOperationType(String operationType) {
+    this.operationType = operationType;
+  }
+
+  public String getTopType() {
+    return topType;
+  }
+
+  public void setTopType(String topType) {
+    this.topType = topType;
+  }
+
+  public String getGroupNumMsg() {
+    return groupNumMsg;
+  }
+
+  public void setGroupNumMsg(String groupNumMsg) {
+    this.groupNumMsg = groupNumMsg;
+  }
+
   public static String toMsgEntryString(){
     return
                     "friendId" +  TotalEntry.TEXT_TYPE + TotalEntry.COMMA_SEP  +

@@ -10,8 +10,12 @@ package com.mding.sql;
  * 修改备注：
  */
 public class TotalEntry {
-    public static final String TEXT_TYPE = "TEXT";
+    public static final String _USER_ID ="userId";
+    public static final String TEXT_TYPE = "";
+//    public static final String TEXT_TYPE = "TEXT";
     public static final String COMMA_SEP = ",";
     //首页消息表名
     public static String TABLE_NAME_Msg ="home_msg";
+    public static String TABLE_NAME_Private_chat ="private_chat";
+    public static String TABLE_NAME_user_relation ="user_relation";
 }

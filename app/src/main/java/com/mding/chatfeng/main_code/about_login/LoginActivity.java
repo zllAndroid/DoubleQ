@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -16,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.mding.model.DataLogin;
 import com.mding.model.DataServer;
 import com.mding.chatfeng.R;
@@ -26,12 +30,17 @@ import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.main_code.mains.LoadDataActivity;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.mding.sql.DBgreatTable;
+import com.mding.sql.MsgEntry;
+import com.mding.sql.SqlUtils;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -82,6 +91,8 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
+        initSQL();
+//        writableDatabase.query("home_msg",null,"id",null,null,null,null);
 //        includeTopIvBack.setVisibility(View.INVISIBLE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -109,6 +120,28 @@ public class LoginActivity extends BaseActivity {
             registerReceiver(mRefreshBroadcastReceiver, intentFilter);
         }
     }
+
+    private void initSQL() {
+        DBgreatTable dBgreatTable = new DBgreatTable(this);
+
+        SQLiteDatabase writableDatabase = dBgreatTable.getWritableDatabase();
+        Cursor cursor = writableDatabase.rawQuery("SELECT userId,friendId FROM home_msg where userId='1234' limit 1",null);
+        Cursor cursor2 = writableDatabase.rawQuery("SELECT userId,friendId FROM home_msg where userId='12345' limit 1",null);
+        Log.e("InfoList","cursor="+cursor+"-----cursor2="+cursor2);
+        JSONArray jsonArray = SqlUtils.cur2Json(cursor);
+        JSONArray jsonArray2 = SqlUtils.cur2Json(cursor2);
+//        List<PointBean> list = JSONArray.toList(array, Person.class);// 过时方法
+//        List<PointBean> list= JSONObject.pars(jsonArray,PointBean.class);
+//        JSONArray array = new JSONArray();
+        List<MsgEntry> list = JSONObject.parseArray(jsonArray.toJSONString(), MsgEntry.class);
+//        List<PointBean> list=JSON.parseObject(jsonArray,PointBean.class);
+
+        for (MsgEntry pointBean:list)
+        {
+            Log.e("InfoList","pointBean="+pointBean.getFriendId()+"\n");
+        }
+    }
+
     public  BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
 
         @Override
