@@ -109,21 +109,26 @@ public class MsgFragment extends BaseFragment {
     }
 
     private NetReceiver mReceiver;
+    IntentFilter mFilter=null;
     private void initNetReceive() {
-        mReceiver = new NetReceiver();
-        IntentFilter mFilter = new IntentFilter();
-        mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        getActivity().registerReceiver(mReceiver, mFilter);
+        if (mFilter==null) {
+            Log.e(Tag,"new NetReceive");
+            mFilter = new IntentFilter();
+            mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+            mReceiver = new NetReceiver();
+            getActivity().registerReceiver(mReceiver, mFilter);
+        }
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(NetEvent event) {
         mLinNet.setVisibility(event.isNet ? View.GONE : View.VISIBLE);
     }
-
+    public static final  String Tag="Msgfragment";
     IntentFilter intentFilter;
     //广播接收消息推送
     private void initReceiver() {
         if (intentFilter == null) {
+            Log.e(Tag,"new IntentFilter");
             intentFilter = new IntentFilter();
             intentFilter.addAction("action.refreshMsgFragment");
             intentFilter.addAction("zll.refreshMsgFragment");
@@ -141,6 +146,7 @@ public class MsgFragment extends BaseFragment {
     static RealmHomeHelper realmHelper;
     static RealmLinkFriendHelper realmLinkFriendHelper;
     private void initRealmData() {
+        Log.e(Tag,"realmHelper="+realmHelper+",-----realmLinkFriendHelper="+realmLinkFriendHelper+",---mList.size()="+mList.size());
         if (realmHelper==null)
             realmHelper = new RealmHomeHelper(getActivity());
         if (realmLinkFriendHelper==null)
@@ -160,20 +166,6 @@ public class MsgFragment extends BaseFragment {
     LinearLayout mLinNet;
     //    ConfirmPopWindow confirmPopWindow=null;
     private void initFriend(final  View view) {
-//        view.findViewById(R.id.include_frag_img_add).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (confirmPopWindow==null)
-//                    confirmPopWindow = new ConfirmPopWindow(getActivity());
-//                confirmPopWindow.showAtBottom(view.findViewById(R.id.include_frag_img_add));
-//            }
-//        });
-//        view.findViewById(R.id.include_frag_img_search).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                IntentUtils.JumpTo(LoadDataActivity.class);
-//            }
-//        });
         TextView tv_title = view.findViewById(R.id.include_frag_tv_title);
         mLinNet = view.findViewById(R.id.frag_home_lin_net);
 //        mFgTopBar = view.findViewById(R.id.fg_top_bar);
@@ -187,6 +179,12 @@ public class MsgFragment extends BaseFragment {
                 NetUtils.startToSettings(getActivity());
             }
         });
+
+        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getActivity()));
+        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(getActivity()));
+        mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
+
+        Log.e(Tag,"initMsgUI");
 //        initTop();
     }
 //    private void initTop() {
@@ -534,44 +532,44 @@ public class MsgFragment extends BaseFragment {
 //                    }
 //            }
 //        }
-        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getActivity()));
-        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(getActivity()));
-        mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
+//        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getActivity()));
+//        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(getActivity()));
+//        mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
 //        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-        if (msgAdapter==null)
-            msgAdapter = new MsgAdapter(getActivity(),mList,mItemTouchListener);
-        mRecyclerView.setAdapter(msgAdapter);
-        msgAdapter.notifyDataSetChanged();
-        mRecyclerView.smoothScrollToPosition(0);
-        sendBroadcast();
-        msgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                item = (CusHomeRealmData) adapter.getItem(position);
-                switch (view.getId())
-                {
-                    case R.id.item_msg_re:
-                        if (item.getTotalId().equals(AppConfig.GroupAssistant))
-                        {
-                            // 跳转群助手
-                            IntentUtils.JumpTo(GroupAssistantActivity.class);
-                        }else {
-                            clickItem(position);
-                        }
-                        break;
-                    //点击编辑，弹出聊天窗口
-                    case R.id.item_tv_click_ok:
-                        type = item.getType();
-                        FragmentManager childFragmentManager = getChildFragmentManager();
-                        MyDialogFragment myDialogFragment = new MyDialogFragment(item.getFriendId(),type);
-                        myDialogFragment.show(childFragmentManager,"show");
+        if (msgAdapter==null) {
+            Log.e(Tag, "msgAdapter=" + msgAdapter);
+            msgAdapter = new MsgAdapter(getActivity(), mList, mItemTouchListener);
+            mRecyclerView.setAdapter(msgAdapter);
+            msgAdapter.notifyDataSetChanged();
+            mRecyclerView.smoothScrollToPosition(0);
+            sendBroadcast();
+            msgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+                @Override
+                public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    item = (CusHomeRealmData) adapter.getItem(position);
+                    switch (view.getId()) {
+                        case R.id.item_msg_re:
+                            if (item.getTotalId().equals(AppConfig.GroupAssistant)) {
+                                // 跳转群助手
+                                IntentUtils.JumpTo(GroupAssistantActivity.class);
+                            } else {
+                                clickItem(position);
+                            }
+                            break;
+                        //点击编辑，弹出聊天窗口
+                        case R.id.item_tv_click_ok:
+                            type = item.getType();
+                            FragmentManager childFragmentManager = getChildFragmentManager();
+                            MyDialogFragment myDialogFragment = new MyDialogFragment(item.getFriendId(), type);
+                            myDialogFragment.show(childFragmentManager, "show");
 //                        chatWindow = new MsgChatWindow(getActivity(), item.getFriendId());
 //                        chatWindow.showAtLocation(mLinTop, Gravity.BOTTOM, 0,0);
 //                        ToastUtil.show("点击编辑");
-                        break;
+                            break;
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private void clickItem(int position) {
