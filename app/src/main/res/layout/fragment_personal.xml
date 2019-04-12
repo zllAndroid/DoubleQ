@@ -117,7 +117,8 @@
                 android:layout_marginBottom="@dimen/dp10"
                 />
         </LinearLayout>
-        <com.rance.chatui.CircleImageView
+        <!--<com.rance.chatui.CircleImageView-->
+        <ImageView
             android:id="@+id/mine_iv_person"
             android:layout_width="@dimen/dp80"
             android:layout_height="@dimen/dp80"

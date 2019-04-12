@@ -10,6 +10,7 @@ public class AppConfig {
 
 //    public static final String LINK_GROUP_BRO= "link_group";
 
+    public static boolean isDebug = true;
     public static final String  GroupAssistant= "GroupAssistant";//在首页群助手的专属id
     public static final String IS_LOGIN= "isLogin";
     //昵称 账号、签名、手机

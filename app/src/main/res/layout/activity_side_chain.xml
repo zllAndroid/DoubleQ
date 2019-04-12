@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,6 +10,7 @@
 
     <!--title-->
     <LinearLayout
+        android:id="@+id/side_chain_lin_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/side_chain_title_background"
@@ -65,11 +66,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/dp10"
-        android:background="@color/white"
-        android:layout_weight="1">
+        android:layout_below="@+id/side_chain_lin_title"
+        android:layout_above="@+id/side_chain_lin_tiqu"
+        android:background="@color/white">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants">
             <!--<com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeMenuRecyclerView-->
             <!--<android.support.v7.widget.RecyclerView-->
@@ -81,7 +83,7 @@
             <ExpandableListView
                 android:id="@+id/creat_exlist_friend"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:divider="@null"
                 android:groupIndicator="@null"
                 android:layout_weight="1"
@@ -91,8 +93,10 @@
         </RelativeLayout>
     </LinearLayout>
     <LinearLayout
+        android:id="@+id/side_chain_lin_tiqu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:background="@color/white">
         <Button
             android:layout_width="match_parent"
@@ -106,4 +110,4 @@
             android:layout_marginLeft="@dimen/dp60"
             android:background="@drawable/side_chain_btn_background"/>
     </LinearLayout>
-</LinearLayout>
+</RelativeLayout>

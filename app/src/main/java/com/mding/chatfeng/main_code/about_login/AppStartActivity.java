@@ -86,7 +86,7 @@ public class AppStartActivity extends BaseActivity {
 //
 //        serviceConnection = new MyServiceConnection();
 //        initNetReceive();
-//        TODO 测试创建数据库，添加一条数据在home_msg表
+////        TODO 测试创建数据库，添加一条数据在home_msg表
 //        DBgreatTable dBgreatTable = new DBgreatTable(this);
 //        SQLiteDatabase writableDatabase = dBgreatTable.getWritableDatabase();
 //        ContentValues values = new ContentValues();

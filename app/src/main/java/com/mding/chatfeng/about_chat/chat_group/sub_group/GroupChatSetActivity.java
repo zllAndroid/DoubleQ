@@ -1,6 +1,5 @@
 package com.mding.chatfeng.about_chat.chat_group.sub_group;
 
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -39,10 +38,10 @@ public class GroupChatSetActivity extends BaseActivity {
     @BindView(R.id.group_set_lin_main)
     LinearLayout groupSetLinMain;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     DataSearch dataSearch = null;
 
@@ -90,7 +89,15 @@ public class GroupChatSetActivity extends BaseActivity {
         }
     }
 
-    @OnClick(R.id.group_set_ed_groupname)
-    public void onViewClicked() {
+    @OnClick({R.id.group_set_lin_change_head, R.id.group_set_ed_groupname})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.group_set_lin_change_head:
+
+                break;
+            case R.id.group_set_ed_groupname:
+
+                break;
+        }
     }
 }

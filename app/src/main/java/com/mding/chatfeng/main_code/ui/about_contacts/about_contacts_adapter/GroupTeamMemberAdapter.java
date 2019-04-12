@@ -1,6 +1,7 @@
 package com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter;
 
 import android.content.Context;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,11 +148,18 @@ public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
                     .bitmapTransform(new CropCircleTransformation(context))
                     .into((ImageView) holder.img_contacts_child_head);
         }else {
+            byte[] decodeByte = Base64.decode(groupListBean.getHeadImg(), Base64.DEFAULT);
             Glide.with(context)
-                    .load(groupListBean.getHeadImg())
+                    .load(decodeByte)
+                    .dontAnimate()
                     .error(R.drawable.mine_head)
                     .bitmapTransform(new CropCircleTransformation(context))
                     .into((ImageView) holder.img_contacts_child_head);
+//            Glide.with(context)
+//                    .load(groupListBean.getHeadImg())
+//                    .error(R.drawable.mine_head)
+//                    .bitmapTransform(new CropCircleTransformation(context))
+//                    .into((ImageView) holder.img_contacts_child_head);
         }
 //            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);
 //        if (!StrUtils.isEmpty(groupListBean.getMemberId())) {

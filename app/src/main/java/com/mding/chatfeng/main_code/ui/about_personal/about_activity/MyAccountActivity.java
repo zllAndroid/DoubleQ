@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.about_utils.ImageUtils;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_notice.NoticeDetailsActivity;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.about_qrcode.QrCodePresenter;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.about_qrcode.QrCodeView;
 import com.mding.model.DataMyZiliao;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
@@ -25,7 +29,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 /**
  *  我的二维码
  */
-public class MyAccountActivity extends BaseActivity {
+public class MyAccountActivity extends BaseActivity{
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
     @BindView(R.id.qrcode_iv_head)
@@ -60,10 +64,11 @@ public class MyAccountActivity extends BaseActivity {
             {
                 qrcodeTvSao.setText(personData.getScanTital());
                 qrcodeTvName.setText(personData.getName());
-                Glide.with(this).load(personData.getHeadImg())
-                        .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
-                        .error(R.drawable.mine_head)
-                      .into(qrcodeIvHead);
+                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, personData.getHeadImg());
+//                Glide.with(this).load(personData.getHeadImg())
+//                        .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
+//                        .error(R.drawable.mine_head)
+//                      .into(qrcodeIvHead);
 
                 String string = personData.getQrCode();
 //                String string = type + "_xm6leefun_" + userId;
@@ -87,9 +92,10 @@ public class MyAccountActivity extends BaseActivity {
             DataMyZiliao.RecordBean record = dataMyZiliao.getRecord();
             if (record != null) {
                 qrcodeTvName.setText(record.getNickName());
-                Glide.with(this).load(record.getHeadImg())
-                        .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
-                       .into(qrcodeIvHead);
+                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, record.getHeadImg());
+//                Glide.with(this).load(record.getHeadImg())
+//                        .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
+//                       .into(qrcodeIvHead);
 
 //                String string = type + "_xm6leefun_" + SplitWeb.getUserId();
                 Log.e("qrcode","----------string_myAccount--------------"+record.getQrcode());
@@ -102,9 +108,20 @@ public class MyAccountActivity extends BaseActivity {
             }
         }
     }
-    @Override
-    protected int getLayoutView() {
-        return R.layout.activity_mine_ziliao;
-    }
-
+//    @Override
+//    protected int getLayoutView() {
+//        return R.layout.activity_mine_ziliao;
+//    }
+//
+//
+//    @Override
+//    public void showInfo() {
+//
+//    }
+//
+//    @Override
+//    public void netError() {
+//
+//    }
+//    QrCodePresenter presenter = new QrCodePresenter();
 }

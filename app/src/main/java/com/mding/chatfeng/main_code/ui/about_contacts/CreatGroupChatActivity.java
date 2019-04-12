@@ -507,7 +507,7 @@ public class CreatGroupChatActivity extends BaseActivity {
 //                Glide.with(ChangeInfoActivity.this).load(drawable.getBitmap()).;
 //                changeinfoIvHead.setImageBitmap(drawable.getBitmap());
 //                SendDataImg(files);
-//                sendWeb(SplitWeb.upHeadImg(ImageUtils.GetStringByImageView(bitmap)));
+//                sendWeb(SplitWeb.upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
             }
         }
 
@@ -521,7 +521,7 @@ public class CreatGroupChatActivity extends BaseActivity {
             String imagePath = c.getString(columnIndex);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 //            File saveBitmap = null;
-//                saveBitmap = ImageUtils.saveFile(bitmap);
+//                saveBitmap = ImageUtil.saveFile(bitmap);
             if (bitmap==null)
             {
                 ToastUtil.show("不支持的图片，请重新选择");
@@ -543,7 +543,7 @@ public class CreatGroupChatActivity extends BaseActivity {
                     .into(creatIvHead);
 //            sendWeb(SplitWeb.upHeadImg(save));
 //            sendWeb(SplitWeb.upHeadImg("123"));
-//            sendWeb(SplitWeb.upHeadImg(ImageUtils.GetStringByImageView(bitmap)));
+//            sendWeb(SplitWeb.upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
         }
     }
 

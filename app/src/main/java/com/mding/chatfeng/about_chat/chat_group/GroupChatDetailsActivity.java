@@ -59,14 +59,17 @@ import com.mding.chatfeng.main_code.ui.about_contacts.GroupTeamActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.PersonData;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberQunzhuAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_top_add.QunCodeActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ClipImgActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.mding.model.DataAddQunDetails;
 import com.mding.model.DataSetGroupHeadResult;
+import com.mding.model.GroupHeadImgInfo;
+import com.mding.model.HeadImgInfo;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
@@ -74,6 +77,8 @@ import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
 import com.suke.widget.SwitchButton;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -85,10 +90,14 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+import static com.mding.chatfeng.about_utils.about_file.HeadFileUtils.getRealFilePathFromUri;
+
 /**
  * 项目：DoubleQ
  * 文件描述：群聊资料
  * 作者：zll
+ * 修改者：ljj
  */
 public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfoWindow.OnAddContantClickListener {
     @BindView(R.id.include_top_lin_background)
@@ -135,11 +144,20 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     @BindView(R.id.group_data_tv_grouping_name)
     TextView groupDataTvGroupingName;
     private RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
-    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
+    RealmLinkFriendHelper realmLinkFriendHelper;
     DataSearch dataSearch = null;
     static String groupId;
     static String groupName;
     static String groupChatName;
+    //请求相册
+    private static final int REQUEST_PICK = 201;
+    //请求截图
+    private static final int REQUEST_CROP_PHOTO = 202;
+    //请求访问外部存储
+    private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 203;
+    //请求写入外部存储
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 204;
+    boolean isNeedChangeHeadImg = true;
 
     @Override
     protected void initBaseView() {
@@ -155,7 +173,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
         realmHelper = new RealmHomeHelper(this);
         realmGroupChatHeaderHelper = new RealmGroupChatHeaderHelper(this);
-        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(this);
+        realmLinkFriendHelper = new RealmLinkFriendHelper(this);
         Intent intent = getIntent();
         if (intent != null) {
             groupId = intent.getStringExtra(AppConfig.GROUP_ID);
@@ -268,7 +286,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                             }
                             List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info = group_detail_info.getGroupUserInfo();
                             if (group_user_info.size() > 0) {
-                                initListHead(group_user_info);
+//                                initListHead(group_user_info);
                                 initAdapter(group_user_info, isGrouper);
                             }
                         }
@@ -314,27 +332,33 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 break;
 
             case "upGroupHeadImg":
+                isNeedChangeHeadImg = false;
                 DataSetGroupHeadResult dataSetGroupHeadResult = JSON.parseObject(responseText, DataSetGroupHeadResult.class);
                 final DataSetGroupHeadResult.RecordBean recordImg = dataSetGroupHeadResult.getRecord();
                 if (recordImg != null) {
                     final String headImg = recordImg.getHeadImg();
-                    if (!StrUtils.isEmpty(headImg))
-                        Glide.with(this)
-                                .load(headImg)
-                                .downloadOnly(new SimpleTarget<File>() {
-                                    @Override
-                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_GROUP, groupId, recordImg.getModified());
-                                        realmMsgInfoTotalHelper.updateHeadPath(groupId, file.getPath(), headImg, recordImg.getModified());
-
-                                    }
-                                });
+                    if (!StrUtils.isEmpty(headImg)) {
+//                        Glide.with(this)
+//                                .load(headImg)
+//                                .downloadOnly(new SimpleTarget<File>() {
+//                                    @Override
+//                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+////                                    这里拿到的resource就是下载好的文件，
+//                                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_GROUP, groupId, recordImg.getModified());
+//                                        realmLinkFriendHelper.updateHeadPath(groupId, file.getPath(), headImg, recordImg.getModified());
+//
+//                                    }
+//                                });
+                        ImageUtils.useBase64(GroupChatDetailsActivity.this, groupDataIvHead, headImg);
+                        GroupHeadImgInfo groupHeadImgInfo = new GroupHeadImgInfo();
+                        groupHeadImgInfo.setGroupHeadImgBase64(headImg);
+                        EventBus.getDefault().postSticky(groupHeadImgInfo);
+                    }
                 }
-                Glide.with(this).load(save)
-                        .bitmapTransform(new CropCircleTransformation(GroupChatDetailsActivity.this))
-                        .thumbnail(0.1f)
-                        .into(groupDataIvHead);
+//                Glide.with(this).load(save)
+//                        .bitmapTransform(new CropCircleTransformation(GroupChatDetailsActivity.this))
+//                        .thumbnail(0.1f)
+//                        .into(groupDataIvHead);
                 break;
             case "setUserGroupAssistant":
                 boolean checked = chatsetSwiQunZhu.isChecked();
@@ -365,14 +389,68 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     break;
                 case R.id.btn_open_xaingce:
                     //	相册
-                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(i, RESULT_LOAD_IMAGE_GROUP);
+//                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                    startActivityForResult(i, RESULT_LOAD_IMAGE_GROUP);
+
+                    //权限判断
+                    if (ContextCompat.checkSelfPermission(GroupChatDetailsActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        //申请READ_EXTERNAL_STORAGE权限
+                        ActivityCompat.requestPermissions(GroupChatDetailsActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                READ_EXTERNAL_STORAGE_REQUEST_CODE);
+                    } else {
+                        //跳转到相册
+                        goToAlbum();
+                    }
+                    photoPopWindow.dismiss();
                     break;
                 default:
                     break;
             }
         }
     };
+
+    /**
+     * 跳转到相册
+     */
+    private void goToAlbum() {
+        Log.d("==image==", "*****************打开图库********************");
+        //跳转到调用系统图库
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(intent, "请选择图片"), REQUEST_PICK);
+    }
+    /**
+     * 打开截图界面
+     */
+    public void goToClipActivity(Uri uri) {
+        if (uri == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(this, ClipImgActivity.class);
+        intent.setData(uri);
+        startActivityForResult(intent, REQUEST_CROP_PHOTO);
+    }
+    /**
+     * 外部存储权限申请返回
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+//                goToCamera();
+                destoryImage();
+                getPicturesFile();
+            }
+        } else if (requestCode == READ_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+                goToAlbum();
+            }
+        }
+    }
 
     File save;
     //存储头像到本地
@@ -470,7 +548,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             if (isGrouper)
                 mList2.add(group_user_info.get(0));
         }
-        groupDataTvChatnum.setText("群成员(" + group_user_info.size() + ")");
+//        groupDataTvChatnum.setText("群成员(" +  + ")");
         GroupMemberQunzhuAdapter groupMemberAdapter = new GroupMemberQunzhuAdapter(this, mList2, true, isGrouper);
         groupDataRecyc.setAdapter(groupMemberAdapter);
         groupMemberAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -544,12 +622,18 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     private void initUI(DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean) {
         groupHeadImg = groupInfoBean.getGroupHeadImg();
         groupChatName = groupInfoBean.getGroupName();
-        Glide.with(this).load(groupInfoBean.getGroupHeadImg())
-                .bitmapTransform(new CropCircleTransformation(GroupChatDetailsActivity.this))
-                .error(R.drawable.qun_head)
-                .into(groupDataIvHead);
+        if (isNeedChangeHeadImg){
+            ImageUtils.useBase64(GroupChatDetailsActivity.this, groupDataIvHead, groupInfoBean.getGroupHeadImg());
+        }else {
+            isNeedChangeHeadImg = true;
+        }
+//        Glide.with(this).load(groupInfoBean.getGroupHeadImg())
+//                .bitmapTransform(new CropCircleTransformation(GroupChatDetailsActivity.this))
+//                .error(R.drawable.qun_head)
+//                .into(groupDataIvHead);
         groupDetailsTvGroupId.setText("(" + groupInfoBean.getGroupSno() + ")");
         groupDetailsTvName.setText(groupInfoBean.getGroupName());
+        groupDataTvChatnum.setText("群成员(" + groupInfoBean.getNowNum() + ")");
     }
 
     @Override
@@ -614,27 +698,27 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
     String result;
     private File mPhotoFile;
-    private int CAMERA_RESULT_GROUP = 101;
-    private int RESULT_LOAD_IMAGE_GROUP = 201;
+    private int CAMERA_RESULT_GROUP = 200;
+    private int RESULT_LOAD_IMAGE_GROUP = 301;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        修改群名片
-        if (resultCode == AppConfig.EDIT_GROUP_CARD_RESULT) {
+        if (resultCode == AppConfig.EDIT_GROUP_CARD_RESULT && null != data) {
             if (requestCode == AppConfig.EDIT_GROUP_CARD_REQUEST){
                 result = data.getExtras().getString("myGroupCard");
                 groupDataTvMineName.setText(result);
             }
         }
 //        修改群公告
-        else if (resultCode == AppConfig.EDIT_GROUP_NOTICE_RESULT) {
+        else if (resultCode == AppConfig.EDIT_GROUP_NOTICE_RESULT && null != data) {
             if (requestCode == AppConfig.EDIT_GROUP_NOTICE_REQUEST) {
                 String msg = data.getExtras().getString(GroupNoticeActivity.GROUP_NOTICES);
                 groupDataTvGonggao.setText(msg);
             }
         }
 //        群选择分组
-        else if (resultCode == AppConfig.GROUP_DATA_GROUPING_RESULT) {
+        else if (resultCode == AppConfig.GROUP_DATA_GROUPING_RESULT && null != data) {
             Log.e("groupingName","---------------------requestCode-----------------------"+requestCode+"--------"+AppConfig.GROUP_DATA_GROUPING_REQUEST);
             if (requestCode == AppConfig.GROUP_DATA_GROUPING_REQUEST) {
                 Log.e("groupingName","---------------------resultCode-----------------------"+resultCode+"--------"+AppConfig.GROUP_DATA_GROUPING_RESULT);
@@ -643,7 +727,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             }
         }
         //		相机
-        else if (requestCode == CAMERA_RESULT_GROUP && resultCode == RESULT_OK) {
+        else if (requestCode == CAMERA_RESULT_GROUP && null != data) {
+//        else if (requestCode == CAMERA_RESULT_GROUP && resultCode == RESULT_OK) {
             if (mPhotoFile != null && mPhotoFile.exists()) {
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                 bitmapOptions.inJustDecodeBounds = true;
@@ -660,12 +745,15 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     ToastUtil.show("不支持的图片，请重新选择");
                     return;
                 }
-                save = ImageUtils.saveBitmap(GroupChatDetailsActivity.this, bitmap);
-                sendWeb(SplitWeb.upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bitmap)));
+                goToClipActivity(Uri.fromFile(mPhotoFile));
+//                Bitmap bm = ImageUtils.getBitmapCompress(mPhotoFile.getPath());
+//                save = ImageUtils.saveBitmap(GroupChatDetailsActivity.this, bm);
+//                sendWeb(SplitWeb.upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bm)));
             }
         }
         //		相册
-        else if (requestCode == RESULT_LOAD_IMAGE_GROUP && resultCode == RESULT_OK && null != data) {
+        else if (requestCode == REQUEST_PICK && null != data && null != data) {
+//        else if (requestCode == RESULT_LOAD_IMAGE_GROUP && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumns = {MediaStore.Images.Media.DATA};
             Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
@@ -678,12 +766,22 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 ToastUtil.show("不支持的图片，请重新选择");
                 return;
             }
-            save = ImageUtils.saveBitmap(GroupChatDetailsActivity.this, bitmap);
-            final Map<String, File> files = new HashMap<String, File>();
-            files.put("file", save);
             Drawable drawable = new BitmapDrawable(getResources(), bitmap);
             c.close();
-            sendWeb(SplitWeb.upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bitmap)));
+            goToClipActivity(selectedImage);
+//            sendWeb(SplitWeb.upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bm)));
+        }
+        else if (requestCode == REQUEST_CROP_PHOTO && null != data){
+            final Uri uri = data.getData();
+            if (uri == null) {
+                return;
+            }
+            String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
+            Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+            //TODO 压缩头像
+            Bitmap bm = ImageUtils.imageZoom(bitMap);
+            String s1 = ImageUtils.Bitmap2StrByBase64(bm);
+            sendWeb(SplitWeb.upGroupHeadImg(groupId,s1));
         }
     }
 
@@ -701,7 +799,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //        {
 //            return;
 //        }
-        CusDataLinkFriend cusDataLinkFriend = realmMsgInfoTotalHelper.queryLinkFriend(groupId);
+        CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(groupId);
         if (cusDataLinkFriend != null) {
 
             String time = cusDataLinkFriend.getTime();
@@ -744,31 +842,31 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         }
     }
 
-//    private void setGlideData(final boolean isSame, final boolean isFriend, final String modified, final String groupId, final String headImg) {
-//        Glide.with(this)
-//                .load(headImg)
-//                .downloadOnly(new SimpleTarget<File>() {
-//                    @Override
-//                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-////                                    这里拿到的resource就是下载好的文件，
-//                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, groupId, modified);
-//                        if (isSame)
-//                            realmMsgInfoTotalHelper.updateHeadPath(groupId, file.toString(), headImg, modified);
-//                        else {
-//                            CusDataLinkFriend linkFriend = new CusDataLinkFriend();
-//                            linkFriend.setHeadImg(headImg);
-//                            linkFriend.setFriendId(groupId);
-//                            linkFriend.setTime(modified);
-//                            linkFriend.setImgPath(file.toString());
-//                            if (isFriend)
-//                                linkFriend.setWhoType("1");
-//                            else
-//                                linkFriend.setWhoType("2");
-//                            realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
-//                        }
-//                    }
-//                });
-//    }
+    private void setGlideData(final boolean isSame, final boolean isFriend, final String modified, final String groupId, final String headImg) {
+        Glide.with(this)
+                .load(headImg)
+                .downloadOnly(new SimpleTarget<File>() {
+                    @Override
+                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+//                                    这里拿到的resource就是下载好的文件，
+                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, groupId, modified);
+                        if (isSame)
+                            realmLinkFriendHelper.updateHeadPath(groupId, file.toString(), headImg, modified);
+                        else {
+                            CusDataLinkFriend linkFriend = new CusDataLinkFriend();
+                            linkFriend.setHeadImg(headImg);
+                            linkFriend.setFriendId(groupId);
+                            linkFriend.setTime(modified);
+                            linkFriend.setImgPath(file.toString());
+                            if (isFriend)
+                                linkFriend.setWhoType("1");
+                            else
+                                linkFriend.setWhoType("2");
+                            realmLinkFriendHelper.addRealmLinkFriend(linkFriend);
+                        }
+                    }
+                });
+    }
 
     @OnClick({R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat,
             R.id.include_top_iv_zhuanfa, R.id.group_details_iv_qrcode, R.id.group_details_lin_name, R.id.group_data_iv_head,
@@ -784,11 +882,11 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             case R.id.group_details_lin_group_notice:
 
                 break;
-                // 聊天记录
+            // 聊天记录
             case R.id.group_details_lin_chat_old:
                 DialogUtils.showDialog("敬请期待");
                 break;
-                // 删除聊天记录
+            // 删除聊天记录
             case R.id.group_details_lin_del_chat:
                 DialogUtils.showDialog("敬请期待");
                 break;
@@ -839,27 +937,28 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 }
                 break;
             case R.id.group_details_tv_to_chat:
-                // 群聊
-                CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
-                cusJumpChatData.setGroupId(groupId);
-                cusJumpChatData.setGroupName(groupChatName);
-
-                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
-                cusHomeRealmData.setHeadImg(groupHeadImg);
-                cusHomeRealmData.setFriendId(groupId);
-                cusHomeRealmData.setNickName(groupChatName);
-                cusHomeRealmData.setNum(0);
-
-                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
-                if (cusHomeRealmData1!=null)
-                {
-                    realmHelper.updateNumZero(groupId);
-                }else
-                {
-                    realmHelper.addRealmMsgQun(cusHomeRealmData);
-                }
-                Log.e("groupInfos","---------------------------------------------------"+groupHeadImg+"------------------------"+groupChatName);
-                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+//                // 群聊
+//                CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
+//                cusJumpChatData.setGroupId(groupId);
+//                cusJumpChatData.setGroupName(groupChatName);
+//
+//                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
+//                cusHomeRealmData.setHeadImg(groupHeadImg);
+//                cusHomeRealmData.setFriendId(groupId);
+//                cusHomeRealmData.setNickName(groupChatName);
+//                cusHomeRealmData.setNum(0);
+//
+//                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
+//                if (cusHomeRealmData1!=null)
+//                {
+//                    realmHelper.updateNumZero(groupId);
+//                }else
+//                {
+//                    realmHelper.addRealmMsgQun(cusHomeRealmData);
+//                }
+//                Log.e("groupInfos","---------------------------------------------------"+groupHeadImg+"------------------------"+groupChatName);
+//                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                AppManager.getAppManager().finishActivity(this);
                 break;
         }
     }

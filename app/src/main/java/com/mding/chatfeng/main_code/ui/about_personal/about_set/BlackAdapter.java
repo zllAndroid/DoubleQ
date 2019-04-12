@@ -1,11 +1,13 @@
 package com.mding.chatfeng.main_code.ui.about_personal.about_set;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.DataBlack;
 import com.mding.chatfeng.R;
 
@@ -28,9 +30,11 @@ public class BlackAdapter extends BaseQuickAdapter<DataBlack.RecordBean, BaseVie
 
     @Override
     protected void convert(BaseViewHolder helper, DataBlack.RecordBean item) {
-        Glide.with(context).load(item.getHeadImg())
-                .bitmapTransform(new CropCircleTransformation(context))
-                .into((ImageView) helper.getView(R.id.item_iv_black));
+        ImageView mIv = helper.getView(R.id.item_iv_black);
+        ImageUtils.useBase64(context,mIv,item.getHeadImg());
+//        Glide.with(context).load(item.getHeadImg())
+//                .bitmapTransform(new CropCircleTransformation(context))
+//                .into((ImageView) helper.getView(R.id.item_iv_black));
         helper.setText(R.id.item_tv_name,item.getNickName());
         helper.addOnClickListener(R.id.item_tv_click_del);
 

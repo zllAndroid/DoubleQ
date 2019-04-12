@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.DataCreatGroupChat;
 import com.mding.chatfeng.R;
 
@@ -34,10 +35,11 @@ public class CreatGroupSeachAdapter extends BaseQuickAdapter<DataCreatGroupChat.
     protected void convert(BaseViewHolder helper, DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean item)
     {
         Log.e("searchCityList","---------输入------------->"+item.getNickName());
-        Glide.with(context).load(item.getHeadImg())
-                .bitmapTransform(new CropCircleTransformation(context))
-
-                .into((ImageView) helper.getView(R.id.item_creat_iv_head));
+        ImageView view = helper.getView(R.id.item_creat_iv_head);
+        ImageUtils.useBase64(context, view, item.getHeadImg());
+//        Glide.with(context).load(item.getHeadImg())
+//                .bitmapTransform(new CropCircleTransformation(context))
+//                .into((ImageView) helper.getView(R.id.item_creat_iv_head));
         helper.setText(R.id.item_creat_tv_name,item.getNickName());
 
 

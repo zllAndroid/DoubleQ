@@ -21,6 +21,7 @@ import static com.mding.chatfeng.about_utils.IntentUtils.JumpTo;
  * 项目：DoubleQ
  * 文件描述：主界面FindFragment之联系人页面
  * 作者：zll
+ * 修改者：ljj
  */
 public class LinkManFragment extends BaseFragment {
 

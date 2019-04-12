@@ -3,12 +3,12 @@
     android:id="@+id/full_lay"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-   >
+    android:gravity="center">
 
     <ImageView
         android:id="@+id/full_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
         android:adjustViewBounds="true"
-        android:scaleType="fitCenter"/>
+       />
 </LinearLayout>
