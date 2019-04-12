@@ -2,7 +2,7 @@ package com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
-
+//给首页消息    查询用户或者群头像名称（这里群和好友合并为一起，根据type区分）
 public class CusDataLinkFriend extends RealmObject {
 
     @PrimaryKey

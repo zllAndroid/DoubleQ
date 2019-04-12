@@ -18,6 +18,7 @@ import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.mains.LoadDataActivity;
 import com.mding.chatfeng.main_code.mains.top_pop.ConfirmPopWindow;
+import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 
@@ -134,7 +135,7 @@ public class BaseFragment extends Fragment  {
 	}
 
 	protected void searchClickEvent() {
-		IntentUtils.JumpTo(LoadDataActivity.class);
+		IntentUtils.JumpTo(LoadLinkManActivity.class);
 	}
 
 	protected String setFragmentTital() {

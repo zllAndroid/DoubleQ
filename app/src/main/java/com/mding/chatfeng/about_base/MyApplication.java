@@ -20,6 +20,7 @@ import android.util.DisplayMetrics;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.mding.greendao.DatabaseManager;
 import com.mding.model.CusJumpChatData;
 import com.mding.model.DataAddfriendSendRequest;
 import com.mding.model.DataAgreeFriend;
@@ -53,13 +54,14 @@ import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.about_utils.NotificationUtil;
 import com.mding.chatfeng.about_utils.SysRunUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
-import com.mding.chatfeng.about_utils.about_realm.RealmHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.CusChatData;
 import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.mains.MsgFragment;
 import com.mding.sql.DBgreatTable;
+import com.mding.sql.entitydao.MsgEntityDao;
+import com.mding.sql.entitydao.PrivateChatEntityDao;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.crash.PgyerCrashObservable;
 import com.pgyersdk.crash.PgyerObserver;
@@ -109,6 +111,7 @@ public class MyApplication extends Application implements IWebSocketPage {
     public void onCreate() {
         super.onCreate();
          isMain=true;
+        DatabaseManager.initDB(this);//初始化greenDao数据库
 //        RxTool.init(this);
         mContext = this;
         mInstance = this;
@@ -138,10 +141,18 @@ public class MyApplication extends Application implements IWebSocketPage {
         }
 //        initOneService();
         initRealm();
-         db= (new DBgreatTable(this)).getWritableDatabase();
-        initRunnable();
+//         db= (new DBgreatTable(this)).getWritableDatabase();
+//        initRunnable();
+//        initDbData();
     }
-    SQLiteDatabase   db;
+//    MsgEntityDao msgEntityDao;
+//    PrivateChatEntityDao privateChatEntityDao;
+//    private void initDbData() {
+//         msgEntityDao = new MsgEntityDao();
+//         privateChatEntityDao = new PrivateChatEntityDao();
+//    }
+
+    //    SQLiteDatabase   db;
     //    private Handler handler = new Handler();
     private void initRunnable() {
 
@@ -304,14 +315,19 @@ public class MyApplication extends Application implements IWebSocketPage {
     private void initRealm() {
         Realm.init(this);
         RealmConfiguration configuration = new RealmConfiguration.Builder()
-                .name(RealmHelper.DB_NAME)
+                .name(RealmHomeHelper.DB_NAME)
 //                .deleteRealmIfMigrationNeeded()
 //                .schemaVersion(3)
 //                .migration(new Migration())
                 .deleteRealmIfMigrationNeeded()
                 .build();
         Realm.setDefaultConfiguration(configuration);
-
+//        Stetho.initialize(//Stetho初始化
+//                Stetho.newInitializerBuilder(this)
+//                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+////                        .enableWebKitInspector(RealmInspectorModulesProvider.builder(this).build())
+//                        .build()
+//        );
         realmHelper = new RealmHomeHelper(this);
         realmGroupChatHelper = new RealmGroupChatHelper(this);
         realmChatHelper = new RealmChatHelper(this);
@@ -1116,7 +1132,18 @@ public class MyApplication extends Application implements IWebSocketPage {
             cusRealmChatMsg.setSendId(record.getUserId());
             cusRealmChatMsg.setUserMessageType(record.getType());
             cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getUserId());
-            realmChatHelper.addRealmChat(cusRealmChatMsg);
+            realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
+
+//            PrivateChatData msg = new PrivateChatData();
+//            msg.setCreated(myTime);
+//            msg.setMessage(record.getMessage());
+//            msg.setMessageType(record.getMessageType());
+//            msg.setReceiveId(record.getFriendsId());
+//            msg.setSendId(record.getUserId());
+//            msg.setUserMessageType(record.getType());
+//            msg.setImgUrl(record.getHeadImg());
+//            msg.setUserId(record.getUserId());
+//            privateChatEntityDao.getEntityDao().insertOrReplaceInTx(msg);
         }
     }
     private void initMsgSend(DataJieShou.RecordBean record) {
@@ -1188,9 +1215,17 @@ public class MyApplication extends Application implements IWebSocketPage {
         cusRealmChatMsg.setUserMessageType(record.getType());
         cusRealmChatMsg.setImgUrl(record.getHeadImg());
         cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getUserId());
-
+//        PrivateChatData msg = new PrivateChatData();
+//        msg.setCreated(Mytime);
+//        msg.setMessage(record.getMessage());
+//        msg.setMessageType(record.getMessageType());
+//        msg.setReceiveId(record.getFriendsId());
+//        msg.setSendId(record.getUserId());
+//        msg.setUserMessageType(record.getType());
+//        msg.setImgUrl(record.getHeadImg());
+//        msg.setUserId(record.getUserId());
+//        privateChatEntityDao.getEntityDao().insertOrReplaceInTx(msg);
         realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
-
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getFriendsId());
 
         if (homeRealmData != null) {

@@ -1,8 +1,8 @@
 package com.mding.chatfeng.about_chat.adapter.holder;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,15 +14,14 @@ import com.bumptech.glide.Glide;
 import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.mding.chatfeng.about_utils.TimeUtil;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.model.DataJieShou;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
 import com.rance.chatui.util.Constants;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
-
-import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,7 +49,8 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
 
     Context context;
     protected boolean isScrolling = false;
-    RealmLinkFriendHelper realmLinkFriendHelper;
+    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
+    RealmFriendRelationHelper friendHelper;
     public ChatAcceptViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler,boolean isScrolling ,Context context) {
         super(parent, R.layout.item_chat_accept);
         ButterKnife.bind(this,itemView);
@@ -58,8 +58,10 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
         this.handler = handler;
         this.isScrolling = isScrolling;
         this.context = context;
-        if (realmLinkFriendHelper==null)
-        realmLinkFriendHelper = new RealmLinkFriendHelper(getContext());
+        if (realmMsgInfoTotalHelper ==null)
+        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(getContext());
+        if (friendHelper==null)
+            friendHelper = new RealmFriendRelationHelper(getContext());
     }
     @Override
     public void setData(final DataJieShou.RecordBean data) {
@@ -71,27 +73,13 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
             chatItemDate.setText(TimeUtil.formatDisplayTime(data.getRequestTime(),null));
             chatItemDate.setVisibility(View.VISIBLE);
         }
-
-//        Glide.with(getContext())
-//                .load(data.getHeadImg())
-//                .dontAnimate()
-//                .error(com.mding.chatfeng.R.drawable.mine_head)
-//                .bitmapTransform(new CropCircleTransformation(getContext()))
-//                .into(chatItemHeader);
-        String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
-        if (imgPath!=null) {
-            Uri uri = Uri.fromFile(new File(imgPath));
-            chatItemHeader.setImageURI(uri);
-//            Glide.with(context).load(imgPath)
-//                    .error(R.drawable.mine_head)
-//                    .bitmapTransform(new CropCircleTransformation(context))
-//                    .into(chatItemHeader);
-
-
-        }else {
-//            chatItemHeader.setImageResource(com.mding.chatfeng.R.drawable.mine_head);
+        String headImg = friendHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
+        if (headImg!=null) {
+            headImg = headImg.replace("data:image/png;base64,", "");
+            Log.e("ChatAcceptViewHolder", headImg);
+//            byte[] decode = Base64.decode(headImg, Base64.DEFAULT);
             Glide.with(getContext())
-                    .load(data.getHeadImg())
+                    .load(headImg)
                     .dontAnimate()
                     .error(com.mding.chatfeng.R.drawable.mine_head)
                     .bitmapTransform(new CropCircleTransformation(getContext()))
@@ -103,21 +91,6 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
                 onItemClickListener.onHeaderClick(getDataPosition(),Constants.CHAT_ITEM_TYPE_LEFT,data.getFriendsId());
             }
         });
-//        chatItemContentText.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent e) {
-//                switch (e.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        event = e;
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                // 如果onTouch返回false,首先是onTouch事件的down事件发生，此时，如果长按，触发onLongClick事件；
-//                // 然后是onTouch事件的up事件发生，up完毕，最后触发onClick事件。
-//                return true;
-//            }
-//        });
         chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {

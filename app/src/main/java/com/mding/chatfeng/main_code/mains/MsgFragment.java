@@ -29,7 +29,7 @@ import com.mding.chatfeng.about_utils.NetUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.mding.chatfeng.main_code.ui.about_message.GroupAssistantActivity;
 import com.mding.chatfeng.main_code.ui.about_message.about_message_adapter.MsgAdapter;
@@ -41,7 +41,6 @@ import com.mding.chatfeng.main_code.mains.top_pop.data_bus.BusDataGroupOrFriend;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
-import com.zll.websocket.Response;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -121,7 +120,11 @@ public class MsgFragment extends BaseFragment {
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(NetEvent event) {
-        mLinNet.setVisibility(event.isNet ? View.GONE : View.VISIBLE);
+        try {
+            mLinNet.setVisibility(event.isNet ? View.GONE : View.VISIBLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public static final  String Tag="Msgfragment";
     IntentFilter intentFilter;
@@ -144,13 +147,13 @@ public class MsgFragment extends BaseFragment {
     }
 
     static RealmHomeHelper realmHelper;
-    static RealmLinkFriendHelper realmLinkFriendHelper;
+    static RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
     private void initRealmData() {
-        Log.e(Tag,"realmHelper="+realmHelper+",-----realmLinkFriendHelper="+realmLinkFriendHelper+",---mList.size()="+mList.size());
+        Log.e(Tag,"realmHelper="+realmHelper+",-----realmMsgInfoTotalHelper="+ realmMsgInfoTotalHelper +",---mList.size()="+mList.size());
         if (realmHelper==null)
             realmHelper = new RealmHomeHelper(getActivity());
-        if (realmLinkFriendHelper==null)
-            realmLinkFriendHelper = new RealmLinkFriendHelper(getActivity());
+        if (realmMsgInfoTotalHelper ==null)
+            realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(getActivity());
         if (mList.size()==0) {
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
             if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
@@ -628,7 +631,7 @@ public class MsgFragment extends BaseFragment {
         super.onDestroy();
         try {
             realmHelper.close();
-            realmLinkFriendHelper.close();
+            realmMsgInfoTotalHelper.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

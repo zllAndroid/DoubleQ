@@ -16,7 +16,7 @@ public class MsgEntry {
 //  private static final String COMMA_SEP = ",";
 ////首页消息表名
 //  public static String TABLE_NAME ="home_msg";
-  public static String _USER_ID ="userid";
+  public static String _USER_ID ="userId";
   String friendId;//好友id
   //    消息类型  1 私聊   ，2群聊
   String type;

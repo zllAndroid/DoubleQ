@@ -2,12 +2,15 @@ package com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupMemberHelper;
 import com.mding.model.DataAddQunDetails;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_chat.chat_group.group_realm.RealmGroupChatHeaderHelper;
@@ -24,6 +27,7 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
     boolean isShowName;//是否显示用户名字
     boolean isGrouper;//是否群主
     RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
+    RealmGroupMemberHelper realmGroupMemberHelper;
     public GroupMemberQunzhuAdapter(Context context,
                                     List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> searchCityList,
                                     boolean isShowName,boolean isGrouper)
@@ -34,6 +38,9 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
         this.isShowName=isShowName;
         this.isGrouper=isGrouper;
         realmGroupChatHeaderHelper = new RealmGroupChatHeaderHelper(context);
+         realmGroupMemberHelper = new RealmGroupMemberHelper(context);
+
+
     }
     @Override
     protected void convert(BaseViewHolder helper, DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean item)
@@ -45,42 +52,36 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
         final DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean item = searchCityList.get(positions);
         String imgPath = realmGroupChatHeaderHelper.queryGroupChatReturnImgPath(item.getUserId());
         ImageView mIvHead = (ImageView) helper.getView(R.id.item_iv_group_member_head);
-        if (imgPath!=null) {
+        String headImg = realmGroupMemberHelper.queryLinkFriendReturnImgPath(item.getUserId());
 
-            mIvHead.setImageURI(Uri.fromFile(new File(imgPath)));
-//            Glide.with(context)
-//                    .load(imgPath)
-//                    .error(R.drawable.mine_head)
-//                    .listener(new RequestListener<String, GlideDrawable>() {
-//                        @Override
-//                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-////                                加载错误时，加载网络图片
-//                            realmGroupChatHeaderHelper.deleteRealmFriend(item.getUserId());
-//                            Glide.with(context).load(item.getHeadImg())
-//                                    .error(R.drawable.mine_head)
-//                                    .bitmapTransform(new CropCircleTransformation(context))
-//                                   .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
-//                            return false;
-//                        }
-//                        @Override
-//                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-//                            return false;
-//                        }
-//                    })
-//                    .bitmapTransform(new CropCircleTransformation(context))
-//                    .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
-        }else {
+        if (headImg!=null) {
+            headImg = headImg.replace("data:image/png;base64,", "");
+            Log.e("ChatAcceptViewHolder", headImg);
+            byte[] decode = Base64.decode(headImg, Base64.DEFAULT);
+            Glide.with(context)
+                    .load(decode)
+                    .dontAnimate()
+                    .error(com.mding.chatfeng.R.drawable.mine_head)
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .into(mIvHead);
+        }else
+        {
             Glide.with(context)
                     .load(item.getHeadImg())
-                    .error(R.drawable.mine_head)
+                    .dontAnimate()
+                    .error(com.mding.chatfeng.R.drawable.mine_head)
                     .bitmapTransform(new CropCircleTransformation(context))
                     .into(mIvHead);
         }
-//            Glide.with(context).load(item.getHeadImg())
-//                .bitmapTransform(new CropCircleTransformation(context))
-//                .crossFade(1000)
-//                .error(R.drawable.mine_head)
-//                .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
+//        if (imgPath!=null) {
+//            mIvHead.setImageURI(Uri.fromFile(new File(imgPath)));
+//        }else {
+//            Glide.with(context)
+//                    .load(item.getHeadImg())
+//                    .error(R.drawable.mine_head)
+//                    .bitmapTransform(new CropCircleTransformation(context))
+//                    .into(mIvHead);
+//        }
         if (isShowName) {
             helper.getView(R.id.item_tv_group_member_name).setVisibility(View.VISIBLE);
         } else {

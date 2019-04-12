@@ -117,6 +117,13 @@ public class NetWorkUtlis {
         this.url=url;
         initHttpPwdLogin();
     }
+    public  void  setOnNetWorkTwo(String url,OnNetWork onNetWork,OnNetWorkError onNetWorkError)
+    {
+        this.onNetWorkError=onNetWorkError;
+        this.onNetWork=onNetWork;
+        this.url=url;
+        initTwoResultHttp();
+    }
     public  void  setOnNetWorkNormal(String url,OnNetWork onNetWork)
     {
         this.onNetWork=onNetWork;
@@ -289,6 +296,33 @@ public class NetWorkUtlis {
             }
         });
     }
+    private void initTwoResultHttp() {
+        Activity activity = AppManager.getAppManager().currentActivity();
+        MyLog.e("result","url----------=="+url);
+        VolleyRequest.RequestGet(activity,url, new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
+            @Override
+            public void onSuccess(final String result) {
+                MyLog.e("result","请求结果result----------=="+result);
+                final String sucess = HelpUtils.HttpIsSucess(result);
+                if (sucess.equals(AppConfig.CODE_OK))
+                {
+                    onNetWork.onNetSuccess(result);
+                }else if (sucess.equals(AppConfig.CODE_TIMEOUT))
+                {
+                    //超时
+                }else {
+                    ToastUtil.show(sucess);
+//                    onNetWork.onNetSuccess("");
+                }
+            }
+            @Override
+            public void onError(VolleyError result) {
+//                ToastUtil.show(AppConfig.ERROR);
+                onNetWorkError.onNetError(AppConfig.ERROR);
+//                Tip.getError(CommonParameter.ERROR);
+            }
+        });
+    }
     private void initHttp() {
         Activity activity = AppManager.getAppManager().currentActivity();
         MyLog.e("result","url----------=="+url);
@@ -300,7 +334,8 @@ public class NetWorkUtlis {
             }
             @Override
             public void onError(VolleyError result) {
-                EventBus.getDefault().post(new NetEvent(false));
+
+//                EventBus.getDefault().post(new NetEvent(false));
 //                ToastUtil.show(AppConfig.ERROR);
 //                Tip.getError(CommonParameter.ERROR);
             }

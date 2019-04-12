@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -28,13 +28,13 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolder> {
     Context context;
     public List<CusHomeRealmData> data;
-    RealmLinkFriendHelper realmLinkFriendHelper;
+    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
     public MsgAdapter(Context context, List<CusHomeRealmData> data, ItemTouchListener mItemTouchListener) {
         super(R.layout.item_home_message, data);
         this.data=data;
         this.context=context;
         this.mItemTouchListener=mItemTouchListener;
-        realmLinkFriendHelper = new RealmLinkFriendHelper(context);
+        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(context);
     }
     public void addData(CusHomeRealmData cusData) {
         data.add(0, cusData);
@@ -63,7 +63,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
     }
     @Override
     protected void convert(final BaseViewHolder helper, final CusHomeRealmData item) {
-//        CusDataLinkFriend linkFriend = realmLinkFriendHelper.queryLinkFriend(item.getFriendId());
+//        CusDataLinkFriend linkFriend = realmMsgInfoTotalHelper.queryLinkFriend(item.getFriendId());
         helper.addOnClickListener(R.id.item_tv_click_ok);
         helper.addOnClickListener(R.id.item_msg_re);
 
@@ -102,7 +102,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
 //            }
         try {
             if (!StrUtils.isEmpty(item.getFriendId())) {
-                String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                 final int errorImg;
                 if (item.getType().equals("1"))
                 {

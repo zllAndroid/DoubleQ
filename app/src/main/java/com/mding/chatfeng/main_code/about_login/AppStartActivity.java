@@ -87,12 +87,12 @@ public class AppStartActivity extends BaseActivity {
 //        serviceConnection = new MyServiceConnection();
 //        initNetReceive();
 //        TODO 测试创建数据库，添加一条数据在home_msg表
-        DBgreatTable dBgreatTable = new DBgreatTable(this);
-        SQLiteDatabase writableDatabase = dBgreatTable.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put("userId","1234");
-        values.put("friendId","456");
-        writableDatabase.insert(TotalEntry.TABLE_NAME_Msg,null,values);
+//        DBgreatTable dBgreatTable = new DBgreatTable(this);
+//        SQLiteDatabase writableDatabase = dBgreatTable.getWritableDatabase();
+//        ContentValues values = new ContentValues();
+//        values.put("userId","1234");
+//        values.put("friendId","456");
+//        writableDatabase.insert(TotalEntry.TABLE_NAME_Msg,null,values);
 
 //        SQLiteDatabase   db= (new DBgreatTable(this)).getWritableDatabase();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)

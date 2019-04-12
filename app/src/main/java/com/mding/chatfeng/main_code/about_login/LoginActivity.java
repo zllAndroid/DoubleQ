@@ -91,7 +91,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        initSQL();
+//        initSQL();
 //        writableDatabase.query("home_msg",null,"id",null,null,null,null);
 //        includeTopIvBack.setVisibility(View.INVISIBLE);
         DisplayMetrics displayMetrics = new DisplayMetrics();

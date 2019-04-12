@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.mding.dao.UserRelation;
+
 /**
  * 项目：DoubleQ
  * 文件描述：
@@ -29,6 +31,7 @@ public class DBgreatTable extends SQLiteOpenHelper {
             "CREATE TABLE IF NOT EXISTS " + TotalEntry.TABLE_NAME_user_relation + " (" +
                     TotalEntry._USER_ID + " INTEGER PRIMARY KEY," +
                     UserRelation.toUserRelationEntryString()+ " )";
+
     private static final String TIMESQL_DELETE_ENTRIES =
             "DROP TABLE IF EXISTS " + TotalEntry.TABLE_NAME_Msg;
     private static final String STUSSQL_DELETE_ENTRIES =

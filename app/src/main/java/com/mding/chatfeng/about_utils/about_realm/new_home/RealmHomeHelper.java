@@ -17,6 +17,7 @@ import io.realm.Sort;
 
 
 public class RealmHomeHelper {
+    public static final String DB_NAME = "chat.realm";
     public static final String FILE_NAME = "totalId";
     public static final String USERID = "userid";
     public static final String TypeMsg = "1";

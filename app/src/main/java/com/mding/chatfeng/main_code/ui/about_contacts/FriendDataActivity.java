@@ -25,7 +25,7 @@ import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.mding.model.CusJumpChatData;
@@ -108,7 +108,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
 
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
-        realmLinkFriendHelper = new RealmLinkFriendHelper(this);
+        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(this);
 
 
         mView = LayoutInflater.from(this).inflate(R.layout.pop_good_friend, null);
@@ -154,7 +154,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
 
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
-    RealmLinkFriendHelper realmLinkFriendHelper;
+    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
 
     @Override
     public void receiveResultMsg(String responseText) {
@@ -207,7 +207,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
         if (record != null) {
             dataRecord = record;
 
-            String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(FriendId);
+            String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(FriendId);
             if (imgPath != null) {
                 Glide.with(this).load(imgPath)
                         .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
@@ -293,7 +293,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 fullImageInfo.setWidth(view.getWidth());
                 fullImageInfo.setHeight(view.getHeight());
                 GlideCacheUtil.getInstance().clearImageAllCache(this);
-                String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(FriendId);
+                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(FriendId);
 //                List<String> fileName = FilePath.getLinkImgPath();
                 if (imgPath!=null)
                 {

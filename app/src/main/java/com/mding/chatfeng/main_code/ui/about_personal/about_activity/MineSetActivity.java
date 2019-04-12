@@ -12,7 +12,6 @@ import com.mding.chatfeng.about_custom.about_cus_dialog.DialogExitUtils;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.VersionCheckUtils;
-import com.mding.chatfeng.about_utils.about_realm.RealmGroupHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.ui.about_personal.about_set.CountAndSafeActivity;
@@ -53,7 +52,6 @@ public class MineSetActivity extends BaseActivity {
     }
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
-    RealmGroupHelper realmGroupHelper;
     String userPhone;
     @Override
     protected void initBaseView() {
@@ -61,7 +59,6 @@ public class MineSetActivity extends BaseActivity {
         SplitWeb.IS_SET_ACTIVITY="1";
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
-        realmGroupHelper = new RealmGroupHelper(this);
         includeTopTvTital.setText("设置");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         try {
@@ -239,7 +236,6 @@ public class MineSetActivity extends BaseActivity {
 
                                     realmHelper.deleteAll();
                                     realmChatHelper.deleteAll();
-                                    realmGroupHelper.deleteAll();
                                     if (MyApplication.getmConnectManager()!=null) {
                                         MyApplication.getmConnectManager().onDestroy();
                                         MyApplication.mConnectManager = null;

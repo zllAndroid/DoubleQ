@@ -56,7 +56,6 @@ import com.mding.chatfeng.about_utils.SoftKeyboardUtils;
 import com.mding.chatfeng.about_utils.SysRunUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_immersive.StateBarUtils;
-import com.mding.chatfeng.about_utils.about_realm.RealmLinkManHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.CusChatData;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
@@ -65,10 +64,13 @@ import com.mding.chatfeng.main_code.mains.top_pop.ChatPopWindow;
 import com.mding.chatfeng.main_code.ui.about_contacts.ChooseGroupActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
+import com.mding.dao.PrivateChatData;
+import com.mding.greendao.PrivateChatDataDao;
 import com.mding.model.CusChatPop;
 import com.mding.model.CusJumpChatData;
 import com.mding.model.DataChatPop;
 import com.mding.model.DataJieShou;
+import com.mding.sql.entitydao.PrivateChatEntityDao;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -82,6 +84,7 @@ import com.rance.chatui.widget.NoScrollViewPager;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -232,7 +235,7 @@ public class ChatActivity extends BaseActivity {
     RealmChatHelper realmHelper;
     RealmHomeHelper realmHomeHelper;
     HideControl hideControl;
-    RealmLinkManHelper realmLink;
+//    RealmLinkManHelper realmLink;
     CusJumpChatData cusJumpChatData;
     ChatPopWindow chatPopWindow;
     DataChatPop dataChatPop;
@@ -252,6 +255,8 @@ public class ChatActivity extends BaseActivity {
 
         if (realmHomeHelper == null)
             realmHomeHelper = new RealmHomeHelper(this);
+
+
         if (hideControl == null)
             hideControl = new HideControl();
 
@@ -429,9 +434,20 @@ public class ChatActivity extends BaseActivity {
 
     }
 
-    ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
+    ArrayList< DataJieShou.RecordBean> mList = new ArrayList<>();
 
     private void initRealm() {
+//        PrivateChatEntityDao privateChatDataDao = new PrivateChatEntityDao();
+//        PrivateChatDataDao entityDao = privateChatDataDao.getEntityDao();
+//        QueryBuilder qb = entityDao.queryBuilder();
+//
+//        qb.where(PrivateChatDataDao.Properties.m.eq("vvv"),
+//                qb.or(Properties.YearOfBirth.gt(1970),
+//                        qb.and(Properties.YearOfBirth.eq(1970),Properties.MonthOfBirth.ge(10))));
+//
+////        List<PrivateChatData> privateChatData = privateChatDataDao.getEntityDao().loadAll();
+//        List<PrivateChatData> privateChatData = entityDao.queryBuilder().where(PrivateChatDataDao.Properties.FriendId.eq(FriendId)).list();
+////        List<PrivateChatData> privateChatData = entityDao.queryBuilder().where(PrivateChatDataDao.Properties.FriendId.eq(FriendId),PrivateChatDataDao.Properties.UserId.eq(SplitWeb.getUserId())).list();
         List<CusChatData> cusRealmChatMsgs = realmHelper.queryAllRealmChat(FriendId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
             mList.clear();

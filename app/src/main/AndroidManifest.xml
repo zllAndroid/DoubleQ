@@ -115,6 +115,9 @@
             android:name=".main_code.mains.LoadDataActivity"
             android:launchMode="singleTop" />
         <activity
+            android:name=".main_code.ui.about_load.LoadLinkManActivity"
+            android:launchMode="singleTop" />
+        <activity
             android:name=".main_code.popular_activity.GoH5Activity"
             android:launchMode="singleTask" />
         <!-- 朋友圈 -->

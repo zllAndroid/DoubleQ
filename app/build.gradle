@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 //apply plugin: 'android-annotationProcessor'
 apply plugin: 'realm-android'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 realm {
     syncEnabled = true
 }
@@ -31,7 +32,11 @@ android {
 //        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
     buildTypes {
+        debug{
+            buildConfigField "boolean", "API_ENV", "true"
+        }
         release {
+            buildConfigField "boolean", "API_ENV", "false"
             minifyEnabled true  //是否代码混淆
 //            multiDexEnabled true  //防止方法数量超过65536导致错误
             //移除无用的resource文件
@@ -47,6 +52,19 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_7
         targetCompatibility JavaVersion.VERSION_1_7
+    }
+    greendao {
+
+        schemaVersion 1//数据库版本号
+
+        daoPackage 'com.mding.greendao'//设置DaoMaster、DaoSession、Dao包名
+
+        targetGenDir 'src/main/java'//设置DaoMaster、DaoSession、Dao目录
+
+        //targetGenDirTest：设置生成单元测试目录
+
+        //generateTests：设置自动生成单元测试用例
+
     }
 //    sourceSets {
 //        main {
@@ -66,6 +84,9 @@ dependencies {
         exclude group: 'com.android.support'
         exclude group: 'org.greenrobot:eventbus:3.1.1'
     })
+//    implementation 'com.facebook.stetho:stetho:1.5.0' //添加这两行
+//    implementation 'com.uphyca:stetho_realm:2.2.2'
+
 
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.android.support:support-v4:28.+'
@@ -81,6 +102,8 @@ dependencies {
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     //    Glide
     implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+    implementation 'org.greenrobot:greendao:3.2.2' // add library
     implementation 'jp.wasabeef:glide-transformations:2.0.1'
     //    UserGuideView
     implementation 'com.github.yilylong:UserGuideView:1.0.2'
@@ -143,13 +166,13 @@ dependencies {
     implementation 'com.github.hotchemi:permissionsdispatcher:2.3.1'
     annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:2.3.1'
 
-//switchbutton
+    //switchbutton
     implementation 'com.github.zcweng:switch-button:0.0.3@aar'
     implementation 'com.example.zhouwei.library:library:1.0.0'
 
-//    implementation 'com.hgDendi:expandable-recyclerview-adapter:1.0.1'
+    //    implementation 'com.hgDendi:expandable-recyclerview-adapter:1.0.1'
 
     implementation 'com.jaeger.statusbaruitl:library:1.4.0'
 
-//    implementation 'com.race604.flyrefresh:library:1.0.1'
+    //    implementation 'com.race604.flyrefresh:library:1.0.1'
 }

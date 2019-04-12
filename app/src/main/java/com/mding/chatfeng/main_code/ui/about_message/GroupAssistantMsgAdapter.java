@@ -12,7 +12,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -28,14 +28,14 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class GroupAssistantMsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolder> {
     Context context;
     public List<CusHomeRealmData> data;
-    RealmLinkFriendHelper realmLinkFriendHelper;
+    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
     public GroupAssistantMsgAdapter(Context context, List<CusHomeRealmData> data) {
 //    public GroupAssistantMsgAdapter(Context context, List<CusHomeRealmData> data, ItemTouchListener mItemTouchListener) {
         super(R.layout.item_home_message, data);
         this.data=data;
         this.context=context;
 //        this.mItemTouchListener=mItemTouchListener;
-        realmLinkFriendHelper = new RealmLinkFriendHelper(context);
+        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(context);
     }
     public void addData(CusHomeRealmData cusData) {
         data.add(0, cusData);
@@ -64,7 +64,7 @@ public class GroupAssistantMsgAdapter extends BaseQuickAdapter<CusHomeRealmData,
     }
     @Override
     protected void convert(final BaseViewHolder helper, final CusHomeRealmData item) {
-//        CusDataLinkFriend linkFriend = realmLinkFriendHelper.queryLinkFriend(item.getFriendId());
+//        CusDataLinkFriend linkFriend = realmMsgInfoTotalHelper.queryLinkFriend(item.getFriendId());
         String type = item.getType();
 //        String assistantType = item.getAssistantType();
 //        if (type!=null&&assistantType!=null)
@@ -83,7 +83,7 @@ public class GroupAssistantMsgAdapter extends BaseQuickAdapter<CusHomeRealmData,
 //            }
         if (type.equals("2")) {
             if (!StrUtils.isEmpty(item.getFriendId())) {
-                String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                 ImageView mIvHead = (ImageView) helper.getView(R.id.item_iv_head);
                 if (imgPath != null) {
                     Uri uri = Uri.fromFile(new File(imgPath));

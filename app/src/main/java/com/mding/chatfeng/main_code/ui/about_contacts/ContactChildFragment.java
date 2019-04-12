@@ -33,7 +33,7 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.Lin
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.LinkGroupAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_custom.LetterBar;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.DataLinkManList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -65,7 +65,7 @@ public class ContactChildFragment extends BaseFragment {
         typeWho = bundle.getInt("position");
         String text = (String) bundle.get("text");
         aCache =  ACache.get(getActivity());
-        realmLinkFriendHelper = new RealmLinkFriendHelper(getActivity());
+        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(getActivity());
         realmHelper = new RealmHomeHelper(getActivity());
         if (view==null) {
             if (typeWho == 0) {
@@ -146,7 +146,7 @@ public class ContactChildFragment extends BaseFragment {
     private Runnable runnable;
     private LinearLayout titleView;
     private LayoutInflater inflater;
-    RealmLinkFriendHelper realmLinkFriendHelper;
+    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
 
     TextView mTvFriendNews;
     // 初始化好友列表
@@ -380,7 +380,7 @@ public class ContactChildFragment extends BaseFragment {
                 final String modified = groupList.get(j).getModified();
                 final String friendId = groupList.get(j).getUserId();
                 final String headImg = groupList.get(j).getHeadImg();
-                CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(friendId);
+                CusDataLinkFriend cusDataLinkFriend = realmMsgInfoTotalHelper.queryLinkFriend(friendId);
                 if (StrUtils.isEmpty(headImg))
                 {
                     return;
@@ -509,7 +509,7 @@ public class ContactChildFragment extends BaseFragment {
                 final String modified = groupList.get(j).getModified();
                 final String friendId = groupList.get(j).getGroupOfId();
                 final String headImg = groupList.get(j).getHeadImg();
-                CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(friendId);
+                CusDataLinkFriend cusDataLinkFriend = realmMsgInfoTotalHelper.queryLinkFriend(friendId);
                 if (StrUtils.isEmpty(headImg))
                 {
                     return;
@@ -547,7 +547,7 @@ public class ContactChildFragment extends BaseFragment {
 //                                    这里拿到的resource就是下载好的文件，
                         File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, friendId, modified);
                         if (isSame)
-                            realmLinkFriendHelper.updateHeadPath(friendId, file.toString(), headImg, modified);
+                            realmMsgInfoTotalHelper.updateHeadPath(friendId, file.toString(), headImg, modified);
                         else
                         {
                             CusDataLinkFriend linkFriend = new CusDataLinkFriend();
@@ -559,7 +559,7 @@ public class ContactChildFragment extends BaseFragment {
                                 linkFriend.setWhoType("1");
                             else
                                 linkFriend.setWhoType("2");
-                            realmLinkFriendHelper.addRealmLinkFriend(linkFriend);
+                            realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
                         }
                     }
                 });

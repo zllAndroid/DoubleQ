@@ -26,7 +26,7 @@ import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_add.AddGoodFriendActivity;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.MyAccountActivity;
@@ -102,7 +102,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
 
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
-    RealmLinkFriendHelper realmLinkFriendHelper;
+    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
 
     @Override
     protected void initBaseView() {
@@ -124,7 +124,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
         }
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
-        realmLinkFriendHelper = new RealmLinkFriendHelper(this);
+        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(this);
 
         mView = LayoutInflater.from(this).inflate(R.layout.pop_good_friend, null);
         mView.findViewById(R.id.pop_tv_pingbi).setOnClickListener(new View.OnClickListener() {
@@ -263,7 +263,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
             fdLinFenzu.setVisibility(View.VISIBLE);
             fdaTvAdd.setVisibility(View.GONE);
 
-            String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(FriendId);
+            String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(FriendId);
             if (imgPath != null) {
                 Glide.with(this).load(imgPath)
                         .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
@@ -344,7 +344,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 fullImageInfo.setWidth(view.getWidth());
                 fullImageInfo.setHeight(view.getHeight());
                 GlideCacheUtil.getInstance().clearImageAllCache(this);
-                String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(FriendId);
+                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(FriendId);
 //                List<String> fileName = FilePath.getLinkImgPath();
                 if (imgPath!=null)
                 {

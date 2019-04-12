@@ -6,6 +6,7 @@ public class DataServer {
      */
 
     private String swooleServer;
+    private String swooleServer_v1;
 
     public String getSwooleServer() {
         return swooleServer;
@@ -15,7 +16,13 @@ public class DataServer {
         this.swooleServer = swooleServer;
     }
 
+    public String getSwooleServer_v1() {
+        return swooleServer_v1;
+    }
 
+    public void setSwooleServer_v1(String swooleServer_v1) {
+        this.swooleServer_v1 = swooleServer_v1;
+    }
 //    /**
 //     * sd_server : 192.168.4.66:8000
 //     */

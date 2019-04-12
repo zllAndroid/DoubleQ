@@ -1,23 +1,20 @@
 package com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm;
 
 import android.content.Context;
-
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
-
 import java.util.List;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 import io.realm.Sort;
 
-
-public class RealmLinkFriendHelper {
+//
+public class RealmGroupMemberHelper {
     public static final String FILE_NAME = "totalId";
     public static final String USERID = "userid";
 
     private Realm mRealm;
 
-    public RealmLinkFriendHelper(Context context) {
+    public RealmGroupMemberHelper(Context context) {
 
         mRealm = Realm.getDefaultInstance();
     }
@@ -25,8 +22,8 @@ public class RealmLinkFriendHelper {
      * add （增）
      */
 //添加好友信息
-    public void addRealmLinkFriend(final CusDataLinkFriend linkFriend) {
-        linkFriend.setTotalId(linkFriend.getFriendId() + SplitWeb.getUserId());
+    public void addRealmMember(final CusDataGroupMember linkFriend) {
+        linkFriend.setTotalId(linkFriend.getGroupId() + SplitWeb.getUserId());
         mRealm.beginTransaction();
         mRealm.copyToRealmOrUpdate(linkFriend);//有主键的情况下使用，添加更新
         mRealm.commitTransaction();
@@ -35,7 +32,7 @@ public class RealmLinkFriendHelper {
      * delete （删）
      */
     public void deleteRealmFriend(String friendId) {
-        CusDataLinkFriend dog = mRealm.where(CusDataLinkFriend.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        CusDataGroupMember dog = mRealm.where(CusDataGroupMember.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (dog!=null) {
             mRealm.beginTransaction();
             dog.deleteFromRealm();
@@ -44,7 +41,7 @@ public class RealmLinkFriendHelper {
     }
 
     public void deleteAll() {
-        final RealmResults<CusDataLinkFriend> dogs=  mRealm.where(CusDataLinkFriend.class).findAll();
+        final RealmResults<CusDataGroupMember> dogs=  mRealm.where(CusDataGroupMember.class).findAll();
         if (dogs!=null) {
             mRealm.beginTransaction();
             dogs.deleteAllFromRealm();
@@ -56,11 +53,11 @@ public class RealmLinkFriendHelper {
      * update （改） 头像和头像地址，时间
      */
     public void updateHeadPath(String friendId, String imgPath,String img, String time) {
-        CusDataLinkFriend realmMsg = mRealm.where(CusDataLinkFriend.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        CusDataGroupMember realmMsg = mRealm.where(CusDataGroupMember.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             realmMsg.setHeadImg(img);
-            realmMsg.setImgPath(imgPath);
+            realmMsg.setHeadImg(imgPath);
             realmMsg.setTime(time);
             mRealm.insertOrUpdate(realmMsg);
             mRealm.commitTransaction();
@@ -70,8 +67,8 @@ public class RealmLinkFriendHelper {
     /**
      * query （查询所有）
      */
-    public List<CusDataLinkFriend> queryAllRealmMsg() {
-        RealmResults<CusDataLinkFriend> realmMsgs = mRealm.where(CusDataLinkFriend.class).findAll();
+    public List<CusDataGroupMember> queryAllRealmMsg() {
+        RealmResults<CusDataGroupMember> realmMsgs = mRealm.where(CusDataGroupMember.class).findAll();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
@@ -90,8 +87,8 @@ public class RealmLinkFriendHelper {
      * 根据id查询
      * @return
      */
-    public CusDataLinkFriend queryLinkFriend(String friendId) {
-        CusDataLinkFriend realmMsgs = mRealm.where(CusDataLinkFriend.class)
+    public CusDataGroupMember queryLinkFriend(String friendId) {
+        CusDataGroupMember realmMsgs = mRealm.where(CusDataGroupMember.class)
                 .equalTo(FILE_NAME,friendId+SplitWeb.getUserId())
                 .findFirst();
         /**
@@ -104,21 +101,21 @@ public class RealmLinkFriendHelper {
             return  null;
     }
     public String queryLinkFriendReturnImgPath(String friendId) {
-        CusDataLinkFriend realmMsgs = mRealm.where(CusDataLinkFriend.class)
+        CusDataGroupMember realmMsgs = mRealm.where(CusDataGroupMember.class)
                 .equalTo(FILE_NAME,friendId+SplitWeb.getUserId())
                 .findFirst();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
 //        //降序排列
-        if (realmMsgs!=null&&realmMsgs.getImgPath()!=null)
-            return realmMsgs.getImgPath();
+        if (realmMsgs!=null&&realmMsgs.getHeadImg()!=null)
+            return realmMsgs.getHeadImg();
         else
             return  null;
     }
 //    查询是否存在
     public boolean queryIsLinkFriend(String friendId) {
-        CusDataLinkFriend realmMsgs = mRealm.where(CusDataLinkFriend.class)
+        CusDataGroupMember realmMsgs = mRealm.where(CusDataGroupMember.class)
                 .equalTo(FILE_NAME,friendId+SplitWeb.getUserId())
                 .findFirst();
         /**

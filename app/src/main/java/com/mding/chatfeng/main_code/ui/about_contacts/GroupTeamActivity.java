@@ -102,10 +102,7 @@ public class GroupTeamActivity extends BaseActivity {
             if (groupId != null)
                 sendWeb(SplitWeb.getGroupMemberList(groupId));
         }
-
-
     }
-
     private void initGroup() {
 //        initUI();
         initABC2();
@@ -129,7 +126,12 @@ public class GroupTeamActivity extends BaseActivity {
         }
         runnable = new Runnable() {
             public void run() {
-                mTvAbc.setVisibility(View.INVISIBLE);
+                try {
+                    if (mTvAbc!=null)
+                    mTvAbc.setVisibility(View.INVISIBLE);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         };
         mLetterBar.setonTouchLetterListener(new LetterBar.onTouchLetterListener() {

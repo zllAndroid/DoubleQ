@@ -11,9 +11,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.model.DataLinkManList;
 import com.mding.chatfeng.R;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.io.File;
@@ -22,14 +22,14 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class LinkFriendAdapter extends BaseExpandableListAdapter {
-    RealmLinkFriendHelper realmLinkFriendHelper;
+    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
     Context context;
     List<DataLinkManList.RecordBean.FriendListBean> mGroupList;
     public LinkFriendAdapter( Context context,List<DataLinkManList.RecordBean.FriendListBean> mGroupList
     ) {
         this.context = context;
         this.mGroupList = mGroupList;
-        realmLinkFriendHelper = new RealmLinkFriendHelper(context);
+        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(context);
     }
     @Override
     public int getGroupCount() {
@@ -125,7 +125,7 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
 
 //            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);
         if (!StrUtils.isEmpty(groupListBean.getUserId())) {
-            String imgPath = realmLinkFriendHelper.queryLinkFriendReturnImgPath(groupListBean.getUserId());
+            String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(groupListBean.getUserId());
             if (imgPath!=null) {
                 holder.img_contacts_child_head.setImageURI(Uri.fromFile(new File(imgPath)));
 //                Glide.with(context)
@@ -136,7 +136,7 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
 ////                            @Override
 ////                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
 //////                                加载错误时，加载网络图片
-////                                realmLinkFriendHelper.deleteRealmFriend(groupListBean.getUserId());
+////                                realmMsgInfoTotalHelper.deleteRealmFriend(groupListBean.getUserId());
 ////                                Glide.with(context).load(groupListBean.getHeadImg())
 ////                                        .error(R.drawable.mine_head)
 ////                                        .bitmapTransform(new CropCircleTransformation(context))

@@ -117,7 +117,6 @@ public class MainActivity extends BaseActivity {
         Intent intent_dialog = getIntent();
         if (intent_dialog != null){
             isLogin = intent_dialog.getBooleanExtra(AppConfig.IS_LOGIN, false);
-            Log.e("MainActivity","--------------------------------------------------------------"+isLogin);
             if (isLogin){
                 DialogRiskTestUtils.showDialog(getResources().getString(R.string.risk_test_title), getResources().getString(R.string.risk_test),
                         getResources().getString(R.string.risk_test_organization), getResources().getString(R.string.risk_test_time),
@@ -127,7 +126,6 @@ public class MainActivity extends BaseActivity {
 
                     }
                 });
-                Log.e("MainActivity","--------------------------------------------------------------"+getResources().getString(R.string.risk_test));
             }
         }
         if (MyApplication.isMain) {

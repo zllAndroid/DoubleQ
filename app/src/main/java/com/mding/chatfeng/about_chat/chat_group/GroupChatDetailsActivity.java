@@ -59,7 +59,7 @@ import com.mding.chatfeng.main_code.ui.about_contacts.GroupTeamActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.PersonData;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberQunzhuAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_top_add.QunCodeActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
@@ -135,7 +135,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     @BindView(R.id.group_data_tv_grouping_name)
     TextView groupDataTvGroupingName;
     private RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
-    RealmLinkFriendHelper realmLinkFriendHelper;
+    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
     DataSearch dataSearch = null;
     static String groupId;
     static String groupName;
@@ -155,7 +155,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
         realmHelper = new RealmHomeHelper(this);
         realmGroupChatHeaderHelper = new RealmGroupChatHeaderHelper(this);
-        realmLinkFriendHelper = new RealmLinkFriendHelper(this);
+        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(this);
         Intent intent = getIntent();
         if (intent != null) {
             groupId = intent.getStringExtra(AppConfig.GROUP_ID);
@@ -326,7 +326,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                                     public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
 //                                    这里拿到的resource就是下载好的文件，
                                         File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_GROUP, groupId, recordImg.getModified());
-                                        realmLinkFriendHelper.updateHeadPath(groupId, file.getPath(), headImg, recordImg.getModified());
+                                        realmMsgInfoTotalHelper.updateHeadPath(groupId, file.getPath(), headImg, recordImg.getModified());
 
                                     }
                                 });
@@ -701,7 +701,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //        {
 //            return;
 //        }
-        CusDataLinkFriend cusDataLinkFriend = realmLinkFriendHelper.queryLinkFriend(groupId);
+        CusDataLinkFriend cusDataLinkFriend = realmMsgInfoTotalHelper.queryLinkFriend(groupId);
         if (cusDataLinkFriend != null) {
 
             String time = cusDataLinkFriend.getTime();
@@ -744,31 +744,31 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         }
     }
 
-    private void setGlideData(final boolean isSame, final boolean isFriend, final String modified, final String groupId, final String headImg) {
-        Glide.with(this)
-                .load(headImg)
-                .downloadOnly(new SimpleTarget<File>() {
-                    @Override
-                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, groupId, modified);
-                        if (isSame)
-                            realmLinkFriendHelper.updateHeadPath(groupId, file.toString(), headImg, modified);
-                        else {
-                            CusDataLinkFriend linkFriend = new CusDataLinkFriend();
-                            linkFriend.setHeadImg(headImg);
-                            linkFriend.setFriendId(groupId);
-                            linkFriend.setTime(modified);
-                            linkFriend.setImgPath(file.toString());
-                            if (isFriend)
-                                linkFriend.setWhoType("1");
-                            else
-                                linkFriend.setWhoType("2");
-                            realmLinkFriendHelper.addRealmLinkFriend(linkFriend);
-                        }
-                    }
-                });
-    }
+//    private void setGlideData(final boolean isSame, final boolean isFriend, final String modified, final String groupId, final String headImg) {
+//        Glide.with(this)
+//                .load(headImg)
+//                .downloadOnly(new SimpleTarget<File>() {
+//                    @Override
+//                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+////                                    这里拿到的resource就是下载好的文件，
+//                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, groupId, modified);
+//                        if (isSame)
+//                            realmMsgInfoTotalHelper.updateHeadPath(groupId, file.toString(), headImg, modified);
+//                        else {
+//                            CusDataLinkFriend linkFriend = new CusDataLinkFriend();
+//                            linkFriend.setHeadImg(headImg);
+//                            linkFriend.setFriendId(groupId);
+//                            linkFriend.setTime(modified);
+//                            linkFriend.setImgPath(file.toString());
+//                            if (isFriend)
+//                                linkFriend.setWhoType("1");
+//                            else
+//                                linkFriend.setWhoType("2");
+//                            realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
+//                        }
+//                    }
+//                });
+//    }
 
     @OnClick({R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat,
             R.id.include_top_iv_zhuanfa, R.id.group_details_iv_qrcode, R.id.group_details_lin_name, R.id.group_data_iv_head,
