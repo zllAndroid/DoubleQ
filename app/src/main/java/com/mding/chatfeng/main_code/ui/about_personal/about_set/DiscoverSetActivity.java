@@ -10,6 +10,7 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.DongTaiSetActivity;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.mding.chatfeng.main_code.ui.about_discovery.DongTuPlaySetActivity;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -55,7 +56,7 @@ public class DiscoverSetActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.discover_lin_gifPlay:
-                IntentUtils.JumpTo(DongTaiSetActivity.class);
+                IntentUtils.JumpTo(DongTuPlaySetActivity.class);
                 break;
             case R.id.discover_lin_hideMine:
                 break;

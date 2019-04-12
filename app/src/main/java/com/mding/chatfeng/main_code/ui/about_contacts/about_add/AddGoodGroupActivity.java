@@ -14,6 +14,7 @@ import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.FriendGroupListActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -63,7 +64,8 @@ public class AddGoodGroupActivity extends BaseActivity {
              dataSearch = (DataSearch) intent.getSerializableExtra(AppConfig.GROUP_ADDKEY);
             if (dataSearch==null)
                 return;
-            Glide.with(this).load(dataSearch.getHeadImg()).error(R.drawable.mine_head).into(fdaIvHead);
+            ImageUtils.useBase64WithError(this, fdaIvHead, dataSearch.getHeadImg(), R.drawable.mine_head);
+//            Glide.with(this).load(dataSearch.getHeadImg()).error(R.drawable.mine_head).into(fdaIvHead);
             fdaTvName.setText(dataSearch.getName());
 
         }

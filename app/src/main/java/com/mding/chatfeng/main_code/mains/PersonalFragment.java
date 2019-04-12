@@ -1,7 +1,13 @@
 package com.mding.chatfeng.main_code.mains;
 
+import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.PopupWindow;
@@ -9,32 +15,34 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.GlideBuilder;
+import com.bumptech.glide.load.DecodeFormat;
+import com.bumptech.glide.module.GlideModule;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_chat.FullImageActivity;
 import com.mding.chatfeng.about_utils.GlideCacheUtil;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
-import com.mding.chatfeng.about_utils.about_file.FilePath;
-import com.mding.chatfeng.about_utils.about_file.HeadFileUtils;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.OrangePocketActivity;
 import com.mding.chatfeng.about_base.BaseFragment;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.MineSetActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.MyAccountActivity;
-import com.mding.chatfeng.main_code.ui.about_personal.about_activity.MyDiscoverActivity;
 import com.mding.model.DataMyZiliao;
+import com.mding.model.HeadImgInfo;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.enity.FullImageInfo;
 
 import org.greenrobot.eventbus.EventBus;
-
-import java.io.File;
-import java.util.List;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -46,6 +54,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
  * 项目：DoubleQ
  * 文件描述：主界面FindFragment之个人中心页面
  * 作者：zll
+ * 修改者：ljj
  */
 public class PersonalFragment extends BaseFragment {
 
@@ -75,7 +84,8 @@ public class PersonalFragment extends BaseFragment {
     int head;
     TextView tv_title;
     Unbinder unbinder;
-
+    ACache aCache;
+    public static String IMAGE_BASE64 = "headImageBase64";
 //    @Override
 //    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 //        // Inflate the layout for this fragment
@@ -98,7 +108,15 @@ public class PersonalFragment extends BaseFragment {
         super.initBaseUI(view);
         view = getTopBarView();
         unbinder = ButterKnife.bind(this, view);
+        aCache = ACache.get(getActivity());
         initUI();
+    }
+
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true) //在ui线程执行
+    public void onDataSynEvent(final HeadImgInfo headImgInfo) {
+        imageBase64Event = headImgInfo.getHeadImgBase64();
+//        ImageUtils.useBase64(getActivity(),mineIvPerson, imageBase64);
     }
 
     @Override
@@ -112,8 +130,33 @@ public class PersonalFragment extends BaseFragment {
     }
     private void initUI() {
         initName();
-        if (!SplitWeb.IS_SET_PERSON_HEAD)
-            getHead();
+        setImgHead();
+    }
+
+//    public static Bitmap base64ToBitmap(String base64String) {
+//
+//        byte[] decode = Base64.decode(base64String, Base64.DEFAULT);
+//
+//        Bitmap bitmap = BitmapFactory.decodeByteArray(decode, 0, decode.length);
+//
+//        return bitmap;
+//    }
+
+    private void setImgHead() {
+        String asString = aCache.getAsString(IMAGE_BASE64);
+
+        if (StrUtils.isEmpty(asString))
+            sendWeb(SplitWeb.personalCenter());
+        else
+        {
+            imageBase64 = asString;
+            ImageUtils.useBase64(getActivity(),mineIvPerson,asString);
+            MyLog.e("PersonalFragment","无网");
+        }
+
+//        if (!SplitWeb.IS_SET_PERSON_HEAD) {
+//            getHead();
+//        }
     }
 
     private void initName() {
@@ -139,57 +182,36 @@ public class PersonalFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-
+//        getHead("aCacheBase64");
         if (isChange)
         {
             initName();
         }
         if (isChangeHead)
         {
-            getHead();
+//            getHead();
+            if (imageBase64Event != null){
+                ImageUtils.useBase64(getActivity(),mineIvPerson,imageBase64Event);
+                aCache.put(IMAGE_BASE64, imageBase64Event);
+                ToastUtil.isDebugShow("eventBus不为空");
+            }
         }
-        if (SplitWeb.IS_SET_PERSON_HEAD)
+        if (SplitWeb.IS_SET_PERSON_HEAD){
+//            getHead();
             sendWeb(SplitWeb.personalCenter());
+        }
         isChange=false;
         isChangeHead=false;
         SplitWeb.IS_SET_PERSON_HEAD=false;
+
 //        if (!StrUtils.isEmpty(FilePath.getHeadPath()))
 //        mineIvPerson.setBackgroundResource(0);
 //        Glide.get(getActivity()).clearMemory();//清理内存缓存 可以在UI主线程中进行
 
-
     }
 
     private void getHead() {
-
-//        String userNewHead = FilePath.getUserNewHead(getContext());
-        String userId = SplitWeb.getUserId();
-        String mPath= FilePath.getAbsPath(FilePath.appPath+userId+"/")+"chatHead/";
-        List<String> fileName = FilePath.getFilesAllName(mPath);
-        if (fileName != null && fileName.size() > 0)
-        {
-            String userNewHead = fileName.get(fileName.size() - 1);
-//            GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-            mineIvPerson.setImageURI(Uri.fromFile(new File(userNewHead)));
-        }
-//        GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-//        List<String> fileName = FilePath.getFilesAllName(FilePath.myHeadImg);
-//        if (fileName!=null&&fileName.size()>0)
-//        {
-//            String path=fileName.get(fileName.size()-1);
-//            Glide.with(this).load(path)
-//                    .bitmapTransform(new CropCircleTransformation(getActivity()))
-////                        .thumbnail(0.1f)
-//                    .into(mineIvPerson);
-//        }
-        else
-        {
-            sendWeb(SplitWeb.personalCenter());
-//                Glide.with(this).load(R.drawable.first_head_nor)
-//                        .bitmapTransform(new CropCircleTransformation(getActivity()))
-////                        .thumbnail(0.1f)
-//                        .into(mineIvPerson);
-        }
+//        ImageUtils.useBase64(getActivity(),mineIvPerson,imageBase64Event);
     }
 
     String userId;
@@ -205,62 +227,19 @@ public class PersonalFragment extends BaseFragment {
                 DataMyZiliao.RecordBean record= dataMyZiliao.getRecord();
                 if (record!=null)
                 {
-//                    if (record.getNickName()!=null){
-//                        mineTvName.setText(record.getNickName());
-//                        userId = SplitWeb.getUserId();
-//                    }
-////                    String signText=StrUtils.isEmpty(record.getPersonaSignature())?"暂未签名":"";
-//                    if (StrUtils.isEmpty(record.getPersonaSignature()))
-//                    {
-//                        mineTvSign.setHint("暂未签名");
-//                    }else {
-//                        mineTvSign.setText(record.getPersonaSignature());
-//                    }
-//                    GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-                    String userId = SplitWeb.getUserId();
-                   String path= FilePath.getAbsPath(FilePath.appPath+userId+"/")+"chatHead/";
-                    List<String> fileName = FilePath.getFilesAllName(path);
-                    if (fileName!=null&&fileName.size()>0)
-                    {
-                        Glide.with(getActivity()).load(fileName.get((fileName.size()-1)))
-                                .bitmapTransform(new CropCircleTransformation(getActivity()))
-//                            .thumbnail(0.1f)
-                                .into(mineIvPerson);
-                    }else
-                    {
-                        String headImg = record.getHeadImg();
-                        if (!StrUtils.isEmpty(headImg))
-                            Glide.with(this)
-                                    .load(headImg)
-                                    .downloadOnly(new SimpleTarget<File>() {
-                                        @Override
-                                        public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                                            File file = HeadFileUtils.saveHeadPath(getActivity(), resource);
-                                            Glide.with(getActivity()).load(file)
-                                                    .bitmapTransform(new CropCircleTransformation(getActivity()))
-//                            .thumbnail(0.1f)
-                                                    .into(mineIvPerson);
-                                        }
-                                    });
-
+                    String headImg = record.getHeadImg();
+//                    String substring = headImg.substring(22);
+                    if (!StrUtils.isEmpty(headImg)){
+                        imageBase64 = headImg;
+                        ImageUtils.useBase64(getActivity(), mineIvPerson, headImg);
+                        aCache.put(IMAGE_BASE64, headImg);
+                        ToastUtil.isDebugShow("无网");
+//                        MyLog.e("PersonalFragment","无网");
                     }
-//                    if (StrUtils.isEmpty(FilePath.getHeadPath()))
-//                    Glide.with(this).load(record.getHeadImg())
-//                            .bitmapTransform(new CropCircleTransformation(getActivity()))
-//                            .thumbnail(0.1f)
-//                            .into(mineIvPerson);
-
-
-//                    SplitWeb.USER_HEADER=record.getHeadImg();
-//                    SPUtils.put(getActivity(),"header",record.getHeadImg());
-//                    SPUtils.put(getActivity(),"name",record.getNickName());
                 }
                 break;
         }
     }
-
-
 
     @Override
     public void onDestroyView() {
@@ -271,7 +250,9 @@ public class PersonalFragment extends BaseFragment {
             unbinder=null;
         }
     }
-//    ConfirmPopWindow confirmPopWindow=null;
+    String imageBase64 = "";
+    String imageBase64Event = "";
+    //    ConfirmPopWindow confirmPopWindow=null;
     @OnClick({R.id.mine_iv_qrcode,R.id.mine_iv_person,R.id.include_frag_img_search, R.id.mine_lin_person_info,
             R.id.mine_lin_share, R.id.mine_lin_set,R.id.mine_lin_discover, R.id.mine_lin_orange_pocket})
     public void onViewClicked(View view) {
@@ -285,17 +266,29 @@ public class PersonalFragment extends BaseFragment {
                 fullImageInfo.setWidth(view.getWidth());
                 fullImageInfo.setHeight(view.getHeight());
                 GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-                String mPath= FilePath.getAbsPath(FilePath.appPath+ SplitWeb.getUserId()+"/")+"chatHead/";
-                List<String> fileName = FilePath.getFilesAllName(mPath);
-                if (fileName!=null&&fileName.size()>0)
-                {
-                    String path=fileName.get(fileName.size()-1);
-                    fullImageInfo.setImageUrl(path);
-                    EventBus.getDefault().postSticky(fullImageInfo);
-                    startActivity(new Intent(getActivity(), FullImageActivity.class));
-                    getActivity().overridePendingTransition(0, 0);
-                }
-
+//                String mPath= FilePath.getAbsPath(FilePath.appPath+ SplitWeb.getUserId()+"/")+"chatHead/";
+//                List<String> fileName = FilePath.getFilesAllName(mPath);
+//                if (fileName!=null&&fileName.size()>0)
+//                {
+//                    String path=fileName.get(fileName.size()-1);
+//                    fullImageInfo.setImageUrl(path);
+//                    EventBus.getDefault().postSticky(fullImageInfo);
+////
+////                    if (ChangeInfoActivity.imgWidth != 0 && ChangeInfoActivity.imgHeight != 0){
+////                        Intent intent = new Intent(getActivity(), FullImageActivity.class);
+////                        Bundle bundle = new Bundle();
+////                        bundle.putString("imgWidth", String.valueOf(ChangeInfoActivity.imgWidth));
+////                        bundle.putString("imgHeight", String.valueOf(ChangeInfoActivity.imgHeight));
+////                        intent.putExtras(bundle);
+////                        startActivity(intent);
+////                    }else
+//                    startActivity(new Intent(getActivity(), FullImageActivity.class));
+//                    getActivity().overridePendingTransition(0, 0);
+//                }
+                fullImageInfo.setImageBase64(imageBase64);
+                EventBus.getDefault().postSticky(fullImageInfo);
+                startActivity(new Intent(getActivity(), FullImageActivity.class));
+                getActivity().overridePendingTransition(0, 0);
                 break;
             case R.id.include_frag_img_search:
                 IntentUtils.JumpTo(SearchActivity.class);
@@ -307,6 +300,9 @@ public class PersonalFragment extends BaseFragment {
 ////                showNoticePopWindow();
 //                break;
             case R.id.mine_lin_person_info:
+//                HeadImgInfo headImgInfo = new HeadImgInfo();
+//                headImgInfo.setHeadImgBase64(imageBase64);
+//                EventBus.getDefault().postSticky(headImgInfo);
                 IntentUtils.JumpTo(ChangeInfoActivity.class);
                 break;
             case R.id.mine_lin_share:

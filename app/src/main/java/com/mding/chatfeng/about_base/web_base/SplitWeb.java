@@ -55,6 +55,7 @@ public class SplitWeb {
 //        Log.e("getUserId","getUserId="+USER_ID);
 //        return USER_ID;
 //    }
+
     public static String getUserId() {
 //        if(StrUtils.isEmpty(USER_ID))
             USER_ID= MyApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);

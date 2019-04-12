@@ -22,6 +22,7 @@ import com.mding.chatfeng.about_chat.ChatActivity;
 import com.mding.chatfeng.about_chat.FullImageActivity;
 import com.mding.chatfeng.about_utils.GlideCacheUtil;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
@@ -190,9 +191,10 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         fdaTvSign.setText(signText);
                         //  好友分组
                         fdTvFenzu.setText(record.getGroupName());
-                        Glide.with(this).load(record.getHeadImg())
-                                .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
-                                .into(mIvHead);
+                        ImageUtils.useBase64(FriendDataMixActivity.this, mIvHead, record.getHeadImg());
+//                        Glide.with(this).load(record.getHeadImg())
+//                                .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
+//                                .into(mIvHead);
                         if (record.getIsQrcodeShow().equals("0"))
                             dataIvQrcode.setVisibility(View.GONE);
                     } else {
@@ -205,9 +207,10 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         fdaTvNum.setText(record.getWxSno());
                         String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
                         fdaTvSign.setText(signText);
-                        Glide.with(this).load(record.getHeadImg())
-                                .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
-                                .into(mIvHead);
+                        ImageUtils.useBase64(FriendDataMixActivity.this, mIvHead, record.getHeadImg());
+//                        Glide.with(this).load(record.getHeadImg())
+//                                .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
+//                                .into(mIvHead);
                     }
 
                     dataSearch = new DataSearch();
@@ -269,10 +272,11 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
                         .into(mIvHead);
             } else {
-                Glide.with(this).load(record.getHeadImg())
-                        .error(R.drawable.mine_head)
-                        .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
-                        .into(mIvHead);
+                ImageUtils.useBase64WithError(FriendDataMixActivity.this, mIvHead, record.getHeadImg(), R.drawable.mine_head);
+//                Glide.with(this).load(record.getHeadImg())
+//                        .error(R.drawable.mine_head)
+//                        .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
+//                        .into(mIvHead);
             }
 //            Glide.with(this).load(record.getHeadImg())
 //                    .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))

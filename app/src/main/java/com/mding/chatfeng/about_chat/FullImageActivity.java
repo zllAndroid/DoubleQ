@@ -2,6 +2,7 @@ package com.mding.chatfeng.about_chat;
 
 import android.animation.ObjectAnimator;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -13,8 +14,9 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.bumptech.glide.Glide;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_utils.ImageUtils;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.rance.chatui.enity.FullImageInfo;
 
 import org.greenrobot.eventbus.EventBus;
@@ -40,6 +42,9 @@ public class FullImageActivity extends AppCompatActivity {
     private float mScaleY;
     private Drawable mBackground;
 
+    float imgWidth;
+    float imgHeight;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +52,11 @@ public class FullImageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_full_image);
         getSupportActionBar().hide();
         ButterKnife.bind(this);
+        Intent intent = getIntent();
+        if (intent != null) {
+            imgWidth = intent.getFloatExtra("imgWidth", 0);
+            imgHeight = intent.getFloatExtra("imgHeight", 0);
+        }
         EventBus.getDefault().register(this);
     }
 
@@ -73,14 +83,22 @@ public class FullImageActivity extends AppCompatActivity {
                 return true;
             }
         });
-        Glide.with(this).load(fullImageInfo.getImageUrl()).into(fullImage);
+//        Glide.with(this).load(fullImageInfo.getImageUrl()).into(fullImage);
+        ImageUtils.useBase64(FullImageActivity.this, fullImage, fullImageInfo.getImageBase64());
+//        ImageUtils.useBase64Origin(FullImageActivity.this, fullImage, fullImageInfo.getImageBase64());
     }
 
     private void activityEnterAnim() {
         fullImage.setPivotX(0);
         fullImage.setPivotY(0);
-        fullImage.setScaleX(mScaleX);
-        fullImage.setScaleY(mScaleY);
+        if (imgWidth != 0 && imgHeight != 0) {
+            fullImage.setScaleX(imgWidth);
+            fullImage.setScaleY(imgHeight);
+        } else {
+            fullImage.setScaleX(mScaleX);
+            fullImage.setScaleY(mScaleY);
+        }
+
         fullImage.setTranslationX(mLeft);
         fullImage.setTranslationY(mTop);
         fullImage.animate().scaleX(1).scaleY(1).translationX(0).translationY(0).
@@ -132,4 +150,14 @@ public class FullImageActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @OnClick(R.id.full_lay)
+    public void onViewClicked() {
+        activityExitAnim(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+                overridePendingTransition(0, 0);
+            }
+        });
+    }
 }

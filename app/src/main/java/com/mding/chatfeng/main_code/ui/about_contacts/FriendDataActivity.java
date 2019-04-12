@@ -22,6 +22,7 @@ import com.mding.chatfeng.about_chat.ChatActivity;
 import com.mding.chatfeng.about_chat.FullImageActivity;
 import com.mding.chatfeng.about_utils.GlideCacheUtil;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
@@ -213,10 +214,11 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                         .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
                         .into(mIvHead);
             } else {
-                Glide.with(this).load(record.getHeadImg())
-                        .error(R.drawable.mine_head)
-                        .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
-                        .into(mIvHead);
+                ImageUtils.useBase64WithError(FriendDataActivity.this, mIvHead, record.getHeadImg(), R.drawable.mine_head);
+//                Glide.with(this).load(record.getHeadImg())
+//                        .error(R.drawable.mine_head)
+//                        .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
+//                        .into(mIvHead);
             }
 
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();

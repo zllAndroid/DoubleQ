@@ -17,6 +17,7 @@ import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.FriendGroupListActivity;
 import com.mding.model.DataFriendGroup;
@@ -77,10 +78,11 @@ public class AddGoodFriendActivity extends BaseActivity {
 //            dataSearch.getHead_img()
             if (dataSearch == null)
                 return;
-            Glide.with(this).load(dataSearch.getHeadImg())
-                    .error(R.drawable.mine_head)
-                    .bitmapTransform(new CropCircleTransformation(AddGoodFriendActivity.this))
-                    .into(fdaIvHead);
+            ImageUtils.useBase64WithError(AddGoodFriendActivity.this,fdaIvHead, dataSearch.getHeadImg(), R.drawable.mine_head);
+//            Glide.with(this).load(dataSearch.getHeadImg())
+//                    .error(R.drawable.mine_head)
+//                    .bitmapTransform(new CropCircleTransformation(AddGoodFriendActivity.this))
+//                    .into(fdaIvHead);
             fdaTvName.setText(dataSearch.getName());
         }
 

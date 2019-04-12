@@ -13,6 +13,7 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_add.AddGoodFriendActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
@@ -76,9 +77,10 @@ public class FriendDataAddActivity extends BaseActivity {
                 mTvName.setText(dataSearch.getName());
                 fdaTvNum.setText(dataSearch.getSno());
                 fdaTvSign.setText(StrUtils.isEmpty(dataSearch.getSign()) ? "暂未设置签名" : dataSearch.getSign());
-                Glide.with(this).load(dataSearch.getHeadImg())
-                        .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
-                        .into(mIvHead);
+                ImageUtils.useBase64(FriendDataAddActivity.this, mIvHead, dataSearch.getHeadImg());
+//                Glide.with(this).load(dataSearch.getHeadImg())
+//                        .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
+//                        .into(mIvHead);
             } else {
                 String id = intent.getStringExtra("id");
                 Log.e("scan_id", "-------------------------" + id);
@@ -105,9 +107,10 @@ public class FriendDataAddActivity extends BaseActivity {
                     fdaTvNum.setText(record.getWxSno());
                     String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未签名" : record.getPersonaSignature();
                     fdaTvSign.setText(signText);
-                    Glide.with(this).load(record.getHeadImg())
-                            .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
-                            .into(mIvHead);
+                    ImageUtils.useBase64(FriendDataAddActivity.this, mIvHead, dataSearch.getHeadImg());
+//                    Glide.with(this).load(record.getHeadImg())
+//                            .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
+//                            .into(mIvHead);
 
                     dataSearch = new DataSearch();
                     dataSearch.setSno(record.getWxSno());
@@ -129,9 +132,10 @@ public class FriendDataAddActivity extends BaseActivity {
         DataMyFriend.RecordBean record = dataMyFriend.getRecord();
         if (record != null) {
 //            dataRecord = record;
-            Glide.with(this).load(record.getHeadImg())
-                    .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
-                    .into(mIvHead);
+            ImageUtils.useBase64(FriendDataAddActivity.this, mIvHead, dataSearch.getHeadImg());
+//            Glide.with(this).load(record.getHeadImg())
+//                    .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
+//                    .into(mIvHead);
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdaTvSign.setText(signText);
 //            fdaTvFenzu.setText(record.getGroupName() + "");

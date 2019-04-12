@@ -23,6 +23,7 @@ public class DataAddQunDetails {
     private int timestamp;
     private int only;
 
+
     public int getCode() {
         return code;
     }
@@ -181,6 +182,24 @@ public class DataAddQunDetails {
                 private String groupSno;
                 private String groupHeadImg;
                 private String groupQrcode;
+                private String nowNum;
+                private String maxNum;
+
+                public String getNowNum() {
+                    return nowNum;
+                }
+
+                public void setNowNum(String nowNum) {
+                    this.nowNum = nowNum;
+                }
+
+                public String getMaxNum() {
+                    return maxNum;
+                }
+
+                public void setMaxNum(String maxNum) {
+                    this.maxNum = maxNum;
+                }
 
                 public String getId() {
                     return id;

@@ -169,7 +169,9 @@ public class LoginActivity extends BaseActivity {
             public void onNetSuccess(String result) {
                 Log.e("result=", result + "---------------------------");
                 DataServer dataServer = JSON.parseObject(result, DataServer.class);
-                String swooleServer = dataServer.getSwooleServer();
+                //测试
+//                String swooleServer = dataServer.getSwooleServer();
+                String swooleServer = dataServer.getSwooleServer_v1();
 
                 SplitWeb.HttpURL = swooleServer;
                 SPUtils.put(LoginActivity.this, AppConfig.TYPE_URL, swooleServer+"");

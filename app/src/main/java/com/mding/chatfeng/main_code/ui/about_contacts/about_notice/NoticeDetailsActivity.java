@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.DataNews;
 import com.mding.model.DataNoticeDetails;
 import com.mding.chatfeng.R;
@@ -253,10 +254,11 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
         DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
         if (recordBean != null){
             DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfo = recordBean.getUserDetailInfo();
-            Glide.with(this).load(userDetailInfo.getHeadImg())
-                    .bitmapTransform(new CropCircleTransformation(this))
-                    .error(R.drawable.mine_head)
-                    .into(mIvHead);
+            ImageUtils.useBase64(NoticeDetailsActivity.this, mIvHead, userDetailInfo.getHeadImg());
+//            Glide.with(this).load(userDetailInfo.getHeadImg())
+//                    .bitmapTransform(new CropCircleTransformation(this))
+//                    .error(R.drawable.mine_head)
+//                    .into(mIvHead);
             mTvName.setText(userDetailInfo.getNickName());
 //        TODO  添加帐号
             noticeTvNum.setText(userDetailInfo.getWxSno());

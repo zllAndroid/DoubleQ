@@ -136,6 +136,7 @@ public class MyApplication extends Application implements IWebSocketPage {
         }else {
             initManagerService();
         }
+        // TODO  改端口
 //        initOneService();
         initRealm();
          db= (new DBgreatTable(this)).getWritableDatabase();
@@ -181,6 +182,8 @@ public class MyApplication extends Application implements IWebSocketPage {
             if (action.equals("server_application"))
             {
                 initFirstService();
+                //TODO 改端口
+//                initOneService();
             }
         }
     };

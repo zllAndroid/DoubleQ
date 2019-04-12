@@ -8,10 +8,19 @@ import android.graphics.Matrix;
 import android.graphics.PixelFormat;
 import android.graphics.drawable.Drawable;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.widget.ImageView;
 
+import com.bumptech.glide.BitmapTypeRequest;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.Target;
+import com.chad.library.adapter.base.BaseViewHolder;
+import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_utils.about_image_compress.ImageUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -28,6 +37,8 @@ import java.net.URL;
 import java.util.Map;
 import java.util.UUID;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
 
 /**
  * 图片转换工具
@@ -37,98 +48,161 @@ import java.util.UUID;
 public class ImageUtils {
 	public static String saveDir = Environment.getExternalStorageDirectory().getPath() + "/chat_image";
 	public static File saveBitmapToFile(File file, String newpath) {
-        try {
- 
-            // BitmapFactory options to downsize the image
-            BitmapFactory.Options o = new BitmapFactory.Options();
-            o.inJustDecodeBounds = true;
-            o.inSampleSize = 6;
-            // factor of downsizing the image
- 
-            FileInputStream inputStream = new FileInputStream(file);
-            //Bitmap selectedBitmap = null;
-            BitmapFactory.decodeStream(inputStream, null, o);
-            inputStream.close();
- 
-            // The new size we want to scale to
-            final int REQUIRED_SIZE = 75;
- 
-            // Find the correct scale value. It should be the power of 2.
-            int scale = 1;
-            while (o.outWidth / scale / 2 >= REQUIRED_SIZE &&
-                    o.outHeight / scale / 2 >= REQUIRED_SIZE) {
-                scale *= 2;
-            }
- 
-            BitmapFactory.Options o2 = new BitmapFactory.Options();
-            o2.inSampleSize = scale;
-            inputStream = new FileInputStream(file);
- 
-            Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
-            inputStream.close();
- 
-            File aa = new File(newpath);
-            aa.delete();
-            if (!aa.exists()) {
-            	aa.mkdirs();
-            	aa = new File(newpath);
-    		}
-            return aa;
-        } catch (Exception e) {
-            return null;
-        }
-    }
-	public static String GetStringByImageView( Bitmap bitmap){
+		try {
+
+			// BitmapFactory options to downsize the image
+			BitmapFactory.Options o = new BitmapFactory.Options();
+			o.inJustDecodeBounds = true;
+			o.inSampleSize = 6;
+			// factor of downsizing the image
+
+			FileInputStream inputStream = new FileInputStream(file);
+			//Bitmap selectedBitmap = null;
+			BitmapFactory.decodeStream(inputStream, null, o);
+			inputStream.close();
+
+			// The new size we want to scale to
+			final int REQUIRED_SIZE = 75;
+
+			// Find the correct scale value. It should be the power of 2.
+			int scale = 1;
+			while (o.outWidth / scale / 2 >= REQUIRED_SIZE &&
+					o.outHeight / scale / 2 >= REQUIRED_SIZE) {
+				scale *= 2;
+			}
+
+			BitmapFactory.Options o2 = new BitmapFactory.Options();
+			o2.inSampleSize = scale;
+			inputStream = new FileInputStream(file);
+
+			Bitmap selectedBitmap = BitmapFactory.decodeStream(inputStream, null, o2);
+			inputStream.close();
+
+			File aa = new File(newpath);
+			aa.delete();
+			if (!aa.exists()) {
+				aa.mkdirs();
+				aa = new File(newpath);
+			}
+			return aa;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	public static String GetStringByImageView(Bitmap bitmap){
 		Bitmap bitmap1 =comp(bitmap);
+//		Bitmap bitmap1 = getBitmapCompress(imgPath);
 		// 从ImageView得到Bitmap对象
 //        Bitmap bitmap = ((BitmapDrawable)imageView.getDrawable()).getBitmap();
 		// 把Bitmap转码成字符串
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		bitmap1.compress(Bitmap.CompressFormat.PNG, 50,baos);
+		bitmap1.compress(Bitmap.CompressFormat.PNG, 100,baos);
 		String imageBase64 = new String (Base64.encode(baos.toByteArray(), 0));
-		Log.e("imageBase64","data:image/jpg;base64,"+imageBase64);
-		return "data:image/jpg;base64,"+imageBase64;
+		Log.e("imageBase64","data:image/png;base64,"+imageBase64);
+		return "data:image/png;base64,"+imageBase64;
 	}
-	
-	 private static String generateFileName() {
-	        return UUID.randomUUID().toString();
-	    }
-	
 	/**
-     * 保存bitmap到本地
-     * 
-     * @param context
-     * @param mBitmap
-     * @return
-     */
-    public static File saveBitmap(Context context, Bitmap mBitmap) {
-        String savePath;
-        File filePic;
-        if (Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED)) {
-            savePath = saveDir;
-        } else {
-            savePath = context.getApplicationContext().getFilesDir()
-                    .getAbsolutePath()
-                    + saveDir;
-        }
-        try {
-            filePic = new File(savePath + generateFileName() + ".jpg");
-            if (!filePic.exists()) {
-                filePic.getParentFile().mkdirs();
-                filePic.createNewFile();
-            }
-            FileOutputStream fos = new FileOutputStream(filePic);
-            mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-            fos.flush();
-            fos.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-            return null;
-        }
-        return filePic;
-    }
+	 * 将图片转换成Base64编码的字符串
+	 */
+	public static String imageToBase64(String path){
+		if(TextUtils.isEmpty(path)){
+			return null;
+		}
+		InputStream is = null;
+		byte[] data = null;
+		String result = null;
+		try{
+			is = new FileInputStream(path);
+			//创建一个字符流大小的数组。
+			data = new byte[is.available()];
+			//写入数组
+			is.read(data);
+			//用默认的编码格式进行编码
+			result = Base64.encodeToString(data,Base64.DEFAULT);
+		}catch (Exception e){
+			e.printStackTrace();
+		}finally {
+			if(null !=is){
+				try {
+					is.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
+		}
+		return result;
+	}
+
+	/**
+	 * 通过Base32将Bitmap转换成Base64字符串
+	 * @param bit
+	 * @return
+	 */
+	public static String Bitmap2StrByBase64(Bitmap bit){
+		ByteArrayOutputStream bos=new ByteArrayOutputStream();
+		bit.compress(Bitmap.CompressFormat.JPEG, 100, bos);//参数100表示不压缩
+		byte[] bytes=bos.toByteArray();
+		return Base64.encodeToString(bytes, Base64.DEFAULT);
+//		return "data:image/png;base64,"+ Base64.encodeToString(bytes, Base64.DEFAULT);
+	}
+
+	public static void useBase64(Context context, ImageView imageView, String s) {
+		byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
+		Glide.with(context).load(decodedByte)
+				.dontAnimate()
+				.bitmapTransform(new CropCircleTransformation(context))
+				.placeholder(imageView.getDrawable())
+				.into(imageView);
+	}
+	public static void useBase64WithError(Context context, ImageView imageView, String s, int errorDrawable) {
+		byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
+		Glide.with(context).load(decodedByte)
+				.dontAnimate()
+				.error(errorDrawable)
+				.bitmapTransform(new CropCircleTransformation(context))
+				.placeholder(imageView.getDrawable())
+				.into(imageView);
+	}
+	private static String generateFileName() {
+		return UUID.randomUUID().toString();
+	}
+
+	/**
+	 * 保存bitmap到本地
+	 *
+	 * @param context
+	 * @param mBitmap
+	 * @return
+	 */
+	public static File saveBitmap(Context context, Bitmap mBitmap) {
+		String savePath;
+		File filePic;
+		if (Environment.getExternalStorageState().equals(
+				Environment.MEDIA_MOUNTED)) {
+			savePath = saveDir;
+		} else {
+			savePath = context.getApplicationContext().getFilesDir()
+					.getAbsolutePath()
+					+ saveDir;
+		}
+		try {
+			filePic = new File(savePath + generateFileName() + ".jpg");
+			if (!filePic.exists()) {
+				filePic.getParentFile().mkdirs();
+				filePic.createNewFile();
+			}
+			FileOutputStream fos = new FileOutputStream(filePic);
+			mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+			fos.flush();
+			fos.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		return filePic;
+	}
 
 	/**
 	 * 保存文件
@@ -155,42 +229,37 @@ public class ImageUtils {
 	 * @return
 	 */
 	public static Bitmap getBitmapFromByte(Context context, byte[] temp){
-	    if(temp != null){  
-	        Bitmap bitmap = BitmapFactory.decodeByteArray(temp, 0, temp.length);
-	        saveBitmap(context,bitmap);
-	        return bitmap;  
-	    }else{  
-	        return null;  
-	    }  
+		if(temp != null){
+			Bitmap bitmap = BitmapFactory.decodeByteArray(temp, 0, temp.length);
+			saveBitmap(context,bitmap);
+			return bitmap;
+		}else{
+			return null;
+		}
 	}
 
+	//	 public static String post(String url, Map<String, String> params, Map<String, File> files)throws IOException {
+	public static String post(String url, Map<String, File> files)throws IOException {
+		String BOUNDARY = UUID.randomUUID().toString();
+		String PREFIX = "--", LINEND = "\r\n";
+		String MULTIPART_FROM_DATA = "multipart/form-data";
+		String CHARSET = "UTF-8";
 
 
+		URL uri = new URL(url);
+		HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
+		conn.setReadTimeout(10 * 1000); // 缓存的最长时间
+		conn.setDoInput(true);// 允许输入
+		conn.setDoOutput(true);// 允许输出
+		conn.setUseCaches(false); // 不允许使用缓存
+		conn.setRequestMethod("POST");
+		conn.setRequestProperty("connection", "keep-alive");
+		conn.setRequestProperty("Charsert", "UTF-8");
+		conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA + ";boundary=" + BOUNDARY);
 
 
-
-//	 public static String post(String url, Map<String, String> params, Map<String, File> files)throws IOException {
-	 public static String post(String url, Map<String, File> files)throws IOException {
-	        String BOUNDARY = UUID.randomUUID().toString();
-	        String PREFIX = "--", LINEND = "\r\n";
-	        String MULTIPART_FROM_DATA = "multipart/form-data";
-	        String CHARSET = "UTF-8";
-
-
-	        URL uri = new URL(url);
-	        HttpURLConnection conn = (HttpURLConnection) uri.openConnection();
-	        conn.setReadTimeout(10 * 1000); // 缓存的最长时间
-	        conn.setDoInput(true);// 允许输入
-	        conn.setDoOutput(true);// 允许输出
-	        conn.setUseCaches(false); // 不允许使用缓存
-	        conn.setRequestMethod("POST");
-	        conn.setRequestProperty("connection", "keep-alive");
-	        conn.setRequestProperty("Charsert", "UTF-8");
-	        conn.setRequestProperty("Content-Type", MULTIPART_FROM_DATA + ";boundary=" + BOUNDARY);
-
-
-	        // 首先组拼文本类型的参数
-	        StringBuilder sb = new StringBuilder();
+		// 首先组拼文本类型的参数
+		StringBuilder sb = new StringBuilder();
 //	        for (Map.Entry<String, String> entry : params.entrySet()) {
 //	            sb.append(PREFIX);
 //	            sb.append(BOUNDARY);
@@ -203,53 +272,53 @@ public class ImageUtils {
 //	            sb.append(LINEND);
 //	        }
 
-	        DataOutputStream outStream = new DataOutputStream(conn.getOutputStream());
-	        outStream.write(sb.toString().getBytes());
-	        // 发送文件数据
-	        if (files != null)
-	            for (Map.Entry<String, File> file : files.entrySet()) {
-	                StringBuilder sb1 = new StringBuilder();
-	                sb1.append(PREFIX);
-	                sb1.append(BOUNDARY);
-	                sb1.append(LINEND);
-	                sb1.append("Content-Disposition: form-data; name=\"file\"; filename=\""
-	                        + file.getValue().getName() + "\"" + LINEND);
-	                sb1.append("Content-Type: application/x-jpg; charset=" + CHARSET + LINEND);
-	                sb1.append(LINEND);
-	                outStream.write(sb1.toString().getBytes());
+		DataOutputStream outStream = new DataOutputStream(conn.getOutputStream());
+		outStream.write(sb.toString().getBytes());
+		// 发送文件数据
+		if (files != null)
+			for (Map.Entry<String, File> file : files.entrySet()) {
+				StringBuilder sb1 = new StringBuilder();
+				sb1.append(PREFIX);
+				sb1.append(BOUNDARY);
+				sb1.append(LINEND);
+				sb1.append("Content-Disposition: form-data; name=\"file\"; filename=\""
+						+ file.getValue().getName() + "\"" + LINEND);
+				sb1.append("Content-Type: application/x-jpg; charset=" + CHARSET + LINEND);
+				sb1.append(LINEND);
+				outStream.write(sb1.toString().getBytes());
 
 
-	                InputStream is = new FileInputStream(file.getValue());
-	                byte[] buffer = new byte[1024];
-	                int len = 0;
-	                while ((len = is.read(buffer)) != -1) {
-	                    outStream.write(buffer, 0, len);
-	                }
+				InputStream is = new FileInputStream(file.getValue());
+				byte[] buffer = new byte[1024];
+				int len = 0;
+				while ((len = is.read(buffer)) != -1) {
+					outStream.write(buffer, 0, len);
+				}
 
 
-	                is.close();
-	                outStream.write(LINEND.getBytes());
-	            }
+				is.close();
+				outStream.write(LINEND.getBytes());
+			}
 
 
-	        // 请求结束标志
-	        byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINEND).getBytes();
-	        outStream.write(end_data);
-	        outStream.flush();
-	        // 得到响应码
-	        int res = conn.getResponseCode();
-	        InputStream in = conn.getInputStream();
-	        StringBuilder sb2 = new StringBuilder();
-	        if (res == 200) {
-	            int ch;
-	            while ((ch = in.read()) != -1) {
-	                sb2.append((char) ch);
-	            }
-	        }
-	        outStream.close();
-	        conn.disconnect();
-	        return sb2.toString();
-	    }
+		// 请求结束标志
+		byte[] end_data = (PREFIX + BOUNDARY + PREFIX + LINEND).getBytes();
+		outStream.write(end_data);
+		outStream.flush();
+		// 得到响应码
+		int res = conn.getResponseCode();
+		InputStream in = conn.getInputStream();
+		StringBuilder sb2 = new StringBuilder();
+		if (res == 200) {
+			int ch;
+			while ((ch = in.read()) != -1) {
+				sb2.append((char) ch);
+			}
+		}
+		outStream.close();
+		conn.disconnect();
+		return sb2.toString();
+	}
 
 
 	public static final float DISPLAY_WIDTH = 200;
@@ -276,11 +345,6 @@ public class ImageUtils {
 		bmp = BitmapFactory.decodeFile(path, op);
 		return bmp;
 	}
-
-
-
-
-
 
 	public static Bitmap cropBitmap(String path, Bitmap bitmap, int maxW, int maxH) {
 
@@ -345,27 +409,14 @@ public class ImageUtils {
 		return null;
 	}
 
-
-
-
-
-
-
-
-
-
-
-
 	public static String datastream (Bitmap bm){
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		ByteArrayInputStream is = new ByteArrayInputStream(stream.toByteArray());
 		String string = is.toString();
 		return string;
-		}
-	
-	
-	
+	}
+
 //	private String doPost(String url, Map<String, String> param, File file)
 //			throws Exception {
 //		HttpPost post = new HttpPost(url);
@@ -406,19 +457,19 @@ public class ImageUtils {
 	 * @return
 	 */
 	public static String getBitmapByte(Bitmap bitmap){
-	    ByteArrayOutputStream out = new ByteArrayOutputStream();
-	    //参数1转换类型，参数2压缩质量，参数3字节流资源
-	    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
-	    try {  
-	        out.flush();  
-	        out.close();  
-	    } catch (IOException e) {
-	        e.printStackTrace();  
-	    }  
-	    return out.toByteArray().toString();  
-	}  
-	
-	
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		//参数1转换类型，参数2压缩质量，参数3字节流资源
+		bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
+		try {
+			out.flush();
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return out.toByteArray().toString();
+	}
+
+
 //	public Drawable getDrawableFromByte(byte[] temp){  
 //	    if(temp != null){  
 //	        Drawable drawable = Drawable.createFromStream(temp, "image");
@@ -428,7 +479,7 @@ public class ImageUtils {
 //	    }  
 //	}  
 	/**
-	 * 
+	 *
 	 * @param temp
 	 * @return
 	 */
@@ -447,31 +498,28 @@ public class ImageUtils {
 	 * @return
 	 */
 	public static Bitmap drawableToBitmap(Drawable drawable){
-		  
-        int width = drawable.getIntrinsicWidth();    
 
-        int height = drawable.getIntrinsicHeight();    
+		int width = drawable.getIntrinsicWidth();
 
-        Bitmap bitmap = Bitmap.createBitmap(width, height,
+		int height = drawable.getIntrinsicHeight();
 
-                drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+		Bitmap bitmap = Bitmap.createBitmap(width, height,
 
-                        : Bitmap.Config.RGB_565);
+				drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
 
-        Canvas canvas = new Canvas(bitmap);
+						: Bitmap.Config.RGB_565);
 
-        drawable.setBounds(0,0,width,height);    
+		Canvas canvas = new Canvas(bitmap);
 
-        drawable.draw(canvas);    
+		drawable.setBounds(0,0,width,height);
 
-        return bitmap;    
+		drawable.draw(canvas);
 
-            
-
-    }
+		return bitmap;
 
 
 
+	}
 
 	public static  Bitmap comp(Bitmap image) {
 
@@ -516,9 +564,13 @@ public class ImageUtils {
 			baos.reset();//重置baos即清空baos
 			image.compress(Bitmap.CompressFormat.JPEG, options, baos);//这里压缩options%，把压缩后的数据存放到baos中
 			options -= 10;//每次都减少10
+			Log.e("==image==","-----------------------------------------"+options);
 		}
 		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
 		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
+		Log.e("==image==","--------------------压缩后---------------------"+ImageUtil.getBitmapSize(bitmap));
+		Log.e("==image==","--------------------压缩后-----------width----------"+bitmap.getWidth());
+		Log.e("==image==","--------------------压缩后-----------height----------"+bitmap.getHeight());
 		return bitmap;
 	}
 
@@ -553,6 +605,79 @@ public class ImageUtils {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return bitmap;
+	}
+
+	public static Bitmap getBitmapCompress(String imagePath) {
+
+		// 设置参数
+		BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true; // 只获取图片的大小信息，而不是将整张图片载入在内存中，避免内存溢出
+		Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
+		int height = options.outHeight;
+		int width= options.outWidth;
+		int inSampleSize = 2; // 默认像素压缩比例，压缩为原图的1/2
+		int minLen = Math.min(height, width); // 原图的最小边长
+		if (minLen > 100) { // 如果原始图像的最小边长大于100dp（此处单位我认为是dp，而非px）
+			float ratio = (float)minLen / 180.0f; // 计算像素压缩比例
+			inSampleSize = (int)ratio;
+//			minLen = inSampleSize;
+		}
+		options.inJustDecodeBounds = false; // 计算好压缩比例后，这次可以去加载原图了
+		options.inSampleSize = inSampleSize; // 设置为刚才计算的压缩比例
+		Bitmap bm = BitmapFactory.decodeFile(imagePath, options); // 解码文件
+		Log.e("==image==","--------------------压缩后---------------------"+ImageUtil.getBitmapSize(bm));
+		Log.e("==image==","--------------------压缩后-----------width----------"+bm.getWidth());
+		Log.e("==image==","--------------------压缩后-----------height----------"+bm.getHeight());
+		return bm;
+	}
+
+	public static Bitmap imageZoom(Bitmap bitMap) {
+		//图片允许最大空间   单位：KB
+		double maxSize =10.00;
+		//将bitmap放至数组中，意在bitmap的大小（与实际读取的原文件要大）
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bitMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+		byte[] b = baos.toByteArray();
+		//将字节换成KB
+		double mid = b.length/1024;
+		//判断bitmap占用空间是否大于允许最大空间  如果大于则压缩 小于则不压缩
+		if (mid > maxSize) {
+			//获取bitmap大小 是允许最大大小的多少倍
+			double i = mid / maxSize;
+			//开始压缩  此处用到平方根 将宽带和高度压缩掉对应的平方根倍 （1.保持刻度和高度和原bitmap比率一致，压缩后也达到了最大大小占用空间的大小）
+			bitMap = zoomImage(bitMap, bitMap.getWidth() / Math.sqrt(i),
+					bitMap.getHeight() / Math.sqrt(i));
+		}
+		Log.e("==image==","--------------------压缩后---------------------"+ImageUtil.getBitmapSize(bitMap));
+		return bitMap;
+	}
+
+	/***
+	 * 图片的缩放方法
+	 *
+	 * @param bgimage
+	 *            ：源图片资源
+	 * @param newWidth
+	 *            ：缩放后宽度
+	 * @param newHeight
+	 *            ：缩放后高度
+	 * @return
+	 */
+	public static Bitmap zoomImage(Bitmap bgimage, double newWidth,
+								   double newHeight) {
+		// 获取这个图片的宽和高
+		float width = bgimage.getWidth();
+		float height = bgimage.getHeight();
+		// 创建操作图片用的matrix对象
+		Matrix matrix = new Matrix();
+		// 计算宽高缩放率
+		float scaleWidth = ((float) newWidth) / width;
+		float scaleHeight = ((float) newHeight) / height;
+		// 缩放图片动作
+		matrix.postScale(scaleWidth, scaleHeight);
+		Bitmap bitmap = Bitmap.createBitmap(bgimage, 0, 0, (int) width,
+				(int) height, matrix, true);
 		return bitmap;
 	}
 }

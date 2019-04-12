@@ -8,12 +8,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
-import com.mding.model.DataNews;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
+import com.mding.model.DataNews;
 
 import java.util.List;
 
+import butterknife.BindView;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
@@ -34,9 +36,11 @@ public class NoticeAdapter extends BaseQuickAdapter<DataNews.RecordBean.ListInfo
 
     @Override
     protected void convert(BaseViewHolder helper, DataNews.RecordBean.ListInfoBean item) {
-        Glide.with(context).load(item.getHeadImg())
-                .bitmapTransform(new CropCircleTransformation(context))
-                .into((ImageView) helper.getView(R.id.item_iv_head));
+        ImageView view = helper.getView(R.id.item_iv_head);
+        ImageUtils.useBase64(context, view, item.getHeadImg());
+//        Glide.with(context).load(item.getHeadImg())
+//                .bitmapTransform(new CropCircleTransformation(context))
+//                .into((ImageView) helper.getView(R.id.item_iv_head));
         helper.setText(R.id.item_tv_name, item.getNickName());
         // 获取备注信息
         helper.setText(R.id.item_tv_remark, item.getRemark().getMessage());

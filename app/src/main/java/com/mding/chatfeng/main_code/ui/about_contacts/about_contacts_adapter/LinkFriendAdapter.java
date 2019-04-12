@@ -2,6 +2,7 @@ package com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.DataLinkManList;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmLinkFriendHelper;
@@ -153,12 +155,18 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
 ////                        .crossFade(1000)
 //                        .into(holder.img_contacts_child_head);
             }else {
-                Glide.with(context)
-                        .load(groupListBean.getHeadImg())
-                        .error(R.drawable.mine_head)
-                        .dontAnimate()
-                        .bitmapTransform(new CropCircleTransformation(context))
-                        .into(holder.img_contacts_child_head);
+//                byte[] decodedByte = Base64.decode(groupListBean.getHeadImg(), Base64.DEFAULT);
+//                Glide.with(context).load(decodedByte)
+//                        .dontAnimate()
+//                        .error(R.drawable.mine_head)
+//                        .bitmapTransform(new CropCircleTransformation(context))
+//                        .into(holder.img_contacts_child_head);
+//                Glide.with(context)
+//                        .load(groupListBean.getHeadImg())
+//                        .error(R.drawable.mine_head)
+//                        .dontAnimate()
+//                        .bitmapTransform(new CropCircleTransformation(context))
+//                        .into(holder.img_contacts_child_head);
             }
             String name =groupListBean.getNickName();
             if(!StrUtils.isEmpty(groupListBean.getRemarkName()))

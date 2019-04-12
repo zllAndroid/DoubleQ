@@ -241,7 +241,7 @@
                             <!--style="@style/style_wei_line"-->
                             <!--android:layout_height="@dimen/dp10"-->
                             <!--/>-->
-                            <!--群设置-->
+                            <!--群设置   暂时取消该功能-->
                             <LinearLayout android:id="@+id/group_details_lin_set"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
@@ -250,6 +250,7 @@
                                 android:paddingRight="@dimen/dp10"
                                 android:paddingBottom="@dimen/dp5"
                                 android:paddingTop="@dimen/dp5"
+                                android:visibility="gone"
                                 android:layout_marginTop="@dimen/dp10"
                                 android:background="@color/white"
                                 >
@@ -281,6 +282,7 @@
                                 android:paddingRight="@dimen/dp10"
                                 android:paddingBottom="@dimen/dp5"
                                 android:paddingTop="@dimen/dp5"
+                                android:layout_marginTop="@dimen/dp10"
                                 android:background="@color/white"
                                 >
                                 <TextView

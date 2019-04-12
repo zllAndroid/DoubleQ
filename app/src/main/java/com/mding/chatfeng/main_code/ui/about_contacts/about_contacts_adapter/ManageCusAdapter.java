@@ -1,6 +1,7 @@
 package com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter;
 
 import android.content.Context;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -163,6 +164,9 @@ public class ManageCusAdapter extends BaseExpandableListAdapter {
         Glide.with(context).load(R.drawable.img_personal_head)
                 .bitmapTransform(new CropCircleTransformation(context))
                 .into(holder.img_contacts_child_head);
+//        Glide.with(context).load(R.drawable.img_personal_head)
+//                .bitmapTransform(new CropCircleTransformation(context))
+//                .into(holder.img_contacts_child_head);
         holder.tv_contacts_child_name.setText(dataContactsManageChild.getTv_child_name_m());
         holder.tv_contacts_child_state.setText(dataContactsManageChild.getTv_child_state_m());
         holder.tv_contacts_child_motto.setText(dataContactsManageChild.getTv_child_motto_m());

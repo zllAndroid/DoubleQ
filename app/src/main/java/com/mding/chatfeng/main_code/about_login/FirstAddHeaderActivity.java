@@ -280,7 +280,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
             String imagePath = c.getString(columnIndex);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 //            File saveBitmap = null;
-//                saveBitmap = ImageUtils.saveFile(bitmap);
+//                saveBitmap = ImageUtil.saveFile(bitmap);
             if (bitmap==null)
             {
                 ToastUtil.show("不支持的图片，请重新选择");
@@ -304,7 +304,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
             c.close();
 //            sendWeb(SplitWeb.upHeadImg(save));
             imageBase64=ImageUtils.GetStringByImageView(bitmap);
-//            sendWeb(SplitWeb.upHeadImg(ImageUtils.GetStringByImageView(bitmap)));
+//            sendWeb(SplitWeb.upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
         }
     }
     String imageBase64=null;

@@ -2,6 +2,7 @@ package com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter;
 
 import android.content.Context;
 import android.net.Uri;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -145,6 +146,12 @@ public class LinkGroupAdapter extends BaseExpandableListAdapter {
 ////                        })
 //                        .into(holder.img_contacts_child_head);
             }else {
+//                byte[] decodedByte = Base64.decode(groupListBean.getHeadImg(), Base64.URL_SAFE);
+//                Glide.with(context).load(decodedByte)
+//                        .dontAnimate()
+//                        .error(R.drawable.qun_head)
+//                        .bitmapTransform(new CropCircleTransformation(context))
+//                        .into(holder.img_contacts_child_head);
                 Glide.with(context)
                         .load(groupListBean.getHeadImg())
                         .error(R.drawable.qun_head)

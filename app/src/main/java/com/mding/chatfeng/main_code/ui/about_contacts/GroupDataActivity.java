@@ -19,6 +19,7 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_chat.chat_group.ChatGroupActivity;
 import com.mding.chatfeng.about_chat.chat_group.FriendDataGroupMemberActivity;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
@@ -196,11 +197,12 @@ public class GroupDataActivity extends BaseActivity {
     }
 
     private void initUI(DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean) {
-        Glide.with(this).load(groupInfoBean.getGroupHeadImg())
-                .bitmapTransform(new CropCircleTransformation(GroupDataActivity.this))
-                .error(R.drawable.qun_head)
-//                .crossFade(1000)
-                .into(groupDataIvHead);
+        ImageUtils.useBase64WithError(GroupDataActivity.this, groupDataIvHead, groupInfoBean.getGroupHeadImg(), R.drawable.qun_head);
+//        Glide.with(this).load(groupInfoBean.getGroupHeadImg())
+//                .bitmapTransform(new CropCircleTransformation(GroupDataActivity.this))
+//                .error(R.drawable.qun_head)
+////                .crossFade(1000)
+//                .into(groupDataIvHead);
         groupDataTvName.setText(groupInfoBean.getGroupName());
 
         dataSearch = new DataSearch();
