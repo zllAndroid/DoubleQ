@@ -121,7 +121,10 @@ public class AppConfig {
     public static final int GROUP_DATA_GROUPING_REQUEST=0x1;//GroupChatDetailsActivity 页面的请求码
     public static final int GROUP_DATA_GROUPING_RESULT=0x2;//GroupChatDetailsActivity 页面的结果码
 
+//群详情
     public static final String GROUP_ID= "group_id";
+    public static final String IS_CHATGROUP_TYPE= "chat_group_type";//是否群聊跳转的
+    public static final String CHATGROUP= "chat_group";//是否群聊跳转的
 
     public static final String GROUP_TYPE= "group_type";
     public static final String GROUP_QUZHU= "grouper";

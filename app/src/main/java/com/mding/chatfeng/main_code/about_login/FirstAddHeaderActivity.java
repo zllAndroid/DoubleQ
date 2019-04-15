@@ -29,6 +29,7 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataSetHeader;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
@@ -36,7 +37,6 @@ import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.about_file.HeadFileUtils;
-import com.mding.chatfeng.main_code.mains.LoadDataActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
@@ -128,7 +128,8 @@ public class FirstAddHeaderActivity extends BaseActivity {
             case R.id.inclu_tv_right:
                 if (NoDoubleClickUtils.isDoubleClick())
                 {
-                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
+                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadLinkManActivity.class);
+//                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
 //                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);
                 }
                 break;
@@ -185,7 +186,8 @@ public class FirstAddHeaderActivity extends BaseActivity {
                             });
                 }
             }
-            IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
+            IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadLinkManActivity.class);
+//            IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
 //                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);
 //                AppManager.getAppManager().finishActivity();
             overridePendingTransition(0,0);

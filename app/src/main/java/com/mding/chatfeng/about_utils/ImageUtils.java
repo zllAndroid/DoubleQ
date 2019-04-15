@@ -20,7 +20,6 @@ import com.bumptech.glide.request.target.Target;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
-import com.mding.chatfeng.about_utils.about_image_compress.ImageUtil;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -568,9 +567,6 @@ public class ImageUtils {
 		}
 		ByteArrayInputStream isBm = new ByteArrayInputStream(baos.toByteArray());//把压缩后的数据baos存放到ByteArrayInputStream中
 		Bitmap bitmap = BitmapFactory.decodeStream(isBm, null, null);//把ByteArrayInputStream数据生成图片
-		Log.e("==image==","--------------------压缩后---------------------"+ImageUtil.getBitmapSize(bitmap));
-		Log.e("==image==","--------------------压缩后-----------width----------"+bitmap.getWidth());
-		Log.e("==image==","--------------------压缩后-----------height----------"+bitmap.getHeight());
 		return bitmap;
 	}
 
@@ -626,9 +622,6 @@ public class ImageUtils {
 		options.inJustDecodeBounds = false; // 计算好压缩比例后，这次可以去加载原图了
 		options.inSampleSize = inSampleSize; // 设置为刚才计算的压缩比例
 		Bitmap bm = BitmapFactory.decodeFile(imagePath, options); // 解码文件
-		Log.e("==image==","--------------------压缩后---------------------"+ImageUtil.getBitmapSize(bm));
-		Log.e("==image==","--------------------压缩后-----------width----------"+bm.getWidth());
-		Log.e("==image==","--------------------压缩后-----------height----------"+bm.getHeight());
 		return bm;
 	}
 
@@ -649,7 +642,6 @@ public class ImageUtils {
 			bitMap = zoomImage(bitMap, bitMap.getWidth() / Math.sqrt(i),
 					bitMap.getHeight() / Math.sqrt(i));
 		}
-		Log.e("==image==","--------------------压缩后---------------------"+ImageUtil.getBitmapSize(bitMap));
 		return bitMap;
 	}
 

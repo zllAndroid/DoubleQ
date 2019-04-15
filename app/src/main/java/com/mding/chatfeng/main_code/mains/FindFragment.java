@@ -11,6 +11,7 @@ import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.mding.chatfeng.main_code.ui.about_discovery.FriendCircleActivity;
 import com.mding.chatfeng.about_base.BaseFragment;
+import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 
 import butterknife.ButterKnife;
@@ -52,7 +53,7 @@ public class FindFragment extends BaseFragment {
     @Override
     protected void searchClickEvent() {
         // TODO  search
-        JumpTo(LoadDataActivity.class);
+        JumpTo(LoadLinkManActivity.class);
     }
     @Override
     protected void initBaseUI(View view) {

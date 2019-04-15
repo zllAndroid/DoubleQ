@@ -11,8 +11,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.util.Log;
 
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
-import com.mding.chatfeng.about_base.MyApplication;
 import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -165,9 +165,9 @@ public class HelpUtils {
     public static String getLocalVersionName() {
         String localVersion = "";
         try {
-            PackageInfo packageInfo = MyApplication.getAppContext().getApplicationContext()
+            PackageInfo packageInfo = BaseApplication.getAppContext().getApplicationContext()
                     .getPackageManager()
-                    .getPackageInfo(MyApplication.getAppContext().getPackageName(), 0);
+                    .getPackageInfo(BaseApplication.getAppContext().getPackageName(), 0);
             localVersion = packageInfo.versionName;
 //            Log.e("TAG", "本软件的版本号。。" + localVersion);
         } catch (PackageManager.NameNotFoundException e) {

@@ -18,13 +18,13 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataLogin;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_broadcastreceiver.NetReceiver;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.about_immersive.StatusBarUtil;
-import com.mding.chatfeng.main_code.mains.LoadDataActivity;
 import com.mding.chatfeng.main_code.mains.MainActivity;
 import com.mding.chatfeng.main_code.mains.top_pop.WindowService;
 import com.mding.chatfeng.about_base.BaseActivity;
@@ -255,7 +255,8 @@ public class AppStartActivity extends BaseActivity {
 
                     if (StrUtils.isEmpty(asFriend))
                     {
-                        IntentUtils.JumpFinishTo(AppStartActivity.this, LoadDataActivity.class);
+//                        IntentUtils.JumpFinishTo(AppStartActivity.this, LoadDataActivity.class);
+                        IntentUtils.JumpFinishTo(AppStartActivity.this, LoadLinkManActivity.class);
                     }else {
                         IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
                     }

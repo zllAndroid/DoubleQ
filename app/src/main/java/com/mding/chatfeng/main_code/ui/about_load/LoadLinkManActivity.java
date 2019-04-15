@@ -2,6 +2,7 @@ package com.mding.chatfeng.main_code.ui.about_load;
 
 import android.os.Build;
 import android.os.CountDownTimer;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
@@ -25,7 +26,9 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGrou
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.DataLinkManList;
+import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -91,6 +94,7 @@ public class LoadLinkManActivity extends BaseActivity implements LoadView {
     }
     @Override
     public void navigateToHome() {
+        Log.e("navigateToHome","----------------------------------------------------"+AppConfig.IS_LOGIN);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (electricFanView!=null)
                 electricFanView.stopNestedScroll();
@@ -101,6 +105,12 @@ public class LoadLinkManActivity extends BaseActivity implements LoadView {
 
     @Override
     public void requestError() {
-        ToastUtil.show("请求失败");
+        DialogUtils.showDialog("请求失败,请退出重试", new DialogUtils.OnClickSureListener() {
+            @Override
+            public void onClickSure() {
+                AppManager.getAppManager().finishActivity(LoadLinkManActivity.this);
+            }
+        });
+//        ToastUtil.show("请求失败,请退出重试");
     }
 }

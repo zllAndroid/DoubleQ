@@ -174,7 +174,7 @@ public class EmotionInputManager {
                 mSendButton.setVisibility(View.GONE);
                 String ed = mEditText.getText().toString().trim();
 //                BaseActivity.send(SplitWeb.privateSend(firendIds,ed,"1", TimeUtil.getTime()));
-//                MyApplication.getmConnectManager().sendText(SplitWeb.privateSend(firendIds,ed,"1", TimeUtil.getTime()));
+//                BaseApplication.getApp().sendData(SplitWeb.privateSend(firendIds,ed,"1", TimeUtil.getTime()));
                 BusDataGroupOrFriend messageInfo = new BusDataGroupOrFriend();
                 messageInfo.setMsg(ed);
 ////                MyWebSocketService.sendMsg(SplitWeb.privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType));

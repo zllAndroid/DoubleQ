@@ -20,6 +20,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataLogin;
 import com.mding.model.DataServer;
 import com.mding.chatfeng.R;
@@ -27,7 +28,6 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.NetWorkUtlis;
-import com.mding.chatfeng.main_code.mains.LoadDataActivity;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.sql.DBgreatTable;
@@ -121,26 +121,6 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    private void initSQL() {
-        DBgreatTable dBgreatTable = new DBgreatTable(this);
-
-        SQLiteDatabase writableDatabase = dBgreatTable.getWritableDatabase();
-        Cursor cursor = writableDatabase.rawQuery("SELECT userId,friendId FROM home_msg where userId='1234' limit 1",null);
-        Cursor cursor2 = writableDatabase.rawQuery("SELECT userId,friendId FROM home_msg where userId='12345' limit 1",null);
-        Log.e("InfoList","cursor="+cursor+"-----cursor2="+cursor2);
-        JSONArray jsonArray = SqlUtils.cur2Json(cursor);
-        JSONArray jsonArray2 = SqlUtils.cur2Json(cursor2);
-//        List<PointBean> list = JSONArray.toList(array, Person.class);// 过时方法
-//        List<PointBean> list= JSONObject.pars(jsonArray,PointBean.class);
-//        JSONArray array = new JSONArray();
-        List<MsgEntry> list = JSONObject.parseArray(jsonArray.toJSONString(), MsgEntry.class);
-//        List<PointBean> list=JSON.parseObject(jsonArray,PointBean.class);
-
-        for (MsgEntry pointBean:list)
-        {
-            Log.e("InfoList","pointBean="+pointBean.getFriendId()+"\n");
-        }
-    }
 
     public  BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
 
@@ -170,8 +150,8 @@ public class LoginActivity extends BaseActivity {
                 Log.e("result=", result + "---------------------------");
                 DataServer dataServer = JSON.parseObject(result, DataServer.class);
                 //测试
-//                String swooleServer = dataServer.getSwooleServer();
-                String swooleServer = dataServer.getSwooleServer_v1();
+                String swooleServer = dataServer.getSwooleServer();
+//                String swooleServer = dataServer.getSwooleServer_v1();
 
                 SplitWeb.HttpURL = swooleServer;
                 SPUtils.put(LoginActivity.this, AppConfig.TYPE_URL, swooleServer+"");
@@ -271,7 +251,7 @@ public class LoginActivity extends BaseActivity {
         if (s.equals("bindUid")) {
             if (!isFirst) {
 //                TODO 修改
-                IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
+                IntentUtils.JumpFinishTo(LoginActivity.this,LoadLinkManActivity.class);
 //                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
             }
             else

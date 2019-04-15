@@ -12,11 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.MessageEvent;
 import com.mding.chatfeng.about_custom.about_top_bar.FragmentTopBarLayout;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
-import com.mding.chatfeng.main_code.mains.LoadDataActivity;
 import com.mding.chatfeng.main_code.mains.top_pop.ConfirmPopWindow;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -143,7 +143,7 @@ public class BaseFragment extends Fragment  {
 	}
 
 	protected void sendWeb(String text) {
-		MyApplication.getmConnectManager().sendText(text);
+		BaseApplication.getApp().sendData(text);
 	}
 	@Override
 	public void onStart() {

@@ -36,12 +36,12 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
-import com.mding.chatfeng.about_base.MyApplication;
 import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
 import com.mding.chatfeng.about_chat.adapter.CommonFragmentPagerAdapter;
 import com.mding.chatfeng.about_chat.fragment.ChatEmotionFragment;
@@ -651,7 +651,7 @@ public class ChatActivity extends BaseActivity {
         if (record2 != null) {
             if (record2.getShieldType().equals("2"))
                 return;
-            if (SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
+            if (SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
 //                    收到聊天页的此人的消息
                 if (record2.getFriendsId().equals(FriendId)) {
                     record2.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
@@ -681,7 +681,7 @@ public class ChatActivity extends BaseActivity {
                     mIntent.setAction("action.refreshMsgFragment");
                     sendBroadcast(mIntent);
                 }
-            } else if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
+            } else if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
                 if (mIntent == null)
                     mIntent = new Intent();
                 mIntent.putExtra("message", record2.getMessage());
@@ -693,7 +693,7 @@ public class ChatActivity extends BaseActivity {
                     @Override
                     public void run() {
                         try {
-                            bitmap = Glide.with(MyApplication.getAppContext())
+                            bitmap = Glide.with(BaseApplication.getAppContext())
                                     .load(record2.getHeadImg())
                                     .asBitmap() //必须
                                     .centerCrop()

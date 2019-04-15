@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.mding.chatfeng.R;
-import com.mding.chatfeng.about_base.MyApplication;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.ScreenUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
@@ -65,7 +65,7 @@ public class TestBaseActivity extends AppCompatActivity  {
         EventBus.getDefault().register(this);
     }
     protected void sendWeb(String text) {
-        MyApplication.getmConnectManager().sendText(text);
+        BaseApplication.getApp().sendData(text);
     }
 
 
@@ -194,7 +194,7 @@ public class TestBaseActivity extends AppCompatActivity  {
 
 //
 //    public void sendText(String text) {
-//        MyApplication.getmConnectManager().sendText(text);
+//        BaseApplication.getApp().sendData(text);
 //    }
 
 

@@ -585,30 +585,30 @@ public class ContactChildFragment extends BaseFragment {
         mExListViewGroup.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                String group_name = mGroupList.get(groupPosition).getGroupList().get(childPosition).getNickName();
+//                String group_name = mGroupList.get(groupPosition).getGroupList().get(childPosition).getNickName();
                 DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
                 // 群聊
-                CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
-                cusJumpChatData.setGroupId(groupListBean.getGroupOfId());
-                cusJumpChatData.setGroupName(groupListBean.getNickName());
-
-                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
-                cusHomeRealmData.setHeadImg(groupListBean.getHeadImg());
-                cusHomeRealmData.setFriendId(groupListBean.getGroupOfId());
-                cusHomeRealmData.setNickName(groupListBean.getNickName());
-                cusHomeRealmData.setNum(0);
-
-                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupListBean.getGroupOfId());
-                if (cusHomeRealmData1!=null)
-                {
-                    realmHelper.updateNumZero(groupListBean.getGroupOfId());
-                }else
-                {
-                    realmHelper.addRealmMsgQun(cusHomeRealmData);
-                }
+//                CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
+//                cusJumpChatData.setGroupId(groupListBean.getGroupOfId());
+//                cusJumpChatData.setGroupName(groupListBean.getNickName());
+//
+//                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
+//                cusHomeRealmData.setHeadImg(groupListBean.getHeadImg());
+//                cusHomeRealmData.setFriendId(groupListBean.getGroupOfId());
+//                cusHomeRealmData.setNickName(groupListBean.getNickName());
+//                cusHomeRealmData.setNum(0);
+//
+//                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupListBean.getGroupOfId());
+//                if (cusHomeRealmData1!=null)
+//                {
+//                    realmHelper.updateNumZero(groupListBean.getGroupOfId());
+//                }else
+//                {
+//                    realmHelper.addRealmMsgQun(cusHomeRealmData);
+//                }
 //                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 
-                IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupListBean.getGroupOfId());
+                IntentUtils.JumpToHaveTwo(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupListBean.getGroupOfId(),AppConfig.IS_CHATGROUP_TYPE,"FALSE");
 //                        ToastUtil.show("组别"+(groupPosition+1)+"点击了子"+group_name);
                 return false;
             }

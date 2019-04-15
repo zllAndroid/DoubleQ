@@ -9,7 +9,7 @@ public class DataServer {
     private String swooleServer_v1;
 
     public String getSwooleServer() {
-        return swooleServer;
+        return swooleServer_v1;
     }
 
     public void setSwooleServer(String swooleServer) {

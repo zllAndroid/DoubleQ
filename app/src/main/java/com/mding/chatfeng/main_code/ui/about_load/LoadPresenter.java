@@ -48,7 +48,7 @@ public class LoadPresenter implements LoadInteractor.OnLoadFinishedListener,Load
             loginView.hideProgress();
         }
     }
-
+//请求成功后存储数据库
     @Override
     public void onSuccess(String msg) {
         loginInteractor.setDataToRealm(mContext,msg,this);

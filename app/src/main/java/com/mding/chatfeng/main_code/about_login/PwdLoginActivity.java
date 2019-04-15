@@ -17,7 +17,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
-import com.mding.chatfeng.main_code.mains.LoadDataActivity;
+import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataLogin;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
@@ -101,8 +101,8 @@ public class PwdLoginActivity extends BaseActivity {
                 Log.e("result=", result + "---------------------------");
                 DataServer dataServer = JSON.parseObject(result, DataServer.class);
                 //测试
-//                String swooleServer = dataServer.getSwooleServer();
-                String swooleServer = dataServer.getSwooleServer_v1();
+                String swooleServer = dataServer.getSwooleServer();
+//                String swooleServer = dataServer.getSwooleServer_v1();
 
                 SplitWeb.HttpURL = swooleServer;
                 SPUtils.put(PwdLoginActivity.this, AppConfig.TYPE_URL, swooleServer+"");
@@ -240,7 +240,8 @@ public class PwdLoginActivity extends BaseActivity {
         if (s.equals("bindUid"))
         if (!isFirst) {
 //                TODO 修改
-            IntentUtils.JumpFinishTo(PwdLoginActivity.this,LoadDataActivity.class);
+            IntentUtils.JumpFinishTo(PwdLoginActivity.this,LoadLinkManActivity.class);
+//            IntentUtils.JumpFinishTo(PwdLoginActivity.this,LoadDataActivity.class);
 //                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
         }
         else

@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_custom.about_cus_dialog.DialogExitUtils;
 import com.mding.chatfeng.about_utils.HelpUtils;
@@ -21,7 +22,6 @@ import com.mding.chatfeng.main_code.ui.about_personal.about_set.NewsRemindActivi
 import com.mding.chatfeng.main_code.ui.about_personal.about_set.ShareSetActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_set.YinSiActivity;
 import com.mding.chatfeng.about_base.BaseActivity;
-import com.mding.chatfeng.about_base.MyApplication;
 import com.mding.chatfeng.main_code.about_login.LoginActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -62,7 +62,7 @@ public class MineSetActivity extends BaseActivity {
         includeTopTvTital.setText("设置");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         try {
-            String totalCacheSize = DataCleanManager.getTotalCacheSize(MyApplication.getAppContext());
+            String totalCacheSize = DataCleanManager.getTotalCacheSize(this);
             setTvCache.setText(totalCacheSize);
         } catch (Exception e) {
             e.printStackTrace();
@@ -100,7 +100,7 @@ public class MineSetActivity extends BaseActivity {
 //        String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
 //        DataCleanManager.clearAllCache(MyApplication.getAppContext());
         try {
-            String totalCacheSize = DataCleanManager.getTotalCacheSize(MyApplication.getAppContext());
+            String totalCacheSize = DataCleanManager.getTotalCacheSize(this);
             setTvCache.setText(totalCacheSize);
             ToastUtil.show("清理缓存成功");
         } catch (Exception e) {
@@ -215,9 +215,9 @@ public class MineSetActivity extends BaseActivity {
                                     IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",userPhone);
                                     overridePendingTransition(0,0);
 
-                                    if (MyApplication.getmConnectManager()!=null) {
-                                        MyApplication.getmConnectManager().onDestroy();
-                                        MyApplication.mConnectManager = null;
+                                    if (BaseApplication.getApp().getmConnectManager()!=null) {
+                                        BaseApplication.getApp().getmConnectManager().onDestroy();
+                                        BaseApplication.mConnectManager = null;
                                     }
 //                                    MyApplication.getmConnectManager().onDestroyService();
                                     break;
@@ -236,9 +236,9 @@ public class MineSetActivity extends BaseActivity {
 
                                     realmHelper.deleteAll();
                                     realmChatHelper.deleteAll();
-                                    if (MyApplication.getmConnectManager()!=null) {
-                                        MyApplication.getmConnectManager().onDestroy();
-                                        MyApplication.mConnectManager = null;
+                                    if (BaseApplication.getApp().getmConnectManager()!=null) {
+                                        BaseApplication.getApp().getmConnectManager().onDestroy();
+                                        BaseApplication.getApp().mConnectManager = null;
                                     }
                                     break;
                             }

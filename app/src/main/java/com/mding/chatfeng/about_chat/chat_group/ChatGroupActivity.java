@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_chat.ChatNewsWindow;
 import com.mding.chatfeng.about_chat.EmotionInputDetector;
@@ -50,7 +51,6 @@ import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
-import com.mding.chatfeng.about_base.MyApplication;
 import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 import com.mding.chatfeng.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.mding.chatfeng.about_chat.cus_data_group.RealmGroupChatHelper;
@@ -372,7 +372,10 @@ public class ChatGroupActivity extends BaseActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.include_top_iv_more:
-                IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
+//                IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
+                IntentUtils.JumpToHaveTwo(GroupChatDetailsActivity.class, AppConfig.GROUP_ID,groupId,AppConfig.IS_CHATGROUP_TYPE,AppConfig.CHATGROUP);
+//
+
                 break;
             case R.id.include_top_lin_title:
                 includeTopIvDrop.setActivated(true);
@@ -698,7 +701,7 @@ public class ChatGroupActivity extends BaseActivity {
                 sendBroadcast(intent);
             }
 
-            if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())) {
+            if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
 
                 Intent intent = new Intent();
                 intent.putExtra("message", record2.getMessage());

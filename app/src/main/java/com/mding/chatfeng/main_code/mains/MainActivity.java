@@ -18,7 +18,7 @@ import android.widget.TabWidget;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
-import com.mding.chatfeng.about_base.MyApplication;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_custom.about_cus_dialog.DialogRiskTestUtils;
 import com.mding.chatfeng.about_utils.HelpUtils;
@@ -128,7 +128,7 @@ public class MainActivity extends BaseActivity {
                 });
             }
         }
-        if (MyApplication.isMain) {
+        if (BaseApplication.isMain) {
 //        版本更新
             int localVersion = 0;
             try {
@@ -138,7 +138,7 @@ public class MainActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
-        MyApplication.isMain=false;
+        BaseApplication.isMain=false;
     }
 
     @Override

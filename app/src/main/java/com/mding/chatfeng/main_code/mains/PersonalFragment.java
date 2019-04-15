@@ -204,16 +204,7 @@ public class PersonalFragment extends BaseFragment {
         isChangeHead=false;
         SplitWeb.IS_SET_PERSON_HEAD=false;
 
-//        if (!StrUtils.isEmpty(FilePath.getHeadPath()))
-//        mineIvPerson.setBackgroundResource(0);
-//        Glide.get(getActivity()).clearMemory();//清理内存缓存 可以在UI主线程中进行
-
     }
-
-    private void getHead() {
-//        ImageUtils.useBase64(getActivity(),mineIvPerson,imageBase64Event);
-    }
-
     String userId;
     String userPhone;
     @Override
@@ -234,7 +225,6 @@ public class PersonalFragment extends BaseFragment {
                         ImageUtils.useBase64(getActivity(), mineIvPerson, headImg);
                         aCache.put(IMAGE_BASE64, headImg);
                         ToastUtil.isDebugShow("无网");
-//                        MyLog.e("PersonalFragment","无网");
                     }
                 }
                 break;

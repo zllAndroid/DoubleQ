@@ -147,6 +147,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
     DataSearch dataSearch = null;
     static String groupId;
+    static String groupType;
     static String groupName;
     static String groupChatName;
     //请求相册
@@ -177,6 +178,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         Intent intent = getIntent();
         if (intent != null) {
             groupId = intent.getStringExtra(AppConfig.GROUP_ID);
+            groupType = intent.getStringExtra(AppConfig.IS_CHATGROUP_TYPE);
             if (!StrUtils.isEmpty(groupId)) {
 //                IntentUtils.JumpToHaveOne(GroupTeamActivity.class,"groupId",groupId);
                 sendWeb(SplitWeb.searchDetailInfo(groupId));
@@ -937,28 +939,31 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 }
                 break;
             case R.id.group_details_tv_to_chat:
-//                // 群聊
-//                CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
-//                cusJumpChatData.setGroupId(groupId);
-//                cusJumpChatData.setGroupName(groupChatName);
-//
-//                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
-//                cusHomeRealmData.setHeadImg(groupHeadImg);
-//                cusHomeRealmData.setFriendId(groupId);
-//                cusHomeRealmData.setNickName(groupChatName);
-//                cusHomeRealmData.setNum(0);
-//
-//                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
-//                if (cusHomeRealmData1!=null)
-//                {
-//                    realmHelper.updateNumZero(groupId);
-//                }else
-//                {
-//                    realmHelper.addRealmMsgQun(cusHomeRealmData);
-//                }
-//                Log.e("groupInfos","---------------------------------------------------"+groupHeadImg+"------------------------"+groupChatName);
-//                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
-                AppManager.getAppManager().finishActivity(this);
+                if (AppConfig.CHATGROUP.equals(groupType))
+                {
+                    AppManager.getAppManager().finishActivity(this);
+                }else{
+                          // 群聊
+                CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
+                cusJumpChatData.setGroupId(groupId);
+                cusJumpChatData.setGroupName(groupChatName);
+
+                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
+                cusHomeRealmData.setHeadImg(groupHeadImg);
+                cusHomeRealmData.setFriendId(groupId);
+                cusHomeRealmData.setNickName(groupChatName);
+                cusHomeRealmData.setNum(0);
+
+                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
+                if (cusHomeRealmData1!=null)
+                {
+                    realmHelper.updateNumZero(groupId);
+                }else
+                {
+                    realmHelper.addRealmMsgQun(cusHomeRealmData);
+                }
+                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                }
                 break;
         }
     }

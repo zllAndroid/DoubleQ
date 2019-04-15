@@ -15,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.MessageEvent;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_chat.chat_group.GroupChatDetailsActivity;
@@ -23,7 +24,6 @@ import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
 import com.mding.chatfeng.about_base.AppConfig;
-import com.mding.chatfeng.about_base.MyApplication;
 import com.mding.model.CusChatPop;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -189,7 +189,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 String daRao = isChecked ? "2":"1";
-                MyApplication.getmConnectManager().sendText(SplitWeb.setUserGroupDisturb(groupId, daRao));
+                BaseApplication.getApp().sendData(SplitWeb.setUserGroupDisturb(groupId, daRao));
             }
         });
     }

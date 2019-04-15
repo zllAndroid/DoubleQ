@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.MessageEvent;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_custom.about_cus_dialog.DialogExitUtils;
@@ -284,7 +285,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         isSendDialog=false;
         boolean isConnected = NetUtils.isWifi(this);
         if (isConnected)
-            MyApplication.getmConnectManager().sendText(text);
+            BaseApplication.getApp().sendData(text);
         else
         {
             try {
@@ -298,7 +299,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     public static  void send(String text) {
         boolean isConnected = HelpUtils.isNetworkConnected(AppManager.getAppManager().currentActivity());
         if (isConnected)
-            MyApplication.getmConnectManager().sendText(text);
+            BaseApplication.getApp().sendData(text);
         else
         {
             try {
@@ -331,7 +332,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
                 .setLoadStyle(style)
                 .show();
         saveForThesePeopleWhoDoNotCallCloseAndUseInterceptBackMethod(intercept_back_event);
-        MyApplication.getmConnectManager().sendText(text);
+        BaseApplication.getApp().sendData(text);
     }
     protected void sendWebOnlyDialog(String text,String loadText) {
         boolean isConnected = HelpUtils.isNetworkConnected(this);
@@ -356,7 +357,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
                 .setLoadStyle(style)
                 .show();
         saveForThesePeopleWhoDoNotCallCloseAndUseInterceptBackMethod(intercept_back_event);
-        MyApplication.getmConnectManager().sendText(text);
+        BaseApplication.getApp().sendData(text);
     }
     protected void sendWebHaveData(String loadText,String loadSuccessText) {
         if ((ld != null))
@@ -371,7 +372,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
                 .setLoadStyle(style)
                 .show();
         saveForThesePeopleWhoDoNotCallCloseAndUseInterceptBackMethod(intercept_back_event);
-//        MyApplication.getmConnectManager().sendText(text);
+//        BaseApplication.getApp().sendData(text);
     }
     private void saveForThesePeopleWhoDoNotCallCloseAndUseInterceptBackMethod(boolean intercept_back_event) {
         if (intercept_back_event) {
@@ -408,12 +409,17 @@ public class BaseActivityForResult extends AppCompatActivity  {
     protected boolean isGonesStatus() {
         return false;
     }
+//    是否沉浸式状态栏  默认是
     protected boolean isChenjinshi() {
         return true;
     }
+
+//    是否聊天页面，默认不是
     protected boolean isChat() {
         return false;
     }
+
+//    是否登录页面 默认不是
     protected boolean isLogin() {
         return false;
     }
@@ -440,7 +446,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     }
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvent(MessageEvent messageEvent){
+        public void onEvent(MessageEvent messageEvent){
         Stack<AppCompatActivity> stack = AppManager.getAppManager().getStack();
         if (stack!=null&&stack.size()!=0) {
             String stackLast = stack.get(stack.size() - 1).getClass().getSimpleName();
@@ -462,7 +468,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
                 @Override
                 public void run() {
                     try {
-                        bitmap = Glide.with(MyApplication.getAppContext())
+                        bitmap = Glide.with(BaseApplication.getAppContext())
                                 .load(record.getHeadImg())
                                 .asBitmap() //必须
                                 .centerCrop()

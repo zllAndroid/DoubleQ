@@ -3,8 +3,8 @@ package com.mding.chatfeng.about_base.web_base;
 import android.content.Context;
 import android.util.Log;
 
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
-import com.mding.chatfeng.about_base.MyApplication;
 import com.mding.chatfeng.about_base.SignForXm6leefunJava;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -58,7 +58,7 @@ public class SplitWeb {
 
     public static String getUserId() {
 //        if(StrUtils.isEmpty(USER_ID))
-            USER_ID= MyApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);
+            USER_ID= BaseApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);
         Log.e("getUserId","getUserId="+USER_ID);
         return USER_ID;
     }
@@ -71,7 +71,7 @@ public class SplitWeb {
     }
     public static String getUserMobile() {
         if(StrUtils.isEmpty(MOBILE)&&HelpUtils.activity!=null)
-            MOBILE=(String ) SPUtils.get(MyApplication.getAppContext(), AppConfig.TYPE_PHONE,"");
+            MOBILE=(String ) SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_PHONE,"");
         return MOBILE;
     }
     public static String getUserPSW() {
@@ -81,17 +81,17 @@ public class SplitWeb {
     }
     public static String getName() {
         if(StrUtils.isEmpty(NICK_NAME))
-            NICK_NAME=(String )SPUtils.get(MyApplication.getAppContext(), AppConfig.TYPE_NAME,"");
+            NICK_NAME=(String )SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_NAME,"");
         return NICK_NAME;
     }
     public static String getSign() {
         if(StrUtils.isEmpty(PERSON_SIGN))
-            PERSON_SIGN=(String )SPUtils.get(MyApplication.getAppContext(), AppConfig.TYPE_SIGN,"");
+            PERSON_SIGN=(String )SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_SIGN,"");
         return PERSON_SIGN;
     }
     public static String getUserToken() {
 //        if(StrUtils.isEmpty(USER_TOKEN))
-            USER_TOKEN= (String )SPUtils.get(MyApplication.getAppContext(),AppAllKey.USER_Token,"");
+            USER_TOKEN= (String )SPUtils.get(BaseApplication.getAppContext(),AppAllKey.USER_Token,"");
         return USER_TOKEN;
     }
 

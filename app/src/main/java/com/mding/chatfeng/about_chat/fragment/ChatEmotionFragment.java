@@ -10,11 +10,11 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_chat.GlobalOnItemClickManagerUtils;
 import com.mding.chatfeng.about_chat.adapter.EmotionGridViewAdapter;
 import com.mding.chatfeng.about_chat.adapter.EmotionPagerAdapter;
 import com.mding.chatfeng.about_chat.ui.IndicatorView;
-import com.mding.chatfeng.about_base.MyApplication;
 import com.rance.chatui.base.ChatBaseFragment;
 import com.rance.chatui.util.EmotionUtils;
 import com.rance.chatui.util.Utils;
@@ -82,7 +82,7 @@ public class ChatEmotionFragment extends ChatBaseFragment {
      */
     private void initEmotion() {
         // 获取屏幕宽度
-        int screenWidth = MyApplication.screenWidth;
+        int screenWidth = BaseApplication.screenWidth;
         // item的间距
         int spacing = Utils.dp2px(getActivity(), 12);
         // 动态计算item的宽度和高度

@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.mding.model.CusJumpChatData;
 import com.mding.chatfeng.R;
@@ -35,7 +36,6 @@ import com.mding.chatfeng.main_code.ui.about_message.GroupAssistantActivity;
 import com.mding.chatfeng.main_code.ui.about_message.about_message_adapter.MsgAdapter;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseFragment;
-import com.mding.chatfeng.about_base.MyApplication;
 import com.mding.chatfeng.main_code.mains.top_pop.MyDialogFragment;
 import com.mding.chatfeng.main_code.mains.top_pop.data_bus.BusDataGroupOrFriend;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -617,10 +617,10 @@ public class MsgFragment extends BaseFragment {
     public void onEvent(BusDataGroupOrFriend messageInfo) {
         if (!StrUtils.isEmpty(messageInfo.getMsg())&&item!=null) {
             if (type.equals("1")) {
-                MyApplication.getmConnectManager().sendText(SplitWeb.privateSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
+                BaseApplication.getApp().sendData(SplitWeb.privateSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
             }
             else {
-                MyApplication.getmConnectManager().sendText(SplitWeb.groupSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
+                BaseApplication.getApp().sendData(SplitWeb.groupSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
             }
         }
     }
