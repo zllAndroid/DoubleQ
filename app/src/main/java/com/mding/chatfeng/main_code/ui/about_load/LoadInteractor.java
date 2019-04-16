@@ -1,12 +1,8 @@
 package com.mding.chatfeng.main_code.ui.about_load;
 
-import android.app.Activity;
 import android.content.Context;
-import android.os.Handler;
-import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
@@ -26,12 +22,8 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgI
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.DataLinkManList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
-import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
-import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
-import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyInterface;
-import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
 
 import java.io.File;
 import java.util.List;

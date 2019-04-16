@@ -2,16 +2,16 @@ package com.mding.model.linkman.group_manager;
 
 public class DataContactsManageChild {
 
-    int img_child_head_m;
+    String img_child_head_m;
     String tv_child_name_m;
     String tv_child_state_m;
     String tv_child_motto_m;
 
-    public int getImg_child_head_m() {
+    public String getImg_child_head_m() {
         return img_child_head_m;
     }
 
-    public void setImg_child_head_m(int img_child_head_m) {
+    public void setImg_child_head_m(String img_child_head_m) {
         this.img_child_head_m = img_child_head_m;
     }
 
@@ -39,7 +39,7 @@ public class DataContactsManageChild {
         this.tv_child_motto_m = tv_child_motto_m;
     }
 
-    public DataContactsManageChild(int img_child_head_m, String tv_child_name_m, String tv_child_state_m, String tv_child_motto_m) {
+    public DataContactsManageChild(String img_child_head_m, String tv_child_name_m, String tv_child_state_m, String tv_child_motto_m) {
         this.img_child_head_m = img_child_head_m;
         this.tv_child_name_m = tv_child_name_m;
         this.tv_child_state_m = tv_child_state_m;

@@ -779,6 +779,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 return;
             }
             String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
+
             Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
             //TODO 压缩头像
             Bitmap bm = ImageUtils.imageZoom(bitMap);

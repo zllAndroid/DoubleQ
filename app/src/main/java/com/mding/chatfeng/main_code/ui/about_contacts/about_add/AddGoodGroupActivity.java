@@ -64,7 +64,7 @@ public class AddGoodGroupActivity extends BaseActivity {
              dataSearch = (DataSearch) intent.getSerializableExtra(AppConfig.GROUP_ADDKEY);
             if (dataSearch==null)
                 return;
-            ImageUtils.useBase64WithError(this, fdaIvHead, dataSearch.getHeadImg(), R.drawable.mine_head);
+            ImageUtils.useBase64WithError(this, fdaIvHead, dataSearch.getHeadImg(), R.drawable.first_head_nor);
 //            Glide.with(this).load(dataSearch.getHeadImg()).error(R.drawable.mine_head).into(fdaIvHead);
             fdaTvName.setText(dataSearch.getName());
 

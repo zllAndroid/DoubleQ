@@ -33,9 +33,11 @@ import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
+import com.mding.model.DataLogin;
 import com.mding.model.DataMyZiliao;
 import com.mding.model.DataSetHeadResult;
 import com.mding.model.HeadImgInfo;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
@@ -101,6 +103,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 104;
     Unbinder bind = null;
     private String imageBase64;
+    public static String NICK_NAME = "nickName";
     ACache aCache;
 
     @Override
@@ -132,8 +135,23 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         if (imageBase64!=null){
             ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, imageBase64);
         }
-        sendWeb(SplitWeb.personalCenter());
+        String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
+        if (StrUtils.isEmpty(json)){
+            initUI(json);
+        }else {
+            sendWeb(SplitWeb.personalCenter());
+        }
     }
+
+    private void initUI(String json) {
+        DataLogin.RecordBean dataLogin = JSON.parseObject(json, DataLogin.RecordBean.class);
+        if (dataLogin!=null) {
+           changeinfoTvName.setText(dataLogin.getNickName());
+           changeinfoTvCount.setText(dataLogin.getWxSno());
+           changeinfoTvSign.setText(dataLogin.getPersonaSignature());
+        }
+    }
+
 
 //    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 //    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true) //在ui线程执行
@@ -384,7 +402,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
 //                SplitWeb.PERSON_SIGN = dataLogin.getPersonaSignature();
 //                SplitWeb.WX_SNO = dataLogin.getWxSno();
-
+                aCache.put(NICK_NAME,contant);
                 changeinfoTvName.setText(contant);
                 break;
             case "upPersonSign":

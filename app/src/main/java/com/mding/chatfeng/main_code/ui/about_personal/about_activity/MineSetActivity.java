@@ -103,6 +103,8 @@ public class MineSetActivity extends BaseActivity {
             String totalCacheSize = DataCleanManager.getTotalCacheSize(this);
             setTvCache.setText(totalCacheSize);
             ToastUtil.show("清理缓存成功");
+            setTvCache.setText("0KB");
+
         } catch (Exception e) {
             e.printStackTrace();
         }

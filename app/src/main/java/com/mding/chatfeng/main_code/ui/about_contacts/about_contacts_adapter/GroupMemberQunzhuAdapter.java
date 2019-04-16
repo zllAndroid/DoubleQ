@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupMemberHelper;
 import com.mding.model.DataAddQunDetails;
 import com.mding.chatfeng.R;
@@ -55,23 +56,26 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
         String headImg = realmGroupMemberHelper.queryLinkFriendReturnImgPath(item.getUserId());
 
         if (headImg!=null) {
-            headImg = headImg.replace("data:image/png;base64,", "");
-            Log.e("ChatAcceptViewHolder", headImg);
-            byte[] decode = Base64.decode(headImg, Base64.DEFAULT);
-            Glide.with(context)
-                    .load(decode)
-                    .dontAnimate()
-                    .error(com.mding.chatfeng.R.drawable.mine_head)
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .into(mIvHead);
+            ImageUtils.useBase64WithError(context, mIvHead, headImg, R.drawable.first_head_nor);
+//            headImg = headImg.replace("data:image/png;base64,", "");
+//            Log.e("ChatAcceptViewHolder", headImg);
+//            byte[] decode = Base64.decode(headImg, Base64.DEFAULT);
+//            Glide.with(context)
+//                    .load(decode)
+//                    .dontAnimate()
+//                    .error(R.drawable.first_head_nor)
+//                    .bitmapTransform(new CropCircleTransformation(context))
+//                    .into(mIvHead);
         }else
         {
-            Glide.with(context)
-                    .load(item.getHeadImg())
-                    .dontAnimate()
-                    .error(com.mding.chatfeng.R.drawable.mine_head)
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .into(mIvHead);
+            ImageUtils.useBase64WithError(context, mIvHead, item.getHeadImg(), R.drawable.first_head_nor);
+//            byte[] decode = Base64.decode(item.getHeadImg(), Base64.DEFAULT);
+//            Glide.with(context)
+//                    .load(decode)
+//                    .dontAnimate()
+//                    .error(com.mding.chatfeng.R.drawable.first_head_nor)
+//                    .bitmapTransform(new CropCircleTransformation(context))
+//                    .into(mIvHead);
         }
 //        if (imgPath!=null) {
 //            mIvHead.setImageURI(Uri.fromFile(new File(imgPath)));

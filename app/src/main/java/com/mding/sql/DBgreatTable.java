@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.mding.dao.UserRelation;
+
 /**
  * 项目：DoubleQ
  * 文件描述：

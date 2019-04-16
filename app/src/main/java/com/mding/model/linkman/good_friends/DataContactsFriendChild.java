@@ -2,12 +2,12 @@ package com.mding.model.linkman.good_friends;
 
 public class DataContactsFriendChild {
 
-    int img_child_head_f;
+    String img_child_head_f;
     String tv_child_name_f;
     String tv_child_state_f;
     String tv_child_motto_f;
 
-    public DataContactsFriendChild(int img_child_head_f, String tv_child_name_f, String tv_child_state_f, String tv_child_motto_f) {
+    public DataContactsFriendChild(String img_child_head_f, String tv_child_name_f, String tv_child_state_f, String tv_child_motto_f) {
         this.img_child_head_f = img_child_head_f;
         this.tv_child_name_f = tv_child_name_f;
         this.tv_child_state_f = tv_child_state_f;
@@ -17,11 +17,11 @@ public class DataContactsFriendChild {
     public DataContactsFriendChild() {
     }
 
-        public int getImg_child_head_f() {
+        public String getImg_child_head_f() {
         return img_child_head_f;
     }
 
-    public void setImg_child_head_f(int img_child_head_f) {
+    public void setImg_child_head_f(String img_child_head_f) {
         this.img_child_head_f = img_child_head_f;
     }
 

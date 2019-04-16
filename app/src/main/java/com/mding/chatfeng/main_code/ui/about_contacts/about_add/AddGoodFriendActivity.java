@@ -78,7 +78,7 @@ public class AddGoodFriendActivity extends BaseActivity {
 //            dataSearch.getHead_img()
             if (dataSearch == null)
                 return;
-            ImageUtils.useBase64WithError(AddGoodFriendActivity.this,fdaIvHead, dataSearch.getHeadImg(), R.drawable.mine_head);
+            ImageUtils.useBase64WithError(AddGoodFriendActivity.this,fdaIvHead, dataSearch.getHeadImg(), R.drawable.first_head_nor);
 //            Glide.with(this).load(dataSearch.getHeadImg())
 //                    .error(R.drawable.mine_head)
 //                    .bitmapTransform(new CropCircleTransformation(AddGoodFriendActivity.this))

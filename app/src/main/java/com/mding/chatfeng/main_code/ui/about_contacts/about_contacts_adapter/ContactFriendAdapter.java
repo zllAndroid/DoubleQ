@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.linkman.good_friends.DataContactsFriend;
 import com.mding.model.linkman.good_friends.DataContactsFriendChild;
 import com.mding.chatfeng.R;
@@ -111,9 +112,14 @@ public class ContactFriendAdapter extends BaseExpandableListAdapter {
             holder = (ChildHolder) convertView.getTag();
         }
         DataContactsFriendChild dataContactsFriendChild = fList.get(groupPosition).getDataContactsFriendChildList().get(childPosition);
-        Glide.with(context).load(R.drawable.img_personal_head)
-                .bitmapTransform(new CropCircleTransformation(context))
-                .into(holder.img_contacts_child_head);
+        try {
+            ImageUtils.useBase64WithError(context, holder.img_contacts_child_head, dataContactsFriendChild.getImg_child_head_f(), R.drawable.first_head_nor);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Glide.with(context).load(R.drawable.img_personal_head)
+//                .bitmapTransform(new CropCircleTransformation(context))
+//                .into(holder.img_contacts_child_head);
         holder.tv_contacts_child_name.setText(dataContactsFriendChild.getTv_child_name_f());
         holder.tv_contacts_child_state.setText(dataContactsFriendChild.getTv_child_state_f());
         holder.tv_contacts_child_motto.setText(dataContactsFriendChild.getTv_child_motto_f());

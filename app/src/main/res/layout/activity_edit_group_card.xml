@@ -19,6 +19,7 @@
             android:layout_height="wrap_content"
             android:padding="@dimen/dp10"
             android:layout_weight="1"
+            android:maxEms="10"
             android:background="@null"
             android:drawablePadding="@dimen/dp10"
             android:textColor="@color/gray666"/>

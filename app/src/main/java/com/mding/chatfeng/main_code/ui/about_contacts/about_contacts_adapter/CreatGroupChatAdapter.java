@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.DataCreatGroupChat;
 import com.mding.chatfeng.R;
 
@@ -126,11 +127,16 @@ public class CreatGroupChatAdapter extends BaseExpandableListAdapter {
             holder = (ChildHolder) convertView.getTag();
         }
         final   DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean groupListBean = mDataList.get(groupPosition).getGroupList().get(childPosition);
-        Glide.with(context)
-                .load(groupListBean.getHeadImg())
-                .error(R.drawable.img_personal_head)
-                .bitmapTransform(new CropCircleTransformation(context))
-                .into(holder.mIvHead);
+        try {
+            ImageUtils.useBase64WithError(context, holder.mIvHead, groupListBean.getHeadImg(), R.drawable.first_head_nor);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Glide.with(context)
+//                .load(groupListBean.getHeadImg())
+//                .error(R.drawable.first_head_nor)
+//                .bitmapTransform(new CropCircleTransformation(context))
+//                .into(holder.mIvHead);
         holder.mTvName.setText(groupListBean.getNickName());
         holder.mLinCheck.setOnClickListener(new View.OnClickListener() {
             @Override

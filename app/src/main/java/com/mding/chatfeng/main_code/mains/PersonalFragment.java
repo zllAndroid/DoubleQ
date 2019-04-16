@@ -151,7 +151,7 @@ public class PersonalFragment extends BaseFragment {
         {
             imageBase64 = asString;
             ImageUtils.useBase64(getActivity(),mineIvPerson,asString);
-//            MyLog.e("PersonalFragment","无网");
+            MyLog.e("PersonalFragment","无网时所传头像");
         }
 
 //        if (!SplitWeb.IS_SET_PERSON_HEAD) {
@@ -190,10 +190,10 @@ public class PersonalFragment extends BaseFragment {
         if (isChangeHead)
         {
 //            getHead();
-            if (imageBase64Event != null){
+            if (!imageBase64Event.equals("")){
                 ImageUtils.useBase64(getActivity(),mineIvPerson,imageBase64Event);
                 aCache.put(IMAGE_BASE64, imageBase64Event);
-                ToastUtil.isDebugShow("eventBus不为空");
+                MyLog.e("personalFragment changeinfo","eventBus不为空");
             }
         }
         if (SplitWeb.IS_SET_PERSON_HEAD){
@@ -224,7 +224,8 @@ public class PersonalFragment extends BaseFragment {
                         imageBase64 = headImg;
                         ImageUtils.useBase64(getActivity(), mineIvPerson, headImg);
                         aCache.put(IMAGE_BASE64, headImg);
-//                        ToastUtil.isDebugShow("无网");
+//                        ToastUtil.isDebugShow("无网时所传头像");
+                        MyLog.e("PersonalFragment","无网时所传头像");
                     }
                 }
                 break;
@@ -275,7 +276,13 @@ public class PersonalFragment extends BaseFragment {
 //                    startActivity(new Intent(getActivity(), FullImageActivity.class));
 //                    getActivity().overridePendingTransition(0, 0);
 //                }
-                fullImageInfo.setImageBase64(imageBase64);
+                if (!imageBase64Event.equals("")){
+                    fullImageInfo.setImageBase64(imageBase64Event);
+                    ToastUtil.isDebugShow("imageBase64Event");
+                }
+                else{
+                    fullImageInfo.setImageBase64(imageBase64);
+                }
                 EventBus.getDefault().postSticky(fullImageInfo);
                 startActivity(new Intent(getActivity(), FullImageActivity.class));
                 getActivity().overridePendingTransition(0, 0);

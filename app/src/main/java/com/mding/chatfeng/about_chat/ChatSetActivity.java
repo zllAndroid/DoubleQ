@@ -16,6 +16,7 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
@@ -279,9 +280,10 @@ public class ChatSetActivity extends BaseActivity {
         DataChatFriendInfo.RecordBean record = dataChatFriendInfo.getRecord();
         if (record != null) {
             dataRecord = record;
-            Glide.with(this).load(record.getHeadImg())
-                    .bitmapTransform(new CropCircleTransformation(ChatSetActivity.this))
-                    .into(mIvHead);
+            ImageUtils.useBase64WithError(ChatSetActivity.this, mIvHead, record.getHeadImg(), R.drawable.first_head_nor);
+//            Glide.with(this).load(record.getHeadImg())
+//                    .bitmapTransform(new CropCircleTransformation(ChatSetActivity.this))
+//                    .into(mIvHead);
             String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
             fdTvGesign.setText(signText);
             if (record.getIsSnoShow().equals("0")) {// 0为不显示

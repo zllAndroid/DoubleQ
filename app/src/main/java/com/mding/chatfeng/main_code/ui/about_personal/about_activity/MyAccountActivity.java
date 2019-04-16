@@ -12,6 +12,9 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.about_utils.ImageUtils;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.about_qrcode.QrCodePresenter;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.about_qrcode.QrCodeView;
+import com.mding.model.DataLogin;
 import com.mding.model.DataMyZiliao;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
@@ -19,14 +22,22 @@ import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ZXingUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.PersonData;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+
+import org.json.JSONObject;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
+import static com.mding.chatfeng.about_base.web_base.SplitWeb.QR_CODE;
+import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
+
 /**
  *  我的二维码
  */
-public class MyAccountActivity extends BaseActivity{
+public class MyAccountActivity extends BaseActivity implements QrCodeView {
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
     @BindView(R.id.qrcode_iv_head)
@@ -48,6 +59,7 @@ public class MyAccountActivity extends BaseActivity{
 //        super.onCreate(savedInstanceState);
 //    }
 
+    ACache aCache;
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -69,17 +81,36 @@ public class MyAccountActivity extends BaseActivity{
 
                 String string = personData.getQrCode();
 //                String string = type + "_xm6leefun_" + userId;
-                Log.e("qrcode","----------string000--------------"+string);
-                Bitmap bitmap = ZXingUtils.createQRImage(string,300,300);
-                Drawable drawable = new BitmapDrawable(bitmap);
-                Log.e("qrcode","-------record.getQrcode()000---------"+drawable);
-                qrcodeIvQrcode.setBackground(drawable);
+                createQrCodeImg(string);
                 includeTopTvTital.setText(personData.getTital());
                 return;
             }
         }
+//        else {
+        aCache = ACache.get(this);
+        String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
+        String aCacheNickName = aCache.getAsString(ChangeInfoActivity.NICK_NAME);
+        if (!StrUtils.isEmpty(json))
+        {
+            Log.e("result","token信息"+json.toString());
+            DataLogin.RecordBean dataLogin = JSON.parseObject(json, DataLogin.RecordBean.class);
+            if (dataLogin!=null) {
+                String qrCodeString = dataLogin.getQrcode();
+                createQrCodeImg(qrCodeString);
+//                    String headImg = dataLogin.getHeadImg();
+                String headImg = aCache.getAsString(IMAGE_BASE64);
+                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg);
+                String nickName = dataLogin.getNickName();
+                if (aCacheNickName != null)
+                    qrcodeTvName.setText(aCacheNickName);
+//                    qrcodeTvSao.setText(personData.getScanTital());
+                else
+                    qrcodeTvName.setText(nickName);
+            }
+        }
+//        }
         includeTopTvTital.setText("我的二维码");
-        sendWeb(SplitWeb.personalCenter());
+//        sendWeb(SplitWeb.personalCenter());
     }
     @Override
     public void receiveResultMsg(String responseText) {
@@ -96,29 +127,32 @@ public class MyAccountActivity extends BaseActivity{
 
 //                String string = type + "_xm6leefun_" + SplitWeb.getUserId();
                 Log.e("qrcode","----------string_myAccount--------------"+record.getQrcode());
-                Bitmap bitmap = ZXingUtils.createQRImage(record.getQrcode(),300,300);
-                Drawable drawable = new BitmapDrawable(bitmap);
-                Log.e("qrcode","-------record.getQrcode()_myAccount---------"+drawable);
-                qrcodeIvQrcode.setBackground(drawable);
-
+                createQrCodeImg(record.getQrcode());
                 Log.e("qrcode","-------myAccount---------"+record.getQrcode());
             }
         }
     }
-//    @Override
-//    protected int getLayoutView() {
-//        return R.layout.activity_mine_ziliao;
-//    }
-//
-//
-//    @Override
-//    public void showInfo() {
-//
-//    }
-//
-//    @Override
-//    public void netError() {
-//
-//    }
-//    QrCodePresenter presenter = new QrCodePresenter();
+
+    private void createQrCodeImg(String qrcode) {
+        Bitmap bitmap = ZXingUtils.createQRImage(qrcode, 300, 300);
+        Drawable drawable = new BitmapDrawable(bitmap);
+        qrcodeIvQrcode.setBackground(drawable);
+    }
+
+    @Override
+    protected int getLayoutView() {
+        return R.layout.activity_mine_ziliao;
+    }
+
+
+    @Override
+    public void showInfo() {
+
+    }
+
+    @Override
+    public void netError() {
+
+    }
+    QrCodePresenter presenter = new QrCodePresenter();
 }

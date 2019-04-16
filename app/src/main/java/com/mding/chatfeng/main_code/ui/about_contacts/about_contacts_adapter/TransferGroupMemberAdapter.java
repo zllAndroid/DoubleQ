@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.DataTransferGroupMember;
 import com.mding.chatfeng.R;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -107,11 +108,16 @@ public class TransferGroupMemberAdapter extends BaseExpandableListAdapter {
 
 //            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);
         if (!StrUtils.isEmpty(groupListBean.getMemberId())) {
-            Glide.with(context)
-                    .load(groupListBean.getHeadImg())
-                    .error(R.drawable.img_personal_head)
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .into(holder.img_contacts_child_head);
+            try {
+                ImageUtils.useBase64WithError(context, holder.img_contacts_child_head, groupListBean.getHeadImg(), R.drawable.first_head_nor);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+//            Glide.with(context)
+//                    .load(groupListBean.getHeadImg())
+//                    .error(R.drawable.first_head_nor)
+//                    .bitmapTransform(new CropCircleTransformation(context))
+//                    .into(holder.img_contacts_child_head);
             holder.tv_contacts_child_name.setText(groupListBean.getNickName());
         }else {
 //            delItem(groupPosition);

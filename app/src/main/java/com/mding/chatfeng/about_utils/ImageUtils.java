@@ -12,15 +12,8 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
-
-import com.bumptech.glide.BitmapTypeRequest;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.target.Target;
-import com.chad.library.adapter.base.BaseViewHolder;
-import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
-
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -142,10 +135,20 @@ public class ImageUtils {
 		ByteArrayOutputStream bos=new ByteArrayOutputStream();
 		bit.compress(Bitmap.CompressFormat.JPEG, 100, bos);//参数100表示不压缩
 		byte[] bytes=bos.toByteArray();
-		return Base64.encodeToString(bytes, Base64.DEFAULT);
+		return Base64.encodeToString(bytes, Base64.NO_WRAP);
 //		return "data:image/png;base64,"+ Base64.encodeToString(bytes, Base64.DEFAULT);
 	}
 
+	/**
+	 * CRLF 这个参数看起来比较眼熟，它就是Win风格的换行符，意思就是使用CR LF这一对作为一行的结尾而不是Unix风格的LF
+	 * DEFAULT 这个参数是默认，使用默认的方法来加密
+	 * NO_PADDING 这个参数是略去加密字符串最后的”=”
+	 * NO_WRAP 这个参数意思是略去所有的换行符（设置后CRLF就没用了）
+	 * URL_SAFE 这个参数意思是加密时不使用对URL和文件名有特殊意义的字符来作为加密字符，具体就是以-和_取代+和/
+	 * @param context
+	 * @param imageView
+	 * @param s
+	 */
 	public static void useBase64(Context context, ImageView imageView, String s) {
 		try {
 			byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
@@ -159,13 +162,17 @@ public class ImageUtils {
 		}
 	}
 	public static void useBase64WithError(Context context, ImageView imageView, String s, int errorDrawable) {
-		byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
+        try {
+	    byte[] decodedByte = Base64.decode(s, Base64.NO_WRAP);
 		Glide.with(context).load(decodedByte)
 				.dontAnimate()
 				.error(errorDrawable)
 				.bitmapTransform(new CropCircleTransformation(context))
 				.placeholder(imageView.getDrawable())
 				.into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 	}
 	private static String generateFileName() {
 		return UUID.randomUUID().toString();

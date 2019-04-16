@@ -272,7 +272,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
                         .into(mIvHead);
             } else {
-                ImageUtils.useBase64WithError(FriendDataMixActivity.this, mIvHead, record.getHeadImg(), R.drawable.mine_head);
+                ImageUtils.useBase64WithError(FriendDataMixActivity.this, mIvHead, record.getHeadImg(), R.drawable.first_head_nor);
 //                Glide.with(this).load(record.getHeadImg())
 //                        .error(R.drawable.mine_head)
 //                        .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))

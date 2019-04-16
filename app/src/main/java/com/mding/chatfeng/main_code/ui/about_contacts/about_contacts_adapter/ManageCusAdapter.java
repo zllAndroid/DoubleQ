@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.linkman.group_manager.DataContactsManage;
 import com.mding.model.linkman.group_manager.DataContactsManageChild;
 import com.mding.chatfeng.R;
@@ -161,9 +162,14 @@ public class ManageCusAdapter extends BaseExpandableListAdapter {
             holder = (ManageCusAdapter.ChildHolder) convertView.getTag();
         }
         DataContactsManageChild dataContactsManageChild = mList.get(groupPosition).getDataContactsManageChildList().get(childPosition);
-        Glide.with(context).load(R.drawable.img_personal_head)
-                .bitmapTransform(new CropCircleTransformation(context))
-                .into(holder.img_contacts_child_head);
+        try {
+            ImageUtils.useBase64WithError(context, holder.img_contacts_child_head, dataContactsManageChild.getImg_child_head_m(), R.drawable.first_head_nor);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Glide.with(context).load(R.drawable.first_head_nor)
+//                .bitmapTransform(new CropCircleTransformation(context))
+//                .into(holder.img_contacts_child_head);
 //        Glide.with(context).load(R.drawable.img_personal_head)
 //                .bitmapTransform(new CropCircleTransformation(context))
 //                .into(holder.img_contacts_child_head);

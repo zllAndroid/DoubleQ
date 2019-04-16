@@ -44,6 +44,9 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
+
 /**
  * 项目：DoubleQ
  * 文件描述：登陆界面
@@ -86,7 +89,7 @@ public class LoginActivity extends BaseActivity {
     public static int screenHeight;
 
     private ACache mCache;
-
+    String QR_CODE = "qrCode";
     String swooleServer;
     @Override
     protected void initBaseView() {
@@ -338,6 +341,8 @@ public class LoginActivity extends BaseActivity {
         String json = JSON.toJSON(userInfo).toString();
         mCache.clear();
         mCache.put(AppAllKey.TOKEN_KEY, json);
+        mCache.put(IMAGE_BASE64, userInfo.getHeadImg());
+        mCache.put(QR_CODE, userInfo.getQrcode());
         if (userInfo!=null) {
             String is_first_login = userInfo.getIsFirstLogin();
             if (is_first_login.equals("1"))

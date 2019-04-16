@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataLogin;
 import com.mding.chatfeng.R;
@@ -29,6 +30,7 @@ import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.model.DataServer;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -36,10 +38,14 @@ import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
+
 /**
  * 项目：DoubleQ
  * 文件描述：验证码登录界面
  * 作者：zll
+ * 修改者：刘佳佳
  */
 public class PwdLoginActivity extends BaseActivity {
     @BindView(R.id.include_top_iv_back)
@@ -253,6 +259,7 @@ public class PwdLoginActivity extends BaseActivity {
         mCache.clear();
         mCache.put(AppAllKey.TOKEN_KEY, json);
         if (userInfo != null) {
+            mCache.put(IMAGE_BASE64, userInfo.getHeadImg());
             String is_first_login = userInfo.getIsFirstLogin();
             if (is_first_login.equals("1"))
                 isFirst = true;

@@ -18,6 +18,7 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.DataNotice;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -174,10 +175,11 @@ public  static final  String GROUP_NOTICES="group_notice";
                         if (memberInfoBean != null) {
                             acTvTime.setText(groupInfoBean.getCreated());
                             acTvName.setText(memberInfoBean.getNickName());
-                            Glide.with(this).load(memberInfoBean.getHeadImg())
-                                    .bitmapTransform(new CropCircleTransformation(GroupNoticeActivity.this))
-                                    .error(R.drawable.qun_head)
-                                    .into(acIvHead);
+                            ImageUtils.useBase64WithError(GroupNoticeActivity.this, acIvHead, memberInfoBean.getHeadImg(), R.drawable.first_head_nor);
+//                            Glide.with(this).load(memberInfoBean.getHeadImg())
+//                                    .bitmapTransform(new CropCircleTransformation(GroupNoticeActivity.this))
+//                                    .error(R.drawable.qun_head)
+//                                    .into(acIvHead);
                             Log.e("acTvTime", "++++++++++++++++++++++++++++" + acTvTime.getText());
                             Log.e("acTvName", "++++++++++++++++++++++++++++" + acTvName.getText());
                         }

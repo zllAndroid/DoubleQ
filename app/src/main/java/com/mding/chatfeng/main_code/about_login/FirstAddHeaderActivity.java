@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
@@ -29,6 +30,8 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ClipImgActivity;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataSetHeader;
 import com.mding.chatfeng.R;
@@ -40,6 +43,7 @@ import com.mding.chatfeng.about_utils.about_file.HeadFileUtils;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -53,10 +57,15 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+import static com.mding.chatfeng.about_utils.about_file.HeadFileUtils.getRealFilePathFromUri;
+import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
+
 /**
  * 项目：DoubleQ
  * 文件描述：第一次登陆成功后进入的设置昵称和头像界面
  * 作者：zll
+ * 修改人：ljj
  */
 public class FirstAddHeaderActivity extends BaseActivity {
     @BindView(R.id.include_top_iv_back)
@@ -83,7 +92,8 @@ public class FirstAddHeaderActivity extends BaseActivity {
 //        super.onCreate(savedInstanceState);
 //    }
 
-
+    ACache aCache;
+//    String imageBase64Acache;
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -174,16 +184,18 @@ public class FirstAddHeaderActivity extends BaseActivity {
                     SPUtils.put(this, AppConfig.TYPE_NAME, nickName);
 
                 if (!StrUtils.isEmpty(headImg)) {
+                    aCache.put(IMAGE_BASE64, headImg);
                     SPUtils.put(this,AppConfig.User_HEAD_URL,headImg);
-                    Glide.with(this)
-                            .load(headImg)
-                            .downloadOnly(new SimpleTarget<File>() {
-                                @Override
-                                public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                                    File file = HeadFileUtils.saveHeadPath(FirstAddHeaderActivity.this, resource);
-                                }
-                            });
+                    ImageUtils.useBase64(FirstAddHeaderActivity.this, firstIvHead, headImg);
+//                    Glide.with(this)
+//                            .load(headImg)
+//                            .downloadOnly(new SimpleTarget<File>() {
+//                                @Override
+//                                public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+////                                    这里拿到的resource就是下载好的文件，
+//                                    File file = HeadFileUtils.saveHeadPath(FirstAddHeaderActivity.this, resource);
+//                                }
+//                            });
                 }
             }
             IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadLinkManActivity.class);
@@ -221,16 +233,79 @@ public class FirstAddHeaderActivity extends BaseActivity {
                     break;
                 case R.id.btn_open_xaingce:
                     //	相册
-                    Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(i, RESULT_LOAD_IMAGE);
+//                    Intent i = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//                    startActivityForResult(i, RESULT_LOAD_IMAGE);
+
+                    //权限判断
+                    if (ContextCompat.checkSelfPermission(FirstAddHeaderActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
+                            != PackageManager.PERMISSION_GRANTED) {
+                        //申请READ_EXTERNAL_STORAGE权限
+                        ActivityCompat.requestPermissions(FirstAddHeaderActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                                READ_EXTERNAL_STORAGE_REQUEST_CODE);
+                    } else {
+                        //跳转到相册
+                        goToAlbum();
+                    }
+                    photoPopWindow.dismiss();
                     break;
                 default:
                     break;
             }
         }
     };
+
+    /**
+     * 跳转到相册
+     */
+    private void goToAlbum() {
+        Log.d("==image==", "*****************打开图库********************");
+        //跳转到调用系统图库
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(intent, "请选择图片"), REQUEST_PICK);
+    }
+    /**
+     * 打开截图界面
+     */
+    public void goToClipActivity(Uri uri) {
+        if (uri == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(this, ClipImgActivity.class);
+        intent.setData(uri);
+        startActivityForResult(intent, REQUEST_CROP_PHOTO);
+    }
+    /**
+     * 外部存储权限申请返回
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+//                goToCamera();
+                destoryImage();
+                getPicturesFile();
+            }
+        } else if (requestCode == READ_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+                goToAlbum();
+            }
+        }
+    }
+
     private int CAMERA_RESULT = 100;
     private int RESULT_LOAD_IMAGE = 200;
+    //请求相册
+    private static final int REQUEST_PICK = 401;
+    //请求截图
+    private static final int REQUEST_CROP_PHOTO = 402;
+    //请求访问外部存储
+    private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 303;
+    //请求写入外部存储
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 404;
 
     private File mPhotoFile;
     File save;
@@ -240,7 +315,8 @@ public class FirstAddHeaderActivity extends BaseActivity {
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         //		相机
-        if (requestCode == CAMERA_RESULT && resultCode == RESULT_OK) {
+        if (requestCode == CAMERA_RESULT && null != data) {
+//        if (requestCode == CAMERA_RESULT && resultCode == RESULT_OK) {
             if (mPhotoFile != null && mPhotoFile.exists()) {
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                 bitmapOptions.inJustDecodeBounds = true;
@@ -273,7 +349,8 @@ public class FirstAddHeaderActivity extends BaseActivity {
             }
         }
         //		相册
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+        if (requestCode == REQUEST_PICK && null != data) {
+//        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumns = {MediaStore.Images.Media.DATA};
             Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
@@ -288,25 +365,40 @@ public class FirstAddHeaderActivity extends BaseActivity {
                 ToastUtil.show("不支持的图片，请重新选择");
                 return;
             }
-            save = ImageUtils.saveBitmap(FirstAddHeaderActivity.this, bitmap);
-            final Map<String, File> files = new HashMap<String, File>();
-            files.put("file", save);
-            Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-            Glide.with(this).load(save)
-                    .bitmapTransform(new CropCircleTransformation(FirstAddHeaderActivity.this))
-                   .into(firstIvHead);
-            //                Glide.with(this).load(saveBitmap)
-//                        .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-//                        .into(changeinfoIvHead);
-//
-//            Log.e(AppConstant.TAG,saveBitmap+"这个是图片的地址"+files);
-//            SendDataImg(files);
-//            mTvChange.setText("");
-//            changeinfoIvHead.setImageBitmap(bitmap);
+//            save = ImageUtils.saveBitmap(FirstAddHeaderActivity.this, bitmap);
+//            final Map<String, File> files = new HashMap<String, File>();
+//            files.put("file", save);
+//            Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+//            Glide.with(this).load(save)
+//                    .bitmapTransform(new CropCircleTransformation(FirstAddHeaderActivity.this))
+//                   .into(firstIvHead);
+//            //                Glide.with(this).load(saveBitmap)
+////                        .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
+////                        .into(changeinfoIvHead);
+////
+////            Log.e(AppConstant.TAG,saveBitmap+"这个是图片的地址"+files);
+////            SendDataImg(files);
+////            mTvChange.setText("");
+////            changeinfoIvHead.setImageBitmap(bitmap);
             c.close();
 //            sendWeb(SplitWeb.upHeadImg(save));
-            imageBase64=ImageUtils.GetStringByImageView(bitmap);
+//            imageBase64=ImageUtils.GetStringByImageView(bitmap);
 //            sendWeb(SplitWeb.upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
+            goToClipActivity(selectedImage);
+        }
+        if (requestCode == REQUEST_CROP_PHOTO && null != data){
+            final Uri uri = data.getData();
+            if (uri == null) {
+                return;
+            }
+            String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
+            Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+            //TODO 压缩头像
+            Bitmap bm = ImageUtils.imageZoom(bitMap);
+            String s1 = ImageUtils.Bitmap2StrByBase64(bm);
+            imageBase64 = s1;
+            sendWeb(SplitWeb.upHeadImg(s1));
+
         }
     }
     String imageBase64=null;
