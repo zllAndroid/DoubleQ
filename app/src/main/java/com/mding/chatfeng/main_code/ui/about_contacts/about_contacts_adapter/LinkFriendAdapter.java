@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.model.DataLinkManList;
 import com.mding.chatfeng.R;
@@ -125,41 +126,19 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
 
 //            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);
         if (!StrUtils.isEmpty(groupListBean.getUserId())) {
-            String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(groupListBean.getUserId());
-            if (imgPath!=null) {
-                holder.img_contacts_child_head.setImageURI(Uri.fromFile(new File(imgPath)));
+//            String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(groupListBean.getUserId());
+//            if (imgPath!=null) {
+//                holder.img_contacts_child_head.setImageURI(Uri.fromFile(new File(imgPath)));
+//            }else {
 //                Glide.with(context)
-//                        .load(imgPath)
+//                        .load(groupListBean.getHeadImg())qqqqqqqqqqqqqqqqqqqqqqqqqqqq
 //                        .error(R.drawable.mine_head)
 //                        .dontAnimate()
-////                        .listener(new RequestListener<String, GlideDrawable>() {
-////                            @Override
-////                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-//////                                加载错误时，加载网络图片
-////                                realmMsgInfoTotalHelper.deleteRealmFriend(groupListBean.getUserId());
-////                                Glide.with(context).load(groupListBean.getHeadImg())
-////                                        .error(R.drawable.mine_head)
-////                                        .bitmapTransform(new CropCircleTransformation(context))
-////                                        .crossFade(1000) .into(holder.img_contacts_child_head);
-////                                return false;
-////                            }
-////
-////                            @Override
-////                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-////                                return false;
-////                            }
-////                        })
 //                        .bitmapTransform(new CropCircleTransformation(context))
-////                        .crossFade(1000)
 //                        .into(holder.img_contacts_child_head);
-            }else {
-                Glide.with(context)
-                        .load(groupListBean.getHeadImg())
-                        .error(R.drawable.mine_head)
-                        .dontAnimate()
-                        .bitmapTransform(new CropCircleTransformation(context))
-                        .into(holder.img_contacts_child_head);
-            }
+//            }
+            String headImg = groupListBean.getHeadImg();
+            ImageUtils.useBase64(context,holder.img_contacts_child_head,headImg);
             String name =groupListBean.getNickName();
             if(!StrUtils.isEmpty(groupListBean.getRemarkName()))
             {

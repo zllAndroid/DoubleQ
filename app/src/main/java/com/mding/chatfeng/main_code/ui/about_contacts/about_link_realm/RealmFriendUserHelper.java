@@ -66,11 +66,37 @@ public class RealmFriendUserHelper {
             mRealm.commitTransaction();
         }
     }
+    /**
+     * 更新全部
+     * @param friendId
+     * @param cusDataFriendUser
+     */
+    public void updateAll(String friendId, CusDataFriendUser cusDataFriendUser) {
+        CusDataFriendUser realmMsg = mRealm.where(CusDataFriendUser.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg=cusDataFriendUser;
+            realmMsg.setTotalId(friendId + SplitWeb.getUserId());
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
+//    public void updateHeadPath(String friendId, String imgPath,String img, String time) {
+//        CusDataFriendUser realmMsg = mRealm.where(CusDataFriendUser.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+//        if (realmMsg!=null) {
+//            mRealm.beginTransaction();
+//            realmMsg.setHeadImgBase64(img);
+//            realmMsg.setImgPathUrl(imgPath);
+//            realmMsg.setTime(time);
+//            mRealm.insertOrUpdate(realmMsg);
+//            mRealm.commitTransaction();
+//        }
+//    }
 
     /**
-     * query （查询所有）
+     * query （查询所有人）
      */
-    public List<CusDataFriendUser> queryAllRealmMsg() {
+    public List<CusDataFriendUser> queryAllUser() {
         RealmResults<CusDataFriendUser> realmMsgs = mRealm.where(CusDataFriendUser.class).findAll();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
@@ -87,7 +113,7 @@ public class RealmFriendUserHelper {
     }
 
     /**
-     * 根据id查询
+     * 根据id查询某一个人
      * @return
      */
     public CusDataFriendUser queryLinkFriend(String friendId) {
@@ -111,8 +137,8 @@ public class RealmFriendUserHelper {
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
 //        //降序排列
-        if (realmMsgs!=null&&realmMsgs.getImgPathUrl()!=null)
-            return realmMsgs.getImgPathUrl();
+        if (realmMsgs!=null&&realmMsgs.getHeadImgBase64()!=null)
+            return realmMsgs.getHeadImgBase64();
         else
             return  null;
     }

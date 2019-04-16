@@ -14,13 +14,16 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_utils.GlideCacheUtil;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_file.FilePath;
+import com.mding.chatfeng.main_code.mains.PersonalFragment;
 import com.mding.model.DataJieShou;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -83,31 +86,38 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
 //        chatItemDate.setText(data.getTime() != null ? data.getTime() : "");
 //        Glide.with(getContext()).load(SplitWeb.USER_HEADER).into(chatItemHeader);
 
-        GlideCacheUtil.getInstance().clearImageAllCache(getContext());
-        String mPath= FilePath.getAbsPath(FilePath.appPath+ SplitWeb.getUserId()+"/")+"chatHead/";
-        List<String> fileName = FilePath.getFilesAllName(mPath);
-//        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
-        if (fileName!=null&&fileName.size()>0)
-        {
-            String path=fileName.get(fileName.size()-1);
-            Glide.with(getContext()).load(path)
-                    .dontAnimate()
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
-                    .into(chatItemHeader);
-        }else {
-            String mUrl = (String) SPUtils.get(getContext(), AppConfig.User_HEAD_URL, "");
-            if (mUrl!=null) {
-                Glide.with(getContext()).load(mUrl)
-                        .dontAnimate()
-                        .bitmapTransform(new CropCircleTransformation(getContext()))
-                        .into(chatItemHeader);
-            }
-        }
+//        GlideCacheUtil.getInstance().clearImageAllCache(getContext());
+//        String mPath= FilePath.getAbsPath(FilePath.appPath+ SplitWeb.getUserId()+"/")+"chatHead/";
+//        List<String> fileName = FilePath.getFilesAllName(mPath);
+////        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath()+"chatHead/");
+//        if (fileName!=null&&fileName.size()>0)
+//        {
+//            String path=fileName.get(fileName.size()-1);
+//            Glide.with(getContext()).load(path)
+//                    .dontAnimate()
+//                    .bitmapTransform(new CropCircleTransformation(getContext()))
+//                    .into(chatItemHeader);
+//        }else {
+//            String mUrl = (String) SPUtils.get(getContext(), AppConfig.User_HEAD_URL, "");
+//            if (mUrl!=null) {
+//                Glide.with(getContext()).load(mUrl)
+//                        .dontAnimate()
+//                        .bitmapTransform(new CropCircleTransformation(getContext()))
+//                        .into(chatItemHeader);
+//            }
+//        }
 
 //        Glide.with(getContext()).load(SplitWeb.USER_HEADER)
 //                .bitmapTransform(new CropCircleTransformation(getContext()))
 //                .into(chatItemHeader);
 
+        String asString = BaseApplication.getaCache().getAsString(PersonalFragment.IMAGE_BASE64);
+
+        if (!StrUtils.isEmpty(asString))
+        {
+            ImageUtils.useBase64(getContext(),chatItemHeader,asString);
+//            MyLog.e("PersonalFragment","无网");
+        }
 
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override

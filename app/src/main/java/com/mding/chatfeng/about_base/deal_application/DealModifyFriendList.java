@@ -82,6 +82,11 @@ public class DealModifyFriendList {
                     initDataSub(asString,record);
                 }
             }
+
+            Intent intent = new Intent();
+            intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+            mContext.sendBroadcast(intent);
+
         }
     }
     private static int groupListSize = 0;

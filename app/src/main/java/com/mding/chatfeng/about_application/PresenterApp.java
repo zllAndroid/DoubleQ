@@ -352,7 +352,6 @@ public class PresenterApp implements IWebSocketPage {
     @Override
     public void onSendMessageError(ErrorResponse error) {
         senderror();
-        OnDestry();
     }
 
     public void OnDestry() {

@@ -14,7 +14,7 @@
         android:layout_margin="@dimen/dp10"
         android:adjustViewBounds="true"
         android:scaleType="fitXY"
-        app:srcCompat="@drawable/img_personal_head2" />
+       />
 
     <LinearLayout
         android:layout_width="match_parent"

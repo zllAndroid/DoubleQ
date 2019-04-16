@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
@@ -59,7 +60,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
         this.isScrolling = isScrolling;
         this.context = context;
         if (realmMsgInfoTotalHelper ==null)
-        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(getContext());
+            realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(getContext());
         if (friendHelper==null)
             friendHelper = new RealmFriendRelationHelper(getContext());
     }
@@ -73,18 +74,19 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
             chatItemDate.setText(TimeUtil.formatDisplayTime(data.getRequestTime(),null));
             chatItemDate.setVisibility(View.VISIBLE);
         }
-        String headImg = friendHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
-        if (headImg!=null) {
-            headImg = headImg.replace("data:image/png;base64,", "");
-            Log.e("ChatAcceptViewHolder", headImg);
-//            byte[] decode = Base64.decode(headImg, Base64.DEFAULT);
-            Glide.with(getContext())
-                    .load(headImg)
-                    .dontAnimate()
-                    .error(com.mding.chatfeng.R.drawable.mine_head)
-                    .bitmapTransform(new CropCircleTransformation(getContext()))
-                    .into(chatItemHeader);
-        }
+//        String headImg = friendHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
+//        if (headImg!=null) {
+//            headImg = headImg.replace("data:image/png;base64,", "");
+//            Log.e("ChatAcceptViewHolder", headImg);
+////            byte[] decode = Base64.decode(headImg, Base64.DEFAULT);
+//            Glide.with(getContext())
+//                    .load(headImg)
+//                    .dontAnimate()
+//                    .error(com.mding.chatfeng.R.drawable.mine_head)
+//                    .bitmapTransform(new CropCircleTransformation(getContext()))
+//                    .into(chatItemHeader);
+//        }
+        ImageUtils.useBase64(getContext(),chatItemHeader,data.getHeadImg());
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

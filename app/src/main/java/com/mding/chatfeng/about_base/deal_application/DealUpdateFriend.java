@@ -38,10 +38,11 @@ public class DealUpdateFriend {
                  * 好友修改昵称
                  */
                 //  若好友无备注则进行修改
-                if (isEmpty(record.getNewRemarkName())){
-                    initDataUpdate(asString,record);
-                    return;
-                }
+//                if (isEmpty(record.getNewRemarkName())){
+//                    initDataUpdate(asString,record);
+//                    return;
+//                }
+                initDataUpdate(asString,record);
                 // TODO   好友修改头像
 
             }

@@ -16,6 +16,7 @@ import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.about_utils.about_file.HeadFileUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendRelation;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataGroup;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
@@ -82,16 +83,19 @@ public class LoadInteractor {
         String group = HelpUtils.backLinkMan(responseText, false);
         if (!StrUtils.isEmpty(friend))
         {
-//                    Log.e("backLinkMan","friend="+friend);
             DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
 //                    DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
+            String json = JSON.toJSON(record).toString();
+            aCache.remove(AppAllKey.FRIEND_DATA);
+            aCache.put(AppAllKey.FRIEND_DATA, json);
             dealFriendData(record);
         }
-
         if (!StrUtils.isEmpty(group))
         {
-//                    Log.e("backLinkMan","group="+group);
             DataLinkGroupList.RecordBean recordBean = JSON.parseObject(group, DataLinkGroupList.RecordBean.class);
+            String json_group = JSON.toJSON(recordBean).toString();
+            aCache.remove(AppAllKey.GROUD_DATA);
+            aCache.put(AppAllKey.GROUD_DATA, json_group);
             dealGroupData(recordBean);
         }
         onSqlListener.onSqlSuccess();
@@ -115,9 +119,7 @@ public class LoadInteractor {
                     if (group_info_list.get(i).getType().equals("2"))
                         dealGroupRealm(group_info_list, i);
             }
-            String json_group = JSON.toJSON(record_group).toString();
-            aCache.remove(AppAllKey.GROUD_DATA);
-            aCache.put(AppAllKey.GROUD_DATA, json_group);
+
         }
     }
 
@@ -191,35 +193,52 @@ public class LoadInteractor {
         }
     }
 
-    private void setGlideData(final boolean isSame,final boolean isFriend,final String modified, final String friendId, final String headImg) {
-        Glide.with(mContext)
-                .load(headImg)
-                .downloadOnly(new SimpleTarget<File>() {
-                    @Override
-                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, friendId, modified);
-                        if (isSame)
-                        {
-//                            db.insert(TotalEntry.)
-                            realmMsgInfoTotalHelper.updateHeadPath(friendId, file.toString(), headImg, modified);
-                        }
-                        else
-                        {
-                            CusDataLinkFriend linkFriend = new CusDataLinkFriend();
-                            linkFriend.setHeadImg(headImg);
-                            linkFriend.setFriendId(friendId);
-                            linkFriend.setTime(modified);
-                            linkFriend.setImgPath(file.toString());
-                            if (isFriend)
-                                linkFriend.setWhoType("1");
-                            else
-                                linkFriend.setWhoType("2");
-                            realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
-                        }
-                    }
-                });
+    private void setGlideData(final boolean isUpDate,final boolean isFriend,final String modified, final String friendId, final String headImg) {
+        CusDataLinkFriend linkFriend = new CusDataLinkFriend();
+        linkFriend.setHeadImg(headImg);
+        linkFriend.setFriendId(friendId);
+        linkFriend.setTime(modified);
+        if (isFriend)
+            linkFriend.setWhoType("1");
+        else
+            linkFriend.setWhoType("2");
+        if (isUpDate)
+        {
+            realmMsgInfoTotalHelper.updateAll(friendId,linkFriend);
+        }
+        else
+        {
+            realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
+        }
     }
+//    private void setGlideData(final boolean isSame,final boolean isFriend,final String modified, final String friendId, final String headImg) {
+//        Glide.with(mContext)
+//                .load(headImg)
+//                .downloadOnly(new SimpleTarget<File>() {
+//                    @Override
+//                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
+////                                    这里拿到的resource就是下载好的文件，
+//                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, friendId, modified);
+//                        if (isSame)
+//                        {
+//                            realmMsgInfoTotalHelper.updateHeadPath(friendId, file.toString(), headImg, modified);
+//                        }
+//                        else
+//                        {
+//                            CusDataLinkFriend linkFriend = new CusDataLinkFriend();
+//                            linkFriend.setHeadImg(headImg);
+//                            linkFriend.setFriendId(friendId);
+//                            linkFriend.setTime(modified);
+//                            linkFriend.setImgPath(file.toString());
+//                            if (isFriend)
+//                                linkFriend.setWhoType("1");
+//                            else
+//                                linkFriend.setWhoType("2");
+//                            realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
+//                        }
+//                    }
+//                });
+//    }
 
     private void dealFriendData(DataLinkManList.RecordBean record) {
         List<DataLinkManList.RecordBean.FriendListBean> friendList = record.getFriendList();
@@ -240,9 +259,7 @@ public class LoadInteractor {
                 if (friendList.size()>0)
                     dealFriendRealm(friendList, i);
             }
-        String json = JSON.toJSON(record).toString();
-        aCache.remove(AppAllKey.FRIEND_DATA);
-        aCache.put(AppAllKey.FRIEND_DATA, json);
+
     }
 
     private void dealFriendRealm(List<DataLinkManList.RecordBean.FriendListBean> friendList, int i) {
@@ -252,43 +269,74 @@ public class LoadInteractor {
             if (groupList.size()>0)
                 for (int j=0;j<groupList.size();j++) {
                     DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = groupList.get(j);
-
-
                     final String modified = groupList.get(j).getModified();
                     final String friendId = groupList.get(j).getUserId();
                     final String headImg = groupList.get(j).getHeadImg();
+
                     CusDataLinkFriend cusDataLinkFriend = realmMsgInfoTotalHelper.queryLinkFriend(friendId);
+
                     CusDataFriendRelation cusDataFriendRelation = friendHelper.queryLinkFriend(friendId);
+
+                    CusDataFriendUser cusDataFriendUser = friendUserHelper.queryLinkFriend(friendId);
                     if (StrUtils.isEmpty(headImg))
                     {
                         return;
                     }
-                    if (cusDataLinkFriend!=null&&cusDataFriendRelation!=null) {
+                    //用户信息存库（用户表）
+                    if(cusDataFriendUser!=null)
+                    {
+                        String time = cusDataFriendUser.getTime();
+                        if ( !modified.equals(time))
+                        {
+                            setUserData(true,groupListBean);
+                        }
+                    }else
+                    {
+                        setUserData(false,groupListBean);
+                    }
 
+//                    首页消息列表查看头像等信息
+                    if(cusDataLinkFriend!=null)
+                    {
                         String time = cusDataLinkFriend.getTime();
                         if ( !modified.equals(time))
                         {
                             setGlideData(true,true,modified, friendId, headImg);
-                            setFriendRealm(true,groupListBean);
-                        }else {
-                            setGlideData(false,true,modified, friendId, headImg);
-                            setFriendRealm(false,groupListBean);
                         }
-//                boolean equals = modified.equals(time);
-//                setGlideData(!equals,false,modified, friendId, headImg);
-                    }else {
+                    }else
+                    {
                         setGlideData(false,true,modified, friendId, headImg);
+                    }
+
+                    //好友关系列表
+                    if (cusDataFriendRelation!=null) {
+                        String time = cusDataLinkFriend.getTime();
+                        if ( !modified.equals(time))
+                        {
+                            setFriendRealm(true,groupListBean);
+                        }
+                    }else {
                         setFriendRealm(false,groupListBean);
                     }
-//                if (cusDataLinkFriend != null) {
-//                    if (StrUtils.isEmpty(headImg)) {
-//                        return;
-//                    }
-//                    String time = cusDataLinkFriend.getTime();
-//                    boolean equals = modified.equals(time);
-//                    setGlideData(!equals,true,modified, friendId, headImg);
-//                }
                 }
+        }
+    }
+
+    private void setUserData(boolean isUpData,DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean) {
+        CusDataFriendUser cusDataFriendUser = new CusDataFriendUser();
+        cusDataFriendUser.setFriendId(groupListBean.getUserId());
+        cusDataFriendUser.setHeadImgBase64(groupListBean.getHeadImg());
+        cusDataFriendUser.setName(groupListBean.getNickName());
+        cusDataFriendUser.setRemarkName(groupListBean.getRemarkName());
+        cusDataFriendUser.setTime(groupListBean.getModified());
+//        TODO 添加二维码数据
+//        cusDataFriendUser.setErWeiCode(groupListBean.get());
+        if(isUpData)
+        {
+            friendUserHelper.updateAll(groupListBean.getUserId(),cusDataFriendUser);
+        }else
+        {
+            friendUserHelper.addRealmFriendUser(cusDataFriendUser);
         }
     }
 

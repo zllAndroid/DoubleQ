@@ -30,18 +30,15 @@ public class LoadPresenter implements LoadInteractor.OnLoadFinishedListener,Load
         this.loginView = loginView;
         this.loginInteractor = loginInteractor;
     }
-
     public void loadData() {
         if (loginView != null) {
             loginView.showProgress();
         }
         loginInteractor.linkManRequest( this);
     }
-
     public void onDestroy() {
         loginView = null;
     }
-
     @Override
     public void onError(String error) {
         if (loginView != null) {
@@ -53,12 +50,9 @@ public class LoadPresenter implements LoadInteractor.OnLoadFinishedListener,Load
     public void onSuccess(String msg) {
         loginInteractor.setDataToRealm(mContext,msg,this);
     }
-
     @Override
     public void onSqlError() {
-
     }
-
     @Override
     public void onSqlSuccess() {
         if (loginView != null) {

@@ -10,8 +10,10 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -28,6 +30,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolder> {
     Context context;
     public List<CusHomeRealmData> data;
+    RealmFriendUserHelper realmFriendUserHelper;
     RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
     public MsgAdapter(Context context, List<CusHomeRealmData> data, ItemTouchListener mItemTouchListener) {
         super(R.layout.item_home_message, data);
@@ -35,6 +38,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         this.context=context;
         this.mItemTouchListener=mItemTouchListener;
         realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(context);
+        realmFriendUserHelper = new RealmFriendUserHelper(context);
     }
     public void addData(CusHomeRealmData cusData) {
         data.add(0, cusData);
@@ -72,37 +76,9 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         ImageView mIvClick = (ImageView) helper.getView(R.id.item_tv_click_ok);
         TextView mTvNum = helper.getView(R.id.item_tv_num);
         TextView mTvTime = helper.getView(R.id.item_tv_time);
-//        String type = item.getType();
-//        String assistantType = item.getAssistantType();
-
-//        群助手
-//        if (item.getAssistantType()!=null&&item.getAssistantType().equals("2")) {
-////        if (item.getTotalId().equals(AppConfig.GroupAssistant)) {
-//
-////            TextView mTvNum = helper.getView(R.id.item_tv_num);
-//            mTvNum.setBackgroundResource(R.drawable.news_disturb);
-//            helper.setText(R.id.item_tv_msg, "("+item.getGroupNumMsg()+"个群有新消息"+")");
-//            helper.setText(R.id.item_tv_name, "群助手");
-//            mTvMsg.setTextColor(context.getResources().getColor(R.color.app_theme));
-//
-//            mTvNum.setVisibility(View.GONE);
-//            mTvTime.setVisibility(View.GONE);
-//            mIvClick.setVisibility(View.GONE);
-//            Glide.with(context).load(R.drawable.msg_grouper)
-//                    .bitmapTransform(new CropCircleTransformation(context))
-//                    .into(mIvHead);
-//            return;
-//        }
-//          else
-//            {
-//                mTvNum.setVisibility(View.VISIBLE);
-//                mTvTime.setVisibility(View.VISIBLE);
-//                mIvClick.setVisibility(View.VISIBLE);
-//                mTvMsg.setTextColor(context.getResources().getColor(R.color.gray999));
-//            }
         try {
             if (!StrUtils.isEmpty(item.getFriendId())) {
-                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+//                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                 final int errorImg;
                 if (item.getType().equals("1"))
                 {
@@ -111,20 +87,23 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                 {
                     errorImg=R.drawable.qun_head;
                 }
-                if (imgPath != null) {
-                    Uri uri = Uri.fromFile(new File(imgPath));
-                    mIvHead.setImageURI(uri);
-    //                Glide.with(context).load(imgPath)
-    //                        .error(errorImg)
-    //                        .bitmapTransform(new CropCircleTransformation(context))
-    //                        .into(mIvHead);
-                } else {
-                    Glide.with(context).load(item.getHeadImg())
-                            .error(errorImg)
-                            .bitmapTransform(new CropCircleTransformation(context))
-    //                        .crossFade(1000)
-                            .into(mIvHead);
-                }
+                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+                ImageUtils.useBase64(context,mIvHead,imgPath);
+//                ImageUtils.useBase64(context,mIvHead,item.getHeadImg());
+//                if (imgPath != null) {
+//                    Uri uri = Uri.fromFile(new File(imgPath));
+//                    mIvHead.setImageURI(uri);
+//    //                Glide.with(context).load(imgPath)
+//    //                        .error(errorImg)
+//    //                        .bitmapTransform(new CropCircleTransformation(context))
+//    //                        .into(mIvHead);
+//                } else {
+//                    Glide.with(context).load(item.getHeadImg())
+//                            .error(errorImg)
+//                            .bitmapTransform(new CropCircleTransformation(context))
+//    //                        .crossFade(1000)
+//                            .into(mIvHead);
+//                }
             }
             helper.setText(R.id.item_tv_name,item.getNickName());
             helper.setText(R.id.item_tv_msg,item.getMsg());
@@ -182,6 +161,12 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         final View lMenu = holder.getView(R.id.item_notice_del_menu);
         try {
             //TODO   解散群聊时 getNickName() 报空指针
+//            boolean open = swipeLayout.isOpen();
+//            if(open)
+//            {
+//
+//            }
+
             click(swipeLayout, lMenu,positions,data.get(positions).getNickName());
         } catch (Exception e) {
             e.printStackTrace();

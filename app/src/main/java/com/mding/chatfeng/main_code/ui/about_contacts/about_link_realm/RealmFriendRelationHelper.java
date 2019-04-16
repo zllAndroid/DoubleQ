@@ -76,7 +76,7 @@ public class RealmFriendRelationHelper {
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             realmMsg=cusDataFriendRelation;
-            realmMsg.setTotalId(cusDataFriendRelation.getFriendId() + SplitWeb.getUserId());
+            realmMsg.setTotalId(friendId + SplitWeb.getUserId());
             mRealm.insertOrUpdate(realmMsg);
             mRealm.commitTransaction();
         }

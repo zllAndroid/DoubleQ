@@ -198,6 +198,8 @@ public class DealDataByApp {
                 case "invitationGroupListSend":
                     DealGroupInvitation.updateGroupDataByInvitation(mContext, message.getResponseText());
                     break;
+
+
 //                    好友修改Ta的信息
                 case "updateFriendSend":
                     DealUpdateFriend.updateFriend(mContext,message.getResponseText());

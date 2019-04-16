@@ -151,7 +151,7 @@ public class PersonalFragment extends BaseFragment {
         {
             imageBase64 = asString;
             ImageUtils.useBase64(getActivity(),mineIvPerson,asString);
-            MyLog.e("PersonalFragment","无网");
+//            MyLog.e("PersonalFragment","无网");
         }
 
 //        if (!SplitWeb.IS_SET_PERSON_HEAD) {
@@ -224,7 +224,7 @@ public class PersonalFragment extends BaseFragment {
                         imageBase64 = headImg;
                         ImageUtils.useBase64(getActivity(), mineIvPerson, headImg);
                         aCache.put(IMAGE_BASE64, headImg);
-                        ToastUtil.isDebugShow("无网");
+//                        ToastUtil.isDebugShow("无网");
                     }
                 }
                 break;

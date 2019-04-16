@@ -19,6 +19,7 @@ public class CusDataFriendUser extends RealmObject {
 
     //昵称
     String name;
+    String erWeiCode;
 
 //    签名
     String sign;
@@ -27,6 +28,8 @@ public class CusDataFriendUser extends RealmObject {
 // 1是未添加 2是已添加 3是自己
 //    String isRealtion;
     String headImgBase64;
+    String remarkName;
+
 ////    1是好友，2是群
 //    String whoType;
 
@@ -37,6 +40,22 @@ public class CusDataFriendUser extends RealmObject {
 //    public void setWhoType(String whoType) {
 //        this.whoType = whoType;
 //    }
+
+    public String getErWeiCode() {
+        return erWeiCode;
+    }
+
+    public void setErWeiCode(String erWeiCode) {
+        this.erWeiCode = erWeiCode;
+    }
+
+    public String getRemarkName() {
+        return remarkName;
+    }
+
+    public void setRemarkName(String remarkName) {
+        this.remarkName = remarkName;
+    }
 
     public String getTime() {
         return time;

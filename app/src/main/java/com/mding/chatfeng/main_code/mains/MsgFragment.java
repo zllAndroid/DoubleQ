@@ -478,18 +478,6 @@ public class MsgFragment extends BaseFragment {
     public  static  boolean mIsRefreshing=false;
     public  void addListMethon(List<CusHomeRealmData> realmData)
     {
-//        mRecyclerView.setOnTouchListener(
-//                new View.OnTouchListener() {
-//                    @Override
-//                    public boolean onTouch(View v, MotionEvent event) {
-//                        if (mIsRefreshing) {
-//                            return true;
-//                        } else {
-//                            return false;
-//                        }
-//                    }
-//                }
-//        );
 
         if (realmData.size()==0)
         {
@@ -520,25 +508,6 @@ public class MsgFragment extends BaseFragment {
         }
     }
     private void initAdapter() {
-//        for (int i=0;i<mList.size();i++)
-//        {
-//            String totalId = mList.get(i).getTotalId();
-//            if (!totalId.equals(AppConfig.GroupAssistant)) {
-//                String assistantType = mList.get(i).getAssistantType();
-//                String mTy = mList.get(i).getType();
-//
-//                if (mTy != null && assistantType != null)
-//                    if (mTy.equals("2") && assistantType.equals("2")) {
-//                        mList.remove(i);
-//                        if (msgAdapter!=null)
-//                            msgAdapter.notifyItemChanged(i);
-//                    }
-//            }
-//        }
-//        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getActivity()));
-//        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(getActivity()));
-//        mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
-//        mRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         if (msgAdapter==null) {
             Log.e(Tag, "msgAdapter=" + msgAdapter);
             msgAdapter = new MsgAdapter(getActivity(), mList, mItemTouchListener);
@@ -587,10 +556,10 @@ public class MsgFragment extends BaseFragment {
         }
         if (item.getType().equals("1")) {
             // 点击进入详情后，消息个数清零
-            item.setNum(0);
-            realmHelper.updateNumZero(item.getFriendId());
-            if (msgAdapter!=null)
-                msgAdapter.notifyItemChanged(position);
+//            item.setNum(0);
+//            realmHelper.updateNumZero(item.getFriendId());
+//            if (msgAdapter!=null)
+//                msgAdapter.notifyItemChanged(position);
 //            mRecyclerView.smoothScrollToPosition(0);
             // 好友
             CusJumpChatData cusJumpChatData = new CusJumpChatData();
@@ -601,9 +570,9 @@ public class MsgFragment extends BaseFragment {
 
         }else {
             //跳转群组
-            item.setNum(0);
-            realmHelper.updateNumZero(item.getFriendId());
-            msgAdapter.notifyItemChanged(position);
+//            item.setNum(0);
+//            realmHelper.updateNumZero(item.getFriendId());
+//            msgAdapter.notifyItemChanged(position);
 //            mRecyclerView.smoothScrollToPosition(0);
             CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
             cusJumpGroupChatData.setGroupId(item.getFriendId());

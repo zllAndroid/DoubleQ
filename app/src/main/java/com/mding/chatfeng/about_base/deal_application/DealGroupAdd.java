@@ -198,6 +198,12 @@ public class DealGroupAdd {
                     }
                 }
             }
+
+//
+            Intent intent = new Intent();
+            intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+            mContext.sendBroadcast(intent);
+
         }
         else
         {
@@ -205,6 +211,7 @@ public class DealGroupAdd {
             dealNoChartModify(mRecord, group_info_list, 0, chart);
             return;
         }
+
     }
 
     private static void putCacheModifyTypeOne(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i) {
@@ -230,9 +237,7 @@ public class DealGroupAdd {
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
 
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+
     }
 
     private static void initDataGroupSub(String asString,DataAboutGroup.RecordBean mRecord) {

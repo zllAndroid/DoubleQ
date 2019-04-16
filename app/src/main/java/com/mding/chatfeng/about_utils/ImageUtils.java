@@ -147,12 +147,16 @@ public class ImageUtils {
 	}
 
 	public static void useBase64(Context context, ImageView imageView, String s) {
-		byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
-		Glide.with(context).load(decodedByte)
-				.dontAnimate()
-				.bitmapTransform(new CropCircleTransformation(context))
-				.placeholder(imageView.getDrawable())
-				.into(imageView);
+		try {
+			byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
+			Glide.with(context).load(decodedByte)
+                    .dontAnimate()
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .placeholder(imageView.getDrawable())
+                    .into(imageView);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	public static void useBase64WithError(Context context, ImageView imageView, String s, int errorDrawable) {
 		byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);

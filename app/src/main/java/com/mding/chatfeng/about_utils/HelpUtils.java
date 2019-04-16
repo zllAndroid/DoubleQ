@@ -307,7 +307,8 @@ public class HelpUtils {
                     else
                         params.put("groupInfoList", objects);
                     String s = params.toJSONString();
-                    String mStr=s.replace("\\","");
+                    String mStr=s.replace("\\n","");
+                     mStr=mStr.replace("\\","");
                     mStr=mStr.replace("\"[","");
                     mStr=mStr.replace("\"]","");
 //                    MyLog.e("friendList","列表="+mStr);

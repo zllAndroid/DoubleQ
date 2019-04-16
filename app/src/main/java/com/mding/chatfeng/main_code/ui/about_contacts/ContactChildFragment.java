@@ -526,43 +526,26 @@ public class ContactChildFragment extends BaseFragment {
                 }else {
                     setGlideData(false,false,modified, friendId, headImg);
                 }
-//                if (cusDataLinkFriend!=null) {
-//                    String time = cusDataLinkFriend.getTime();
-//                    if (StrUtils.isEmpty(headImg))
-//                    {
-//                        return;
-//                    }
-//                    boolean equals = modified.equals(time);
-//                    setGlideData(!equals,false,modified, friendId, headImg);
-//                }
             }
         }
     }
-    private void setGlideData(final boolean isSame,final boolean isFriend,final String modified, final String friendId, final String headImg) {
-        Glide.with(this)
-                .load(headImg)
-                .downloadOnly(new SimpleTarget<File>() {
-                    @Override
-                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, friendId, modified);
-                        if (isSame)
-                            realmMsgInfoTotalHelper.updateHeadPath(friendId, file.toString(), headImg, modified);
-                        else
-                        {
-                            CusDataLinkFriend linkFriend = new CusDataLinkFriend();
-                            linkFriend.setHeadImg(headImg);
-                            linkFriend.setFriendId(friendId);
-                            linkFriend.setTime(modified);
-                            linkFriend.setImgPath(file.toString());
-                            if (isFriend)
-                                linkFriend.setWhoType("1");
-                            else
-                                linkFriend.setWhoType("2");
-                            realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
-                        }
-                    }
-                });
+    private void setGlideData(final boolean isUpDate,final boolean isFriend,final String modified, final String friendId, final String headImg) {
+        CusDataLinkFriend linkFriend = new CusDataLinkFriend();
+        linkFriend.setHeadImg(headImg);
+        linkFriend.setFriendId(friendId);
+        linkFriend.setTime(modified);
+        if (isFriend)
+            linkFriend.setWhoType("1");
+        else
+            linkFriend.setWhoType("2");
+        if (isUpDate)
+        {
+            realmMsgInfoTotalHelper.updateAll(friendId,linkFriend);
+        }
+        else
+        {
+            realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
+        }
     }
     LinkGroupAdapter mGroupAdapter=null;
     private void initGroupAdapter() {

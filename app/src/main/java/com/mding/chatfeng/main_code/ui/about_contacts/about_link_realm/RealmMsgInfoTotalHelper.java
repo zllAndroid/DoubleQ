@@ -55,18 +55,33 @@ public class RealmMsgInfoTotalHelper {
     /**
      * update （改） 头像和头像地址，时间
      */
-    public void updateHeadPath(String friendId, String imgPath,String img, String time) {
+    public void updateHeadPath(String friendId,String img, String time) {
+//    public void updateHeadPath(String friendId, String imgPath,String img, String time) {
         CusDataLinkFriend realmMsg = mRealm.where(CusDataLinkFriend.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             realmMsg.setHeadImg(img);
-            realmMsg.setImgPath(imgPath);
+//            realmMsg.setImgPath(imgPath);
             realmMsg.setTime(time);
             mRealm.insertOrUpdate(realmMsg);
             mRealm.commitTransaction();
         }
     }
-
+    /**
+     * 更新全部
+     * @param friendId
+     * @param cusDataFriendRelation
+     */
+    public void updateAll(String friendId, CusDataLinkFriend cusDataFriendRelation) {
+        CusDataLinkFriend realmMsg = mRealm.where(CusDataLinkFriend.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg=cusDataFriendRelation;
+            realmMsg.setTotalId(friendId + SplitWeb.getUserId());
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
     /**
      * query （查询所有）
      */
@@ -111,8 +126,8 @@ public class RealmMsgInfoTotalHelper {
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
 //        //降序排列
-        if (realmMsgs!=null&&realmMsgs.getImgPath()!=null)
-            return realmMsgs.getImgPath();
+        if (realmMsgs!=null&&realmMsgs.getHeadImg()!=null)
+            return realmMsgs.getHeadImg();
         else
             return  null;
     }
@@ -130,11 +145,9 @@ public class RealmMsgInfoTotalHelper {
         else
             return  false;
     }
-
     public Realm getRealm(){
         return mRealm;
     }
-
     public void close(){
         if (mRealm!=null){
             mRealm.close();
