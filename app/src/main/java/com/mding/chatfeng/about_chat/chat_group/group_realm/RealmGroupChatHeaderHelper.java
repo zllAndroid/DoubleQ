@@ -106,8 +106,8 @@ public class RealmGroupChatHeaderHelper {
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
 //        //降序排列
-        if (realmMsgs!=null&&realmMsgs.getImgPath()!=null)
-            return realmMsgs.getImgPath();
+        if (realmMsgs!=null&&realmMsgs.getHeadImg()!=null)
+            return realmMsgs.getHeadImg();
         else
             return  null;
     }

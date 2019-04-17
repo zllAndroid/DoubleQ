@@ -13,7 +13,11 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataGroup;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -32,6 +36,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
     public List<CusHomeRealmData> data;
     RealmFriendUserHelper realmFriendUserHelper;
     RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
+    RealmGroupHelper realmGroupHelper;
     public MsgAdapter(Context context, List<CusHomeRealmData> data, ItemTouchListener mItemTouchListener) {
         super(R.layout.item_home_message, data);
         this.data=data;
@@ -39,6 +44,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         this.mItemTouchListener=mItemTouchListener;
         realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(context);
         realmFriendUserHelper = new RealmFriendUserHelper(context);
+        realmGroupHelper = new RealmGroupHelper(context);
     }
     public void addData(CusHomeRealmData cusData) {
         data.add(0, cusData);
@@ -88,28 +94,27 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                     errorImg=R.drawable.qun_head;
                 }
                 String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
-                ImageUtils.useBase64(context,mIvHead,imgPath);
-//                ImageUtils.useBase64(context,mIvHead,item.getHeadImg());
-//                if (imgPath != null) {
-//                    Uri uri = Uri.fromFile(new File(imgPath));
-//                    mIvHead.setImageURI(uri);
-//    //                Glide.with(context).load(imgPath)
-//    //                        .error(errorImg)
-//    //                        .bitmapTransform(new CropCircleTransformation(context))
-//    //                        .into(mIvHead);
-//                } else {
-//                    Glide.with(context).load(item.getHeadImg())
-//                            .error(errorImg)
-//                            .bitmapTransform(new CropCircleTransformation(context))
-//    //                        .crossFade(1000)
-//                            .into(mIvHead);
-//                }
+                ImageUtils.useBase64(context,errorImg,mIvHead,imgPath);
+//                CusDataLinkFriend cusDataLinkFriend = realmMsgInfoTotalHelper.queryLinkFriend(item.getFriendId());
             }
-            helper.setText(R.id.item_tv_name,item.getNickName());
+            String nickName = item.getNickName();
+
+            if (!StrUtils.isEmpty(nickName))
+            {
+                if (item.getType().equals("1"))
+                {
+                    CusDataFriendUser cusDataFriendUser = realmFriendUserHelper.queryLinkFriend(item.getFriendId());
+                    nickName = cusDataFriendUser.getName();
+                }else {
+                    CusDataGroup cusDataGroup = realmGroupHelper.queryLinkFriend(item.getFriendId());
+                    nickName= cusDataGroup.getGroupName();
+                }
+            }
+            helper.setText(R.id.item_tv_name,nickName);
             helper.setText(R.id.item_tv_msg,item.getMsg());
 
             helper.setText(R.id.item_tv_time, TimeUtil.formatDisplayTime(item.getTime(),null));
-//        helper.setText(R.id.item_tv_time,item.getTime());
+//          helper.setText(R.id.item_tv_time,item.getTime());
 
             int num =0;
             try {

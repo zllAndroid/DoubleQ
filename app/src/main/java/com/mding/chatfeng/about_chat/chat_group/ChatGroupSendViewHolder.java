@@ -13,9 +13,12 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_file.FilePath;
+import com.mding.chatfeng.main_code.mains.PersonalFragment;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
 import com.rance.chatui.util.Constants;
@@ -69,14 +72,11 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
             chatItemDate.setText(TimeUtil.formatDisplayTime(data.getCreated(),null));
             chatItemDate.setVisibility(View.VISIBLE);
         }
-//        chatItemDate.setText(data.getTime() != null ? data.getTime() : "");
-//        Glide.with(getContext()).load(SplitWeb.USER_HEADER).into(chatItemHeader);
-        chatItemHeader.setImageURI(Uri.fromFile(new File(FilePath.getUserNewHead(getContext()))));
-//        Glide.with(getContext()).load(FilePath.getUserNewHead(getContext()))
-//                .error(R.drawable.mine_head)
-//                .bitmapTransform(new CropCircleTransformation(getContext()))
-//               .into(chatItemHeader);
-
+        String asString = BaseApplication.getaCache().getAsString(PersonalFragment.IMAGE_BASE64);
+        if (!StrUtils.isEmpty(asString))
+        {
+            ImageUtils.useBase64(getContext(),chatItemHeader,asString);
+        }
 
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override

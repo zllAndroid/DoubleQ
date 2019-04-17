@@ -340,27 +340,12 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 if (recordImg != null) {
                     final String headImg = recordImg.getHeadImg();
                     if (!StrUtils.isEmpty(headImg)) {
-//                        Glide.with(this)
-//                                .load(headImg)
-//                                .downloadOnly(new SimpleTarget<File>() {
-//                                    @Override
-//                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-////                                    这里拿到的resource就是下载好的文件，
-//                                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_GROUP, groupId, recordImg.getModified());
-//                                        realmLinkFriendHelper.updateHeadPath(groupId, file.getPath(), headImg, recordImg.getModified());
-//
-//                                    }
-//                                });
                         ImageUtils.useBase64(GroupChatDetailsActivity.this, groupDataIvHead, headImg);
                         GroupHeadImgInfo groupHeadImgInfo = new GroupHeadImgInfo();
                         groupHeadImgInfo.setGroupHeadImgBase64(headImg);
                         EventBus.getDefault().postSticky(groupHeadImgInfo);
                     }
                 }
-//                Glide.with(this).load(save)
-//                        .bitmapTransform(new CropCircleTransformation(GroupChatDetailsActivity.this))
-//                        .thumbnail(0.1f)
-//                        .into(groupDataIvHead);
                 break;
             case "setUserGroupAssistant":
                 boolean checked = chatsetSwiQunZhu.isChecked();
@@ -372,8 +357,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //                chatsetSwiDarao.setChecked(!checked2);
                 String text1 = checked2 ? "设置免打扰成功" : "取消免打扰";
                 ToastUtil.show(text1);
-//                Log.e("disturbGroup", "--------------------------------------------chatsetSwiDarao.isChecked() = " + chatsetSwiDarao.isChecked());
-//                Log.e("disturbGroup", "--------------------------------------------checked2 = " + checked2);
                 break;
         }
     }
@@ -958,7 +941,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
                 if (cusHomeRealmData1!=null)
                 {
-                    realmHelper.updateNumZero(groupId);
+                    realmHelper.updateGroup(groupId,cusHomeRealmData);
                 }else
                 {
                     realmHelper.addRealmMsgQun(cusHomeRealmData);

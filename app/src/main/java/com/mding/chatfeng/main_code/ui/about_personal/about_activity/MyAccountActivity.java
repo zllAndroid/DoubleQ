@@ -12,8 +12,6 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.about_utils.ImageUtils;
-import com.mding.chatfeng.main_code.ui.about_personal.about_activity.about_qrcode.QrCodePresenter;
-import com.mding.chatfeng.main_code.ui.about_personal.about_activity.about_qrcode.QrCodeView;
 import com.mding.model.DataLogin;
 import com.mding.model.DataMyZiliao;
 import com.mding.chatfeng.R;
@@ -37,7 +35,7 @@ import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
 /**
  *  我的二维码
  */
-public class MyAccountActivity extends BaseActivity implements QrCodeView {
+public class MyAccountActivity extends BaseActivity  {
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
     @BindView(R.id.qrcode_iv_head)
@@ -74,10 +72,6 @@ public class MyAccountActivity extends BaseActivity implements QrCodeView {
                 qrcodeTvSao.setText(personData.getScanTital());
                 qrcodeTvName.setText(personData.getName());
                 ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, personData.getHeadImg());
-//                Glide.with(this).load(personData.getHeadImg())
-//                        .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
-//                        .error(R.drawable.mine_head)
-//                      .into(qrcodeIvHead);
 
                 String string = personData.getQrCode();
 //                String string = type + "_xm6leefun_" + userId;
@@ -145,14 +139,4 @@ public class MyAccountActivity extends BaseActivity implements QrCodeView {
     }
 
 
-    @Override
-    public void showInfo() {
-
-    }
-
-    @Override
-    public void netError() {
-
-    }
-    QrCodePresenter presenter = new QrCodePresenter();
 }

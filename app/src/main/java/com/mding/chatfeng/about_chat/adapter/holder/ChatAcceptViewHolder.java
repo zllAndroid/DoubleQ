@@ -16,6 +16,7 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.model.DataJieShou;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -51,6 +52,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
     Context context;
     protected boolean isScrolling = false;
     RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
+    RealmFriendUserHelper realmFriendUserHelper;
     RealmFriendRelationHelper friendHelper;
     public ChatAcceptViewHolder(ViewGroup parent, ChatAdapter.onItemClickListener onItemClickListener, Handler handler,boolean isScrolling ,Context context) {
         super(parent, R.layout.item_chat_accept);
@@ -63,6 +65,8 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
             realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(getContext());
         if (friendHelper==null)
             friendHelper = new RealmFriendRelationHelper(getContext());
+        if (realmFriendUserHelper==null)
+            realmFriendUserHelper = new RealmFriendUserHelper(getContext());
     }
     @Override
     public void setData(final DataJieShou.RecordBean data) {
@@ -74,19 +78,16 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
             chatItemDate.setText(TimeUtil.formatDisplayTime(data.getRequestTime(),null));
             chatItemDate.setVisibility(View.VISIBLE);
         }
-//        String headImg = friendHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
-//        if (headImg!=null) {
-//            headImg = headImg.replace("data:image/png;base64,", "");
-//            Log.e("ChatAcceptViewHolder", headImg);
-////            byte[] decode = Base64.decode(headImg, Base64.DEFAULT);
-//            Glide.with(getContext())
-//                    .load(headImg)
-//                    .dontAnimate()
-//                    .error(com.mding.chatfeng.R.drawable.mine_head)
-//                    .bitmapTransform(new CropCircleTransformation(getContext()))
-//                    .into(chatItemHeader);
+//        if (!StrUtils.isEmpty(data.getFriendsId())) {
+//            String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
+//            ImageUtils.useBase64(context,chatItemHeader,imgPath);
 //        }
-        ImageUtils.useBase64(getContext(),chatItemHeader,data.getHeadImg());
+
+        if (!StrUtils.isEmpty(data.getFriendsId())) {
+            String imgPath = realmFriendUserHelper.queryLinkFriendReturnImgPath(data.getFriendsId());
+            ImageUtils.useBase64(getContext(),chatItemHeader,imgPath);
+        }
+//        ImageUtils.useBase64(getContext(),chatItemHeader,data.getHeadImg());
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,8 +114,6 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.GONE);
                     break;
-
-
                 case Constants.CHAT_PICTURE:
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemLayoutContent.setVisibility(View.GONE);
@@ -156,39 +155,5 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        if (data.getContent() != null) {
-//            chatItemContentText.setSpanText(handler, data.getContent(), true);
-//            chatItemVoice.setVisibility(View.GONE);
-//            chatItemContentText.setVisibility(View.VISIBLE);
-//            chatItemLayoutContent.setVisibility(View.VISIBLE);
-//            chatItemVoiceTime.setVisibility(View.GONE);
-//            chatItemContentImage.setVisibility(View.GONE);
-//        } else if (data.getImageUrl() != null) {
-//            chatItemVoice.setVisibility(View.GONE);
-//            chatItemLayoutContent.setVisibility(View.GONE);
-//            chatItemVoiceTime.setVisibility(View.GONE);
-//            chatItemContentText.setVisibility(View.GONE);
-//            chatItemContentImage.setVisibility(View.VISIBLE);
-//            Glide.with(getContext()).load(data.getImageUrl()).into(chatItemContentImage);
-//            chatItemContentImage.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    onItemClickListener.onImageClick(chatItemContentImage, getDataPosition());
-//                }
-//            });
-//        } else if (data.getFilepath() != null) {
-//            chatItemVoice.setVisibility(View.VISIBLE);
-//            chatItemLayoutContent.setVisibility(View.VISIBLE);
-//            chatItemContentText.setVisibility(View.GONE);
-//            chatItemVoiceTime.setVisibility(View.VISIBLE);
-//            chatItemContentImage.setVisibility(View.GONE);
-//            chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
-//            chatItemLayoutContent.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    onItemClickListener.onVoiceClick(chatItemVoice, getDataPosition());
-//                }
-//            });
-//        }
     }
 }

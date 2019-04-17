@@ -111,7 +111,6 @@ public class LoadInteractor {
                     if (group_info_list.get(i).getType().equals("2"))
                         dealGroupRealm(group_info_list, i);
             }
-
         }
     }
 
@@ -124,23 +123,31 @@ public class LoadInteractor {
                 final String friendId = groupList.get(j).getGroupOfId();
                 final String headImg = groupList.get(j).getHeadImg();
                 CusDataLinkFriend cusDataLinkFriend = realmMsgInfoTotalHelper.queryLinkFriend(friendId);
+
+                CusDataGroup cusDataGroup = groupHelper.queryLinkFriend(friendId);
+
+
                 if (StrUtils.isEmpty(headImg)) {
                     return;
                 }
+                if (cusDataGroup!=null)
+                {
+                    String time = cusDataGroup.getCreated();
+                    if (time.equals(modified))
+                    {
+                        setGroupData(true, groupListBean);
+                    }
+                }else
+                {
+                    setGroupData(false, groupListBean);
+                }
+//                 设置首页的数据库数据
                 if (cusDataLinkFriend != null) {
-
                     String time = cusDataLinkFriend.getTime();
                     if (modified != null && !modified.equals(time)) {
                         setGlideData(true, false, modified, friendId, headImg);
-                        setGroupData(true, groupListBean);
-                    } else {
-                        setGlideData(true, false, modified, friendId, headImg);
-                        setGroupData(false, groupListBean);
                     }
-//                boolean equals = modified.equals(time);
-//                setGlideData(!equals,false,modified, friendId, headImg);
                 } else {
-                    setGroupData(false, groupListBean);
                     setGlideData(false, false, modified, friendId, headImg);
                 }
             }

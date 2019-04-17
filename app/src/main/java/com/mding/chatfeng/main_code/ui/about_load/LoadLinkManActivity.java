@@ -55,7 +55,6 @@ public class LoadLinkManActivity extends BaseActivity implements LoadView {
         super.initBaseView();
         loadPresenter = new LoadPresenter(LoadLinkManActivity.this, this, new LoadInteractor());
         loadPresenter.loadData();
-
     }
 
     @Override

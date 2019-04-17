@@ -97,16 +97,12 @@ public class MsgFragment extends BaseFragment {
 
 //        网络连接状态的广播接收
         initNetReceive();
-
-
     }
-
     @Override
     public void onStart() {
         super.onStart();
 //        mFgTopBar.setTop(getActivity());
     }
-
     private NetReceiver mReceiver;
     IntentFilter mFilter=null;
     private void initNetReceive() {
@@ -291,20 +287,6 @@ public class MsgFragment extends BaseFragment {
                 if (msgAdapter!=null)
                     msgAdapter.notifyItemChanged(i);
             }
-//            if (mList.size()>0)
-//            {
-//                for (int j=0;j<mList.size();j++)
-//                {
-//                    String totalId = cusHomeRealmData.get(j).getTotalId();
-//                    if (totalId.equals(AppConfig.GroupAssistant))
-//                    {
-//                        mList.set(j,cusHomeRealmData1);
-//                        if (msgAdapter!=null)
-//                            msgAdapter.notifyItemChanged(j);
-//                    }
-//                }
-//            }
-
         }
     }
 
@@ -330,27 +312,6 @@ public class MsgFragment extends BaseFragment {
                         if (msgAdapter!=null)
                             msgAdapter.notifyItemChanged(i);
                     }
-//                    if (i==0)
-//                    {
-//                        mList.remove(0);
-//                        mList.add(0,homeRealmData);
-//                        msgAdapter.notifyItemChanged(0);
-//
-//                        return;
-//                    }
-//                    if (msgAdapter!=null)
-//                    {
-////                            mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
-//                        msgAdapter.removeData(i);
-//                        msgAdapter.addData(homeRealmData);
-//                        mRecyclerView.smoothScrollToPosition(0);
-////                            realmHelper.deleteRealmMsg(id+SplitWeb.USER_ID);
-//                    }
-//                    return;
-//        if (homeRealmData!=null) {
-//            msgAdapter.addData(homeRealmData);
-//            msgAdapter.notifyItemChanged(0);
-//        }
                 }
             }
     }
@@ -466,10 +427,6 @@ public class MsgFragment extends BaseFragment {
                 msgAdapter.addData(homeRealmData);
                 msgAdapter.notifyItemChanged(0);
             }
-//            else
-//            {
-//                mList.add(0,homeRealmData);
-//            }
         }
     }
     List<CusHomeRealmData> mList =new ArrayList<>();
@@ -534,9 +491,6 @@ public class MsgFragment extends BaseFragment {
                             FragmentManager childFragmentManager = getChildFragmentManager();
                             MyDialogFragment myDialogFragment = new MyDialogFragment(item.getFriendId(), type);
                             myDialogFragment.show(childFragmentManager, "show");
-//                        chatWindow = new MsgChatWindow(getActivity(), item.getFriendId());
-//                        chatWindow.showAtLocation(mLinTop, Gravity.BOTTOM, 0,0);
-//                        ToastUtil.show("点击编辑");
                             break;
                     }
                 }

@@ -674,9 +674,9 @@ public class DealDataByApp {
         if (homeRealmData != null) {
             realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
             if (SplitWeb.IS_CHAT_Zero)
-                realmHelper.updateNum(record.getFriendsId());//更新首页聊天界面数据（未读消息数目）
+                realmHelper.updateNum(record.getFriendsId(),record.getFriendsName());//更新首页聊天界面数据（未读消息数目）
             else {
-                realmHelper.updateNumZero(record.getFriendsId());//更新首页聊天界面数据（未读消息数目）
+                realmHelper.updateNumZero(record.getFriendsId(),record.getFriendsName());//更新首页聊天界面数据（未读消息数目）
             }
         } else {
             if (cusJumpChatData == null)

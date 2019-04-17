@@ -146,6 +146,7 @@ public class RealmHomeHelper {
             mRealm.beginTransaction();
             realmMsg.setMsg(msg);
             realmMsg.setTime(time);
+            realmMsg.setNickName(record.getGroupName());
             realmMsg.setMsgIsDisTurb(record.getDisturbType());
             realmMsg.setIsTopMsg(record.getTopType());
             realmMsg.setIsShield(record.getOperationType());
@@ -219,10 +220,49 @@ public class RealmHomeHelper {
             mRealm.commitTransaction();
         }
     }
-    public void updateNumZero(String friendId) {
+    public void updateNum(String friendId,String name) {
         CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
         if (realmMsg!=null) {
             mRealm.beginTransaction();
+            int num = 0;
+            try {
+                num = realmMsg.getNum();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            realmMsg.setNum(num+1);
+            realmMsg.setNickName(name);
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
+    public void updateNumZero(String friendId) {
+//    public void updateNumZero(String friendId,String name) {
+        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg.setNum(0);
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
+    public void updateNumZero(String friendId,String name) {
+//    public void updateNumZero(String friendId,String name) {
+        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg.setNickName(name);
+            realmMsg.setNum(0);
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
+    public void updateGroup(String friendId,CusHomeRealmData cusHomeRealmData) {
+        CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg=cusHomeRealmData;
+            realmMsg.setTotalId(friendId+SplitWeb.getUserId());
             realmMsg.setNum(0);
             mRealm.insertOrUpdate(realmMsg);
             mRealm.commitTransaction();

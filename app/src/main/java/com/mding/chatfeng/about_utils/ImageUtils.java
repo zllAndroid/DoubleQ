@@ -153,10 +153,23 @@ public class ImageUtils {
 		try {
 			byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
 			Glide.with(context).load(decodedByte)
-                    .dontAnimate()
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .placeholder(imageView.getDrawable())
-                    .into(imageView);
+					.dontAnimate()
+					.bitmapTransform(new CropCircleTransformation(context))
+					.placeholder(imageView.getDrawable())
+					.into(imageView);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	public static void useBase64(Context context, int error,ImageView imageView, String s) {
+		try {
+			byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
+			Glide.with(context).load(decodedByte)
+					.dontAnimate()
+					.bitmapTransform(new CropCircleTransformation(context))
+					.error(error)
+					.placeholder(imageView.getDrawable())
+					.into(imageView);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
