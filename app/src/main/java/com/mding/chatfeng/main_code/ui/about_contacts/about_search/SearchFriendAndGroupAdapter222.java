@@ -13,7 +13,7 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
- * Created by Administrator on 2017/11/8 0008.
+ * Created by  on 2017/11/8 0008.
  */
 
 public class SearchFriendAndGroupAdapter222 extends BaseQuickAdapter<DataSearch, BaseViewHolder> {

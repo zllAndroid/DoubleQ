@@ -7,7 +7,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 /**
- * Created by Administrator on 2015/12/24.
+ * Created by  on 2015/12/24.
  */
 public class DaemonService extends Service {
     private static final String TAG = DaemonService.class.getSimpleName();

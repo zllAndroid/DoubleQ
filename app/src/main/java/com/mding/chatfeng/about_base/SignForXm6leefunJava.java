@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * Created by Administrator on 2018/03/10 0006.
+ * Created by  on 2018/03/10 0006.
  */
 public class SignForXm6leefunJava {
     public static String getSing(ArrayList<String> mList) {

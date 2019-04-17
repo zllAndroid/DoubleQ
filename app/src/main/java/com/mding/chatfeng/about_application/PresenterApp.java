@@ -76,6 +76,7 @@ public class PresenterApp implements IWebSocketPage {
 //    }
     public  void  initApp(BaseApplication mApplication)
     {
+
         /**
          * 必须在 Application 的 onCreate 方法中执行 BGASwipeBackHelper.init 来初始化滑动返回
          * 第一个参数：应用程序上下文
@@ -110,14 +111,7 @@ public class PresenterApp implements IWebSocketPage {
                     if (System.currentTimeMillis()-lastSendTime>keepAliveDelay)
                     {
                         acquireWakeLock();
-//                        try {
-////                            sendText(SplitWeb.coroutineKeep());
-////                            if(StrUtils.isEmpty(SplitWeb.USER_ID))
-////                                SplitWeb.getUserId();
-////                            if(!StrUtils.isEmpty(SplitWeb.USER_ID))
-////                                sendText(SplitWeb.USER_ID);
                         lastSendTime=System.currentTimeMillis();
-
                     }else {
                         try {
                             Thread.sleep(checkDelay);
@@ -345,7 +339,6 @@ public class PresenterApp implements IWebSocketPage {
             String only = HelpUtils.backOnly(message.getResponseText());
         }
         DealDataByApp.synData(mContext,message,realmHelper,realmChatHelper,realmGroupChatHelper);
-
 //            DealDataByApp.initReceiver();
     }
 

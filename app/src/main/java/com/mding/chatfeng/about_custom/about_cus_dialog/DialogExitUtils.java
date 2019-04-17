@@ -7,7 +7,7 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 
 
 /**
- * Created by Administrator on 2017/7/26.
+ * Created by  on 2017/7/26.
  */
 
 public class DialogExitUtils {

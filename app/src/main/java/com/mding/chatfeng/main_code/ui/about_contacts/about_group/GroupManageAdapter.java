@@ -12,7 +12,7 @@ import com.mding.chatfeng.R;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/11/8 0008.
+ * Created by  on 2017/11/8 0008.
  */
 
 public class GroupManageAdapter extends BaseQuickAdapter<DataGroupManage.RecordBean.GroupInfoBean, BaseViewHolder> {

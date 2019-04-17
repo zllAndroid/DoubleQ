@@ -31,9 +31,11 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivit
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.MineSetActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.MyAccountActivity;
+import com.mding.model.DataLogin;
 import com.mding.model.DataMyZiliao;
 import com.mding.model.HeadImgInfo;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -160,22 +162,17 @@ public class PersonalFragment extends BaseFragment {
     }
 
     private void initName() {
-        String name = SplitWeb.getName();
-        String sign = SplitWeb.getSign();
-        String phone = SplitWeb.getUserMobile();
-        if (!StrUtils.isEmpty(name))
-        {
-            mineTvName.setText(name);
-        }
-        if (!StrUtils.isEmpty(sign))
-        {
-            mineTvSign.setText(sign);
-        }
-        if (!StrUtils.isEmpty(phone)){
-            userPhone = phone;
+
+        String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
+        if (!StrUtils.isEmpty(json)) {
+            DataLogin.RecordBean dataLogin = JSON.parseObject(json, DataLogin.RecordBean.class);
+            if (dataLogin != null) {
+                mineTvName.setText(dataLogin.getNickName());
+                userPhone = dataLogin.getMobile();
+                mineTvSign.setText(dataLogin.getPersonaSignature());
+            }
         }
     }
-
     public  static  boolean isChange=false;
     public  static  boolean isChangeHead=false;
 

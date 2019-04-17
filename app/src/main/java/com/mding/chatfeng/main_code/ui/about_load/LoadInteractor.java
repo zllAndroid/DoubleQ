@@ -91,7 +91,6 @@ public class LoadInteractor {
             dealGroupData(recordBean);
         }
         onSqlListener.onSqlSuccess();
-
     }
     private void dealGroupData(DataLinkGroupList.RecordBean  record_group) {
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record_group.getGroupInfoList();
@@ -142,6 +141,7 @@ public class LoadInteractor {
                     setGroupData(false, groupListBean);
                 }
 //                 设置首页的数据库数据
+
                 if (cusDataLinkFriend != null) {
                     String time = cusDataLinkFriend.getTime();
                     if (modified != null && !modified.equals(time)) {

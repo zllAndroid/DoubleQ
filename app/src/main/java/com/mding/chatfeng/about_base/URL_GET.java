@@ -3,7 +3,7 @@
 //import java.util.ArrayList;
 //
 ///**
-// * Created by Administrator on 2017/11/6 0006.
+// * Created by  on 2017/11/6 0006.
 // */
 //
 //public class URL_GET {

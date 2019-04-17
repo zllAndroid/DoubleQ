@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by Administrator on 2017/12/21 0021.
+ * Created by  on 2017/12/21 0021.
  */
 
 public class DimenTool {

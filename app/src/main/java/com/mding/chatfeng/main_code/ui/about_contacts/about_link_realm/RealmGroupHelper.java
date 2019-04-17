@@ -3,6 +3,7 @@ package com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm;
 import android.content.Context;
 
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.util.List;
 
@@ -114,6 +115,20 @@ public class RealmGroupHelper {
 //        //降序排列
         if (realmMsgs!=null)
             return mRealm.copyFromRealm(realmMsgs);
+        else
+            return  null;
+    }
+    public String queryLinkFriendReturnName(String friendId) {
+        CusDataGroup realmMsgs = mRealm.where(CusDataGroup.class)
+                .equalTo(FILE_NAME,friendId+SplitWeb.getUserId())
+                .findFirst();
+        /**
+         * 对查询结果，按Id进行排序，只能对查询结果进行排序
+         */
+//        //降序排列
+        if (realmMsgs!=null) {
+                return realmMsgs.getGroupName();
+        }
         else
             return  null;
     }

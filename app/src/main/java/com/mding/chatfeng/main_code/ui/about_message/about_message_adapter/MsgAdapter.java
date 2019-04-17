@@ -28,7 +28,7 @@ import java.util.List;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
- * Created by Administrator on 2017/11/8 0008.
+ * 首页消息适配器
  */
 
 public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolder> {
@@ -77,45 +77,36 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         helper.addOnClickListener(R.id.item_tv_click_ok);
         helper.addOnClickListener(R.id.item_msg_re);
 
-        TextView mTvMsg = helper.getView(R.id.item_tv_msg);
         ImageView mIvHead = (ImageView) helper.getView(R.id.item_iv_head);
-        ImageView mIvClick = (ImageView) helper.getView(R.id.item_tv_click_ok);
         TextView mTvNum = helper.getView(R.id.item_tv_num);
-        TextView mTvTime = helper.getView(R.id.item_tv_time);
+//        TextView mTvMsg = helper.getView(R.id.item_tv_msg);
+//        ImageView mIvClick = (ImageView) helper.getView(R.id.item_tv_click_ok);
+//        TextView mTvTime = helper.getView(R.id.item_tv_time);
         try {
             if (!StrUtils.isEmpty(item.getFriendId())) {
 //                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                 final int errorImg;
+                String imgPath;
+                String nickName;
                 if (item.getType().equals("1"))
                 {
+                    imgPath = realmFriendUserHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                     errorImg=R.drawable.mine_head;
+                    nickName = realmFriendUserHelper.queryLinkFriendReturnname(item.getFriendId());//获取私聊好友名
                 }else
                 {
+                    imgPath = realmGroupHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                     errorImg=R.drawable.qun_head;
+                    nickName= realmGroupHelper.queryLinkFriendReturnName(item.getFriendId());//获取群聊群名
                 }
-                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+//                 imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                 ImageUtils.useBase64(context,errorImg,mIvHead,imgPath);
-//                CusDataLinkFriend cusDataLinkFriend = realmMsgInfoTotalHelper.queryLinkFriend(item.getFriendId());
+                helper.setText(R.id.item_tv_name,nickName);
             }
-            String nickName = item.getNickName();
-
-            if (!StrUtils.isEmpty(nickName))
-            {
-                if (item.getType().equals("1"))
-                {
-                    CusDataFriendUser cusDataFriendUser = realmFriendUserHelper.queryLinkFriend(item.getFriendId());
-                    nickName = cusDataFriendUser.getName();
-                }else {
-                    CusDataGroup cusDataGroup = realmGroupHelper.queryLinkFriend(item.getFriendId());
-                    nickName= cusDataGroup.getGroupName();
-                }
-            }
-            helper.setText(R.id.item_tv_name,nickName);
             helper.setText(R.id.item_tv_msg,item.getMsg());
 
             helper.setText(R.id.item_tv_time, TimeUtil.formatDisplayTime(item.getTime(),null));
 //          helper.setText(R.id.item_tv_time,item.getTime());
-
             int num =0;
             try {
                 num =item.getNum();

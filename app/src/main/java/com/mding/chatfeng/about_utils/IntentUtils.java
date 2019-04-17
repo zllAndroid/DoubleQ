@@ -11,7 +11,7 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import java.io.Serializable;
 
 /**
- * Created by Administrator on 2017/11/9 0009.
+ * Created by  on 2017/11/9 0009.
  */
 
 public class IntentUtils {

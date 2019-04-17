@@ -54,7 +54,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.mding.chatfeng.about_utils.about_file.HeadFileUtils.getRealFilePathFromUri;
-
+//我的资料页面   在个人中心点击进入此
 public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow.OnAddContantClickListener {
 
     @BindView(R.id.include_top_tv_tital)
@@ -136,7 +136,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, imageBase64);
         }
         String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
-        if (StrUtils.isEmpty(json)){
+        if (!StrUtils.isEmpty(json)){
             initUI(json);
         }else {
             sendWeb(SplitWeb.personalCenter());
@@ -215,7 +215,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 break;
         }
     }
-
     //修改个签
     private void doChangeSign() {
         isChangeName = "2";
@@ -234,13 +233,11 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 
     //修改昵称
     private void doChangeName() {
-
         isChangeName = "0";
         ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(ChangeInfoActivity.this, "修改名字", changeinfoTvName.getText().toString().trim());
         changeInfoWindow.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindow.setOnAddpopClickListener(this);
     }
-
     //为弹出窗口实现监听类
     public View.OnClickListener MyClick = new View.OnClickListener() {
         public void onClick(View v) {

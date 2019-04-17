@@ -19,7 +19,7 @@ import butterknife.BindView;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
- * Created by Administrator on 2017/11/8 0008.
+ * Created by  on 2017/11/8 0008.
  */
 
 public class NoticeAdapter extends BaseQuickAdapter<DataNews.RecordBean.ListInfoBean, BaseViewHolder> {

@@ -20,7 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.Timer;
 
 /**
- * Created by Administrator on 2018/2/5 0005.
+ * Created by  on 2018/2/5 0005.
  */
 
 public class NetWorkUtlis {

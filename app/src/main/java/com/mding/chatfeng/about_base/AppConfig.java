@@ -2,7 +2,7 @@ package com.mding.chatfeng.about_base;
 
 
 /**
- * Created by Administrator on 2017/12/13 0013.
+ * Created by  on 2017/12/13 0013.
  */
 
 public class AppConfig {

@@ -28,7 +28,7 @@ import java.net.URL;
 
 
 /**
- * Created by Administrator on 2017/9/14 0014.
+ * Created by  on 2017/9/14 0014.
  */
 
 public class HelpUtils {

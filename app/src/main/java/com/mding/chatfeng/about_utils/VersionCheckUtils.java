@@ -9,7 +9,7 @@ import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 /**
- * Created by Administrator on 2017/12/8 0008.
+ * Created by  on 2017/12/8 0008.
  */
 
 public class VersionCheckUtils {

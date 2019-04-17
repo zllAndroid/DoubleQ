@@ -435,7 +435,6 @@ public class MsgFragment extends BaseFragment {
     public  static  boolean mIsRefreshing=false;
     public  void addListMethon(List<CusHomeRealmData> realmData)
     {
-
         if (realmData.size()==0)
         {
             return;
