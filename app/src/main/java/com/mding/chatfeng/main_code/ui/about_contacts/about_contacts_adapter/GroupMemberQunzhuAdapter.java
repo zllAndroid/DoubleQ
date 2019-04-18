@@ -82,7 +82,7 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
 //        }else {
 //            Glide.with(context)
 //                    .load(item.getHeadImg())
-//                    .error(R.drawable.mine_head)
+//                    .error(R.drawable.first_head_nor)
 //                    .bitmapTransform(new CropCircleTransformation(context))
 //                    .into(mIvHead);
 //        }

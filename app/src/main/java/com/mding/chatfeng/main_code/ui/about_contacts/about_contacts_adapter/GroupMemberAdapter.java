@@ -39,7 +39,7 @@ public class GroupMemberAdapter extends BaseQuickAdapter<DataAddQunDetails.Recor
 //        Glide.with(context).load(item.getHead_img())
 //                .bitmapTransform(new CropCircleTransformation(context))
 //                .crossFade(1000)
-//                .error(R.drawable.mine_head)
+//                .error(R.drawable.first_head_nor)
 //                .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
 //        if (isShowName) {
 //            helper.getView(R.id.item_tv_group_member_name).setVisibility(View.VISIBLE);
@@ -53,7 +53,7 @@ public class GroupMemberAdapter extends BaseQuickAdapter<DataAddQunDetails.Recor
             Glide.with(context).load(item.getHeadImg())
                     .bitmapTransform(new CropCircleTransformation(context))
 
-                    .error(R.drawable.mine_head)
+                    .error(R.drawable.first_head_nor)
                     .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
             if (isShowName) {
                 helper.getView(R.id.item_tv_group_member_name).setVisibility(View.VISIBLE);
@@ -81,7 +81,7 @@ public class GroupMemberAdapter extends BaseQuickAdapter<DataAddQunDetails.Recor
 //            Glide.with(context).load(item.getHead_img())
 //                    .bitmapTransform(new CropCircleTransformation(context))
 //                    .crossFade(1000)
-//                    .error(R.drawable.mine_head)
+//                    .error(R.drawable.first_head_nor)
 //                    .into((ImageView) helper.getView(R.id.item_iv_group_member_head));
 //            if (isShowName) {
 //                helper.getView(R.id.item_tv_group_member_name).setVisibility(View.VISIBLE);

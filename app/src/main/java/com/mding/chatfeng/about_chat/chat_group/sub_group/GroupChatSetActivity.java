@@ -57,7 +57,7 @@ public class GroupChatSetActivity extends BaseActivity {
 ////            dataSearch.getHead_img()
 //            if (dataSearch==null)
 //                return;
-//            Glide.with(this).load(dataSearch.getHeadImg()).error(R.drawable.mine_head).into(fdaIvHead);
+//            Glide.with(this).load(dataSearch.getHeadImg()).error(R.drawable.first_head_nor).into(fdaIvHead);
 //        groupSetEdGroupname.setText(dataSearch.getName());
 //        }
     }

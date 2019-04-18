@@ -257,7 +257,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
             ImageUtils.useBase64(NoticeDetailsActivity.this, mIvHead, userDetailInfo.getHeadImg());
 //            Glide.with(this).load(userDetailInfo.getHeadImg())
 //                    .bitmapTransform(new CropCircleTransformation(this))
-//                    .error(R.drawable.mine_head)
+//                    .error(R.drawable.first_head_nor)
 //                    .into(mIvHead);
             mTvName.setText(userDetailInfo.getNickName());
 //        TODO  添加帐号

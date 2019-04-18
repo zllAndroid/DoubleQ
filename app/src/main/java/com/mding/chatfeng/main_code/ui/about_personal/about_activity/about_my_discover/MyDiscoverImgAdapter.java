@@ -36,7 +36,7 @@ public class MyDiscoverImgAdapter extends BaseSectionQuickAdapter<MySection, Bas
     protected void convert(BaseViewHolder helper, MySection item) {
 //        Glide.with(context).load(userDetailInfo.getHeadImg())
 //                .bitmapTransform(new CropCircleTransformation(context))
-//                .error(R.drawable.mine_head)
+//                .error(R.drawable.first_head_nor)
 //                .into(mIvHead);
         helper.setImageResource(R.id.item_iv_fd_discover, R.drawable.discover_content_img);
     }

@@ -34,7 +34,7 @@
                         android:id="@+id/group_data_iv_head"
                         android:layout_width="@dimen/dp60"
                         android:layout_height="@dimen/dp60"
-                        app:srcCompat="@drawable/mine_head"
+                        app:srcCompat="@drawable/first_head_nor"
                         android:layout_gravity="center"
                         android:adjustViewBounds="true"
                         android:layout_margin="@dimen/dp10"

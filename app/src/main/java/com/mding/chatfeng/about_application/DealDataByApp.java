@@ -44,6 +44,7 @@ import com.mding.model.DataJieShou;
 import com.mding.model.off_line_msg.DataOffLineChat;
 import com.mding.model.off_line_msg.DataOffLineGroupChat;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -153,6 +154,7 @@ public class DealDataByApp {
                     break;
 //                    解散群聊
                 case "dissolutionGroupListSend":
+                    AppManager.getAppManager().finishActivity();
                     DealGroupAdd.updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
                     break;
 

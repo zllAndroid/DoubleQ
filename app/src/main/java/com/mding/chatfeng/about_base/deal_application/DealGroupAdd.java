@@ -104,7 +104,7 @@ public class DealGroupAdd {
                 initDataGroupSub(asString,record);
                 realmHomeHelper.deleteRealmMsg(record.getGroupId());
                 //type为 3  删除
-                doRealmGroup(dataAboutGroup, "2");
+                doRealmGroup(dataAboutGroup, "3");
             }
         }
     }

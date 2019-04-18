@@ -85,7 +85,7 @@ public class QunCodeActivity extends BaseActivity {
                 qrcodeTvName.setText(personData.getName());
                 Glide.with(this).load(personData.getHeadImg())
                         .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
-                        .error(R.drawable.mine_head)
+                        .error(R.drawable.first_head_nor)
                         .into(qrcodeIvHead);
 
                 String string = personData.getQrCode();
@@ -102,7 +102,7 @@ public class QunCodeActivity extends BaseActivity {
                 qrcodeTvName.setText(groupInfo.getName());
                 Glide.with(this).load(groupInfo.getHeadImg())
                         .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
-                        .error(R.drawable.mine_head)
+                        .error(R.drawable.first_head_nor)
                         .into(qrcodeIvHead);
 
                 String string = groupInfo.getQrCode();

@@ -38,7 +38,7 @@
                 android:id="@+id/changeinfo_iv_head"
                 android:layout_width="@dimen/dp100"
                 android:layout_height="@dimen/dp100"
-                app:srcCompat ="@drawable/mine_head"
+                app:srcCompat ="@drawable/first_head_nor"
                 android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 />

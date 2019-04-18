@@ -91,7 +91,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                 if (item.getType().equals("1"))
                 {
                     imgPath = realmFriendUserHelper.queryLinkFriendReturnImgPath(item.getFriendId());
-                    errorImg=R.drawable.mine_head;
+                    errorImg=R.drawable.first_head_nor;
                     nickName = realmFriendUserHelper.queryLinkFriendReturnname(item.getFriendId());//获取私聊好友名
                 }else
                 {

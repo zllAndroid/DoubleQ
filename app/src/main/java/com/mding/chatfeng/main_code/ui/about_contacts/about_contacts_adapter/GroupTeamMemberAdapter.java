@@ -127,14 +127,14 @@ public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
         if (imgPath!=null) {
             Glide.with(context)
                     .load(imgPath)
-                    .error(R.drawable.mine_head)
+                    .error(R.drawable.first_head_nor)
                     .listener(new RequestListener<String, GlideDrawable>() {
                         @Override
                         public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
 //                                加载错误时，加载网络图片
                             realmGroupChatHeaderHelper.deleteRealmFriend(groupListBean.getMemberId());
                             Glide.with(context).load(groupListBean.getHeadImg())
-                                    .error(R.drawable.mine_head)
+                                    .error(R.drawable.first_head_nor)
                                     .bitmapTransform(new CropCircleTransformation(context))
                                    .into((ImageView) holder.img_contacts_child_head);
                             return false;
@@ -152,12 +152,12 @@ public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
             Glide.with(context)
                     .load(decodeByte)
                     .dontAnimate()
-                    .error(R.drawable.mine_head)
+                    .error(R.drawable.first_head_nor)
                     .bitmapTransform(new CropCircleTransformation(context))
                     .into((ImageView) holder.img_contacts_child_head);
 //            Glide.with(context)
 //                    .load(groupListBean.getHeadImg())
-//                    .error(R.drawable.mine_head)
+//                    .error(R.drawable.first_head_nor)
 //                    .bitmapTransform(new CropCircleTransformation(context))
 //                    .into((ImageView) holder.img_contacts_child_head);
         }

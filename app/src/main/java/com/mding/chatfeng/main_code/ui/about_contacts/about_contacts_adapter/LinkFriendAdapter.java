@@ -132,7 +132,7 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
 //            }else {
 //                Glide.with(context)
 //                        .load(groupListBean.getHeadImg())qqqqqqqqqqqqqqqqqqqqqqqqqqqq
-//                        .error(R.drawable.mine_head)
+//                        .error(R.drawable.first_head_nor)
 //                        .dontAnimate()
 //                        .bitmapTransform(new CropCircleTransformation(context))
 //                        .into(holder.img_contacts_child_head);

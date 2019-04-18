@@ -80,7 +80,7 @@ public class AddGoodFriendActivity extends BaseActivity {
                 return;
             ImageUtils.useBase64WithError(AddGoodFriendActivity.this,fdaIvHead, dataSearch.getHeadImg(), R.drawable.first_head_nor);
 //            Glide.with(this).load(dataSearch.getHeadImg())
-//                    .error(R.drawable.mine_head)
+//                    .error(R.drawable.first_head_nor)
 //                    .bitmapTransform(new CropCircleTransformation(AddGoodFriendActivity.this))
 //                    .into(fdaIvHead);
             fdaTvName.setText(dataSearch.getName());

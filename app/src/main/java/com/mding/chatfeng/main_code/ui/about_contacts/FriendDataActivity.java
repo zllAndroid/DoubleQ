@@ -216,7 +216,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
             } else {
                 ImageUtils.useBase64WithError(FriendDataActivity.this, mIvHead, record.getHeadImg(), R.drawable.first_head_nor);
 //                Glide.with(this).load(record.getHeadImg())
-//                        .error(R.drawable.mine_head)
+//                        .error(R.drawable.first_head_nor)
 //                        .bitmapTransform(new CropCircleTransformation(FriendDataActivity.this))
 //                        .into(mIvHead);
             }

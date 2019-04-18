@@ -26,7 +26,7 @@
                     android:id="@+id/fda_iv_head"
                     android:layout_width="@dimen/dp40"
                     android:layout_height="@dimen/dp40"
-                    app:srcCompat="@drawable/mine_head"
+                    app:srcCompat="@drawable/first_head_nor"
                     android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:scaleType="fitXY"

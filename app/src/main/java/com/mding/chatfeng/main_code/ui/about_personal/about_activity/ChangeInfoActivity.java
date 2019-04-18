@@ -1,7 +1,6 @@
 package com.mding.chatfeng.main_code.ui.about_personal.about_activity;
 
 import android.Manifest;
-import android.annotation.TargetApi;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -458,7 +457,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //                                        File file = HeadFileUtils.saveHeadPath(ChangeInfoActivity.this, resource);
 //                                    }
 //                                });
-                        ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, headImg);
+//                        ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, headImg);
                         HeadImgInfo headImgInfo = new HeadImgInfo();
                         headImgInfo.setHeadImgBase64(headImg);
                         EventBus.getDefault().postSticky(headImgInfo);
@@ -540,7 +539,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //            files.put("file", save);
             Drawable drawable = new BitmapDrawable(getResources(), bitmap);
             c.close();
-//
             goToClipActivity(selectedImage);
         }
         if (requestCode == REQUEST_CROP_PHOTO && null != data){
@@ -553,6 +551,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             //TODO 压缩头像
             Bitmap bm = ImageUtils.imageZoom(bitMap);
             String s1 = ImageUtils.Bitmap2StrByBase64(bm);
+            ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, s1);
             sendWeb(SplitWeb.getSplitWeb().upHeadImg(s1));
 
         }

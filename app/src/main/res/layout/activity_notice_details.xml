@@ -36,7 +36,7 @@
                     android:id="@+id/notice_iv_head"
                     android:layout_width="@dimen/dp100"
                     android:layout_height="@dimen/dp100"
-                    app:srcCompat="@drawable/mine_head"
+                    app:srcCompat="@drawable/first_head_nor"
                     android:adjustViewBounds="true"
                     android:layout_marginTop="@dimen/dp10"
                     android:layout_marginLeft="@dimen/dp30"

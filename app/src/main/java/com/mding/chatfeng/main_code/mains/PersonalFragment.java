@@ -290,7 +290,7 @@ public class PersonalFragment extends BaseFragment {
 //                }
                 if (!imageBase64Event.equals("")){
                     fullImageInfo.setImageBase64(imageBase64Event);
-                    ToastUtil.isDebugShow("imageBase64Event");
+//                    ToastUtil.isDebugShow("imageBase64Event");
                 }
                 else{
                     fullImageInfo.setImageBase64(imageBase64);

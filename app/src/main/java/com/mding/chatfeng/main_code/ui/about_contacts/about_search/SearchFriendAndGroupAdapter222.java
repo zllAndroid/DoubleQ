@@ -28,12 +28,12 @@ public class SearchFriendAndGroupAdapter222 extends BaseQuickAdapter<DataSearch,
         if (item.getType().equals("1"))
         {
             Glide.with(context).load(item.getHeadImg())
-                    .error(R.drawable.mine_head)
+                    .error(R.drawable.first_head_nor)
                     .bitmapTransform(new CropCircleTransformation(context))
                    .into((ImageView) helper.getView(R.id.item_search_iv_head));
 //                    .into((ImageView) helper.getView(R.id.item_search_iv_head));
 //            Glide.with(this).load(dataSearch.getHeadImg())
-//                    .error(R.drawable.mine_head)
+//                    .error(R.drawable.first_head_nor)
 //                    .bitmapTransform(new CropCircleTransformation(AddGoodFriendActivity.this))
 //                    .crossFade(1000).into(fdaIvHead);
             helper.setText(R.id.item_search_tv_type,"人");

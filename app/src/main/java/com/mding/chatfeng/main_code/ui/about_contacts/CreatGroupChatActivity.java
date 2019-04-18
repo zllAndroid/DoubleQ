@@ -42,6 +42,8 @@ import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.CreatGroupChatAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.CreatGroupSeachAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_custom.LetterBar;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ClipImgActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.mding.model.DataCreatGroupChat;
 import com.mding.model.DataCreatGroupResult;
@@ -60,6 +62,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
+
+import static com.mding.chatfeng.about_utils.about_file.HeadFileUtils.getRealFilePathFromUri;
 
 //位置：创建群聊
 public class CreatGroupChatActivity extends BaseActivity {
@@ -109,6 +113,14 @@ public class CreatGroupChatActivity extends BaseActivity {
 
     private Runnable runnable;
     String mShare = "1";
+    //请求相册
+    private static final int REQUEST_PICK = 401;
+    //请求截图
+    private static final int REQUEST_CROP_PHOTO = 402;
+    //请求访问外部存储
+    private static final int READ_EXTERNAL_STORAGE_REQUEST_CODE = 403;
+    //请求写入外部存储
+    private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 404;
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -135,7 +147,7 @@ public class CreatGroupChatActivity extends BaseActivity {
 //        mRecyclerView.setLayoutManager(linearLayoutManager);
         seachRecyc.setLayoutManager(new LinearLayoutManager(CreatGroupChatActivity.this));
 //        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(GroupTeamActivity.this));
-//        sendWeb( SplitWeb.getSplitWeb().blackList());
+//        sendWeb( SplitWeb.blackList());
         initGroup();
     }
 
@@ -210,7 +222,6 @@ public class CreatGroupChatActivity extends BaseActivity {
                                 mSeachAdapter.setChoose(mList);
                             Log.e("checkChat","mList="+mList.toString());
                         }
-
                         mSeachAdapter.notifyDataSetChanged();
                     }
                 });
@@ -315,17 +326,17 @@ public class CreatGroupChatActivity extends BaseActivity {
                 DataCreatGroupResult dataCreatGroupResult = JSON.parseObject(responseText, DataCreatGroupResult.class);
                 record1 = dataCreatGroupResult.getRecord();
                 if (record1 != null) {
-                    DialogUtils.showDialogOne("群创建成功，快去聊天吧", new DialogUtils.OnClickSureListener() {
-                        @Override
-                        public void onClickSure() {
+//                    DialogUtils.showDialogOne("群创建成功，快去聊天吧", new DialogUtils.OnClickSureListener() {
+//                        @Override
+//                        public void onClickSure() {
                             CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
                             cusJumpGroupChatData.setGroupId(record1.getGroupOfId());
                             cusJumpGroupChatData.setGroupName(record1.getGroupNickName());
                             IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
                             AppManager.getAppManager().finishActivity(CreatGroupChatActivity.this);
-                        }
-                    });
-//                    send(SplitWeb.getSplitWeb().groupSend(record1.getGroupOfId(),"群创建成功，快去聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+//                        }
+//                    });
+//                    send(SplitWeb.groupSend(record1.getGroupOfId(),"群创建成功，快去聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
                 }
 
 //                if (blackAdapter != null) {
@@ -428,7 +439,7 @@ public class CreatGroupChatActivity extends BaseActivity {
                     String trim = mEdGroupName.getText().toString().trim();
                     sendWebHaveDialog(SplitWeb.getSplitWeb().createdUserGroup(checkChat, trim, imageBase64)
                             , "创建中...", "群聊创建成功");
-//                    sendWeb(SplitWeb.getSplitWeb().createdUserGroup(checkChat,"zll",""));
+//                    sendWeb(SplitWeb.createdUserGroup(checkChat,"zll",""));
                 } else {
                     ToastUtil.show("请选择群聊成员");
                 }
@@ -478,7 +489,8 @@ public class CreatGroupChatActivity extends BaseActivity {
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         //		相机
-        if (requestCode == CAMERA_RESULT && resultCode == RESULT_OK) {
+        if (requestCode == CAMERA_RESULT) {
+//        if (requestCode == CAMERA_RESULT && resultCode == RESULT_OK) {
             if (mPhotoFile != null && mPhotoFile.exists()) {
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                 bitmapOptions.inJustDecodeBounds = true;
@@ -494,25 +506,27 @@ public class CreatGroupChatActivity extends BaseActivity {
                     ToastUtil.show("不支持的图片，请重新选择");
                     return;
                 }
-                save = ImageUtils.saveBitmap(CreatGroupChatActivity.this, bitmap);
-//                final Map<String, File> files = new HashMap<String, File>();
-//                files.put("file", save);
-////                UpLoadIdCard(requestCode,files,CAMERA_RESULT_Btn1);
-//                BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
-////                pdIvHead.setBackgroundResource(0);
-                imageBase64 = ImageUtils.GetStringByImageView(bitmap);
-                Glide.with(this).load(save)
-                        .bitmapTransform(new CropCircleTransformation(CreatGroupChatActivity.this))
-                        .into(creatIvHead);
-//                Glide.with(ChangeInfoActivity.this).load(drawable.getBitmap()).;
-//                changeinfoIvHead.setImageBitmap(drawable.getBitmap());
-//                SendDataImg(files);
-//                sendWeb(SplitWeb.getSplitWeb().upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
+                goToClipActivity(Uri.fromFile(mPhotoFile));
+//                save = ImageUtils.saveBitmap(CreatGroupChatActivity.this, bitmap);
+////                final Map<String, File> files = new HashMap<String, File>();
+////                files.put("file", save);
+//////                UpLoadIdCard(requestCode,files,CAMERA_RESULT_Btn1);
+////                BitmapDrawable drawable = new BitmapDrawable(getResources(), bitmap);
+//////                pdIvHead.setBackgroundResource(0);
+//                imageBase64 = ImageUtils.GetStringByImageView(bitmap);
+//                Glide.with(this).load(save)
+//                        .bitmapTransform(new CropCircleTransformation(CreatGroupChatActivity.this))
+//                        .into(creatIvHead);
+////                Glide.with(ChangeInfoActivity.this).load(drawable.getBitmap()).;
+////                changeinfoIvHead.setImageBitmap(drawable.getBitmap());
+////                SendDataImg(files);
+////                sendWeb(SplitWeb.upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
             }
         }
 
         //		相册
-        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
+        if (requestCode == RESULT_LOAD_IMAGE && null != data) {
+//        if (requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK && null != data) {
             Uri selectedImage = data.getData();
             String[] filePathColumns = {MediaStore.Images.Media.DATA};
             Cursor c = getContentResolver().query(selectedImage, filePathColumns, null, null, null);
@@ -531,23 +545,77 @@ public class CreatGroupChatActivity extends BaseActivity {
             final Map<String, File> files = new HashMap<String, File>();
             files.put("file", save);
             Drawable drawable = new BitmapDrawable(getResources(), bitmap);
-
+            c.close();
 //            Log.e(AppConstant.TAG,saveBitmap+"这个是图片的地址"+files);
 //            SendDataImg(files);
 //            mTvChange.setText("");
 //            changeinfoIvHead.setImageBitmap(bitmap);
-            c.close();
-            imageBase64 = ImageUtils.GetStringByImageView(bitmap);
-            Glide.with(this).load(save)
-                    .bitmapTransform(new CropCircleTransformation(CreatGroupChatActivity.this))
-                    .into(creatIvHead);
 
-
-//            sendWeb(SplitWeb.getSplitWeb().upHeadImg(save));
-//            sendWeb(SplitWeb.getSplitWeb().upHeadImg("123"));
-//            sendWeb(SplitWeb.getSplitWeb().upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
+            goToClipActivity(selectedImage);
+//            imageBase64 = ImageUtils.GetStringByImageView(bitmap);
+//            Glide.with(this).load(save)
+//                    .bitmapTransform(new CropCircleTransformation(CreatGroupChatActivity.this))
+//                    .into(creatIvHead);
+//            sendWeb(SplitWeb.upHeadImg(save));
+//            sendWeb(SplitWeb.upHeadImg("123"));
+//            sendWeb(SplitWeb.upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
+        }
+        if (requestCode == REQUEST_CROP_PHOTO && null != data){
+            final Uri uri = data.getData();
+            if (uri == null) {
+                return;
+            }
+            String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
+            Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+            //TODO 压缩头像
+            Bitmap bm = ImageUtils.imageZoom(bitMap);
+            String s1 = ImageUtils.Bitmap2StrByBase64(bm);
+            ImageUtils.useBase64(CreatGroupChatActivity.this, creatIvHead, s1);
+            imageBase64 = s1;
         }
     }
+    /**
+     * 跳转到相册
+     */
+    private void goToAlbum() {
+        Log.d("==image==", "*****************打开图库********************");
+        //跳转到调用系统图库
+        Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(Intent.createChooser(intent, "请选择图片"), REQUEST_PICK);
+    }
+    /**
+     * 打开截图界面
+     */
+    public void goToClipActivity(Uri uri) {
+        if (uri == null) {
+            return;
+        }
+        Intent intent = new Intent();
+        intent.setClass(this, ClipImgActivity.class);
+        intent.setData(uri);
+        startActivityForResult(intent, REQUEST_CROP_PHOTO);
+    }
+    /**
+     * 外部存储权限申请返回
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+//                goToCamera();
+                destoryImage();
+                getPicturesFile();
+            }
+        } else if (requestCode == READ_EXTERNAL_STORAGE_REQUEST_CODE) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission Granted
+                goToAlbum();
+            }
+        }
+    }
+
 
     String mTmpPath;
 

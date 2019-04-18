@@ -105,6 +105,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
     RealmHomeHelper realmHelper;
     RealmChatHelper realmChatHelper;
     RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
+    private String imageBase64;
 
     @Override
     protected void initBaseView() {
@@ -194,6 +195,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         //  好友分组
                         fdTvFenzu.setText(record.getGroupName());
                         ImageUtils.useBase64(FriendDataMixActivity.this, mIvHead, record.getHeadImg());
+                        imageBase64 = record.getHeadImg();
 //                        Glide.with(this).load(record.getHeadImg())
 //                                .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
 //                                .into(mIvHead);
@@ -210,6 +212,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
                         fdaTvSign.setText(signText);
                         ImageUtils.useBase64(FriendDataMixActivity.this, mIvHead, record.getHeadImg());
+                        imageBase64 = record.getHeadImg();
 //                        Glide.with(this).load(record.getHeadImg())
 //                                .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
 //                                .into(mIvHead);
@@ -276,7 +279,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
             } else {
                 ImageUtils.useBase64WithError(FriendDataMixActivity.this, mIvHead, record.getHeadImg(), R.drawable.first_head_nor);
 //                Glide.with(this).load(record.getHeadImg())
-//                        .error(R.drawable.mine_head)
+//                        .error(R.drawable.first_head_nor)
 //                        .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
 //                        .into(mIvHead);
             }
@@ -350,16 +353,26 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 fullImageInfo.setWidth(view.getWidth());
                 fullImageInfo.setHeight(view.getHeight());
                 GlideCacheUtil.getInstance().clearImageAllCache(this);
-                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(FriendId);
-//                List<String> fileName = FilePath.getLinkImgPath();
-                if (imgPath!=null)
-                {
-//                    String path=fileName.get(fileName.size()-1);
-                    fullImageInfo.setImageUrl(imgPath);
-                    EventBus.getDefault().postSticky(fullImageInfo);
-                    startActivity(new Intent(this, FullImageActivity.class));
-                    this.overridePendingTransition(0, 0);
-                }
+//                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(FriendId);
+////                List<String> fileName = FilePath.getLinkImgPath();
+//                if (imgPath!=null)
+//                {
+////                    String path=fileName.get(fileName.size()-1);
+//                    fullImageInfo.setImageUrl(imgPath);
+//                    EventBus.getDefault().postSticky(fullImageInfo);
+//                    startActivity(new Intent(this, FullImageActivity.class));
+//                    this.overridePendingTransition(0, 0);
+//                }
+//                if (!imageBase64Event.equals("")){
+//                    fullImageInfo.setImageBase64(imageBase64Event);
+//                    ToastUtil.isDebugShow("imageBase64Event");
+//                }
+//                else{
+                    fullImageInfo.setImageBase64(imageBase64);
+//                }
+                EventBus.getDefault().postSticky(fullImageInfo);
+                startActivity(new Intent(this, FullImageActivity.class));
+                this.overridePendingTransition(0, 0);
                 break;
 //                选择分组
             case R.id.fd_lin_fenzu:

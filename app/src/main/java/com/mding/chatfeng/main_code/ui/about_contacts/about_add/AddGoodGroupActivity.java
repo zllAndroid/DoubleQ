@@ -65,7 +65,7 @@ public class AddGoodGroupActivity extends BaseActivity {
             if (dataSearch==null)
                 return;
             ImageUtils.useBase64WithError(this, fdaIvHead, dataSearch.getHeadImg(), R.drawable.first_head_nor);
-//            Glide.with(this).load(dataSearch.getHeadImg()).error(R.drawable.mine_head).into(fdaIvHead);
+//            Glide.with(this).load(dataSearch.getHeadImg()).error(R.drawable.first_head_nor).into(fdaIvHead);
             fdaTvName.setText(dataSearch.getName());
 
         }
