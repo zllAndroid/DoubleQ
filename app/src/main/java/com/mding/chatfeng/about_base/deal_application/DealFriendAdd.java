@@ -6,9 +6,12 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.model.DataLinkManList;
 import com.mding.model.push_data.DataAboutFriend;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -16,9 +19,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DealFriendAdd {
-    private  static ACache aCache;
-    private  static Context mContext;
-    public  static void updateFriendDataByAdd(Context montext,String result) {
+    private   ACache aCache;
+    private   Context mContext;
+    static RealmFriendRelationHelper friendHelper;
+    static RealmFriendUserHelper friendUserHelper;
+    private static DealFriendAdd dealFriendAdd;
+    // 构造函数必须是私有的 这样在外部便无法使用 new 来创建该类的实例
+    private DealFriendAdd() {}
+    /**
+     * 单一实例
+     */
+    public synchronized static DealFriendAdd getDealFriendAdd() {
+        if (dealFriendAdd == null) {
+            dealFriendAdd = new DealFriendAdd();
+        }
+        return dealFriendAdd;
+    }
+    public   void updateFriendDataByAdd(Context montext,String result) {
         mContext=montext;
         DataAboutFriend dataAboutFriend = JSON.parseObject(result, DataAboutFriend.class);
         DataAboutFriend.RecordBean record = dataAboutFriend.getRecord();
@@ -29,14 +46,18 @@ public class DealFriendAdd {
             if (!StrUtils.isEmpty(asString) && record!=null)
             {
                 try {
+
+                    friendHelper = new RealmFriendRelationHelper(mContext);
+                    friendUserHelper = new RealmFriendUserHelper(mContext);
                     initDataFriend(asString,record);
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
     }
-    public  static void updateFriendDataBySub(Context montext,String result) {
+    public   void updateFriendDataBySub(Context montext,String result) {
         mContext=montext;
         DataAboutFriend dataAboutFriend = JSON.parseObject(result, DataAboutFriend.class);
         DataAboutFriend.RecordBean record = dataAboutFriend.getRecord();
@@ -55,7 +76,7 @@ public class DealFriendAdd {
         }
     }
 
-    private static void initDataFriendSub(String asString, DataAboutFriend.RecordBean mRecord) {
+    private  void initDataFriendSub(String asString, DataAboutFriend.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)
             return;
@@ -113,9 +134,9 @@ public class DealFriendAdd {
             mContext.sendBroadcast(intent);
         }
     }
-    private static boolean isHaveTypeTwo = true;
-    private static List<DataLinkManList.RecordBean.FriendListBean> friendList;
-    private static void initDataFriend(String asString, DataAboutFriend.RecordBean mRecord) {
+    private  boolean isHaveTypeTwo = true;
+    private  List<DataLinkManList.RecordBean.FriendListBean> friendList;
+    private  void initDataFriend(String asString, DataAboutFriend.RecordBean mRecord) {
         boolean isTopOne = true;
         boolean isTopTwo = true;
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
@@ -209,7 +230,7 @@ public class DealFriendAdd {
         saveData();
     }
 
-    private static void dealTopOneHaveGroup(DataAboutFriend.RecordBean mRecord, int i, String groupName,String type) {
+    private  void dealTopOneHaveGroup(DataAboutFriend.RecordBean mRecord, int i, String groupName,String type) {
 
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
@@ -233,7 +254,7 @@ public class DealFriendAdd {
     }
 
     //最后保存数据，并发送广播
-    private static void saveData() {
+    private  void saveData() {
 //        DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
 //        recordBean.setFriendList(friendList);
 //        String jsonString = JSON.toJSONString(recordBean);
@@ -245,7 +266,7 @@ public class DealFriendAdd {
     }
 
     //添加顶部无分组时，数据
-    private static void addTopTypeOne(DataAboutFriend.RecordBean mRecord,int where) {
+    private  void addTopTypeOne(DataAboutFriend.RecordBean mRecord,int where) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = new ArrayList<>();
 
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
@@ -274,7 +295,7 @@ public class DealFriendAdd {
     }
 
     //存放type2时候，列表中没有当前组名；
-    private static void dealNoChartFriend(DataAboutFriend.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart) {
+    private  void dealNoChartFriend(DataAboutFriend.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = new ArrayList<>();
 
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();

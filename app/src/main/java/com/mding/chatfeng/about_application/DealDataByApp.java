@@ -154,13 +154,14 @@ public class DealDataByApp {
                 case "dissolutionGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
                     break;
+
 //                    添加好友
                 case "agreeFriendListSend":
-                    DealFriendAdd.updateFriendDataByAdd(mContext, message.getResponseText());
+                    DealFriendAdd.getDealFriendAdd().updateFriendDataByAdd(mContext, message.getResponseText());
                     break;
 //                    删除好友
                 case "deleteFriendSend":
-                    DealFriendAdd.updateFriendDataBySub(mContext,message.getResponseText());
+                    DealFriendAdd.getDealFriendAdd().updateFriendDataBySub(mContext,message.getResponseText());
                     break;
 //                添、删、改好友分组or群分组管理
                 case "addFriendGroupManageSend":
@@ -168,15 +169,15 @@ public class DealDataByApp {
                     break;
 //                    增加好友/群分组推送
                 case "agreeGroupingListSend":
-                    DealModifyGroupOfList.addGroupOfList(mContext,message.getResponseText());
+                    DealModifyGroupOfList.getDealModifyGroupOfList().addGroupOfList(mContext,message.getResponseText());
                     break;
 //                    删除好友/群分组推送
                 case "deleteGroupingListSend":
-                    DealModifyGroupOfList.deleteGroupOfList(mContext,message.getResponseText());
+                    DealModifyGroupOfList.getDealModifyGroupOfList().deleteGroupOfList(mContext,message.getResponseText());
                     break;
 //                    修改好友/群分组推送
                 case "modifyGroupingListSend":
-                    DealModifyGroupOfList.modifyGroupOfList(mContext,message.getResponseText());
+                    DealModifyGroupOfList.getDealModifyGroupOfList().modifyGroupOfList(mContext,message.getResponseText());
                     break;
 //                    修改好友分组/备注推送
                 case "modifyFriendListSend":

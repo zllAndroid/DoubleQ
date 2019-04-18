@@ -20,14 +20,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DealModifyGroupOfList {
+    private static DealModifyGroupOfList dealFriendAdd;
+    // 构造函数必须是私有的 这样在外部便无法使用 new 来创建该类的实例
+    private DealModifyGroupOfList() {}
+    /**
+     * 单一实例
+     */
+    public synchronized static DealModifyGroupOfList getDealModifyGroupOfList() {
+        if (dealFriendAdd == null) {
+            dealFriendAdd = new DealModifyGroupOfList();
+        }
+        return dealFriendAdd;
+    }
+    private   ACache aCache;
+    @SuppressLint("FieldLeak")
+    private   Context mContext;
+    private  List<DataLinkManList.RecordBean.FriendListBean> friendList;
+    private  List<DataLinkGroupList.RecordBean.GroupInfoListBean> groupList;
 
-    private  static ACache aCache;
-    @SuppressLint("StaticFieldLeak")
-    private  static Context mContext;
-    private static List<DataLinkManList.RecordBean.FriendListBean> friendList;
-    private static List<DataLinkGroupList.RecordBean.GroupInfoListBean> groupList;
+
     //  增加分组
-    public  static void addGroupOfList(Context context, String result){
+    public   void addGroupOfList(Context context, String result){
         mContext = context;
         DataAgreeGroupList dataAgreeGroupList = JSON.parseObject(result, DataAgreeGroupList.class);
         DataAgreeGroupList.RecordBean record = dataAgreeGroupList.getRecord();
@@ -49,8 +62,8 @@ public class DealModifyGroupOfList {
             }
         }
     }
-    static String friendGroupId;
-    private static void initDataFriend(String asString, DataAgreeGroupList.RecordBean mRecord) {
+    String friendGroupId;
+    private  void initDataFriend(String asString, DataAgreeGroupList.RecordBean mRecord) {
 //        DataLinkManList.RecordBean recordBean = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)
@@ -101,8 +114,8 @@ public class DealModifyGroupOfList {
 
         }
     }
-    static String groupId;
-    private static void initDataGroup(String asString, DataAgreeGroupList.RecordBean mRecord) {
+    String groupId;
+    private  void initDataGroup(String asString, DataAgreeGroupList.RecordBean mRecord) {
 //        DataLinkManList.RecordBean recordBean = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         if (record==null)
@@ -153,7 +166,7 @@ public class DealModifyGroupOfList {
 
         }
     }
-    private static void putCache(List<DataLinkManList.RecordBean.FriendListBean> friend_info_list, int i, String groupName) {
+    private  void putCache(List<DataLinkManList.RecordBean.FriendListBean> friend_info_list, int i, String groupName) {
         DataLinkManList.RecordBean.FriendListBean friendListBean = new DataLinkManList.RecordBean.FriendListBean();
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = new ArrayList<>();
         groupList.clear();
@@ -177,7 +190,7 @@ public class DealModifyGroupOfList {
         mContext.sendBroadcast(intent);
 
     }
-    private static void putCacheGroup(List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String groupName) {
+    private  void putCacheGroup(List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String groupName) {
         DataLinkGroupList.RecordBean.GroupInfoListBean groupInfoListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean();
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupListBean = new ArrayList<>();
         groupListBean.clear();
@@ -203,7 +216,7 @@ public class DealModifyGroupOfList {
     }
 
     //  删除分组
-    public  static void deleteGroupOfList(Context context, String result){
+    public   void deleteGroupOfList(Context context, String result){
         mContext = context;
         DataDeleteGroupingList dataDeleteGroupingList = JSON.parseObject(result, DataDeleteGroupingList.class);
         DataDeleteGroupingList.RecordBean record = dataDeleteGroupingList.getRecord();
@@ -225,7 +238,7 @@ public class DealModifyGroupOfList {
             }
         }
     }
-    private static void initDataFriendDelete(String asString, DataDeleteGroupingList.RecordBean mRecord) {
+    private  void initDataFriendDelete(String asString, DataDeleteGroupingList.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)
             return;
@@ -244,7 +257,7 @@ public class DealModifyGroupOfList {
             }
         }
     }
-    private static void initDataGroupDelete(String asString, DataDeleteGroupingList.RecordBean mRecord) {
+    private  void initDataGroupDelete(String asString, DataDeleteGroupingList.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         if (record==null)
             return;
@@ -263,7 +276,7 @@ public class DealModifyGroupOfList {
             }
         }
     }
-    private static void putCacheFriendDelete(int i) {
+    private  void putCacheFriendDelete(int i) {
         friendList.remove(i);
 
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
@@ -279,7 +292,7 @@ public class DealModifyGroupOfList {
         intent.setAction(AppConfig.LINK_FRIEND_DEL_ACTION);
         mContext.sendBroadcast(intent);
     }
-    private static void putCacheGroupDelete(int i) {
+    private  void putCacheGroupDelete(int i) {
         groupList.remove(i);
 
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
@@ -296,7 +309,7 @@ public class DealModifyGroupOfList {
     }
 
     //  修改分组
-    public  static void modifyGroupOfList(Context context, String result){
+    public   void modifyGroupOfList(Context context, String result){
         mContext = context;
         DataModifyGroupingList dataModifyGroupingList = JSON.parseObject(result, DataModifyGroupingList.class);
         DataModifyGroupingList.RecordBean record = dataModifyGroupingList.getRecord();
@@ -318,7 +331,7 @@ public class DealModifyGroupOfList {
             }
         }
     }
-    private static void initDataFriendModify(String asString, DataModifyGroupingList.RecordBean mRecord) {
+    private  void initDataFriendModify(String asString, DataModifyGroupingList.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)
             return;
@@ -338,7 +351,7 @@ public class DealModifyGroupOfList {
             }
         }
     }
-    private static void initDataGroupModify(String asString, DataModifyGroupingList.RecordBean mRecord) {
+    private  void initDataGroupModify(String asString, DataModifyGroupingList.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         if (record==null)
             return;
@@ -358,7 +371,7 @@ public class DealModifyGroupOfList {
             }
         }
     }
-    private static void putCacheFriendModify(List<DataLinkManList.RecordBean.FriendListBean> friend_info_list, int i, String NewGroupName) {
+    private  void putCacheFriendModify(List<DataLinkManList.RecordBean.FriendListBean> friend_info_list, int i, String NewGroupName) {
         friend_info_list.get(i).setGroupName(NewGroupName);
 
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
@@ -374,7 +387,7 @@ public class DealModifyGroupOfList {
         intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
         mContext.sendBroadcast(intent);
     }
-    private static void putCacheGroupModify(List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String NewGroupName) {
+    private  void putCacheGroupModify(List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String NewGroupName) {
         group_info_list.get(i).setGroupName(NewGroupName);
 
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
