@@ -150,6 +150,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     static String groupType;
     static String groupName;
     static String groupChatName;
+    //请求相机
+    private int CAMERA_RESULT_GROUP = 200;
     //请求相册
     private static final int REQUEST_PICK = 201;
     //请求截图
@@ -338,7 +340,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 DataSetGroupHeadResult dataSetGroupHeadResult = JSON.parseObject(responseText, DataSetGroupHeadResult.class);
                 final DataSetGroupHeadResult.RecordBean recordImg = dataSetGroupHeadResult.getRecord();
                 if (recordImg != null) {
-                    final String headImg = recordImg.getHeadImg();
+                    String headImg = recordImg.getHeadImg();
                     if (!StrUtils.isEmpty(headImg)) {
                         ImageUtils.useBase64(GroupChatDetailsActivity.this, groupDataIvHead, headImg);
                         GroupHeadImgInfo groupHeadImgInfo = new GroupHeadImgInfo();
@@ -683,7 +685,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
     String result;
     private File mPhotoFile;
-    private int CAMERA_RESULT_GROUP = 200;
     private int RESULT_LOAD_IMAGE_GROUP = 301;
 
     @Override
@@ -712,7 +713,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             }
         }
         //		相机
-        else if (requestCode == CAMERA_RESULT_GROUP && null != data) {
+        else if (requestCode == CAMERA_RESULT_GROUP) {
 //        else if (requestCode == CAMERA_RESULT_GROUP && resultCode == RESULT_OK) {
             if (mPhotoFile != null && mPhotoFile.exists()) {
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
@@ -776,31 +777,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
      * 7.0 拍照权限
      */
     public void getPicturesFile() {
-//        mPhotoFile = new File( BaseFilePathUtils.getLinkFriendPaths(id,time));
-//        mPhotoFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/chat_image/" + System.currentTimeMillis() + ".jpg");
-//        final String modified =
-//        final String friendId =
-//        final String headImg =
-//        if (StrUtils.isEmpty(headImg))
-//        {
-//            return;
-//        }
-        CusDataLinkFriend cusDataLinkFriend = realmMsgInfoTotalHelper.queryLinkFriend(groupId);
-        if (cusDataLinkFriend != null) {
-
-            String time = cusDataLinkFriend.getTime();
-//            if (modified!=null&&!modified.equals(time)) {
-//                setGlideData(true,false,modified, friendId, headImg);
-//            }
-//            else {
-//                setGlideData(true,false,modified, friendId, headImg);
-//            }
-////                boolean equals = modified.equals(time);
-////                setGlideData(!equals,false,modified, friendId, headImg);
-        } else {
-//            setGlideData(false,false,modified, friendId, headImg);
-        }
-
         mPhotoFile = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/chat_image/" + System.currentTimeMillis() + ".jpg");
         try {
             mPhotoFile.getParentFile().mkdirs();

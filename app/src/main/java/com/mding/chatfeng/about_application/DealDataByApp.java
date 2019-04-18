@@ -130,19 +130,19 @@ public class DealDataByApp {
                 case "agreeGroupListSend":
                     DealGroupAdd.updateGroupDataByAdd(mContext, message.getResponseText());
                     break;
-//                 用户加入群 - 给成员发送 联系人变动信息接口
+//                   加入群聊  用户加入群 - 给成员发送 联系人变动信息接口
                 case "joinGroupListSend":
                     DealGroupAdd.updateGroupDataByAdd(mContext, message.getResponseText());
                     break;
-//                    退出群聊
+//                   退出群聊
                 case "outGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
                     break;
-//                    刪除群成員
+//                   被移出群，被移除的成員收到的推送
                 case "removeGroupListSend":
                     DealGroupAdd.updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
                     break;
-//                    给成员发送 联系人变动信息接口  （含：用户修改自己群的名称）
+//                   修改群信息   给成员发送 联系人变动信息接口  （含：用户修改自己群的名称）
                 case "modifyGroupListSend":
                     String s1 = DealGroupAdd.updateGroupDataByModifySub(mContext, message.getResponseText());
                     if (!StrUtils.isEmpty(s1))
@@ -198,8 +198,6 @@ public class DealDataByApp {
                 case "invitationGroupListSend":
                     DealGroupInvitation.updateGroupDataByInvitation(mContext, message.getResponseText());
                     break;
-
-
 //                    好友修改Ta的信息
                 case "updateFriendSend":
                     DealUpdateFriend.updateFriend(mContext,message.getResponseText());

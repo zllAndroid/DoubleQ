@@ -105,6 +105,8 @@ public class AppConfig {
 
     public static  String CHAT_FRIEND_ID= "friendid";
     public static  String CHAT_GROUP_ID= "groupid";
+    public static final String IS_CHATPRIVATE_TYPE= "chat_private_type";//是否私聊跳转的
+    public static final String CHATPRIVATE= "chat_private";//是否私聊跳转的
 
     //好友分组请求码
     public static final int GROUP_ADD_GROUP_REQUEST= 0x4;//AddGoodFriendActivity  页面的请求码

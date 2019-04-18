@@ -235,11 +235,13 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
         switch (view.getId()) {
             case R.id.cp_tv_data:
                 if (type.equals("1")) {
-                    IntentUtils.JumpToHaveOne(FriendDataMixActivity.class, "id", friendId);
+//                    IntentUtils.JumpToHaveOne(FriendDataMixActivity.class, "id", friendId);
+                    IntentUtils.JumpToHaveTwo(FriendDataMixActivity.class, "id", friendId, AppConfig.IS_CHATPRIVATE_TYPE, AppConfig.CHATPRIVATE);
                     onClickBacListener.Clicked("");
                     dismiss();
                 } else{
-                    IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
+//                    IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
+                    IntentUtils.JumpToHaveTwo(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId, AppConfig.IS_CHATGROUP_TYPE, AppConfig.CHATGROUP);
                     onClickBacListener.Clicked("");
                     dismiss();
                 }

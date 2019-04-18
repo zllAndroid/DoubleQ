@@ -38,10 +38,35 @@ public class CusDataGroup extends RealmObject {
     String status;   //  群设置：1可直接加入 2需审核加入 3 禁止加入
     String maxNum;   //  群上限人数
     String nowNum;   //  群当前添加人数
+    String groupManageId;   //  群分组id
+    String groupManageName;   //  群分组名
     String createdId;   //  创建者id
     String created;   //  创建时间
     String modified;   //  修改时间
 
+    public String getGroupSno() {
+        return groupSno;
+    }
+
+    public void setGroupSno(String groupSno) {
+        this.groupSno = groupSno;
+    }
+
+    public String getGroupManageId() {
+        return groupManageId;
+    }
+
+    public void setGroupManageId(String groupManageId) {
+        this.groupManageId = groupManageId;
+    }
+
+    public String getGroupManageName() {
+        return groupManageName;
+    }
+
+    public void setGroupManageName(String groupManageName) {
+        this.groupManageName = groupManageName;
+    }
     public String getTotalId() {
         return totalId;
     }

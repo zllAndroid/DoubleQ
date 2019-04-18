@@ -162,7 +162,20 @@ public class PersonalFragment extends BaseFragment {
     }
 
     private void initName() {
-
+//        String name = SplitWeb.getName();
+//        String sign = SplitWeb.getSign();
+//        String phone = SplitWeb.getUserMobile();
+//        if (!StrUtils.isEmpty(name))
+//        {
+//            mineTvName.setText(name);
+//        }
+//        if (!StrUtils.isEmpty(sign))
+//        {
+//            mineTvSign.setText(sign);
+//        }
+//        if (!StrUtils.isEmpty(phone)){
+//            userPhone = phone;
+//        }
         String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
         if (!StrUtils.isEmpty(json)) {
             DataLogin.RecordBean dataLogin = JSON.parseObject(json, DataLogin.RecordBean.class);
@@ -170,9 +183,11 @@ public class PersonalFragment extends BaseFragment {
                 mineTvName.setText(dataLogin.getNickName());
                 userPhone = dataLogin.getMobile();
                 mineTvSign.setText(dataLogin.getPersonaSignature());
+//                changeinfoTvCount.setText(dataLogin.getWxSno());
             }
         }
     }
+
     public  static  boolean isChange=false;
     public  static  boolean isChangeHead=false;
 

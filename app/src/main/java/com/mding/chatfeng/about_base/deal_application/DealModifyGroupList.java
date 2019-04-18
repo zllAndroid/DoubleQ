@@ -2,10 +2,12 @@ package com.mding.chatfeng.about_base.deal_application;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.DataModifyGroupOfList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -137,10 +139,29 @@ public class DealModifyGroupList {
                         }
                     }
                 }
+                //列表不为空则需要先查询是否存在该群,只操作type为2的群
+//                if (GroupList.get(i).getType().equals("2"))
+//                    initRealm(mRecord, i,true);
             }
-        }else
+        }else{
             putCache(mRecord, 0, newGroupManageName);
+            //列表为空时，无需查询直接执行添加操作
+//            initRealm(mRecord, 0, false);
+        }
     }
+//    //数据库操作
+//    static RealmGroupHelper groupHelper;
+//    private static void initRealm(DataModifyGroupOfList.RecordBean mRecord, int position, boolean isNeedQuery) {
+//        groupHelper = new RealmGroupHelper(mContext);
+////        List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> group_info_list = GroupList;
+//        String groupId = mRecord.getGroupId();
+//        if (isNeedQuery){
+//
+//        }else {
+//
+//        }
+//    }
+
     private static void putCache(DataModifyGroupOfList.RecordBean mRecord, int i, String newGroupManageName) {
 
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = GroupList.get(i).getGroupList();

@@ -98,6 +98,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
     String type = "1";
     //    public static final String FRIENG_ID_KEY = "friendId";
     String FriendId;
+    static String friendType;
     String esc;
     View mView;
 
@@ -117,6 +118,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
         Intent intent = getIntent();
         if (intent != null) {
             FriendId = intent.getStringExtra("id");
+            friendType = intent.getStringExtra(AppConfig.IS_CHATPRIVATE_TYPE);
 //            String id = intent.getStringExtra("id");
             esc = intent.getStringExtra("esc");
             Log.e("qrCode_scan_id", "-----------mix--------------" + FriendId);
@@ -370,7 +372,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     startActivityForResult(intent, AppConfig.FRIEND_DATA_GROUP_REQUEST);
                 }
                 break;
-//                发送消息
+//                添加好友
             case R.id.fda_tv_add:
                 if (NoDoubleClickUtils.isDoubleClick())
                     IntentUtils.JumpToHaveObj(AddGoodFriendActivity.class, AddGoodFriendActivity.DataKey, dataSearch);
@@ -380,24 +382,29 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
             case R.id.fd_tv_send_call:
 
                 break;
+//                发送消息
             case R.id.fd_tv_send_msg:
                 if (NoDoubleClickUtils.isDoubleClick()) {
-                    if (dataRecord != null) {
-                        CusJumpChatData cusJumpChatData = new CusJumpChatData();
-                        cusJumpChatData.setFriendHeader(dataRecord.getHeadImg());
-                        cusJumpChatData.setFriendId(dataRecord.getFriendId());
-                        cusJumpChatData.setFriendName(dataRecord.getNickName());
-                        cusJumpChatData.setFriendRemarkName(dataRecord.getRemarkName());
-                        realmHelper.addRealmMsg(cusJumpChatData);
-                        if (esc != null && esc.equals("esc")) {
+                    if (AppConfig.CHATPRIVATE.equals(friendType))
+                    {
+                        AppManager.getAppManager().finishActivity(this);
+                    }else {
+                        if (dataRecord != null) {
+                            CusJumpChatData cusJumpChatData = new CusJumpChatData();
+                            cusJumpChatData.setFriendHeader(dataRecord.getHeadImg());
+                            cusJumpChatData.setFriendId(dataRecord.getFriendId());
+                            cusJumpChatData.setFriendName(dataRecord.getNickName());
+                            cusJumpChatData.setFriendRemarkName(dataRecord.getRemarkName());
+                            realmHelper.addRealmMsg(cusJumpChatData);
+                            if (esc != null && esc.equals("esc")) {
 //                            AppManager.getAppManager().finishActivity(ChatActivity.class);
 //                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
-                            AppManager.getAppManager().finishActivity(FriendDataMixActivity.this);
-                        } else
-                            IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
-                    }
-                    else {
-                        ToastUtil.show("好友数据错误，请退出重试");
+                                AppManager.getAppManager().finishActivity(FriendDataMixActivity.this);
+                            } else
+                                IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                        } else {
+                            ToastUtil.show("好友数据错误，请退出重试");
+                        }
                     }
                 }
                 break;

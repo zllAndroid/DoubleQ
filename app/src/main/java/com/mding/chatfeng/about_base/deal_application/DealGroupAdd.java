@@ -7,6 +7,8 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataGroup;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.push_data.DataAboutGroup;
 import com.mding.model.push_data.DataAboutGroupModify;
@@ -20,29 +22,80 @@ import java.util.List;
 public class DealGroupAdd {
 
     private static String jsonString;
-    public  static ACache aCache;
-    public  static Context mContext;
-    public  static void updateGroupDataByAdd(Context context,String result)
+    public static ACache aCache;
+    public static Context mContext;
+    private static RealmGroupHelper groupHelper;
+    // 创建群聊；加入群聊
+    public static void updateGroupDataByAdd(Context context,String result)
     {
         mContext=context;
+        if (groupHelper==null)
+            groupHelper = new RealmGroupHelper(mContext);
         DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
-        aCache =  ACache.get(mContext);
-        if (aCache!=null)
+        if (aCache==null)
+            aCache =  ACache.get(mContext);
+        String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
+        if (!StrUtils.isEmpty(asString)&&record!=null)
         {
-            String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
-            if (!StrUtils.isEmpty(asString)&&record!=null)
-            {
-                initDataGroup(asString,record);
-            }
+            initDataGroup(asString,record);
+            doRealmGroup(dataAboutGroup,"1"); //  1 add   2 modify  3 delete
         }
     }
-    public  static void updateGroupDataBySub(Context context, String result, RealmHomeHelper realmHomeHelper)
-    {
+
+    private static void doRealmGroup(DataAboutGroup dataAboutGroup, String type) {
+        DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
+        CusDataGroup cusDataGroup = new CusDataGroup();
+        cusDataGroup.setGroupHeadImg(record.getGroupHeadImg());
+        cusDataGroup.setGroupId(record.getGroupId());
+        cusDataGroup.setGroupName(record.getGroupName());
+        cusDataGroup.setGroupManageId(record.getGroupManageId());
+        cusDataGroup.setGroupManageName(record.getGroupManageName());
+        CusDataGroup dataGroup = groupHelper.queryLinkFriend(record.getGroupId());
+        if (type.equals("1") || type.equals("2")) {
+            if (dataGroup != null) {
+                //不为空说明有该群，则进行修改操作
+                groupHelper.updateAll(record.getGroupId(), cusDataGroup);
+            } else {
+                //为空说明有该群，则进行添加操作
+                groupHelper.addRealmGroup(cusDataGroup);
+            }
+        }
+        else if (type.equals("3")){
+            //不为空说明有该群，则进行删除操作
+            groupHelper.deleteRealmFriend(record.getGroupId());
+        }
+    }
+
+    //修改的数据库操作
+    private static void doRealmGroupModify(DataAboutGroupModify dataAboutGroupModify) {
+        DataAboutGroupModify.RecordBean record = dataAboutGroupModify.getRecord();
+        CusDataGroup cusDataGroup = new CusDataGroup();
+        cusDataGroup.setGroupHeadImg(record.getNewGroupHeadImg());
+        cusDataGroup.setGroupId(record.getGroupId());
+        cusDataGroup.setGroupName(record.getNewGroupName());
+        cusDataGroup.setGroupManageId(record.getNewGroupManageId());
+        cusDataGroup.setGroupManageName(record.getNewGroupManageName());
+        CusDataGroup dataGroup = groupHelper.queryLinkFriend(record.getGroupId());
+        if (dataGroup != null) {
+            //不为空说明有该群，则进行修改操作
+            groupHelper.updateAll(record.getGroupId(), cusDataGroup);
+        } else {
+            //为空说明有该群，则进行添加操作
+            groupHelper.addRealmGroup(cusDataGroup);
+        }
+    }
+
+    // 退出群聊；解散群聊
+    public  static void updateGroupDataBySub(Context context, String result, RealmHomeHelper realmHomeHelper) {
         mContext=context;
+        if (groupHelper==null)
+            groupHelper = new RealmGroupHelper(mContext);
         DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
-        aCache =  ACache.get(mContext);
+        if (aCache == null) {
+            aCache =  ACache.get(mContext);
+        }
         if (aCache!=null)
         {
             String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
@@ -50,31 +103,38 @@ public class DealGroupAdd {
             {
                 initDataGroupSub(asString,record);
                 realmHomeHelper.deleteRealmMsg(record.getGroupId());
+                //type为 3  删除
+                doRealmGroup(dataAboutGroup, "2");
             }
         }
     }
-    public  static String updateGroupDataByModifySub(Context context,String result )
-    {
+    //修改群聊信息的删除操作
+    public  static String updateGroupDataByModifySub(Context context,String result ) {
         mContext=context;
+        groupHelper = new RealmGroupHelper(mContext);
         DataAboutGroupModify dataAboutGroupModify = JSON.parseObject(result, DataAboutGroupModify.class);
         DataAboutGroupModify.RecordBean record = dataAboutGroupModify.getRecord();
-        aCache =  ACache.get(mContext);
+        if (aCache == null) {
+            aCache =  ACache.get(mContext);
+        }
         if (aCache!=null)
         {
             String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
             if (!StrUtils.isEmpty(asString)&&record!=null)
             {
                 s = initDataGroupModifySub(asString, record);
+                doRealmGroupModify(dataAboutGroupModify);
             }
         }
         return  s;
     }
-    public  static void updateGroupDataByModifyAdd(Context context,String result)
-    {
+    //修改群聊信息的增加操作
+    public  static void updateGroupDataByModifyAdd(Context context,String result) {
         mContext=context;
         DataAboutGroupModify dataAboutGroupModify = JSON.parseObject(result, DataAboutGroupModify.class);
         DataAboutGroupModify.RecordBean record = dataAboutGroupModify.getRecord();
-        aCache =  ACache.get(mContext);
+        if (aCache == null)
+            aCache =  ACache.get(mContext);
         if (aCache!=null)
         {
             String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
@@ -85,7 +145,6 @@ public class DealGroupAdd {
         }
     }
     private static String s;
-    //  修改群名
     private static String initDataGroupModifySub(String asString, DataAboutGroupModify.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
@@ -356,12 +415,10 @@ public class DealGroupAdd {
         {
             String chart = mRecord.getChart();
             dealNoChart(mRecord, group_info_list, 0, chart);
-            return;
         }
     }
 
-    public static String getFirstABC(String pinyin)
-    {
+    public static String getFirstABC(String pinyin) {
         if(pinyin.length()==0)
         {
             return pinyin;
@@ -432,8 +489,7 @@ public class DealGroupAdd {
         mContext.sendBroadcast(intent);
     }
 
-    public static int stringToAscii(String value)
-    {
+    public static int stringToAscii(String value) {
         StringBuffer sbu = new StringBuffer();
         char[] chars = value.toCharArray();
         for (int i = 0; i < chars.length; i++) {

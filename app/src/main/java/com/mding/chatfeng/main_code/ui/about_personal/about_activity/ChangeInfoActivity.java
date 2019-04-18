@@ -32,6 +32,7 @@ import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.about_changeinfo_mvp.ChangeInfoView;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.mding.model.DataLogin;
 import com.mding.model.DataMyZiliao;
@@ -151,7 +152,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
            changeinfoTvSign.setText(dataLogin.getPersonaSignature());
         }
     }
-
 
 //    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 //    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true) //在ui线程执行
@@ -399,19 +399,47 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
 //                SplitWeb.PERSON_SIGN = dataLogin.getPersonaSignature();
 //                SplitWeb.WX_SNO = dataLogin.getWxSno();
-                aCache.put(NICK_NAME,contant);
+//                aCache.put(NICK_NAME,contant);
+                String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
+                if (!StrUtils.isEmpty(json)) {
+                    DataLogin.RecordBean recordBean = JSON.parseObject(json, DataLogin.RecordBean.class);
+//                    if (dataLogin != null) {
+                        recordBean.setNickName(contant);
+                        String jsonString = JSON.toJSONString(recordBean);
+                        aCache.put(AppAllKey.TOKEN_KEY, jsonString);
+//                    }
+                }
+
                 changeinfoTvName.setText(contant);
                 break;
             case "upPersonSign":
                 PersonalFragment.isChange = true;
                 SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_SIGN, contant);
                 SplitWeb.PERSON_SIGN = contant;
+                String json2 = aCache.getAsString(AppAllKey.TOKEN_KEY);
+                if (!StrUtils.isEmpty(json2)) {
+                    DataLogin.RecordBean recordBean = JSON.parseObject(json2, DataLogin.RecordBean.class);
+//                    if (dataLogin != null) {
+                    recordBean.setPersonaSignature(contant);
+                    String jsonString = JSON.toJSONString(recordBean);
+                    aCache.put(AppAllKey.TOKEN_KEY, jsonString);
+//                    }
+                }
                 changeinfoTvSign.setText(contant);
                 break;
             case "upUserSno":
                 SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_NO, contant);
                 SplitWeb.WX_SNO = contant;
                 changeinfoIvWrite.setVisibility(View.GONE);
+                String json3 = aCache.getAsString(AppAllKey.TOKEN_KEY);
+                if (!StrUtils.isEmpty(json3)) {
+                    DataLogin.RecordBean recordBean = JSON.parseObject(json3, DataLogin.RecordBean.class);
+//                    if (dataLogin != null) {
+                    recordBean.setWxSno(contant);
+                    String jsonString = JSON.toJSONString(recordBean);
+                    aCache.put(AppAllKey.TOKEN_KEY, jsonString);
+//                    }
+                }
                 changeinfoTvCount.setText(contant);
                 break;
             case "upHeadImg":
@@ -421,6 +449,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     String headImg = dataSetHeadResult.getRecord().getHeadImg();
 //                    String substring = headImg.substring(22);
                     if (!StrUtils.isEmpty(headImg)){
+                        SplitWeb.USER_HEADER = headImg;
 //                        Glide.with(this)
 //                                .load(headImg)
 //                                .downloadOnly(new SimpleTarget<File>() {
@@ -466,7 +495,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         //		相机
-        if (requestCode == CAMERA_RESULT && null != data) {
+        if (requestCode == CAMERA_RESULT) {
 //        if (requestCode == CAMERA_RESULT && resultCode == RESULT_OK) {
             if (mPhotoFile != null && mPhotoFile.exists()) {
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
