@@ -44,7 +44,6 @@ import com.mding.model.DataJieShou;
 import com.mding.model.off_line_msg.DataOffLineChat;
 import com.mding.model.off_line_msg.DataOffLineGroupChat;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
-import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -130,32 +129,31 @@ public class DealDataByApp {
                     break;
 //                    创建群
                 case "agreeGroupListSend":
-                    DealGroupAdd.updateGroupDataByAdd(mContext, message.getResponseText());
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataByAdd(mContext, message.getResponseText());
                     break;
 //                   加入群聊  用户加入群 - 给成员发送 联系人变动信息接口
                 case "joinGroupListSend":
-                    DealGroupAdd.updateGroupDataByAdd(mContext, message.getResponseText());
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataByAdd(mContext, message.getResponseText());
                     break;
 //                   退出群聊
                 case "outGroupListSend":
-                    DealGroupAdd.updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
                     break;
 //                   被移出群，被移除的成員收到的推送
                 case "removeGroupListSend":
-                    DealGroupAdd.updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
                     break;
 //                   修改群信息   给成员发送 联系人变动信息接口  （含：用户修改自己群的名称）
                 case "modifyGroupListSend":
-                    String s1 = DealGroupAdd.updateGroupDataByModifySub(mContext, message.getResponseText());
+                    String s1 = DealGroupAdd.getDealGroupAdd().updateGroupDataByModifySub(mContext, message.getResponseText());
                     if (!StrUtils.isEmpty(s1))
                     {
-                        DealGroupAdd.updateGroupDataByModifyAdd(mContext,  message.getResponseText() );
+                        DealGroupAdd.getDealGroupAdd().updateGroupDataByModifyAdd(mContext,  message.getResponseText() );
                     }
                     break;
 //                    解散群聊
                 case "dissolutionGroupListSend":
-                    AppManager.getAppManager().finishActivity();
-                    DealGroupAdd.updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
                     break;
 
 //                    添加好友
@@ -184,7 +182,7 @@ public class DealDataByApp {
                     break;
 //                    修改好友分组/备注推送
                 case "modifyFriendListSend":
-                    DealModifyFriendList.modifyGroupOfFriend(mContext,message.getResponseText());
+                    DealModifyFriendList.getDealModifyFriendList().modifyGroupOfFriend(mContext,message.getResponseText());
                     break;
 //                    好友/群分组排序推送
                 case "modifyGroupingSortSend":

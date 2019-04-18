@@ -59,7 +59,6 @@ public class DealFriendAdd {
             }
             if (record!=null)
             {
-//                friendHelper.addRealmLinkFriend();
                 CusDataFriendUser cusDataFriendUser = friendUserHelper.queryLinkFriend(record.getFriendsId());
                 CusDataFriendRelation cusDataFriendRelation = friendHelper.queryLinkFriend(record.getFriendsId());
                 String modified = record.getModified();
@@ -278,11 +277,11 @@ public class DealFriendAdd {
                             addTopTypeOne(mRecord, 0);
                         } else if (type.equals("2") && isTopTwo) {
                             String groupName = friendList.get(i).getGroupName();
-                            int i1 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupName));
-                            int i2 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(chart));
+                            int i1 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(groupName));
+                            int i2 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(chart));
                             if (friendList.size() > (i + 1)) {
                                 String groupNameNext = friendList.get(i + 1).getGroupName();
-                                int i3 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupNameNext));
+                                int i3 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(groupNameNext));
                                 if (i1 < i2 && i2 < i3) {
                                     dealNoChartFriend(mRecord, friendList, (i + 1), chart);
                                     return;

@@ -187,11 +187,11 @@ public class DealUpdateFriend {
     private  void updateFriendAdd(DataUpdateFriend.RecordBean mRecord, String chart, String newNickName) {
         for (int i = groupListSize; i < friendList.size(); i++) {
             String groupName = friendList.get(i).getGroupName();
-            int i1 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupName));  // 分组名
-            int i2 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(chart));
+            int i1 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(groupName));  // 分组名
+            int i2 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(chart));
             if (friendList.size() > (i + 1)) {
                 String groupNameNext = friendList.get(i + 1).getGroupName();
-                int i3 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupNameNext));
+                int i3 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(groupNameNext));
                 if (i1 < i2 && i2 < i3) {
                     dealNoChartFriend(mRecord, friendList, (i + 1), chart, newNickName);
                     return;

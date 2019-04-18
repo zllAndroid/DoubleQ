@@ -21,12 +21,26 @@ import java.util.List;
 
 public class DealGroupAdd {
 
-    private static String jsonString;
-    public static ACache aCache;
-    public static Context mContext;
-    private static RealmGroupHelper groupHelper;
+    private  String jsonString;
+    public  ACache aCache;
+    public  Context mContext;
+    private  RealmGroupHelper groupHelper;
+
+    private static DealGroupAdd dealFriendAdd;
+    // 构造函数必须是私有的 这样在外部便无法使用 new 来创建该类的实例
+    private DealGroupAdd() {}
+    /**
+     * 单一实例
+     */
+    public synchronized static DealGroupAdd getDealGroupAdd() {
+        if (dealFriendAdd == null) {
+            dealFriendAdd = new DealGroupAdd();
+        }
+        return dealFriendAdd;
+    }
+    
     // 创建群聊；加入群聊
-    public static void updateGroupDataByAdd(Context context,String result)
+    public  void updateGroupDataByAdd(Context context,String result)
     {
         mContext=context;
         if (groupHelper==null)
@@ -43,7 +57,7 @@ public class DealGroupAdd {
         }
     }
 
-    private static void doRealmGroup(DataAboutGroup dataAboutGroup, String type) {
+    private  void doRealmGroup(DataAboutGroup dataAboutGroup, String type) {
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
         CusDataGroup cusDataGroup = new CusDataGroup();
         cusDataGroup.setGroupHeadImg(record.getGroupHeadImg());
@@ -68,7 +82,7 @@ public class DealGroupAdd {
     }
 
     //修改的数据库操作
-    private static void doRealmGroupModify(DataAboutGroupModify dataAboutGroupModify) {
+    private  void doRealmGroupModify(DataAboutGroupModify dataAboutGroupModify) {
         DataAboutGroupModify.RecordBean record = dataAboutGroupModify.getRecord();
         CusDataGroup cusDataGroup = new CusDataGroup();
         cusDataGroup.setGroupHeadImg(record.getNewGroupHeadImg());
@@ -87,7 +101,7 @@ public class DealGroupAdd {
     }
 
     // 退出群聊；解散群聊
-    public  static void updateGroupDataBySub(Context context, String result, RealmHomeHelper realmHomeHelper) {
+    public   void updateGroupDataBySub(Context context, String result, RealmHomeHelper realmHomeHelper) {
         mContext=context;
         if (groupHelper==null)
             groupHelper = new RealmGroupHelper(mContext);
@@ -109,7 +123,7 @@ public class DealGroupAdd {
         }
     }
     //修改群聊信息的删除操作
-    public  static String updateGroupDataByModifySub(Context context,String result ) {
+    public   String updateGroupDataByModifySub(Context context,String result ) {
         mContext=context;
         groupHelper = new RealmGroupHelper(mContext);
         DataAboutGroupModify dataAboutGroupModify = JSON.parseObject(result, DataAboutGroupModify.class);
@@ -129,7 +143,7 @@ public class DealGroupAdd {
         return  s;
     }
     //修改群聊信息的增加操作
-    public  static void updateGroupDataByModifyAdd(Context context,String result) {
+    public   void updateGroupDataByModifyAdd(Context context,String result) {
         mContext=context;
         DataAboutGroupModify dataAboutGroupModify = JSON.parseObject(result, DataAboutGroupModify.class);
         DataAboutGroupModify.RecordBean record = dataAboutGroupModify.getRecord();
@@ -144,8 +158,8 @@ public class DealGroupAdd {
             }
         }
     }
-    private static String s;
-    private static String initDataGroupModifySub(String asString, DataAboutGroupModify.RecordBean mRecord) {
+    private  String s;
+    private  String initDataGroupModifySub(String asString, DataAboutGroupModify.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
         if (group_info_list.size() > 0) {
@@ -204,7 +218,7 @@ public class DealGroupAdd {
         }
         return jsonString;
     }
-    private static void initDataGroupModifyAdd(String asString,DataAboutGroupModify.RecordBean mRecord) {
+    private  void initDataGroupModifyAdd(String asString,DataAboutGroupModify.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
         if (group_info_list.size()>0) {
@@ -273,7 +287,7 @@ public class DealGroupAdd {
 
     }
 
-    private static void putCacheModifyTypeOne(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i) {
+    private  void putCacheModifyTypeOne(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
         DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
         groupListBean.setGroupName(mRecord.getNewGroupManageName());
@@ -299,7 +313,7 @@ public class DealGroupAdd {
 
     }
 
-    private static void initDataGroupSub(String asString,DataAboutGroup.RecordBean mRecord) {
+    private  void initDataGroupSub(String asString,DataAboutGroup.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
         if (group_info_list.size() > 0) {
@@ -360,7 +374,7 @@ public class DealGroupAdd {
         }
     }
 
-    private static void initDataGroup(String asString,DataAboutGroup.RecordBean mRecord) {
+    private  void initDataGroup(String asString,DataAboutGroup.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
         if (record == null){
@@ -418,7 +432,7 @@ public class DealGroupAdd {
         }
     }
 
-    public static String getFirstABC(String pinyin) {
+    public  String getFirstABC(String pinyin) {
         if(pinyin.length()==0)
         {
             return pinyin;
@@ -426,7 +440,7 @@ public class DealGroupAdd {
         String upperCase = pinyin.substring(0,1).toUpperCase();
         return upperCase;
     }
-    private static void dealNoChart(DataAboutGroup.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list,
+    private  void dealNoChart(DataAboutGroup.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list,
                                     int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = new ArrayList<>();
 
@@ -457,7 +471,7 @@ public class DealGroupAdd {
         intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
         mContext.sendBroadcast(intent);
     }
-    private static void dealNoChartModify(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list,
+    private  void dealNoChartModify(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list,
                                           int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = new ArrayList<>();
 
@@ -489,7 +503,7 @@ public class DealGroupAdd {
         mContext.sendBroadcast(intent);
     }
 
-    public static int stringToAscii(String value) {
+    public  int stringToAscii(String value) {
         StringBuffer sbu = new StringBuffer();
         char[] chars = value.toCharArray();
         for (int i = 0; i < chars.length; i++) {
@@ -511,7 +525,7 @@ public class DealGroupAdd {
 
         return  i;
     }
-    private static void putCache(DataAboutGroup.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String chart) {
+    private  void putCache(DataAboutGroup.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
         DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
         groupListBean.setGroupName(chart);
@@ -538,7 +552,7 @@ public class DealGroupAdd {
         intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
         mContext.sendBroadcast(intent);
     }
-    private static void putCacheModify(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String chart) {
+    private  void putCacheModify(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
         DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
         groupListBean.setGroupName(chart);

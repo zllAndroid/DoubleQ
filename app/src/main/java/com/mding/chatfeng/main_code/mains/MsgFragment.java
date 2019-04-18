@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mding.chatfeng.about_application.BaseApplication;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.mding.model.CusJumpChatData;
 import com.mding.chatfeng.R;
@@ -114,6 +115,14 @@ public class MsgFragment extends BaseFragment {
             getActivity().registerReceiver(mReceiver, mFilter);
         }
     }
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void onEventMainThread(MsgHomeEvent event) {
+//        try {
+//            mLinNet.setVisibility(event.isNet ? View.GONE : View.VISIBLE);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(NetEvent event) {
         try {
@@ -182,25 +191,7 @@ public class MsgFragment extends BaseFragment {
         mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getActivity()));
         mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(getActivity()));
         mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
-
-        Log.e(Tag,"initMsgUI");
-//        initTop();
     }
-//    private void initTop() {
-//        mFgTopBar.setOnRightClick (new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));
-//            }
-//        });
-//        mFgTopBar.setOnSearchClick(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                IntentUtils.JumpTo(LoadDataActivity.class);
-//            }
-//        });
-//        mFgTopBar.setTitle("消息");
-//    }
 
     @Override
     protected String setFragmentTital() {
@@ -282,7 +273,6 @@ public class MsgFragment extends BaseFragment {
 
 
             }else {
-//                mList.add(cusHomeRealmData.get(i));
                 mList.set(i,cusHomeRealmData1);
                 if (msgAdapter!=null)
                     msgAdapter.notifyItemChanged(i);
@@ -368,11 +358,8 @@ public class MsgFragment extends BaseFragment {
             Log.e("MyApplication", "Refresh=" + cusHomeRealmData.size());
             if (mList.size() == 0 && cusHomeRealmData.size() != 0) {
                 addListMethon(cusHomeRealmData);
-//                mList.addAll(cusHomeRealmData);
                 twoAdapter();
-//                msgAdapter.notifyDataSetChanged();
             }
-//            initRefreshZero(intent);
         }
     }
     private void initRefresh(Intent intent) {
@@ -386,11 +373,8 @@ public class MsgFragment extends BaseFragment {
             {
                 mList.clear();
                 addListMethon(cusHomeRealmData);
-//                mList.addAll(cusHomeRealmData);
                 twoAdapter();
-//                msgAdapter.notifyDataSetChanged();
             }
-//            if (mList.contains(id+SplitWeb.getSplitWeb().USER_ID+""))
             if (mList.size()!=0)
                 for (int i=0;i<mList.size();i++)
                 {
@@ -418,7 +402,6 @@ public class MsgFragment extends BaseFragment {
                             msgAdapter.removeData(i);
                             msgAdapter.addData(homeRealmData);
                             mRecyclerView.smoothScrollToPosition(0);
-//                            realmHelper.deleteRealmMsg(id+SplitWeb.getSplitWeb().USER_ID);
                         }
                         return;
                     }
@@ -441,7 +424,6 @@ public class MsgFragment extends BaseFragment {
         }
         for (int i=0;i<realmData.size();i++)
         {
-//            String totalId = realmData.get(i).getTotalId();//群助手id
             String assistantType = realmData.get(i).getAssistantType();
             String mTy = realmData.get(i).getType();
             if (mTy != null && assistantType != null&&mTy.equals("2") && assistantType.equals("2")) {
@@ -509,11 +491,6 @@ public class MsgFragment extends BaseFragment {
         }
         if (item.getType().equals("1")) {
             // 点击进入详情后，消息个数清零
-//            item.setNum(0);
-//            realmHelper.updateNumZero(item.getFriendId());
-//            if (msgAdapter!=null)
-//                msgAdapter.notifyItemChanged(position);
-//            mRecyclerView.smoothScrollToPosition(0);
             // 好友
             CusJumpChatData cusJumpChatData = new CusJumpChatData();
             cusJumpChatData.setFriendHeader(item.getHeadImg());
@@ -523,10 +500,6 @@ public class MsgFragment extends BaseFragment {
 
         }else {
             //跳转群组
-//            item.setNum(0);
-//            realmHelper.updateNumZero(item.getFriendId());
-//            msgAdapter.notifyItemChanged(position);
-//            mRecyclerView.smoothScrollToPosition(0);
             CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
             cusJumpGroupChatData.setGroupId(item.getFriendId());
             cusJumpGroupChatData.setGroupName(item.getNickName());
@@ -557,13 +530,6 @@ public class MsgFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        getActivity().stopService(intent_service);
-//        try {
-//            if (mRefreshBroadcastReceiver!=null)
-//                getActivity().unregisterReceiver(mRefreshBroadcastReceiver);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         try {
             if (mReceiver!=null)
                 getActivity().unregisterReceiver(mReceiver);
@@ -572,7 +538,6 @@ public class MsgFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
     MsgAdapter.ItemTouchListener mItemTouchListener = new MsgAdapter.ItemTouchListener() {
         @Override
@@ -584,6 +549,4 @@ public class MsgFragment extends BaseFragment {
             sendBroadcast();
         }
     };
-
-
 }

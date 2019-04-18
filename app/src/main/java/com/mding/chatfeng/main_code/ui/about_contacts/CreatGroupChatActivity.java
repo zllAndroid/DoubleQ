@@ -76,8 +76,6 @@ public class CreatGroupChatActivity extends BaseActivity {
     @BindView(R.id.tv_abc)
     TextView mTvAbc;
 
-    //    @BindView(R.id.group_team_recyc)
-//    RecyclerView mRecyclerView;
     @BindView(R.id.group_team_letter)
     LetterBar mLetterBar;
     @BindView(R.id.seach_ed_input)
@@ -94,8 +92,6 @@ public class CreatGroupChatActivity extends BaseActivity {
     RecyclerView seachRecyc;
     @BindView(R.id.seach_lin_list)
     LinearLayout seachLinList;
-//    @BindView(R.id.group_lin_list)
-//    LinearLayout groupLinList;
 
     //    未搜索到东西
     @BindView(R.id.seach_tv_noSearch)
@@ -158,7 +154,6 @@ public class CreatGroupChatActivity extends BaseActivity {
         sendWeb(SplitWeb.getSplitWeb().getGroupWebInfo());
     }
 
-    //    private ArrayList<Allcity> allCityList = new ArrayList<Allcity>();
     CreatGroupSeachAdapter mSeachAdapter;
     private ArrayList<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean> searchCityList = new ArrayList<>();
 
@@ -238,9 +233,7 @@ public class CreatGroupChatActivity extends BaseActivity {
             public void onCheckedChanged(String friendId, boolean isChecked) {
                 if (isChecked)
                 {
-
                 }
-
             }
         });
     }

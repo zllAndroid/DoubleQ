@@ -19,16 +19,27 @@ import java.util.List;
 
 public class DealModifyFriendList {
 
-    private  static ACache aCache;
-    private  static Context mContext;
-    private static List<DataLinkManList.RecordBean.FriendListBean> friendList;
-
-    private static boolean isOld(String old){
+    private   ACache aCache;
+    private   Context mContext;
+    private  List<DataLinkManList.RecordBean.FriendListBean> friendList;
+    private static DealModifyFriendList dealFriendAdd;
+    // 构造函数必须是私有的 这样在外部便无法使用 new 来创建该类的实例
+    private DealModifyFriendList() {}
+    /**
+     * 单一实例
+     */
+    public synchronized static DealModifyFriendList getDealModifyFriendList() {
+        if (dealFriendAdd == null) {
+            dealFriendAdd = new DealModifyFriendList();
+        }
+        return dealFriendAdd;
+    }
+    private  boolean isOld(String old){
         boolean olds = StrUtils.isEmpty(old);
         boolean oldsZero = old.equals("0");
         return olds||oldsZero;
     }
-    public  static void modifyGroupOfFriend(Context context, String result){
+    public   void modifyGroupOfFriend(Context context, String result){
         mContext = context;
         DataModifyFriendList dataModifyFriendList = JSON.parseObject(result, DataModifyFriendList.class);
         DataModifyFriendList.RecordBean record = dataModifyFriendList.getRecord();
@@ -89,8 +100,8 @@ public class DealModifyFriendList {
 
         }
     }
-    private static int groupListSize = 0;
-    private static void initDataUpdate(String asString,final DataModifyFriendList.RecordBean mRecord) {
+    private  int groupListSize = 0;
+    private  void initDataUpdate(String asString,final DataModifyFriendList.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)
             return;
@@ -151,7 +162,7 @@ public class DealModifyFriendList {
             }
         }
     }
-    private static void dealNoChartFriend(DataModifyFriendList.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart) {
+    private  void dealNoChartFriend(DataModifyFriendList.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = new ArrayList<>();
 
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
@@ -183,14 +194,14 @@ public class DealModifyFriendList {
         mContext.sendBroadcast(intent);
 
     }
-    private static void updateFriendAdd(DataModifyFriendList.RecordBean mRecord, String chart, String newRemarkName) {
+    private  void updateFriendAdd(DataModifyFriendList.RecordBean mRecord, String chart, String newRemarkName) {
         for (int i = groupListSize; i < friendList.size(); i++) {
             String groupName = friendList.get(i).getGroupName();
-            int i1 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupName));  // 分组名
-            int i2 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(chart));
+            int i1 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(groupName));  // 分组名
+            int i2 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(chart));
             if (friendList.size() > (i + 1)) {
                 String groupNameNext = friendList.get(i + 1).getGroupName();
-                int i3 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupNameNext));
+                int i3 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(groupNameNext));
                 if (i1 < i2 && i2 < i3) {
                     dealNoChartFriend(mRecord, friendList, (i + 1), chart, newRemarkName);
                     return;
@@ -221,7 +232,7 @@ public class DealModifyFriendList {
             }
         }
     }
-    private static void dealTopOneHaveGroup(DataModifyFriendList.RecordBean mRecord, int i, String groupName, String newRemarkName) {
+    private  void dealTopOneHaveGroup(DataModifyFriendList.RecordBean mRecord, int i, String groupName, String newRemarkName) {
 
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
@@ -250,7 +261,7 @@ public class DealModifyFriendList {
         intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
         mContext.sendBroadcast(intent);
     }
-    private static void dealNoChartFriend(DataModifyFriendList.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart, String newRemarkName) {
+    private  void dealNoChartFriend(DataModifyFriendList.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart, String newRemarkName) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = new ArrayList<>();
 
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
@@ -283,7 +294,7 @@ public class DealModifyFriendList {
         intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
         mContext.sendBroadcast(intent);
     }
-    private static void putCacheUpdate(DataModifyFriendList.RecordBean mRecord, int i, String newRemarkName) {
+    private  void putCacheUpdate(DataModifyFriendList.RecordBean mRecord, int i, String newRemarkName) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
         groupListBean.setRemarkName(newRemarkName);
@@ -311,7 +322,7 @@ public class DealModifyFriendList {
         intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
         mContext.sendBroadcast(intent);
     }
-//    public  static void modifyGroupOfFriend(Context context, String result){
+//    public   void modifyGroupOfFriend(Context context, String result){
 //        mContext = context;
 //        DataModifyFriendList dataModifyFriendList = JSON.parseObject(result, DataModifyFriendList.class);
 //        DataModifyFriendList.RecordBean record = dataModifyFriendList.getRecord();
@@ -358,7 +369,7 @@ public class DealModifyFriendList {
 //        }
 //    }
 
-    private static void initDataAdd(String asString, DataModifyFriendList.RecordBean mRecord) {
+    private  void initDataAdd(String asString, DataModifyFriendList.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)
             return;
@@ -391,7 +402,7 @@ public class DealModifyFriendList {
         }else
             putCache(mRecord, 0, newGroupName);
     }
-    private static void putCache(DataModifyFriendList.RecordBean mRecord, int i, String newGroupName) {
+    private  void putCache(DataModifyFriendList.RecordBean mRecord, int i, String newGroupName) {
 
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
@@ -420,7 +431,7 @@ public class DealModifyFriendList {
         intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
         mContext.sendBroadcast(intent);
     }
-    private static String initDataSub(String asString, DataModifyFriendList.RecordBean mRecord) {
+    private  String initDataSub(String asString, DataModifyFriendList.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)
             return null;

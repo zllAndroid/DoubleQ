@@ -15,8 +15,6 @@ import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mding.chatfeng.about_base.deal_application.DealGroupAdd.getFirstABC;
-import static com.mding.chatfeng.about_base.deal_application.DealGroupAdd.stringToAscii;
 
 public class DealGroupInvitationQrCode {
     private static String jsonString;
@@ -72,11 +70,11 @@ public class DealGroupInvitationQrCode {
                     String type = group_info_list.get(i).getType();
                     if (type.equals("2")) {
                         String groupName = group_info_list.get(i).getGroupName();
-                        int i1 = stringToAscii(getFirstABC(groupName));
-                        int i2 = stringToAscii(getFirstABC(chart));
+                        int i1 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(groupName));
+                        int i2 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(chart));
                         if (group_info_list.size() > (i + 1)) {
                             String groupNameNext = group_info_list.get(i + 1).getGroupName();
-                            int i3 = stringToAscii(getFirstABC(groupNameNext));
+                            int i3 = DealGroupAdd.getDealGroupAdd().stringToAscii(DealGroupAdd.getDealGroupAdd().getFirstABC(groupNameNext));
                             if (i1 < i2 && i2 < i3) {
                                 dealNoChart(mRecord, group_info_list, (i+1), chart);
                                 return;
