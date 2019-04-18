@@ -81,8 +81,8 @@ public class GroupDataActivity extends BaseActivity {
 //            groupSno = intent.getStringExtra(AppConfig.GROUP_SNO);
             groupId = intent.getStringExtra(AppConfig.GROUP_ID);
 //            Log.e("qrCode","--------------groupData-------initBaseView---------groupId="+groupId);
-//            sendWeb(SplitWeb.addGroupOfQrCode(groupSno));
-            sendWeb(SplitWeb.searchDetailInfo(groupId));
+//            sendWeb(SplitWeb.getSplitWeb().addGroupOfQrCode(groupSno));
+            sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId));
         }
     }
 

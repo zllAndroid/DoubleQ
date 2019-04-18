@@ -12,7 +12,7 @@
 //import java.util.ArrayList;
 //import java.util.TreeMap;
 //
-//public class SplitWebOld {
+//public class SplitWeb.getSplitWeb()Old {
 //
 //    public static String IS_CHAT= "00";
 //    public static String IS_CHAT_GROUP= "33";

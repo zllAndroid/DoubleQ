@@ -94,14 +94,14 @@ public class PwdLoginActivity extends BaseActivity {
             String action = intent.getAction();
             if (action.equals("start_application"))
             {
-                if (!StrUtils.isEmpty(SplitWeb.getUserId()))
-                    sendWeb(SplitWeb.bindUid());
+                if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId()))
+                    sendWeb(SplitWeb.getSplitWeb().bindUid());
             }
         }
     };
     private void initUrl() {
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.PreRequest, new NetWorkUtlis.OnNetWork() {
+        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().PreRequest, new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String result) {
                 Log.e("result=", result + "---------------------------");
@@ -110,7 +110,7 @@ public class PwdLoginActivity extends BaseActivity {
                 String swooleServer = dataServer.getSwooleServer();
 //                String swooleServer = dataServer.getSwooleServer_v1();
 
-                SplitWeb.HttpURL = swooleServer;
+                SplitWeb.getSplitWeb().HttpURL = swooleServer;
                 SPUtils.put(PwdLoginActivity.this, AppConfig.TYPE_URL, swooleServer+"");
             }
         });
@@ -190,7 +190,7 @@ public class PwdLoginActivity extends BaseActivity {
             return;
         }
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(SplitWeb.smsCode(phone, "1"), new NetWorkUtlis.OnNetWork() {
+        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().smsCode(phone, "1"), new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String msg) {
                 timer.start();
@@ -218,7 +218,7 @@ public class PwdLoginActivity extends BaseActivity {
 //            return;
 //        }
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(SplitWeb.smsLogin(phone, code), new NetWorkUtlis.OnNetWork() {
+        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().smsLogin(phone, code), new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String msg) {
                 SPUtils.put(PwdLoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, phone);
@@ -268,8 +268,8 @@ public class PwdLoginActivity extends BaseActivity {
 
             initSetData(userInfo);
         }
-//        if (!StrUtils.isEmpty(SplitWeb.getUserId()))
-//        sendWeb(SplitWeb.bindUid());
+//        if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId()))
+//        sendWeb(SplitWeb.getSplitWeb().bindUid());
     }
 
     private void initSetData(DataLogin.RecordBean dataLogin) {
@@ -284,20 +284,20 @@ public class PwdLoginActivity extends BaseActivity {
 
 
 //        SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIpWs());
-        SplitWeb.USER_TOKEN = dataLogin.getUserToken();
-        SplitWeb.MOBILE = dataLogin.getMobile();
-        SplitWeb.QR_CODE = dataLogin.getQrcode();
-        SplitWeb.NICK_NAME = dataLogin.getNickName();
-        SplitWeb.PERSON_SIGN = dataLogin.getPersonaSignature();
-        SplitWeb.QR_CODE = dataLogin.getQrcode();
-        SplitWeb.WX_SNO = dataLogin.getWxSno();
-        SplitWeb.USER_ID = dataLogin.getUserId();
-        SplitWeb.USER_HEADER = dataLogin.getHeadImg();
+        SplitWeb.getSplitWeb().USER_TOKEN = dataLogin.getUserToken();
+        SplitWeb.getSplitWeb().MOBILE = dataLogin.getMobile();
+        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
+        SplitWeb.getSplitWeb().NICK_NAME = dataLogin.getNickName();
+        SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
+        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
+        SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
+        SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
+        SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
         mCache.put(AppAllKey.USER_ID_KEY,dataLogin.getUserId());
         //TODO 集群
         try {
-            SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
-            SplitWeb.HTTP_REQUEST = dataLogin.getServerIpHttp();
+            SplitWeb.getSplitWeb().WS_REQUEST = dataLogin.getServerIpWs();
+            SplitWeb.getSplitWeb().HTTP_REQUEST = dataLogin.getServerIpHttp();
             String serverIpWs = dataLogin.getServerIpWs();
             String serverIpHttp = dataLogin.getServerIpHttp();
             mCache.remove(AppConfig.TYPE_WS_REQUEST);

@@ -135,7 +135,7 @@ public class CreatGroupChatActivity extends BaseActivity {
 //        mRecyclerView.setLayoutManager(linearLayoutManager);
         seachRecyc.setLayoutManager(new LinearLayoutManager(CreatGroupChatActivity.this));
 //        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(GroupTeamActivity.this));
-//        sendWeb( SplitWeb.blackList());
+//        sendWeb( SplitWeb.getSplitWeb().blackList());
         initGroup();
     }
 
@@ -143,7 +143,7 @@ public class CreatGroupChatActivity extends BaseActivity {
         initUI();
         initABC2();
 //        initHttp();
-        sendWeb(SplitWeb.getGroupWebInfo());
+        sendWeb(SplitWeb.getSplitWeb().getGroupWebInfo());
     }
 
     //    private ArrayList<Allcity> allCityList = new ArrayList<Allcity>();
@@ -325,7 +325,7 @@ public class CreatGroupChatActivity extends BaseActivity {
                             AppManager.getAppManager().finishActivity(CreatGroupChatActivity.this);
                         }
                     });
-//                    send(SplitWeb.groupSend(record1.getGroupOfId(),"群创建成功，快去聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+//                    send(SplitWeb.getSplitWeb().groupSend(record1.getGroupOfId(),"群创建成功，快去聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
                 }
 
 //                if (blackAdapter != null) {
@@ -426,9 +426,9 @@ public class CreatGroupChatActivity extends BaseActivity {
                     Log.e("checkChat","checkChat="+checkChat);
 //                    String replace =Arrays.toString(check).replace("[", "").replace("]", "").replace(" ","");
                     String trim = mEdGroupName.getText().toString().trim();
-                    sendWebHaveDialog(SplitWeb.createdUserGroup(checkChat, trim, imageBase64)
+                    sendWebHaveDialog(SplitWeb.getSplitWeb().createdUserGroup(checkChat, trim, imageBase64)
                             , "创建中...", "群聊创建成功");
-//                    sendWeb(SplitWeb.createdUserGroup(checkChat,"zll",""));
+//                    sendWeb(SplitWeb.getSplitWeb().createdUserGroup(checkChat,"zll",""));
                 } else {
                     ToastUtil.show("请选择群聊成员");
                 }
@@ -507,7 +507,7 @@ public class CreatGroupChatActivity extends BaseActivity {
 //                Glide.with(ChangeInfoActivity.this).load(drawable.getBitmap()).;
 //                changeinfoIvHead.setImageBitmap(drawable.getBitmap());
 //                SendDataImg(files);
-//                sendWeb(SplitWeb.upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
+//                sendWeb(SplitWeb.getSplitWeb().upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
             }
         }
 
@@ -541,9 +541,11 @@ public class CreatGroupChatActivity extends BaseActivity {
             Glide.with(this).load(save)
                     .bitmapTransform(new CropCircleTransformation(CreatGroupChatActivity.this))
                     .into(creatIvHead);
-//            sendWeb(SplitWeb.upHeadImg(save));
-//            sendWeb(SplitWeb.upHeadImg("123"));
-//            sendWeb(SplitWeb.upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
+
+
+//            sendWeb(SplitWeb.getSplitWeb().upHeadImg(save));
+//            sendWeb(SplitWeb.getSplitWeb().upHeadImg("123"));
+//            sendWeb(SplitWeb.getSplitWeb().upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
         }
     }
 

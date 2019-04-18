@@ -183,7 +183,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             groupType = intent.getStringExtra(AppConfig.IS_CHATGROUP_TYPE);
             if (!StrUtils.isEmpty(groupId)) {
 //                IntentUtils.JumpToHaveOne(GroupTeamActivity.class,"groupId",groupId);
-                sendWeb(SplitWeb.searchDetailInfo(groupId));
+                sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId));
             }
         }
         initRightPop();
@@ -198,7 +198,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //                if (dataRecord!=null)
 //                type = chatsetSwiDarao.isChecked()?"2":"1";
                 String daRao = isChecked ? "2" : "1";
-                send(SplitWeb.setUserGroupDisturb(groupId, daRao));
+                send(SplitWeb.getSplitWeb().setUserGroupDisturb(groupId, daRao));
             }
         });
         chatsetSwiQunZhu.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
@@ -206,7 +206,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
 //                boolean check2 = chatsetMsgMiandarao.isChecked();
                 String ass = isChecked ? "2" : "1";
-                send(SplitWeb.setUserGroupAssistant(groupId, ass));
+                send(SplitWeb.getSplitWeb().setUserGroupAssistant(groupId, ass));
             }
         });
     }
@@ -217,7 +217,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         super.onResume();
         if (isFirst) {
             if (!StrUtils.isEmpty(groupId))
-                sendWeb(SplitWeb.searchDetailInfo(groupId));
+                sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId));
         }
         isFirst = true;
     }
@@ -238,7 +238,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     DialogUtils.showDialog("是否确认退出群聊", new DialogUtils.OnClickSureListener() {
                         @Override
                         public void onClickSure() {
-                            sendWebHaveDialog(SplitWeb.outGroupChat(groupId), "正在退出...", "退出成功");
+                            sendWebHaveDialog(SplitWeb.getSplitWeb().outGroupChat(groupId), "正在退出...", "退出成功");
                         }
                     });
                 }
@@ -734,7 +734,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 goToClipActivity(Uri.fromFile(mPhotoFile));
 //                Bitmap bm = ImageUtils.getBitmapCompress(mPhotoFile.getPath());
 //                save = ImageUtils.saveBitmap(GroupChatDetailsActivity.this, bm);
-//                sendWeb(SplitWeb.upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bm)));
+//                sendWeb(SplitWeb.getSplitWeb().upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bm)));
             }
         }
         //		相册
@@ -755,7 +755,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             Drawable drawable = new BitmapDrawable(getResources(), bitmap);
             c.close();
             goToClipActivity(selectedImage);
-//            sendWeb(SplitWeb.upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bm)));
+//            sendWeb(SplitWeb.getSplitWeb().upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bm)));
         }
         else if (requestCode == REQUEST_CROP_PHOTO && null != data){
             final Uri uri = data.getData();
@@ -768,7 +768,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             //TODO 压缩头像
             Bitmap bm = ImageUtils.imageZoom(bitMap);
             String s1 = ImageUtils.Bitmap2StrByBase64(bm);
-            sendWeb(SplitWeb.upGroupHeadImg(groupId,s1));
+            sendWeb(SplitWeb.getSplitWeb().upGroupHeadImg(groupId,s1));
         }
     }
 
@@ -880,12 +880,12 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             case R.id.group_chat_data_swibtn_nodarao:
 //                type = chatsetSwiDarao.isChecked() ? "1" : "2";
 //                Log.e("disturbGroup", "--------------------------------------type = " + type + "+++++++++++++++++++++++i = " + (i++));
-//                sendWeb(SplitWeb.setUserGroupDisturb(groupId, type));
+//                sendWeb(SplitWeb.getSplitWeb().setUserGroupDisturb(groupId, type));
                 break;
             case R.id.group_chat_data_lin_nodarao:
 //                type = chatsetSwiDarao.isChecked() ? "1" : "2";
 //                Log.e("disturbGroup", "--------------------------------------type = " + type + "+++++++++++++++++++++++j = " + (j++));
-//                sendWeb(SplitWeb.setUserGroupDisturb(groupId, type));
+//                sendWeb(SplitWeb.getSplitWeb().setUserGroupDisturb(groupId, type));
                 break;
             case R.id.group_data_lin_grouping:
                 if (NoDoubleClickUtils.isDoubleClick()) {
@@ -947,10 +947,10 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         this.contant = contant;
         switch (isChangeName) {
             case "0":  //群名
-                sendWeb(SplitWeb.upGroupName(groupId, contant));
+                sendWeb(SplitWeb.getSplitWeb().upGroupName(groupId, contant));
                 break;
             case "1":  //群头像
-//                sendWeb(SplitWeb.upGroupHeadImg(groupId,contant));
+//                sendWeb(SplitWeb.getSplitWeb().upGroupHeadImg(groupId,contant));
                 break;
 
         }

@@ -80,7 +80,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //        mRecyclerView.setNestedScrollingEnabled(false);
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(GroupManageActivity.this));
 //        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(GroupManageActivity.this));
-        sendWeb(SplitWeb.groupManageInfo(type));
+        sendWeb(SplitWeb.getSplitWeb().groupManageInfo(type));
 
         initListView();
     }
@@ -213,12 +213,12 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //                        添加
                     case "2":
                         isChange = true;
-                        sendWeb(SplitWeb.groupManageInfo(type));
+                        sendWeb(SplitWeb.getSplitWeb().groupManageInfo(type));
                         break;
 //                        改
                     case "3":
                         isChange = true;
-                        sendWeb(SplitWeb.groupManageInfo(type));
+                        sendWeb(SplitWeb.getSplitWeb().groupManageInfo(type));
                         break;
                 }
                 break;
@@ -267,13 +267,13 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
         switch (isAddOrChange) {
             case "0"://增加
                 item_type = "2";
-                sendWeb(SplitWeb.addFriendGroup(type, "1", contant, ""));//增加分组  type = 1
+                sendWeb(SplitWeb.getSplitWeb().addFriendGroup(type, "1", contant, ""));//增加分组  type = 1
                 if (blackAdapter != null)
                     blackAdapter.notifyDataSetChanged();
                 break;
             case "1"://修改
 //                在 190行写 修改后触发事件
-//                sendWeb(SplitWeb.upUserSno(contant));
+//                sendWeb(SplitWeb.getSplitWeb().upUserSno(contant));
                 break;
         }
     }
@@ -309,7 +309,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 
     @OnClick(R.id.inclu_tv_right)
     public void onSave() {
-        sendWeb(SplitWeb.moveGroupSort(dataInfo()));//拖拽移动的
+        sendWeb(SplitWeb.getSplitWeb().moveGroupSort(dataInfo()));//拖拽移动的
         Log.e("personInfos", "----------------personInfos----------------------------" + dataInfo());
     }
 
@@ -323,7 +323,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
             @Override
             public void onSure(String contant) {
                 item_type = "3";
-                sendWeb(SplitWeb.addFriendGroup(type, "2", contant, item.getId()));//修改分组  type = 2
+                sendWeb(SplitWeb.getSplitWeb().addFriendGroup(type, "2", contant, item.getId()));//修改分组  type = 2
             }
 
             @Override
@@ -342,7 +342,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                 String user_id = item.getId();
                 if (!StrUtils.isEmpty(user_id)) {
                     item_type = "1";
-                    sendWeb(SplitWeb.addFriendGroup(type, "3", "", user_id));//删除
+                    sendWeb(SplitWeb.getSplitWeb().addFriendGroup(type, "3", "", user_id));//删除
                 }
             }
         });

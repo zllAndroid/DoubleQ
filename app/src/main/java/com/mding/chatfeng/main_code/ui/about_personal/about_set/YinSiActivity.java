@@ -47,9 +47,9 @@ public class YinSiActivity extends BaseActivity {
         includeTopTvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                sendWeb( SplitWeb.getPermissStatu("3"));
+//                sendWeb( SplitWeb.getSplitWeb().getPermissStatu("3"));
                 if (NoDoubleClickUtils.isDoubleClick())
-                    sendWeb(SplitWeb.permissionSetThr("3",isSno,isQrcode));
+                    sendWeb(SplitWeb.getSplitWeb().permissionSetThr("3",isSno,isQrcode));
             }
         });
         switchListen();
@@ -58,7 +58,7 @@ public class YinSiActivity extends BaseActivity {
 
 
     private void initRequest() {
-        sendWeb( SplitWeb.getPermissStatu("3"));
+        sendWeb( SplitWeb.getSplitWeb().getPermissStatu("3"));
     }
 
     @Override

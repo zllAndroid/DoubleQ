@@ -100,7 +100,7 @@ public class GroupTeamActivity extends BaseActivity {
         if (intent!=null) {
             groupId = intent.getStringExtra(GROUP_ID);
             if (groupId != null)
-                sendWeb(SplitWeb.getGroupMemberList(groupId));
+                sendWeb(SplitWeb.getSplitWeb().getGroupMemberList(groupId));
         }
     }
     private void initGroup() {

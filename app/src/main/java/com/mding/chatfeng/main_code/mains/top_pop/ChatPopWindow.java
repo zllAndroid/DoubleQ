@@ -189,7 +189,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
             @Override
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 String daRao = isChecked ? "2":"1";
-                BaseApplication.getApp().sendData(SplitWeb.setUserGroupDisturb(groupId, daRao));
+                BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().setUserGroupDisturb(groupId, daRao));
             }
         });
     }

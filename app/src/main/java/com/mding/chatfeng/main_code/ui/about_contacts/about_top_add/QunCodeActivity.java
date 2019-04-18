@@ -75,7 +75,7 @@ public class QunCodeActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent != null){
 //            groupId = intent.getStringExtra("groupId");
-//            sendWeb(SplitWeb.searchDetailInfo(groupId));
+//            sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId));
 //            groupSno = intent.getStringExtra(AppConfig.GROUP_SNO);
             PersonData personData = (PersonData)intent.getSerializableExtra(AppConfig.GROUP_ADDKEY);
             PersonData groupInfo = (PersonData)intent.getSerializableExtra(AppConfig.GROUP_INFO);

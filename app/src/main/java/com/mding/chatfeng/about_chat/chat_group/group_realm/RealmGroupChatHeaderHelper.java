@@ -27,7 +27,7 @@ public class RealmGroupChatHeaderHelper {
      */
 //添加好友信息
     public void addRealmGroupChat(final CusDataGroupChat groupChat) {
-        groupChat.setTotalId(groupChat.getFriendId() + SplitWeb.getUserId());
+        groupChat.setTotalId(groupChat.getFriendId() + SplitWeb.getSplitWeb().getUserId());
         mRealm.beginTransaction();
         mRealm.copyToRealmOrUpdate(groupChat);//有主键的情况下使用，添加更新
         mRealm.commitTransaction();
@@ -36,7 +36,7 @@ public class RealmGroupChatHeaderHelper {
      * delete （删）
      */
     public void deleteRealmFriend(String friendId) {
-        CusDataGroupChat dog = mRealm.where(CusDataGroupChat.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        CusDataGroupChat dog = mRealm.where(CusDataGroupChat.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
         if (dog!=null) {
             mRealm.beginTransaction();
             dog.deleteFromRealm();
@@ -57,7 +57,7 @@ public class RealmGroupChatHeaderHelper {
      * update （改） 头像和头像地址，时间
      */
     public void updateHeadPath(String friendId, String imgPath,String img, String time) {
-        CusDataGroupChat realmMsg = mRealm.where(CusDataGroupChat.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        CusDataGroupChat realmMsg = mRealm.where(CusDataGroupChat.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             realmMsg.setHeadImg(img);
@@ -99,9 +99,9 @@ public class RealmGroupChatHeaderHelper {
     }
     public String queryGroupChatReturnImgPath(String friendId) {
         CusDataGroupChat realmMsgs = mRealm.where(CusDataGroupChat.class)
-                .equalTo(FILE_NAME,(friendId+SplitWeb.getUserId()))
+                .equalTo(FILE_NAME,(friendId+SplitWeb.getSplitWeb().getUserId()))
                 .findFirst();
-//        MyLog.e("CusDataGroupChat","CusDataGroupChat="+friendId+"userid="+SplitWeb.getUserId());
+//        MyLog.e("CusDataGroupChat","CusDataGroupChat="+friendId+"userid="+SplitWeb.getSplitWeb().getUserId());
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
@@ -114,7 +114,7 @@ public class RealmGroupChatHeaderHelper {
 //    查询是否存在
     public boolean queryIsGroupChat(String friendId) {
         CusDataGroupChat realmMsgs = mRealm.where(CusDataGroupChat.class)
-                .equalTo(FILE_NAME,friendId+SplitWeb.getUserId())
+                .equalTo(FILE_NAME,friendId+SplitWeb.getSplitWeb().getUserId())
                 .findFirst();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序

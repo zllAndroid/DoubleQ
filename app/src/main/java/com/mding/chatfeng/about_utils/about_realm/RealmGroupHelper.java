@@ -78,7 +78,7 @@
 //        CusRealmChatMsg cusRealmChatMsg = mRealm.createObject(CusRealmChatMsg.class);
 ////        CusRealmChatMsg cusRealmChatMsg = new CusRealmChatMsg();
 //        cusRealmChatMsg.setMessage(msg);
-//        cusRealmChatMsg.setSendId(SplitWeb.getUserId());
+//        cusRealmChatMsg.setSendId(SplitWeb.getSplitWeb().getUserId());
 //        cusRealmChatMsg.setReceiveId(friendId);
 //        cusRealmChatMsg.setMessageType(messageType);
 //        cusRealmChatMsg.setUserMessageType(userMessageType);

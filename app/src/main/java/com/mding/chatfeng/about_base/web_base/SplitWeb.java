@@ -6,6 +6,7 @@ import android.util.Log;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.SignForXm6leefunJava;
+import com.mding.chatfeng.about_base.deal_application.DealFriendAdd;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.MD5Utils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -17,47 +18,59 @@ import java.util.TreeMap;
 
 public class SplitWeb {
     //    是否需要首页叠加消息条数   true显示
-    public static boolean IS_CHAT_Zero= true;
+    public  boolean IS_CHAT_Zero= true;
 
-    public static boolean IS_SET_PERSON_HEAD=false;
-    public static String IS_CHAT= "00";
-    public static String IS_SET_ACTIVITY= "00";
-    public static String IS_CHAT_GROUP= "33";
-    public static String USER_TOKEN= "";
-    public static String MOBILE= "";
-    public static String PSW= "";
-    public static String WX_SNO= "";
-    public static String PERSON_SIGN= "";
-    public static String QR_CODE= "";
-    public static String NICK_NAME= "";
-    public static String USER_ID="";
-    public static String USER_HEADER= "";
-    public static String WS_REQUEST= "";
-    public static String HTTP_REQUEST= "";
+    public  boolean IS_SET_PERSON_HEAD=false;
+    public  String IS_CHAT= "00";
+    public  String IS_SET_ACTIVITY= "00";
+    public  String IS_CHAT_GROUP= "33";
+    public  String USER_TOKEN= "";
+    public  String MOBILE= "";
+    public  String PSW= "";
+    public  String WX_SNO= "";
+    public  String PERSON_SIGN= "";
+    public  String QR_CODE= "";
+    public  String NICK_NAME= "";
+    public  String USER_ID="";
+    public  String USER_HEADER= "";
+    public  String WS_REQUEST= "";
+    public  String HTTP_REQUEST= "";
 
+    private static SplitWeb splitWeb;
+    // 构造函数必须是私有的 这样在外部便无法使用 new 来创建该类的实例
+    private SplitWeb() {}
+    /**
+     * 单一实例
+     */
+    public synchronized static SplitWeb getSplitWeb(){
+        if (splitWeb == null) {
+            splitWeb= new SplitWeb();
+        }
+        return splitWeb;
+    }
     //固定第一级请求
-//    public static final String PreRequest= "http://192.168.4.131:40003/";
-//    public static final String PreRequest= "http://39.108.3.131/server_api.php";
+//    public  final String PreRequest= "http://192.168.4.131:40003/";
+//    public  final String PreRequest= "http://39.108.3.131/server_api.php";
 
-    public static final String PreRequest= "http://39.108.3.131/server_api.php";
-//    public static final String PreRequest= "http://192.168.4.68/server_api.php";
+    public  final String PreRequest= "http://39.108.3.131/server_api.php";
+//    public  final String PreRequest= "http://192.168.4.68/server_api.php";
 
 //      SPUtils.put(this,"header",record.getHeadImg());
 //            SPUtils.put(this,"name",record.getNickName());
 
-    public static String getUserHeader() {
+    public  String getUserHeader() {
 
         USER_HEADER=(String ) SPUtils.get(HelpUtils.getACt(),"header","");
         return USER_HEADER;
     }
-//    public static String getUserId() {
+//    public  String getUserId() {
 //        if(StrUtils.isEmpty(USER_ID))
 //            USER_ID=(String ) SPUtils.get(MyApplication.getAppContext(), AppAllKey.USER_ID_KEY,"");
 //        Log.e("getUserId","getUserId="+USER_ID);
 //        return USER_ID;
 //    }
 
-    public static String getUserId() {
+    public  String getUserId() {
 //        if(StrUtils.isEmpty(USER_ID))
             USER_ID= BaseApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);
         Log.e("getUserId","getUserId="+USER_ID);
@@ -65,38 +78,38 @@ public class SplitWeb {
     }
 
     //     SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIp());
-    public static String getWsRequest(Context mContext) {
+    public  String getWsRequest(Context mContext) {
         if(StrUtils.isEmpty(WS_REQUEST)&&HelpUtils.activity!=null)
             WS_REQUEST=(String ) SPUtils.get(mContext, AppConfig.TYPE_WS_REQUEST,"");
         return WS_REQUEST;
     }
-    public static String getUserMobile() {
+    public  String getUserMobile() {
         if(StrUtils.isEmpty(MOBILE)&&HelpUtils.activity!=null)
             MOBILE=(String ) SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_PHONE,"");
         return MOBILE;
     }
-    public static String getUserPSW() {
+    public  String getUserPSW() {
         if(StrUtils.isEmpty(PSW)&&HelpUtils.activity!=null)
             PSW=(String ) SPUtils.get(HelpUtils.activity, AppConfig.TYPE_PSW,"");
         return PSW;
     }
-    public static String getName() {
+    public  String getName() {
         if(StrUtils.isEmpty(NICK_NAME))
             NICK_NAME=(String )SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_NAME,"");
         return NICK_NAME;
     }
-    public static String getSign() {
+    public  String getSign() {
         if(StrUtils.isEmpty(PERSON_SIGN))
             PERSON_SIGN=(String )SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_SIGN,"");
         return PERSON_SIGN;
     }
-    public static String getUserToken() {
+    public  String getUserToken() {
 //        if(StrUtils.isEmpty(USER_TOKEN))
             USER_TOKEN= (String )SPUtils.get(BaseApplication.getAppContext(),AppAllKey.USER_Token,"");
         return USER_TOKEN;
     }
 
-    public static String getNiName() {
+    public  String getNiName() {
 
         NICK_NAME=(String ) SPUtils.get(HelpUtils.getACt(),"name","");
 
@@ -106,47 +119,47 @@ public class SplitWeb {
     /**
      * WebSocket 请求参数
      */
-    static TreeMap<String, String> map = new TreeMap<>();
+     TreeMap<String, String> map = new TreeMap<>();
 
     /**
      * ------------------------------------------------------------------------------------------------------------------------------
      * Http请求参数
      */
-    public static ArrayList<String> mList=new ArrayList<String>();
+    public  ArrayList<String> mList=new ArrayList<String>();
 //   测试
-//    public static String URL = "http://192.168.4.133:5052/LoginController/";
-//    public static String WebSocket_URL = "ws://192.168.4.133:5053";
+//    public  String URL = "http://192.168.4.133:5052/LoginController/";
+//    public  String WebSocket_URL = "ws://192.168.4.133:5053";
 
     //   Http 正式
-//    public static String WebSocket_URL = "ws://192.168.4.133:9093";
-//    public static String URL = "http://192.168.4.133:9092/LoginController/";
+//    public  String WebSocket_URL = "ws://192.168.4.133:9093";
+//    public  String URL = "http://192.168.4.133:9092/LoginController/";
 //    外网
-//    public static String WebSocket_URL = "ws://192.168.4.133:5053";
-//    public static String URL = "http://192.168.4.133:5052/LoginController/";
+//    public  String WebSocket_URL = "ws://192.168.4.133:5053";
+//    public  String URL = "http://192.168.4.133:5052/LoginController/";
 
-//    public static String WebSocket_URL = "ws://192.168.4.55:9093";
-//    public static String WebSocket_URL = "ws://192.168.4.55:9093";
-//    public static String URL = "http://192.168.4.55:9092/LoginController/";
+//    public  String WebSocket_URL = "ws://192.168.4.55:9093";
+//    public  String WebSocket_URL = "ws://192.168.4.55:9093";
+//    public  String URL = "http://192.168.4.55:9092/LoginController/";
 //192.168.4.48
 
-//    public static String WebSocket_URL = "ws://192.168.4.55:9093";
-    public static String Error_URL = "http://39.108.3.131/check_ip_statu.php?";
+//    public  String WebSocket_URL = "ws://192.168.4.55:9093";
+    public  String Error_URL = "http://39.108.3.131/check_ip_statu.php?";
 
-    //    public static String WebSocket_URL = "ws://192.168.4.48:9093";
-//    public static String URL = "http://192.168.4.48:9092/LoginController/";
-//    public static String WebSocket_URL = "ws://119.23.229.66:9093";
-    public static String HttpURL = "";
-    //    public static String HttpURL = "192.168.4.55:9092";
-    private static String getURL() {
+    //    public  String WebSocket_URL = "ws://192.168.4.48:9093";
+//    public  String URL = "http://192.168.4.48:9092/LoginController/";
+//    public  String WebSocket_URL = "ws://119.23.229.66:9093";
+    public  String HttpURL = "";
+    //    public  String HttpURL = "192.168.4.55:9092";
+    private  String getURL() {
         if(StrUtils.isEmpty(HttpURL))
             HttpURL= (String )SPUtils.get(HelpUtils.activity,AppConfig.TYPE_URL,"");
         return HttpURL;
     }
-    public static String getURLRequest() {
+    public  String getURLRequest() {
         return "http://"+getURL()+"/LoginController/";
     }
 
-    public static String loginIn(String mobile, String password){
+    public  String loginIn(String mobile, String password){
         mList.clear();
         mList.add("sno="+mobile);
         mList.add("password="+getMd5(password));
@@ -154,14 +167,14 @@ public class SplitWeb {
 //        mList.add("password="+"1234566");
         return getURLRequest()+"loginIn?"+ SignForXm6leefunJava.getSing(mList);
     }
-    public static String addrPort(){
+    public  String addrPort(){
         mList.clear();
         return getURLRequest()+"addrPort?"+ SignForXm6leefunJava.getSing(mList);
     }
-    public static String errorRequest(String url){
+    public  String errorRequest(String url){
         return Error_URL+"url="+url;
     }
-    public static String register(String mobile, String password,String code){
+    public  String register(String mobile, String password,String code){
         mList.clear();
         mList.add("mobile="+mobile);
         mList.add("password="+getMd5(password));
@@ -170,27 +183,27 @@ public class SplitWeb {
 //        mList.add("password="+"1234566");
         return getURLRequest()+"register?"+SignForXm6leefunJava.getSing(mList);
     }
-    public static String  getMd5(String psw)
+    public  String  getMd5(String psw)
     {
         String md5ResultCode =  MD5Utils.encryptMD5((MD5Utils.encryptMD5((psw)) + "mding"));
         return  md5ResultCode;
     }
     //    （旧短信验证码接口  1支付 2提现 3修改支付密码 4修改登录密码 5注册 6修改手机号）
     //    新短信验证码接口  1为登录 2为注册 3为修改登录密码 4修改绑定手机号（旧） 5修改绑定手机号（新）
-    public static String smsCode(String mobile, String type){
+    public  String smsCode(String mobile, String type){
         mList.clear();
         mList.add("mobile="+mobile);
         mList.add("type="+type);
         return getURLRequest()+"getSmsCode?"+ SignForXm6leefunJava.getSing(mList);
     }
-    public static String smsLogin(String mobile, String code){
+    public  String smsLogin(String mobile, String code){
         mList.clear();
         mList.add("mobile="+mobile);
         mList.add("code="+code);
         return getURLRequest()+"smsLogin?"+ SignForXm6leefunJava.getSing(mList);
 
     }
-    public static String contactsListHttp(){
+    public  String contactsListHttp(){
         mList.clear();
         if(StrUtils.isEmpty(USER_ID))
             getUserId();
@@ -211,23 +224,23 @@ public class SplitWeb {
      * 绑定uid接口
      * @return
      */
-    public static String userIdParameter= "userId";
-    public static String userTokenParameter= "token";
+    public  String userIdParameter= "userId";
+    public  String userTokenParameter= "token";
 
-    public  static  String bindUid(){
+    public    String bindUid(){
         dealMap();
 //        Log.e("WebSocketLib","userIdParameter="+userIdParameter+"-------------------------------------"+USER_ID);
         String request = WebUrl.request("PersonCenter", "bindUid", map);
         return  request;
     }
-    public  static  String kickUid(){
+    public    String kickUid(){
         dealMap();
 //        Log.e("WebSocketLib","userIdParameter="+userIdParameter+"-------------------------------------"+USER_ID);
         String request = WebUrl.request("PersonCenter", "kickUid", map);
         return  request;
     }
 
-    private static void dealMap() {
+    private  void dealMap() {
         map.clear();
         if(StrUtils.isEmpty(USER_ID))
             getUserId();
@@ -238,7 +251,7 @@ public class SplitWeb {
     }
 
     //注册时设置头像接口
-    public static String setHeadImg(String nickName, String headImg){
+    public  String setHeadImg(String nickName, String headImg){
         dealMap();
         putData("nickName",nickName);
         putData("headImg",headImg);
@@ -246,14 +259,14 @@ public class SplitWeb {
         return  request;
     }
     //    版本检测
-    public static String appUpdate(String nowVs){
+    public  String appUpdate(String nowVs){
         dealMap();
         putData("nowVs",nowVs);
         putData("device","1");
         String request = WebUrl.request("Login", "appUpdate", map);
         return  request;
     }
-    public static String contactsList(){
+    public  String contactsList(){
         dealMap();
         String request = WebUrl.request("Contact", "contactsList", map);
         return  request;
@@ -262,13 +275,13 @@ public class SplitWeb {
      * 我的资料接口
      * @return
      */
-    public  static  String personalCenter(){
+    public    String personalCenter(){
         dealMap();
         String request = WebUrl.request("PersonCenter", "personalCenter", map);
         return  request;
     }
     // 更换绑定  旧手机号码接口
-    public  static  String replaceMobileOld(String mobile,String code){
+    public    String replaceMobileOld(String mobile,String code){
         dealMap();
         putData("mobile",mobile);
         putData("code",code);
@@ -276,7 +289,7 @@ public class SplitWeb {
         return  request;
     }
     // 更换绑定  新手机号码接口
-    public  static  String replaceMobileNew(String mobile,String code){
+    public    String replaceMobileNew(String mobile,String code){
         dealMap();
         putData("mobile",mobile);
         putData("code",code);
@@ -296,14 +309,14 @@ public class SplitWeb {
      *    是否帐号显示 is_sno_show  （是否二维码显示 is_qrcode_show）
      *可变长参数 String ... type
      */
-    public  static  String permissionSetOne(String type,String isShare){
+    public    String permissionSetOne(String type,String isShare){
         dealMap();
         putData("type",type);
         putData("isShare",isShare);
         String request = WebUrl.request("PersonCenter", "permissionSet", map);
         return  request;
     }
-    public  static  String permissionSetTwo(String type,String isMsgRemind,String isVoiceRemind,String isVideoRemind){
+    public    String permissionSetTwo(String type,String isMsgRemind,String isVoiceRemind,String isVideoRemind){
         dealMap();
         putData("type",type);
         putData("isMsgRemind",isMsgRemind);
@@ -312,7 +325,7 @@ public class SplitWeb {
         String request = WebUrl.request("PersonCenter", "permissionSet", map);
         return  request;
     }
-    public  static  String permissionSetThr(String type,String isSnoShow,String isQrcodeShow){
+    public    String permissionSetThr(String type,String isSnoShow,String isQrcodeShow){
         dealMap();
         putData("type",type);
         putData("isSnoShow",isSnoShow);
@@ -326,7 +339,7 @@ public class SplitWeb {
      * @param type
      * @return
      */
-    public  static  String getPermissStatu(String type){
+    public    String getPermissStatu(String type){
         dealMap();
         putData("type",type);
         String request = WebUrl.request("PersonCenter", "getPermissStatu", map);
@@ -337,7 +350,7 @@ public class SplitWeb {
      * @param personaSignature
      * @return
      */
-    public  static  String upPersonSign(String personaSignature){
+    public    String upPersonSign(String personaSignature){
         dealMap();
         putData("personaSignature",personaSignature);
         String request = WebUrl.request("PersonCenter", "upPersonSign", map);
@@ -348,22 +361,22 @@ public class SplitWeb {
      * @param nickName
      * @return
      */
-    public  static  String upNickName(String nickName){
+    public    String upNickName(String nickName){
         dealMap();
         putData("nickName",nickName);
         String request = WebUrl.request("PersonCenter", "upNickName", map);
         return  request;
     }
     //    修改备注
-    public  static  String friendRemarkName(String friendsId,String remarkName){
+    public    String friendRemarkName(String friendsId,String remarkName){
         dealMap();
         putData("friendsId",friendsId);
         putData("remarkName",remarkName);
         String request = WebUrl.request("Contact", "friendRemarkName", map);
         return  request;
     }
-    static TreeMap<String, String> mapFile = new TreeMap<>();
-    public  static  String upHeadImg(String headImg){
+     TreeMap<String, String> mapFile = new TreeMap<>();
+    public    String upHeadImg(String headImg){
         dealMap();
         putData("headImg",headImg);
         String   request = WebUrl.request("PersonCenter", "upHeadImg", map);
@@ -375,7 +388,7 @@ public class SplitWeb {
      * @param newSno
      * @return
      */
-    public  static  String upUserSno(String newSno){
+    public    String upUserSno(String newSno){
         dealMap();
         putData("newSno",newSno);
         String request = WebUrl.request("PersonCenter", "upUserSno", map);
@@ -385,7 +398,7 @@ public class SplitWeb {
      * 屏蔽黑名单列表接口
      * @return
      */
-    public  static  String blackList(String nick_name){
+    public    String blackList(String nick_name){
         dealMap();
         String request = WebUrl.request("PersonCenter", "blackList", map);
         return  request;
@@ -398,7 +411,7 @@ public class SplitWeb {
      * @param comfirmPwd
      * @return
      */
-    public  static  String upPassWord(String oldPwd,String newPwd,String comfirmPwd){
+    public    String upPassWord(String oldPwd,String newPwd,String comfirmPwd){
         dealMap();
         putData("oldPwd",getMd5(oldPwd));
         putData("newPwd",getMd5(newPwd));
@@ -411,7 +424,7 @@ public class SplitWeb {
      * 拉黑列表
      * @return
      */
-    public  static  String blackList(){
+    public    String blackList(){
         dealMap();
         String request = WebUrl.request("PersonCenter", "blackList", map);
         return  request;
@@ -420,13 +433,13 @@ public class SplitWeb {
      * 拉黑
      * @return
      */
-    public  static  String removeBlack(){
+    public    String removeBlack(){
         dealMap();
         String request = WebUrl.request("PersonCenter", "removeBlack", map);
         return  request;
     }
     //    检测用户绑定Uid
-    public  static  String coroutineUid(){
+    public    String coroutineUid(){
         dealMap();
         String request = WebUrl.request("PersonCenter", "coroutineUid", map);
         return  request;
@@ -436,7 +449,7 @@ public class SplitWeb {
      * 短信验证码修改登录密码接口
      * @return
      */
-    public  static  String upPassWordSms(String mobile,String code,String newPwd){
+    public    String upPassWordSms(String mobile,String code,String newPwd){
         dealMap();
         putData("mobile",mobile);
         putData("code",code);
@@ -449,13 +462,13 @@ public class SplitWeb {
      * 联系人部分
      */
 //    好友列表
-    public  static  String getFriendList(){
+    public    String getFriendList(){
         dealMap();
         String request = WebUrl.request("Contact", "getFriendList", map);
         return  request;
     }
     //    用户好友分组修改
-    public  static  String friendGroupModify(String friendsId,String groupId){
+    public    String friendGroupModify(String friendsId,String groupId){
         dealMap();
         putData("friendsId",friendsId);
         putData("groupId",groupId);
@@ -463,7 +476,7 @@ public class SplitWeb {
         return  request;
     }
     //    用户群分组管理修改
-    public  static  String groupOfGroupModify(String groupOfId,String groupId){
+    public    String groupOfGroupModify(String groupOfId,String groupId){
         dealMap();
         putData("groupOfId",groupOfId);
         putData("groupId",groupId);
@@ -472,7 +485,7 @@ public class SplitWeb {
     }
 
     //    私聊popWindow
-    public  static  String privateSendInterface(String friendId){
+    public    String privateSendInterface(String friendId){
         dealMap();
         putData("friendId",friendId);
         String request = WebUrl.request("Contact", "privateSendInterface", map);
@@ -480,7 +493,7 @@ public class SplitWeb {
     }
 
     //    群聊popWindow
-    public  static  String groupSendInterface(String groupId){
+    public    String groupSendInterface(String groupId){
         dealMap();
         putData("groupId",groupId);
         String request = WebUrl.request("Contact", "groupSendInterface", map);
@@ -491,7 +504,7 @@ public class SplitWeb {
      * 群组列表
      * @return
      */
-    public  static  String getGroupManage(){
+    public    String getGroupManage(){
         dealMap();
         String request = WebUrl.request("Contact", "getGroupManage", map);
         return  request;
@@ -500,7 +513,7 @@ public class SplitWeb {
      * 修改群名
      * @return
      */
-    public  static  String upGroupName(String groupId,String groupName){
+    public    String upGroupName(String groupId,String groupName){
         dealMap();
         putData("groupId",groupId);
         putData("groupName",groupName);
@@ -511,7 +524,7 @@ public class SplitWeb {
      * 修改群头像
      * @return
      */
-    public  static  String upGroupHeadImg(String groupId,String headImg){
+    public    String upGroupHeadImg(String groupId,String headImg){
         dealMap();
         putData("groupId",groupId);
         putData("headImg",headImg);
@@ -522,7 +535,7 @@ public class SplitWeb {
      * 添加好友二维码
      * @return
      */
-    public  static  String addFriendQrCode(String friendId){
+    public    String addFriendQrCode(String friendId){
         dealMap();
         putData("friendId",friendId);
         String request = WebUrl.request("Contact", "addFriendQrCode", map);
@@ -532,14 +545,14 @@ public class SplitWeb {
      * 添加群二维码
      * @return
      */
-    public  static  String addGroupOfQrCode(String groupSno){
+    public    String addGroupOfQrCode(String groupSno){
         dealMap();
         putData("groupSno",groupSno);
         String request = WebUrl.request("Contact", "addGroupOfQrCode", map);
         return  request;
     }
     //    获取群成员资料信息
-    public  static  String getGroupMemberInfo(String memberId,String groupOfId){
+    public    String getGroupMemberInfo(String memberId,String groupOfId){
         dealMap();
         putData("memberId",memberId);
         putData("groupOfId",groupOfId);
@@ -547,21 +560,21 @@ public class SplitWeb {
         return  request;
     }
     //    获取群成员列表
-    public  static  String getGroupMemberList(String groupOfId){
+    public    String getGroupMemberList(String groupOfId){
         dealMap();
         putData("groupOfId",groupOfId);
         String request = WebUrl.request("Contact", "getGroupMemberList", map);
         return  request;
     }
     //    获取群主转让群成员列表
-    public  static  String getTransterGroupMemberInfo(String groupOfId){
+    public    String getTransterGroupMemberInfo(String groupOfId){
         dealMap();
         putData("groupOfId",groupOfId);
         String request = WebUrl.request("Contact", "getTransterGroupMemberInfo", map);
         return  request;
     }
     //    搜索好友接口
-    public  static  String searchInfo(String  wx_sno,String type){
+    public    String searchInfo(String  wx_sno,String type){
         dealMap();
         putData("wxSno",wx_sno);
         putData("type",type);
@@ -569,13 +582,13 @@ public class SplitWeb {
         return  request;
     }
     //获取联系人好友列表接口
-    public  static  String getGroupWebInfo(){
+    public    String getGroupWebInfo(){
         dealMap();
         String request = WebUrl.request("Contact", "getGroupWebInfo", map);
         return  request;
     }
     //    删除群成员列表
-    public  static  String delGroupMemberList(String groupId){
+    public    String delGroupMemberList(String groupId){
         dealMap();
         putData("groupId",groupId);
         String request = WebUrl.request("Contact", "delGroupMemberList", map);
@@ -583,7 +596,7 @@ public class SplitWeb {
     }
 
     //    邀请入群
-    public  static  String groupInvitationf(String groupId,String friendIds){
+    public    String groupInvitationf(String groupId,String friendIds){
         dealMap();
         putData("groupId",groupId);
         putData("friendIds",friendIds);
@@ -591,13 +604,13 @@ public class SplitWeb {
         return  request;
     }
     //    邀请好友入群 列表接口
-    public  static  String groupInvitationfFriend(String groupId){
+    public    String groupInvitationfFriend(String groupId){
         dealMap();
         putData("groupId",groupId);
         String request = WebUrl.request("Contact", "groupInvitationfFriend", map);
         return  request;
     }
-    public  static  String delGroupMember(String groupOfId,String userIds){
+    public    String delGroupMember(String groupOfId,String userIds){
         dealMap();
         putData("groupOfId",groupOfId);
         putData("userIds",userIds);
@@ -605,7 +618,7 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "delGroupMember", map);
         return  request;
     }
-    public  static  String createdUserGroup(String fromUserIds,String groupName,String groupImg){
+    public    String createdUserGroup(String fromUserIds,String groupName,String groupImg){
         dealMap();
         putData("fromUserIds",fromUserIds);
         putData("groupName",groupName);
@@ -614,7 +627,7 @@ public class SplitWeb {
         return  request;
     }
     //    编辑群公告信息接口
-    public  static  String editGroupNotice(String chatGroupId,String content){
+    public    String editGroupNotice(String chatGroupId,String content){
         dealMap();
         putData("chatGroupId",chatGroupId);
         putData("content",content);
@@ -622,7 +635,7 @@ public class SplitWeb {
         return  request;
     }
     //    查看群公告信息接口
-    public  static  String groupNoticeInfo(String chatGroupId){
+    public    String groupNoticeInfo(String chatGroupId){
         dealMap();
         putData("chatGroupId",chatGroupId);
         String request = WebUrl.request("Contact", "groupNoticeInfo", map);
@@ -631,7 +644,7 @@ public class SplitWeb {
     /**
      * 回复备注信息接口
      */
-    public  static  String messageReply(String pushMsgId, String message){
+    public    String messageReply(String pushMsgId, String message){
         dealMap();
         putData("pushMsgId",pushMsgId);
         putData("message",message);
@@ -641,21 +654,21 @@ public class SplitWeb {
     /**
      * 搜索相关
      */
-    public  static  String searchDetailInfo(String group_id){
+    public    String searchDetailInfo(String group_id){
         dealMap();
         putData("groupId",group_id);
         String request = WebUrl.request("Contact", "searchDetailInfo", map);
         return  request;
     }
     //    删除好友接口
-    public  static  String deleteFriend(String friendsId){
+    public    String deleteFriend(String friendsId){
         dealMap();
         putData("friendsId",friendsId);
         String request = WebUrl.request("Contact", "deleteFriend", map);
         return  request;
     }
     //    屏蔽好友接口
-    public  static  String shieldFriend(String friendsId,String type){
+    public    String shieldFriend(String friendsId,String type){
         dealMap();
         putData("friendsId",friendsId);
         putData("type",type);
@@ -663,7 +676,7 @@ public class SplitWeb {
         return  request;
     }
     //    用户设置好友置顶
-    public  static  String topFriend(String friendsId,String type){
+    public    String topFriend(String friendsId,String type){
         dealMap();
         putData("friendsId",friendsId);
         putData("type",type);
@@ -671,14 +684,14 @@ public class SplitWeb {
         return  request;
     }
 //    用户设置群消息提示（消息免打扰）
-    public  static  String setUserGroupDisturb(String groupOfId,String disturbType){
+    public    String setUserGroupDisturb(String groupOfId,String disturbType){
         dealMap();
         putData("groupOfId",groupOfId);
         putData("disturbType",disturbType);
         String request = WebUrl.request("Contact", "setUserGroupDisturb", map);
         return  request;
     }
-    public  static  String setUserGroupAssistant(String groupOfId,String assistantType){
+    public    String setUserGroupAssistant(String groupOfId,String assistantType){
         dealMap();
         putData("groupOfId",groupOfId);
         putData("assistantType",assistantType);
@@ -686,7 +699,7 @@ public class SplitWeb {
         return  request;
     }
     //    消息免打扰
-    public  static  String disturbFriend(String friendsId,String type){
+    public    String disturbFriend(String friendsId,String type){
         dealMap();
         putData("friendsId",friendsId);
         putData("type",type);
@@ -694,14 +707,14 @@ public class SplitWeb {
         return  request;
     }
     //    退出群聊
-    public  static  String outGroupChat(String groupOfId){
+    public    String outGroupChat(String groupOfId){
         dealMap();
         putData("groupOfId",groupOfId);
         String request = WebUrl.request("Contact", "outGroupChat", map);
         return  request;
     }
     //    群主转让群接口
-    public  static  String transferGroupOf(String groupOfId,String transferUserId){
+    public    String transferGroupOf(String groupOfId,String transferUserId){
         dealMap();
         putData("groupOfId",groupOfId);
 //        要转让给群成员的user_id
@@ -710,40 +723,40 @@ public class SplitWeb {
         return  request;
     }
     //    首页
-    public  static  String getUserRelation(){
+    public    String getUserRelation(){
         dealMap();
         String request = WebUrl.request("Chat", "getUserRelation", map);
         return  request;
     }
     //    用户同步聊天记录(首页聊天列表)
-    public  static  String messageQueue(){
+    public    String messageQueue(){
         dealMap();
         String request = WebUrl.request("Chat", "messageQueue", map);
         return  request;
     }
 
     //    消息通知列表页面接口
-    public  static  String messageList(){
+    public    String messageList(){
         dealMap();
         String request = WebUrl.request("Contact", "messageList", map);
         return  request;
     }
     //同意添加好友接口
-    public  static  String agreeFriend(String messageId){
+    public    String agreeFriend(String messageId){
         dealMap();
         putData("messageId",messageId);
         String request = WebUrl.request("Contact", "agreeFriend", map);
         return  request;
     }
     //    消息通知详情页面接口
-    public  static  String messageDetail(String pushMsgId){
+    public    String messageDetail(String pushMsgId){
         dealMap();
         putData("pushMsgId",pushMsgId);
         String request = WebUrl.request("Contact", "messageDetail", map);
         return  request;
     }
     //加好友通知---拒绝、删除接口 1为拒绝操作 2为删除操作
-    public  static  String refuseFriend(String messageId,String type){
+    public    String refuseFriend(String messageId,String type){
         dealMap();
         putData("messageId",messageId);
         putData("type",type);
@@ -751,7 +764,7 @@ public class SplitWeb {
         return  request;
     }
     //设置群名片接口
-    public static String setGroupCarteModify(String groupofId,String carteName){
+    public  String setGroupCarteModify(String groupofId,String carteName){
         dealMap();
         putData("groupOfId",groupofId);
         putData("carteName",carteName);
@@ -759,7 +772,7 @@ public class SplitWeb {
         return request;
     }
 
-    public  static  String coroutineKeep(){
+    public    String coroutineKeep(){
         dealMap();
         String request = WebUrl.request("ChatScript", "coroutineKeep", map);
         return  request;
@@ -769,7 +782,7 @@ public class SplitWeb {
      * @param  type 1 表示获取好友分组管理 ;2 表示获取好友群分组管理
      * @return
      */
-    public  static  String groupManageInfo(String type){
+    public    String groupManageInfo(String type){
         dealMap();
         putData("type",type);
         String request = WebUrl.request("Contact", "groupManageInfo", map);
@@ -781,7 +794,7 @@ public class SplitWeb {
 //    group_name type为1和2时必传
 //    分组主键id message_id type为2和3时必传
 
-    public  static  String addFriendGroup(String group_type,String type,String group_name,String message_id){
+    public    String addFriendGroup(String group_type,String type,String group_name,String message_id){
         dealMap();
         putData("groupType",group_type);
         putData("type",type);
@@ -792,35 +805,35 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "addFriendGroup", map);
         return  request;
     }
-    public  static  String moveGroupSort(String groupInfo){
+    public    String moveGroupSort(String groupInfo){
         dealMap();
         putData("groupInfo",groupInfo);
         String request = WebUrl.request("Contact", "moveGroupSort", map);
         return  request;
     }
     //    获取好友详细信息
-    public  static  String getFriendInfo(String friendId){
+    public    String getFriendInfo(String friendId){
         dealMap();
         putData("friendId",friendId);
         String request = WebUrl.request("Contact", "getFriendInfo", map);
         return  request;
     }
 //    用户好友分组列表
-    public  static  String friendGroupList(String friendsId){
+    public    String friendGroupList(String friendsId){
         dealMap();
         putData("friendsId",friendsId);
         String request = WebUrl.request("Contact", "friendGroupList", map);
         return  request;
     }
 //    用户群分组列表
-    public  static  String groupOfGroupList(String groupOfId){
+    public    String groupOfGroupList(String groupOfId){
         dealMap();
         putData("groupOfId",groupOfId);
         String request = WebUrl.request("Contact", "groupOfGroupList", map);
         return  request;
     }
     //    添加好友
-    public  static  String addFriend(String friend_sno,String group_id,String remark,String remark_name){
+    public    String addFriend(String friend_sno,String group_id,String remark,String remark_name){
         dealMap();
         putData("friendSno",friend_sno);
 //        选择要放置的分组idgroupOfGroupList
@@ -835,11 +848,11 @@ public class SplitWeb {
     }
 
 
-    public  static  void putData(String key,String value){
+    public    void putData(String key,String value){
         if (!StrUtils.isEmpty(key)&&!StrUtils.isEmpty(value))
             map.put(key,value);
     }
-    public  static  String addGroupOf(String groupCode,String remark){
+    public    String addGroupOf(String groupCode,String remark){
         dealMap();
         putData("groupCode",groupCode);
 //        选择要放置的分组id
@@ -853,7 +866,7 @@ public class SplitWeb {
      * @param groupId
      * @return
      */
-    public  static  String groupSend(String groupId,String message,String messageType,String requestTime){
+    public    String groupSend(String groupId,String message,String messageType,String requestTime){
         dealMap();
         putData("groupId",groupId);
         putData("message",message);
@@ -867,7 +880,7 @@ public class SplitWeb {
      * @param friendsId
      * @return
      */
-    public  static  String privateSend(String friendsId,String message,String messageType,String requestTime){
+    public    String privateSend(String friendsId,String message,String messageType,String requestTime){
         dealMap();
         putData("friendsId",friendsId);
         putData("message",message);
@@ -877,7 +890,7 @@ public class SplitWeb {
         return  request;
     }
 
-    public  static  String messageObtain(String friendsId){
+    public    String messageObtain(String friendsId){
         dealMap();
         putData("friendsId",friendsId);
         String request = WebUrl.request("Chat", "messageObtain", map);

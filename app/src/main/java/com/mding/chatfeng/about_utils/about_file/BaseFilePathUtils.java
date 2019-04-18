@@ -15,7 +15,7 @@ import java.io.File;
  */
 public class BaseFilePathUtils {
     //    本应用的文件保存地址
-    private static String  appPath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+SplitWeb.getUserId()+"/";
+    private static String  appPath=Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+SplitWeb.getSplitWeb().getUserId()+"/";
 
 //    用户个人头像保存位置
     private static String  headPath=appPath+ "chatHead/";
@@ -26,7 +26,7 @@ public class BaseFilePathUtils {
 
     //    本应用的文件保存地址
 //    private static  String getAppPath(){
-//        return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+SplitWeb.getUserId()+"/";
+//        return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+SplitWeb.getSplitWeb().getUserId()+"/";
 //    }
 
 //获取绝对地址
@@ -39,22 +39,22 @@ public class BaseFilePathUtils {
     }
 //    获取用户头像地址
     public  static  String getHeadPaths(){
-//        File file = new File(getAbsPath() + SplitWeb.getUserId() + "head.jpg");
+//        File file = new File(getAbsPath() + SplitWeb.getSplitWeb().getUserId() + "head.jpg");
 //        if (file.exists())
-        return headPath+System.currentTimeMillis()+"-"+SplitWeb.getUserId() + "head.jpg";
+        return headPath+System.currentTimeMillis()+"-"+SplitWeb.getSplitWeb().getUserId() + "head.jpg";
     }
     public  static  String getLinkFriendPaths(String friendId,String time){
-//        File file = new File(getAbsPath() + SplitWeb.getUserId() + "head.jpg");
+//        File file = new File(getAbsPath() + SplitWeb.getSplitWeb().getUserId() + "head.jpg");
 //        if (file.exists())
         return ImgLinkFriend+time+"-"+friendId+ ".jpg";
     }
     public  static  String getLinkGroupPaths(String friendId,String time){
-//        File file = new File(getAbsPath() + SplitWeb.getUserId() + "head.jpg");
+//        File file = new File(getAbsPath() + SplitWeb.getSplitWeb().getUserId() + "head.jpg");
 //        if (file.exists())
         return ImgLinkFriend+time+"-"+friendId+ ".jpg";
     }
     public  static  String getGroupChatHeadPaths(String friendId,String time){
-//        File file = new File(getAbsPath() + SplitWeb.getUserId() + "head.jpg");
+//        File file = new File(getAbsPath() + SplitWeb.getSplitWeb().getUserId() + "head.jpg");
 //        if (file.exists())
         return ImgGroupChat+time+"-"+friendId+ ".jpg";
     }

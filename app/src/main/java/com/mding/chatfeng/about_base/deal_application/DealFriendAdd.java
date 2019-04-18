@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendRelation;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.model.DataLinkManList;
@@ -36,6 +38,10 @@ public class DealFriendAdd {
         return dealFriendAdd;
     }
     public   void updateFriendDataByAdd(Context montext,String result) {
+        if (friendHelper==null)
+        friendHelper = new RealmFriendRelationHelper(mContext);
+        if (friendUserHelper==null)
+        friendUserHelper = new RealmFriendUserHelper(mContext);
         mContext=montext;
         DataAboutFriend dataAboutFriend = JSON.parseObject(result, DataAboutFriend.class);
         DataAboutFriend.RecordBean record = dataAboutFriend.getRecord();
@@ -46,18 +52,88 @@ public class DealFriendAdd {
             if (!StrUtils.isEmpty(asString) && record!=null)
             {
                 try {
-
-                    friendHelper = new RealmFriendRelationHelper(mContext);
-                    friendUserHelper = new RealmFriendUserHelper(mContext);
                     initDataFriend(asString,record);
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
+            if (record!=null)
+            {
+//                friendHelper.addRealmLinkFriend();
+                CusDataFriendUser cusDataFriendUser = friendUserHelper.queryLinkFriend(record.getFriendsId());
+                CusDataFriendRelation cusDataFriendRelation = friendHelper.queryLinkFriend(record.getFriendsId());
+                String modified = record.getModified();
+                if (StrUtils.isEmpty(record.getHeadImg()))
+                {
+                    return;
+                }
+                //用户信息存库（用户表）
+                if(cusDataFriendUser!=null)
+                {
+                    String time = cusDataFriendUser.getTime();
+                    if ( !modified.equals(time))
+                    {
+                        setUserData(true,record);
+                    }
+                }else
+                {
+                    setUserData(false,record);
+                }
+
+                //好友关系列表
+                if (cusDataFriendRelation!=null) {
+                    String time = cusDataFriendRelation.getCreated();
+                    if ( !modified.equals(time))
+                    {
+                        setFriendRealm(true,record);
+                    }
+                }else {
+                    setFriendRealm(false,record);
+                }
+            }
+        }
+    }
+    //设置好友信息
+    private void setFriendRealm(boolean isUpData,DataAboutFriend.RecordBean groupListBean) {
+        CusDataFriendRelation cusDataFriendRelation = new CusDataFriendRelation();
+        cusDataFriendRelation.setHeadImg(groupListBean.getHeadImg());
+        cusDataFriendRelation.setNickName(groupListBean.getNickName());
+        cusDataFriendRelation.setFriendId(groupListBean.getFriendsId());
+        cusDataFriendRelation.setGroupId(groupListBean.getGroupId());
+        cusDataFriendRelation.setModified(groupListBean.getModified());
+        cusDataFriendRelation.setRemarkName(groupListBean.getRemarkName());
+        if (isUpData)
+        {
+//            更新该好友全部内容
+            friendHelper.updateAll(groupListBean.getFriendsId(),cusDataFriendRelation);
+        }else
+        {
+//            添加该好友信息
+            friendHelper.addRealmLinkFriend(cusDataFriendRelation);
+        }
+    }
+    private void setUserData(boolean isUpData,DataAboutFriend.RecordBean groupListBean) {
+        CusDataFriendUser cusDataFriendUser = new CusDataFriendUser();
+        cusDataFriendUser.setFriendId(groupListBean.getFriendsId());
+        cusDataFriendUser.setHeadImgBase64(groupListBean.getHeadImg());
+        cusDataFriendUser.setName(groupListBean.getNickName());
+        cusDataFriendUser.setRemarkName(groupListBean.getRemarkName());
+        cusDataFriendUser.setTime(groupListBean.getModified());
+//        TODO 添加二维码数据
+//        cusDataFriendUser.setErWeiCode(groupListBean.get());
+        if(isUpData)
+        {
+            friendUserHelper.updateAll(groupListBean.getFriendsId(),cusDataFriendUser);
+        }else
+        {
+            friendUserHelper.addRealmFriendUser(cusDataFriendUser);
         }
     }
     public   void updateFriendDataBySub(Context montext,String result) {
+        if (friendHelper==null)
+            friendHelper = new RealmFriendRelationHelper(mContext);
+        if (friendUserHelper==null)
+            friendUserHelper = new RealmFriendUserHelper(mContext);
         mContext=montext;
         DataAboutFriend dataAboutFriend = JSON.parseObject(result, DataAboutFriend.class);
         DataAboutFriend.RecordBean record = dataAboutFriend.getRecord();
@@ -73,6 +149,12 @@ public class DealFriendAdd {
                     e.printStackTrace();
                 }
             }
+            if (record!=null)
+            {
+                friendHelper.deleteRealmFriend(record.getFriendsId());
+                friendUserHelper.deleteRealmFriend(record.getFriendsId());
+            }
+
         }
     }
 

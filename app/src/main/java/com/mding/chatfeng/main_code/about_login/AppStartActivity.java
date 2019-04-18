@@ -297,15 +297,15 @@ public class AppStartActivity extends BaseActivity {
             SPUtils.put(this,AppAllKey.USER_Token,dataLogin.getUserToken());
         if(!StrUtils.isEmpty(dataLogin.getMobile()))
             SPUtils.put(this, AppAllKey.SP_LOGIN_ACCOUNT,dataLogin.getMobile());
-        SplitWeb.USER_TOKEN = dataLogin.getUserToken();
-        SplitWeb.MOBILE = dataLogin.getMobile();
-        SplitWeb.QR_CODE = dataLogin.getQrcode();
-        SplitWeb.NICK_NAME = dataLogin.getNickName();
-        SplitWeb.PERSON_SIGN = dataLogin.getPersonaSignature();
-        SplitWeb.QR_CODE = dataLogin.getQrcode();
-        SplitWeb.WX_SNO = dataLogin.getWxSno();
-        SplitWeb.USER_ID = dataLogin.getUserId();
-        SplitWeb.USER_HEADER = dataLogin.getHeadImg();
+        SplitWeb.getSplitWeb().USER_TOKEN = dataLogin.getUserToken();
+        SplitWeb.getSplitWeb().MOBILE = dataLogin.getMobile();
+        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
+        SplitWeb.getSplitWeb().NICK_NAME = dataLogin.getNickName();
+        SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
+        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
+        SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
+        SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
+        SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
     }
     //    @NeedsPermission(value = {Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, maxSdkVersion = 16)
 //    void OnNeed() {

@@ -139,7 +139,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         if (!StrUtils.isEmpty(json)){
             initUI(json);
         }else {
-            sendWeb(SplitWeb.personalCenter());
+            sendWeb(SplitWeb.getSplitWeb().personalCenter());
         }
     }
 
@@ -163,7 +163,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //    private void setHeadForFile() {
 ////        GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
 ////        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
-//        String userId = SplitWeb.getUserId();
+//        String userId = SplitWeb.getSplitWeb().getUserId();
 //        String mPath= FilePath.getAbsPath(FilePath.appPath+userId+"/")+"chatHead/";
 //        List<String> fileName = FilePath.getFilesAllName(mPath);
 //        Log.e("setHeadForFile","mPath="+mPath+"--------"+fileName.size());
@@ -369,7 +369,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                         changeinfoTvSign.setText(record.getPersonaSignature());
                     }
 
-                    String userId = SplitWeb.getUserId();
+                    String userId = SplitWeb.getSplitWeb().getUserId();
 //                    String substring = headImg.substring(22);
 //                    if (!StrUtils.isEmpty(headImg)){
 //                        Glide.with(this)
@@ -393,11 +393,11 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             case "upNickName"://修改昵称成功
                 PersonalFragment.isChange = true;
                 SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_NAME, contant);
-                SplitWeb.NICK_NAME = contant;
+                SplitWeb.getSplitWeb().NICK_NAME = contant;
 //                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_NO,dataLogin.getWxSno());
 //                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
-//                SplitWeb.PERSON_SIGN = dataLogin.getPersonaSignature();
-//                SplitWeb.WX_SNO = dataLogin.getWxSno();
+//                SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
+//                SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
 //                aCache.put(NICK_NAME,contant);
                 String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
                 if (!StrUtils.isEmpty(json)) {
@@ -414,7 +414,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             case "upPersonSign":
                 PersonalFragment.isChange = true;
                 SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_SIGN, contant);
-                SplitWeb.PERSON_SIGN = contant;
+                SplitWeb.getSplitWeb().PERSON_SIGN = contant;
                 String json2 = aCache.getAsString(AppAllKey.TOKEN_KEY);
                 if (!StrUtils.isEmpty(json2)) {
                     DataLogin.RecordBean recordBean = JSON.parseObject(json2, DataLogin.RecordBean.class);
@@ -428,7 +428,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 break;
             case "upUserSno":
                 SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_NO, contant);
-                SplitWeb.WX_SNO = contant;
+                SplitWeb.getSplitWeb().WX_SNO = contant;
                 changeinfoIvWrite.setVisibility(View.GONE);
                 String json3 = aCache.getAsString(AppAllKey.TOKEN_KEY);
                 if (!StrUtils.isEmpty(json3)) {
@@ -448,7 +448,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     String headImg = dataSetHeadResult.getRecord().getHeadImg();
 //                    String substring = headImg.substring(22);
                     if (!StrUtils.isEmpty(headImg)){
-                        SplitWeb.USER_HEADER = headImg;
+                        SplitWeb.getSplitWeb().USER_HEADER = headImg;
 //                        Glide.with(this)
 //                                .load(headImg)
 //                                .downloadOnly(new SimpleTarget<File>() {
@@ -516,8 +516,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //                Bitmap bm = ImageUtils.getBitmapCompress(mPhotoFile.getPath());
 //                String s1 = ImageUtils.Bitmap2StrByBase64(bm);
 ////                save = ImageUtils.saveBitmap(ChangeInfoActivity.this, bm);
-////                sendWeb(SplitWeb.upHeadImg(ImageUtils.GetStringByImageView(bm)));
-//                sendWeb(SplitWeb.upHeadImg(s1));
+////                sendWeb(SplitWeb.getSplitWeb().upHeadImg(ImageUtils.GetStringByImageView(bm)));
+//                sendWeb(SplitWeb.getSplitWeb().upHeadImg(s1));
             }
         }
         //		相册
@@ -553,7 +553,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             //TODO 压缩头像
             Bitmap bm = ImageUtils.imageZoom(bitMap);
             String s1 = ImageUtils.Bitmap2StrByBase64(bm);
-            sendWeb(SplitWeb.upHeadImg(s1));
+            sendWeb(SplitWeb.getSplitWeb().upHeadImg(s1));
 
         }
     }
@@ -600,13 +600,13 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         this.contant = contant;
         switch (isChangeName) {
             case "0"://昵称
-                sendWeb(SplitWeb.upNickName(contant));
+                sendWeb(SplitWeb.getSplitWeb().upNickName(contant));
                 break;
             case "1"://帐号
-                sendWeb(SplitWeb.upUserSno(contant));
+                sendWeb(SplitWeb.getSplitWeb().upUserSno(contant));
                 break;
             case "2"://签名
-                sendWeb(SplitWeb.upPersonSign(contant));
+                sendWeb(SplitWeb.getSplitWeb().upPersonSign(contant));
                 break;
         }
     }
@@ -618,7 +618,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 
     @OnClick(R.id.changeinfo_iv_qrcode)
     public void onViewClicked() {
-        Log.e("qrCode","----------------------------------userId = "+SplitWeb.getUserId());
-        IntentUtils.JumpToHaveOne(MyAccountActivity.class,"userId",SplitWeb.getUserId());
+        Log.e("qrCode","----------------------------------userId = "+SplitWeb.getSplitWeb().getUserId());
+        IntentUtils.JumpToHaveOne(MyAccountActivity.class,"userId",SplitWeb.getSplitWeb().getUserId());
     }
 }

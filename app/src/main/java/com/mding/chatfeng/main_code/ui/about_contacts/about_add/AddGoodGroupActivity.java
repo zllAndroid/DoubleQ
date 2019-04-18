@@ -78,7 +78,7 @@ public class AddGoodGroupActivity extends BaseActivity {
     @OnClick(R.id.inclu_tv_right)
     public void onSend() {
         String yanzheng = fdaEdYanzheng.getText().toString().trim();
-        sendWeb(SplitWeb.addGroupOf(dataSearch.getSno(),yanzheng));
+        sendWeb(SplitWeb.getSplitWeb().addGroupOf(dataSearch.getSno(),yanzheng));
     }
 //点击分组
     @OnClick(R.id.fda_tv_group)

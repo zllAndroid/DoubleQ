@@ -94,7 +94,7 @@ public class GrouperEscActivity extends BaseActivity {
                 DialogUtils.showDialog("是否确认解散该群", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
-                        sendWebHaveDialog(SplitWeb.outGroupChat(groupId), "正在解散...", "解散成功");
+                        sendWebHaveDialog(SplitWeb.getSplitWeb().outGroupChat(groupId), "正在解散...", "解散成功");
                     }
                 });
                 break;

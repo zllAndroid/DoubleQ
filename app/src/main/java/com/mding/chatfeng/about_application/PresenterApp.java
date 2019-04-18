@@ -200,7 +200,7 @@ public class PresenterApp implements IWebSocketPage {
         mConnectManager = new WebSocketServiceConnectManager(mContext, this);
         mConnectManager.onCreate();
         mConnectManager.reconnect();
-        mConnectManager.reBind(SplitWeb.bindUid());
+        mConnectManager.reBind(SplitWeb.getSplitWeb().bindUid());
         Intent intent2 = new Intent();
         intent2.setAction("start_application");
         mContext.sendBroadcast(intent2);
@@ -299,10 +299,10 @@ public class PresenterApp implements IWebSocketPage {
     public void onConnected() {
 //        添加重连机制，当连接成功后，重新绑定uid
         try {
-//            if (!StrUtils.isEmpty(SplitWeb.getUserId())) {
-//            String userId = SplitWeb.getUserId();
-            if (!StrUtils.isEmpty(SplitWeb.getUserId())) {
-                sendText(SplitWeb.bindUid());
+//            if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId())) {
+//            String userId = SplitWeb.getSplitWeb().getUserId();
+            if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId())) {
+                sendText(SplitWeb.getSplitWeb().bindUid());
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -377,7 +377,7 @@ public class PresenterApp implements IWebSocketPage {
         if (isConnected) {
             try {
                 NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-                netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.errorRequest(aCache.getAsString(AppConfig.TYPE_URL)), new NetWorkUtlis.OnNetWork() {
+                netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().errorRequest(aCache.getAsString(AppConfig.TYPE_URL)), new NetWorkUtlis.OnNetWork() {
                     @Override
                     public void onNetSuccess(String result) {
                         MyLog.e("errorRequest", result + "---------------------result------");
@@ -412,7 +412,7 @@ public class PresenterApp implements IWebSocketPage {
     }
     private void errorRequest() {
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.addrPort(), new NetWorkUtlis.OnNetWork() {
+        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().addrPort(), new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String msg) {
                 MyLog.e("onNetSuccess","msg="+msg);
@@ -432,7 +432,7 @@ public class PresenterApp implements IWebSocketPage {
         });
     }
     private void initjiqun(DataJiqun.RecordBean record) {
-        SplitWeb.WS_REQUEST = record.getServerIpWs();
+        SplitWeb.getSplitWeb().WS_REQUEST = record.getServerIpWs();
         String serverIpWs = record.getServerIpWs();
         String http = record.getServerIpHttp();
         aCache.remove(AppConfig.TYPE_WS_REQUEST);

@@ -128,7 +128,7 @@ public class RegisterActivity extends BaseActivity {
 //        }
 
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower, SplitWeb.register(phone,psw,code), new NetWorkUtlis.OnNetWork() {
+        netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower, SplitWeb.getSplitWeb().register(phone,psw,code), new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String result) {
                 SPUtils.put(RegisterActivity.this, AppAllKey.SP_LOGIN_ACCOUNT,phone);
@@ -156,7 +156,7 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(SplitWeb.smsCode(phone, "2"), new NetWorkUtlis.OnNetWork() {
+        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().smsCode(phone, "2"), new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String msg) {
                 String isSucess = HelpUtils.HttpIsSucess(msg);

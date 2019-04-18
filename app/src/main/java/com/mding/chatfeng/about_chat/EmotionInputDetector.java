@@ -239,9 +239,9 @@ public class EmotionInputDetector {
                 mAddButton.setVisibility(View.VISIBLE);
                 mSendButton.setVisibility(View.GONE);
                 String ed = mEditText.getText().toString().trim();
-//                BaseActivity.send(SplitWeb.privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType, TimeUtil.getTime()));
+//                BaseActivity.send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType, TimeUtil.getTime()));
                 DataJieShou.RecordBean messageInfo = new DataJieShou.RecordBean();
-//                MyWebSocketService.sendMsg(SplitWeb.privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType));
+//                MyWebSocketService.sendMsg(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType));
                 messageInfo.setMessageType(Constants.CHAT_TEXT);
                 messageInfo.setSendState(Constants.CHAT_ITEM_SENDING);
 

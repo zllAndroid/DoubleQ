@@ -6,7 +6,12 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendRelation;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.model.DataLinkManList;
+import com.mding.model.push_data.DataAboutFriend;
 import com.mding.model.push_data.DataUpdateFriend;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
@@ -20,13 +25,31 @@ public class DealUpdateFriend {
     private  static ACache aCache;
     private  static Context mContext;
     private static List<DataLinkManList.RecordBean.FriendListBean> friendList;
+    static RealmFriendRelationHelper friendHelper;
+    static RealmFriendUserHelper friendUserHelper;
 
-    private static boolean isEmpty(String empty){
+    private static DealUpdateFriend dealFriendAdd;
+    // 构造函数必须是私有的 这样在外部便无法使用 new 来创建该类的实例
+    private DealUpdateFriend() {}
+    /**
+     * 单一实例
+     */
+    public synchronized static DealUpdateFriend getDealUpdateFriend() {
+        if (dealFriendAdd == null) {
+            dealFriendAdd = new DealUpdateFriend();
+        }
+        return dealFriendAdd;
+    }
+    private  boolean isEmpty(String empty){
         boolean emptys = StrUtils.isEmpty(empty);
         boolean Empty = empty.equals("0");
         return emptys || Empty;
     }
-    public static void updateFriend(Context context, String result) {
+    public  void updateFriend(Context context, String result) {
+        if (friendHelper==null)
+            friendHelper = new RealmFriendRelationHelper(mContext);
+        if (friendUserHelper==null)
+            friendUserHelper = new RealmFriendUserHelper(mContext);
         mContext = context;
         DataUpdateFriend dataUpdateFriend = JSON.parseObject(result, DataUpdateFriend.class);
         DataUpdateFriend.RecordBean record = dataUpdateFriend.getRecord();
@@ -34,23 +57,81 @@ public class DealUpdateFriend {
         if (aCache!=null) {
             String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
             if (!StrUtils.isEmpty(asString) && record != null) {
-                /**
-                 * 好友修改昵称
-                 */
-                //  若好友无备注则进行修改
-//                if (isEmpty(record.getNewRemarkName())){
-//                    initDataUpdate(asString,record);
-//                    return;
-//                }
                 initDataUpdate(asString,record);
-                // TODO   好友修改头像
+            }
+            if (record!=null)
+            {
+                CusDataFriendUser cusDataFriendUser = friendUserHelper.queryLinkFriend(record.getFriendsId());
+                CusDataFriendRelation cusDataFriendRelation = friendHelper.queryLinkFriend(record.getFriendsId());
+                String modified = record.getModified();
+                if (StrUtils.isEmpty(record.getNewHeadImg()))
+                {
+                    return;
+                }
+                //用户信息存库（用户表）
+                if(cusDataFriendUser!=null)
+                {
+                    String time = cusDataFriendUser.getTime();
+                    if ( !modified.equals(time))
+                    {
+                        setUserData(true,record);
+                    }
+                }else
+                {
+                    setUserData(false,record);
+                }
 
+                //好友关系列表
+                if (cusDataFriendRelation!=null) {
+                    String time = cusDataFriendRelation.getCreated();
+                    if ( !modified.equals(time))
+                    {
+                        setFriendRealm(true,record);
+                    }
+                }else {
+                    setFriendRealm(false,record);
+                }
             }
         }
     }
-
-    private static int groupListSize = 0;
-    private static void initDataUpdate(String asString, DataUpdateFriend.RecordBean mRecord) {
+    //设置好友信息
+    private void setFriendRealm(boolean isUpData, DataUpdateFriend.RecordBean groupListBean) {
+        CusDataFriendRelation cusDataFriendRelation = new CusDataFriendRelation();
+        cusDataFriendRelation.setHeadImg(groupListBean.getNewHeadImg());
+        cusDataFriendRelation.setNickName(groupListBean.getNewNickName());
+        cusDataFriendRelation.setFriendId(groupListBean.getFriendsId());
+        cusDataFriendRelation.setGroupId(groupListBean.getNewGroupId());
+        cusDataFriendRelation.setModified(groupListBean.getModified());
+        cusDataFriendRelation.setRemarkName(groupListBean.getRemarkName());
+        if (isUpData)
+        {
+//            更新该好友全部内容
+            friendHelper.updateAll(groupListBean.getFriendsId(),cusDataFriendRelation);
+        }else
+        {
+//            添加该好友信息
+            friendHelper.addRealmLinkFriend(cusDataFriendRelation);
+        }
+    }
+    private void setUserData(boolean isUpData, DataUpdateFriend.RecordBean groupListBean) {
+        CusDataFriendUser cusDataFriendUser = new CusDataFriendUser();
+        cusDataFriendUser.setFriendId(groupListBean.getFriendsId());
+        cusDataFriendUser.setHeadImgBase64(groupListBean.getNewHeadImg());
+        cusDataFriendUser.setName(groupListBean.getNewNickName());
+         cusDataFriendUser.setRemarkName(groupListBean.getRemarkName());
+        cusDataFriendUser.setTime(groupListBean.getModified());
+//        TODO 添加二维码数据
+//        cusDataFriendUser.setErWeiCode(groupListBean.get());
+        if(isUpData)
+        {
+            friendUserHelper.updateAll(groupListBean.getFriendsId(),cusDataFriendUser);
+        }else
+        {
+            friendUserHelper.addRealmFriendUser(cusDataFriendUser);
+        }
+    }
+    private  int groupListSize = 0;
+    private  void initDataUpdate(String asString,  DataUpdateFriend.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
         if (record==null)
             return;
@@ -103,7 +184,7 @@ public class DealUpdateFriend {
         }
     }
 
-    private static void updateFriendAdd(DataUpdateFriend.RecordBean mRecord, String chart, String newNickName) {
+    private  void updateFriendAdd(DataUpdateFriend.RecordBean mRecord, String chart, String newNickName) {
         for (int i = groupListSize; i < friendList.size(); i++) {
             String groupName = friendList.get(i).getGroupName();
             int i1 = DealGroupAdd.stringToAscii(DealGroupAdd.getFirstABC(groupName));  // 分组名
@@ -143,7 +224,7 @@ public class DealUpdateFriend {
         }
     }
 
-    private static void dealTopOneHaveGroup(DataUpdateFriend.RecordBean mRecord, int i, String groupName, String newNickName) {
+    private  void dealTopOneHaveGroup(DataUpdateFriend.RecordBean mRecord, int i, String groupName, String newNickName) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
         groupListBean.setGroupName(groupName);
@@ -173,7 +254,7 @@ public class DealUpdateFriend {
 
     }
 
-    private static void dealNoChartFriend(DataUpdateFriend.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart, String newNickName) {
+    private  void dealNoChartFriend(DataUpdateFriend.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart, String newNickName) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = new ArrayList<>();
 
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
@@ -208,7 +289,7 @@ public class DealUpdateFriend {
 
     }
 
-    private static void putCacheUpdate(DataUpdateFriend.RecordBean mRecord, int i, String newNickName) {
+    private  void putCacheUpdate(DataUpdateFriend.RecordBean mRecord, int i, String newNickName) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
         DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = new DataLinkManList.RecordBean.FriendListBean.GroupListBean();
         groupListBean.setRemarkName(mRecord.getNewRemarkName());

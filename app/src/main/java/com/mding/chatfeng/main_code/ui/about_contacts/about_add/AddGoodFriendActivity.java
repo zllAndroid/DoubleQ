@@ -143,7 +143,7 @@ public class AddGoodFriendActivity extends BaseActivity {
         String yanzheng = fdaEdYanzheng.getText().toString().trim();
         String remark = fdaEdBeizhu.getText().toString().trim();
         if (yanzheng.length() <= 20 && remark.length() <= 10)
-            sendWeb(SplitWeb.addFriend(dataSearch.getSno(), ids, yanzheng, remark));
+            sendWeb(SplitWeb.getSplitWeb().addFriend(dataSearch.getSno(), ids, yanzheng, remark));
     }
 
     //点击分组

@@ -249,7 +249,7 @@ public class ChatActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         setAboutBar();
-        SplitWeb.IS_CHAT = "1";
+        SplitWeb.getSplitWeb().IS_CHAT = "1";
         if (realmHelper == null)
             realmHelper = new RealmChatHelper(this);
 
@@ -273,7 +273,7 @@ public class ChatActivity extends BaseActivity {
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
 //        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-        sendWeb(SplitWeb.privateSendInterface(FriendId));
+        sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
         if (isLocked){
             includeTopIvLock.setVisibility(View.VISIBLE);
         }
@@ -309,7 +309,7 @@ public class ChatActivity extends BaseActivity {
                     //处理事件
                     String ed = editText.getText().toString().trim();
                     if (!StrUtils.isEmpty(ed)) {
-                        send(SplitWeb.privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+                        send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
                     }
                 }
                 return true;
@@ -352,7 +352,7 @@ public class ChatActivity extends BaseActivity {
                 chatPopWindow.setOnReRemarkListener(new ChatPopWindow.OnReRemarkListener() {
                     @Override
                     public void reRemark(String remarkName) {
-                        sendWeb(SplitWeb.friendRemarkName(FriendId, remarkName));
+                        sendWeb(SplitWeb.getSplitWeb().friendRemarkName(FriendId, remarkName));
                     }
                 });
                 chatPopWindow.setOnClickLockListener(new ChatPopWindow.OnClickLockListener() {
@@ -410,7 +410,7 @@ public class ChatActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SplitWeb.IS_CHAT = "00";
+        SplitWeb.getSplitWeb().IS_CHAT = "00";
 
         try {
             realmHomeHelper.updateNumZero(FriendId);
@@ -447,7 +447,7 @@ public class ChatActivity extends BaseActivity {
 //
 ////        List<PrivateChatData> privateChatData = privateChatDataDao.getEntityDao().loadAll();
 //        List<PrivateChatData> privateChatData = entityDao.queryBuilder().where(PrivateChatDataDao.Properties.FriendId.eq(FriendId)).list();
-////        List<PrivateChatData> privateChatData = entityDao.queryBuilder().where(PrivateChatDataDao.Properties.FriendId.eq(FriendId),PrivateChatDataDao.Properties.UserId.eq(SplitWeb.getUserId())).list();
+////        List<PrivateChatData> privateChatData = entityDao.queryBuilder().where(PrivateChatDataDao.Properties.FriendId.eq(FriendId),PrivateChatDataDao.Properties.UserId.eq(SplitWeb.getSplitWeb().getUserId())).list();
         List<CusChatData> cusRealmChatMsgs = realmHelper.queryAllRealmChat(FriendId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
             mList.clear();
@@ -468,7 +468,7 @@ public class ChatActivity extends BaseActivity {
 
 
         } else {
-//            sendWeb(SplitWeb.messageObtain(FriendId));
+//            sendWeb(SplitWeb.getSplitWeb().messageObtain(FriendId));
         }
     }
 
@@ -607,7 +607,7 @@ public class ChatActivity extends BaseActivity {
     public void onEvent(DataJieShou.RecordBean messageInfo) {
         String ed = editText.getText().toString().trim();
         if (!StrUtils.isEmpty(ed)) {
-            send(SplitWeb.privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+            send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
         } else {
         }
     }
@@ -631,7 +631,7 @@ public class ChatActivity extends BaseActivity {
             case "friendRemarkName":
                 String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
                 includeTopTvTital.setText("和" + nameText + "的聊天");
-//                sendWeb(SplitWeb.privateSendInterface(FriendId));
+//                sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
                 break;
             case "privateSendInterface":
                 dataChatPop = JSON.parseObject(responseText, DataChatPop.class);
@@ -763,7 +763,7 @@ public class ChatActivity extends BaseActivity {
                 case Constants.CHAT_ITEM_TYPE_RIGHT:
 //                    TODO 点击自己头像，显示自己的信息
                     IntentUtils.JumpTo(ChangeInfoActivity.class);
-//                    IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", SplitWeb.getUserId());
+//                    IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", SplitWeb.getSplitWeb().getUserId());
                     break;
             }
         }

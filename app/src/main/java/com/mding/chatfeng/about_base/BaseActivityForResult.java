@@ -196,7 +196,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
                 case "privateSend":
 //                    DataJieShou dataJieShou = JSON.parseObject(data.toString(), DataJieShou.class);
 //                    DataJieShou.RecordBean record = dataJieShou.getRecord();
-//                    realmHelper.updateMsg(record.getFriendsId()+SplitWeb.getUserId(),record.getMessage(),record.getRequestTime());//更新首页聊天界面数据（消息和时间）
+//                    realmHelper.updateMsg(record.getFriendsId()+SplitWeb.getSplitWeb().getUserId(),record.getMessage(),record.getRequestTime());//更新首页聊天界面数据（消息和时间）
                     receiveResultMsg(data.toString());
                     break;
 //                    添加好友通知
@@ -216,7 +216,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         else if (isSucess.equals("10086"))
         {
 //            返回的自定义判断 ，则重连（返回的字段不可预测）
-            sendWeb(SplitWeb.coroutineUid());
+            sendWeb(SplitWeb.getSplitWeb().coroutineUid());
         }else  if (isSucess.equals("9001"))
         {
             errorResult(data.toString());
@@ -245,9 +245,9 @@ public class BaseActivityForResult extends AppCompatActivity  {
         String only = HelpUtils.backOnly(data.toString());
         if (only.equals("1"))
         {
-//            sendWebHaveDialog(SplitWeb.bindUid(),"断线重连中...","重连成功");
-            if (!StrUtils.isEmpty(SplitWeb.getUserId()))
-                sendWeb(SplitWeb.bindUid());
+//            sendWebHaveDialog(SplitWeb.getSplitWeb().bindUid(),"断线重连中...","重连成功");
+            if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId()))
+                sendWeb(SplitWeb.getSplitWeb().bindUid());
         }
     }
     public void errorResult(String s) {
@@ -442,7 +442,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
         DialogExitUtils.isShow();
         DialogLoginUtils.isShow();
 
-        SplitWeb.IS_SET_ACTIVITY="00";
+        SplitWeb.getSplitWeb().IS_SET_ACTIVITY="00";
     }
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -495,7 +495,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //        record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
 //        record.setType(Constants.CHAT_ITEM_TYPE_LEFT);
 //                1代表现在是聊天界面
-        if (!SplitWeb.IS_CHAT.equals("1"))
+        if (!SplitWeb.getSplitWeb().IS_CHAT.equals("1"))
         {
 //            不在聊天界面收到消息时候的处理
 //            noChatUI(record);

@@ -161,7 +161,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
                     ToastUtil.show("请输入您的昵称");
                     return;
                 }
-                sendWebOnlyDialog(SplitWeb.setHeadImg(name, imageBase64),"请稍等...");
+                sendWebOnlyDialog(SplitWeb.getSplitWeb().setHeadImg(name, imageBase64),"请稍等...");
                 break;
         }
     }
@@ -174,8 +174,8 @@ public class FirstAddHeaderActivity extends BaseActivity {
         {
             DataSetHeader dataSetHeader = JSON.parseObject(responseText, DataSetHeader.class);
             DataSetHeader.RecordBean record = dataSetHeader.getRecord();
-           SplitWeb.USER_HEADER= record.getHeadImg();
-           SplitWeb.NICK_NAME= record.getNickName();
+           SplitWeb.getSplitWeb().USER_HEADER= record.getHeadImg();
+           SplitWeb.getSplitWeb().NICK_NAME= record.getNickName();
 //            把图片保存至本地文件
             if (record!=null) {
                 String headImg = record.getHeadImg();
@@ -381,9 +381,9 @@ public class FirstAddHeaderActivity extends BaseActivity {
 ////            mTvChange.setText("");
 ////            changeinfoIvHead.setImageBitmap(bitmap);
             c.close();
-//            sendWeb(SplitWeb.upHeadImg(save));
+//            sendWeb(SplitWeb.getSplitWeb().upHeadImg(save));
 //            imageBase64=ImageUtils.GetStringByImageView(bitmap);
-//            sendWeb(SplitWeb.upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
+//            sendWeb(SplitWeb.getSplitWeb().upHeadImg(ImageUtil.GetStringByImageView(bitmap)));
             goToClipActivity(selectedImage);
         }
         if (requestCode == REQUEST_CROP_PHOTO && null != data){
@@ -397,7 +397,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
             Bitmap bm = ImageUtils.imageZoom(bitMap);
             String s1 = ImageUtils.Bitmap2StrByBase64(bm);
             imageBase64 = s1;
-            sendWeb(SplitWeb.upHeadImg(s1));
+            sendWeb(SplitWeb.getSplitWeb().upHeadImg(s1));
 
         }
     }

@@ -199,7 +199,7 @@ public class ChatGroupActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         setAboutBar();
-        SplitWeb.IS_CHAT_GROUP = "2";
+        SplitWeb.getSplitWeb().IS_CHAT_GROUP = "2";
         if (realmHomeHelper == null)
             realmHomeHelper = new RealmHomeHelper(this);
         if (realmGroupChatHelper == null)
@@ -238,7 +238,7 @@ public class ChatGroupActivity extends BaseActivity {
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
-        sendWeb(SplitWeb.groupSendInterface(groupId));
+        sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
     }
 
     IntentFilter intentFilter;
@@ -297,11 +297,11 @@ public class ChatGroupActivity extends BaseActivity {
                     String ed = editText.getText().toString().trim();
                     if (!StrUtils.isEmpty(ed)) {
                         if (jumpGroupChatData != null)
-                            send(SplitWeb.groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+                            send(SplitWeb.getSplitWeb().groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
                         else if (GroupChatData != null) {
-                            send(SplitWeb.groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+                            send(SplitWeb.getSplitWeb().groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
                         }
-//                        send(SplitWeb.privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+//                        send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
                     }
                 }
                 return true;
@@ -328,7 +328,7 @@ public class ChatGroupActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SplitWeb.IS_CHAT_GROUP = "00";
+        SplitWeb.getSplitWeb().IS_CHAT_GROUP = "00";
         try {
 //            realmHomeHelper.updateNumZero(groupId);
 //            Intent intent2 = new Intent();
@@ -399,7 +399,7 @@ public class ChatGroupActivity extends BaseActivity {
                     @Override
                     public void reCardName(String cardName) {
                         if (cardName != null)
-                            sendWeb(SplitWeb.setGroupCarteModify(groupId, cardName));
+                            sendWeb(SplitWeb.getSplitWeb().setGroupCarteModify(groupId, cardName));
                     }
                 });
                 break;
@@ -591,9 +591,9 @@ public class ChatGroupActivity extends BaseActivity {
         String ed = editText.getText().toString().trim();
         if (!StrUtils.isEmpty(ed)) {
             if (jumpGroupChatData != null)
-                send(SplitWeb.groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+                send(SplitWeb.getSplitWeb().groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
             else if (GroupChatData != null)
-                send(SplitWeb.groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+                send(SplitWeb.getSplitWeb().groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
         } else {
             Log.e("chat", "---------------------------------" + ed);
 //            ToastUtil.show("发送信息不能为空");
@@ -664,7 +664,7 @@ public class ChatGroupActivity extends BaseActivity {
                 groupChatData.setImgHead(record2.getMemberHeadImg());
                 groupChatData.setGroupId(record2.getGroupId());
                 groupChatData.setFriendId(record2.getMemberId());
-                groupChatData.setGroupUserId(record2.getGroupId() + SplitWeb.getUserId());
+                groupChatData.setGroupUserId(record2.getGroupId() + SplitWeb.getSplitWeb().getUserId());
                 groupChatData.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
                 groupChatData.setCreated(myTime);
                 groupChatData.setMessageType(record2.getMessageType());
@@ -757,7 +757,7 @@ public class ChatGroupActivity extends BaseActivity {
             groupChatData.setMessage(record.getMessage());
             groupChatData.setGroupId(record.getGroupId());
             groupChatData.setFriendId(record.getUserId());
-            groupChatData.setGroupUserId(record.getGroupId() + SplitWeb.getUserId());
+            groupChatData.setGroupUserId(record.getGroupId() + SplitWeb.getSplitWeb().getUserId());
             groupChatData.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
             groupChatData.setCreated(record.getRequestTime());
             groupChatData.setMessageType(record.getMessageType());
@@ -788,7 +788,7 @@ public class ChatGroupActivity extends BaseActivity {
                 case Constants.CHAT_ITEM_TYPE_RIGHT:
 //                    TODO 点击自己头像，显示自己的信息
                     IntentUtils.JumpTo(ChangeInfoActivity.class);
-//                    IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",SplitWeb.getUserId());
+//                    IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",SplitWeb.getSplitWeb().getUserId());
                     break;
             }
         }

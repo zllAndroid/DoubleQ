@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
 //        new Thread(new Runnable() {
 //            @Override
 //            public void run() {
-//                send(SplitWeb.coroutineKeep());
+//                send(SplitWeb.getSplitWeb().coroutineKeep());
 //            }
 //        }).start();
         mTabHost= findViewById(android.R.id.tabhost);
@@ -133,7 +133,7 @@ public class MainActivity extends BaseActivity {
             int localVersion = 0;
             try {
                 localVersion = HelpUtils.getLocalVersion(MainActivity.this);
-                sendWeb(SplitWeb.appUpdate("" + localVersion));
+                sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity {
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
-        if(!SplitWeb.IS_SET_ACTIVITY.equals("1")) {
+        if(!SplitWeb.getSplitWeb().IS_SET_ACTIVITY.equals("1")) {
             String method = HelpUtils.backMethod(responseText);
             switch (method) {
                 case "appUpdate":

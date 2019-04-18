@@ -56,7 +56,7 @@ public class LaBlackActivity extends BaseActivity {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(LaBlackActivity.this));
-        sendWeb( SplitWeb.blackList());
+        sendWeb( SplitWeb.getSplitWeb().blackList());
     }
     @Override
     public void receiveResultMsg(String responseText) {
@@ -103,7 +103,7 @@ public class LaBlackActivity extends BaseActivity {
 //                DataBlack.RecordBean item = (DataBlack.RecordBean)adapter.getItem(position);
 //                String user_id = item.getUserId();
 //                if (!StrUtils.isEmpty(user_id))
-                    sendWeb(SplitWeb.removeBlack());
+                    sendWeb(SplitWeb.getSplitWeb().removeBlack());
             }
         });
 

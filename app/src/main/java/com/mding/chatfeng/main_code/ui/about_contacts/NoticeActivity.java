@@ -69,7 +69,7 @@ public class NoticeActivity extends BaseActivity {
 //        mRecyclerView.setNestedScrollingEnabled(false);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(NoticeActivity.this));
         mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(NoticeActivity.this));
-        sendWeb(SplitWeb.messageList());
+        sendWeb(SplitWeb.getSplitWeb().messageList());
         initAdapter();
 
         SPUtils.put(this, AppConfig.LINKMAN_FRIEND_NUM,0);
@@ -128,9 +128,9 @@ public class NoticeActivity extends BaseActivity {
 //            cusRealmChatMsg.setMessage("我们已经是好友了，快来聊一聊吧");
 //            cusRealmChatMsg.setMessageType("1");
 //            cusRealmChatMsg.setReceiveId(item.getSendUserId());
-//            cusRealmChatMsg.setSendId(SplitWeb.getUserId());
+//            cusRealmChatMsg.setSendId(SplitWeb.getSplitWeb().getUserId());
 //            cusRealmChatMsg.setUserMessageType(1);
-//            cusRealmChatMsg.setTotalId(item.getSendUserId()+SplitWeb.getUserId());
+//            cusRealmChatMsg.setTotalId(item.getSendUserId()+SplitWeb.getSplitWeb().getUserId());
 //            realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
 
 
@@ -143,7 +143,7 @@ public class NoticeActivity extends BaseActivity {
 //            cusJumpChatData.setNum(0);
 //            realmHelper.addRealmMsg(cusJumpChatData);
 
-//            send(SplitWeb.privateSend(item.getSendUserId(),"我们已经是好友了，快来聊一聊吧",ChatActivity.messageType, TimeUtil.getTime()));
+//            send(SplitWeb.getSplitWeb().privateSend(item.getSendUserId(),"我们已经是好友了，快来聊一聊吧",ChatActivity.messageType, TimeUtil.getTime()));
 //
 //            Intent intent = new Intent();
 //            intent.putExtra("message","我们已经是好友了，快来聊一聊吧");
@@ -203,7 +203,7 @@ public class NoticeActivity extends BaseActivity {
 //                                cusJumpChatData.setNum(0);
 //                                realmHelper.addRealmMsg(cusJumpChatData);
 
-                                sendWeb(SplitWeb.agreeFriend(id));
+                                sendWeb(SplitWeb.getSplitWeb().agreeFriend(id));
                                 break;
                             case "1":
                                 ToastUtil.show("已经同意该请求");
@@ -226,7 +226,7 @@ public class NoticeActivity extends BaseActivity {
                 public void onClickSure() {
                     delPositions=position;
                     DataNews.RecordBean.ListInfoBean listInfoBean = mList.get(position);
-                    sendWeb(SplitWeb.refuseFriend(listInfoBean.getId(),"2"));
+                    sendWeb(SplitWeb.getSplitWeb().refuseFriend(listInfoBean.getId(),"2"));
                 }
             });
         }

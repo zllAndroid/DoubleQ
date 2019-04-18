@@ -84,10 +84,10 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
             String friendId = intent.getStringExtra(FRIENG_ID_KEY);
             String groupId = intent.getStringExtra(GROUP_ID_KEY);
 
-            sendWeb(SplitWeb.getGroupMemberInfo(friendId, groupId));
-            sendWeb(SplitWeb.addFriendQrCode(friendId));
-//                sendWebHaveDialog(SplitWeb.getGroupMemberInfo(friendId,groupId),"搜索好友信息中...","获取成功");
-//                sendWebHaveDialog(SplitWeb.getFriendInfo(id),"搜索好友信息中...","获取成功");
+            sendWeb(SplitWeb.getSplitWeb().getGroupMemberInfo(friendId, groupId));
+            sendWeb(SplitWeb.getSplitWeb().addFriendQrCode(friendId));
+//                sendWebHaveDialog(SplitWeb.getSplitWeb().getGroupMemberInfo(friendId,groupId),"搜索好友信息中...","获取成功");
+//                sendWebHaveDialog(SplitWeb.getSplitWeb().getFriendInfo(id),"搜索好友信息中...","获取成功");
 //            }
         }
     }

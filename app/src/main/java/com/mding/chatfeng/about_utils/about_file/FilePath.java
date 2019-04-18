@@ -21,7 +21,7 @@ import java.util.List;
 public class FilePath {
 
     public  static  String appPath =Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/";
-    public  static  String appFilePath =appPath+SplitWeb.getUserId()+"/";
+    public  static  String appFilePath =appPath+SplitWeb.getSplitWeb().getUserId()+"/";
     public  static  String myHeadImg =appFilePath+"chatHead/";
     public  static  String LinkImgPath =appFilePath+"imgLinkFriend/";
 
@@ -51,7 +51,7 @@ public class FilePath {
     }
 //    private static  String getPathUser(){
 //
-//        return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+SplitWeb.getUserId()+"/";
+//        return  Environment.getExternalStorageDirectory().getAbsolutePath()+"/AllChat/"+SplitWeb.getSplitWeb().getUserId()+"/";
 //    }
     public static  String getLinkImgPath(){
         File file = new File(getAbsPath()+"imgLinkFriend/");
@@ -118,9 +118,9 @@ public class FilePath {
     }
 
     public  static  String getHeadPaths(){
-//        File file = new File(getAbsPath() + SplitWeb.getUserId() + "head.jpg");
+//        File file = new File(getAbsPath() + SplitWeb.getSplitWeb().getUserId() + "head.jpg");
 //        if (file.exists())
-        return getAbsPath() + "chatHead/"+System.currentTimeMillis()+"-"+SplitWeb.getUserId() + "head.jpg";
+        return getAbsPath() + "chatHead/"+System.currentTimeMillis()+"-"+SplitWeb.getSplitWeb().getUserId() + "head.jpg";
     }
     public  static  File saveHeadPath(Context mContext,File resource){
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();

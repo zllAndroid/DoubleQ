@@ -89,10 +89,10 @@ public class ChooseGroupActivity extends BaseActivity {
             Log.e("groupingName", "-------------------------groupType-----------------------------" + groupType);
             if (groupType.equals("1")) {
                 FriendId = intent.getStringExtra("FriendId");
-                sendWeb(SplitWeb.friendGroupList(FriendId));
+                sendWeb(SplitWeb.getSplitWeb().friendGroupList(FriendId));
             } else {
                 GroupId = intent.getStringExtra("groupId");
-                sendWeb(SplitWeb.groupOfGroupList(GroupId));
+                sendWeb(SplitWeb.getSplitWeb().groupOfGroupList(GroupId));
             }
         }
     }
@@ -156,7 +156,7 @@ public class ChooseGroupActivity extends BaseActivity {
                 break;
             case "addFriendGroup":
                 isAdd = false;
-                sendWeb(SplitWeb.groupManageInfo(groupType));
+                sendWeb(SplitWeb.getSplitWeb().groupManageInfo(groupType));
                 break;
             case "groupManageInfo":
                 DataFriendGroup dataGroupManages = JSON.parseObject(responseText, DataFriendGroup.class);
@@ -204,13 +204,13 @@ public class ChooseGroupActivity extends BaseActivity {
                 mItem = (DataFriendGroup.RecordBean.GroupInfoBean) adapter.getItem(position);
                 if (groupType.equals("1")) {
                     if (!StrUtils.isEmpty(FriendId)) {
-                        sendWebHaveDialog(SplitWeb.friendGroupModify(FriendId, mItem.getId()), "设置分组中...", "设置成功");
+                        sendWebHaveDialog(SplitWeb.getSplitWeb().friendGroupModify(FriendId, mItem.getId()), "设置分组中...", "设置成功");
                     } else {
                         dealItemClick();
                     }
                 } else {
                     if (!StrUtils.isEmpty(GroupId)) {
-                        sendWebHaveDialog(SplitWeb.groupOfGroupModify(GroupId, mItem.getId()), "设置分组中...", "设置成功");
+                        sendWebHaveDialog(SplitWeb.getSplitWeb().groupOfGroupModify(GroupId, mItem.getId()), "设置分组中...", "设置成功");
                     } else {
                         dealItemClick();
                     }
@@ -220,7 +220,7 @@ public class ChooseGroupActivity extends BaseActivity {
 //                DataBlack.RecordBean item = (DataBlack.RecordBean)adapter.getItem(position);
 //                String user_id = item.getUser_id();
 //                if (!StrUtils.isEmpty(user_id))
-//                    sendWeb(SplitWeb.removeBlack(user_id));
+//                    sendWeb(SplitWeb.getSplitWeb().removeBlack(user_id));
             }
         });
     }
@@ -335,7 +335,7 @@ public class ChooseGroupActivity extends BaseActivity {
         changeInfoWindowsign.setOnAddpopClickListener(new ChangeInfoWindow.OnAddContantClickListener() {
             @Override
             public void onSure(String contant) {
-                sendWeb(SplitWeb.addFriendGroup(groupType, addType, contant, ""));//增加分组  type = 1
+                sendWeb(SplitWeb.getSplitWeb().addFriendGroup(groupType, addType, contant, ""));//增加分组  type = 1
                 if (blackAdapter != null)
                     blackAdapter.notifyDataSetChanged();
             }

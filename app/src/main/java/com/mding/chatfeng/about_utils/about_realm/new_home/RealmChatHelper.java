@@ -43,7 +43,7 @@ public class RealmChatHelper {
      * delete （删）
      */
     public void deleteRealmMsg(String friendId) {
-        CusChatData dog = mRealm.where(CusChatData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        CusChatData dog = mRealm.where(CusChatData.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
         if (dog!=null) {
             mRealm.beginTransaction();
             dog.deleteFromRealm();
@@ -51,7 +51,7 @@ public class RealmChatHelper {
         }
     }
     public  void deleteMsgByFriendId(String friendId) {
-        RealmResults<CusChatData> dogs = mRealm.where(CusChatData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findAll();
+        RealmResults<CusChatData> dogs = mRealm.where(CusChatData.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findAll();
 //        CusDataRealmMsg dog = mRealm.where(CusDataRealmMsg.class).equalTo("taskId", taskId).findFirst();
         if (dogs.size()>0)
         {
@@ -83,7 +83,7 @@ public class RealmChatHelper {
      * query （查询所有）
      */
     public List<CusChatData> queryAllRealmChat(String id) {
-        RealmResults<CusChatData> realmMsgs = mRealm.where(CusChatData.class).equalTo(FILE_NAME, id+SplitWeb.getUserId()).findAll();
+        RealmResults<CusChatData> realmMsgs = mRealm.where(CusChatData.class).equalTo(FILE_NAME, id+SplitWeb.getSplitWeb().getUserId()).findAll();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
@@ -97,7 +97,7 @@ public class RealmChatHelper {
         return realmMsgs;
     }
     public void delChatMsgAll(String id) {
-        RealmResults<CusChatData> realmMsgs = mRealm.where(CusChatData.class).equalTo(FILE_NAME, id+SplitWeb.getUserId()).findAll();
+        RealmResults<CusChatData> realmMsgs = mRealm.where(CusChatData.class).equalTo(FILE_NAME, id+SplitWeb.getSplitWeb().getUserId()).findAll();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
@@ -114,7 +114,7 @@ public class RealmChatHelper {
 
 
     public boolean isHaveExist(String id){
-        CusChatData dog=mRealm.where(CusChatData.class).equalTo(FILE_NAME,id+SplitWeb.getUserId()).findFirst();
+        CusChatData dog=mRealm.where(CusChatData.class).equalTo(FILE_NAME,id+SplitWeb.getSplitWeb().getUserId()).findFirst();
         if (dog==null){
             return false;
         }else {

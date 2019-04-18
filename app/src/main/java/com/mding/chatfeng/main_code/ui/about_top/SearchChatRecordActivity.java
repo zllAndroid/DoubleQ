@@ -179,7 +179,7 @@ public class SearchChatRecordActivity extends BaseActivity {
 //        }
 //        if (type==null)
 //            type=SeacchFriend;
-//        sendWebHaveDialog(SplitWeb.searchInfo(edInput,type),"搜索中...","搜索成功");
+//        sendWebHaveDialog(SplitWeb.getSplitWeb().searchInfo(edInput,type),"搜索中...","搜索成功");
 //        alterSearchAdapter.setText(edInput);
 //        doChangeColor(edInput);
 //        realmChatHelper.queryAllRealmChat()

@@ -228,7 +228,7 @@ public class ContactChildFragment extends BaseFragment {
                 }
 //                预先设置适配器，以便显示头部布局
 //                initFriendAdapter();
-//                sendWeb(SplitWeb.getFriendList());
+//                sendWeb(SplitWeb.getSplitWeb().getFriendList());
                 break;
             case 1:
                 if (aCache!=null)
@@ -241,7 +241,7 @@ public class ContactChildFragment extends BaseFragment {
                     }
                 }
 //                initGroupAdapter();
-//                sendWeb(SplitWeb.getGroupManage());
+//                sendWeb(SplitWeb.getSplitWeb().getGroupManage());
                 break;
         }
     }
@@ -271,7 +271,7 @@ public class ContactChildFragment extends BaseFragment {
             initDataGroup(asString,false);
             return;
         }
-        sendWeb(SplitWeb.getGroupManage());
+        sendWeb(SplitWeb.getSplitWeb().getGroupManage());
     }
 
     private void initFriendWs() {
@@ -284,7 +284,7 @@ public class ContactChildFragment extends BaseFragment {
             initDataFriend(asString,false);
             return;
         }
-        sendWeb(SplitWeb.getFriendList());
+        sendWeb(SplitWeb.getSplitWeb().getFriendList());
     }
 
     //群组数据

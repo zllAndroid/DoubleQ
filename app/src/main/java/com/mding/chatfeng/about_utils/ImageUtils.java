@@ -235,7 +235,7 @@ public class ImageUtils {
 	 */
 	public static File saveFile(Bitmap bm) throws IOException {
 		String path = Environment.getExternalStorageDirectory().getPath() +"/chatHead/";
-		String fileName = SplitWeb.getUserId()+ ".jpg";
+		String fileName = SplitWeb.getSplitWeb().getUserId()+ ".jpg";
 		File dirFile = new File(path);
 		if(!dirFile.exists()){
 			dirFile.mkdir();

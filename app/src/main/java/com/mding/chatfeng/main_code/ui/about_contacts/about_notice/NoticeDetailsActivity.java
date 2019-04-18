@@ -98,7 +98,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
 //        friendNoticeDetailsAdapter.notifyDataSetChanged();
         Intent intent = getIntent();
         item = (DataNews.RecordBean.ListInfoBean) intent.getSerializableExtra("id");
-        sendWeb(SplitWeb.messageDetail(item.getId()));
+        sendWeb(SplitWeb.getSplitWeb().messageDetail(item.getId()));
         initAdapter(mList);
     }
 
@@ -364,10 +364,10 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
                 }
                 break;
             case R.id.notice_tv_jujue:
-                sendWeb(SplitWeb.refuseFriend(item.getId(), "1"));
+                sendWeb(SplitWeb.getSplitWeb().refuseFriend(item.getId(), "1"));
                 break;
             case R.id.notice_tv_ok:
-                sendWeb(SplitWeb.agreeFriend(item.getId()));
+                sendWeb(SplitWeb.getSplitWeb().agreeFriend(item.getId()));
                 break;
             case R.id.notice_tv_reply:
                 doReply();
@@ -386,7 +386,7 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
     public void onSure(String content) {
         if (content != null) {
             reply = content;
-            sendWeb(SplitWeb.messageReply(item.getId(), content));
+            sendWeb(SplitWeb.getSplitWeb().messageReply(item.getId(), content));
         } else {
             ToastUtil.show("回复内容不能为空！");
         }

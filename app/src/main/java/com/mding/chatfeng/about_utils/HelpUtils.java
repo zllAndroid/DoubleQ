@@ -196,7 +196,7 @@ public class HelpUtils {
                         return "1007";
                     //                    break;
                     case AppConfig.CODE_TOKEN_OUT:
-                        //                    SplitWeb.USER_ID="";
+                        //                    SplitWeb.getSplitWeb().USER_ID="";
                         ////                    AppManager.getAppManager().finishAllActivity();
                         //                    IntentUtils.JumpTo(LoginActivity.class);
                         //                    getACt().overridePendingTransition(0,0);

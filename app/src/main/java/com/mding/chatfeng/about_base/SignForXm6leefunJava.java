@@ -21,11 +21,11 @@ public class SignForXm6leefunJava {
         // 头部URL
         String headTemp = "";
 //        如果有token  ，添加进行加密
-        if (!StrUtils.isEmpty(SplitWeb.USER_TOKEN))
+        if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().USER_TOKEN))
         {
-            mList.add("token=" + SplitWeb.USER_TOKEN);
+            mList.add("token=" + SplitWeb.getSplitWeb().USER_TOKEN);
         }
-//        MyLog.e("token","token="+SplitWeb.USER_TOKEN);
+//        MyLog.e("token","token="+SplitWeb.getSplitWeb().USER_TOKEN);
         Collections.sort(mList);
         try {
             for (int i = 0; i < mList.size(); i++) {
@@ -53,9 +53,9 @@ public class SignForXm6leefunJava {
    static Map<String, String> map = new TreeMap<>();
     public static Map<String, String> postRequests(ArrayList<String> mList)  {
         map.clear();
-        if (!StrUtils.isEmpty(SplitWeb.USER_TOKEN))
+        if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().USER_TOKEN))
         {
-            mList.add("token=" + SplitWeb.USER_TOKEN);
+            mList.add("token=" + SplitWeb.getSplitWeb().USER_TOKEN);
         }
         for (int i = 0; i < mList.size(); i++)
         {

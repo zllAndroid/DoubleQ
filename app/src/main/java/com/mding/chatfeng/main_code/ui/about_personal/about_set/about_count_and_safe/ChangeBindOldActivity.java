@@ -83,7 +83,7 @@ public class ChangeBindOldActivity extends BaseActivity {
 //            return;
         }
 //        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-//        netWorkUtlis.setOnNetWork(SplitWeb.replaceMobileOld(phone, code), new NetWorkUtlis.OnNetWork() {
+//        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().replaceMobileOld(phone, code), new NetWorkUtlis.OnNetWork() {
 //            @Override
 //            public void onNetSuccess(String msg) {
 //                IntentUtils.JumpFinishTo(ChangeBindOldActivity.this,ChangeBindNewActivity.class);
@@ -101,7 +101,7 @@ public class ChangeBindOldActivity extends BaseActivity {
 //            }
 //        });
 
-        sendWeb(SplitWeb.replaceMobileOld(phone,code));
+        sendWeb(SplitWeb.getSplitWeb().replaceMobileOld(phone,code));
     }
 
     private void initSendSms() {
@@ -115,7 +115,7 @@ public class ChangeBindOldActivity extends BaseActivity {
             return;
         }
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(SplitWeb.smsCode(phone, "4"), new NetWorkUtlis.OnNetWork() {
+        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().smsCode(phone, "4"), new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String msg) {
                 timer.start();

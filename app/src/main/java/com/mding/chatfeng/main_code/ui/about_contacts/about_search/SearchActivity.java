@@ -239,7 +239,7 @@ public class SearchActivity extends BaseActivity {
                 DataSearch item =(DataSearch) adapter.getItem(position);
                 if (item.getType().equals("1"))
                 {
-                    if (item.getId().equals(SplitWeb.getUserId()))
+                    if (item.getId().equals(SplitWeb.getSplitWeb().getUserId()))
                     {
                         IntentUtils.JumpTo(ChangeInfoActivity.class);
                         return;
@@ -281,7 +281,7 @@ public class SearchActivity extends BaseActivity {
         }
         if (type==null)
             type=SeacchFriend;
-        sendWebHaveDialog(SplitWeb.searchInfo(edInput,type),"搜索中...","搜索成功");
+        sendWebHaveDialog(SplitWeb.getSplitWeb().searchInfo(edInput,type),"搜索中...","搜索成功");
 //        alterSearchAdapter.setText(edInput);
 //        doChangeColor(edInput);
     }

@@ -91,7 +91,7 @@ public class ChangeBindNewActivity extends BaseActivity {
             ToastUtil.show("验证码不得为空");
 //            return;
         }
-        sendWeb(SplitWeb.replaceMobileNew(phone,code));
+        sendWeb(SplitWeb.getSplitWeb().replaceMobileNew(phone,code));
     }
 
     private void initSendSms() {
@@ -105,7 +105,7 @@ public class ChangeBindNewActivity extends BaseActivity {
             return;
         }
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(SplitWeb.smsCode(phone, "5"), new NetWorkUtlis.OnNetWork() {
+        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().smsCode(phone, "5"), new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String msg) {
                 timer.start();
@@ -138,7 +138,7 @@ public class ChangeBindNewActivity extends BaseActivity {
             DialogUtils.showDialogOne("换绑号码成功", new DialogUtils.OnClickSureListener() {
                 @Override
                 public void onClickSure() {
-                    SplitWeb.USER_ID="";
+                    SplitWeb.getSplitWeb().USER_ID="";
                     AppManager.getAppManager().finishAllActivity();
                     overridePendingTransition(0,0);
                     Intent intent_recharge = new Intent(ChangeBindNewActivity.this, LoginActivity.class);

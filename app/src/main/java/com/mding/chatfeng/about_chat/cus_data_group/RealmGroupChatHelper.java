@@ -34,7 +34,7 @@ public class RealmGroupChatHelper {
      * delete （删）
      */
     public void deleteRealmMsg(String friendId) {
-        CusGroupChatData dog = mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findFirst();
+        CusGroupChatData dog = mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
         if (dog!=null) {
             mRealm.beginTransaction();
             dog.deleteFromRealm();
@@ -42,7 +42,7 @@ public class RealmGroupChatHelper {
         }
     }
     public  void deleteMsgByFriendId(String friendId) {
-        RealmResults<CusGroupChatData> dogs = mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME, friendId+SplitWeb.getUserId()).findAll();
+        RealmResults<CusGroupChatData> dogs = mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findAll();
 //        CusDataRealmMsg dog = mRealm.where(CusDataRealmMsg.class).equalTo("taskId", taskId).findFirst();
         if (dogs.size()>0)
         {
@@ -70,7 +70,7 @@ public class RealmGroupChatHelper {
      * query （查询所有）
      */
     public List<CusGroupChatData> queryAllGroupChat(String id) {
-        RealmResults<CusGroupChatData> realmMsgs = mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME, id+SplitWeb.getUserId()).findAll();
+        RealmResults<CusGroupChatData> realmMsgs = mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME, id+SplitWeb.getSplitWeb().getUserId()).findAll();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
@@ -86,7 +86,7 @@ public class RealmGroupChatHelper {
 
 
     public boolean isHaveExist(String id){
-        CusGroupChatData dog=mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME,id+SplitWeb.getUserId()).findFirst();
+        CusGroupChatData dog=mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME,id+SplitWeb.getSplitWeb().getUserId()).findFirst();
         if (dog==null){
             return false;
         }else {

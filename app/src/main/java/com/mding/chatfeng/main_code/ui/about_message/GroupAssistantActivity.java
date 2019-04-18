@@ -75,7 +75,7 @@ public class GroupAssistantActivity extends BaseActivity {
             if (mList.size()!=0)
                 for (int i=0;i<mList.size();i++)
                 {
-                    if (mList.get(i).getTotalId().equals(id+ SplitWeb.getUserId()+""))
+                    if (mList.get(i).getTotalId().equals(id+ SplitWeb.getSplitWeb().getUserId()+""))
                     {
                         if (i==0)
                         {
@@ -90,7 +90,7 @@ public class GroupAssistantActivity extends BaseActivity {
                             groupAssistantMsgAdapter.removeData(i);
                             groupAssistantMsgAdapter.addData(homeRealmData);
                             mRecyclerView.smoothScrollToPosition(0);
-//                            realmHelper.deleteRealmMsg(id+SplitWeb.USER_ID);
+//                            realmHelper.deleteRealmMsg(id+SplitWeb.getSplitWeb().USER_ID);
                         }
                         return;
                     }

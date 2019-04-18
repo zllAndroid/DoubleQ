@@ -122,8 +122,8 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
 //            String id = intent.getStringExtra("id");
             esc = intent.getStringExtra("esc");
             Log.e("qrCode_scan_id", "-----------mix--------------" + FriendId);
-//            sendWebHaveDialog(SplitWeb.addFriendQrCode(id), "搜索好友信息中...", "获取成功");
-            sendWeb(SplitWeb.addFriendQrCode(FriendId));
+//            sendWebHaveDialog(SplitWeb.getSplitWeb().addFriendQrCode(id), "搜索好友信息中...", "获取成功");
+            sendWeb(SplitWeb.getSplitWeb().addFriendQrCode(FriendId));
         }
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
@@ -137,7 +137,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 DialogUtils.showDialog("是否屏蔽此好友？", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
-                        sendWebHaveDialog(SplitWeb.shieldFriend(FriendId, "2"), "正在屏蔽...", "屏蔽成功");
+                        sendWebHaveDialog(SplitWeb.getSplitWeb().shieldFriend(FriendId, "2"), "正在屏蔽...", "屏蔽成功");
                     }
                 });
                 if (popWindow != null)
@@ -151,7 +151,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 DialogUtils.showDialog("是否确定删除该好友？", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
-                        sendWebHaveDialog(SplitWeb.deleteFriend(FriendId), "正在删除...", "删除成功");
+                        sendWebHaveDialog(SplitWeb.getSplitWeb().deleteFriend(FriendId), "正在删除...", "删除成功");
                     }
                 });
                 if (popWindow != null)
@@ -454,7 +454,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
     public void onSure(String contant) {
         this.contant = contant;
         remarkName = contant;
-        sendWeb(SplitWeb.friendRemarkName(FriendId, contant));
+        sendWeb(SplitWeb.getSplitWeb().friendRemarkName(FriendId, contant));
     }
 
     @Override

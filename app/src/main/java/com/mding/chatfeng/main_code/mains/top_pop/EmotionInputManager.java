@@ -173,11 +173,11 @@ public class EmotionInputManager {
                 mAddButton.setVisibility(View.VISIBLE);
                 mSendButton.setVisibility(View.GONE);
                 String ed = mEditText.getText().toString().trim();
-//                BaseActivity.send(SplitWeb.privateSend(firendIds,ed,"1", TimeUtil.getTime()));
-//                BaseApplication.getApp().sendData(SplitWeb.privateSend(firendIds,ed,"1", TimeUtil.getTime()));
+//                BaseActivity.send(SplitWeb.getSplitWeb().privateSend(firendIds,ed,"1", TimeUtil.getTime()));
+//                BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().privateSend(firendIds,ed,"1", TimeUtil.getTime()));
                 BusDataGroupOrFriend messageInfo = new BusDataGroupOrFriend();
                 messageInfo.setMsg(ed);
-////                MyWebSocketService.sendMsg(SplitWeb.privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType));
+////                MyWebSocketService.sendMsg(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId,ed,ChatActivity.messageType));
 //                messageInfo.setMessageType(Constants.CHAT_TEXT);
 //                messageInfo.setMessage(ed);
 ////                messageInfo.set

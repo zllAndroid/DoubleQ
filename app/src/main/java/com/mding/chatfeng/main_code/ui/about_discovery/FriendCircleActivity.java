@@ -120,7 +120,7 @@ public class FriendCircleActivity extends BaseActivity {
 //                    .into(mineIvPerson);
 //        }
         else {
-            sendWeb(SplitWeb.personalCenter());
+            sendWeb(SplitWeb.getSplitWeb().personalCenter());
         }
     }
 
@@ -128,7 +128,7 @@ public class FriendCircleActivity extends BaseActivity {
     DiscoveryFriendCircleAdapter discoveryFriendCircleAdapter = null;
 
     private void initData() {
-        sendWeb(SplitWeb.personalCenter());
+        sendWeb(SplitWeb.getSplitWeb().personalCenter());
 //        discoverTvName.setText(nickName);
         DataDiscoveryFriendCircle dataDiscoveryFriendCircle = new DataDiscoveryFriendCircle();
         dataDiscoveryFriendCircle.setImg_head("http://pbmyhukzs.bkt.clouddn.com/Conan.png");

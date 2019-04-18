@@ -79,7 +79,7 @@ public class FriendGroupListActivity extends BaseActivity {
         if (intent != null) {
             groupType = intent.getStringExtra(AppConfig.KEY_FRIEND_GROUP);
             if (!StrUtils.isEmpty(groupType))
-                sendWeb(SplitWeb.groupManageInfo(groupType));
+                sendWeb(SplitWeb.getSplitWeb().groupManageInfo(groupType));
         }
     }
 
@@ -112,7 +112,7 @@ public class FriendGroupListActivity extends BaseActivity {
                 }
                 break;
             case "addFriendGroup":
-                sendWeb(SplitWeb.groupManageInfo(groupType));
+                sendWeb(SplitWeb.getSplitWeb().groupManageInfo(groupType));
                 break;
         }
     }
@@ -157,7 +157,7 @@ public class FriendGroupListActivity extends BaseActivity {
         changeInfoWindowsign.setOnAddpopClickListener(new ChangeInfoWindow.OnAddContantClickListener() {
             @Override
             public void onSure(String contant) {
-                sendWeb(SplitWeb.addFriendGroup(groupType, addType, contant, ""));//增加分组  type = 1
+                sendWeb(SplitWeb.getSplitWeb().addFriendGroup(groupType, addType, contant, ""));//增加分组  type = 1
                 if (blackAdapter != null)
                     blackAdapter.notifyDataSetChanged();
             }

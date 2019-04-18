@@ -73,7 +73,7 @@ public class GroupChatSetActivity extends BaseActivity {
         ToastUtil.show("我点击了发送");
 //        String yanzheng = fdaEdYanzheng.getText().toString().trim();
 ////        String remark = fdaEdBeizhu.getText().toString().trim();
-//        sendWeb(SplitWeb.addGroupOf(dataSearch.getSno(),yanzheng));
+//        sendWeb(SplitWeb.getSplitWeb().addGroupOf(dataSearch.getSno(),yanzheng));
     }
 
     @Override

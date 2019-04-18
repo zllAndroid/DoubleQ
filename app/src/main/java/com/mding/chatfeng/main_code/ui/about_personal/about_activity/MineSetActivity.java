@@ -56,7 +56,7 @@ public class MineSetActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        SplitWeb.IS_SET_ACTIVITY="1";
+        SplitWeb.getSplitWeb().IS_SET_ACTIVITY="1";
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
         includeTopTvTital.setText("设置");
@@ -81,7 +81,7 @@ public class MineSetActivity extends BaseActivity {
     @Override
     public void receiveResultMsg(String responseText) {
         super.receiveResultMsg(responseText);
-        if(SplitWeb.IS_SET_ACTIVITY.equals("1")) {
+        if(SplitWeb.getSplitWeb().IS_SET_ACTIVITY.equals("1")) {
             String method = HelpUtils.backMethod(responseText);
             switch (method) {
                 case "appUpdate":
@@ -176,7 +176,7 @@ public class MineSetActivity extends BaseActivity {
                 if (NoDoubleClickUtils.isDoubleClick()) {
                     //        版本更新
                     int localVersion = HelpUtils.getLocalVersion(this);
-                    sendWeb(SplitWeb.appUpdate("" + localVersion));
+                    sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
                 }
 //                ToastUtil.show("已经是最新版本");
                 break;
@@ -204,9 +204,9 @@ public class MineSetActivity extends BaseActivity {
                             switch (checkingId){
                                 case "1":
 //                                    ToastUtil.show("1");
-                                    SplitWeb.IS_SET_PERSON_HEAD=true;
-                                    sendWeb(SplitWeb.kickUid());
-                                    SplitWeb.USER_ID="";
+                                    SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD=true;
+                                    sendWeb(SplitWeb.getSplitWeb().kickUid());
+                                    SplitWeb.getSplitWeb().USER_ID="";
                                     ACache.get(MineSetActivity.this).clear();
                                     SPUtils.put(MineSetActivity.this,AppAllKey.USER_ID_KEY,"");
                                     SPUtils.clear(MineSetActivity.this);
@@ -224,10 +224,10 @@ public class MineSetActivity extends BaseActivity {
 //                                    MyApplication.getmConnectManager().onDestroyService();
                                     break;
                                 case "2":
-                                    SplitWeb.IS_SET_PERSON_HEAD=true;
+                                    SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD=true;
 //                                    ToastUtil.show("2");
-                                    sendWeb(SplitWeb.kickUid());
-                                    SplitWeb.USER_ID="";
+                                    sendWeb(SplitWeb.getSplitWeb().kickUid());
+                                    SplitWeb.getSplitWeb().USER_ID="";
                                     ACache.get(MineSetActivity.this).clear();
                                     SPUtils.clear(MineSetActivity.this);
 

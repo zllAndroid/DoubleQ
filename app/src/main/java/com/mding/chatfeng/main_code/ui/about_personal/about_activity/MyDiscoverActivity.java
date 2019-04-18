@@ -73,7 +73,7 @@ public class MyDiscoverActivity extends BaseActivity {
             userId = intent.getStringExtra("userId");
 
         }
-        sendWeb(SplitWeb.personalCenter());
+        sendWeb(SplitWeb.getSplitWeb().personalCenter());
         getHead();
     }
 
@@ -112,7 +112,7 @@ public class MyDiscoverActivity extends BaseActivity {
 //                    .into(mineIvPerson);
 //        }
         else {
-            sendWeb(SplitWeb.personalCenter());
+            sendWeb(SplitWeb.getSplitWeb().personalCenter());
         }
     }
 

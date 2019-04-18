@@ -68,7 +68,7 @@ public class ZhuanRangGroupActivity extends BaseActivity {
             this.groupId = groupId;
             groupName = intent.getStringExtra(GROUP_NAME);
             if (groupId != null){
-                sendWeb(SplitWeb.getTransterGroupMemberInfo(groupId));
+                sendWeb(SplitWeb.getSplitWeb().getTransterGroupMemberInfo(groupId));
             }
         }
     }
@@ -185,7 +185,7 @@ public class ZhuanRangGroupActivity extends BaseActivity {
                     @Override
                     public void onClickSure() {
                         if (groupId != null && transferUserId != null)
-                            sendWeb(SplitWeb.transferGroupOf(groupId,transferUserId));
+                            sendWeb(SplitWeb.getSplitWeb().transferGroupOf(groupId,transferUserId));
 
                     }
                 });

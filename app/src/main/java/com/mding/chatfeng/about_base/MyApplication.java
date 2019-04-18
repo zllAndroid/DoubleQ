@@ -264,7 +264,7 @@
 //        mConnectManager = new WebSocketServiceConnectManager(this, this);
 //        mConnectManager.onCreate();
 //        mConnectManager.reconnect();
-//        mConnectManager.reBind(SplitWeb.bindUid());
+//        mConnectManager.reBind(SplitWeb.getSplitWeb().bindUid());
 //        Intent intent2 = new Intent();
 //        intent2.setAction("start_application");
 //        sendBroadcast(intent2);
@@ -300,7 +300,7 @@
 //    }
 ////    private void initOneService() {
 ////        //配置 WebSocket，必须在 WebSocket 服务启动前设置
-////        WebSocketSetting.setConnectUrl(SplitWeb.WebSocket_URL);//必选
+////        WebSocketSetting.setConnectUrl(SplitWeb.getSplitWeb().WebSocket_URL);//必选
 //////        MyLog.e("TYPE_URL=", aCache.getAsString(AppConfig.TYPE_URL) + "---------------------------");
 //////        WebSocketSetting.setConnectUrl("ws://192.168.4.133:9093");//必选
 ////        WebSocketSetting.setResponseProcessDelivery(new AppResponseDispatcher());
@@ -392,16 +392,16 @@
 //                    {
 //                        acquireWakeLock();
 ////                        try {
-//////                            sendText(SplitWeb.coroutineKeep());
-//////                            if(StrUtils.isEmpty(SplitWeb.USER_ID))
-//////                                SplitWeb.getUserId();
-//////                            if(!StrUtils.isEmpty(SplitWeb.USER_ID))
-//////                                sendText(SplitWeb.USER_ID);
+//////                            sendText(SplitWeb.getSplitWeb().coroutineKeep());
+//////                            if(StrUtils.isEmpty(SplitWeb.getSplitWeb().USER_ID))
+//////                                SplitWeb.getSplitWeb().getUserId();
+//////                            if(!StrUtils.isEmpty(SplitWeb.getSplitWeb().USER_ID))
+//////                                sendText(SplitWeb.getSplitWeb().USER_ID);
 //////                          {"api_key":"20180903","ctn":"Chat","data":[{"friendsId":"ac4b-62fa-098","message":"挪","messageType":"1","requestTime":"2019-03-11 18:51:36","token":"C7F62227-E05F-D98B-0BA1-2053245AD308","userId":"a7d2-a2c1-284"}],"mtn":"privateSend","sign":"CDC97C99868A4587DE829E94B535EAC0","timestamp":1552301496}
 ////                            boolean b = NetUtils.isWifi(getAppContext());
 ////                            if ( b)
 ////                                sendText("01");
-//////                            sendText(SplitWeb.privateSend("ac4b-62fa-098", "我们已经是好友了，快来聊一聊吧", "1", TimeUtil.getTime()));
+//////                            sendText(SplitWeb.getSplitWeb().privateSend("ac4b-62fa-098", "我们已经是好友了，快来聊一聊吧", "1", TimeUtil.getTime()));
 ////
 ////                            MyLog.e("KeepAlive","KeepAlive="+b+"----------------------发送心跳-----------------------------------");
 ////                        } catch (Exception e) {
@@ -472,11 +472,11 @@
 //        reBind = "0";
 ////        添加重连机制，当连接成功后，重新绑定uid
 //        try {
-////            if (!StrUtils.isEmpty(SplitWeb.getUserId())) {
-////            String userId = SplitWeb.getUserId();
-//            if (!StrUtils.isEmpty(SplitWeb.getUserId())) {
+////            if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId())) {
+////            String userId = SplitWeb.getSplitWeb().getUserId();
+//            if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId())) {
 ////                if (isBind)
-//                sendText(SplitWeb.bindUid());
+//                sendText(SplitWeb.getSplitWeb().bindUid());
 //            }
 //        } catch (Exception e) {
 //            e.printStackTrace();
@@ -689,7 +689,7 @@
 //                e.printStackTrace();
 //            }
 //        }
-//        if (!SplitWeb.IS_CHAT_GROUP.equals("2")) {
+//        if (!SplitWeb.getSplitWeb().IS_CHAT_GROUP.equals("2")) {
 ////            不在聊天界面收到消息时候的提示
 //            noGroupChatUIOffLine(record);
 //        }
@@ -697,7 +697,7 @@
 //        groupChatData.setCreated(Mytime);
 //        groupChatData.setFriendId(record.getMemberId());
 //        groupChatData.setGroupId(record.getGroupId());
-//        groupChatData.setGroupUserId(record.getGroupId() + SplitWeb.getUserId());
+//        groupChatData.setGroupUserId(record.getGroupId() + SplitWeb.getSplitWeb().getUserId());
 //        groupChatData.setImgHead(record.getMemberHeadImg());
 //        groupChatData.setImgGroup(record.getGroupHeadImg());
 //        groupChatData.setMessage(record.getMessage());
@@ -775,7 +775,7 @@
 //            }
 //        }
 ////        SPUtils.put(this, AppConfig.CHAT_RECEIVE_TIME_REALM, (String) record.getRequestTime());
-//        if (!SplitWeb.IS_CHAT.equals("1"))
+//        if (!SplitWeb.getSplitWeb().IS_CHAT.equals("1"))
 //            dealList(record);
 //        cusRealmChatMsg.setCreated(Mytime);
 //        cusRealmChatMsg.setMessage(record.getMessage());
@@ -784,7 +784,7 @@
 //        cusRealmChatMsg.setSendId(record.getUserId());
 //        cusRealmChatMsg.setImgUrl(record.getHeadImg());
 //        cusRealmChatMsg.setUserMessageType(record.getType());
-//        cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getUserId());
+//        cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getSplitWeb().getUserId());
 //
 //        realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
 //
@@ -939,7 +939,7 @@
 //        groupChatData.setCreated(Mytime);
 //        groupChatData.setFriendId(record.getMemberId());
 //        groupChatData.setGroupId(record.getGroupId());
-//        groupChatData.setGroupUserId(record.getGroupId() + SplitWeb.getUserId());
+//        groupChatData.setGroupUserId(record.getGroupId() + SplitWeb.getSplitWeb().getUserId());
 //        groupChatData.setImgHead(record.getMemberHeadImg());
 //        groupChatData.setImgGroup(record.getGroupHeadImg());
 //        groupChatData.setMessage(record.getMessage());
@@ -987,7 +987,7 @@
 //        {
 //            initAss();
 //        }else {
-//            if (!SplitWeb.IS_CHAT_GROUP.equals("2")) {
+//            if (!SplitWeb.getSplitWeb().IS_CHAT_GROUP.equals("2")) {
 ////            不在聊天界面收到消息时候的处理
 //                if (record.getDisturbType().equals("1"))
 //                    setGroupNotify(record);
@@ -1051,7 +1051,7 @@
 //            cusRealmChatMsg.setMessage(record.getMessage());
 //            cusRealmChatMsg.setMessageType(record.getMessageType());
 //            cusRealmChatMsg.setGroupId(record.getGroupId());
-//            cusRealmChatMsg.setGroupUserId(record.getGroupId() + SplitWeb.getUserId());
+//            cusRealmChatMsg.setGroupUserId(record.getGroupId() + SplitWeb.getSplitWeb().getUserId());
 ////            cusRealmChatMsg.setSendId(record.getMemberId());
 //            cusRealmChatMsg.setUserMessageType(Constants.CHAT_ITEM_TYPE_RIGHT);
 //            cusRealmChatMsg.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
@@ -1066,7 +1066,7 @@
 //        DataAgreeFriend dataAgreeFriend = JSON.parseObject(responseText, DataAgreeFriend.class);
 //        DataAgreeFriend.RecordBean record = dataAgreeFriend.getRecord();
 //        if (record != null) {
-//            sendText(SplitWeb.privateSend(record.getFriendsId(), "我们已经是好友了，快来聊一聊吧", ChatActivity.messageType, TimeUtil.getTime()));
+//            sendText(SplitWeb.getSplitWeb().privateSend(record.getFriendsId(), "我们已经是好友了，快来聊一聊吧", ChatActivity.messageType, TimeUtil.getTime()));
 //
 //            final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
 //            cusJumpChatData.setHeadImg(record.getHeadImg());
@@ -1134,7 +1134,7 @@
 //            cusRealmChatMsg.setReceiveId(record.getFriendsId());
 //            cusRealmChatMsg.setSendId(record.getUserId());
 //            cusRealmChatMsg.setUserMessageType(record.getType());
-//            cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getUserId());
+//            cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getSplitWeb().getUserId());
 //            realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
 //
 ////            PrivateChatData msg = new PrivateChatData();
@@ -1202,7 +1202,7 @@
 //            }
 //        }
 ////        SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM,record.getRequestTime());
-//        if (!SplitWeb.IS_CHAT.equals("1")) {
+//        if (!SplitWeb.getSplitWeb().IS_CHAT.equals("1")) {
 ////            不在聊天界面收到消息时候的处理
 //            noChatUI(record.getMessage(),record.getFriendsId());
 //        }
@@ -1217,7 +1217,7 @@
 //        cusRealmChatMsg.setSendId(record.getUserId());
 //        cusRealmChatMsg.setUserMessageType(record.getType());
 //        cusRealmChatMsg.setImgUrl(record.getHeadImg());
-//        cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getUserId());
+//        cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getSplitWeb().getUserId());
 ////        PrivateChatData msg = new PrivateChatData();
 ////        msg.setCreated(Mytime);
 ////        msg.setMessage(record.getMessage());
@@ -1233,7 +1233,7 @@
 //
 //        if (homeRealmData != null) {
 //            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
-//            if (SplitWeb.IS_CHAT_Zero)
+//            if (SplitWeb.getSplitWeb().IS_CHAT_Zero)
 //                realmHelper.updateNum(record.getFriendsId());//更新首页聊天界面数据（未读消息数目）
 //            else {
 //                realmHelper.updateNumZero(record.getFriendsId());//更新首页聊天界面数据（未读消息数目）
@@ -1268,8 +1268,8 @@
 //            wl.acquire(10000); // 点亮屏幕
 //            wl.release(); // 释放
 //        }
-////        if (!SplitWeb.IS_CHAT.equals("1"))
-//        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())||!SplitWeb.IS_CHAT.equals("1"))
+////        if (!SplitWeb.getSplitWeb().IS_CHAT.equals("1"))
+//        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext())||!SplitWeb.getSplitWeb().IS_CHAT.equals("1"))
 //            //APP在后台的时候处理接收到消息的事件
 //            new Thread(new Runnable() {
 //                @Override
@@ -1385,7 +1385,7 @@
 //        if (isConnected) {
 //            try {
 //                NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-//                netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.errorRequest(aCache.getAsString(AppConfig.TYPE_URL)), new NetWorkUtlis.OnNetWork() {
+//                netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().errorRequest(aCache.getAsString(AppConfig.TYPE_URL)), new NetWorkUtlis.OnNetWork() {
 //                    @Override
 //                    public void onNetSuccess(String result) {
 //                        MyLog.e("errorRequest", result + "---------------------result------");
@@ -1431,7 +1431,7 @@
 //        mConnectManager = new WebSocketServiceConnectManager(this, this);
 //        mConnectManager.onCreate();
 ////        mConnectManager.reconnect();
-////        mConnectManager.reBind(SplitWeb.bindUid());
+////        mConnectManager.reBind(SplitWeb.getSplitWeb().bindUid());
 //        MyLog.e(TAG, "----------reBind------重新配置-----reconnect------");
 //
 //    }
@@ -1456,7 +1456,7 @@
 //    };
 //    private void errorRequest() {
 //        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-//        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.addrPort(), new NetWorkUtlis.OnNetWork() {
+//        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().addrPort(), new NetWorkUtlis.OnNetWork() {
 //            @Override
 //            public void onNetSuccess(String msg) {
 //                MyLog.e("onNetSuccess","msg="+msg);
@@ -1478,7 +1478,7 @@
 //    }
 //
 //    private void initjiqun(DataJiqun.RecordBean record) {
-//        SplitWeb.WS_REQUEST = record.getServerIpWs();
+//        SplitWeb.getSplitWeb().WS_REQUEST = record.getServerIpWs();
 //        String serverIpWs = record.getServerIpWs();
 //        String http = record.getServerIpHttp();
 //        aCache.remove(AppConfig.TYPE_WS_REQUEST);
@@ -1504,7 +1504,7 @@
 ////        mConnectManager = new WebSocketServiceConnectManager(this, this);
 ////        mConnectManager.onCreate();
 //////        mConnectManager.reconnect();
-//////        mConnectManager.reBind(SplitWeb.bindUid());
+//////        mConnectManager.reBind(SplitWeb.getSplitWeb().bindUid());
 ////        MyLog.e(TAG, "----------reBind------000-----reconnect------");
 //////        AppResponseDispatcher appResponseDispatcher = new AppResponseDispatcher();
 //////        WebSocketSetting.setResponseProcessDelivery(appResponseDispatcher);

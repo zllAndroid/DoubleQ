@@ -15,7 +15,6 @@ import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.DataLogin;
 import com.mding.model.DataMyZiliao;
 import com.mding.chatfeng.R;
-import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ZXingUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.PersonData;
@@ -23,13 +22,8 @@ import com.mding.chatfeng.about_base.BaseActivity;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
-
-import org.json.JSONObject;
-
 import butterknife.BindView;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
-import static com.mding.chatfeng.about_base.web_base.SplitWeb.QR_CODE;
 import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
 
 /**
@@ -104,7 +98,7 @@ public class MyAccountActivity extends BaseActivity  {
         }
 //        }
         includeTopTvTital.setText("我的二维码");
-//        sendWeb(SplitWeb.personalCenter());
+//        sendWeb(SplitWeb.getSplitWeb().personalCenter());
     }
     @Override
     public void receiveResultMsg(String responseText) {
@@ -119,7 +113,7 @@ public class MyAccountActivity extends BaseActivity  {
 //                        .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
 //                       .into(qrcodeIvHead);
 
-//                String string = type + "_xm6leefun_" + SplitWeb.getUserId();
+//                String string = type + "_xm6leefun_" + SplitWeb.getSplitWeb().getUserId();
                 Log.e("qrcode","----------string_myAccount--------------"+record.getQrcode());
                 createQrCodeImg(record.getQrcode());
                 Log.e("qrcode","-------myAccount---------"+record.getQrcode());

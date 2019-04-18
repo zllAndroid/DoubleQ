@@ -78,7 +78,7 @@ public class GroupNoticeActivity extends BaseActivity {
             groupofId = intent.getStringExtra("groupId");
             isGrouper = intent.getBooleanExtra("isGrouper", false);
             content = intent.getStringExtra("content");
-            sendWeb(SplitWeb.groupNoticeInfo(groupofId));
+            sendWeb(SplitWeb.getSplitWeb().groupNoticeInfo(groupofId));
         }
         initNotice();
         // 判断是否为群主（或管理员），是则可编辑群公告，不是则不可编辑群公告
@@ -145,7 +145,7 @@ public class GroupNoticeActivity extends BaseActivity {
     @OnClick(R.id.inclu_tv_right)
     public void onViewClicked() {
         if (groupofId!=null){
-            sendWeb(SplitWeb.editGroupNotice(groupofId, acEtContent.getText().toString()));
+            sendWeb(SplitWeb.getSplitWeb().editGroupNotice(groupofId, acEtContent.getText().toString()));
         }
         else
             ToastUtil.show("系统故障");

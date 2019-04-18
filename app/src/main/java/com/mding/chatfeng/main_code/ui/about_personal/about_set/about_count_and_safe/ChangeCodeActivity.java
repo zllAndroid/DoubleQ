@@ -62,7 +62,7 @@ public class ChangeCodeActivity extends BaseActivity {
         mLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
 //        给密码修改按钮添加下划线
         mTvYan.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-        String mPhone = (String)SPUtils.get(this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.MOBILE);
+        String mPhone = (String)SPUtils.get(this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.getSplitWeb().MOBILE);
         if (!StrUtils.isEmpty(mPhone))
             changecodeTvCode.setText(mPhone);
     }
@@ -128,9 +128,9 @@ public class ChangeCodeActivity extends BaseActivity {
 //            return;
 //        }
 
-        sendWeb(SplitWeb.upPassWordSms(phone,code,psw));
+        sendWeb(SplitWeb.getSplitWeb().upPassWordSms(phone,code,psw));
 //        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-//        netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower, SplitWeb.smsCode(phone,psw,code), new NetWorkUtlis.OnNetWork() {
+//        netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower, SplitWeb.getSplitWeb().smsCode(phone,psw,code), new NetWorkUtlis.OnNetWork() {
 //            @Override
 //            public void onNetSuccess(String result) {
 //                DialogUtils.showDialogOne("注册成功", new DialogUtils.OnClickSureListener() {
@@ -155,7 +155,7 @@ public class ChangeCodeActivity extends BaseActivity {
                 @Override
                 public void onClickSure() {
                     timer.cancel();
-                    SplitWeb.USER_ID="";
+                    SplitWeb.getSplitWeb().USER_ID="";
                     IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",phone);
                     AppManager.getAppManager().finishAllActivity();
                     overridePendingTransition(0,0);
@@ -186,9 +186,9 @@ public class ChangeCodeActivity extends BaseActivity {
 //            Tip.getDialog(this,"手机号输入有误");
             return;
         }
-//        sendWeb(SplitWeb.upPassWordSms(phone));
+//        sendWeb(SplitWeb.getSplitWeb().upPassWordSms(phone));
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(SplitWeb.smsCode(phone, "3"), new NetWorkUtlis.OnNetWork() {
+        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().smsCode(phone, "3"), new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String msg) {
                 timer.start();

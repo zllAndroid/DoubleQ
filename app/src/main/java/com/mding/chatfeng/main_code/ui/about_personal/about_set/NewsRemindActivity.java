@@ -50,11 +50,11 @@ public class NewsRemindActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (NoDoubleClickUtils.isDoubleClick())
-                    sendWeb( SplitWeb.permissionSetTwo("2",isMsg,isVoice,isVideo));
+                    sendWeb( SplitWeb.getSplitWeb().permissionSetTwo("2",isMsg,isVoice,isVideo));
             }
         });
         switchListen();
-        sendWeb( SplitWeb.getPermissStatu("2"));
+        sendWeb( SplitWeb.getSplitWeb().getPermissStatu("2"));
     }
     @Override
     public void receiveResultMsg(String responseText) {

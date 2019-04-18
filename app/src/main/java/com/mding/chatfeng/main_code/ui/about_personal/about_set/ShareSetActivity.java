@@ -57,7 +57,7 @@ public class ShareSetActivity extends BaseActivity {
         includeTopTvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendWeb( SplitWeb.permissionSetOne("1",mShare));
+                sendWeb( SplitWeb.getSplitWeb().permissionSetOne("1",mShare));
             }
         });
         radioBtnOne.setChecked(true);
@@ -82,7 +82,7 @@ public class ShareSetActivity extends BaseActivity {
                 }
             }
         });
-        sendWeb( SplitWeb.getPermissStatu("1"));
+        sendWeb( SplitWeb.getSplitWeb().getPermissStatu("1"));
     }
     @Override
     public void receiveResultMsg(String responseText) {

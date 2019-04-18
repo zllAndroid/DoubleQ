@@ -63,9 +63,9 @@ public class GroupDataAddActivity extends BaseActivity {
 ////
 ////            }
 ////                if (!StrUtils.isEmpty(dataSearch.getId()))
-////                    sendWeb(SplitWeb.searchDetailInfo(dataSearch.getId()));
+////                    sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(dataSearch.getId()));
 ////            else {
-//            sendWeb(SplitWeb.addGroupOfQrCode(groupSno));
+//            sendWeb(SplitWeb.getSplitWeb().addGroupOfQrCode(groupSno));
 ////                }
 //        }
 //    }
@@ -251,7 +251,7 @@ public class GroupDataAddActivity extends BaseActivity {
 //            case R.id.group_data_tv_addgroup:
 ////                IntentUtils.JumpTo(GroupDataAddActivity.class);
 //                IntentUtils.JumpToHaveObj(AddGoodGroupActivity.class, AppConfig.GROUP_ADDKEY, dataSearch);
-////                sendWeb(SplitWeb.addGroupOf(groupSno,""));
+////                sendWeb(SplitWeb.getSplitWeb().addGroupOf(groupSno,""));
 //
 //                break;
 //            case R.id.group_data_lin_name:

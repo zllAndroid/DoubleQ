@@ -190,17 +190,17 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
                 //  好友的二维码
                 if (c.equals("1")){
                     substring = qrCode.substring(12);
-//                    sendWeb(SplitWeb.addFriendQrCode(substring));
+//                    sendWeb(SplitWeb.getSplitWeb().addFriendQrCode(substring));
                     IntentUtils.JumpToHaveOne(FriendDataMixActivity.class,"id",substring);
                     AppManager.getAppManager().finishActivity(ScanCodeActivity.this);
                 }
                 //  群的二维码
                 else if (c.equals(IS_GROUP)){
                     substring = qrCode.substring(12);
-                    sendWeb(SplitWeb.addGroupOfQrCode(substring));
+                    sendWeb(SplitWeb.getSplitWeb().addGroupOfQrCode(substring));
                 }
 
-//                sendWebHaveDialog(SplitWeb.addFriendQrCode(substring),"查看好友信息中...","获取成功");
+//                sendWebHaveDialog(SplitWeb.getSplitWeb().addFriendQrCode(substring),"查看好友信息中...","获取成功");
 //                IntentUtils.JumpGoH5(getResources().getString(R.string.fanweisuyuan), qrCode + "&type=android");
 //                AppManager.getAppManager().finishActivity();
             }

@@ -73,7 +73,7 @@
 //        {
 //            String id = intent.getStringExtra(AppConfig.GROUP_ID);
 //            if (!StrUtils.isEmpty(id))
-//                sendWeb(SplitWeb.searchDetailInfo(id));
+//                sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(id));
 //        }
 //    }
 //    @Override

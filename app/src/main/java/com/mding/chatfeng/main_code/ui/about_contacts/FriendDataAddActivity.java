@@ -84,8 +84,8 @@ public class FriendDataAddActivity extends BaseActivity {
             } else {
                 String id = intent.getStringExtra("id");
                 Log.e("scan_id", "-------------------------" + id);
-                sendWebHaveDialog(SplitWeb.addFriendQrCode(id), "搜索好友信息中...", "获取成功");
-//                sendWebHaveDialog(SplitWeb.getFriendInfo(id),"搜索好友信息中...","获取成功");
+                sendWebHaveDialog(SplitWeb.getSplitWeb().addFriendQrCode(id), "搜索好友信息中...", "获取成功");
+//                sendWebHaveDialog(SplitWeb.getSplitWeb().getFriendInfo(id),"搜索好友信息中...","获取成功");
             }
         }
     }

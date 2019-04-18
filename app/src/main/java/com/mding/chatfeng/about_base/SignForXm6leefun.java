@@ -39,14 +39,14 @@ public class SignForXm6leefun {
             }
         } catch (Exception e) {
         }
-        if (SplitWeb.USER_TOKEN.equals("")) {
+        if (SplitWeb.getSplitWeb().USER_TOKEN.equals("")) {
             return StringUnicode.decode(headTemp) + "&sign="
                     + MD5Utils.encryptMD5(MD5Utils.encryptMD5(StringUnicode.decode(nameTemp) + time) + key).toUpperCase()
                     + "&timestamp=" + time + "&api_key=" + api_key+ "&device=" + device+ "&v=" + versionName;
         } else {
             return StringUnicode.decode(headTemp) + "&sign="
                     + MD5Utils.encryptMD5(MD5Utils.encryptMD5(StringUnicode.decode(nameTemp) + time) + key).toUpperCase()
-                    + "&timestamp=" + time + "&api_key=" + api_key + "&user_token=" + SplitWeb.USER_TOKEN+ "&device=" + device+ "&v=" + versionName;
+                    + "&timestamp=" + time + "&api_key=" + api_key + "&user_token=" + SplitWeb.getSplitWeb().USER_TOKEN+ "&device=" + device+ "&v=" + versionName;
         }
     }
 

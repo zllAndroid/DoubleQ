@@ -98,7 +98,7 @@ public class ChangePwdActivity extends BaseActivity {
 //            return;
 //        }
 
-        sendWeb(SplitWeb.upPassWord(oldPwd,newPwd,surePwd));
+        sendWeb(SplitWeb.getSplitWeb().upPassWord(oldPwd,newPwd,surePwd));
 
     }
 
@@ -111,9 +111,9 @@ public class ChangePwdActivity extends BaseActivity {
                 DialogUtils.showDialogOne("修改密码成功", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
-                        SplitWeb.USER_ID="";
+                        SplitWeb.getSplitWeb().USER_ID="";
                         AppManager.getAppManager().finishAllActivity();
-                        String mPhone = (String)SPUtils.get(ChangePwdActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.MOBILE);
+                        String mPhone = (String)SPUtils.get(ChangePwdActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.getSplitWeb().MOBILE);
                         if (!StrUtils.isEmpty(mPhone))
                             IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",mPhone);
 

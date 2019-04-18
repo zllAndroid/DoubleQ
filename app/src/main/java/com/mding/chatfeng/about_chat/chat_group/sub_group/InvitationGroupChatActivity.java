@@ -80,10 +80,10 @@ public class InvitationGroupChatActivity extends BaseActivity {
             initABC2();
 //           邀请
             if (AppConfig.GROUP_QUZHU.equals(groupType)) {
-                sendWeb(SplitWeb.groupInvitationfFriend(groupId));
+                sendWeb(SplitWeb.getSplitWeb().groupInvitationfFriend(groupId));
             } else {
 //                删除
-                sendWeb(SplitWeb.delGroupMemberList(groupId));
+                sendWeb(SplitWeb.getSplitWeb().delGroupMemberList(groupId));
             }
         }
     }
@@ -260,10 +260,10 @@ public class InvitationGroupChatActivity extends BaseActivity {
                         }
                     }
                     if (groupType.equals(AppConfig.GROUP_QUZHU)) {
-                        sendWebHaveDialog(SplitWeb.groupInvitationf(groupId, checkChat)
+                        sendWebHaveDialog(SplitWeb.getSplitWeb().groupInvitationf(groupId, checkChat)
                                 , "邀请中...", "邀请好友入群成功");
                     } else {
-                        sendWebHaveDialog(SplitWeb.delGroupMember(groupId, checkChat)
+                        sendWebHaveDialog(SplitWeb.getSplitWeb().delGroupMember(groupId, checkChat)
                                 , "删除中...", "删除群成员成功");
                     }
                 } else {

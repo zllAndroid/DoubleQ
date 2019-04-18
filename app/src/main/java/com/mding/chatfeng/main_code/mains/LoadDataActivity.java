@@ -68,15 +68,15 @@
 ////        contactsListHttp
 //        timer.start();
 //        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-//        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.contactsListHttp(), new NetWorkUtlis.OnNetWork() {
+//        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().contactsListHttp(), new NetWorkUtlis.OnNetWork() {
 //            @Override
 //            public void onNetSuccess(String result) {
 //                if (result!=null)
 //                    initContact(result);
 //            }
 //        });
-////        sendWeb(SplitWeb.contactsList());
-////        sendWeb(SplitWeb.getFriendList());
+////        sendWeb(SplitWeb.getSplitWeb().contactsList());
+////        sendWeb(SplitWeb.getSplitWeb().getFriendList());
 //
 //    }
 //    int durlation=5000;
@@ -156,7 +156,7 @@
 ////                    return;
 ////                }
 ////                dealFriendData(record);
-//////                sendWeb(SplitWeb.getGroupManage());
+//////                sendWeb(SplitWeb.getSplitWeb().getGroupManage());
 ////                isFriend=true;
 ////
 ////                break;

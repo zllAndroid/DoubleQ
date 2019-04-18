@@ -148,7 +148,7 @@ public class PersonalFragment extends BaseFragment {
         String asString = aCache.getAsString(IMAGE_BASE64);
 
         if (StrUtils.isEmpty(asString))
-            sendWeb(SplitWeb.personalCenter());
+            sendWeb(SplitWeb.getSplitWeb().personalCenter());
         else
         {
             imageBase64 = asString;
@@ -156,15 +156,15 @@ public class PersonalFragment extends BaseFragment {
             MyLog.e("PersonalFragment","无网时所传头像");
         }
 
-//        if (!SplitWeb.IS_SET_PERSON_HEAD) {
+//        if (!SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD) {
 //            getHead();
 //        }
     }
 
     private void initName() {
-//        String name = SplitWeb.getName();
-//        String sign = SplitWeb.getSign();
-//        String phone = SplitWeb.getUserMobile();
+//        String name = SplitWeb.getSplitWeb().getName();
+//        String sign = SplitWeb.getSplitWeb().getSign();
+//        String phone = SplitWeb.getSplitWeb().getUserMobile();
 //        if (!StrUtils.isEmpty(name))
 //        {
 //            mineTvName.setText(name);
@@ -208,13 +208,13 @@ public class PersonalFragment extends BaseFragment {
                 MyLog.e("personalFragment changeinfo","eventBus不为空");
             }
         }
-        if (SplitWeb.IS_SET_PERSON_HEAD){
+        if (SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD){
 //            getHead();
-            sendWeb(SplitWeb.personalCenter());
+            sendWeb(SplitWeb.getSplitWeb().personalCenter());
         }
         isChange=false;
         isChangeHead=false;
-        SplitWeb.IS_SET_PERSON_HEAD=false;
+        SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD=false;
 
     }
     String userId;
@@ -269,7 +269,7 @@ public class PersonalFragment extends BaseFragment {
                 fullImageInfo.setWidth(view.getWidth());
                 fullImageInfo.setHeight(view.getHeight());
                 GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-//                String mPath= FilePath.getAbsPath(FilePath.appPath+ SplitWeb.getUserId()+"/")+"chatHead/";
+//                String mPath= FilePath.getAbsPath(FilePath.appPath+ SplitWeb.getSplitWeb().getUserId()+"/")+"chatHead/";
 //                List<String> fileName = FilePath.getFilesAllName(mPath);
 //                if (fileName!=null&&fileName.size()>0)
 //                {

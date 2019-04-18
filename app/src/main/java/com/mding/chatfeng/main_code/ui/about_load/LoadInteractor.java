@@ -38,7 +38,7 @@ public class LoadInteractor {
     }
     public void linkManRequest(final OnLoadFinishedListener onLoadFinishedListener) {
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWorkTwo(SplitWeb.contactsListHttp(), new NetWorkUtlis.OnNetWork() {
+        netWorkUtlis.setOnNetWorkTwo(SplitWeb.getSplitWeb().contactsListHttp(), new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String result) {
                 onLoadFinishedListener.onSuccess(result);
@@ -309,7 +309,7 @@ public class LoadInteractor {
 
                     //好友关系列表
                     if (cusDataFriendRelation!=null) {
-                        String time = cusDataLinkFriend.getTime();
+                        String time = cusDataFriendRelation.getCreated();
                         if ( !modified.equals(time))
                         {
                             setFriendRealm(true,groupListBean);

@@ -305,7 +305,7 @@ public class MsgFragment extends BaseFragment {
         if (mList.size()!=0)
             for (int i=0;i<mList.size();i++)
             {
-                if (mList.get(i).getTotalId().equals(groupId+SplitWeb.getUserId()+""))
+                if (mList.get(i).getTotalId().equals(groupId+SplitWeb.getSplitWeb().getUserId()+""))
                 {
                     if (homeRealmData!=null) {
                         mList.set(i, homeRealmData);
@@ -390,7 +390,7 @@ public class MsgFragment extends BaseFragment {
                 twoAdapter();
 //                msgAdapter.notifyDataSetChanged();
             }
-//            if (mList.contains(id+SplitWeb.USER_ID+""))
+//            if (mList.contains(id+SplitWeb.getSplitWeb().USER_ID+""))
             if (mList.size()!=0)
                 for (int i=0;i<mList.size();i++)
                 {
@@ -403,7 +403,7 @@ public class MsgFragment extends BaseFragment {
                                 msgAdapter.notifyItemChanged(i);
                             return;
                         }
-                    if (mList.get(i).getTotalId().equals(id+SplitWeb.getUserId()+""))
+                    if (mList.get(i).getTotalId().equals(id+SplitWeb.getSplitWeb().getUserId()+""))
                     {
                         if (i==0)
                         {
@@ -418,7 +418,7 @@ public class MsgFragment extends BaseFragment {
                             msgAdapter.removeData(i);
                             msgAdapter.addData(homeRealmData);
                             mRecyclerView.smoothScrollToPosition(0);
-//                            realmHelper.deleteRealmMsg(id+SplitWeb.USER_ID);
+//                            realmHelper.deleteRealmMsg(id+SplitWeb.getSplitWeb().USER_ID);
                         }
                         return;
                     }
@@ -539,10 +539,10 @@ public class MsgFragment extends BaseFragment {
     public void onEvent(BusDataGroupOrFriend messageInfo) {
         if (!StrUtils.isEmpty(messageInfo.getMsg())&&item!=null) {
             if (type.equals("1")) {
-                BaseApplication.getApp().sendData(SplitWeb.privateSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
+                BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().privateSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
             }
             else {
-                BaseApplication.getApp().sendData(SplitWeb.groupSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
+                BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().groupSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
             }
         }
     }

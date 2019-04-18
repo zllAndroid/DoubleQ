@@ -120,7 +120,7 @@ public class EditGroupCardActivity extends BaseActivity {
     @OnClick(R.id.inclu_tv_right)
     public void onViewClicked() {
         if (groupofId!=null){
-                sendWeb(SplitWeb.setGroupCarteModify(groupofId, editGroupCardEt.getText().toString()));
+                sendWeb(SplitWeb.getSplitWeb().setGroupCarteModify(groupofId, editGroupCardEt.getText().toString()));
         }
         else
             ToastUtil.show("系统故障");
