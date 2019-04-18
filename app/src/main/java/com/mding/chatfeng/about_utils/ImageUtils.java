@@ -91,7 +91,8 @@ public class ImageUtils {
 		bitmap1.compress(Bitmap.CompressFormat.PNG, 100,baos);
 		String imageBase64 = new String (Base64.encode(baos.toByteArray(), 0));
 		Log.e("imageBase64","data:image/png;base64,"+imageBase64);
-		return "data:image/png;base64,"+imageBase64;
+		return imageBase64;
+//		return "data:image/png;base64,"+imageBase64;
 	}
 	/**
 	 * 将图片转换成Base64编码的字符串

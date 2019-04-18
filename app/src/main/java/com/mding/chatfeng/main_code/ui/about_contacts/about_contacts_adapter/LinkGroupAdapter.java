@@ -118,6 +118,8 @@ public class LinkGroupAdapter extends BaseExpandableListAdapter {
         }
         final  DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
         if (groupListBean!=null) {
+
+
             String headImg = groupListBean.getHeadImg();
             ImageUtils.useBase64(context,holder.img_contacts_child_head,headImg);
             holder.tv_contacts_child_name.setText(groupListBean.getNickName());

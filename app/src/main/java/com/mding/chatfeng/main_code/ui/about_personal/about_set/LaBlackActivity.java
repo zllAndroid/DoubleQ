@@ -100,18 +100,16 @@ public class LaBlackActivity extends BaseActivity {
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 Log.e("position","点击了"+position);
                 positions=position;
-                DataBlack.RecordBean item = (DataBlack.RecordBean)adapter.getItem(position);
-                String user_id = item.getUserId();
-                if (!StrUtils.isEmpty(user_id))
-                    sendWeb(SplitWeb.removeBlack(user_id));
+//                DataBlack.RecordBean item = (DataBlack.RecordBean)adapter.getItem(position);
+//                String user_id = item.getUserId();
+//                if (!StrUtils.isEmpty(user_id))
+                    sendWeb(SplitWeb.removeBlack());
             }
         });
 
     }
-
     @Override
     protected int getLayoutView() {
         return R.layout.activity_black;
     }
-
 }

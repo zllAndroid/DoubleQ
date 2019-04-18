@@ -32,7 +32,6 @@ import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
-import com.mding.chatfeng.main_code.ui.about_personal.about_activity.about_changeinfo_mvp.ChangeInfoView;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.mding.model.DataLogin;
 import com.mding.model.DataMyZiliao;

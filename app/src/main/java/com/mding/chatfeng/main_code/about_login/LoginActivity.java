@@ -199,16 +199,6 @@ public class LoginActivity extends BaseActivity {
         }
 
 
-
-//        ToastUtil.show("一秒后重启应用");
-//        WebSocketSetting.setConnectUrl(serverIpWs);//必选
-//        Intent intent = getBaseContext().getPackageManager()
-//                .getLaunchIntentForPackage(getBaseContext().getPackageName());
-//        PendingIntent restartIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent, PendingIntent.FLAG_ONE_SHOT);
-//        AlarmManager mgr = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-//        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 100, restartIntent); // 1秒钟后重启应用
-//        System.exit(0);
-
         //TODO 集群
         Intent intent = new Intent();
         intent.setAction("server_application");
@@ -286,14 +276,6 @@ public class LoginActivity extends BaseActivity {
                 IntentUtils.JumpFinishTo(LoginActivity.this,PwdLoginActivity.class);
                 break;
             case R.id.login_btn_login:
-//                String serverIpWs="ws://192.168.4.67:9093";
-//                mCache.remove(AppConfig.TYPE_URL);
-//                mCache.put(AppConfig.TYPE_URL,serverIpWs);
-//                Intent intent = new Intent();
-//                intent.setAction("server_application");
-//                sendBroadcast(intent);
-
-//                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
                 if (NoDoubleClickUtils.isDoubleClick())
                     clickLogin();
                 break;
@@ -313,13 +295,15 @@ public class LoginActivity extends BaseActivity {
         }
 //        if (StrUtils.isEmpty(phone)) {
 //            DialogUtils.showDialog(getResources().getString(R.string.phone_is_error));
-////            Tip.getDialog(LoginActivity.this,getResources().getString(R.string.phone_is_error));
 //            return;
 //        }
         if (StrUtils.isEmpty(pwd)) {
             DialogUtils.showDialog("密码不得为空");
-//            Tip.getDialog(LoginActivity.this,"密码不得为空");
             return;
+        }
+        if (StrUtils.isEmpty(SplitWeb.HttpURL))
+        {
+            initUrl();
         }
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
         netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower,SplitWeb.loginIn(phone, pwd), new NetWorkUtlis.OnNetWork() {

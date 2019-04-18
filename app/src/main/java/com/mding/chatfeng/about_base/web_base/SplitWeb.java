@@ -7,6 +7,7 @@ import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.SignForXm6leefunJava;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.MD5Utils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -148,7 +149,7 @@ public class SplitWeb {
     public static String loginIn(String mobile, String password){
         mList.clear();
         mList.add("sno="+mobile);
-        mList.add("password="+password);
+        mList.add("password="+getMd5(password));
 //        mList.add("mobile="+"13860169273");
 //        mList.add("password="+"1234566");
         return getURLRequest()+"loginIn?"+ SignForXm6leefunJava.getSing(mList);
@@ -163,11 +164,16 @@ public class SplitWeb {
     public static String register(String mobile, String password,String code){
         mList.clear();
         mList.add("mobile="+mobile);
-        mList.add("password="+password);
+        mList.add("password="+getMd5(password));
         mList.add("code="+code);
 //        mList.add("mobile="+"13860169273");
 //        mList.add("password="+"1234566");
         return getURLRequest()+"register?"+SignForXm6leefunJava.getSing(mList);
+    }
+    public static String  getMd5(String psw)
+    {
+        String md5ResultCode =  MD5Utils.encryptMD5((MD5Utils.encryptMD5((psw)) + "mding"));
+        return  md5ResultCode;
     }
     //    （旧短信验证码接口  1支付 2提现 3修改支付密码 4修改登录密码 5注册 6修改手机号）
     //    新短信验证码接口  1为登录 2为注册 3为修改登录密码 4修改绑定手机号（旧） 5修改绑定手机号（新）
@@ -394,8 +400,8 @@ public class SplitWeb {
      */
     public  static  String upPassWord(String oldPwd,String newPwd,String comfirmPwd){
         dealMap();
-        putData("oldPwd",oldPwd);
-        putData("newPwd",newPwd);
+        putData("oldPwd",getMd5(oldPwd));
+        putData("newPwd",getMd5(newPwd));
         putData("comfirmPwd",comfirmPwd);
         String request = WebUrl.request("PersonCenter", "upPassWord", map);
         return  request;
@@ -412,10 +418,9 @@ public class SplitWeb {
     }
     /**
      * 拉黑
-     * @param user_id
      * @return
      */
-    public  static  String removeBlack(String user_id){
+    public  static  String removeBlack(){
         dealMap();
         String request = WebUrl.request("PersonCenter", "removeBlack", map);
         return  request;
@@ -435,7 +440,7 @@ public class SplitWeb {
         dealMap();
         putData("mobile",mobile);
         putData("code",code);
-        putData("newPwd",newPwd);
+        putData("newPwd",getMd5(newPwd));
         String request = WebUrl.request("PersonCenter", "upPassWordSms", map);
         return  request;
     }
