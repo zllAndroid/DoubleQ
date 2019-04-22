@@ -20,6 +20,8 @@ import com.mding.chatfeng.about_base.deal_application.DealModifyGroupOfList;
 import com.mding.chatfeng.about_base.deal_application.DealUpdateFriend;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.ChatActivity;
 import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 import com.mding.chatfeng.about_chat.cus_data_group.RealmGroupChatHelper;
@@ -50,6 +52,8 @@ import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
 import com.zll.websocket.Response;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
 import java.util.List;
@@ -198,11 +202,15 @@ public class DealDataByApp {
                     break;
 //                    好友邀请入群推送
                 case "invitationGroupListSend":
-                    DealGroupInvitation.updateGroupDataByInvitation(mContext, message.getResponseText());
+                    DealGroupInvitation.getDealGroupInvitation().updateGroupDataByInvitation(mContext, message.getResponseText());
                     break;
 //                    好友修改Ta的信息
                 case "updateFriendSend":
                     DealUpdateFriend.getDealUpdateFriend().updateFriend(mContext,message.getResponseText());
+                    break;
+//成员列表 变动 推送
+                case "invitationfGroupMemberSend":
+//                    DealUpdateFriend.getDealUpdateFriend().updateFriend(mContext,message.getResponseText());
                     break;
             }
         }
@@ -278,11 +286,12 @@ public class DealDataByApp {
             realmHelper.addRealmMsgQun(cusJumpChatData);
         }
         //        发送广播更新首页
-        Intent intent = new Intent();
-        intent.putExtra("message", record.getMessage());
-        intent.putExtra("id", record.getGroupId());
-        intent.setAction("action.refreshMsgFragment");
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.putExtra("message", record.getMessage());
+//        intent.putExtra("id", record.getGroupId());
+//        intent.setAction("action.refreshMsgFragment");
+//        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
     }
     private static  void noGroupChatUIOffLine(final DataOffLineGroupChat.RecordBean.MessageListBean record) {
         final CusJumpChatData cusJumpChatData = new CusJumpChatData();
@@ -393,11 +402,12 @@ public class DealDataByApp {
         cusJumpChatData.setFriendName(record.getNickName());
 
 //        发送广播更新首页
-        Intent intent = new Intent();
-        intent.putExtra("message", record.getMessage());
-        intent.putExtra("id", record.getFriendsId());
-        intent.setAction("action.refreshMsgFragment");
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.putExtra("message", record.getMessage());
+//        intent.putExtra("id", record.getFriendsId());
+//        intent.setAction("action.refreshMsgFragment");
+//        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getFriendsId(),AppConfig.MSG_ACTION_REFRESH));
 //在前台的时候处理接收到消息的事件
         if (SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
             ToastUtil.show("收到来自" + record.getNickName() + "的一条新消息");
@@ -440,11 +450,12 @@ public class DealDataByApp {
             cusJumpChatData.setTime(TimeUtil.getTime());
             cusJumpChatData.setNum(0);
             realmHelper.addRealmMsg(cusJumpChatData);
-            Intent intent = new Intent();
-            intent.putExtra("message", "我们已经是好友了，快来聊一聊吧");
-            intent.putExtra("id", record.getFriendsId());
-            intent.setAction("add.refreshMsgFragment");
-            mContext.sendBroadcast(intent);
+//            Intent intent = new Intent();
+//            intent.putExtra("message", "我们已经是好友了，快来聊一聊吧");
+//            intent.putExtra("id", record.getFriendsId());
+//            intent.setAction("add.refreshMsgFragment");
+//            mContext.sendBroadcast(intent);
+            EventBus.getDefault().post(new MsgHomeEvent("我们已经是好友了，快来聊一聊吧",record.getFriendsId(),AppConfig.MSG_ADD_REFRESH));
         }
     }
     private static  void dealFriendPush(String responseText) {
@@ -457,11 +468,11 @@ public class DealDataByApp {
         for (int i = 0; i < messageList.size(); i++) {
             int num = (int) SPUtils.get(mContext, AppConfig.LINKMAN_FRIEND_NUM, 0);
             SPUtils.put(mContext, AppConfig.LINKMAN_FRIEND_NUM, num + 1);
-            Intent intent = new Intent();
-            intent.putExtra("num", num + 1);
-            intent.setAction("action.addFriend");
-            mContext.sendBroadcast(intent);
-
+//            Intent intent = new Intent();
+//            intent.putExtra("num", num + 1);
+//            intent.setAction("action.addFriend");
+//            mContext.sendBroadcast(intent);
+            EventBus.getDefault().post(new MainTabNumEvent((num+1),AppConfig.MAIN_TAB_TWO));
             final DataFriendPush.RecordBean.MessageListBean messageListBean = messageList.get(i);
             new Thread(new Runnable() {
                 @Override
@@ -498,11 +509,12 @@ public class DealDataByApp {
             cusJumpChatData.setNum(0);
 //            cusJumpChatData.setType(RealmHomeHelper.TypeQun);
             realmHelper.addRealmMsgQun(cusJumpChatData);
-            Intent intent = new Intent();
-            intent.putExtra("message", "我新建了一个群");
-            intent.putExtra("id", record.getGroupOfId());
-            intent.setAction("action.refreshMsgFragment");
-            mContext.sendBroadcast(intent);
+//            Intent intent = new Intent();
+//            intent.putExtra("message", "我新建了一个群");
+//            intent.putExtra("id", record.getGroupOfId());
+//            intent.setAction("action.refreshMsgFragment");
+//            mContext.sendBroadcast(intent);
+            EventBus.getDefault().post(new MsgHomeEvent("我新建了一个群",record.getGroupOfId(),AppConfig.MSG_ACTION_REFRESH));
         }
     }
     private static void dealFriend(String responseText) {
@@ -510,17 +522,20 @@ public class DealDataByApp {
         DataAddfriendSendRequest.RecordBean record = dataAddfriendSendRequest.getRecord();
         int num = (int) SPUtils.get(mContext, AppConfig.LINKMAN_FRIEND_NUM, 0);
         SPUtils.put(mContext, AppConfig.LINKMAN_FRIEND_NUM, num + 1);
-        Intent intent = new Intent();
-        intent.putExtra("num", num + 1);
-        intent.setAction("action.addFriend");
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.putExtra("num", num + 1);
+//        intent.setAction("action.addFriend");
+//        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new MainTabNumEvent((num+1),AppConfig.MAIN_TAB_TWO));
+
     }
     private static void initMsgSend(DataJieShou.RecordBean record) {
-        Intent intent = new Intent();
-        intent.putExtra("message", record.getMessage());
-        intent.putExtra("id", record.getFriendsId());
-        intent.setAction("action.refreshMsgFragment");
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.putExtra("message", record.getMessage());
+//        intent.putExtra("id", record.getFriendsId());
+//        intent.setAction("action.refreshMsgFragment");
+//        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getFriendsId(),AppConfig.MSG_ACTION_REFRESH));
 //        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
         realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
     }
@@ -572,11 +587,13 @@ public class DealDataByApp {
         }
     }
     private static void initMsgGroupSend(DataGroupChatSend.RecordBean record) {
-        Intent intent = new Intent();
-        intent.putExtra("message", record.getMessage());
-        intent.putExtra("id", record.getGroupId());
-        intent.setAction("action.refreshMsgFragment");
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.putExtra("message", record.getMessage());
+//        intent.putExtra("id", record.getGroupId());
+//        intent.setAction("action.refreshMsgFragment");
+//        mContext.sendBroadcast(intent);
+
+        EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
 //        realmHelper.updateMsg(record.getGroupId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
         realmHelper.updateGroupMsg(record.getGroupId(), record.getMessage(), record.getRequestTime(),record);//更新首页聊天界面数据（消息和时间）
     }
@@ -733,11 +750,12 @@ public class DealDataByApp {
     }
     private static void noChatUI(String msg,String id) {
 //        发送广播更新首页
-        Intent intent = new Intent();
-        intent.putExtra("message",msg);
-        intent.putExtra("id", id);
-        intent.setAction("action.refreshMsgFragment");
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.putExtra("message",msg);
+//        intent.putExtra("id", id);
+//        intent.setAction("action.refreshMsgFragment");
+//        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new MsgHomeEvent(msg,id,AppConfig.MSG_ACTION_REFRESH));
     }
     private static void initGroupReceiveData(String responseText) {
         DataGroupChatResult dataGroupChat = JSON.parseObject(responseText, DataGroupChatResult.class);
@@ -820,7 +838,8 @@ public class DealDataByApp {
         String assistantType1 = record.getAssistantType();
         if (assistantType1!=null&&assistantType1.equals("2"))
         {
-            initAss();
+//            TODO 群助手
+//            initAss();
         }else {
             if (!SplitWeb.getSplitWeb().IS_CHAT_GROUP.equals("2")) {
 //            不在聊天界面收到消息时候的处理
@@ -869,32 +888,33 @@ public class DealDataByApp {
             }
         }).start();
     }
-    private static void initAss() {
-        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
-        if (cusHomeRealmData.size()>0)
-        {
-            int howNum=0;
-            for (int i=0;i<cusHomeRealmData.size();i++)
-            {
-                int num = cusHomeRealmData.get(i).getNum();
-                String type= cusHomeRealmData.get(i).getType();
-                String assistantType = cusHomeRealmData.get(i).getAssistantType();
-                if (type!=null&&assistantType!=null)
-                    if (num>0&&type.equals("2")&&assistantType.equals("2"))
-                    {
-                        howNum++;
-                    }
-            }
-            if (howNum>0)
-            {
-                realmHelper.updateGroupAssNum( howNum+"");//更新首页聊天界面数据（群助手）
-                Intent intent = new Intent();
-//                    intent.putExtra("message",msg);
-                intent.putExtra("num", howNum);
-                intent.setAction("assistant.refreshMsgFragment");
-                mContext.sendBroadcast(intent);
-            }
-        }
-    }
+//    private static void initAss() {
+//        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
+//        if (cusHomeRealmData.size()>0)
+//        {
+//            int howNum=0;
+//            for (int i=0;i<cusHomeRealmData.size();i++)
+//            {
+//                int num = cusHomeRealmData.get(i).getNum();
+//                String type= cusHomeRealmData.get(i).getType();
+//                String assistantType = cusHomeRealmData.get(i).getAssistantType();
+//                if (type!=null&&assistantType!=null)
+//                    if (num>0&&type.equals("2")&&assistantType.equals("2"))
+//                    {
+//                        howNum++;
+//                    }
+//            }
+//            if (howNum>0)
+//            {
+//                realmHelper.updateGroupAssNum( howNum+"");//更新首页聊天界面数据（群助手）
+//                Intent intent = new Intent();
+////                    intent.putExtra("message",msg);
+//                intent.putExtra("num", howNum);
+//                intent.setAction("assistant.refreshMsgFragment");
+//                mContext.sendBroadcast(intent);
+////                EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
+//            }
+//        }
+//    }
 
 }

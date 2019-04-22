@@ -37,11 +37,13 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
+import com.mding.chatfeng.about_base.web_base.MessageEvent;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
 import com.mding.chatfeng.about_chat.adapter.CommonFragmentPagerAdapter;
 import com.mding.chatfeng.about_chat.fragment.ChatEmotionFragment;
@@ -286,11 +288,7 @@ public class ChatActivity extends BaseActivity {
         initRealm();
 //        通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
         realmHomeHelper.updateNumZero(FriendId);
-//        Intent intent2 = new Intent();
-//        intent2.putExtra("message", FriendId);
-//        intent2.putExtra("id", FriendId);
-//        intent2.setAction("zero.refreshMsgFragment");
-//        sendBroadcast(intent2);
+        EventBus.getDefault().post(new MsgHomeEvent("",FriendId,AppConfig.MSG_ZERO_REFRESH));
         listenEnter();
     }
 
@@ -412,17 +410,6 @@ public class ChatActivity extends BaseActivity {
         super.onDestroy();
         SplitWeb.getSplitWeb().IS_CHAT = "00";
 
-        try {
-            realmHomeHelper.updateNumZero(FriendId);
-            Intent intent2 = new Intent();
-            intent2.putExtra("message", FriendId);
-            intent2.putExtra("id", FriendId);
-            intent2.setAction("zero.refreshMsgFragment");
-            sendBroadcast(intent2);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         realmHelper.close();
         realmHomeHelper.close();
         realmHelper = null;
@@ -437,17 +424,6 @@ public class ChatActivity extends BaseActivity {
     ArrayList< DataJieShou.RecordBean> mList = new ArrayList<>();
 
     private void initRealm() {
-//        PrivateChatEntityDao privateChatDataDao = new PrivateChatEntityDao();
-//        PrivateChatDataDao entityDao = privateChatDataDao.getEntityDao();
-//        QueryBuilder qb = entityDao.queryBuilder();
-//
-//        qb.where(PrivateChatDataDao.Properties.m.eq("vvv"),
-//                qb.or(Properties.YearOfBirth.gt(1970),
-//                        qb.and(Properties.YearOfBirth.eq(1970),Properties.MonthOfBirth.ge(10))));
-//
-////        List<PrivateChatData> privateChatData = privateChatDataDao.getEntityDao().loadAll();
-//        List<PrivateChatData> privateChatData = entityDao.queryBuilder().where(PrivateChatDataDao.Properties.FriendId.eq(FriendId)).list();
-////        List<PrivateChatData> privateChatData = entityDao.queryBuilder().where(PrivateChatDataDao.Properties.FriendId.eq(FriendId),PrivateChatDataDao.Properties.UserId.eq(SplitWeb.getSplitWeb().getUserId())).list();
         List<CusChatData> cusRealmChatMsgs = realmHelper.queryAllRealmChat(FriendId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
             mList.clear();
@@ -465,17 +441,8 @@ public class ChatActivity extends BaseActivity {
             chatAdapter.notifyDataSetChanged();
             //    滑动到底部
             layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-
-
-        } else {
-//            sendWeb(SplitWeb.getSplitWeb().messageObtain(FriendId));
         }
     }
-
-    //屏幕高度
-    private int screenHeight = 0;
-    //软件盘弹起后所占高度阀值
-    private int keyHeight = 0;
 
     @SuppressLint("ClickableViewAccessibility")
     private void initWidget() {
@@ -501,21 +468,6 @@ public class ChatActivity extends BaseActivity {
                 .bindToInputLayout(mInputLinMain)
                 .build();
 
-        //获取屏幕高度
-//        screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
-//        //阀值设置为屏幕高度的1/3
-//        keyHeight = screenHeight / 3;
-//        mInputLin.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (emotionLayout.getVisibility()==View.VISIBLE)
-//                {
-//                    if (layoutManager!=null&&chatAdapter!=null)
-//                        layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-//                }
-//                return false;
-//            }
-//        });
         mInputLinMain.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, final int left, final int top, final int right, final int bottom, final int oldLeft, final int oldTop, final int oldRight, final int oldBottom) {
@@ -556,25 +508,6 @@ public class ChatActivity extends BaseActivity {
                 return false;
             }
         });
-//        getWindow().getDecorView().setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent motionEvent) {
-//                int top = mInputLinMain.getTop();
-//                int y = (int) motionEvent.getY();
-//                if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-//                    Log.e("chatList",isSoftShowing()+"---"+emotionLayout.isShown()+"-----top="+top+"-----y="+y);
-//                    if (absInt(y) < top) {
-//                        if (isSoftShowing() || emotionLayout.isShown()) {
-//                            emotionLayout.setVisibility(View.GONE);
-//                            chatAdapter.handler.removeCallbacksAndMessages(null);
-//                            mDetector.hideEmotionLayout(false);
-//                            mDetector.hideSoftInput();
-//                        }
-//                    }
-//                }
-//                return false;
-//            }
-//        });
     }
     public int absInt(int a) {
         if (a < 0) {
@@ -674,20 +607,12 @@ public class ChatActivity extends BaseActivity {
                     layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
                 } else {
                     ToastUtil.show("收到一条来自" + record2.getFriendsName() + "的消息");
-                    if (mIntent == null)
-                        mIntent = new Intent();
-                    mIntent.putExtra("message", record2.getMessage());
-                    mIntent.putExtra("id", record2.getFriendsId());
-                    mIntent.setAction("action.refreshMsgFragment");
-                    sendBroadcast(mIntent);
+                    EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(), record2.getFriendsId(),AppConfig.MSG_ACTION_REFRESH));
+
                 }
             } else if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
-                if (mIntent == null)
-                    mIntent = new Intent();
-                mIntent.putExtra("message", record2.getMessage());
-                mIntent.putExtra("id", record2.getFriendsId());
-                mIntent.setAction("action.refreshMsgFragment");
-                sendBroadcast(mIntent);
+                EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(), record2.getFriendsId(),AppConfig.MSG_ACTION_REFRESH));
+
                 //APP在后台的时候处理接收到消息的事件
                 new Thread(new Runnable() {
                     @Override

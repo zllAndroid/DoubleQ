@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendRelation;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
@@ -16,6 +18,8 @@ import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -209,10 +213,11 @@ public class DealFriendAdd {
             Log.e("jsonString","减少="+jsonString);
             aCache.remove(AppAllKey.FRIEND_DATA);
             aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-            Intent intent = new Intent();
-            intent.setAction(AppConfig.LINK_FRIEND_DEL_ACTION);
-            mContext.sendBroadcast(intent);
+            EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_DEL_ACTION));
+            EventBus.getDefault().post(new MsgHomeEvent(AppConfig.LINK_FRIEND_DEL_ACTION));
+//            Intent intent = new Intent();
+//            intent.setAction(AppConfig.LINK_FRIEND_DEL_ACTION);
+//            mContext.sendBroadcast(intent);
         }
     }
     private  boolean isHaveTypeTwo = true;
@@ -341,9 +346,10 @@ public class DealFriendAdd {
 //        String jsonString = JSON.toJSONString(recordBean);
 //        aCache.remove(AppAllKey.FRIEND_DATA);
 //        aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
     }
 
     //添加顶部无分组时，数据
@@ -402,10 +408,10 @@ public class DealFriendAdd {
         String jsonString = JSON.toJSONString(recordBean);
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
 
     }
 }

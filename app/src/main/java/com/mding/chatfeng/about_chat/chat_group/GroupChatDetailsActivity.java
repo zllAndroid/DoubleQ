@@ -913,7 +913,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 cusHomeRealmData.setFriendId(groupId);
                 cusHomeRealmData.setNickName(groupChatName);
                 cusHomeRealmData.setNum(0);
-
                 CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
                 if (cusHomeRealmData1!=null)
                 {

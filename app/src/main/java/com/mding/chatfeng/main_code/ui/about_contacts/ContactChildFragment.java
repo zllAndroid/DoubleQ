@@ -21,6 +21,8 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseFragment;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
+import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
 import com.mding.chatfeng.about_broadcastreceiver.NetEvent;
 import com.mding.chatfeng.about_chat.chat_group.GroupChatDetailsActivity;
 import com.mding.chatfeng.about_chat.cus_data_group.CusJumpGroupChatData;
@@ -41,6 +43,7 @@ import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -84,13 +87,49 @@ public class ContactChildFragment extends BaseFragment {
         return view;
     }
     private void initBroc() {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction("action.addFriend");
-        intentFilter.addAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-        intentFilter.addAction(AppConfig.LINK_FRIEND_DEL_ACTION);
-        intentFilter.addAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        intentFilter.addAction(AppConfig.LINK_GROUP_DEL_ACTION);
-        getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+//        IntentFilter intentFilter = new IntentFilter();
+////        intentFilter.addAction("action.addFriend");
+//        intentFilter.addAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//        intentFilter.addAction(AppConfig.LINK_FRIEND_DEL_ACTION);
+//        intentFilter.addAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        intentFilter.addAction(AppConfig.LINK_GROUP_DEL_ACTION);
+//        getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+//        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventLinkThread(LinkChangeEvent event) {
+        String type = event.getType();
+        switch (type)
+        {
+            case AppConfig.LINK_FRIEND_ADD_ACTION:
+                initFriendWs();
+                break;
+            case AppConfig.LINK_FRIEND_DEL_ACTION:
+                initFriendWs();
+                break;
+            case AppConfig.LINK_GROUP_ADD_ACTION:
+                initGroupWs();
+                break;
+            case AppConfig.LINK_GROUP_DEL_ACTION:
+                initGroupWs();
+
+                break;
+        }
+    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(MainTabNumEvent event) {
+        int num = event.getNum();
+        String type = event.getType();
+        if (type.equals(AppConfig.MAIN_TAB_TWO)) {
+            if (mTvFriendNews == null) {
+                return;
+            }
+            if (num > 0) {
+                mTvFriendNews.setVisibility(View.VISIBLE);
+                mTvFriendNews.setText(num + "");
+            } else
+                mTvFriendNews.setVisibility(View.INVISIBLE);
+        }
     }
     private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
         @Override
@@ -98,19 +137,6 @@ public class ContactChildFragment extends BaseFragment {
             String action = intent.getAction();
             switch (action)
             {
-                case "action.addFriend":
-                    int num = intent.getIntExtra("num",0);
-                    if (mTvFriendNews==null)
-                    {
-                        return;
-                    }
-                    if (num>0 )
-                    {
-                        mTvFriendNews.setVisibility(View.VISIBLE);
-                        mTvFriendNews.setText(num+"");
-                    }else
-                        mTvFriendNews.setVisibility(View.INVISIBLE);
-                    break;
                 case AppConfig.LINK_FRIEND_ADD_ACTION:
                     initFriendWs();
                     break;
@@ -174,10 +200,12 @@ public class ContactChildFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 SPUtils.put(getActivity(), AppConfig.LINKMAN_FRIEND_NUM,0);
-                Intent intent = new Intent();
-                intent.putExtra("num", 0);
-                intent.setAction("action.addFriend");
-                getActivity().sendBroadcast(intent);
+//                Intent intent = new Intent();
+//                intent.putExtra("num", 0);
+//                intent.setAction("action.addFriend");
+//                getActivity().sendBroadcast(intent);
+
+                EventBus.getDefault().post(new MainTabNumEvent(0,AppConfig.MAIN_TAB_TWO));
                 IntentUtils.JumpTo(NoticeActivity.class);
             }
         });

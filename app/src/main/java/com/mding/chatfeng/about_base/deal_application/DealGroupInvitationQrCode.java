@@ -6,11 +6,15 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.push_data.DataInvitationQrCodeGroupList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -128,9 +132,11 @@ public class DealGroupInvitationQrCode {
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
 
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
+
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
     }
 
     private static void putCache(DataInvitationQrCodeGroupList.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String groupManageName) {
@@ -155,10 +161,10 @@ public class DealGroupInvitationQrCode {
         Log.e("jsonString","展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
 
 }

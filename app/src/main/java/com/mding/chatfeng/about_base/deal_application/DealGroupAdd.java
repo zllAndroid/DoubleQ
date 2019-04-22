@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataGroup;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
@@ -15,6 +17,8 @@ import com.mding.model.push_data.DataAboutGroupModify;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -211,10 +215,11 @@ public class DealGroupAdd {
             Log.e("jsonString","修改="+jsonString);
             aCache.remove(AppAllKey.GROUD_DATA);
             aCache.put(AppAllKey.GROUD_DATA, jsonString);
-
-            Intent intent = new Intent();
-            intent.setAction(AppConfig.LINK_GROUP_DEL_ACTION);
-            mContext.sendBroadcast(intent);
+            EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_DEL_ACTION));
+            EventBus.getDefault().post(new MsgHomeEvent(AppConfig.LINK_GROUP_DEL_ACTION));
+//            Intent intent = new Intent();
+//            intent.setAction(AppConfig.LINK_GROUP_DEL_ACTION);
+//            mContext.sendBroadcast(intent);
         }
         return jsonString;
     }
@@ -273,10 +278,10 @@ public class DealGroupAdd {
             }
 
 //
-            Intent intent = new Intent();
-            intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-            mContext.sendBroadcast(intent);
-
+//            Intent intent = new Intent();
+//            intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//            mContext.sendBroadcast(intent);
+            EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
         }
         else
         {
@@ -366,10 +371,11 @@ public class DealGroupAdd {
             Log.e("jsonString","减少="+jsonString);
             aCache.remove(AppAllKey.GROUD_DATA);
             aCache.put(AppAllKey.GROUD_DATA, jsonString);
-
-            Intent intent = new Intent();
-            intent.setAction(AppConfig.LINK_GROUP_DEL_ACTION);
-            mContext.sendBroadcast(intent);
+            EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_DEL_ACTION));
+            EventBus.getDefault().post(new MsgHomeEvent(AppConfig.LINK_GROUP_DEL_ACTION));
+//            Intent intent = new Intent();
+//            intent.setAction(AppConfig.LINK_GROUP_DEL_ACTION);
+//            mContext.sendBroadcast(intent);
 
         }
     }
@@ -467,9 +473,10 @@ public class DealGroupAdd {
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
 
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
     }
     private  void dealNoChartModify(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list,
                                           int i, String chart) {
@@ -497,10 +504,10 @@ public class DealGroupAdd {
         Log.e("jsonString","原本没有本chart展开（修改）="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
 
     public  int stringToAscii(String value) {
@@ -547,10 +554,10 @@ public class DealGroupAdd {
         Log.e("jsonString","展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
     private  void putCacheModify(DataAboutGroupModify.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
@@ -574,9 +581,9 @@ public class DealGroupAdd {
         Log.e("jsonString","展开（修改）="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
 }

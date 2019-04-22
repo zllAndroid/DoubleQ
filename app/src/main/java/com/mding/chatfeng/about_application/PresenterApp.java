@@ -194,7 +194,7 @@ public class PresenterApp implements IWebSocketPage {
         mContext.startService(intent);
 //        MyLog.e("initFirstService",AppManager.getAppManager().currentActivity().getClass().getSimpleName()+"");
         if (mConnectManager!=null) {
-            mConnectManager.onDestroy();
+//            mConnectManager.onDestroy();
             mConnectManager = null;
         }
         mConnectManager = new WebSocketServiceConnectManager(mContext, this);

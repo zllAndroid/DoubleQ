@@ -6,23 +6,45 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataGroup;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
 import com.mding.model.DataLinkGroupList;
+import com.mding.model.push_data.DataAboutGroup;
 import com.mding.model.push_data.DataInvitationGroupList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class DealGroupInvitation {
-    private static String jsonString;
-    public  static ACache aCache;
-    public  static Context mContext;
-    public  static void updateGroupDataByInvitation(Context context,String result)
+    private  String jsonString;
+    public   ACache aCache;
+    public   Context mContext;
+
+    private  RealmGroupHelper groupHelper;
+    private static DealGroupInvitation dealFriendAdd;
+    // 构造函数必须是私有的 这样在外部便无法使用 new 来创建该类的实例
+    private DealGroupInvitation() {}
+    /**
+     * 单一实例
+     */
+    public synchronized static DealGroupInvitation getDealGroupInvitation() {
+        if (dealFriendAdd == null) {
+            dealFriendAdd = new DealGroupInvitation();
+        }
+        return dealFriendAdd;
+    }
+    public   void updateGroupDataByInvitation(Context context,String result)
     {
         mContext=context;
+        if (groupHelper==null)
+            groupHelper = new RealmGroupHelper(mContext);
         DataInvitationGroupList dataInvitationGroupList = JSON.parseObject(result, DataInvitationGroupList.class);
         DataInvitationGroupList.RecordBean record = dataInvitationGroupList.getRecord();
         aCache =  ACache.get(mContext);
@@ -32,12 +54,34 @@ public class DealGroupInvitation {
             if (!StrUtils.isEmpty(asString)&&record!=null)
             {
                 initDataGroup(asString,record);
+                doRealmGroup(record,"1"); //  1 add   2 modify  3 delete
             }
         }
     }
-
-    private static boolean isHaveTypeTwo = true;
-    private static void initDataGroup(String asString, DataInvitationGroupList.RecordBean mRecord) {
+    private  void doRealmGroup(DataInvitationGroupList.RecordBean record, String type) {
+        CusDataGroup cusDataGroup = new CusDataGroup();
+        cusDataGroup.setGroupHeadImg(record.getGroupHeadImg());
+        cusDataGroup.setGroupId(record.getGroupId());
+        cusDataGroup.setGroupName(record.getGroupName());
+        cusDataGroup.setGroupManageId(record.getGroupManageId());
+        cusDataGroup.setGroupManageName(record.getGroupManageName());
+        CusDataGroup dataGroup = groupHelper.queryLinkFriend(record.getGroupId());
+        if (type.equals("1") || type.equals("2")) {
+            if (dataGroup != null) {
+                //不为空说明有该群，则进行修改操作
+                groupHelper.updateAll(record.getGroupId(), cusDataGroup);
+            } else {
+                //为空说明有该群，则进行添加操作
+                groupHelper.addRealmGroup(cusDataGroup);
+            }
+        }
+        else if (type.equals("3")){
+            //不为空说明有该群，则进行删除操作
+            groupHelper.deleteRealmFriend(record.getGroupId());
+        }
+    }
+    private  boolean isHaveTypeTwo = true;
+    private  void initDataGroup(String asString, DataInvitationGroupList.RecordBean mRecord) {
         DataLinkGroupList.RecordBean record = JSON.parseObject(asString, DataLinkGroupList.RecordBean.class);
         final List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list = record.getGroupInfoList();
         if (group_info_list.size()>0) {
@@ -100,7 +144,7 @@ public class DealGroupInvitation {
         }
     }
 
-    private static void dealNoChart(DataInvitationGroupList.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String chart) {
+    private  void dealNoChart(DataInvitationGroupList.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String chart) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = new ArrayList<>();
 
         DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
@@ -125,13 +169,13 @@ public class DealGroupInvitation {
         Log.e("jsonString","原本没有本chart展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
 
-    private static void putCache(DataInvitationGroupList.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String groupManageName) {
+    private  void putCache(DataInvitationGroupList.RecordBean mRecord, List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String groupManageName) {
         List<DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean> groupList = group_info_list.get(i).getGroupList();
         DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = new DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean();
         groupListBean.setGroupName(groupManageName);
@@ -153,10 +197,10 @@ public class DealGroupInvitation {
         Log.e("jsonString","展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
 
 }

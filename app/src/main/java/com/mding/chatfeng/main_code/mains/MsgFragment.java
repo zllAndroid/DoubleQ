@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mding.chatfeng.about_application.BaseApplication;
+import com.mding.chatfeng.about_base.web_base.MessageEvent;
+import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.mding.model.CusJumpChatData;
@@ -43,6 +45,7 @@ import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -94,11 +97,28 @@ public class MsgFragment extends BaseFragment {
         initFriend(view);
         initRealmData();
 //        首页消息广播处理
-        initReceiver();
+//        initReceiver();
 
 //        网络连接状态的广播接收
         initNetReceive();
+        initRecycScroll();
     }
+
+    private void initRecycScroll() {
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                //调用方法
+                if (msgAdapter!=null)
+                {
+                    msgAdapter.colseBGASwipeItemLayout();
+//                    ToastUtil.show("滚动关闭哦");
+                }
+            }
+        });
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -115,14 +135,14 @@ public class MsgFragment extends BaseFragment {
             getActivity().registerReceiver(mReceiver, mFilter);
         }
     }
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void onEventMainThread(MsgHomeEvent event) {
-//        try {
-//            mLinNet.setVisibility(event.isNet ? View.GONE : View.VISIBLE);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMsgThread(MsgHomeEvent event) {
+        String id = event.getId();
+        String type=event.getType();
+        String message=event.getMessage();
+        dealMsgBroReceiver(id,message,type);
+//   发送     EventBus.getDefault().post(new MessageEvent(message.getResponseText()));
+    }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(NetEvent event) {
         try {
@@ -134,31 +154,30 @@ public class MsgFragment extends BaseFragment {
     public static final  String Tag="Msgfragment";
     IntentFilter intentFilter;
     //广播接收消息推送
-    private void initReceiver() {
-        if (intentFilter == null) {
-            Log.e(Tag,"new IntentFilter");
-            intentFilter = new IntentFilter();
-            intentFilter.addAction("action.refreshMsgFragment");
-            intentFilter.addAction("zll.refreshMsgFragment");
-            intentFilter.addAction("add.refreshMsgFragment");
-            intentFilter.addAction("zero.refreshMsgFragment");
-            intentFilter.addAction("del.refreshMsgFragment");
-            intentFilter.addAction("action.dialog");
-            intentFilter.addAction("assistant.refreshMsgFragment");
-            intentFilter.addAction(GroupChatDetailsActivity.ACTION_UP_GROUP_NAME);
-            intentFilter.addAction(AppConfig.LINK_GROUP_DEL_ACTION);
-            getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
-        }
-    }
+//    private void initReceiver() {
+//        if (intentFilter == null) {
+//            Log.e(Tag,"new IntentFilter");
+//            intentFilter = new IntentFilter();
+//            intentFilter.addAction(".");
+//            intentFilter.addAction("zll.refreshMsgFragment");
+//            intentFilter.addAction("add.refreshMsgFragment");
+//            intentFilter.addAction("zero.refreshMsgFragment");
+//            intentFilter.addAction("del.refreshMsgFragment");
+//            intentFilter.addAction("action.dialog");
+//            intentFilter.addAction("assistant.refreshMsgFragment");
+//            intentFilter.addAction(GroupChatDetailsActivity.ACTION_UP_GROUP_NAME);
+//            intentFilter.addAction(AppConfig.LINK_GROUP_DEL_ACTION);
+//            getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+//        }
+//    }
 
     static RealmHomeHelper realmHelper;
-    static RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
+//    static RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
     private void initRealmData() {
-        Log.e(Tag,"realmHelper="+realmHelper+",-----realmMsgInfoTotalHelper="+ realmMsgInfoTotalHelper +",---mList.size()="+mList.size());
         if (realmHelper==null)
             realmHelper = new RealmHomeHelper(getActivity());
-        if (realmMsgInfoTotalHelper ==null)
-            realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(getActivity());
+//        if (realmMsgInfoTotalHelper ==null)
+//            realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(getActivity());
         if (mList.size()==0) {
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
             if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
@@ -202,51 +221,57 @@ public class MsgFragment extends BaseFragment {
         super.onResume();
     }
 
-    public  BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
+//    public  BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            dealMsgBroReceiver(intent);
+//        }
+//    };
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            dealMsgBroReceiver(intent);
-        }
-    };
-
-    private void dealMsgBroReceiver(Intent intent) {
-        String action = intent.getAction();
+    private void dealMsgBroReceiver(String id,String msg,String action) {
         if (realmHelper == null) {
             realmHelper = new RealmHomeHelper(getActivity());
         }
-        if (action.equals("action.refreshMsgFragment"))
+        if (action.equals(AppConfig.MSG_ACTION_REFRESH))
         {
-            initRefresh(intent);
+            initRefresh(id,msg);
         }
-        if (action.equals("add.refreshMsgFragment"))
+        if (action.equals(AppConfig.MSG_ADD_REFRESH))
+//        if (action.equals("add.refreshMsgFragment"))
         {
             initRealmData();
         }
         if (action.equals("assistant.refreshMsgFragment"))
         {
-            initAssistant(intent);
+//            initAssistant(intent);
         }
-        else if (action.equals("zero.refreshMsgFragment"))
+        else if (action.equals(AppConfig.MSG_ZERO_REFRESH))
+//        else if (action.equals("zero.refreshMsgFragment"))
         {
-            initZeroNum(intent);
+            initZeroNum(id,msg);
         }
-        else  if (action.equals("zll.refreshMsgFragment"))
+        else  if (action.equals(AppConfig.MSG_ZLL_REFRESH))
+//        else  if (action.equals("zll.refreshMsgFragment"))
         {
-            refreshMsg(intent);
+            refreshMsg(id,msg);
         }
-        else  if (action.equals("del.refreshMsgFragment"))
+        else  if (action.equals(AppConfig.MSG_DEL_REFRESH))
+//        else  if (action.equals("del.refreshMsgFragment"))
         {
-            initDel(intent);
+            initDel();
         }
         else if (action.equals("action_dialog")){
 
         }
-        else if (action.equals(GroupChatDetailsActivity.ACTION_UP_GROUP_NAME)){
-            initGroupName(intent);
+        else if (action.equals(AppConfig.ACTION_UP_GROUP_NAME)){
+            initGroupName(id,msg);
         }
         else if (action.equals(AppConfig.LINK_GROUP_DEL_ACTION)){
-            initDel(intent);
+            initDel();
+        }
+        else if (action.equals(AppConfig.LINK_FRIEND_DEL_ACTION)){
+            initDel();
         }
         if (mRecyclerView!=null)
             mRecyclerView.smoothScrollToPosition(0);
@@ -256,33 +281,33 @@ public class MsgFragment extends BaseFragment {
     protected void searchClickEvent() {
         JumpTo(SearchActivity.class);
     }
-    private void initAssistant(Intent intent) {
-//        String message = intent.getStringExtra("message");
-        String num = intent.getStringExtra("num");
-        CusHomeRealmData cusHomeRealmData1 = new CusHomeRealmData();
-        cusHomeRealmData1.setGroupNumMsg(num);
+//    private void initAssistant(Intent intent) {
+////        String message = intent.getStringExtra("message");
+//        String num = intent.getStringExtra("num");
+//        CusHomeRealmData cusHomeRealmData1 = new CusHomeRealmData();
+//        cusHomeRealmData1.setGroupNumMsg(num);
+//
+//        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
+//        for (int i=0;i<cusHomeRealmData.size();i++)
+//        {
+////            String totalId = realmData.get(i).getTotalId();//群助手id
+//            String assistantType = cusHomeRealmData.get(i).getAssistantType();
+//            String mTy = cusHomeRealmData.get(i).getType();
+//
+//            if (mTy != null && assistantType != null&&mTy.equals("2") && assistantType.equals("2")) {
+//
+//
+//            }else {
+//                mList.set(i,cusHomeRealmData1);
+//                if (msgAdapter!=null)
+//                    msgAdapter.notifyItemChanged(i);
+//            }
+//        }
+//    }
 
-        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
-        for (int i=0;i<cusHomeRealmData.size();i++)
-        {
-//            String totalId = realmData.get(i).getTotalId();//群助手id
-            String assistantType = cusHomeRealmData.get(i).getAssistantType();
-            String mTy = cusHomeRealmData.get(i).getType();
-
-            if (mTy != null && assistantType != null&&mTy.equals("2") && assistantType.equals("2")) {
-
-
-            }else {
-                mList.set(i,cusHomeRealmData1);
-                if (msgAdapter!=null)
-                    msgAdapter.notifyItemChanged(i);
-            }
-        }
-    }
-
-    private void initGroupName(Intent intent) {
-        String groupId = intent.getStringExtra("id");
-        String groupName = intent.getStringExtra("groupName");
+    private void initGroupName(String groupId,String message) {
+//        String groupId = intent.getStringExtra("id");
+//        String groupName = intent.getStringExtra("groupName");
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(groupId);
         Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
@@ -306,9 +331,8 @@ public class MsgFragment extends BaseFragment {
             }
     }
 
-    private void initDel(Intent intent) {
+    private void initDel() {
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
-        Log.e("home","initDel="+cusHomeRealmData.size());
         try {
             mList.clear();
             addListMethon(cusHomeRealmData);
@@ -317,9 +341,8 @@ public class MsgFragment extends BaseFragment {
             e.printStackTrace();
         }
     }
-    private void refreshMsg(Intent intent) {
+    private void refreshMsg(String id,String message) {
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
-        Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
         if (cusHomeRealmData.size()!=0)
         {
             mList.clear();
@@ -336,21 +359,22 @@ public class MsgFragment extends BaseFragment {
             {
                 if (numData!=0)
                     num=numData;
-                Intent intent2 = new Intent();
+               /* Intent intent2 = new Intent();
                 intent2.putExtra("num", numData+"");
                 intent2.setAction("action.refreshMain");
-                getActivity().sendBroadcast(intent2);
+                getActivity().sendBroadcast(intent2);*/
+
+                EventBus.getDefault().post(new MainTabNumEvent(numData,AppConfig.MAIN_TAB_ONE));
             }
         }
     }
 
-    public  void initZeroNum(Intent intent) {
-        String id = intent.getStringExtra("id");
+
+    private void initZeroNum(String id,String message) {
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id);
         if (homeRealmData!=null) {
             realmHelper.updateNumZero(id);//更新首页聊天界面数据（未读消息数目）
         }
-        String message = intent.getStringExtra("message");
         if (!StrUtils.isEmpty(message)) {
 
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
@@ -362,9 +386,10 @@ public class MsgFragment extends BaseFragment {
             }
         }
     }
-    private void initRefresh(Intent intent) {
-        String message = intent.getStringExtra("message");
-        String id = intent.getStringExtra("id");
+
+    private void initRefresh(String id,String message) {
+//        String message = intent.getStringExtra("message");
+//        String id = intent.getStringExtra("id");
         if (!StrUtils.isEmpty(message))
         {
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
@@ -456,6 +481,12 @@ public class MsgFragment extends BaseFragment {
             msgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                 @Override
                 public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                    if(msgAdapter.getSwipeLayoutIsOpen())
+                    {
+                        // 关闭删除按钮
+                        msgAdapter.colseBGASwipeItemLayout();
+                        return;
+                    }
                     item = (CusHomeRealmData) adapter.getItem(position);
                     switch (view.getId()) {
                         case R.id.item_msg_re:
@@ -474,6 +505,7 @@ public class MsgFragment extends BaseFragment {
                             myDialogFragment.show(childFragmentManager, "show");
                             break;
                     }
+
                 }
             });
         }
@@ -526,15 +558,14 @@ public class MsgFragment extends BaseFragment {
         super.onDestroy();
         try {
             realmHelper.close();
-            realmMsgInfoTotalHelper.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         try {
             if (mReceiver!=null)
                 getActivity().unregisterReceiver(mReceiver);
-            if (mRefreshBroadcastReceiver!=null)
-                getActivity().unregisterReceiver(mRefreshBroadcastReceiver);
+//            if (mRefreshBroadcastReceiver!=null)
+//                getActivity().unregisterReceiver(mRefreshBroadcastReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }

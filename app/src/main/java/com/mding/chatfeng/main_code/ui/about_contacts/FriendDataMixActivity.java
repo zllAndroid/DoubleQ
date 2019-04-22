@@ -18,6 +18,7 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.ChatActivity;
 import com.mding.chatfeng.about_chat.FullImageActivity;
 import com.mding.chatfeng.about_utils.GlideCacheUtil;
@@ -235,10 +236,12 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
             case "deleteFriend":
                 realmHelper.deleteRealmMsg(FriendId);
                 realmChatHelper.deleteRealmMsg(FriendId);
-                Intent intent2 = new Intent();
-                intent2.putExtra("id", FriendId);
-                intent2.setAction("del.refreshMsgFragment");
-                sendBroadcast(intent2);
+//                Intent intent2 = new Intent();
+//                intent2.putExtra("id", FriendId);
+//                intent2.setAction("del.refreshMsgFragment");
+//                sendBroadcast(intent2);
+                EventBus.getDefault().post(new MsgHomeEvent("", FriendId,AppConfig.MSG_DEL_REFRESH));
+
                 AppManager.getAppManager().finishActivity(FriendDataMixActivity.this);
                 if (esc != null && esc.equals("esc")) {
                     AppManager.getAppManager().finishActivity(ChatActivity.class);

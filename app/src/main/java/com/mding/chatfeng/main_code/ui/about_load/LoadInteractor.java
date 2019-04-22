@@ -122,10 +122,7 @@ public class LoadInteractor {
                 final String friendId = groupList.get(j).getGroupOfId();
                 final String headImg = groupList.get(j).getHeadImg();
                 CusDataLinkFriend cusDataLinkFriend = realmMsgInfoTotalHelper.queryLinkFriend(friendId);
-
                 CusDataGroup cusDataGroup = groupHelper.queryLinkFriend(friendId);
-
-
                 if (StrUtils.isEmpty(headImg)) {
                     return;
                 }
@@ -159,7 +156,7 @@ public class LoadInteractor {
         CusDataGroup cusDataGroup = new CusDataGroup();
         cusDataGroup.setGroupHeadImg(groupListBean.getHeadImg());
         cusDataGroup.setGroupId(groupListBean.getGroupOfId());
-        cusDataGroup.setGroupName(groupListBean.getGroupName());
+        cusDataGroup.setGroupName(groupListBean.getNickName());
         cusDataGroup.setGroupQrcode(groupListBean.getGroupQrcode());
         cusDataGroup.setCreated(groupListBean.getModified());
         if (isUpdata)

@@ -6,12 +6,16 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.model.DataLinkManList;
 import com.mding.model.DataModifyFriendList;
 import com.mding.model.push_data.DataAboutFriend;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,10 +97,11 @@ public class DealModifyFriendList {
                     initDataSub(asString,record);
                 }
             }
-
-            Intent intent = new Intent();
-            intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-            mContext.sendBroadcast(intent);
+            EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
+//            EventBus.getDefault().post(new MsgHomeEvent(AppConfig.LINK_GROUP_DEL_ACTION));
+//            Intent intent = new Intent();
+//            intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//            mContext.sendBroadcast(intent);
 
         }
     }
@@ -188,10 +193,10 @@ public class DealModifyFriendList {
         String jsonString = JSON.toJSONString(recordBean);
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
 
     }
     private  void updateFriendAdd(DataModifyFriendList.RecordBean mRecord, String chart, String newRemarkName) {
@@ -256,10 +261,10 @@ public class DealModifyFriendList {
         String jsonString = JSON.toJSONString(recordBean);
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
     private  void dealNoChartFriend(DataModifyFriendList.RecordBean mRecord, List<DataLinkManList.RecordBean.FriendListBean> friendList, int i, String chart, String newRemarkName) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = new ArrayList<>();
@@ -289,10 +294,10 @@ public class DealModifyFriendList {
         String jsonString = JSON.toJSONString(recordBean);
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
     private  void putCacheUpdate(DataModifyFriendList.RecordBean mRecord, int i, String newRemarkName) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
@@ -317,10 +322,10 @@ public class DealModifyFriendList {
         Log.e("jsonString","展开（好友添加至分组）="+jsonString);
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
 //    public   void modifyGroupOfFriend(Context context, String result){
 //        mContext = context;
@@ -426,10 +431,10 @@ public class DealModifyFriendList {
         Log.e("jsonString","不展开（好友添加至分组）="+jsonString);
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
     private  String initDataSub(String asString, DataModifyFriendList.RecordBean mRecord) {
         DataLinkManList.RecordBean record = JSON.parseObject(asString, DataLinkManList.RecordBean.class);
@@ -472,10 +477,11 @@ public class DealModifyFriendList {
         Log.e("jsonString","更改好友分组（删）="+jsonString);
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_DEL_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_DEL_ACTION));
+        EventBus.getDefault().post(new MsgHomeEvent(AppConfig.LINK_FRIEND_DEL_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_DEL_ACTION);
+//        mContext.sendBroadcast(intent);
         return jsonString;
     }
 

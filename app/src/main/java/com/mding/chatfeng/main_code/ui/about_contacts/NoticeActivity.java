@@ -14,6 +14,7 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
@@ -25,6 +26,8 @@ import com.mding.model.DataNews;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,10 +76,13 @@ public class NoticeActivity extends BaseActivity {
         initAdapter();
 
         SPUtils.put(this, AppConfig.LINKMAN_FRIEND_NUM,0);
-        Intent intent = new Intent();
-        intent.putExtra("num", 0);
-        intent.setAction("action.addFriend");
-        sendBroadcast(intent);
+//        Intent intent = new Intent();
+//        intent.putExtra("num", 0);
+//        intent.setAction("action.addFriend");
+//        sendBroadcast(intent);
+        EventBus.getDefault().post(new MainTabNumEvent(0,AppConfig.MAIN_TAB_TWO));
+
+
     }
     List<DataNews.RecordBean.ListInfoBean> mList=new ArrayList<>();
     @Override

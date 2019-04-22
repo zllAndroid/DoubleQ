@@ -7,6 +7,8 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.model.DataAgreeGroupList;
 import com.mding.model.DataDeleteGroupingList;
 import com.mding.model.DataLinkGroupList;
@@ -15,6 +17,8 @@ import com.mding.model.DataModifyGroupingList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,10 +111,10 @@ public class DealModifyGroupOfList {
 
             aCache.remove(AppAllKey.FRIEND_DATA);
             aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-            Intent intent = new Intent();
-            intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-            mContext.sendBroadcast(intent);
+            EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
+//            Intent intent = new Intent();
+//            intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//            mContext.sendBroadcast(intent);
 
         }
     }
@@ -160,10 +164,10 @@ public class DealModifyGroupOfList {
             aCache.remove(AppAllKey.GROUD_DATA);
             aCache.put(AppAllKey.GROUD_DATA, jsonString);
 
-            Intent intent = new Intent();
-            intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-            mContext.sendBroadcast(intent);
-
+//            Intent intent = new Intent();
+//            intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//            mContext.sendBroadcast(intent);
+            EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
         }
     }
     private  void putCache(List<DataLinkManList.RecordBean.FriendListBean> friend_info_list, int i, String groupName) {
@@ -184,10 +188,10 @@ public class DealModifyGroupOfList {
 
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
 
     }
     private  void putCacheGroup(List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String groupName) {
@@ -209,10 +213,10 @@ public class DealModifyGroupOfList {
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
 
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
-
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
     }
 
     //  删除分组
@@ -287,10 +291,11 @@ public class DealModifyGroupOfList {
 
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_DEL_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_DEL_ACTION));
+        EventBus.getDefault().post(new MsgHomeEvent(AppConfig.LINK_GROUP_DEL_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_DEL_ACTION);
+//        mContext.sendBroadcast(intent);
     }
     private  void putCacheGroupDelete(int i) {
         groupList.remove(i);
@@ -302,10 +307,10 @@ public class DealModifyGroupOfList {
         Log.e("jsonString","不展开（删除）="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
 
     //  修改分组
@@ -382,10 +387,10 @@ public class DealModifyGroupOfList {
 
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
     private  void putCacheGroupModify(List<DataLinkGroupList.RecordBean.GroupInfoListBean> group_info_list, int i, String NewGroupName) {
         group_info_list.get(i).setGroupName(NewGroupName);
@@ -398,10 +403,10 @@ public class DealModifyGroupOfList {
 
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
-
-        Intent intent = new Intent();
-        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
-        mContext.sendBroadcast(intent);
+        EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_GROUP_ADD_ACTION));
+//        Intent intent = new Intent();
+//        intent.setAction(AppConfig.LINK_GROUP_ADD_ACTION);
+//        mContext.sendBroadcast(intent);
     }
 
 }

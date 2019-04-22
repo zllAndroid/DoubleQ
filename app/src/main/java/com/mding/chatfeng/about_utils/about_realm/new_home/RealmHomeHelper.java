@@ -264,6 +264,7 @@ public class RealmHomeHelper {
             realmMsg=cusHomeRealmData;
             realmMsg.setTotalId(friendId+SplitWeb.getSplitWeb().getUserId());
             realmMsg.setNum(0);
+            realmMsg.setType(TypeQun);
             mRealm.insertOrUpdate(realmMsg);
             mRealm.commitTransaction();
         }

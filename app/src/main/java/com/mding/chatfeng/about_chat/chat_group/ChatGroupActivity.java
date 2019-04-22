@@ -39,6 +39,7 @@ import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.ChatNewsWindow;
 import com.mding.chatfeng.about_chat.EmotionInputDetector;
 import com.mding.chatfeng.about_chat.FullImageActivity;
@@ -232,6 +233,8 @@ public class ChatGroupActivity extends BaseActivity {
 //        intent2.putExtra("id",groupId);
 //        intent2.setAction("zero.refreshMsgFragment");
 //        sendBroadcast(intent2);
+            EventBus.getDefault().post(new MsgHomeEvent("",groupId,AppConfig.MSG_ZERO_REFRESH));
+
             listenEnter();
         }
 
@@ -687,27 +690,32 @@ public class ChatGroupActivity extends BaseActivity {
 ////                    realmHomeHelper.updateMsg(record2.getFriendsId(), record2.getMessage(), record2.getRequestTime());//更新首页聊天界面数据（消息和时间）
 //                    realmHomeHelper.updateNumZero(record2.getFriendsId());//更新首页聊天界面数据（未读消息数目）
 //                }
-                Intent intent = new Intent();
-                intent.putExtra("message", record2.getMessage());
-                intent.putExtra("id", record2.getGroupId());
-                intent.setAction("zero.refreshMsgFragment");
-                sendBroadcast(intent);
+//                Intent intent = new Intent();
+//                intent.putExtra("message", record2.getMessage());
+//                intent.putExtra("id", record2.getGroupId());
+//                intent.setAction("zero.refreshMsgFragment");
+//                sendBroadcast(intent);
+                EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(),record2.getGroupId(),AppConfig.MSG_ZERO_REFRESH));
             } else {
                 ToastUtil.show("收到一条来自" + record2.getGroupName() + "的消息");
-                Intent intent = new Intent();
-                intent.putExtra("message", record2.getMessage());
-                intent.putExtra("id", record2.getGroupId());
-                intent.setAction("action.refreshMsgFragment");
-                sendBroadcast(intent);
+//                Intent intent = new Intent();
+//                intent.putExtra("message", record2.getMessage());
+//                intent.putExtra("id", record2.getGroupId());
+//                intent.setAction("action.refreshMsgFragment");
+//                sendBroadcast(intent);
+                EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(),record2.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
+
             }
 
             if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
 
-                Intent intent = new Intent();
-                intent.putExtra("message", record2.getMessage());
-                intent.putExtra("id", record2.getGroupId());
-                intent.setAction("action.refreshMsgFragment");
-                sendBroadcast(intent);
+//                Intent intent = new Intent();
+//                intent.putExtra("message", record2.getMessage());
+//                intent.putExtra("id", record2.getGroupId());
+//                intent.setAction("action.refreshMsgFragment");
+//                sendBroadcast(intent);
+                EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(),record2.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
+
                 //APP在后台的时候处理接收到消息的事件
 //                new Thread(new Runnable() {
 //                    @Override

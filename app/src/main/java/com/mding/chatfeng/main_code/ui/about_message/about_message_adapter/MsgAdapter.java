@@ -19,6 +19,7 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataLi
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.BGASwipeItemLayout;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -148,19 +149,18 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         notifyItemRangeChanged(position, data.size());
     }
     String id;
-    SwipeItemLayout swipeLayout;
+    BGASwipeItemLayout swipeLayout;
     private ItemTouchListener mItemTouchListener;
     @Override
     public void onBindViewHolder(BaseViewHolder holder, final int positions) {
         super.onBindViewHolder(holder, positions);
-        swipeLayout = (SwipeItemLayout) holder.itemView;
+        swipeLayout = (BGASwipeItemLayout) holder.getView(R.id.swipe_layout);
         final View lMenu = holder.getView(R.id.item_notice_del_menu);
         try {
-            //TODO   解散群聊时 getNickName() 报空指针
-//            boolean open = swipeLayout.isOpen();
-//            if(open)
+//            //  删除后
+//            if(swipeLayout.isOpened())
 //            {
-//
+//                swipeLayout.close();
 //            }
 
             click(swipeLayout, lMenu,positions,data.get(positions).getNickName());
@@ -168,7 +168,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
             e.printStackTrace();
         }
     }
-    private void click(final SwipeItemLayout swipeLayout, final  View view,final  int positions,String name) {
+    private void click(final BGASwipeItemLayout swipeLayout, final  View view,final  int positions,String name) {
         if (view != null) {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -179,6 +179,15 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
             });
         }
     }
+
+    public boolean getSwipeLayoutIsOpen() {
+        return swipeLayout.isOpened();
+    }
+    public void colseBGASwipeItemLayout() {
+        if (swipeLayout.isOpened())
+            swipeLayout.close();
+    }
+
     public  interface ItemTouchListener {
         void onLeftMenuClick(View view, int positions, String WaybillNum);
     }

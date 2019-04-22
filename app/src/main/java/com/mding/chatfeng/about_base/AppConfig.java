@@ -7,7 +7,16 @@ package com.mding.chatfeng.about_base;
 
 public class AppConfig {
 
+    public static final String  MAIN_TAB_ONE= "maintabone";//在首页第一个tab
+    public static final String  MAIN_TAB_TWO= "maintabtwo";//在首页第二个tab
 
+//    消息页面的
+    public static final String  MSG_ZERO_REFRESH= "zero_refreshMsgFragment";//刷新单条数据  条数
+    public static final String  MSG_ACTION_REFRESH= "action.refreshMsgFragment";//刷新单条数据  条数
+    public static final String  MSG_ZLL_REFRESH= "zll.refreshMsgFragment";//刷新单条数据  条数
+    public static final String  MSG_ADD_REFRESH= "add.refreshMsgFragment";//刷新单条数据  条数
+    public static final String  MSG_DEL_REFRESH= "del.refreshMsgFragment";//刷新单条数据  条数
+    public static final String ACTION_UP_GROUP_NAME = "action.upGroupName";
 //    public static final String LINK_GROUP_BRO= "link_group";
 
     public static boolean isDebug = true;

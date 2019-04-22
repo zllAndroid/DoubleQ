@@ -20,6 +20,8 @@ import android.widget.TextView;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_custom.about_cus_dialog.DialogRiskTestUtils;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.VersionCheckUtils;
@@ -30,6 +32,10 @@ import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_utils.windowStatusBar;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -84,12 +90,6 @@ public class MainActivity extends BaseActivity {
         stateHight=StatusBarUtil.getStatusBarHeight(this);
         naigertionHight=StatusBarUtil.getDaoHangHeight(this);
         initUIData();
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                send(SplitWeb.getSplitWeb().coroutineKeep());
-//            }
-//        }).start();
         mTabHost= findViewById(android.R.id.tabhost);
         tabs= findViewById(android.R.id.tabs);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
@@ -104,15 +104,17 @@ public class MainActivity extends BaseActivity {
         }
 //        刷新首页tab数量
 //          刷新联系人tab数量
-        initBro();
+//        initBro();
 //        initBroc();
         int num = (int) SPUtils.get(this, AppConfig.LINKMAN_FRIEND_NUM, 0);
         if (num>0)
         {
-            Intent intent = new Intent();
-            intent.putExtra("num", num );
-            intent.setAction("action.addFriend");
-            sendBroadcast(intent);
+//            Intent intent = new Intent();
+//            intent.putExtra("num", num );
+//            intent.setAction("action.addFriend");
+//            sendBroadcast(intent);
+
+            EventBus.getDefault().post(new MainTabNumEvent(num,AppConfig.MAIN_TAB_TWO));
         }
         Intent intent_dialog = getIntent();
         if (intent_dialog != null){
@@ -158,13 +160,13 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        try {
-
-            if (mRefreshBroadcastReceiver!=null)
-                this.unregisterReceiver(mRefreshBroadcastReceiver);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        try {
+//
+//            if (mRefreshBroadcastReceiver!=null)
+//                this.unregisterReceiver(mRefreshBroadcastReceiver);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         DialogRiskTestUtils.isShow();
     }
 
@@ -202,37 +204,53 @@ public class MainActivity extends BaseActivity {
         }
     }
     IntentFilter intentFilter=null;
-    private void initBro() {
-        if (intentFilter==null) {
-            intentFilter = new IntentFilter();
-            intentFilter.addAction("action.refreshMain");
-            intentFilter.addAction("action.addFriend");
-            registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+//    private void initBro() {
+//        if (intentFilter==null) {
+//            intentFilter = new IntentFilter();
+//            intentFilter.addAction("action.refreshMain");
+//            intentFilter.addAction("action.addFriend");
+//            registerReceiver(mRefreshBroadcastReceiver, intentFilter);
+//        }
+//    }
+//    private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            String action = intent.getAction();
+//            initTabNum(intent, action);
+//        }
+//    };
+//
+//    private void initTabNum(Intent intent, String action) {
+//        if (action.equals("action.refreshMain"))
+//        {
+//            String num = intent.getStringExtra("num");
+////                更新消息列表
+//            updateMsgCount(0,Integer.valueOf(num));
+//        }else  if (action.equals("action.addFriend"))
+//        {
+//            int num = intent.getIntExtra("num",0);
+//            updateMsgCount(1,num);
+//        }
+//    }
+    private void initTabNum(int num, String action) {
+        if (action.equals(AppConfig.MAIN_TAB_ONE))
+        {
+//                更新消息列表
+            updateMsgCount(0,Integer.valueOf(num));
+        }else  if (action.equals(AppConfig.MAIN_TAB_TWO))
+        {
+//            更新联系人列表
+            updateMsgCount(1,num);
         }
     }
-    //    private void initBroc() {
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction("action.addFriend");
-//        registerReceiver(mRefreshBroadcastReceiver, intentFilter);
-//    }
-
-    private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals("action.refreshMain"))
-            {
-                String num = intent.getStringExtra("num");
-//                更新消息列表
-                updateMsgCount(0,Integer.valueOf(num));
-            }else  if (action.equals("action.addFriend"))
-            {
-                int num = intent.getIntExtra("num",0);
-                updateMsgCount(1,num);
-            }
-        }
-    };
-
+//获取tab条数并设置
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEventMainThread(MainTabNumEvent event) {
+        int num = event.getNum();
+        String type = event.getType();
+        initTabNum(num, type);
+//   发送     EventBus.getDefault().post(new MessageEvent(message.getResponseText()));
+    }
     private String[] tvtab ={"消息","联系人","发现", "个人中心" };
     TextView mTvNum;
     //    int[] imgs = {R.drawable.tab_ac_main_msg,R.drawable.tab_ac_main_contacts, R.drawable.tab_ac_main_pesonal};
@@ -257,32 +275,6 @@ public class MainActivity extends BaseActivity {
             home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             home.addCategory(Intent.CATEGORY_HOME);
             startActivity(home);
-//            Intent grayIntent = new Intent(getApplicationContext(), GrayService.class);
-//            startService(grayIntent);
-            // 双击退出
-//            if (isExit)
-//            {
-////                AppManager.getAppManager().finishActivity();
-//                Intent home = new Intent(Intent.ACTION_MAIN);
-//                home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                home.addCategory(Intent.CATEGORY_HOME);
-//                startActivity(home);
-//            } else
-//            {
-//                isExit = true;
-//
-////                ToastUtil.show("再按一次退出应用");
-//                Toast.makeText(this, "再按一次离开我", Toast.LENGTH_SHORT).show();
-//                mHandler.postDelayed(new Runnable()
-//                {
-//                    public void run()
-//                    {
-//                        isExit = false;
-//                    }
-//                }, 2000);
-//            }
-            // return super.onKeyDown(keyCode, event);
-            // 拦截系统按键
         }
         return true;
     }
@@ -290,10 +282,7 @@ public class MainActivity extends BaseActivity {
     class TabItem {
 
         private ImageView mIvTab;
-
-
         private TextView mTvTab;
-
         /**
          * Fragment
          */
