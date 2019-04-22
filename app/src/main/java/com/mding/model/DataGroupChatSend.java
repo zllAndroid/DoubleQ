@@ -87,7 +87,7 @@ public class DataGroupChatSend {
 
         private String groupId;
         private String message;
-        private int messageStoId;
+        private String messageStoId;
         private String messageType;
         private String requestTime;
         private String userId;
@@ -157,11 +157,11 @@ public class DataGroupChatSend {
             this.message = message;
         }
 
-        public int getMessageStoId() {
+        public String getMessageStoId() {
             return messageStoId;
         }
 
-        public void setMessageStoId(int messageStoId) {
+        public void setMessageStoId(String messageStoId) {
             this.messageStoId = messageStoId;
         }
 

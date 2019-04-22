@@ -37,6 +37,7 @@ import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
+import com.mding.chatfeng.about_base.Methon;
 import com.mding.chatfeng.about_base.web_base.MessageEvent;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.example.zhouwei.library.CustomPopWindow;
@@ -288,8 +289,8 @@ public class ChatActivity extends BaseActivity {
         initRealm();
 //        通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
         realmHomeHelper.updateNumZero(FriendId);
-        EventBus.getDefault().post(new MsgHomeEvent("",FriendId,AppConfig.MSG_ZERO_REFRESH));
         listenEnter();
+
     }
 
     @Override
@@ -409,7 +410,7 @@ public class ChatActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         SplitWeb.getSplitWeb().IS_CHAT = "00";
-
+        EventBus.getDefault().post(new MsgHomeEvent("",FriendId,AppConfig.MSG_ZERO_REFRESH));
         realmHelper.close();
         realmHomeHelper.close();
         realmHelper = null;
@@ -418,7 +419,6 @@ public class ChatActivity extends BaseActivity {
             chatPopWindow.dismiss();
             chatPopWindow = null;
         }
-
     }
 
     ArrayList< DataJieShou.RecordBean> mList = new ArrayList<>();
@@ -551,14 +551,14 @@ public class ChatActivity extends BaseActivity {
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
 //            发送消息返回
-            case "privateSend":
+            case Methon.PreviteSend:
                 String ed = editText.getText().toString().trim();
                 if (!StrUtils.isEmpty(ed)) {
                     editText.setText("");
                 }
                 dealSendResult(responseText);
                 break;
-            case "privateReceive":
+            case Methon.PreviteChat:
                 dealReceiverResult(responseText);
                 break;
             case "friendRemarkName":

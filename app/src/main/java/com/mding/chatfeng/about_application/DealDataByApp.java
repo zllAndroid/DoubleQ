@@ -9,6 +9,7 @@ import android.os.PowerManager;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_base.Methon;
 import com.mding.chatfeng.about_base.deal_application.DealFriendAdd;
 import com.mding.chatfeng.about_base.deal_application.DealGroupAdd;
 import com.mding.chatfeng.about_base.deal_application.DealGroupInvitation;
@@ -91,17 +92,21 @@ public class DealDataByApp {
             String s = HelpUtils.backMethod(message.getResponseText());
             switch (s) {
                 //接收好友消息
-                case "privateReceive":
+                case Methon.PreviteChat:
+//                case "privateReceive":
                     MsgFragment.isZero = true;
                     dealReceiver(message.getResponseText());
                     break;
 //                    接收群组消息
-                case "groupReceive":
+                case Methon.ReceiveGroupChat:
+//                case "receiveGroupChat":
+//                case "groupReceive":
                     MsgFragment.isZero = true;
                     initGroupReceiveData(message.getResponseText());
                     break;
 //                    群发送信息
-                case "groupSend":
+                case Methon.GroupChatSend:
+//                case "groupSend":
                     dealGroupSend(message.getResponseText());
                     break;
 //                    接收好友推送通知（对方加我为好友时）
@@ -120,7 +125,8 @@ public class DealDataByApp {
                     CGS(message.getResponseText());
                     break;
 //                    私聊发送消息
-                case "privateSend":
+                case Methon.PreviteSend:
+//                case "privateSend":
                     dealSend(message.getResponseText());
                     break;
 //                    用户在线私聊 - 离线消息
@@ -669,10 +675,10 @@ public class DealDataByApp {
             }
         }
 //        SPUtils.put(this,AppConfig.CHAT_RECEIVE_TIME_REALM,record.getRequestTime());
-        if (!SplitWeb.getSplitWeb().IS_CHAT.equals("1")) {
-//            不在聊天界面收到消息时候的处理
-            noChatUI(record.getMessage(),record.getFriendsId());
-        }
+//        if (!SplitWeb.getSplitWeb().IS_CHAT.equals("1")) {
+////            不在聊天界面收到消息时候的处理
+//            noChatUI(record.getMessage(),record.getFriendsId());
+//        }
         if (!record.getDisturbType().equals("2")) {
             if (record.getDisturbType().equals("1"))
                 xipinhuanxing(record);
@@ -686,6 +692,7 @@ public class DealDataByApp {
         cusRealmChatMsg.setImgUrl(record.getHeadImg());
         cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getSplitWeb().getUserId());
         realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
+
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getFriendsId());
 
         if (homeRealmData != null) {
@@ -710,6 +717,7 @@ public class DealDataByApp {
 //            realmHelper.updateNum(record.getFriendsId());
             realmHelper.addRealmMsg(cusJumpChatData);
         }
+        noChatUI(record.getMessage(),record.getFriendsId());
     }
     //息屏唤醒
     private static void xipinhuanxing(final DataJieShou.RecordBean record) {

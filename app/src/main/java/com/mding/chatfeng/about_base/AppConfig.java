@@ -12,11 +12,11 @@ public class AppConfig {
 
 //    消息页面的
     public static final String  MSG_ZERO_REFRESH= "zero_refreshMsgFragment";//刷新单条数据  条数
-    public static final String  MSG_ACTION_REFRESH= "action.refreshMsgFragment";//刷新单条数据  条数
-    public static final String  MSG_ZLL_REFRESH= "zll.refreshMsgFragment";//刷新单条数据  条数
-    public static final String  MSG_ADD_REFRESH= "add.refreshMsgFragment";//刷新单条数据  条数
-    public static final String  MSG_DEL_REFRESH= "del.refreshMsgFragment";//刷新单条数据  条数
-    public static final String ACTION_UP_GROUP_NAME = "action.upGroupName";
+    public static final String  MSG_ACTION_REFRESH= "action_refreshMsgFragment";//刷新单条数据  条数
+    public static final String  MSG_ZLL_REFRESH= "zll_refreshMsgFragment";//刷新单条数据  条数
+    public static final String  MSG_ADD_REFRESH= "add_refreshMsgFragment";//刷新单条数据  条数
+    public static final String  MSG_DEL_REFRESH= "del_refreshMsgFragment";//刷新单条数据  条数
+    public static final String ACTION_UP_GROUP_NAME = "action_upGroupName";
 //    public static final String LINK_GROUP_BRO= "link_group";
 
     public static boolean isDebug = true;

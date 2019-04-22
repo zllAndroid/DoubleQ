@@ -129,7 +129,7 @@ public class LoadInteractor {
                 if (cusDataGroup!=null)
                 {
                     String time = cusDataGroup.getCreated();
-                    if (time.equals(modified))
+                    if (time!=null&&time.equals(modified))
                     {
                         setGroupData(true, groupListBean);
                     }
@@ -282,7 +282,7 @@ public class LoadInteractor {
                     if(cusDataFriendUser!=null)
                     {
                         String time = cusDataFriendUser.getTime();
-                        if ( !modified.equals(time))
+                        if (time!=null&& !modified.equals(time))
                         {
                             setUserData(true,groupListBean);
                         }

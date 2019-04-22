@@ -221,14 +221,6 @@ public class MsgFragment extends BaseFragment {
         super.onResume();
     }
 
-//    public  BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
-//
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            dealMsgBroReceiver(intent);
-//        }
-//    };
-
     private void dealMsgBroReceiver(String id,String msg,String action) {
         if (realmHelper == null) {
             realmHelper = new RealmHomeHelper(getActivity());
@@ -249,7 +241,9 @@ public class MsgFragment extends BaseFragment {
         else if (action.equals(AppConfig.MSG_ZERO_REFRESH))
 //        else if (action.equals("zero.refreshMsgFragment"))
         {
-            initZeroNum(id,msg);
+//            initZeroNum(id,msg);
+            refreshMsg(id,msg);
+//            initRefresh(id,msg);
         }
         else  if (action.equals(AppConfig.MSG_ZLL_REFRESH))
 //        else  if (action.equals("zll.refreshMsgFragment"))
@@ -363,12 +357,10 @@ public class MsgFragment extends BaseFragment {
                 intent2.putExtra("num", numData+"");
                 intent2.setAction("action.refreshMain");
                 getActivity().sendBroadcast(intent2);*/
-
                 EventBus.getDefault().post(new MainTabNumEvent(numData,AppConfig.MAIN_TAB_ONE));
             }
         }
     }
-
 
     private void initZeroNum(String id,String message) {
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id);
@@ -394,7 +386,7 @@ public class MsgFragment extends BaseFragment {
         {
             List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
             CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(id );
-            if ( mList.size()==0&&cusHomeRealmData.size()!=0)
+            if (mList.size()==0&&cusHomeRealmData.size()!=0)
             {
                 mList.clear();
                 addListMethon(cusHomeRealmData);
@@ -552,7 +544,6 @@ public class MsgFragment extends BaseFragment {
         }
     }
     String type="1";
-    //
     @Override
     public void onDestroy() {
         super.onDestroy();

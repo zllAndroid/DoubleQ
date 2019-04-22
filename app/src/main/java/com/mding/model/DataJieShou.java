@@ -88,7 +88,7 @@ public class DataJieShou {
         private int sendState;
         private String friendsId;
         private String message;
-        private int messageStoId;
+        private String messageStoId;
         private String messageType;
         private String userId;
         private String requestTime;
@@ -183,11 +183,11 @@ public class DataJieShou {
             this.message = message;
         }
 
-        public int getMessageStoId() {
+        public String getMessageStoId() {
             return messageStoId;
         }
 
-        public void setMessageStoId(int messageStoId) {
+        public void setMessageStoId(String messageStoId) {
             this.messageStoId = messageStoId;
         }
 

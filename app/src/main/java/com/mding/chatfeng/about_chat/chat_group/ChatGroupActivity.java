@@ -38,6 +38,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
+import com.mding.chatfeng.about_base.Methon;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.ChatNewsWindow;
@@ -228,16 +229,9 @@ public class ChatGroupActivity extends BaseActivity {
             initRealm();
 //            通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
             realmHomeHelper.updateNumZero(groupId);
-//        Intent intent2 = new Intent();
-//        intent2.putExtra("message",groupId);
-//        intent2.putExtra("id",groupId);
-//        intent2.setAction("zero.refreshMsgFragment");
-//        sendBroadcast(intent2);
-            EventBus.getDefault().post(new MsgHomeEvent("",groupId,AppConfig.MSG_ZERO_REFRESH));
 
             listenEnter();
         }
-
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
@@ -316,6 +310,7 @@ public class ChatGroupActivity extends BaseActivity {
 //        InputMethodManager inputManager =
 //                (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 //        inputManager.showSoftInput(editText, 0);
+
     }
 
     @Override
@@ -332,6 +327,7 @@ public class ChatGroupActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         SplitWeb.getSplitWeb().IS_CHAT_GROUP = "00";
+        EventBus.getDefault().post(new MsgHomeEvent("",groupId,AppConfig.MSG_ZERO_REFRESH));
         try {
 //            realmHomeHelper.updateNumZero(groupId);
 //            Intent intent2 = new Intent();
@@ -358,8 +354,6 @@ public class ChatGroupActivity extends BaseActivity {
         }
     }
 
-    ArrayList<DataJieShou.RecordBean> mList = new ArrayList<>();
-
     private void initRealm() {
         List<CusGroupChatData> cusRealmChatMsgs = realmGroupChatHelper.queryAllGroupChat(groupId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
@@ -367,7 +361,6 @@ public class ChatGroupActivity extends BaseActivity {
             chatAdapter.notifyDataSetChanged();
             //    滑动到底部
             layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-        } else {
         }
     }
 
@@ -509,41 +502,6 @@ public class ChatGroupActivity extends BaseActivity {
 
         chatList.setAdapter(chatAdapter);
 
-//        chatAdapter.setOnItemLongClickListener(new RecyclerArrayAdapter.OnItemLongClickListener() {
-//            @Override
-//            public boolean onItemLongClick(int position) {
-//                return false;
-//
-//
-//            }
-//        });
-//        chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//
-//                switch (newState) {
-//                    case RecyclerView.SCROLL_STATE_IDLE:
-//                        chatAdapter.handler.removeCallbacksAndMessages(null);
-//                        chatAdapter.notifyDataSetChanged();
-//                        break;
-//                    case RecyclerView.SCROLL_STATE_DRAGGING:
-//                        if (emotionLayout.isShown()) {
-//                            emotionLayout.setVisibility(View.GONE);
-//                        }
-//                        chatAdapter.handler.removeCallbacksAndMessages(null);
-//                        mDetector.hideEmotionLayout(false);
-//                        mDetector.hideSoftInput();
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            }
-//
-//            @Override
-//            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-//                super.onScrolled(recyclerView, dx, dy);
-//            }
-//        });
         chatAdapter.addItemClickListener(itemClickListener);
 
         chatList.setOnTouchListener(new View.OnTouchListener() {
@@ -609,7 +567,7 @@ public class ChatGroupActivity extends BaseActivity {
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
 //            发送消息返回
-            case "groupSend":
+            case Methon.GroupChatSend:
                 String ed = editText.getText().toString().trim();
                 if (!StrUtils.isEmpty(ed)) {
                     editText.setText("");
@@ -617,7 +575,7 @@ public class ChatGroupActivity extends BaseActivity {
                 dealSendResult(responseText);
                 break;
 //                接收消息返回
-            case "groupReceive":
+            case Methon.ReceiveGroupChat:
                 dealReceiverResult(responseText);
                 break;
             case "groupSendInterface":

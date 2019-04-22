@@ -872,7 +872,8 @@ public class SplitWeb {
         putData("message",message);
         putData("messageType",messageType);
         putData("requestTime",requestTime);//发送的时间戳
-        String request = WebUrl.request("Chat", "groupSend", map);
+//        String request = WebUrl.request("Chat", "groupSend", map);
+        String request = WebUrl.request("MyAMQPTask","2.0.0", "sendGroupChat", map);
         return  request;
     }
     /**
@@ -886,7 +887,8 @@ public class SplitWeb {
         putData("message",message);
         putData("messageType",messageType);
         putData("requestTime",requestTime);//发送的时间戳
-        String request = WebUrl.request("Chat", "privateSend", map);
+        String request = WebUrl.request("MyAMQPTask","2.0.0", "sendPrivateChat", map);
+//        String request = WebUrl.request("Chat","2.0.0", "privateSend", map);
         return  request;
     }
 
