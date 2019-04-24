@@ -129,7 +129,7 @@ public class LoadInteractor {
                 if (cusDataGroup!=null)
                 {
                     String time = cusDataGroup.getCreated();
-                    if (time!=null&&time.equals(modified))
+                    if (time!=null&&modified!=null&&time.equals(modified))
                     {
                         setGroupData(true, groupListBean);
                     }
@@ -207,34 +207,6 @@ public class LoadInteractor {
             realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
         }
     }
-//    private void setGlideData(final boolean isSame,final boolean isFriend,final String modified, final String friendId, final String headImg) {
-//        Glide.with(mContext)
-//                .load(headImg)
-//                .downloadOnly(new SimpleTarget<File>() {
-//                    @Override
-//                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-////                                    这里拿到的resource就是下载好的文件，
-//                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, friendId, modified);
-//                        if (isSame)
-//                        {
-//                            realmMsgInfoTotalHelper.updateHeadPath(friendId, file.toString(), headImg, modified);
-//                        }
-//                        else
-//                        {
-//                            CusDataLinkFriend linkFriend = new CusDataLinkFriend();
-//                            linkFriend.setHeadImg(headImg);
-//                            linkFriend.setFriendId(friendId);
-//                            linkFriend.setTime(modified);
-//                            linkFriend.setImgPath(file.toString());
-//                            if (isFriend)
-//                                linkFriend.setWhoType("1");
-//                            else
-//                                linkFriend.setWhoType("2");
-//                            realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
-//                        }
-//                    }
-//                });
-//    }
 
     private void dealFriendData(DataLinkManList.RecordBean record) {
         List<DataLinkManList.RecordBean.FriendListBean> friendList = record.getFriendList();

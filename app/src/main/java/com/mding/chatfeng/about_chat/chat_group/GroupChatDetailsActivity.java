@@ -37,6 +37,7 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.chat_group.group_realm.CusDataGroupChat;
 import com.mding.chatfeng.about_chat.chat_group.group_realm.RealmGroupChatHeaderHelper;
 import com.mding.chatfeng.about_chat.chat_group.sub_group.AddGroupWayActivity;
@@ -55,10 +56,11 @@ import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.ChooseGroupActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataMixActivity;
-import com.mding.chatfeng.main_code.ui.about_contacts.GroupTeamActivity;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_group_team.GroupTeamActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.PersonData;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberQunzhuAdapter;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_top_add.QunCodeActivity;
@@ -69,7 +71,6 @@ import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow
 import com.mding.model.DataAddQunDetails;
 import com.mding.model.DataSetGroupHeadResult;
 import com.mding.model.GroupHeadImgInfo;
-import com.mding.model.HeadImgInfo;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
@@ -83,13 +84,10 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 import static com.mding.chatfeng.about_utils.about_file.HeadFileUtils.getRealFilePathFromUri;
 
@@ -311,10 +309,12 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     public void onClickSure() {
                         RealmHomeHelper realmHomeHelper = new RealmHomeHelper(GroupChatDetailsActivity.this);
                         realmHomeHelper.deleteRealmMsg(groupId);
-                        Intent intent2 = new Intent();
-                        intent2.putExtra("id", groupId);
-                        intent2.setAction("del.refreshMsgFragment");
-                        sendBroadcast(intent2);
+//                        Intent intent2 = new Intent();
+//                        intent2.putExtra("id", groupId);
+//                        intent2.setAction("del.refreshMsgFragment");
+//                        sendBroadcast(intent2);
+//                        退出群聊删除首页聊天内容
+                        EventBus.getDefault().post(new MsgHomeEvent("",groupId,AppConfig.MSG_DEL_REFRESH));
                         AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
                         AppManager.getAppManager().finishActivity(ChatGroupActivity.class);
                         overridePendingTransition(0, 0);
@@ -325,11 +325,14 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             case "upGroupName":
                 realmHelper.updateGroupName(groupId, contant);//更新群名
                 //        发送广播更新
-                Intent intent = new Intent();
-                intent.putExtra("groupName", contant);
-                intent.putExtra("id", groupId);
-                intent.setAction(ACTION_UP_GROUP_NAME);
-                sendBroadcast(intent);
+//                Intent intent = new Intent();
+//                intent.putExtra("groupName", contant);
+//                intent.putExtra("id", groupId);
+//                intent.setAction(ACTION_UP_GROUP_NAME);
+//                sendBroadcast(intent);
+//                EventBus.getDefault().post(new MsgHomeEvent());
+                EventBus.getDefault().post(new MsgHomeEvent(contant,groupId,AppConfig.MSG_ACTION_REFRESH));
+
 //                AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
 //                AppManager.getAppManager().finishActivity(ChatGroupActivity.class);
                 groupDetailsTvName.setText(contant);
@@ -523,7 +526,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> mList = new ArrayList<>();
     List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> mList2 = new ArrayList<>();
     private void initAdapter(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info, final boolean isGrouper) {
-//        mList.clear();
+//添加群员信息到好友表中
+        initUserRealm(group_user_info);
         mList2.clear();
         if (group_user_info.size() > 9) {
             for (int i = 0; i <= 9; i++) {
@@ -603,6 +607,28 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             }
         });
         groupMemberAdapter.notifyDataSetChanged();
+    }
+    RealmFriendUserHelper friendUserHelper;
+    private void initUserRealm(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info) {
+        if (friendUserHelper==null)
+            friendUserHelper = new RealmFriendUserHelper(this);
+        if (group_user_info.size()>0)
+        {
+            for (DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean groupUser : group_user_info)
+            {
+//                String headImg = groupUser.getHeadImg();
+                String friendId = groupUser.getUserId();
+                CusDataFriendUser cusDataFriendUser = new CusDataFriendUser();
+                cusDataFriendUser.setFriendId(groupUser.getUserId());
+                cusDataFriendUser.setHeadImgBase64(groupUser.getHeadImg());
+                cusDataFriendUser.setName(groupUser.getNickName());
+                cusDataFriendUser.setRemarkName(groupUser.getNickName());
+                cusDataFriendUser.setTime(groupUser.getModified());
+                //TODO 用户信息存库（用户表）
+              friendUserHelper.updateAllOrAdd(friendId,cusDataFriendUser);//添加或者更新（存在则更新，不存在则增加）
+            }
+        }
+
     }
 
     String groupHeadImg;
@@ -903,24 +929,24 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 {
                     AppManager.getAppManager().finishActivity(this);
                 }else{
-                          // 群聊
-                CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
-                cusJumpChatData.setGroupId(groupId);
-                cusJumpChatData.setGroupName(groupChatName);
+                    // 群聊
+                    CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
+                    cusJumpChatData.setGroupId(groupId);
+                    cusJumpChatData.setGroupName(groupChatName);
 
-                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
-                cusHomeRealmData.setHeadImg(groupHeadImg);
-                cusHomeRealmData.setFriendId(groupId);
-                cusHomeRealmData.setNickName(groupChatName);
-                cusHomeRealmData.setNum(0);
-                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
-                if (cusHomeRealmData1!=null)
-                {
-                    realmHelper.updateGroup(groupId,cusHomeRealmData);
-                }else
-                {
-                    realmHelper.addRealmMsgQun(cusHomeRealmData);
-                }
+                    final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
+                    cusHomeRealmData.setHeadImg(groupHeadImg);
+                    cusHomeRealmData.setFriendId(groupId);
+                    cusHomeRealmData.setNickName(groupChatName);
+                    cusHomeRealmData.setNum(0);
+                    CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
+                    if (cusHomeRealmData1!=null)
+                    {
+                        realmHelper.updateGroup(groupId,cusHomeRealmData);
+                    }else
+                    {
+                        realmHelper.addRealmMsgQun(cusHomeRealmData);
+                    }
                     IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
                 }
                 break;

@@ -304,7 +304,6 @@ public class MsgFragment extends BaseFragment {
 //        String groupName = intent.getStringExtra("groupName");
         List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(groupId);
-        Log.e("MyApplication","Refresh="+cusHomeRealmData.size());
         if ( mList.size()==0&&cusHomeRealmData.size()!=0)
         {
             mList.clear();

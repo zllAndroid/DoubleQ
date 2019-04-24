@@ -61,6 +61,41 @@
             android:name="channeltest"
             android:value="1" />
 
+
+
+        <receiver
+            android:name="com.mding.core.deamonservice.NotifyService"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.wake.gray" />
+            </intent-filter>
+        </receiver>
+
+        <service
+            android:name="com.mding.core.deamonservice.NotifyDeamon"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":pushdeamon" />
+        <service
+            android:name="com.mding.core.deamonservice.NotifyService$WakeNotifyService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":pushdeamon" />
+
+        <service
+            android:name="com.mding.core.pushservice.ChannelDeamon"
+            android:process=":push" />
+        <service
+            android:name="com.mding.core.pushservice.WsChannelService"
+            android:process=":push" />
+        <service
+            android:name="com.mding.workservice.ChatService"
+            android:enabled="true"
+            android:exported="false"
+            android:process=":worker"/>
+
+
         <service
             android:name=".main_code.mains.test_service.DaemonService"
             android:process=":daemon" />
@@ -307,7 +342,7 @@
             android:theme="@style/SwipeBack.Transparent.Theme" />
         <!-- 群聊成员 -->
         <activity
-            android:name=".main_code.ui.about_contacts.GroupTeamActivity"
+            android:name=".main_code.ui.about_contacts.about_group_team.GroupTeamActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
         <activity

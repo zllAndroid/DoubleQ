@@ -5,7 +5,6 @@ import android.content.Context;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 
-import com.mding.greendao.DatabaseManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.zll.websocket.WebSocketServiceConnectManager;
 
@@ -32,7 +31,6 @@ public class BaseApplication extends Application  implements AppView{
     public void onCreate() {
         super.onCreate();
         isMain=true;
-        DatabaseManager.initDB(this);//初始化greenDao数据库
         mContext = this;
         mInstance = this;
         if (presenterApp ==null) {

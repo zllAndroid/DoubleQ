@@ -28,8 +28,6 @@ import com.mding.chatfeng.about_utils.about_immersive.StatusBarUtil;
 import com.mding.chatfeng.main_code.mains.MainActivity;
 import com.mding.chatfeng.main_code.mains.top_pop.WindowService;
 import com.mding.chatfeng.about_base.BaseActivity;
-import com.mding.sql.DBgreatTable;
-import com.mding.sql.TotalEntry;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;

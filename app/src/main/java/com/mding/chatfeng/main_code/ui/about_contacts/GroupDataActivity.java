@@ -10,7 +10,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.AppConfig;
@@ -22,6 +21,7 @@ import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.GroupMemberAdapter;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_group_team.GroupTeamActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_top_add.QunCodeActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
@@ -34,7 +34,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 public class GroupDataActivity extends BaseActivity {
     @BindView(R.id.include_top_tv_tital)

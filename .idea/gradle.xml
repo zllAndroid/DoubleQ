@@ -15,6 +15,7 @@
             <option value="$PROJECT_DIR$/libswipebacklayout" />
             <option value="$PROJECT_DIR$/utilslibrarybyzll" />
             <option value="$PROJECT_DIR$/websocketlib" />
+            <option value="$PROJECT_DIR$/wsmanager" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

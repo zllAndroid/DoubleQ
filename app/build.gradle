@@ -159,6 +159,8 @@ dependencies {
     implementation project(':jnotice')
     implementation project(':libLoading')
     implementation project(':libswipebacklayout')
+
+    implementation project(':wsmanager')
 //    implementation project(':libswicthbutton')
 //    implementation files('libs/autobahn-0.5.0.jar')
 
