@@ -185,6 +185,8 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 if (record != null) {
                     dataRecord = record;
                     if (record.getIsRelation() == 2) { //  2 是好友  1 非好友
+                        fdLinSend.setVisibility(View.VISIBLE);
+                        fdaTvAdd.setVisibility(View.GONE);
                         includeTopIvMore.setVisibility(View.VISIBLE);
                         mTvName.setText(record.getNickName());
                         fdaTvNum.setText(record.getWxSno());

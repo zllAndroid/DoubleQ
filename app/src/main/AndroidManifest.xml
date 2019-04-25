@@ -60,9 +60,6 @@
         <meta-data
             android:name="channeltest"
             android:value="1" />
-
-
-
         <receiver
             android:name="com.mding.core.deamonservice.NotifyService"
             android:enabled="true"
@@ -147,9 +144,9 @@
             android:name=".main_code.mains.MainActivity"
             android:launchMode="singleTop"
             android:theme="@style/CusAppTheme" />
-        <activity
-            android:name=".main_code.mains.LoadDataActivity"
-            android:launchMode="singleTop" />
+        <!--<activity-->
+            <!--android:name=".main_code.mains.LoadDataActivity"-->
+            <!--android:launchMode="singleTop" />-->
         <activity
             android:name=".main_code.ui.about_load.LoadLinkManActivity"
             android:launchMode="singleTop" />
@@ -492,9 +489,15 @@
             android:name=".main_code.ui.about_personal.about_activity.SideChainActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <activity android:name=".main_code.ui.about_personal.about_activity.ClipImgActivity"
+        <activity
+            android:name=".main_code.ui.about_personal.about_activity.ClipImgActivity"
             android:launchMode="singleTop"
-            android:theme="@style/SwipeBack.Transparent.Theme"/>
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity
+            android:name=".about_chat.fragment.ShowImgActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".about_chat.chat_group.ShowChatImgActivity"></activity>
     </application>
 
 </manifest>

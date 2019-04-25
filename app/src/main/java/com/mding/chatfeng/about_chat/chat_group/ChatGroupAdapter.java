@@ -2,8 +2,6 @@ package com.mding.chatfeng.about_chat.chat_group;
 
 import android.content.Context;
 import android.os.Handler;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -11,6 +9,7 @@ import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.jude.easyrecyclerview.adapter.RecyclerArrayAdapter;
 import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 import com.rance.chatui.util.Constants;
+import com.rance.chatui.widget.BubbleImageView;
 
 public class ChatGroupAdapter extends RecyclerArrayAdapter<CusGroupChatData> {
 //    List<CusGroupChatData>
@@ -55,7 +54,7 @@ public class ChatGroupAdapter extends RecyclerArrayAdapter<CusGroupChatData> {
         void onHeaderClick(int position, int type, String friendId);
         void onConClick( int position, String conText);
 
-        void onImageClick(View view, int position);
+        void onImageClick(BubbleImageView view, int position, String imgHttp);
 
         void onVoiceClick(ImageView imageView, int position);
     }

@@ -1,6 +1,7 @@
 package com.mding.chatfeng.about_utils.about_realm.new_home;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_base.AppConfig;

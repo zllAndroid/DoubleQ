@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/showChatImg_lin_full"
+    android:background="@drawable/show_chat_img_background"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".about_chat.chat_group.ShowChatImgActivity">
+    <TextView
+        android:id="@+id/showImg_tv_decoding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="请稍等，正在解析..."
+        android:textSize="@dimen/sp16"
+        android:gravity="center"
+        android:visibility="gone"
+        android:textColor="@color/greyf3"/>
+    <ImageView
+        android:id="@+id/showChatImg_iv_full"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone"
+        />
+
+</LinearLayout>

@@ -32,7 +32,7 @@ android {
 //        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
     }
     buildTypes {
-        debug{
+        debug {
             buildConfigField "boolean", "API_ENV", "true"
         }
         release {

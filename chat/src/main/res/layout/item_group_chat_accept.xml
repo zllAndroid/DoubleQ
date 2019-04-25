@@ -16,6 +16,7 @@
         android:textColor="@color/white"
         android:textSize="12sp"
         android:padding="3dp"
+        android:layout_margin="@dimen/dp5"
         android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
         android:layout_gravity="center"
@@ -38,8 +39,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp">
+            android:layout_height="wrap_content">
             <LinearLayout
                 android:id="@+id/chat_item_lin_header"
                 android:layout_width="wrap_content"
@@ -59,11 +59,10 @@
 
             <com.rance.chatui.widget.BubbleImageView
                 android:id="@+id/chat_item_content_image"
-                android:layout_width="150dp"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/chat_item_lin_header"
-                android:scaleType="centerCrop"
-                android:visibility="gone"
+                android:scaleType="fitCenter"
                 app:angle="6dp"
                 app:arrowHeight="8dp"
                 app:arrowLocation="left"

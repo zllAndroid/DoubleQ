@@ -1,6 +1,5 @@
 package com.mding.chatfeng.about_custom.about_img_clip;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -73,11 +72,17 @@ public class ClipView extends View {
             canvas.drawCircle(this.getWidth() / 2, this.getHeight() / 2, clipRadiusWidth, borderPaint);
         } else if (clipType == ClipType.RECTANGLE) { //绘制矩形裁剪框
             //绘制中间的矩形
-            canvas.drawRect(mHorizontalPadding, this.getHeight() / 2 - clipWidth / 2,
-                    this.getWidth() - mHorizontalPadding, this.getHeight() / 2 + clipWidth / 2, paint);
+            canvas.drawRect(0, 0, this.getWidth(), this.getHeight(), paint);
             //绘制白色的矩形边框
-            canvas.drawRect(mHorizontalPadding, this.getHeight() / 2 - clipWidth / 2,
-                    this.getWidth() - mHorizontalPadding, this.getHeight() / 2 + clipWidth / 2, borderPaint);
+            canvas.drawRect(0, 0, this.getWidth(), this.getHeight(), borderPaint);
+
+            //原始的正方形裁剪框
+//            //绘制中间的矩形
+//            canvas.drawRect(mHorizontalPadding, this.getHeight() / 2 - clipWidth / 2,
+//                    this.getWidth() - mHorizontalPadding, this.getHeight() / 2 + clipWidth / 2, paint);
+//            //绘制白色的矩形边框
+//            canvas.drawRect(mHorizontalPadding, this.getHeight() / 2 - clipWidth / 2,
+//                    this.getWidth() - mHorizontalPadding, this.getHeight() / 2 + clipWidth / 2, borderPaint);
         }
         //出栈，恢复到之前的图层，意味着新建的图层会被删除，新建图层上的内容会被绘制到canvas (or the previous layer)
         canvas.restore();

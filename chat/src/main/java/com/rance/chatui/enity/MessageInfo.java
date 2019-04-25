@@ -4,9 +4,11 @@ package com.rance.chatui.enity;
  * 项目：DoubleQ
  * 文件描述：
  * 作者：zll
+ * 修改者：ljj
  */
 public class MessageInfo {
     private int type;
+    private String msgType;
     private String content;
     private String filepath;
     private int sendState;
@@ -22,6 +24,14 @@ public class MessageInfo {
 
     public void setType(int type) {
         this.type = type;
+    }
+
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
     }
 
     public String getContent() {

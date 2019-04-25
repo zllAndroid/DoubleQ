@@ -33,7 +33,7 @@ public class ClipImgActivity extends BaseActivity implements View.OnClickListene
     private ImageView back;
     private TextView btnCancel;
     private TextView btnOk;
-    //类别 1: qq, 2: weixin
+    //类别 1: 圆形, 2: 矩形
     private int type;
 
 //    @Override
@@ -146,10 +146,10 @@ public class ClipImgActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        // TODO: add setContentView(...) invocation
+//        ButterKnife.bind(this);
+//    }
 }

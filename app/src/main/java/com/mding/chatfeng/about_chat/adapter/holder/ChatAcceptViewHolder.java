@@ -19,6 +19,7 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFrie
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.model.DataJieShou;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
 import com.rance.chatui.util.Constants;
@@ -120,11 +121,16 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.VISIBLE);
-                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
+                    // TODO 显示接收的图片
+                    String message = data.getMessage();
+                    final String[] split = message.split("_");
+                    ImageUtils.useBase64Rectangle(getContext(),chatItemContentImage,split[0]);
+                    MyLog.e("ChatSendViewHolder","------------------------ChatAccept-------------------------"+split[1]);
+//                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
                     chatItemContentImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition());
+                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition(), split[1]);
                         }
                     });
                     break;

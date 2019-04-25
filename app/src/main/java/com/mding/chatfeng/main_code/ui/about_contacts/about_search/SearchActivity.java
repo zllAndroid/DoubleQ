@@ -255,9 +255,12 @@ public class SearchActivity extends BaseActivity {
                 {
 //                    添加群
                     Log.e("qrCode","----------getIsRelation------------------"+item.getIsRelation());
-                    if (item.getIsRelation().equals("1"))
-//                    未添加过该群，跳转未添加的群详情，部分信息看不到
-                        IntentUtils.JumpToHaveObj(GroupDataAddActivity.class, AppConfig.GROUP_ADDKEY,item);
+                    if (item.getIsRelation().equals("1")){
+//                    TODO 未添加过该群，
+//                      跳转未添加的群详情，部分信息看不到
+//                        IntentUtils.JumpToHaveObj(GroupDataAddActivity.class, AppConfig.GROUP_ADDKEY,item);
+
+                    }
                     else
                     {
 //                        添加过该群，跳转群详情

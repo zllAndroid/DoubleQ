@@ -280,7 +280,12 @@ public class PresenterApp implements IWebSocketPage {
 
     @Override
     public void sendText(String text) {
-        boolean isConnected =HelpUtils.isNetworkConnected(AppManager.getAppManager().currentActivity());
+        boolean isConnected = false;
+        try {
+            isConnected = HelpUtils.isNetworkConnected(AppManager.getAppManager().currentActivity());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (isConnected)
         {
 //            aCache.remove(AppConfig.TYPE_METHON);
@@ -344,6 +349,7 @@ public class PresenterApp implements IWebSocketPage {
 
     @Override
     public void onSendMessageError(ErrorResponse error) {
+        MyLog.e("onSendMessageError",""+error.getResponseText());
         senderror();
     }
 

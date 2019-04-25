@@ -38,7 +38,6 @@ import com.bumptech.glide.Glide;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.Methon;
-import com.mding.chatfeng.about_base.web_base.MessageEvent;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
@@ -47,6 +46,7 @@ import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
 import com.mding.chatfeng.about_chat.adapter.CommonFragmentPagerAdapter;
+import com.mding.chatfeng.about_chat.chat_group.ShowChatImgActivity;
 import com.mding.chatfeng.about_chat.fragment.ChatEmotionFragment;
 import com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment;
 import com.mding.chatfeng.about_chat.ui.StateButton;
@@ -75,16 +75,15 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
-import com.rance.chatui.enity.FullImageInfo;
 import com.rance.chatui.enity.MessageInfo;
 import com.rance.chatui.util.Constants;
 import com.rance.chatui.util.MediaManager;
+import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.NoScrollViewPager;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -98,6 +97,7 @@ import butterknife.OnClick;
  * 项目：DoubleQ
  * 文件描述：私聊界面
  * 作者：zll
+ * 修改者：ljj
  */
 public class ChatActivity extends BaseActivity {
 
@@ -179,7 +179,7 @@ public class ChatActivity extends BaseActivity {
 //        StateBarUtils.setFullscreen(this, false, false);
         StateBarUtils.setAndroidNativeLightStatusBar(this,false);
         if (Build.VERSION.SDK_INT >= 21)
-           getWindow().setNavigationBarColor(Color.WHITE);
+            getWindow().setNavigationBarColor(Color.WHITE);
     }
 
     //        设置导航栏颜色
@@ -228,6 +228,7 @@ public class ChatActivity extends BaseActivity {
     public static String FriendId = "";
     //    消息类型
     public static String messageType = "1";
+    public static String messageTypeImg = "2";
     //    好友头像
     public static String friendHeader = "";
     //    我的头像
@@ -235,7 +236,7 @@ public class ChatActivity extends BaseActivity {
     RealmChatHelper realmHelper;
     RealmHomeHelper realmHomeHelper;
     HideControl hideControl;
-//    RealmLinkManHelper realmLink;
+    //    RealmLinkManHelper realmLink;
     CusJumpChatData cusJumpChatData;
     ChatPopWindow chatPopWindow;
     DataChatPop dataChatPop;
@@ -243,7 +244,6 @@ public class ChatActivity extends BaseActivity {
     String groupName;
     boolean isLocked = false;
     CusChatPop cusChatPop;
-
 
     @Override
     protected void initBaseView() {
@@ -492,13 +492,13 @@ public class ChatActivity extends BaseActivity {
                 if (event.getAction()==MotionEvent.ACTION_DOWN) {
 //                    case MotionEvent.ACTION_DOWN: //手指按下
 //                        点击列表，软键盘或者表情列表存在，则关闭他们；
-                        Log.e("chatList",isSoftShowing()+"---"+emotionLayout.isShown());
-                        if (isSoftShowing() || emotionLayout.isShown()) {
-                            emotionLayout.setVisibility(View.GONE);
-                            chatAdapter.handler.removeCallbacksAndMessages(null);
-                            mDetector.hideEmotionLayout(false);
-                            mDetector.hideSoftInput();
-                        }
+                    Log.e("chatList",isSoftShowing()+"---"+emotionLayout.isShown());
+                    if (isSoftShowing() || emotionLayout.isShown()) {
+                        emotionLayout.setVisibility(View.GONE);
+                        chatAdapter.handler.removeCallbacksAndMessages(null);
+                        mDetector.hideEmotionLayout(false);
+                        mDetector.hideSoftInput();
+                    }
 //                        initChatPopWindow();
 //                        break;
                 } //end switch
@@ -548,14 +548,14 @@ public class ChatActivity extends BaseActivity {
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
 //            发送消息返回
-            case Methon.PreviteSend:
+            case Methon.PrivateSend:  // sendPrivateChat  私聊新接口
                 String ed = editText.getText().toString().trim();
                 if (!StrUtils.isEmpty(ed)) {
                     editText.setText("");
                 }
                 dealSendResult(responseText);
                 break;
-            case Methon.PreviteChat:
+            case Methon.PrivateChat:
                 dealReceiverResult(responseText);
                 break;
             case "friendRemarkName":
@@ -709,18 +709,22 @@ public class ChatActivity extends BaseActivity {
         }
 
         @Override
-        public void onImageClick(View view, int position) {
-            int location[] = new int[2];
-            view.getLocationOnScreen(location);
-            FullImageInfo fullImageInfo = new FullImageInfo();
-            fullImageInfo.setLocationX(location[0]);
-            fullImageInfo.setLocationY(location[1]);
-            fullImageInfo.setWidth(view.getWidth());
-            fullImageInfo.setHeight(view.getHeight());
-            fullImageInfo.setImageUrl(messageInfos.get(position).getImageUrl());
-            EventBus.getDefault().postSticky(fullImageInfo);
-            startActivity(new Intent(ChatActivity.this, FullImageActivity.class));
-            overridePendingTransition(0, 0);
+        public void onImageClick(BubbleImageView view, int position, String imgHttp) {
+//            int location[] = new int[2];
+//            view.getLocationOnScreen(location);
+//            FullImageInfo fullImageInfo = new FullImageInfo();
+//            fullImageInfo.setLocationX(location[0]);
+//            fullImageInfo.setLocationY(location[1]);
+//            fullImageInfo.setWidth(view.getWidth());
+//            fullImageInfo.setHeight(view.getHeight());
+//            // TODO 放大聊天图片
+////            fullImageInfo.setImageUrl(messageInfos.get(position).getImageUrl());
+//            fullImageInfo.setImageBase64(messageInfos.get(position).getFilepath());
+//            EventBus.getDefault().postSticky(fullImageInfo);
+//            startActivity(new Intent(ChatActivity.this, FullImageActivity.class));
+//            overridePendingTransition(0, 0);
+//            okHttp_asynchronousGet(view, imgHttp);
+            IntentUtils.JumpToHaveOne(ShowChatImgActivity.class, ShowChatImgActivity.SHOW_CHAT_IMG_REGION, imgHttp);
         }
 
         @Override
@@ -905,7 +909,6 @@ public class ChatActivity extends BaseActivity {
 
     private PopupWindow mPopupWindow;
     private View mPopContentView;
-
     private void initPopWindow(final View selectedView, final int position) {
         if (mPopContentView == null) {
             mPopContentView = View.inflate(this, R.layout.popup, null);

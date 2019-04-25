@@ -144,6 +144,7 @@
                     android:textSize="@dimen/sp16"
                     android:drawableRight="@drawable/change_icon"
                     android:textColor="@color/white"
+                    android:text="暂未设置签名"
                     />
 
                 <!--<ImageView-->

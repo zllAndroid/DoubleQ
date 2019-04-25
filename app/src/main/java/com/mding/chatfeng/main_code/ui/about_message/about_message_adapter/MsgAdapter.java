@@ -101,7 +101,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                     nickName= realmGroupHelper.queryLinkFriendReturnName(item.getFriendId());//获取群聊群名
                 }
 //                 imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
-                ImageUtils.useBase64(context,errorImg,mIvHead,imgPath);
+                ImageUtils.useBase64WithError(context,mIvHead,imgPath,errorImg);
                 helper.setText(R.id.item_tv_name,nickName);
             }
             helper.setText(R.id.item_tv_msg,item.getMsg());

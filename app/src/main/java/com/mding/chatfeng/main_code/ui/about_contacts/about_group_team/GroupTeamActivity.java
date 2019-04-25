@@ -15,6 +15,7 @@ import com.mding.chatfeng.about_chat.chat_group.FriendDataGroupMemberActivity;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataActivity;
+import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.GroupTeamMemberAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.SeachAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_custom.Allcity;
@@ -188,10 +189,12 @@ public class GroupTeamActivity extends BaseActivity {
                     switch (item.getIsRelation()) {
                         case 1:
 //                            跳转陌生人显示界面
-                            IntentUtils.JumpToHaveTwo(FriendDataGroupMemberActivity.class, FriendDataGroupMemberActivity.FRIENG_ID_KEY, memberId, FriendDataGroupMemberActivity.GROUP_ID_KEY, groupId);
-                            break;
+//                            IntentUtils.JumpToHaveTwo(FriendDataGroupMemberActivity.class, FriendDataGroupMemberActivity.FRIENG_ID_KEY, memberId, FriendDataGroupMemberActivity.GROUP_ID_KEY, groupId);
+//                            IntentUtils.JumpToHaveTwo(FriendDataGroupMemberActivity.class, FriendDataGroupMemberActivity.FRIENG_ID_KEY, memberId, FriendDataGroupMemberActivity.GROUP_ID_KEY, groupId);
+//                            break;
                         case 2:
-                            IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", memberId);
+                            IntentUtils.JumpToHaveOne(FriendDataMixActivity.class, "id", memberId);
+//                            IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", memberId);
                             break;
                         case 3:
                             // 自己，跳转个人资料界面

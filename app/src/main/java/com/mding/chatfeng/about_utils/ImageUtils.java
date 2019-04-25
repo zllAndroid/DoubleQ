@@ -11,9 +11,18 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.ScreenUtils;
+
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -162,13 +171,30 @@ public class ImageUtils {
 			e.printStackTrace();
 		}
 	}
-	public static void useBase64(Context context, int error,ImageView imageView, String s) {
+    /**
+     *  等比例缩放图片至屏幕宽度
+     */
+    public static void useBase64ToChat(final Context context, final ImageView imageView, String s) {
+
+        byte[] decodeByde = Base64.decode(s, Base64.DEFAULT);
+        Glide.with(context).load(decodeByde).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+            @Override
+            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                int imageWidth = resource.getWidth();
+                int imageHeight = resource.getHeight();
+                int height = ScreenUtils.getScreenWidth(context) * imageHeight / imageWidth;
+                ViewGroup.LayoutParams para = imageView.getLayoutParams();
+                para.height = height / 2;
+                para.width = ScreenUtils.getScreenWidth(context) / 2;
+                imageView.setImageBitmap(resource);
+            }
+        });
+    }
+	public static void useBase64Rectangle(Context context, ImageView imageView, String s) {
 		try {
 			byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
 			Glide.with(context).load(decodedByte)
 					.dontAnimate()
-					.bitmapTransform(new CropCircleTransformation(context))
-					.error(error)
 					.placeholder(imageView.getDrawable())
 					.into(imageView);
 		} catch (Exception e) {

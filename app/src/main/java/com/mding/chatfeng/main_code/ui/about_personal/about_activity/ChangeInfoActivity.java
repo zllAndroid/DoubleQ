@@ -300,11 +300,12 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //        }
 //        startActivityForResult(intent, REQUEST_CAPTURE);
 //    }
+
     /**
      * 跳转到相册
      */
     private void goToAlbum() {
-        Log.d("==image==", "*****************打开图库********************");
+        Log.d("==image==", "*****************打开相册********************");
         //跳转到调用系统图库
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(Intent.createChooser(intent, "请选择图片"), REQUEST_PICK);

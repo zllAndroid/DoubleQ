@@ -25,6 +25,7 @@ import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_file.FilePath;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
 import com.mding.model.DataJieShou;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
@@ -97,7 +98,6 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
             }
         });
 
-
 //        chatItemContentText.setOnTouchListener(new View.OnTouchListener() {
 //            @Override
 //            public boolean onTouch(View view, MotionEvent e) {
@@ -163,11 +163,16 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.VISIBLE);
-                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
+                    // TODO 显示发送的图片
+                    String message = data.getMessage();
+                    final String[] split = message.split("_");
+                    ImageUtils.useBase64ToChat(getContext(),chatItemContentImage,split[0]);
+                    MyLog.e("ChatSendViewHolder","------------------------ChatSend-------------------------"+split[1]);
+//                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
                     chatItemContentImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition());
+                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition(), split[1]);
                         }
                     });
                     break;

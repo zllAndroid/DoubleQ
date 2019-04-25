@@ -11,8 +11,8 @@ package com.mding.chatfeng.about_base;
  */
 public class Methon {
 
-    public  static  final String PreviteChat="receivePrivateChat";//接收私聊发送消息
-    public  static  final String PreviteSend="sendPrivateChat";//发送私聊发送消息
+    public  static  final String PrivateChat ="receivePrivateChat";//接收私聊发送消息
+    public  static  final String PrivateSend ="sendPrivateChat";//发送私聊发送消息
 
     public  static  final String GroupChatSend="sendGroupChat";//发送群聊发送消息
     public  static  final String ReceiveGroupChat="receiveGroupChat";//接收群聊发送消息

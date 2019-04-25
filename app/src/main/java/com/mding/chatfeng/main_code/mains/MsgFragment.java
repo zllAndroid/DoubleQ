@@ -58,6 +58,7 @@ import static com.mding.chatfeng.about_utils.IntentUtils.JumpTo;
  * 项目：DoubleQ
  * 文件描述：主界面FindFragment之消息页面
  * 作者：zll
+ * 修改者：ljj
  */
 public class MsgFragment extends BaseFragment {
     public MsgFragment() {}
@@ -536,9 +537,11 @@ public class MsgFragment extends BaseFragment {
         if (!StrUtils.isEmpty(messageInfo.getMsg())&&item!=null) {
             if (type.equals("1")) {
                 BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().privateSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
+//                BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().privateSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
             }
             else {
                 BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().groupSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
+//                BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().groupSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
             }
         }
     }

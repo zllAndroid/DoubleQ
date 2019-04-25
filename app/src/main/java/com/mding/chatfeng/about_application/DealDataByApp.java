@@ -2,7 +2,6 @@ package com.mding.chatfeng.about_application;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.PowerManager;
 
@@ -20,10 +19,8 @@ import com.mding.chatfeng.about_base.deal_application.DealModifyGroupList;
 import com.mding.chatfeng.about_base.deal_application.DealModifyGroupOfList;
 import com.mding.chatfeng.about_base.deal_application.DealUpdateFriend;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
-import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
-import com.mding.chatfeng.about_chat.ChatActivity;
 import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 import com.mding.chatfeng.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.mding.chatfeng.about_utils.HelpUtils;
@@ -92,7 +89,7 @@ public class DealDataByApp {
             String s = HelpUtils.backMethod(message.getResponseText());
             switch (s) {
                 //接收好友消息
-                case Methon.PreviteChat:
+                case Methon.PrivateChat:
 //                case "privateReceive":
                     MsgFragment.isZero = true;
                     dealReceiver(message.getResponseText());
@@ -125,7 +122,7 @@ public class DealDataByApp {
                     CGS(message.getResponseText());
                     break;
 //                    私聊发送消息
-                case Methon.PreviteSend:
+                case Methon.PrivateSend:
 //                case "privateSend":
                     dealSend(message.getResponseText());
                     break;

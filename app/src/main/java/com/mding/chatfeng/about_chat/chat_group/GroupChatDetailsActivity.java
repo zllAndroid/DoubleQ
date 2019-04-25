@@ -745,7 +745,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
                 bitmapOptions.inJustDecodeBounds = true;
                 Bitmap bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath(), bitmapOptions);
-//                Bitmap bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath(), bitmapOptions);
                 bitmapOptions.inJustDecodeBounds = false;
                 int be = (int) (bitmapOptions.outHeight / (float) 200);
                 if (be <= 0)

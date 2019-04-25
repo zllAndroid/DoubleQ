@@ -11,27 +11,22 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
-import com.mding.chatfeng.about_utils.about_file.FilePath;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
 import com.rance.chatui.util.Constants;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
 
-import java.io.File;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- */
 public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
 
     @BindView(R.id.chat_item_date)
@@ -138,11 +133,16 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.VISIBLE);
-                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
+                    // TODO 显示发送的图片
+                    String message = data.getMessage();
+                    final String[] split = message.split("_");
+                    ImageUtils.useBase64ToChat(getContext(),chatItemContentImage,split[0]);
+                    MyLog.e("ChatSendViewHolder","------------------------groupSend-------------------------"+split[1]);
+//                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
                     chatItemContentImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition());
+                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition(), split[1]);
                         }
                     });
                     break;

@@ -8,12 +8,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -43,7 +45,6 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.ChatNewsWindow;
 import com.mding.chatfeng.about_chat.EmotionInputDetector;
-import com.mding.chatfeng.about_chat.FullImageActivity;
 import com.mding.chatfeng.about_chat.GlobalOnItemClickManagerUtils;
 import com.mding.chatfeng.about_chat.adapter.CommonFragmentPagerAdapter;
 import com.mding.chatfeng.about_chat.fragment.ChatEmotionFragment;
@@ -58,6 +59,7 @@ import com.mding.chatfeng.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.mding.chatfeng.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.mding.chatfeng.about_utils.DensityUtil;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.MathUtils;
 import com.mding.chatfeng.about_utils.SoftKeyboardUtils;
@@ -79,10 +81,10 @@ import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
-import com.rance.chatui.enity.FullImageInfo;
 import com.rance.chatui.enity.MessageInfo;
 import com.rance.chatui.util.Constants;
 import com.rance.chatui.util.MediaManager;
+import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.NoScrollViewPager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -95,10 +97,15 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.mding.chatfeng.about_chat.ChatActivity.messageTypeImg;
+import static com.mding.chatfeng.about_utils.about_file.HeadFileUtils.getRealFilePathFromUri;
+
 /**
  * 项目：DoubleQ
  * 文件描述：群聊界面
  * 作者：zll
+ * 修改者：ljj
  */
 public class ChatGroupActivity extends BaseActivity {
 
@@ -214,6 +221,8 @@ public class ChatGroupActivity extends BaseActivity {
         initReceiver();
         Intent intent = getIntent();
         if (intent != null) {
+            Uri uri = intent.getData();
+            initUri(uri);
             jumpGroupChatData = (CusJumpGroupChatData) intent.getSerializableExtra(Constants.KEY_FRIEND_HEADER);
             GroupChatData = (DataSearch) intent.getSerializableExtra("dataSearch");
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
@@ -237,6 +246,28 @@ public class ChatGroupActivity extends BaseActivity {
         includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
         sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
     }
+
+    private void initUri(Uri uri) {
+        if (uri == null) {
+            return;
+        }
+        String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
+        // 原图
+        Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+        String imgNoZoom = ImageUtils.Bitmap2StrByBase64(bitMap);
+        // 压缩图
+        Bitmap bm = ImageUtils.imageZoom(bitMap);
+        String imgByZoom = ImageUtils.Bitmap2StrByBase64(bm);
+        // TODO 发送图片（格式：压缩图片的base64_高清原图的base64）
+        String imgTotal = imgByZoom + "_" + imgNoZoom;
+        send(SplitWeb.getSplitWeb().groupSend(groupId, imgTotal, messageTypeImg, TimeUtil.getTime()));
+    }
+
+//    @Override
+//    public void sendUri(Uri uri) {
+//        initUri(uri);
+//        MyLog.e("ChatSendViewHolder","-----------------sendUri-------------------"+uri);
+//    }
 
     IntentFilter intentFilter;
 
@@ -567,7 +598,7 @@ public class ChatGroupActivity extends BaseActivity {
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
 //            发送消息返回
-            case Methon.GroupChatSend:
+            case Methon.GroupChatSend: //sendGroupChat  群聊新接口
                 String ed = editText.getText().toString().trim();
                 if (!StrUtils.isEmpty(ed)) {
                     editText.setText("");
@@ -698,7 +729,6 @@ public class ChatGroupActivity extends BaseActivity {
         }
     }
 
-    String time = null;
     private void dealSendResult(String responseText) {
         DataGroupChatSend dataJieShou = JSON.parseObject(responseText, DataGroupChatSend.class);
         DataGroupChatSend.RecordBean record = dataJieShou.getRecord();
@@ -778,19 +808,24 @@ public class ChatGroupActivity extends BaseActivity {
         }
 
         @Override
-        public void onImageClick(View view, int position) {
-            int location[] = new int[2];
-            view.getLocationOnScreen(location);
-            FullImageInfo fullImageInfo = new FullImageInfo();
-            fullImageInfo.setLocationX(location[0]);
-            fullImageInfo.setLocationY(location[1]);
-            fullImageInfo.setWidth(view.getWidth());
-            fullImageInfo.setHeight(view.getHeight());
-            fullImageInfo.setImageUrl(messageInfos.get(position).getImageUrl());
-            EventBus.getDefault().postSticky(fullImageInfo);
-            startActivity(new Intent(ChatGroupActivity.this, FullImageActivity.class));
-            overridePendingTransition(0, 0);
+        public void onImageClick(BubbleImageView view, int position, String imgHttp) {
+            IntentUtils.JumpToHaveOne(ShowChatImgActivity.class, ShowChatImgActivity.SHOW_CHAT_IMG_REGION, imgHttp);
         }
+
+//        @Override
+//        public void onImageClick(View view, int position) {
+//            int location[] = new int[2];
+//            view.getLocationOnScreen(location);
+//            FullImageInfo fullImageInfo = new FullImageInfo();
+//            fullImageInfo.setLocationX(location[0]);
+//            fullImageInfo.setLocationY(location[1]);
+//            fullImageInfo.setWidth(view.getWidth());
+//            fullImageInfo.setHeight(view.getHeight());
+//            fullImageInfo.setImageUrl(messageInfos.get(position).getImageUrl());
+//            EventBus.getDefault().postSticky(fullImageInfo);
+//            startActivity(new Intent(ChatGroupActivity.this, FullImageActivity.class));
+//            overridePendingTransition(0, 0);
+//        }
 
         @Override
         public void onVoiceClick(final ImageView imageView, final int position) {
