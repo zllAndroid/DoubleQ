@@ -24,7 +24,7 @@ android {
 
 dependencies {
     api fileTree(include: ['*.jar'], dir: 'libs')
-    api 'com.squareup.okhttp3:okhttp:3.8.1'
+    api 'com.squareup.okhttp3:okhttp:3.14.1'
     api 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     api 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
 }

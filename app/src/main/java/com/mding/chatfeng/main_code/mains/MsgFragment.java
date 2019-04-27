@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.mding.chatfeng.about_application.BaseApp;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.MessageEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
@@ -155,6 +156,7 @@ public class MsgFragment extends BaseFragment {
     public void onEventMainThread(NetEvent event) {
         try {
             mLinNet.setVisibility(event.isNet ? View.GONE : View.VISIBLE);
+            BaseApp.mIChatRequst.initData();//调用重新连接
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -193,14 +195,12 @@ public class MsgFragment extends BaseFragment {
     }
     private class LongTimeTask extends AsyncTask<List<CusHomeRealmData>,Void,List<CusHomeRealmData>>
     {
-
         @Override
         protected void onPostExecute(List<CusHomeRealmData> o) {
             super.onPostExecute(o);
             initAdapter();
             AppConfig.logs("-----------------------onPostExecute-----------接收----------------------");
         }
-
         @Override
         protected List<CusHomeRealmData> doInBackground(List<CusHomeRealmData>... lists) {
             AppConfig.logs("-----------------------doInBackground-----------执行----------------------");

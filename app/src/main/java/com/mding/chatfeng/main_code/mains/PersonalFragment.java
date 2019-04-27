@@ -179,7 +179,7 @@ public class PersonalFragment extends BaseFragment {
         String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
         if (!StrUtils.isEmpty(json)) {
             DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
-            DataLogin.RecordBean recordBean = JSON.parseObject(json, DataLogin.RecordBean.class);
+            DataLogin.RecordBean recordBean = dataLogin.getRecord();
             if (dataLogin != null) {
                 mineTvName.setText(recordBean.getNickName());
                 userPhone = recordBean.getMobile();

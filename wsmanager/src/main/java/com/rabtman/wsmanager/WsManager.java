@@ -19,8 +19,8 @@ import okio.ByteString;
  * @author rabtman
  */
 
-public class WsManager implements IWsManager {
-
+public class WsManager  implements IWsManager {
+  private boolean isFristBuildConn=true;
   private final static int RECONNECT_INTERVAL = 10 * 1000;    //重连自增步长
   private final static long RECONNECT_MAX_TIME = 120 * 1000;   //最大重连间隔
   private Context mContext;
@@ -88,7 +88,6 @@ public class WsManager implements IWsManager {
           wsMainHandler.post(new Runnable() {
             @Override
             public void run() {
-              if (wsStatusListener!=null)
               wsStatusListener.onMessage(text);
             }
           });
@@ -159,13 +158,13 @@ public class WsManager implements IWsManager {
   private void initWebSocket() {
     if (mOkHttpClient == null) {
       mOkHttpClient = new OkHttpClient.Builder()
-          .retryOnConnectionFailure(true)
-          .build();
+              .retryOnConnectionFailure(true)
+              .build();
     }
     if (mRequest == null) {
       mRequest = new Request.Builder()
-          .url(wsUrl)
-          .build();
+              .url(wsUrl)
+              .build();
     }
     mOkHttpClient.dispatcher().cancelAll();
     try {
@@ -230,7 +229,7 @@ public class WsManager implements IWsManager {
 
     long delay = reconnectCount * RECONNECT_INTERVAL;
     wsMainHandler
-        .postDelayed(reconnectRunnable, delay > RECONNECT_MAX_TIME ? RECONNECT_MAX_TIME : delay);
+            .postDelayed(reconnectRunnable, delay > RECONNECT_MAX_TIME ? RECONNECT_MAX_TIME : delay);
     reconnectCount++;
   }
 
@@ -268,6 +267,7 @@ public class WsManager implements IWsManager {
       setCurrentStatus(WsStatus.DISCONNECTED);
       return;
     }
+    isFristBuildConn=false;
     switch (getCurrentStatus()) {
       case WsStatus.CONNECTED:
       case WsStatus.CONNECTING:
@@ -275,6 +275,7 @@ public class WsManager implements IWsManager {
       default:
         setCurrentStatus(WsStatus.CONNECTING);
         initWebSocket();
+
     }
   }
 
@@ -288,6 +289,25 @@ public class WsManager implements IWsManager {
   public boolean sendMessage(ByteString byteString) {
     return send(byteString);
   }
+
+  /**
+   * 在无网络情况下，进入APP，当网络恢复，开始创建连接对象并连接，当创建后以后就不在重复调用
+   */
+  @Override
+  public void fristStartConnByNetChange() {
+    if (!isNetworkConnected(mContext)) {
+      return;
+    }else {
+      //如果是在无网络情况的第一次尝试连接
+      if(!this.isWsConnected())
+      {
+        //开始建立连接
+        this.startConnect();
+      }
+    }
+
+  }
+
 
   private boolean send(Object msg) {
     boolean isSend = false;
@@ -309,15 +329,35 @@ public class WsManager implements IWsManager {
   private boolean isNetworkConnected(Context context) {
     if (context != null) {
       ConnectivityManager mConnectivityManager = (ConnectivityManager) context
-          .getSystemService(Context.CONNECTIVITY_SERVICE);
+              .getSystemService(Context.CONNECTIVITY_SERVICE);
       NetworkInfo mNetworkInfo = mConnectivityManager
-          .getActiveNetworkInfo();
+              .getActiveNetworkInfo();
       if (mNetworkInfo != null) {
         return mNetworkInfo.isAvailable();
       }
     }
     return false;
   }
+
+  /**
+   * 网络发生变化的回调
+   *//*
+  @Override
+  protected void onReceiveNetChange() {
+    if (!isNetworkConnected(mContext)) {
+      wsStatusListener.onNetChange(false);
+      return;
+    }else {
+ *//*     //如果是在无网络情况的第一次尝试连接
+      if(isFristBuildConn)
+      {
+        //开始建立连接
+        this.startConnect();
+      }*//*
+      wsStatusListener.onNetChange(true);
+    }
+
+  }*/
 
   public static final class Builder {
 

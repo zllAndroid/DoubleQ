@@ -24,4 +24,6 @@ interface IWsManager {
   boolean sendMessage(String msg);
 
   boolean sendMessage(ByteString byteString);
+
+  void fristStartConnByNetChange();
 }

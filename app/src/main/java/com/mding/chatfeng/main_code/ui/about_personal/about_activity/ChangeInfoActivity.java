@@ -144,8 +144,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 
     private void initUI(String json) {
         DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
-        DataLogin.RecordBean recordBean = JSON.parseObject(json, DataLogin.RecordBean.class);
-        if (dataLogin!=null) {
+        DataLogin.RecordBean recordBean = dataLogin.getRecord();
+        if (recordBean!=null) {
            changeinfoTvName.setText(recordBean.getNickName());
            changeinfoTvCount.setText(recordBean.getWxSno());
            changeinfoTvSign.setText(recordBean.getPersonaSignature());

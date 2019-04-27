@@ -67,8 +67,8 @@ public class WsChannelService extends Service {
             wsManager = new WsManager.Builder(getBaseContext())
                     .client(
                             new OkHttpClient().newBuilder()
-                                    .pingInterval(0, TimeUnit.SECONDS)
-                                    .retryOnConnectionFailure(false)
+                                    .pingInterval(40, TimeUnit.SECONDS)
+                                    .retryOnConnectionFailure(true)
                                     .build())
                     .needReconnect(true)
 //                    .wsUrl("ws://120.78.92.225:9093")
@@ -76,6 +76,7 @@ public class WsChannelService extends Service {
                     .build();
             wsManager.setWsStatusListener(wsStatusListener);
             wsManager.startConnect();
+
            AppConfig.logs("----ws:::"+ wsManager.isWsConnected());
 
         }
@@ -153,7 +154,7 @@ public class WsChannelService extends Service {
 
         @Override
         public void initData() throws RemoteException {
-
+            wsManager.fristStartConnByNetChange();
         }
 
         @Override
@@ -210,7 +211,7 @@ public class WsChannelService extends Service {
         @Override
         public void onFailure(Throwable t, Response response) {
             super.onFailure(t, response);
-            AppConfig.logs("连接失败");
+            AppConfig.logs("连接失败"+t.toString());
             try {
                 callbacks.onFail("WS->onFail");
             } catch (Exception e) {

@@ -43,13 +43,6 @@ public class MyAccountActivity extends BaseActivity  {
     @BindView(R.id.include_top_lin_background)
     LinearLayout includeTopLinBackground;
     public  static final String TITAL_NAME = "tital_name";
-    public  static  String USER_NAME = "user_name";
-    public  static  String QRCODE = "code";
-    String type = "1";
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
 
     ACache aCache;
     @Override
@@ -81,8 +74,8 @@ public class MyAccountActivity extends BaseActivity  {
         if (!StrUtils.isEmpty(json))
         {DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
             Log.e("result","token信息"+json.toString());
-            DataLogin.RecordBean recordBean = JSON.parseObject(json, DataLogin.RecordBean.class);
-            if (dataLogin!=null) {
+            DataLogin.RecordBean recordBean = dataLogin.getRecord();
+            if (recordBean!=null) {
                 String qrCodeString = recordBean.getQrcode();
                 createQrCodeImg(qrCodeString);
 //                    String headImg = dataLogin.getHeadImg();

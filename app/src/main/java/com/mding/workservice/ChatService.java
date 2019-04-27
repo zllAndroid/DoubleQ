@@ -140,10 +140,11 @@ public class ChatService extends Service {
         //初始化数据
         @Override
         public void initData() throws RemoteException {
-        //获取数据，存库操作
+/*        //获取数据，存库操作
             getDataByUrl("WWW");
             //初始化成功后触发回调函数
-            callback.initSuccess("1");
+            callback.initSuccess("1");*/
+            mIChatRequsts.initData();
         }
 
         @Override

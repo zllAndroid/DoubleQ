@@ -74,7 +74,8 @@ public class DealDataByApp {
     public static RealmGroupChatHelper realmGroupChatHelper;
 
     public static void synData(Context mmContext ,String mmessage) {
-        mContext=mmContext;
+        mContext=BaseApplication.getAppContext();
+//        mContext=mmContext;
         message=mmessage;
 //        realmHelper=mrealmHelper;
 //        realmChatHelper=mrealmChatHelper;

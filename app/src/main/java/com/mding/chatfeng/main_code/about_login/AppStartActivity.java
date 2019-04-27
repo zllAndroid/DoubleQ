@@ -262,7 +262,7 @@ public class AppStartActivity extends BaseLogin {
                 DataLogin dataLogin = JSON.parseObject(asString, DataLogin.class);
                 DataLogin.RecordBean record = dataLogin.getRecord();
 //                DataLogin.RecordBean dataLogin = JSON.parseObject(asString, DataLogin.RecordBean.class);
-                if (dataLogin!=null) {
+                if (record!=null) {
                     initSetData(record);
                     String asFriend = mCache.getAsString(AppAllKey.FRIEND_DATA);
                     Log.e("result","FRIEND_DATA信息="+asFriend);

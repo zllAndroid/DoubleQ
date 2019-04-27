@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.util.Log;
@@ -102,11 +103,6 @@ public class PresenterApp extends BaseApp {
     {
         init(mc);
     }
-    private void initRunnable() {
-        AutoSaleTicket autoSaleTicket = new AutoSaleTicket();
-        Thread t1 = new Thread(autoSaleTicket, "123");
-        t1.start();
-    }
 
     @Override
     void onMainSuccees(String onLoginSuccees) {
@@ -125,36 +121,6 @@ public class PresenterApp extends BaseApp {
         onMessageResponse(onSendMsg);
         EventBus.getDefault().post(new MessageEvent(onSendMsg));
 
-    }
-
-    class AutoSaleTicket implements Runnable {
-        private int ticket = 20;
-        long checkDelay=10;
-        long keepAliveDelay=60000;
-        public void run() {
-
-            while (true) {// 循环是指线程不停的去卖票
-                // 当操作的是共享数据时,用同步代码块进行包围起来,这样在执行时,只能有一个线程执行同步代码块里面的内容
-                synchronized (this) {
-                    if (System.currentTimeMillis()-lastSendTime>keepAliveDelay)
-                    {
-                        acquireWakeLock();
-                        lastSendTime=System.currentTimeMillis();
-                    }else {
-                        try {
-                            Thread.sleep(checkDelay);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-                // 所以把sleep放到同步代码块的外面,这样卖完一张票就休息一会,让其他线程再卖,这样所有的线程都可以卖票
-                try {
-                    Thread.sleep(200);
-                } catch (Exception ex) {
-                }
-            }
-        }
     }
     //获取电源锁，保持该服务在屏幕熄灭时仍然获取CPU时，保持运行
     private void acquireWakeLock()
@@ -184,22 +150,6 @@ public class PresenterApp extends BaseApp {
 
     public static WebSocketServiceConnectManager mConnectManager =null;
     /**
-     * 判断服务是否处于运行状态.
-     * @param servicename
-     * @param context
-     * @return
-     */
-    public static boolean isServiceRunning(String servicename,Context context){
-        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningServiceInfo> infos = am.getRunningServices(100);
-        for(ActivityManager.RunningServiceInfo info: infos){
-            if(servicename.equals(info.service.getClassName())){
-                return true;
-            }
-        }
-        return false;
-    }
-    /**
      * 配置初始化realm数据库
      */
     private void initRealm() {
@@ -216,9 +166,9 @@ public class PresenterApp extends BaseApp {
 //        Realm realm = Realm.getInstance(configuration);
     }
 
-    RealmHomeHelper realmHelper;
-    RealmChatHelper realmChatHelper;
-    RealmGroupChatHelper realmGroupChatHelper;
+    //    RealmHomeHelper realmHelper;
+//    RealmChatHelper realmChatHelper;
+//    RealmGroupChatHelper realmGroupChatHelper;
     public  ACache aCache;
 
     public void sendText(String text) {
@@ -240,7 +190,7 @@ public class PresenterApp extends BaseApp {
                 e.printStackTrace();
             }
         }else {
-            ToastUtil.show("网络连接失败");
+            ToastUtil.show("网络连接失败,请检查网络配置");
         }
     }
 
@@ -260,11 +210,21 @@ public class PresenterApp extends BaseApp {
         if (method.equals("bindUid")) {
             String only = HelpUtils.backOnly(message);
         }
-        DealDataByApp.synData(mContext,message);
+//        DealDataByApp.synData(mContext,message);
+        dealDataAsy myTask = new dealDataAsy();
+        myTask.execute(message);
 //        DealDataByApp.synData(mContext,message,realmHelper,realmChatHelper,realmGroupChatHelper);
 //            DealDataByApp.initReceiver();
     }
-
+    class  dealDataAsy extends AsyncTask<String,Void,Void>
+    {
+        @Override
+        protected Void doInBackground(String... strings) {
+            AppConfig.logs("application_data------------------------->>>"+strings[0]);
+            DealDataByApp.synData(mContext,strings[0]);
+            return null;
+        }
+    }
 
     public void OnDestry() {
         PgyCrashManager.unregister();

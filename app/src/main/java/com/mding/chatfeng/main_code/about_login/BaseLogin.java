@@ -36,36 +36,15 @@ public abstract class BaseLogin extends BaseActivity implements ServiceConnectio
                 stopService(intent);
             }catch (Exception e){}
         }
-        intent=new Intent(mContext, NotifyDeamon.class);
-        bindService(intent,this, Context.BIND_AUTO_CREATE);
-        startService(intent);
+        try {
+            intent=new Intent(mContext, NotifyDeamon.class);
+            bindService(intent,this, Context.BIND_IMPORTANT);
+            startService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
-
-
-
-    Handler handler=new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            LoginModel mLoginModel= (LoginModel) msg.obj;
-            if(mLoginModel.isLoginSuccess())
-            {
-
-                //登入成功后，接收回调数据,取mLoginModel中数据，做一些功能性判断，或者根据业务需要做数据处理
-
-
-           /*     Toast.makeText(BaseWork.this,"成功啦"+mLoginModel.isLoginSuccess(), Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));*/
-                //登入成功，断掉与守护进程的连接，把连接交给NotifyDeamon，以备在后台监听连接情况
-
-            }else{
-                //登入失败后，做相应提示
-
-
-            }
-        }
-    };
 
     @Override
     public void onServiceConnected(ComponentName name, IBinder service) {
