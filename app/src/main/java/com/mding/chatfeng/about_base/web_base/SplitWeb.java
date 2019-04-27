@@ -137,7 +137,7 @@ public class SplitWeb {
 //    public  String WebSocket_URL = "ws://192.168.4.133:5053";
 //    public  String URL = "http://192.168.4.133:5052/LoginController/";
 
-//    public  String WebSocket_URL = "ws://192.168.4.55:9093";
+    public  String WebSocket_URL = "ws://192.168.4.133:5053";
 //    public  String WebSocket_URL = "ws://192.168.4.55:9093";
 //    public  String URL = "http://192.168.4.55:9092/LoginController/";
 //192.168.4.48
@@ -148,13 +148,18 @@ public class SplitWeb {
     //    public  String WebSocket_URL = "ws://192.168.4.48:9093";
 //    public  String URL = "http://192.168.4.48:9092/LoginController/";
 //    public  String WebSocket_URL = "ws://119.23.229.66:9093";
-    public  String HttpURL = "";
+    public  String HttpURL = "http://192.168.4.133:5052";
     //    public  String HttpURL = "192.168.4.55:9092";
     private  String getURL() {
-        if(StrUtils.isEmpty(HttpURL))
-            HttpURL= (String )SPUtils.get(HelpUtils.activity,AppConfig.TYPE_URL,"");
+//        if(StrUtils.isEmpty(HttpURL))
+//            HttpURL= (String )SPUtils.get(HelpUtils.activity,AppConfig.TYPE_URL,"");
         return HttpURL+"/V2_0_0";
     }
+//    private  String getURL() {
+//        if(StrUtils.isEmpty(HttpURL))
+//            HttpURL= (String )SPUtils.get(HelpUtils.activity,AppConfig.TYPE_URL,"");
+//        return HttpURL+"/V2_0_0";
+//    }
     public  String getURLRequest() {
         return "http://"+getURL()+"/LoginController/";
     }

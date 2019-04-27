@@ -72,7 +72,8 @@ public class WsChannelService extends Service {
                                     .build())
                     .needReconnect(true)
 //                    .wsUrl("ws://120.78.92.225:9093")
-                    .wsUrl(asString)
+                    .wsUrl(SplitWeb.getSplitWeb().WebSocket_URL)
+//                    .wsUrl(asString)
                     .build();
             wsManager.setWsStatusListener(wsStatusListener);
             wsManager.startConnect();
