@@ -5,6 +5,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
+import android.os.Looper;
+import android.os.Message;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -41,6 +44,7 @@ import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseFragment;
 import com.mding.chatfeng.main_code.mains.top_pop.MyDialogFragment;
 import com.mding.chatfeng.main_code.mains.top_pop.data_bus.BusDataGroupOrFriend;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.util.Constants;
@@ -51,6 +55,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 import static com.mding.chatfeng.about_utils.IntentUtils.JumpTo;
 
@@ -103,6 +108,8 @@ public class MsgFragment extends BaseFragment {
 //        网络连接状态的广播接收
         initNetReceive();
         initRecycScroll();
+
+
     }
 
     private void initRecycScroll() {
@@ -153,41 +160,94 @@ public class MsgFragment extends BaseFragment {
         }
     }
     public static final  String Tag="Msgfragment";
-    IntentFilter intentFilter;
-    //广播接收消息推送
-//    private void initReceiver() {
-//        if (intentFilter == null) {
-//            Log.e(Tag,"new IntentFilter");
-//            intentFilter = new IntentFilter();
-//            intentFilter.addAction(".");
-//            intentFilter.addAction("zll.refreshMsgFragment");
-//            intentFilter.addAction("add.refreshMsgFragment");
-//            intentFilter.addAction("zero.refreshMsgFragment");
-//            intentFilter.addAction("del.refreshMsgFragment");
-//            intentFilter.addAction("action.dialog");
-//            intentFilter.addAction("assistant.refreshMsgFragment");
-//            intentFilter.addAction(GroupChatDetailsActivity.ACTION_UP_GROUP_NAME);
-//            intentFilter.addAction(AppConfig.LINK_GROUP_DEL_ACTION);
-//            getActivity().registerReceiver(mRefreshBroadcastReceiver, intentFilter);
-//        }
-//    }
 
     static RealmHomeHelper realmHelper;
-//    static RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
-    private void initRealmData() {
-        if (realmHelper==null)
-            realmHelper = new RealmHomeHelper(getActivity());
-//        if (realmMsgInfoTotalHelper ==null)
-//            realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(getActivity());
-        if (mList.size()==0) {
-            List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
-            if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
-                mList.clear();
-                addListMethon(cusHomeRealmData);
-                initAdapter();
+
+    class RealmThread extends Thread {
+        @Override
+        public void run() {
+            RealmHomeHelper  realmHelper = new RealmHomeHelper(getActivity());
+            if (mList.size()==0) {
+                List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
+                if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
+                    mList.clear();
+                    mList.addAll(cusHomeRealmData);
+//                    addListMethon(cusHomeRealmData);
+                }else
+                {
+                    return;
+                }
             }
-        }else {
+            Message message = new Message();
+            message.what = AppConfig.WHAT_REALM_INITADAPTER;
+            message.obj="123";
+            handler.sendMessage(message);
+            AppConfig.logs("-----------------------handler-----------发送----------------------");
+
+        }
+
+    }
+    private void initRealmData() {
+        LongTimeTask myTask = new LongTimeTask();
+        myTask.execute();
+    }
+    private class LongTimeTask extends AsyncTask<List<CusHomeRealmData>,Void,List<CusHomeRealmData>>
+    {
+
+        @Override
+        protected void onPostExecute(List<CusHomeRealmData> o) {
+            super.onPostExecute(o);
             initAdapter();
+            AppConfig.logs("-----------------------onPostExecute-----------接收----------------------");
+        }
+
+        @Override
+        protected List<CusHomeRealmData> doInBackground(List<CusHomeRealmData>... lists) {
+            AppConfig.logs("-----------------------doInBackground-----------执行----------------------");
+
+            RealmHomeHelper  realmHelper = new RealmHomeHelper(getActivity());
+            if (mList.size()==0) {
+                List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
+                if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
+                    mList.clear();
+                    mList.addAll(cusHomeRealmData);
+//                    addListMethon(cusHomeRealmData);
+                }else
+                {
+                    return null;
+                }
+            }
+            return null;
+        }
+
+//        @Override
+//        protected List<CusHomeRealmData> doInBackground(List<CusHomeRealmData>... objects) {
+//            RealmHomeHelper  realmHelper = new RealmHomeHelper(getActivity());
+//            if (mList.size()==0) {
+//                List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
+//                if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
+//                    mList.clear();
+//                    mList.addAll(cusHomeRealmData);
+////                    addListMethon(cusHomeRealmData);
+//                }else
+//                {
+//                    return null;
+//                }
+//            }
+//            return null;
+//        }
+    }
+    @Override
+    protected void onFragmentHandleMessage(Message msg) {
+        super.onFragmentHandleMessage(msg);
+
+        switch (msg.what)
+        {
+//           刷新adapter
+            case AppConfig.WHAT_REALM_INITADAPTER:
+                initAdapter();
+                AppConfig.logs("-----------------------handler-----------接收----------------------");
+                break;
         }
     }
 
@@ -276,29 +336,6 @@ public class MsgFragment extends BaseFragment {
     protected void searchClickEvent() {
         JumpTo(SearchActivity.class);
     }
-//    private void initAssistant(Intent intent) {
-////        String message = intent.getStringExtra("message");
-//        String num = intent.getStringExtra("num");
-//        CusHomeRealmData cusHomeRealmData1 = new CusHomeRealmData();
-//        cusHomeRealmData1.setGroupNumMsg(num);
-//
-//        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
-//        for (int i=0;i<cusHomeRealmData.size();i++)
-//        {
-////            String totalId = realmData.get(i).getTotalId();//群助手id
-//            String assistantType = cusHomeRealmData.get(i).getAssistantType();
-//            String mTy = cusHomeRealmData.get(i).getType();
-//
-//            if (mTy != null && assistantType != null&&mTy.equals("2") && assistantType.equals("2")) {
-//
-//
-//            }else {
-//                mList.set(i,cusHomeRealmData1);
-//                if (msgAdapter!=null)
-//                    msgAdapter.notifyItemChanged(i);
-//            }
-//        }
-//    }
 
     private void initGroupName(String groupId,String message) {
 //        String groupId = intent.getStringExtra("id");
@@ -464,7 +501,6 @@ public class MsgFragment extends BaseFragment {
     }
     private void initAdapter() {
         if (msgAdapter==null) {
-            Log.e(Tag, "msgAdapter=" + msgAdapter);
             msgAdapter = new MsgAdapter(getActivity(), mList, mItemTouchListener);
             mRecyclerView.setAdapter(msgAdapter);
             msgAdapter.notifyDataSetChanged();
@@ -500,6 +536,10 @@ public class MsgFragment extends BaseFragment {
 
                 }
             });
+        }else
+        {
+//            if (RecyclerView.SCROLL_STATE_IDLE!=mRecyclerView.getScrollState()||!mRecyclerView.isComputingLayout())
+//            msgAdapter.notifyDataSetChanged();
         }
     }
 

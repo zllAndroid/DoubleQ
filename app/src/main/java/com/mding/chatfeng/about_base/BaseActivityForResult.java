@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -283,7 +284,13 @@ public class BaseActivityForResult extends AppCompatActivity  {
     boolean isSend=false;
     protected void sendWeb(String text) {
         isSendDialog=false;
-        boolean isConnected = NetUtils.isWifi(this);
+        boolean isConnected = false;
+        try {
+            isConnected = NetUtils.isNetworkConnected(BaseApplication.getAppContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+            isConnected = true;
+        }
         if (isConnected)
             BaseApplication.getApp().sendData(text);
         else
@@ -447,6 +454,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)
         public void onEvent(MessageEvent messageEvent){
+        Log.e("messageEvent","onEven_messageEvent="+messageEvent.getMessage());
         Stack<AppCompatActivity> stack = AppManager.getAppManager().getStack();
         if (stack!=null&&stack.size()!=0) {
             String stackLast = stack.get(stack.size() - 1).getClass().getSimpleName();

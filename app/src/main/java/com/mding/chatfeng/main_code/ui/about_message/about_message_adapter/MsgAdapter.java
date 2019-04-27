@@ -35,17 +35,17 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolder> {
     Context context;
     public List<CusHomeRealmData> data;
-    RealmFriendUserHelper realmFriendUserHelper;
-    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
-    RealmGroupHelper realmGroupHelper;
+//    RealmFriendUserHelper realmFriendUserHelper;
+//    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
+//    RealmGroupHelper realmGroupHelper;
     public MsgAdapter(Context context, List<CusHomeRealmData> data, ItemTouchListener mItemTouchListener) {
         super(R.layout.item_home_message, data);
         this.data=data;
         this.context=context;
         this.mItemTouchListener=mItemTouchListener;
-        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(context);
-        realmFriendUserHelper = new RealmFriendUserHelper(context);
-        realmGroupHelper = new RealmGroupHelper(context);
+//        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(context);
+//        realmFriendUserHelper = new RealmFriendUserHelper(context);
+//        realmGroupHelper = new RealmGroupHelper(context);
     }
     public void addData(CusHomeRealmData cusData) {
         data.add(0, cusData);
@@ -91,14 +91,14 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                 String nickName;
                 if (item.getType().equals("1"))
                 {
-                    imgPath = realmFriendUserHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+                    imgPath = new RealmFriendUserHelper(context).queryLinkFriendReturnImgPath(item.getFriendId());
                     errorImg=R.drawable.first_head_nor;
-                    nickName = realmFriendUserHelper.queryLinkFriendReturnname(item.getFriendId());//获取私聊好友名
+                    nickName = new RealmFriendUserHelper(context).queryLinkFriendReturnname(item.getFriendId());//获取私聊好友名
                 }else
                 {
-                    imgPath = realmGroupHelper.queryLinkFriendReturnImgPath(item.getFriendId());
+                    imgPath =  new RealmGroupHelper(context).queryLinkFriendReturnImgPath(item.getFriendId());
                     errorImg=R.drawable.qun_head;
-                    nickName= realmGroupHelper.queryLinkFriendReturnName(item.getFriendId());//获取群聊群名
+                    nickName=  new RealmGroupHelper(context).queryLinkFriendReturnName(item.getFriendId());//获取群聊群名
                 }
 //                 imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                 ImageUtils.useBase64WithError(context,mIvHead,imgPath,errorImg);

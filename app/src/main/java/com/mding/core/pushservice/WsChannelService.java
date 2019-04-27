@@ -11,13 +11,19 @@
 package com.mding.core.pushservice;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.os.PowerManager;
 import android.os.RemoteException;
+import android.provider.Settings;
 
 import com.mding.IChatCallBack;
 import com.mding.IChatRequst;
-import com.mding.core.AppConfig;
+import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rabtman.wsmanager.WsManager;
 import com.rabtman.wsmanager.listener.WsStatusListener;
 
@@ -42,19 +48,55 @@ import okio.ByteString;
  * @Version: 1.0
  */
 public class WsChannelService extends Service {
-    public IChatCallBack callbacks;
+    public IChatCallBack callbacks=null;
     private WsManager wsManager;
+
     @Override
     public IBinder onBind(Intent intent) {
         AppConfig.logs("WsChannelService-》onBind");
+
         return binders;
     }
 
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+            String asString = ACache.get(getBaseContext()).getAsString(AppConfig.TYPE_WS_REQUEST);
+            AppConfig.logs("asString"+asString);
+        if (wsManager == null) {
+            wsManager = new WsManager.Builder(getBaseContext())
+                    .client(
+                            new OkHttpClient().newBuilder()
+                                    .pingInterval(0, TimeUnit.SECONDS)
+                                    .retryOnConnectionFailure(false)
+                                    .build())
+                    .needReconnect(true)
+//                    .wsUrl("ws://120.78.92.225:9093")
+                    .wsUrl(asString)
+                    .build();
+            wsManager.setWsStatusListener(wsStatusListener);
+            wsManager.startConnect();
+           AppConfig.logs("----ws:::"+ wsManager.isWsConnected());
+
+        }
+
+//            String asString = aCache.getAsString(AppConfig.TYPE_WS_REQUEST);
+//            AppConfig.logs("asString"+asString);
+//            if (StrUtils.isEmpty(asString))
+//            {
+//                // TODO  Toast
+////            ToastUtil.show("系统错误，请联系管理员...");
+//                return;
+//            }
+
+
+
+
+
+
+
         AppConfig.logs("WsChannelService->:onStartCommand");
-       try{
+        try{
             String  data = intent.getStringExtra("data");
             AppConfig.logs("WsChannelService->:"+data);
             /*  connectionWs("第一次连"+data);*/
@@ -67,7 +109,14 @@ public class WsChannelService extends Service {
         return START_STICKY;
     }
 
-
+    public ACache getaCache(){
+        if (aCache==null)
+        {
+            aCache =  ACache.get(getBaseContext());
+        }
+        return aCache;
+    }
+    ACache aCache;
     //（1）与登入界面互动
     IChatRequst.Stub binders=new IChatRequst.Stub() {
         @Override
@@ -75,21 +124,7 @@ public class WsChannelService extends Service {
             AppConfig.logs("---IChatCallBack---register");
             callbacks=callback;
 
-            if (wsManager != null) {
-                wsManager.stopConnect();
-                wsManager = null;
-            }
-            wsManager = new WsManager.Builder(getBaseContext())
-                    .client(
-                            new OkHttpClient().newBuilder()
-                                    .pingInterval(15, TimeUnit.SECONDS)
-                                    .retryOnConnectionFailure(true)
-                                    .build())
-                    .needReconnect(true)
-                    .wsUrl("ws:\\/\\/120.78.92.225:9093")
-                    .build();
-            wsManager.setWsStatusListener(wsStatusListener);
-            wsManager.startConnect();
+
         }
 
         @Override
@@ -123,7 +158,7 @@ public class WsChannelService extends Service {
 
         @Override
         public String getDataByUrl(String url) throws RemoteException {
-           callbacks.initSuccess(url);
+            callbacks.initSuccess(url);
             return "JSONtop";
         }
     };
@@ -135,12 +170,21 @@ public class WsChannelService extends Service {
         public void onOpen(Response response) {
             super.onOpen(response);
             AppConfig.logs("连接成功");
+            wsManager.sendMessage(SplitWeb.getSplitWeb().bindUid());
+//            callbacks.recevieContactsList();
         }
 
         @Override
         public void onMessage(String text) {
             super.onMessage(text);
-            AppConfig.logs(text);
+            AppConfig.logs("onMessage==>>"+text);
+            try {
+                if(callbacks!=null)
+                    callbacks.recevieMsg(text);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
@@ -167,10 +211,20 @@ public class WsChannelService extends Service {
         public void onFailure(Throwable t, Response response) {
             super.onFailure(t, response);
             AppConfig.logs("连接失败");
+            try {
+                callbacks.onFail("WS->onFail");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
         }
     };
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        wsManager.stopConnect();
+        wsManager = null;
+    }
 
 }

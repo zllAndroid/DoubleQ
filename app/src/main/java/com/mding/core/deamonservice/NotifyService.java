@@ -8,10 +8,14 @@
 
 package com.mding.core.deamonservice;
 
+import android.annotation.SuppressLint;
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -40,6 +44,8 @@ public class NotifyService extends BroadcastReceiver {
      * 用于其他进程来唤醒UI进程用的Service
      */
     public static class WakeNotifyService extends Service {
+        public static Notification nf;
+        Intent innerIntent;
 
         @Override
         public void onCreate() {
@@ -49,15 +55,20 @@ public class NotifyService extends BroadcastReceiver {
 
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
+            nf=new Notification();
             Log.i(TAG, "WakeNotifyService->onStartCommand");
-  /*          if (Build.VERSION.SDK_INT < 18) {
+            if (Build.VERSION.SDK_INT < 18) {
                 startForeground(WAKE_SERVICE_ID, new Notification());//API < 18 ，此方法能有效隐藏Notification上的图标
             } else {
-                Intent innerIntent = new Intent(this, WakeGrayInnerService.class);
+                if(innerIntent!=null)
+                {
+                   stopService(innerIntent);
+                    innerIntent=null;
+                }
+                innerIntent = new Intent(this, WakeGrayInnerService.class);
                 startService(innerIntent);
-
-                startForeground(WAKE_SERVICE_ID, new Notification());
-            }*/
+                startForeground(WAKE_SERVICE_ID,nf);
+            }
 
             return START_STICKY;
         }
@@ -85,10 +96,10 @@ public class NotifyService extends BroadcastReceiver {
         }
 
     }
-/*
-    *//**
+
+    /**
      * 给 API >= 18 的平台上用的灰色保活手段
-     *//*
+     */
     public static class WakeGrayInnerService extends Service {
 
         @Override
@@ -97,12 +108,17 @@ public class NotifyService extends BroadcastReceiver {
             super.onCreate();
         }
 
+        @SuppressLint("WrongConstant")
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
+
+
             Log.i(TAG, "InnerService -> onStartCommand");
-            startForeground(WAKE_SERVICE_ID, new Notification());
-            //stopForeground(true);
+
+            startForeground(WAKE_SERVICE_ID, WakeNotifyService.nf);
+            stopForeground(true);
             stopSelf();
+
             return super.onStartCommand(intent, flags, startId);
         }
 
@@ -117,5 +133,5 @@ public class NotifyService extends BroadcastReceiver {
             Log.i(TAG, "InnerService -> onDestroy");
             super.onDestroy();
         }
-    }*/
+    }
 }

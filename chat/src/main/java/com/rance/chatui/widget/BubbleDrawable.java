@@ -13,6 +13,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
+
 /**
  * 项目：DoubleQ
  * 文件描述：自定义聊天气泡drawable
@@ -206,6 +208,7 @@ public class BubbleDrawable extends Drawable {
         float scaleX = getIntrinsicWidth() / (float) mBitmapWidth;
         float scaleY = getIntrinsicHeight() / (float) mBitmapHeight;
         scale = Math.min(scaleX, scaleY);
+        Log.e("scale","scale=----------------------------------->>>"+scale);
         mShaderMatrix.postScale(scale, scale);
         mShaderMatrix.postTranslate(mRect.left, mRect.top);
         mBitmapShader.setLocalMatrix(mShaderMatrix);

@@ -1,6 +1,7 @@
 package com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -162,14 +163,32 @@ public class RealmFriendUserHelper {
         else
             return  null;
     }
+    public CusDataFriendUser queryLinkFriendNew(final String friendId) {
+        final CusDataFriendUser[] realmMsgs = {null};
+        final String[] img = new String[1];
+        mRealm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+//                 realmMsgs = mRealm.where(CusDataFriendUser.class)
+//                        .equalTo(FILE_NAME,friendId+SplitWeb.getSplitWeb().getUserId())
+//                        .findFirst();
+//                realmMsgs[0] = Realm.getDefaultInstance().where(CusDataFriendUser.class)
+//                                .equalTo(FILE_NAME,friendId+SplitWeb.getSplitWeb()).findFirst();
+            }
+        });
+        return realmMsgs[0];
+    }
+
     public String queryLinkFriendReturnImgPath(String friendId) {
+
+
         CusDataFriendUser realmMsgs = mRealm.where(CusDataFriendUser.class)
                 .equalTo(FILE_NAME,friendId+SplitWeb.getSplitWeb().getUserId())
                 .findFirst();
         /**
          * 对查询结果，按Id进行排序，只能对查询结果进行排序
          */
-//        //降序排列
+        //降序排列
         if (realmMsgs!=null&&realmMsgs.getHeadImgBase64()!=null)
             return realmMsgs.getHeadImgBase64();
         else

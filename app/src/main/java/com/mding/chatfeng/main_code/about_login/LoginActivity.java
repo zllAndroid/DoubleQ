@@ -7,6 +7,8 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.os.PowerManager;
+import android.os.RemoteException;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,6 +22,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataLogin;
 import com.mding.model.DataServer;
@@ -33,6 +36,7 @@ import com.mding.chatfeng.about_base.BaseActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -49,7 +53,7 @@ import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
  * 文件描述：登陆界面
  * 作者：zll
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseLogin {
     @BindView(R.id.include_top_iv_back)
     ImageView includeTopIvBack;
     @BindView(R.id.include_top_tv_tital)
@@ -61,26 +65,6 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.include_top_lin_newback)
     LinearLayout mLinBack;
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
-
-    //绑定成功后的操作
-//    @Override
-//    public void onServiceBindSuccess() {
-//        super.onServiceBindSuccess();
-//    }
-//    @Override
-//    public boolean isGonesStatus() {
-//        return true;
-//    }
-
-//    @Override
-//    protected void initBeforeContentView() {
-//        super.initBeforeContentView();
-//        StateBarUtils.setFullscreen(this,false,true);
-//    }
 
     public static int screenWidth;
     public static int screenHeight;
@@ -91,6 +75,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
+
 //        initSQL();
 //        writableDatabase.query("home_msg",null,"id",null,null,null,null);
 //        includeTopIvBack.setVisibility(View.INVISIBLE);
@@ -100,18 +85,20 @@ public class LoginActivity extends BaseActivity {
         screenHeight = displayMetrics.heightPixels;
         includeTopTvTital.setText("登录");
         mLinBack.setVisibility(View.INVISIBLE);
-        Bundle bundle = this.getIntent().getExtras();
-        String userPhone = null;
-        if (bundle != null) {
-            userPhone = bundle.getString("phone");
-        }
-        if (userPhone != null){
-            loginEdPhone.setText(userPhone);
-            loginEdPhone.setSelection(userPhone.length());//将光标移至文字末尾
-        }
+//        Bundle bundle = this.getIntent().getExtras();
+//        String userPhone = null;
+//        if (bundle != null) {
+//            userPhone = bundle.getString("phone");
+//        }
+//        if (userPhone != null){
+//            loginEdPhone.setText(userPhone);
+//            loginEdPhone.setSelection(userPhone.length());//将光标移至文字末尾
+//        }
         mCache = ACache.get(this);
+        init(BaseApplication.getAppContext());
         //TODO  获取第一层url
         initUrl();
+
         listenEnter();
 
         if (intentFilter == null) {
@@ -194,12 +181,16 @@ public class LoginActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+                if (dataLogin.getIsFirstLogin().equals("1")) {
+                    IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
+                }
+                else
+                    IntentUtils.JumpFinishTo(LoginActivity.this,LoadLinkManActivity.class);
 
-
-        //TODO 集群
-        Intent intent = new Intent();
-        intent.setAction("server_application");
-        sendBroadcast(intent);
+//        //TODO 集群
+//        Intent intent = new Intent();
+//        intent.setAction("server_application");
+//        sendBroadcast(intent);
     }
     @Override
     protected void onResume() {
@@ -302,46 +293,65 @@ public class LoginActivity extends BaseActivity {
         {
             initUrl();
         }
-        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower,SplitWeb.getSplitWeb().loginIn(phone, pwd), new NetWorkUtlis.OnNetWork() {
-            @Override
-            public void onNetSuccess(String msg) {
-                SPUtils.put(LoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT,phone);
-                SPUtils.put(LoginActivity.this,AppConfig.TYPE_PSW,pwd);
-                SplitWeb.getSplitWeb().PSW=pwd;
-                DataLogin dataLogin = JSON.parseObject(msg, DataLogin.class);
-                DataLogin.RecordBean record = dataLogin.getRecord();
-                if (record != null)
-                    SaveLoginResultData(record);
-//                IntentUtils.JumpFinishTo(MainActivity.class);
-            }
-        });
+        try {
+            SPUtils.put(LoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT,phone);
+            SPUtils.put(LoginActivity.this,AppConfig.TYPE_PSW,pwd);
+            SplitWeb.getSplitWeb().PSW=pwd;
+            if(iLoginRequst!=null)
+                iLoginRequst.loginRequest(SplitWeb.getSplitWeb().loginIn(phone, pwd));
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+
+//        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+//        netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower,SplitWeb.getSplitWeb().loginIn(phone, pwd), new NetWorkUtlis.OnNetWork() {
+//            @Override
+//            public void onNetSuccess(String msg) {
+//                SPUtils.put(LoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT,phone);
+//                SPUtils.put(LoginActivity.this,AppConfig.TYPE_PSW,pwd);
+//                SplitWeb.getSplitWeb().PSW=pwd;
+//                DataLogin dataLogin = JSON.parseObject(msg, DataLogin.class);
+//                DataLogin.RecordBean record = dataLogin.getRecord();
+//                if (record != null)
+//                    SaveLoginResultData(record);
+////                IntentUtils.JumpFinishTo(MainActivity.class);
+//            }
+//        });
     }
     boolean isFirst = false;
-    private void SaveLoginResultData(DataLogin.RecordBean userInfo) {
-        String json = JSON.toJSON(userInfo).toString();
+    private void SaveLoginResultData(DataLogin.RecordBean userInfo,String json) {
+//        String json = JSON.toJSON(userInfo).toString();
+//        String json =   JSON.toJSONString(userInfo);
         mCache.clear();
         mCache.put(AppAllKey.TOKEN_KEY, json);
         mCache.put(IMAGE_BASE64, userInfo.getHeadImg());
         mCache.put(QR_CODE, userInfo.getQrcode());
+        MyLog.e("SaveLoginResultData",userInfo.toString());
         if (userInfo!=null) {
-            String is_first_login = userInfo.getIsFirstLogin();
-            if (is_first_login.equals("1"))
-                isFirst = true;
-            else
-                isFirst = false;
+//            String is_first_login = userInfo.getIsFirstLogin();
+//            if (is_first_login.equals("1"))
+//                isFirst = true;
+//            else
+//                isFirst = false;
 
             initSetData(userInfo);
         }
+    }
 
-        //TODO 集群  屏蔽
-//        if (!isFirst) {
-//            IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
-////                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
-//        }
-//        else
-//            IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
+    @Override
+    void onLoginSuccees(String mLoginModel) {
+      Log.e("onLoginSuccees","mLoginModel="+mLoginModel);
+        DataLogin dataLogin = JSON.parseObject(mLoginModel, DataLogin.class);
+        DataLogin.RecordBean record = dataLogin.getRecord();
+        if (record != null)
+            SaveLoginResultData(record,mLoginModel);
 
+
+
+    }
+
+    @Override
+    void onLoginFail(String mLoginModel) {
 
     }
 

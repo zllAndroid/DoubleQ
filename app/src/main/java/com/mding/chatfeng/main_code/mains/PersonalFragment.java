@@ -178,11 +178,12 @@ public class PersonalFragment extends BaseFragment {
 //        }
         String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
         if (!StrUtils.isEmpty(json)) {
-            DataLogin.RecordBean dataLogin = JSON.parseObject(json, DataLogin.RecordBean.class);
+            DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
+            DataLogin.RecordBean recordBean = JSON.parseObject(json, DataLogin.RecordBean.class);
             if (dataLogin != null) {
-                mineTvName.setText(dataLogin.getNickName());
-                userPhone = dataLogin.getMobile();
-                mineTvSign.setText(dataLogin.getPersonaSignature());
+                mineTvName.setText(recordBean.getNickName());
+                userPhone = recordBean.getMobile();
+                mineTvSign.setText(recordBean.getPersonaSignature());
 //                changeinfoTvCount.setText(dataLogin.getWxSno());
             }
         }

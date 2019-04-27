@@ -1,5 +1,7 @@
 package com.mding.model;
 
+import java.io.Serializable;
+
 public class DataLogin {
     /**
      * code : 200

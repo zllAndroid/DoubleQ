@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
@@ -19,7 +20,7 @@ import com.rance.chatui.R;
  * 作者：zll
  */
 
-public class BubbleImageView extends ImageView {
+public class BubbleImageView extends AppCompatImageView {
     private BubbleDrawable bubbleDrawable;
     private Drawable sourceDrawable;
     private float mArrowWidth;

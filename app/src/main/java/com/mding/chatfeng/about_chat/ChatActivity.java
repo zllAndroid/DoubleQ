@@ -16,6 +16,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.util.Log;
@@ -36,6 +37,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApp;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.Methon;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
@@ -537,7 +539,12 @@ public class ChatActivity extends BaseActivity {
     public void onEvent(DataJieShou.RecordBean messageInfo) {
         String ed = editText.getText().toString().trim();
         if (!StrUtils.isEmpty(ed)) {
-            send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+            try {
+                BaseApp.mIChatRequst.sendMsg(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+//            send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
         } else {
         }
     }
@@ -569,6 +576,8 @@ public class ChatActivity extends BaseActivity {
                 if (recordBean != null) {
                     remarkName = StrUtils.isEmpty(recordBean.getRemarkName()) ? "暂未设置" : recordBean.getRemarkName();
                     groupName = StrUtils.isEmpty(recordBean.getGroupName()) ? "暂无" : recordBean.getGroupName();
+                   String name=StrUtils.isEmpty(recordBean.getRemarkName()) ? recordBean.getNickName() : recordBean.getRemarkName();
+                    includeTopTvTital.setText(name);
                 }
                 break;
         }

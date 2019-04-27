@@ -1,15 +1,41 @@
 package com.mding.chatfeng.about_base;
 
 
+import android.util.Log;
+
 /**
  * Created by  on 2017/12/13 0013.
  */
 
 public class AppConfig {
 
+//    fragment消息回调what参数
+public final static  int WHAT_REALM_INITADAPTER=0x1;
+    public final static  int WHAT_=0X01;
+
+
+
     public static final String  MAIN_TAB_ONE= "maintabone";//在首页第一个tab
     public static final String  MAIN_TAB_TWO= "maintabtwo";//在首页第二个tab
 
+
+    public static final String QR_CODE = "qrCode";
+
+    public final static  boolean DEBUG = true;
+    public final static  String TAG = "xf";
+    public final static  int NotifyDeamonID=-1001;
+    public static String ok="11111";
+
+
+    public static void logs(String logmsg){
+        if (DEBUG)
+            Log.e(TAG,logmsg);
+    }
+
+    public static void logs(String tag,String logmsg){
+        if (DEBUG)
+            Log.d(tag,logmsg);
+    }
 //    消息页面的
     public static final String  MSG_ZERO_REFRESH= "zero_refreshMsgFragment";//刷新单条数据  条数
     public static final String  MSG_ACTION_REFRESH= "action_refreshMsgFragment";//刷新单条数据  条数

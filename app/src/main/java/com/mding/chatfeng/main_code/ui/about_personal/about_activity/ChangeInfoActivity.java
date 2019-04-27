@@ -143,11 +143,12 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     }
 
     private void initUI(String json) {
-        DataLogin.RecordBean dataLogin = JSON.parseObject(json, DataLogin.RecordBean.class);
+        DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
+        DataLogin.RecordBean recordBean = JSON.parseObject(json, DataLogin.RecordBean.class);
         if (dataLogin!=null) {
-           changeinfoTvName.setText(dataLogin.getNickName());
-           changeinfoTvCount.setText(dataLogin.getWxSno());
-           changeinfoTvSign.setText(dataLogin.getPersonaSignature());
+           changeinfoTvName.setText(recordBean.getNickName());
+           changeinfoTvCount.setText(recordBean.getWxSno());
+           changeinfoTvSign.setText(recordBean.getPersonaSignature());
         }
     }
 

@@ -51,7 +51,7 @@ import site.gemus.openingstartanimation.OpeningStartAnimation;
  * 作者：zll
  */
 @RuntimePermissions
-public class AppStartActivity extends BaseActivity {
+public class AppStartActivity extends BaseLogin {
 
     Timer timer = null;
     //    @BindView(R.id.appstart_lin)
@@ -201,6 +201,21 @@ public class AppStartActivity extends BaseActivity {
         return false;
     }
 
+
+
+
+    @Override
+    void onLoginSuccees(String mLoginModel) {
+
+    }
+
+    @Override
+    void onLoginFail(String mLoginModel) {
+
+    }
+
+
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -244,9 +259,11 @@ public class AppStartActivity extends BaseActivity {
             if (!StrUtils.isEmpty(asString))
             {
                 Log.e("result","token信息"+asString.toString());
-                DataLogin.RecordBean dataLogin = JSON.parseObject(asString, DataLogin.RecordBean.class);
+                DataLogin dataLogin = JSON.parseObject(asString, DataLogin.class);
+                DataLogin.RecordBean record = dataLogin.getRecord();
+//                DataLogin.RecordBean dataLogin = JSON.parseObject(asString, DataLogin.RecordBean.class);
                 if (dataLogin!=null) {
-                    initSetData(dataLogin);
+                    initSetData(record);
                     String asFriend = mCache.getAsString(AppAllKey.FRIEND_DATA);
                     Log.e("result","FRIEND_DATA信息="+asFriend);
 //                    IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);

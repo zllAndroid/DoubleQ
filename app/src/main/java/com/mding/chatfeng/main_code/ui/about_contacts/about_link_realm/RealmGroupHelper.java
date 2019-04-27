@@ -1,6 +1,7 @@
 package com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -16,10 +17,11 @@ public class RealmGroupHelper {
     public static final String FILE_NAME = "totalId";
     public static final String USERID = "userid";
 
-    private Realm mRealm;
+    private Realm mRealm= Realm.getDefaultInstance();
 
     public RealmGroupHelper(Context context) {
         mRealm = Realm.getDefaultInstance();
+
     }
     /**
      * add （增）
@@ -35,6 +37,8 @@ public class RealmGroupHelper {
      * delete （删）
      */
     public void deleteRealmFriend(String friendId) {
+
+
         CusDataGroup dog = mRealm.where(CusDataGroup.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
         if (dog!=null) {
             mRealm.beginTransaction();

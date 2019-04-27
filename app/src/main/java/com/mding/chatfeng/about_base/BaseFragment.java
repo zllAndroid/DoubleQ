@@ -3,10 +3,12 @@ package com.mding.chatfeng.about_base;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,13 +34,13 @@ import org.greenrobot.eventbus.ThreadMode;
  * @Time 2017-11-01
  */
 public class BaseFragment extends Fragment  {
-	public Handler mHandlers = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			if (msg != null)
-				onFragmentHandleMessage(msg);
-		}
-	};
+//	public Handler mHandlers = new Handler() {
+//		@Override
+//		public void handleMessage(Message msg) {
+//			if (msg != null)
+//				onFragmentHandleMessage(msg);
+//		}
+//	};
 	public ACache mFragCache;
 	String simpleName;
 	@Override
@@ -53,7 +55,28 @@ public class BaseFragment extends Fragment  {
 
 //		initTopBarEvent();
 	}
-
+	public HandlerThread myHandlerThread ;
+	public Handler handler ;
+	public void initHand() {
+if (myHandlerThread==null) {
+	//创建一个线程,线程名字：handler-thread
+	myHandlerThread = new HandlerThread("handler-thread");
+	//开启一个线程
+	myHandlerThread.start();
+}
+		//在这个线程中创建一个handler对象
+		if (handler==null)
+		handler = new Handler( myHandlerThread.getLooper() ){
+			@Override
+			public void handleMessage(Message msg) {
+				super.handleMessage(msg);
+				//这个方法是运行在 handler-thread 线程中的 ，可以执行耗时操作
+				Log.d( "handler " , "消息： " + msg.what + "  线程： " + Thread.currentThread().getName()  ) ;
+			if (msg != null)
+				onFragmentHandleMessage(msg);
+			}
+		};
+	}
 	View view =null;
 	boolean mIsPrepare = false;		//视图还没准备好
 	boolean mIsVisible= false;		//不可见
@@ -183,6 +206,13 @@ public class BaseFragment extends Fragment  {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+
+		//释放资源
+		try {
+			myHandlerThread.quit() ;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		EventBus.getDefault().unregister(this);
 	}
 

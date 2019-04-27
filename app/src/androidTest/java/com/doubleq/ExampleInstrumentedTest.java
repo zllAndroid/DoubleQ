@@ -1,4 +1,4 @@
-package com.amoy.catherine.doubleq;
+package com.mding.chafeng;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

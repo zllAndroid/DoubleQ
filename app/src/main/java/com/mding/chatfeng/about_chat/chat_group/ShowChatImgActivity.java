@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 
 import org.greenrobot.eventbus.EventBus;
@@ -23,11 +24,6 @@ import butterknife.OnClick;
 
 public class ShowChatImgActivity extends BaseActivity {
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_show_chat_img);
-//    }
 
     @BindView(R.id.showChatImg_iv_full)
     ImageView showChatImgIvFull;
@@ -61,30 +57,6 @@ public class ShowChatImgActivity extends BaseActivity {
         showImgTvDecoding.setVisibility(View.GONE);
     }
 
-//    private void initDataImage() {
-//        final int left = fullImageInfo.getLocationX();
-//        final int top = fullImageInfo.getLocationY();
-//        final int width = fullImageInfo.getWidth();
-//        final int height = fullImageInfo.getHeight();
-//        showChatImgIvFull.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-//            @Override
-//            public boolean onPreDraw() {
-//                showChatImgIvFull.getViewTreeObserver().removeOnPreDrawListener(this);
-//                int location[] = new int[2];
-//                showChatImgIvFull.getLocationOnScreen(location);
-//                mLeft = left - location[0];
-//                mTop = top - location[1];
-//                mScaleX = width * 1.0f / showChatImgIvFull.getWidth();
-//                mScaleY = height * 1.0f / showChatImgIvFull.getHeight();
-//                activityEnterAnim();
-//                return true;
-//            }
-//        });
-////        Glide.with(this).load(showChatImgIvFullInfo.getImageUrl()).into(showChatImgIvFull);
-////        ImageUtils.useBase64(ShowChatImgActivity.this, showChatImgIvFull, imgHttp);
-////        ImageUtils.useBase64Origin(FullImageActivity.this, fullImage, fullImageInfo.getImageBase64());
-//    }
-
     @OnClick({R.id.showChatImg_iv_full, R.id.showChatImg_lin_full})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -92,7 +64,7 @@ public class ShowChatImgActivity extends BaseActivity {
                 activityExitAnim(new Runnable() {
                     @Override
                     public void run() {
-                        finish();
+                        AppManager.getAppManager().finishActivity(ShowChatImgActivity.this);
                         overridePendingTransition(0, 0);
                     }
                 });
@@ -101,7 +73,7 @@ public class ShowChatImgActivity extends BaseActivity {
                 activityExitAnim(new Runnable() {
                     @Override
                     public void run() {
-                        finish();
+                        AppManager.getAppManager().finishActivity(ShowChatImgActivity.this);
                         overridePendingTransition(0, 0);
                     }
                 });
@@ -109,26 +81,6 @@ public class ShowChatImgActivity extends BaseActivity {
         }
     }
 
-//    private void activityEnterAnim() {
-//        showChatImgIvFull.setPivotX(0);
-//        showChatImgIvFull.setPivotY(0);
-////        if (imgWidth != 0 && imgHeight != 0) {
-////            showChatImgIvFull.setScaleX(imgWidth);
-////            showChatImgIvFull.setScaleY(imgHeight);
-////        } else {
-//        showChatImgIvFull.setScaleX(mScaleX);
-//        showChatImgIvFull.setScaleY(mScaleY);
-////        }
-//
-//        showChatImgIvFull.setTranslationX(mLeft);
-//        showChatImgIvFull.setTranslationY(mTop);
-//        showChatImgIvFull.animate().scaleX(1).scaleY(1).translationX(0).translationY(0).
-//                setDuration(200).setInterpolator(new DecelerateInterpolator()).start();
-//        ObjectAnimator objectAnimator = ObjectAnimator.ofInt(new ColorDrawable(Color.BLACK), "alpha", 0, 180);
-//        objectAnimator.setInterpolator(new DecelerateInterpolator());
-//        objectAnimator.setDuration(500);
-//        objectAnimator.start();
-//    }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void activityExitAnim(Runnable runnable) {
@@ -148,7 +100,7 @@ public class ShowChatImgActivity extends BaseActivity {
         activityExitAnim(new Runnable() {
             @Override
             public void run() {
-                finish();
+                AppManager.getAppManager().finishActivity(ShowChatImgActivity.this);
                 overridePendingTransition(0, 0);
             }
         });

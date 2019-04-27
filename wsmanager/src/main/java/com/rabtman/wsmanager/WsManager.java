@@ -88,6 +88,7 @@ public class WsManager implements IWsManager {
           wsMainHandler.post(new Runnable() {
             @Override
             public void run() {
+              if (wsStatusListener!=null)
               wsStatusListener.onMessage(text);
             }
           });

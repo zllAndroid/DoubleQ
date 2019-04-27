@@ -10,7 +10,7 @@ import android.os.RemoteException;
 
 import com.mding.IChatCallBack;
 import com.mding.IChatRequst;
-import com.mding.core.AppConfig;
+import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.core.pushservice.WsChannelService;
 import com.mding.models.ChatModel;
 
@@ -80,8 +80,14 @@ public class ChatService extends Service {
                         }
 
                         @Override
-                        public void recevieMsg(ChatModel mChatModel) throws RemoteException {
-
+                        public void recevieMsg(String mChatModel)  {
+                            AppConfig.logs("CS"+mChatModel);
+                            try {
+                                callback.recevieMsg(mChatModel);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                //表示UI进程已经不存在
+                            }
                         }
 
                         @Override
@@ -99,6 +105,11 @@ public class ChatService extends Service {
                         public void initSuccess(String suceess) throws RemoteException {
                             AppConfig.logs(suceess);
                         }
+
+                        @Override
+                        public void onFail(String onFail) throws RemoteException {
+                            callback.onFail(onFail);
+                        }
                     });
 
                 } catch (RemoteException e) {
@@ -110,7 +121,8 @@ public class ChatService extends Service {
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-
+            startService(new Intent(ChatService.this, WsChannelService.class));
+            bindService(new Intent(ChatService.this, WsChannelService.class),conn,Context.BIND_IMPORTANT);
         }
     }
 
@@ -172,33 +184,34 @@ public class ChatService extends Service {
         //开始接收消息
         @Override
         public void onStartGetData() throws RemoteException {
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //这里写入子线程需要做的工作
-                    while(true){
-                        try {
-                            Thread.sleep(1000);
-                            AppConfig.logs("-------------ChatService");
-                            ChatModel mChatModel=new ChatModel();
-                            mChatModel.setMessege("收到新消息");
-                            //收到新消息则返回数据
-                            callback.recevieMsg(mChatModel);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            AppConfig.logs("-------------sendMsgToWs执行崩溃");
-                        } catch (RemoteException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            }).start(); //启动线程;
+//     new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    //这里写入子线程需要做的工作
+//                    while(true){
+//                        try {
+//                            Thread.sleep(1000);
+//                            AppConfig.logs("-------------ChatService");
+//                            try {
+//                                callback.onFail("213123213");
+//                            } catch (RemoteException e) {
+//                                e.printStackTrace();
+//                            }
+//                            //收到新消息则返回数据
+//
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                            AppConfig.logs("-------------sendMsgToWs执行崩溃");
+//                        }
+//                    }
+//                }
+//            }).start(); //启动线程;
         }
-
 
     };
 
 }
+
 /*
 
      new Thread(new Runnable() {

@@ -79,16 +79,16 @@ public class MyAccountActivity extends BaseActivity  {
         String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
 //        String aCacheNickName = aCache.getAsString(ChangeInfoActivity.NICK_NAME);
         if (!StrUtils.isEmpty(json))
-        {
+        {DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
             Log.e("result","token信息"+json.toString());
-            DataLogin.RecordBean dataLogin = JSON.parseObject(json, DataLogin.RecordBean.class);
+            DataLogin.RecordBean recordBean = JSON.parseObject(json, DataLogin.RecordBean.class);
             if (dataLogin!=null) {
-                String qrCodeString = dataLogin.getQrcode();
+                String qrCodeString = recordBean.getQrcode();
                 createQrCodeImg(qrCodeString);
 //                    String headImg = dataLogin.getHeadImg();
                 String headImg = aCache.getAsString(IMAGE_BASE64);
                 ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg);
-                String nickName = dataLogin.getNickName();
+                String nickName = recordBean.getNickName();
 //                if (aCacheNickName != null)
 //                    qrcodeTvName.setText(aCacheNickName);
 ////                    qrcodeTvSao.setText(personData.getScanTital());

@@ -59,9 +59,9 @@
                 <!--android:layout_toLeftOf="@id/chat_item_header"-->
                 <com.rance.chatui.widget.BubbleImageView
                     android:id="@+id/chat_item_content_image"
-                    android:layout_width="100dp"
+                    android:layout_width="75dp"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitCenter"
+                    android:scaleType="centerCrop"
                     app:angle="6dp"
                     app:arrowHeight="8dp"
                     app:arrowLocation="right"

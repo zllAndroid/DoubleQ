@@ -68,152 +68,168 @@ import java.util.concurrent.ExecutionException;
  */
 public class DealDataByApp {
     public static Context mContext;
-    public static Response message;
+    public static String message;
     public static RealmHomeHelper realmHelper;
     public static RealmChatHelper realmChatHelper;
     public static RealmGroupChatHelper realmGroupChatHelper;
 
-    public static void synData(Context mmContext ,Response mmessage, RealmHomeHelper mrealmHelper,RealmChatHelper mrealmChatHelper,RealmGroupChatHelper mrealmGroupChatHelper) {
+    public static void synData(Context mmContext ,String mmessage) {
         mContext=mmContext;
         message=mmessage;
-        realmHelper=mrealmHelper;
-        realmChatHelper=mrealmChatHelper;
-       realmGroupChatHelper=mrealmGroupChatHelper;
+//        realmHelper=mrealmHelper;
+//        realmChatHelper=mrealmChatHelper;
+//       realmGroupChatHelper=mrealmGroupChatHelper;
+
+        realmHelper = new RealmHomeHelper(mContext);
+        realmGroupChatHelper = new RealmGroupChatHelper(mContext);
+        realmChatHelper = new RealmChatHelper(mContext);
         initReceiver();
     }
+//    public static void synData(Context mmContext ,String mmessage, RealmHomeHelper mrealmHelper,RealmChatHelper mrealmChatHelper,RealmGroupChatHelper mrealmGroupChatHelper) {
+//        mContext=mmContext;
+//        message=mmessage;
+////        realmHelper=mrealmHelper;
+////        realmChatHelper=mrealmChatHelper;
+////       realmGroupChatHelper=mrealmGroupChatHelper;
+//
+//        realmHelper = new RealmHomeHelper(mContext);
+//        realmGroupChatHelper = new RealmGroupChatHelper(mContext);
+//        realmChatHelper = new RealmChatHelper(mContext);
+//        initReceiver();
+//    }
     public static void initReceiver() {
         //        接收消息时处理消息并存库
-        String isSucess = HelpUtils.HttpIsSucess(message.getResponseText());
+        String isSucess = HelpUtils.HttpIsSucess(message);
         if (isSucess.equals(AppAllKey.CODE_OK)) {
 //            判断返回的方法名
-            String s = HelpUtils.backMethod(message.getResponseText());
+            String s = HelpUtils.backMethod(message);
             switch (s) {
                 //接收好友消息
                 case Methon.PrivateChat:
 //                case "privateReceive":
                     MsgFragment.isZero = true;
-                    dealReceiver(message.getResponseText());
+                    dealReceiver(message);
                     break;
 //                    接收群组消息
                 case Methon.ReceiveGroupChat:
 //                case "receiveGroupChat":
 //                case "groupReceive":
                     MsgFragment.isZero = true;
-                    initGroupReceiveData(message.getResponseText());
+                    initGroupReceiveData(message);
                     break;
 //                    群发送信息
                 case Methon.GroupChatSend:
 //                case "groupSend":
-                    dealGroupSend(message.getResponseText());
+                    dealGroupSend(message);
                     break;
 //                    接收好友推送通知（对方加我为好友时）
                 case "addFriendSend":
-                    dealFriend(message.getResponseText());
+                    dealFriend(message);
                     break;
 //                添加好友-离线推送通知接口(接收者)
                 case "addFriendPush":
-                    dealFriendPush(message.getResponseText());
+                    dealFriendPush(message);
                     break;
 //                    对方同意我的好友请求,后推送接口
                 case "agreeFriendSend":
-                    dealAgreeFriend(message.getResponseText());
+                    dealAgreeFriend(message);
                     break;
                 case "createdUserGroup":
-                    CGS(message.getResponseText());
+                    CGS(message);
                     break;
 //                    私聊发送消息
                 case Methon.PrivateSend:
 //                case "privateSend":
-                    dealSend(message.getResponseText());
+                    dealSend(message);
                     break;
 //                    用户在线私聊 - 离线消息
                 case "messagePush":
-                    dealOffLineChat(message.getResponseText());
+                    dealOffLineChat(message);
                     break;
 //                    用户在线群聊 - 离线消息
                 case "messageGroupPush":
-                    dealOffLineGroupChat(message.getResponseText());
+                    dealOffLineGroupChat(message);
                     break;
 //                    创建群
                 case "agreeGroupListSend":
-                    DealGroupAdd.getDealGroupAdd().updateGroupDataByAdd(mContext, message.getResponseText());
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataByAdd(mContext, message);
                     break;
 //                   加入群聊  用户加入群 - 给成员发送 联系人变动信息接口
                 case "joinGroupListSend":
-                    DealGroupAdd.getDealGroupAdd().updateGroupDataByAdd(mContext, message.getResponseText());
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataByAdd(mContext, message);
                     break;
 //                   退出群聊
                 case "outGroupListSend":
-                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,realmHelper);
                     break;
 //                   被移出群，被移除的成員收到的推送
                 case "removeGroupListSend":
-                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,realmHelper);
                     break;
 //                   修改群信息   给成员发送 联系人变动信息接口  （含：用户修改自己群的名称）
                 case "modifyGroupListSend":
-                    String s1 = DealGroupAdd.getDealGroupAdd().updateGroupDataByModifySub(mContext, message.getResponseText());
+                    String s1 = DealGroupAdd.getDealGroupAdd().updateGroupDataByModifySub(mContext, message);
                     if (!StrUtils.isEmpty(s1))
                     {
-                        DealGroupAdd.getDealGroupAdd().updateGroupDataByModifyAdd(mContext,  message.getResponseText() );
+                        DealGroupAdd.getDealGroupAdd().updateGroupDataByModifyAdd(mContext,  message );
                     }
                     break;
 //                    解散群聊
                 case "dissolutionGroupListSend":
-                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message.getResponseText(),realmHelper);
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,realmHelper);
                     break;
 
 //                    添加好友
                 case "agreeFriendListSend":
-                    DealFriendAdd.getDealFriendAdd().updateFriendDataByAdd(mContext, message.getResponseText());
+                    DealFriendAdd.getDealFriendAdd().updateFriendDataByAdd(mContext, message);
                     break;
 //                    删除好友
                 case "deleteFriendSend":
-                    DealFriendAdd.getDealFriendAdd().updateFriendDataBySub(mContext,message.getResponseText());
+                    DealFriendAdd.getDealFriendAdd().updateFriendDataBySub(mContext,message);
                     break;
 //                添、删、改好友分组or群分组管理
                 case "addFriendGroupManageSend":
-//                    DealModifyGroupOfList.modifyGroupOfList(this,message.getResponseText());
+//                    DealModifyGroupOfList.modifyGroupOfList(this,message);
                     break;
 //                    增加好友/群分组推送
                 case "agreeGroupingListSend":
-                    DealModifyGroupOfList.getDealModifyGroupOfList().addGroupOfList(mContext,message.getResponseText());
+                    DealModifyGroupOfList.getDealModifyGroupOfList().addGroupOfList(mContext,message);
                     break;
 //                    删除好友/群分组推送
                 case "deleteGroupingListSend":
-                    DealModifyGroupOfList.getDealModifyGroupOfList().deleteGroupOfList(mContext,message.getResponseText());
+                    DealModifyGroupOfList.getDealModifyGroupOfList().deleteGroupOfList(mContext,message);
                     break;
 //                    修改好友/群分组推送
                 case "modifyGroupingListSend":
-                    DealModifyGroupOfList.getDealModifyGroupOfList().modifyGroupOfList(mContext,message.getResponseText());
+                    DealModifyGroupOfList.getDealModifyGroupOfList().modifyGroupOfList(mContext,message);
                     break;
 //                    修改好友分组/备注推送
                 case "modifyFriendListSend":
-                    DealModifyFriendList.getDealModifyFriendList().modifyGroupOfFriend(mContext,message.getResponseText());
+                    DealModifyFriendList.getDealModifyFriendList().modifyGroupOfFriend(mContext,message);
                     break;
 //                    好友/群分组排序推送
                 case "modifyGroupingSortSend":
-                    DealGroupingSort.groupingSort(mContext,message.getResponseText());
+                    DealGroupingSort.groupingSort(mContext,message);
                     break;
 //                    修改群所在的分组推送
                 case "modifyGroupOfListSend":
-                    DealModifyGroupList.modifyGroupOfGroup(mContext,message.getResponseText());
+                    DealModifyGroupList.modifyGroupOfGroup(mContext,message);
                     break;
 //                    扫码入群推送
                 case "invitationQrCodeGroupListSend":
-                    DealGroupInvitationQrCode.updateGroupDataByInvitation(mContext, message.getResponseText());
+                    DealGroupInvitationQrCode.updateGroupDataByInvitation(mContext, message);
                     break;
 //                    好友邀请入群推送
                 case "invitationGroupListSend":
-                    DealGroupInvitation.getDealGroupInvitation().updateGroupDataByInvitation(mContext, message.getResponseText());
+                    DealGroupInvitation.getDealGroupInvitation().updateGroupDataByInvitation(mContext, message);
                     break;
 //                    好友修改Ta的信息
                 case "updateFriendSend":
-                    DealUpdateFriend.getDealUpdateFriend().updateFriend(mContext,message.getResponseText());
+                    DealUpdateFriend.getDealUpdateFriend().updateFriend(mContext,message);
                     break;
 //成员列表 变动 推送
                 case "invitationfGroupMemberSend":
-//                    DealUpdateFriend.getDealUpdateFriend().updateFriend(mContext,message.getResponseText());
+//                    DealUpdateFriend.getDealUpdateFriend().updateFriend(mContext,message);
                     break;
             }
         }
@@ -289,11 +305,6 @@ public class DealDataByApp {
             realmHelper.addRealmMsgQun(cusJumpChatData);
         }
         //        发送广播更新首页
-//        Intent intent = new Intent();
-//        intent.putExtra("message", record.getMessage());
-//        intent.putExtra("id", record.getGroupId());
-//        intent.setAction("action.refreshMsgFragment");
-//        mContext.sendBroadcast(intent);
         EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
     }
     private static  void noGroupChatUIOffLine(final DataOffLineGroupChat.RecordBean.MessageListBean record) {
@@ -405,11 +416,6 @@ public class DealDataByApp {
         cusJumpChatData.setFriendName(record.getNickName());
 
 //        发送广播更新首页
-//        Intent intent = new Intent();
-//        intent.putExtra("message", record.getMessage());
-//        intent.putExtra("id", record.getFriendsId());
-//        intent.setAction("action.refreshMsgFragment");
-//        mContext.sendBroadcast(intent);
         EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getFriendsId(),AppConfig.MSG_ACTION_REFRESH));
 //在前台的时候处理接收到消息的事件
         if (SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
@@ -453,11 +459,6 @@ public class DealDataByApp {
             cusJumpChatData.setTime(TimeUtil.getTime());
             cusJumpChatData.setNum(0);
             realmHelper.addRealmMsg(cusJumpChatData);
-//            Intent intent = new Intent();
-//            intent.putExtra("message", "我们已经是好友了，快来聊一聊吧");
-//            intent.putExtra("id", record.getFriendsId());
-//            intent.setAction("add.refreshMsgFragment");
-//            mContext.sendBroadcast(intent);
             EventBus.getDefault().post(new MsgHomeEvent("我们已经是好友了，快来聊一聊吧",record.getFriendsId(),AppConfig.MSG_ADD_REFRESH));
         }
     }
@@ -471,10 +472,6 @@ public class DealDataByApp {
         for (int i = 0; i < messageList.size(); i++) {
             int num = (int) SPUtils.get(mContext, AppConfig.LINKMAN_FRIEND_NUM, 0);
             SPUtils.put(mContext, AppConfig.LINKMAN_FRIEND_NUM, num + 1);
-//            Intent intent = new Intent();
-//            intent.putExtra("num", num + 1);
-//            intent.setAction("action.addFriend");
-//            mContext.sendBroadcast(intent);
             EventBus.getDefault().post(new MainTabNumEvent((num+1),AppConfig.MAIN_TAB_TWO));
             final DataFriendPush.RecordBean.MessageListBean messageListBean = messageList.get(i);
             new Thread(new Runnable() {
@@ -512,11 +509,6 @@ public class DealDataByApp {
             cusJumpChatData.setNum(0);
 //            cusJumpChatData.setType(RealmHomeHelper.TypeQun);
             realmHelper.addRealmMsgQun(cusJumpChatData);
-//            Intent intent = new Intent();
-//            intent.putExtra("message", "我新建了一个群");
-//            intent.putExtra("id", record.getGroupOfId());
-//            intent.setAction("action.refreshMsgFragment");
-//            mContext.sendBroadcast(intent);
             EventBus.getDefault().post(new MsgHomeEvent("我新建了一个群",record.getGroupOfId(),AppConfig.MSG_ACTION_REFRESH));
         }
     }
@@ -525,19 +517,10 @@ public class DealDataByApp {
         DataAddfriendSendRequest.RecordBean record = dataAddfriendSendRequest.getRecord();
         int num = (int) SPUtils.get(mContext, AppConfig.LINKMAN_FRIEND_NUM, 0);
         SPUtils.put(mContext, AppConfig.LINKMAN_FRIEND_NUM, num + 1);
-//        Intent intent = new Intent();
-//        intent.putExtra("num", num + 1);
-//        intent.setAction("action.addFriend");
-//        mContext.sendBroadcast(intent);
         EventBus.getDefault().post(new MainTabNumEvent((num+1),AppConfig.MAIN_TAB_TWO));
 
     }
     private static void initMsgSend(DataJieShou.RecordBean record) {
-//        Intent intent = new Intent();
-//        intent.putExtra("message", record.getMessage());
-//        intent.putExtra("id", record.getFriendsId());
-//        intent.setAction("action.refreshMsgFragment");
-//        mContext.sendBroadcast(intent);
         EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getFriendsId(),AppConfig.MSG_ACTION_REFRESH));
 //        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
         realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
@@ -577,25 +560,9 @@ public class DealDataByApp {
             cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getSplitWeb().getUserId());
             realmChatHelper.addRealmChat(cusRealmChatMsg);//更新聊天数据
 
-//            PrivateChatData msg = new PrivateChatData();
-//            msg.setCreated(myTime);
-//            msg.setMessage(record.getMessage());
-//            msg.setMessageType(record.getMessageType());
-//            msg.setReceiveId(record.getFriendsId());
-//            msg.setSendId(record.getUserId());
-//            msg.setUserMessageType(record.getType());
-//            msg.setImgUrl(record.getHeadImg());
-//            msg.setUserId(record.getUserId());
-//            privateChatEntityDao.getEntityDao().insertOrReplaceInTx(msg);
         }
     }
     private static void initMsgGroupSend(DataGroupChatSend.RecordBean record) {
-//        Intent intent = new Intent();
-//        intent.putExtra("message", record.getMessage());
-//        intent.putExtra("id", record.getGroupId());
-//        intent.setAction("action.refreshMsgFragment");
-//        mContext.sendBroadcast(intent);
-
         EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
 //        realmHelper.updateMsg(record.getGroupId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
         realmHelper.updateGroupMsg(record.getGroupId(), record.getMessage(), record.getRequestTime(),record);//更新首页聊天界面数据（消息和时间）
@@ -755,11 +722,6 @@ public class DealDataByApp {
     }
     private static void noChatUI(String msg,String id) {
 //        发送广播更新首页
-//        Intent intent = new Intent();
-//        intent.putExtra("message",msg);
-//        intent.putExtra("id", id);
-//        intent.setAction("action.refreshMsgFragment");
-//        mContext.sendBroadcast(intent);
         EventBus.getDefault().post(new MsgHomeEvent(msg,id,AppConfig.MSG_ACTION_REFRESH));
     }
     private static void initGroupReceiveData(String responseText) {
@@ -893,33 +855,5 @@ public class DealDataByApp {
             }
         }).start();
     }
-//    private static void initAss() {
-//        List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllRealmMsg();
-//        if (cusHomeRealmData.size()>0)
-//        {
-//            int howNum=0;
-//            for (int i=0;i<cusHomeRealmData.size();i++)
-//            {
-//                int num = cusHomeRealmData.get(i).getNum();
-//                String type= cusHomeRealmData.get(i).getType();
-//                String assistantType = cusHomeRealmData.get(i).getAssistantType();
-//                if (type!=null&&assistantType!=null)
-//                    if (num>0&&type.equals("2")&&assistantType.equals("2"))
-//                    {
-//                        howNum++;
-//                    }
-//            }
-//            if (howNum>0)
-//            {
-//                realmHelper.updateGroupAssNum( howNum+"");//更新首页聊天界面数据（群助手）
-//                Intent intent = new Intent();
-////                    intent.putExtra("message",msg);
-//                intent.putExtra("num", howNum);
-//                intent.setAction("assistant.refreshMsgFragment");
-//                mContext.sendBroadcast(intent);
-////                EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
-//            }
-//        }
-//    }
 
 }

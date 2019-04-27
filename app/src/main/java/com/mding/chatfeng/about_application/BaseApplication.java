@@ -2,6 +2,7 @@ package com.mding.chatfeng.about_application;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.PowerManager;
 import android.support.multidex.MultiDex;
 import android.util.DisplayMetrics;
 
@@ -36,8 +37,13 @@ public class BaseApplication extends Application  implements AppView{
         if (presenterApp ==null) {
             presenterApp = new PresenterApp(this,this);
         }
-        presenterApp.initApp(this);
+        presenterApp.initApp(getApplicationContext());
         initScreenSize();
+    }
+
+    public  void startBase(Context mc)
+    {
+        presenterApp.start(mc);
     }
     @Override
     protected void attachBaseContext(Context context) {

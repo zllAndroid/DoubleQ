@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
+import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.util.Log;
@@ -48,7 +49,7 @@ import java.util.List;
  * 更改时间：
  * 修改备注：
  */
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity  {
 
     FragmentTabHost mTabHost;
     TabWidget tabs;
@@ -66,6 +67,7 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initBeforeContentView() {
         super.initBeforeContentView();
+
         WindowBugDeal.SetTop(this);
         windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
 //        StateBarUtils.setFullscreen(this, false, false);
@@ -87,6 +89,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
+        ((BaseApplication)getApplication()).startBase(getApplicationContext());
+
         stateHight=StatusBarUtil.getStatusBarHeight(this);
         naigertionHight=StatusBarUtil.getDaoHangHeight(this);
         initUIData();
@@ -157,16 +161,10 @@ public class MainActivity extends BaseActivity {
 
     }
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        try {
-//
-//            if (mRefreshBroadcastReceiver!=null)
-//                this.unregisterReceiver(mRefreshBroadcastReceiver);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         DialogRiskTestUtils.isShow();
     }
 

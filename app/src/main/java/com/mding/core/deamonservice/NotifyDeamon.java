@@ -23,9 +23,11 @@ import android.os.RemoteException;
 import com.mding.ILoginCallBack;
 import com.mding.ILoginRequst;
 import com.mding.chatfeng.R;
-import com.mding.core.AppConfig;
+import com.mding.chatfeng.about_application.BaseApplication;
+import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.core.pushservice.ChannelDeamon;
 import com.mding.models.LoginModel;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 
 
 /**
@@ -164,8 +166,14 @@ public class NotifyDeamon extends Service {
             startService(new Intent(getApplicationContext(), NotifyDeamon.class));
         }
     }
-
-
+    public   ACache getaCache(){
+        if (aCache==null)
+        {
+            aCache =  ACache.get(this);
+        }
+        return aCache;
+    }
+    ACache aCache;
     /**
      * 登入的公共方法
      * @param loginUrl
@@ -183,7 +191,8 @@ public class NotifyDeamon extends Service {
                     mLoginModelz.setUserid("账号12331232ddddd");
                     mLoginModelz.setPsw("密码123233213123");*/
                     loginUrl="http://www.baidu.com";
-
+//                    ACache aCache = BaseApplication.getApp().getaCache();
+//                    getaCache().getAsString()
 
                 }
                 try {
