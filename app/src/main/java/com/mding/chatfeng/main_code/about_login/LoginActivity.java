@@ -360,7 +360,7 @@ public class LoginActivity extends BaseLogin {
         super.onDestroy();
         try {
             unbindService(this);
-            stopService(intent);
+//            stopService(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -214,74 +214,7 @@ public class ChannelDeamon extends Service {
         });
     }
 
-    private void initDataDeal(String body) {
 
-        DataLogin dataLogin = JSON.parseObject(body, DataLogin.class);
-        DataLogin.RecordBean record = dataLogin.getRecord();
-        if (record != null)
-            SaveLoginResultData(record);
-    }
-
-    public ACache getaCache(){
-        if (mCache==null)
-        {
-            mCache =  ACache.get(this);
-        }
-        return mCache;
-    }
-    ACache mCache;
-    private void SaveLoginResultData(DataLogin.RecordBean userInfo) {
-        String json = JSON.toJSON(userInfo).toString();
-        mCache.clear();
-        mCache.put(AppAllKey.TOKEN_KEY, json);
-        mCache.put(IMAGE_BASE64, userInfo.getHeadImg());
-        mCache.put(AppConfig.QR_CODE, userInfo.getQrcode());
-        if (userInfo!=null) {
-//            String is_first_login = userInfo.getIsFirstLogin();
-//            if (is_first_login.equals("1"))
-//                isFirst = true;
-//            else
-//                isFirst = false;
-
-            initSetData(userInfo);
-        }
-    }
-    private void initSetData(DataLogin.RecordBean dataLogin) {
-        SPUtils.put(this, AppAllKey.USER_ID_KEY, dataLogin.getUserId());
-        SPUtils.put(this, AppAllKey.USER_Token, dataLogin.getUserToken());
-
-        SPUtils.put(this, AppConfig.TYPE_NAME, dataLogin.getNickName());
-        SPUtils.put(this, AppConfig.TYPE_NO, dataLogin.getWxSno());
-        SPUtils.put(this, AppConfig.TYPE_PHONE, dataLogin.getWxSno());
-        SPUtils.put(this, AppConfig.User_HEAD_URL, dataLogin.getHeadImg());
-        SPUtils.put(this, AppConfig.TYPE_SIGN, dataLogin.getPersonaSignature());
-
-
-//        SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIpWs());
-        SplitWeb.getSplitWeb().USER_TOKEN = dataLogin.getUserToken();
-        SplitWeb.getSplitWeb().MOBILE = dataLogin.getMobile();
-        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
-        SplitWeb.getSplitWeb().NICK_NAME = dataLogin.getNickName();
-        SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
-        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
-        SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
-        SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
-        SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
-        mCache.put(AppAllKey.USER_ID_KEY, dataLogin.getUserId());
-        //TODO 集群
-        try {
-            SplitWeb.getSplitWeb().WS_REQUEST = dataLogin.getServerIpWs();
-            SplitWeb.getSplitWeb().HTTP_REQUEST = dataLogin.getServerIpHttp();
-            String serverIpWs = dataLogin.getServerIpWs();
-            String serverIpHttp = dataLogin.getServerIpHttp();
-            mCache.remove(AppConfig.TYPE_WS_REQUEST);
-            mCache.put(AppConfig.TYPE_WS_REQUEST, serverIpWs);
-            mCache.remove(AppConfig.TYPE_URL);
-            mCache.put(AppConfig.TYPE_URL, serverIpHttp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
   /*  //（2）与通道服务互动，主要获取回执，如果在指定时间内没有回执，则重启通道服务
     ServiceConnection conn = new ServiceConnection() {
 

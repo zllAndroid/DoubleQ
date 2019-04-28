@@ -22,6 +22,7 @@ import com.mding.IChatCallBack;
 import com.mding.IChatRequst;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_utils.HelpUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rabtman.wsmanager.WsManager;
@@ -72,7 +73,7 @@ public class WsChannelService extends Service {
                                     .build())
                     .needReconnect(true)
 //                    .wsUrl("ws://120.78.92.225:9093")
-                    .wsUrl("ws://120.78.92.225:9093")
+                    .wsUrl(asString)
                     .build();
             wsManager.setWsStatusListener(wsStatusListener);
             wsManager.startConnect();
@@ -179,6 +180,11 @@ public class WsChannelService extends Service {
         public void onMessage(String text) {
             super.onMessage(text);
             AppConfig.logs("onMessage==>>"+text);
+            String backMethod = HelpUtils.backMethod(text);
+            if (backMethod.equals("")) {
+            }
+
+
             try {
                 if(callbacks!=null)
                     callbacks.recevieMsg("1",text);

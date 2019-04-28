@@ -3,6 +3,8 @@ package com.mding.chatfeng.about_utils.about_realm.new_home;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.List;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -11,7 +13,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by  on 2018/2/8 0008.
  */
 
-public  class CusHomeRealmData extends RealmObject/* implements Parcelable */{
+public  class CusHomeRealmData extends RealmObject implements Parcelable {
 
 
     /**
@@ -60,14 +62,15 @@ public  class CusHomeRealmData extends RealmObject/* implements Parcelable */{
 
     private String groupNumMsg;//有几个群有新消息
 
-   public RealmList<CusChatData> chatMsgs;
-    public RealmList<CusChatData> getChatMsgs() {
+/*   public List<CusChatData> chatMsgs;
+
+    public List<CusChatData> getChatMsgs() {
     return chatMsgs;
     }
-    public void setChatMsgs(RealmList<CusChatData> chatMsgs) {
+    public void setChatMsgs(List<CusChatData> chatMsgs) {
         this.chatMsgs = chatMsgs;
-    }
-/*    public CusHomeRealmData(Parcel in) {
+    }*/
+    public CusHomeRealmData(Parcel in) {
         readFromParcel(in);
     }
     public CusHomeRealmData() {
@@ -108,7 +111,7 @@ public  class CusHomeRealmData extends RealmObject/* implements Parcelable */{
             return new CusHomeRealmData[size];
         }
     };
-*/
+
     public String getGroupNumMsg() {
         return groupNumMsg;
     }
@@ -248,7 +251,6 @@ public  class CusHomeRealmData extends RealmObject/* implements Parcelable */{
     public void setNum(int num) {
         this.num = num;
     }
-/*
     @Override
     public int describeContents() {
         return 0;
@@ -273,5 +275,5 @@ public  class CusHomeRealmData extends RealmObject/* implements Parcelable */{
         parcel.writeString(operationType);
         parcel.writeString(topType);
         parcel.writeString(groupNumMsg);
-    }*/
+    }
 }

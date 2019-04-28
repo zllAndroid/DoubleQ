@@ -19,6 +19,7 @@ import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_application.BaseApplication;
+import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataLogin;
 import com.mding.chatfeng.R;
@@ -94,6 +95,7 @@ public class AppStartActivity extends BaseLogin {
 //        writableDatabase.insert(TotalEntry.TABLE_NAME_Msg,null,values);
 
 //        SQLiteDatabase   db= (new DBgreatTable(this)).getWritableDatabase();
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             AppStartActivityPermissionsDispatcher.needWithCheck(this);
 //            need();
@@ -105,7 +107,7 @@ public class AppStartActivity extends BaseLogin {
         mReceiver = new NetReceiver();
         IntentFilter mFilter = new IntentFilter();
         mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-       this.registerReceiver(mReceiver, mFilter);
+        this.registerReceiver(mReceiver, mFilter);
     }
     private WindowService.MyBinder mybinder;
 
@@ -171,8 +173,8 @@ public class AppStartActivity extends BaseLogin {
 //            IntentUtils.JumpFinishTo(MainActivity.class);
 //            IntentUtils.JumpTo(LoginActivity.class);
 //            AppManager.getAppManager().finishActivity(AppStartActivity.this);
+//            init(BaseApplication.getAppContext());
             initCaChe();
-            init(BaseApplication.getAppContext());
 //            if (isClick) {
 ////                IntentUtils.JumpFinishTo(MainActivity.class);
 ////                openingStartAnimation.show(AppStartActivity.this);
@@ -223,7 +225,11 @@ public class AppStartActivity extends BaseLogin {
     protected void onDestroy() {
         super.onDestroy();
         try {
-            unbindService(this);
+            if (mCache==null)
+                mCache=  ACache.get(this);
+            String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
+            if (!StrUtils.isEmpty(asString))
+                unbindService(this);
 //            stopService(intent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -233,7 +239,7 @@ public class AppStartActivity extends BaseLogin {
 
         try {
             if (mReceiver!=null)
-               unregisterReceiver(mReceiver);
+                unregisterReceiver(mReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -285,6 +291,7 @@ public class AppStartActivity extends BaseLogin {
                     }else {
                         IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
                     }
+                    init(BaseApplication.getAppContext());
                     overridePendingTransition(0, 0);
                     return;
                 }
@@ -312,6 +319,23 @@ public class AppStartActivity extends BaseLogin {
             SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
             SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
             SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
+
+            //TODO 集群
+            try {
+//                SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
+//                SplitWeb.HTTP_REQUEST = dataLogin.getServerIpHttp();
+                SplitWeb.getSplitWeb().WS_REQUEST = dataLogin.getServerIpWs();
+                SplitWeb.getSplitWeb().HTTP_REQUEST = dataLogin.getServerIpHttp();
+                String serverIpWs = dataLogin.getServerIpWs();
+                String serverIpHttp = dataLogin.getServerIpHttp();
+                mCache.remove(AppConfig.TYPE_WS_REQUEST);
+                mCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
+                mCache.remove(AppConfig.TYPE_URL);
+                mCache.put(AppConfig.TYPE_URL,serverIpHttp);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         }
     }
     //    @NeedsPermission(value = {Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, maxSdkVersion = 16)

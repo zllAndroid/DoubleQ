@@ -241,7 +241,7 @@ public class PersonalFragment extends BaseFragment {
                         ImageUtils.useBase64(getActivity(), mineIvPerson, headImg);
                         aCache.put(IMAGE_BASE64, headImg);
 //                        ToastUtil.isDebugShow("无网时所传头像");
-                        MyLog.e("PersonalFragment","无网时所传头像");
+//                        MyLog.e("PersonalFragment","无网时所传头像");
                     }
                 }
                 break;
