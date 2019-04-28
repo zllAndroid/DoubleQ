@@ -18,6 +18,7 @@ import android.support.annotation.RequiresApi;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataLogin;
 import com.mding.chatfeng.R;
@@ -171,13 +172,15 @@ public class AppStartActivity extends BaseLogin {
 //            IntentUtils.JumpTo(LoginActivity.class);
 //            AppManager.getAppManager().finishActivity(AppStartActivity.this);
             initCaChe();
-
+            init(BaseApplication.getAppContext());
 //            if (isClick) {
 ////                IntentUtils.JumpFinishTo(MainActivity.class);
 ////                openingStartAnimation.show(AppStartActivity.this);
 //
 //            }
         }
+
+
     };
 
     @Override
@@ -219,6 +222,12 @@ public class AppStartActivity extends BaseLogin {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        try {
+            unbindService(this);
+//            stopService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         if (timer != null)
             timer.cancel();
 
@@ -246,6 +255,7 @@ public class AppStartActivity extends BaseLogin {
         if (timer == null) {
             timer = new Timer();
             timer.schedule(task, 1500);
+
         }
 
 //        ToastUtil.show("权限通过执行");
@@ -284,43 +294,25 @@ public class AppStartActivity extends BaseLogin {
         overridePendingTransition(0,0);
 
     }
-//    @Override
-//    public void receiveResultMsg(String responseText) {
-//        super.receiveResultMsg(responseText);
-//        String s = HelpUtils.backMethod(responseText);
-//        if (s.equals("bindUid")) {
-//            IntentUtils.JumpFinishTo(AppStartActivity.this,MainActivity.class);
-//            overridePendingTransition(0,0);
-//        }
-//    }
-//
-//    @Override
-//    public void errorResult(String s) {
-//        super.errorResult(s);
-//        String backMethod = HelpUtils.backMethod(s);
-//        if (backMethod.equals("bindUid")) {
-//            IntentUtils.JumpFinishTo(AppStartActivity.this,LoginActivity.class);
-//            overridePendingTransition(0,0);
-//        }
-//
-//    }
 
     private void initSetData(DataLogin.RecordBean dataLogin) {
-        if(!StrUtils.isEmpty(dataLogin.getUserId()))
-            SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
-        if(!StrUtils.isEmpty(dataLogin.getUserToken()))
-            SPUtils.put(this,AppAllKey.USER_Token,dataLogin.getUserToken());
-        if(!StrUtils.isEmpty(dataLogin.getMobile()))
-            SPUtils.put(this, AppAllKey.SP_LOGIN_ACCOUNT,dataLogin.getMobile());
-        SplitWeb.getSplitWeb().USER_TOKEN = dataLogin.getUserToken();
-        SplitWeb.getSplitWeb().MOBILE = dataLogin.getMobile();
-        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
-        SplitWeb.getSplitWeb().NICK_NAME = dataLogin.getNickName();
-        SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
-        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
-        SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
-        SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
-        SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
+        if(dataLogin!=null){
+            if(!StrUtils.isEmpty(dataLogin.getUserId()))
+                SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
+            if(!StrUtils.isEmpty(dataLogin.getUserToken()))
+                SPUtils.put(this,AppAllKey.USER_Token,dataLogin.getUserToken());
+            if(!StrUtils.isEmpty(dataLogin.getMobile()))
+                SPUtils.put(this, AppAllKey.SP_LOGIN_ACCOUNT,dataLogin.getMobile());
+            SplitWeb.getSplitWeb().USER_TOKEN = dataLogin.getUserToken();
+            SplitWeb.getSplitWeb().MOBILE = dataLogin.getMobile();
+            SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
+            SplitWeb.getSplitWeb().NICK_NAME = dataLogin.getNickName();
+            SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
+            SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
+            SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
+            SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
+            SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
+        }
     }
     //    @NeedsPermission(value = {Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, maxSdkVersion = 16)
 //    void OnNeed() {

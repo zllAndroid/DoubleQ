@@ -189,9 +189,12 @@ public class MsgFragment extends BaseFragment {
         }
 
     }
+    LongTimeTask myTask=null;
     private void initRealmData() {
-        LongTimeTask myTask = new LongTimeTask();
-        myTask.execute();
+        if (myTask==null) {
+            myTask = new LongTimeTask();
+            myTask.execute();
+        }
     }
     private class LongTimeTask extends AsyncTask<List<CusHomeRealmData>,Void,List<CusHomeRealmData>>
     {
@@ -200,6 +203,8 @@ public class MsgFragment extends BaseFragment {
             super.onPostExecute(o);
             initAdapter();
             AppConfig.logs("-----------------------onPostExecute-----------接收----------------------");
+            myTask=null;
+            return;
         }
         @Override
         protected List<CusHomeRealmData> doInBackground(List<CusHomeRealmData>... lists) {

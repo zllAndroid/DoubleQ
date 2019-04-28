@@ -180,11 +180,14 @@ public class PersonalFragment extends BaseFragment {
         if (!StrUtils.isEmpty(json)) {
             DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
             DataLogin.RecordBean recordBean = dataLogin.getRecord();
-            if (dataLogin != null) {
+            if (recordBean != null) {
                 mineTvName.setText(recordBean.getNickName());
                 userPhone = recordBean.getMobile();
                 mineTvSign.setText(recordBean.getPersonaSignature());
 //                changeinfoTvCount.setText(dataLogin.getWxSno());
+            }else
+            {
+                sendWeb(SplitWeb.getSplitWeb().personalCenter());
             }
         }
     }

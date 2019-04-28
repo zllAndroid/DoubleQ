@@ -11,13 +11,11 @@ import android.os.RemoteException;
 import com.mding.IChatCallBack;
 import com.mding.IChatRequst;
 import com.mding.chatfeng.about_base.AppConfig;
-import com.mding.chatfeng.about_base.BaseActivity;
-import com.mding.chatfeng.about_base.web_base.MessageEvent;
 import com.mding.models.ChatModel;
+import com.mding.models.CusHomeRealmData;
 import com.mding.workservice.ChatService;
-import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 
-import org.greenrobot.eventbus.EventBus;
+import java.util.List;
 
 public abstract class BaseApp extends Application implements ServiceConnection {
     public static IChatRequst mIChatRequst;
@@ -56,6 +54,11 @@ public abstract class BaseApp extends Application implements ServiceConnection {
         {
             try {
                 mIChatRequst.register(new IChatCallBack.Stub() {
+                    @Override
+                    public void recevieHomeList(List<CusHomeRealmData> mHomeList) throws RemoteException {
+                        AppConfig.logs("BaseApp::"+mHomeList.get(0).getName());
+                        AppConfig.logs("BaseApp::"+mHomeList.get(0).getChatMsgs().get(0).getMyNumber());
+                    }
 
                     @Override
                     public void recevieMsgStatus(ChatModel mChatModel) throws RemoteException {
@@ -68,11 +71,12 @@ public abstract class BaseApp extends Application implements ServiceConnection {
                     }
 
                     @Override
-                    public void recevieMsg(String mChatModel) throws RemoteException {
-                        onRecevieMsg(mChatModel);
-
-                        AppConfig.logs("baseapp==>>"+mChatModel);
+                    public void recevieMsg(String type, String recevieMsg) throws RemoteException {
+                        onRecevieMsg(recevieMsg);
+                        AppConfig.logs("baseapp==>>"+recevieMsg);
                     }
+
+
 
                     @Override
                     public void recevieMainList(String list) throws RemoteException {

@@ -139,7 +139,7 @@ public class LoginActivity extends BaseLogin {
                 //测试
                 String swooleServer = dataServer.getSwooleServer();
 //                String swooleServer = dataServer.getSwooleServer_v1();
-
+                Log.e("result=", swooleServer + "----------swooleServerv1-----------------");
                 SplitWeb.getSplitWeb().HttpURL = swooleServer;
                 SPUtils.put(LoginActivity.this, AppConfig.TYPE_URL, swooleServer+"");
             }
@@ -358,6 +358,12 @@ public class LoginActivity extends BaseLogin {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        try {
+            unbindService(this);
+            stopService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             if (mRefreshBroadcastReceiver!=null)
                 unregisterReceiver(mRefreshBroadcastReceiver);

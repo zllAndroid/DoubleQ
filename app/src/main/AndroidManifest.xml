@@ -56,7 +56,10 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:persistent="true"
+        android:priority="1000"
         android:usesCleartextTraffic="true">
+        <!--<intent-filter android:priority="1000">-->
         <meta-data
             android:name="channeltest"
             android:value="1" />
@@ -73,28 +76,46 @@
             android:name="com.mding.core.deamonservice.NotifyDeamon"
             android:enabled="true"
             android:exported="false"
+            android:persistent="true"
+            android:priority="1000"
             android:process=":pushdeamon" />
         <service
             android:name="com.mding.core.deamonservice.NotifyService$WakeNotifyService"
             android:enabled="true"
             android:exported="false"
+            android:persistent="true"
+            android:priority="1000"
             android:process=":pushdeamon" />
 
         <service
             android:name="com.mding.core.pushservice.ChannelDeamon"
+            android:enabled="true"
+            android:exported="false"
+            android:persistent="true"
+            android:priority="1000"
             android:process=":push" />
         <service
             android:name="com.mding.core.pushservice.WsChannelService"
+            android:enabled="true"
+            android:exported="false"
+            android:persistent="true"
+            android:priority="1000"
             android:process=":push" />
         <service
             android:name="com.mding.workservice.ChatService"
             android:enabled="true"
             android:exported="false"
+            android:persistent="true"
+            android:priority="1000"
             android:process=":worker"/>
 
 
         <service
             android:name=".main_code.mains.test_service.DaemonService"
+            android:enabled="true"
+            android:exported="false"
+            android:persistent="true"
+            android:priority="1000"
             android:process=":daemon" />
 
         <uses-library

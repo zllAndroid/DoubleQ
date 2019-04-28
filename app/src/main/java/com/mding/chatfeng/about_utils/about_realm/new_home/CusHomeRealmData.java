@@ -1,5 +1,8 @@
 package com.mding.chatfeng.about_utils.about_realm.new_home;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
@@ -8,7 +11,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by  on 2018/2/8 0008.
  */
 
-public  class CusHomeRealmData extends RealmObject {
+public  class CusHomeRealmData extends RealmObject/* implements Parcelable */{
 
 
     /**
@@ -57,6 +60,55 @@ public  class CusHomeRealmData extends RealmObject {
 
     private String groupNumMsg;//有几个群有新消息
 
+   public RealmList<CusChatData> chatMsgs;
+    public RealmList<CusChatData> getChatMsgs() {
+    return chatMsgs;
+    }
+    public void setChatMsgs(RealmList<CusChatData> chatMsgs) {
+        this.chatMsgs = chatMsgs;
+    }
+/*    public CusHomeRealmData(Parcel in) {
+        readFromParcel(in);
+    }
+    public CusHomeRealmData() {
+
+    }
+    public void readFromParcel(Parcel in){
+        totalId = in.readString();
+        friendId = in.readString();
+        type = in.readString();
+        userid = in.readString();
+        nickName = in.readString();
+        headImg = in.readString();
+        MsgIsDisTurb = in.readString();
+        time = in.readString();
+        num = in.readInt();
+        msg = in.readString();
+        isTopMsg = in.readString();
+        isShield = in.readString();
+        bannedType = in.readString();
+        assistantType = in.readString();
+        operationType = in.readString();
+        topType = in.readString();
+        groupNumMsg = in.readString();
+
+//        chatMsgs= in.readArrayList(CusChatData.class.getClassLoader());
+//        in.readList(chatMsgs,chatMsgs.getClass().getClassLoader());
+//        chatMsgs= in.createTypedArrayList(CusChatData);
+    }
+
+   public static final Creator<CusHomeRealmData> CREATOR = new Creator<CusHomeRealmData>() {
+        @Override
+        public CusHomeRealmData createFromParcel(Parcel in) {
+            return new CusHomeRealmData(in);
+        }
+
+        @Override
+        public CusHomeRealmData[] newArray(int size) {
+            return new CusHomeRealmData[size];
+        }
+    };
+*/
     public String getGroupNumMsg() {
         return groupNumMsg;
     }
@@ -113,7 +165,7 @@ public  class CusHomeRealmData extends RealmObject {
         this.isTopMsg = isTopMsg;
     }
 
-    public RealmList<CusChatData> chatMsgs;
+
 
     public String getUserid() {
         return userid;
@@ -131,13 +183,7 @@ public  class CusHomeRealmData extends RealmObject {
         this.totalId = totalId;
     }
 
-    public RealmList<CusChatData> getChatMsgs() {
-        return chatMsgs;
-    }
 
-    public void setChatMsgs(RealmList<CusChatData> chatMsgs) {
-        this.chatMsgs = chatMsgs;
-    }
 
     public String getMsg() {
         return msg;
@@ -202,4 +248,30 @@ public  class CusHomeRealmData extends RealmObject {
     public void setNum(int num) {
         this.num = num;
     }
+/*
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(totalId);
+        parcel.writeString(friendId);
+        parcel.writeString(type);
+        parcel.writeString(userid);
+        parcel.writeString(nickName);
+        parcel.writeString(headImg);
+        parcel.writeString(MsgIsDisTurb);
+        parcel.writeString(time);
+        parcel.writeInt(num);
+        parcel.writeString(msg);
+        parcel.writeString(isTopMsg);
+        parcel.writeString(isShield);
+        parcel.writeString(bannedType);
+        parcel.writeString(assistantType);
+        parcel.writeString(operationType);
+        parcel.writeString(topType);
+        parcel.writeString(groupNumMsg);
+    }*/
 }

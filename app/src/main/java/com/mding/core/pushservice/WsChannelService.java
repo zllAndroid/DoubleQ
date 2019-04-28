@@ -72,13 +72,12 @@ public class WsChannelService extends Service {
                                     .build())
                     .needReconnect(true)
 //                    .wsUrl("ws://120.78.92.225:9093")
-                    .wsUrl(SplitWeb.getSplitWeb().WebSocket_URL)
-//                    .wsUrl(asString)
+                    .wsUrl("ws://120.78.92.225:9093")
                     .build();
             wsManager.setWsStatusListener(wsStatusListener);
             wsManager.startConnect();
 
-           AppConfig.logs("----ws:::"+ wsManager.isWsConnected());
+           AppConfig.logs("--------------------ws:::"+ wsManager.isWsConnected()+"URL地址："+asString);
 
         }
 
@@ -182,7 +181,7 @@ public class WsChannelService extends Service {
             AppConfig.logs("onMessage==>>"+text);
             try {
                 if(callbacks!=null)
-                    callbacks.recevieMsg(text);
+                    callbacks.recevieMsg("1",text);
 
             } catch (Exception e) {
                 e.printStackTrace();

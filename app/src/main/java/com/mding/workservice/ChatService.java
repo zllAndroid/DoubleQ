@@ -13,6 +13,11 @@ import com.mding.IChatRequst;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.core.pushservice.WsChannelService;
 import com.mding.models.ChatModel;
+import com.mding.models.CusChatData;
+import com.mding.models.CusHomeRealmData;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -70,6 +75,11 @@ public class ChatService extends Service {
                 try {
                     mIChatRequsts.register(new IChatCallBack.Stub() {
                         @Override
+                        public void recevieHomeList(List<CusHomeRealmData> mHomeList) throws RemoteException {
+
+                        }
+
+                        @Override
                         public void recevieMsgStatus(ChatModel mChatModel) throws RemoteException {
 
                         }
@@ -80,15 +90,35 @@ public class ChatService extends Service {
                         }
 
                         @Override
-                        public void recevieMsg(String mChatModel)  {
-                            AppConfig.logs("CS"+mChatModel);
+                        public void recevieMsg(String type, String recevieMsg) throws RemoteException {
+                            AppConfig.logs("CS"+recevieMsg);
+                            switch (type)
+                            {
+                                case "1":
+                                    List<CusHomeRealmData> mHomeList=new ArrayList<>();
+                                    CusHomeRealmData mCusHomeRealmData=new CusHomeRealmData();
+                                    mCusHomeRealmData.setName("我是主頁列表數據:我是名稱");
+                                    ArrayList<CusChatData> chatMsgs=new ArrayList<>();
+                                    CusChatData mCusChatData=new CusChatData();
+                                    mCusChatData.setMyNumber("主頁");
+                                    chatMsgs.add(mCusChatData);
+                                    mCusHomeRealmData.setChatMsgs(chatMsgs);
+                                    mHomeList.add(mCusHomeRealmData);
+
+                                    callback.recevieHomeList(mHomeList);
+                                    break;
+                            }
+
+
                             try {
-                                callback.recevieMsg(mChatModel);
+                                callback.recevieMsg(type,recevieMsg);
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 //表示UI进程已经不存在
                             }
                         }
+
+
 
                         @Override
                         public void recevieMainList(String list) throws RemoteException {
@@ -173,7 +203,20 @@ public class ChatService extends Service {
             switch (type){
                 case "1":
                     //返回主界面好友和群列表
-                    callback.recevieMainList("");break;
+
+                    List<CusHomeRealmData> mHomeList=new ArrayList<>();
+                    CusHomeRealmData mCusHomeRealmData=new CusHomeRealmData();
+                    mCusHomeRealmData.setName("我是主頁列表數據:我是名稱");
+                    ArrayList<CusChatData> chatMsgs=new ArrayList<>();
+                    CusChatData mCusChatData=new CusChatData();
+                    mCusChatData.setMyNumber("主頁");
+                    chatMsgs.add(mCusChatData);
+                    mCusHomeRealmData.setChatMsgs(chatMsgs);
+                    mHomeList.add(mCusHomeRealmData);
+
+
+                    callback.recevieHomeList(mHomeList);
+                    break;
                 case "2":
                     //返回联系人列表
                     callback.recevieContactsList("");break;
