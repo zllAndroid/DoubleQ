@@ -10,10 +10,14 @@ import android.view.View;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_custom.CustomViewPager;
 import com.mding.chatfeng.main_code.ui.about_contacts.ContactChildFragment;
+import com.mding.chatfeng.main_code.ui.about_contacts.ModelbyMissABC;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.mding.chatfeng.main_code.ui.about_pop.PopAddWindow;
 import com.mding.chatfeng.about_base.BaseFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
+
+import org.greenrobot.eventbus.EventBus;
 
 import static com.mding.chatfeng.about_utils.IntentUtils.JumpTo;
 
@@ -103,20 +107,21 @@ public class LinkManFragment extends BaseFragment {
             ismPager = !ismPager;
             mViewpager.setAdapter(myPagerAdapter);
             viewPagerTab.setViewPager(mViewpager);
-            mViewpager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            mViewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
                 @Override
                 public void onPageScrolled(int i, float v, int i1) {
-
                 }
 
                 @Override
                 public void onPageSelected(int i) {
                     isChangePage = i;
+                    ModelbyMissABC modelbyMissABC = new ModelbyMissABC();
+                    modelbyMissABC.setMissWho(i);
+                    EventBus.getDefault().post(modelbyMissABC);
                 }
 
                 @Override
                 public void onPageScrollStateChanged(int i) {
-
                 }
             });
         }

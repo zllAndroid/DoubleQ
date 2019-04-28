@@ -23,6 +23,7 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseFragment;
+import com.mding.chatfeng.about_base.web_base.MessageEvent;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
@@ -73,7 +74,6 @@ public class ContactChildFragment extends BaseFragment {
         typeWho = bundle.getInt("position");
         String text = (String) bundle.get("text");
         aCache =  ACache.get(getActivity());
-//        realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(getActivity());
         realmHelper = new RealmHomeHelper(getActivity());
         if (view==null) {
             if (typeWho == 0) {
@@ -89,6 +89,25 @@ public class ContactChildFragment extends BaseFragment {
             }
         }
         return view;
+    }
+    //   清除abc显示问题
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvent(ModelbyMissABC modelbyMissABC){
+        if (modelbyMissABC!=null)
+        {
+            int missWho = modelbyMissABC.getMissWho();
+            switch (missWho)
+            {
+                case 0://好友列表界面时，清除群列表的字母，下同
+                    if (tv_abc_group!=null)
+                        tv_abc_group.setVisibility(View.INVISIBLE);
+                    break;
+                case 1:
+                    if (tv_abc!=null)
+                        tv_abc.setVisibility(View.INVISIBLE);
+                    break;
+            }
+        }
     }
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventLinkThread(LinkChangeEvent event) {
@@ -106,7 +125,6 @@ public class ContactChildFragment extends BaseFragment {
                 break;
             case AppConfig.LINK_GROUP_DEL_ACTION:
                 initGroupWs();
-
                 break;
         }
     }
