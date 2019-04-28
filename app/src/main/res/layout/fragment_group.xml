@@ -21,7 +21,7 @@
     <TextView
         android:layout_height="@dimen/dp100"
         android:layout_width="@dimen/dp100"
-        android:id="@+id/tv_abc"
+        android:id="@+id/tv_group_abc"
         android:visibility="gone"
         android:textSize="@dimen/sp50"
         android:textColor="@color/white"

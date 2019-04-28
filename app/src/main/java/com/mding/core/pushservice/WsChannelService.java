@@ -62,40 +62,26 @@ public class WsChannelService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-            String asString = ACache.get(getBaseContext()).getAsString(AppConfig.TYPE_WS_REQUEST);
-            AppConfig.logs("asString"+asString);
-        if (wsManager == null) {
-            wsManager = new WsManager.Builder(getBaseContext())
-                    .client(
-                            new OkHttpClient().newBuilder()
-                                    .pingInterval(40, TimeUnit.SECONDS)
-                                    .retryOnConnectionFailure(true)
-                                    .build())
-                    .needReconnect(true)
+        String asString = ACache.get(getBaseContext()).getAsString(AppConfig.TYPE_WS_REQUEST);
+        AppConfig.logs("asString"+asString);
+        if (!StrUtils.isEmpty(asString))
+            if (wsManager == null) {
+                wsManager = new WsManager.Builder(getBaseContext())
+                        .client(
+                                new OkHttpClient().newBuilder()
+                                        .pingInterval(40, TimeUnit.SECONDS)
+                                        .retryOnConnectionFailure(true)
+                                        .build())
+                        .needReconnect(true)
 //                    .wsUrl("ws://120.78.92.225:9093")
-                    .wsUrl(asString)
-                    .build();
-            wsManager.setWsStatusListener(wsStatusListener);
-            wsManager.startConnect();
+                        .wsUrl(asString)
+                        .build();
+                wsManager.setWsStatusListener(wsStatusListener);
+                wsManager.startConnect();
 
-           AppConfig.logs("--------------------ws:::"+ wsManager.isWsConnected()+"URL地址："+asString);
+                AppConfig.logs("--------------------ws:::"+ wsManager.isWsConnected()+"URL地址："+asString);
 
-        }
-
-//            String asString = aCache.getAsString(AppConfig.TYPE_WS_REQUEST);
-//            AppConfig.logs("asString"+asString);
-//            if (StrUtils.isEmpty(asString))
-//            {
-//                // TODO  Toast
-////            ToastUtil.show("系统错误，请联系管理员...");
-//                return;
-//            }
-
-
-
-
-
-
+            }
 
         AppConfig.logs("WsChannelService->:onStartCommand");
         try{

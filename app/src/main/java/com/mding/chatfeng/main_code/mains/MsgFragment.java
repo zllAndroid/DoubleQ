@@ -196,13 +196,17 @@ public class MsgFragment extends BaseFragment {
             myTask.execute();
         }
     }
+
     private class LongTimeTask extends AsyncTask<List<CusHomeRealmData>,Void,List<CusHomeRealmData>>
     {
         @Override
         protected void onPostExecute(List<CusHomeRealmData> o) {
             super.onPostExecute(o);
-            initAdapter();
+//            initAdapter();
             AppConfig.logs("-----------------------onPostExecute-----------接收----------------------");
+            Message message = new Message();
+            message.what=AppConfig.WHAT_REALM_INITADAPTER;
+            mHandlers.sendMessage(message);
             myTask=null;
             return;
         }
@@ -224,23 +228,6 @@ public class MsgFragment extends BaseFragment {
             }
             return null;
         }
-
-//        @Override
-//        protected List<CusHomeRealmData> doInBackground(List<CusHomeRealmData>... objects) {
-//            RealmHomeHelper  realmHelper = new RealmHomeHelper(getActivity());
-//            if (mList.size()==0) {
-//                List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
-//                if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
-//                    mList.clear();
-//                    mList.addAll(cusHomeRealmData);
-////                    addListMethon(cusHomeRealmData);
-//                }else
-//                {
-//                    return null;
-//                }
-//            }
-//            return null;
-//        }
     }
     @Override
     protected void onFragmentHandleMessage(Message msg) {

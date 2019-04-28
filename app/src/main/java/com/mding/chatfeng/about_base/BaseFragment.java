@@ -28,19 +28,22 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
+
 /**
  * 公共基类
  *   zll
  * @Time 2017-11-01
  */
 public class BaseFragment extends Fragment  {
-//	public Handler mHandlers = new Handler() {
-//		@Override
-//		public void handleMessage(Message msg) {
-//			if (msg != null)
-//				onFragmentHandleMessage(msg);
-//		}
-//	};
+	public Handler mHandlers = new Handler() {
+		@Override
+		public void handleMessage(Message msg) {
+			if (msg != null)
+				onFragmentHandleMessage(msg);
+		}
+	};
 	public ACache mFragCache;
 	String simpleName;
 	@Override
@@ -49,7 +52,6 @@ public class BaseFragment extends Fragment  {
 
 		mFragCache = ACache.get(getActivity());
 		simpleName = getClass().getSimpleName();
-
 		EventBus.getDefault().register(this);
 
 
@@ -57,26 +59,6 @@ public class BaseFragment extends Fragment  {
 	}
 	public HandlerThread myHandlerThread ;
 	public Handler handler ;
-	public void initHand() {
-if (myHandlerThread==null) {
-	//创建一个线程,线程名字：handler-thread
-	myHandlerThread = new HandlerThread("handler-thread");
-	//开启一个线程
-	myHandlerThread.start();
-}
-		//在这个线程中创建一个handler对象
-		if (handler==null)
-		handler = new Handler( myHandlerThread.getLooper() ){
-			@Override
-			public void handleMessage(Message msg) {
-				super.handleMessage(msg);
-				//这个方法是运行在 handler-thread 线程中的 ，可以执行耗时操作
-				Log.d( "handler " , "消息： " + msg.what + "  线程： " + Thread.currentThread().getName()  ) ;
-			if (msg != null)
-				onFragmentHandleMessage(msg);
-			}
-		};
-	}
 	View view =null;
 	boolean mIsPrepare = false;		//视图还没准备好
 	boolean mIsVisible= false;		//不可见
