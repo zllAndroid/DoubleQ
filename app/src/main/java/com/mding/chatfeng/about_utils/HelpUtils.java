@@ -13,8 +13,11 @@ import android.util.Log;
 
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.main_code.about_login.LoginActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import org.json.JSONException;
@@ -37,7 +40,7 @@ public class HelpUtils {
 
         return AppManager.getAppManager().currentActivity();
     }
-//    // 判断网络连接状态
+    //    // 判断网络连接状态
     public static boolean isNetworkConnected(Context context) {
         if (context != null) {
             ConnectivityManager mConnectivityManager = (ConnectivityManager) context
@@ -198,10 +201,48 @@ public class HelpUtils {
                     case AppConfig.CODE_TOKEN_OUT:
                         //                    SplitWeb.getSplitWeb().USER_ID="";
                         ////                    AppManager.getAppManager().finishAllActivity();
-                        //                    IntentUtils.JumpTo(LoginActivity.class);
-                        //                    getACt().overridePendingTransition(0,0);
-                        //                    ACache.get(getACt()).clear();
-                        //                    SPUtils.clear(getACt());
+                        IntentUtils.JumpTo(LoginActivity.class);
+                        getACt().overridePendingTransition(0,0);
+                        BaseApplication.getaCache().clear();
+                        SPUtils.clear(getACt());
+                        return code;
+                    default:
+                        String msg = object.optString("msg").toString().trim();
+                        return msg;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "10086";
+    }
+    public static String HttpIsSucess(Context mContext,String result){
+        CustomDialog.Builder mBuilder;
+        try {
+            if (!result.equals("")&&result!=null) {
+
+                JSONObject object = null;
+                try {
+                    object = new JSONObject(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String code = object.optString("code").toString().trim();
+                if(code==null)
+                    return "";
+                switch (code) {
+                    case AppConfig.CODE_OK:
+                        return code;
+                    case AppConfig.CODE_TIMEOUT:
+                        return "1007";
+                    //                    break;
+                    case AppConfig.CODE_TOKEN_OUT:
+                        //                    SplitWeb.getSplitWeb().USER_ID="";
+                        ////                    AppManager.getAppManager().finishAllActivity();
+                        IntentUtils.JumpTo(LoginActivity.class);
+                        getACt().overridePendingTransition(0,0);
+                        BaseApplication.getaCache().clear();
+                        SPUtils.clear(mContext);
                         return code;
                     default:
                         String msg = object.optString("msg").toString().trim();
@@ -308,7 +349,7 @@ public class HelpUtils {
                         params.put("groupInfoList", objects);
                     String s = params.toJSONString();
                     String mStr=s.replace("\\n","");
-                     mStr=mStr.replace("\\","");
+                    mStr=mStr.replace("\\","");
                     mStr=mStr.replace("\"[","");
                     mStr=mStr.replace("\"]","");
 //                    MyLog.e("friendList","列表="+mStr);

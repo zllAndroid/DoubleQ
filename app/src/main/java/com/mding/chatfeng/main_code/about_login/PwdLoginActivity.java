@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.CountDownTimer;
+import android.os.RemoteException;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
@@ -47,7 +49,7 @@ import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
  * 作者：zll
  * 修改者：刘佳佳
  */
-public class PwdLoginActivity extends BaseActivity {
+public class PwdLoginActivity extends BaseLogin {
     @BindView(R.id.include_top_iv_back)
     ImageView includeTopIvBack;
     @BindView(R.id.include_top_tv_tital)
@@ -77,28 +79,11 @@ public class PwdLoginActivity extends BaseActivity {
 //        includeTopIvBack.setVisibility(View.INVISIBLE);
         includeTopTvTital.setText("短信登录");
         mLinBack.setVisibility(View.INVISIBLE);
-        mCache = ACache.get(this);
+        init(BaseApplication.getAppContext());
         initUrl();
         listenEnter();
-        if (intentFilter == null) {
-            intentFilter = new IntentFilter();
-            intentFilter.addAction("start_application");
-            registerReceiver(mRefreshBroadcastReceiver, intentFilter);
-        }
     }
-    IntentFilter intentFilter;
-    public BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals("start_application"))
-            {
-                if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId()))
-                    sendWeb(SplitWeb.getSplitWeb().bindUid());
-            }
-        }
-    };
+//    初始化获取url
     private void initUrl() {
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
         netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().PreRequest, new NetWorkUtlis.OnNetWork() {
@@ -176,7 +161,7 @@ public class PwdLoginActivity extends BaseActivity {
                 break;
         }
     }
-
+//获取短信验证码按钮
     private void initSendSms() {
         String phone = regEdPhone.getText().toString().trim();
         if (StrUtils.isEmpty(phone)) {
@@ -197,7 +182,7 @@ public class PwdLoginActivity extends BaseActivity {
             }
         });
     }
-
+//点击验证码登录，执行短信登录内容
     private void initCodeLogin() {
         timer.cancel();
         final String phone = regEdPhone.getText().toString().trim();
@@ -212,108 +197,17 @@ public class PwdLoginActivity extends BaseActivity {
 //            Tip.getDialog(this,"手机号不能为空");
             return;
         }
-//        if (!EditCheckUtils.isMobileNO(phone)) {
-//            ToastUtil.show("手机号输入有误");
-////            Tip.getDialog(this,"手机号输入有误");
-//            return;
-//        }
-        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().smsLogin(phone, code), new NetWorkUtlis.OnNetWork() {
-            @Override
-            public void onNetSuccess(String msg) {
-                SPUtils.put(PwdLoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, phone);
-                DataLogin dataLogin = JSON.parseObject(msg, DataLogin.class);
-                DataLogin.RecordBean record = dataLogin.getRecord();
-                if (record != null)
-                    SaveLoginResultData(record);
 
-            }
-        }, new NetWorkUtlis.OnNetWorkError() {
-            @Override
-            public void onNetError(String msg) {
-                pwdTvNotice.setVisibility(View.VISIBLE);
-                notice_timer.start();
-            }
-        });
-    }
-
-    private ACache mCache;
-    boolean isFirst = false;
-    @Override
-    public void receiveResultMsg(String responseText) {
-        super.receiveResultMsg(responseText);
-        String s = HelpUtils.backMethod(responseText);
-        if (s.equals("bindUid"))
-        if (!isFirst) {
-//                TODO 修改
-            IntentUtils.JumpFinishTo(PwdLoginActivity.this,LoadLinkManActivity.class);
-//            IntentUtils.JumpFinishTo(PwdLoginActivity.this,LoadDataActivity.class);
-//                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
-        }
-        else
-            IntentUtils.JumpFinishTo(PwdLoginActivity.this,FirstAddHeaderActivity.class);
-    }
-
-    private void SaveLoginResultData(DataLogin.RecordBean userInfo) {
-        String json = JSON.toJSON(userInfo).toString();
-        mCache.clear();
-        mCache.put(AppAllKey.TOKEN_KEY, json);
-        if (userInfo != null) {
-            mCache.put(IMAGE_BASE64, userInfo.getHeadImg());
-            String is_first_login = userInfo.getIsFirstLogin();
-            if (is_first_login.equals("1"))
-                isFirst = true;
-            else
-                isFirst = false;
-
-            initSetData(userInfo);
-        }
-//        if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId()))
-//        sendWeb(SplitWeb.getSplitWeb().bindUid());
-    }
-
-    private void initSetData(DataLogin.RecordBean dataLogin) {
-        SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
-        SPUtils.put(this,AppAllKey.USER_Token,dataLogin.getUserToken());
-
-        SPUtils.put(this, AppConfig.TYPE_NAME,dataLogin.getNickName());
-        SPUtils.put(this,AppConfig.TYPE_NO,dataLogin.getWxSno());
-        SPUtils.put(this,AppConfig.TYPE_PHONE,dataLogin.getWxSno());
-        SPUtils.put(this,AppConfig.User_HEAD_URL,dataLogin.getHeadImg());
-        SPUtils.put(this,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
-
-
-//        SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIpWs());
-        SplitWeb.getSplitWeb().USER_TOKEN = dataLogin.getUserToken();
-        SplitWeb.getSplitWeb().MOBILE = dataLogin.getMobile();
-        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
-        SplitWeb.getSplitWeb().NICK_NAME = dataLogin.getNickName();
-        SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
-        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
-        SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
-        SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
-        SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
-        mCache.put(AppAllKey.USER_ID_KEY,dataLogin.getUserId());
-        //TODO 集群
         try {
-            SplitWeb.getSplitWeb().WS_REQUEST = dataLogin.getServerIpWs();
-            SplitWeb.getSplitWeb().HTTP_REQUEST = dataLogin.getServerIpHttp();
-            String serverIpWs = dataLogin.getServerIpWs();
-            String serverIpHttp = dataLogin.getServerIpHttp();
-            mCache.remove(AppConfig.TYPE_WS_REQUEST);
-            mCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
-            mCache.remove(AppConfig.TYPE_URL);
-            mCache.put(AppConfig.TYPE_URL,serverIpHttp);
-        } catch (Exception e) {
+            SPUtils.put(PwdLoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, phone);
+            if(iLoginRequst!=null)
+                iLoginRequst.loginRequest(SplitWeb.getSplitWeb().smsLogin(phone, code));
+        } catch (RemoteException e) {
             e.printStackTrace();
         }
 
-        //TODO 集群
-        Intent intent = new Intent();
-        intent.setAction("server_application");
-        sendBroadcast(intent);
     }
-
+//短信倒计时
     private CountDownTimer timer = new CountDownTimer(60000, 1000) {
         @Override
         public void onTick(long l) {
@@ -323,7 +217,6 @@ public class PwdLoginActivity extends BaseActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-//            regTvSendCode.setBackgroundResource(R.drawable.btn_stroke_nor_b5);
         }
 
         @Override
@@ -334,6 +227,8 @@ public class PwdLoginActivity extends BaseActivity {
 //            regTvSendCode.setBackgroundResource(R.drawable.btn_stroke_sel);
         }
     };
+
+//    文本消失倒计时
     private CountDownTimer notice_timer = new CountDownTimer(3000,1000) {
         @Override
         public void onTick(long l) {
@@ -344,6 +239,35 @@ public class PwdLoginActivity extends BaseActivity {
             pwdTvNotice.setVisibility(View.INVISIBLE);
         }
     };
-
-
+//返回成功内容
+    @Override
+    void onLoginSuccees(String mLoginModel) {
+        String isSucess = HelpUtils.HttpIsSucess(mLoginModel);
+        if (isSucess.equals(AppAllKey.CODE_OK)) {
+            AboutLoginSaveData aboutLoginSaveData = new AboutLoginSaveData(PwdLoginActivity.this);
+            aboutLoginSaveData.initSaveData(mLoginModel);
+        }else {
+            ToastUtil.show(isSucess);
+        }
+    }
+//返回错误
+    @Override
+    void onLoginFail(String mLoginModel) {
+//        显示短信验证码输入错误的内容
+        pwdTvNotice.setVisibility(View.VISIBLE);
+//        启动倒计时
+        notice_timer.start();
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        try {
+            String asString = BaseApplication.getaCache().getAsString(AppAllKey.TOKEN_KEY);
+            if (!StrUtils.isEmpty(asString))
+                unbindService(this);
+//            stopService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

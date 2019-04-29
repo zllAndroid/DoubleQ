@@ -86,18 +86,6 @@ public class DealDataByApp {
         realmChatHelper = new RealmChatHelper(mContext);
         initReceiver();
     }
-//    public static void synData(Context mmContext ,String mmessage, RealmHomeHelper mrealmHelper,RealmChatHelper mrealmChatHelper,RealmGroupChatHelper mrealmGroupChatHelper) {
-//        mContext=mmContext;
-//        message=mmessage;
-////        realmHelper=mrealmHelper;
-////        realmChatHelper=mrealmChatHelper;
-////       realmGroupChatHelper=mrealmGroupChatHelper;
-//
-//        realmHelper = new RealmHomeHelper(mContext);
-//        realmGroupChatHelper = new RealmGroupChatHelper(mContext);
-//        realmChatHelper = new RealmChatHelper(mContext);
-//        initReceiver();
-//    }
     public static void initReceiver() {
         //        接收消息时处理消息并存库
         String isSucess = HelpUtils.HttpIsSucess(message);
@@ -302,7 +290,7 @@ public class DealDataByApp {
             cusJumpChatData.setTime(record.getRequestTime());
 
             cusJumpChatData.setNum(0);
-//            realmHelper.updateNum(record.getFriendsId());
+            cusJumpChatData.setMessageType(record.getMessageType());
             realmHelper.addRealmMsgQun(cusJumpChatData);
         }
         //        发送广播更新首页
@@ -396,7 +384,7 @@ public class DealDataByApp {
 
         if (homeRealmData != null) {
 //            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
-            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
+            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType(),record.getMessageType());//更新首页聊天界面数据（消息和时间）
             realmHelper.updateNum(record.getFriendsId());//更新首页聊天界面数据（未读消息数目）
         } else {
             final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
@@ -524,7 +512,7 @@ public class DealDataByApp {
     private static void initMsgSend(DataJieShou.RecordBean record) {
         EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getFriendsId(),AppConfig.MSG_ACTION_REFRESH));
 //        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
-        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
+        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType(),record.getMessageType());//更新首页聊天界面数据（消息和时间）
     }
     private static void dealSend(String message) {
         DataJieShou dataJieShou = JSON.parseObject(message, DataJieShou.class);
@@ -661,7 +649,7 @@ public class DealDataByApp {
         CusHomeRealmData homeRealmData = realmHelper.queryAllRealmChat(record.getFriendsId());
 
         if (homeRealmData != null) {
-            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType());//更新首页聊天界面数据（消息和时间）
+            realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType(),record.getMessageType());//更新首页聊天界面数据（消息和时间）
             if (SplitWeb.getSplitWeb().IS_CHAT_Zero)
                 realmHelper.updateNum(record.getFriendsId(),record.getFriendsName());//更新首页聊天界面数据（未读消息数目）
             else {
@@ -679,7 +667,7 @@ public class DealDataByApp {
             cusJumpChatData.setMsgIsDisTurb(record.getDisturbType());
             cusJumpChatData.setTime(record.getRequestTime());
             cusJumpChatData.setNum(0);
-//            realmHelper.updateNum(record.getFriendsId());
+            cusJumpChatData.setMessageType(record.getMessageType());
             realmHelper.addRealmMsg(cusJumpChatData);
         }
         noChatUI(record.getMessage(),record.getFriendsId());

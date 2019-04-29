@@ -69,129 +69,35 @@ public class LoginActivity extends BaseLogin {
     public static int screenWidth;
     public static int screenHeight;
 
-    private ACache mCache;
-    String QR_CODE = "qrCode";
-    String swooleServer;
     @Override
     protected void initBaseView() {
         super.initBaseView();
-
-//        initSQL();
-//        writableDatabase.query("home_msg",null,"id",null,null,null,null);
-//        includeTopIvBack.setVisibility(View.INVISIBLE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenWidth = displayMetrics.widthPixels;
         screenHeight = displayMetrics.heightPixels;
         includeTopTvTital.setText("登录");
         mLinBack.setVisibility(View.INVISIBLE);
-//        Bundle bundle = this.getIntent().getExtras();
-//        String userPhone = null;
-//        if (bundle != null) {
-//            userPhone = bundle.getString("phone");
-//        }
-//        if (userPhone != null){
-//            loginEdPhone.setText(userPhone);
-//            loginEdPhone.setSelection(userPhone.length());//将光标移至文字末尾
-//        }
-        mCache = ACache.get(this);
         init(BaseApplication.getAppContext());
         //TODO  获取第一层url
         initUrl();
-
         listenEnter();
-
-        if (intentFilter == null) {
-            intentFilter = new IntentFilter();
-            intentFilter.addAction("start_application");
-            registerReceiver(mRefreshBroadcastReceiver, intentFilter);
-        }
     }
 
-
-    public  BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals("start_application"))
-            {
-                if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId()))
-                sendWeb(SplitWeb.getSplitWeb().bindUid());
-//                if (!isFirst) {
-//                    IntentUtils.JumpFinishTo(LoginActivity.this,LoadDataActivity.class);
-////                IntentUtils.JumpFinishTo(LoginActivity.this,MainActivity.class);
-//                }
-//                else
-//                    IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
-////                        initManagerService();
-            }
-        }
-    };
-    IntentFilter intentFilter;
     private void initUrl() {
         NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
         netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().PreRequest, new NetWorkUtlis.OnNetWork() {
             @Override
             public void onNetSuccess(String result) {
-                Log.e("result=", result + "---------------------------");
                 DataServer dataServer = JSON.parseObject(result, DataServer.class);
                 //测试
                 String swooleServer = dataServer.getSwooleServer();
-//                String swooleServer = dataServer.getSwooleServer_v1();
-                Log.e("result=", swooleServer + "----------swooleServerv1-----------------");
                 SplitWeb.getSplitWeb().HttpURL = swooleServer;
                 SPUtils.put(LoginActivity.this, AppConfig.TYPE_URL, swooleServer+"");
             }
         });
     }
 
-    private void initSetData(DataLogin.RecordBean dataLogin) {
-        SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
-        SPUtils.put(this,AppAllKey.USER_Token,dataLogin.getUserToken());
-
-        SPUtils.put(this, AppConfig.TYPE_NAME,dataLogin.getNickName());
-        SPUtils.put(this,AppConfig.TYPE_NO,dataLogin.getWxSno());
-        SPUtils.put(this,AppConfig.TYPE_PHONE,dataLogin.getWxSno());
-        SPUtils.put(this,AppConfig.User_HEAD_URL,dataLogin.getHeadImg());
-        SPUtils.put(this,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
-
-
-//        SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIpWs());
-        SplitWeb.getSplitWeb().USER_TOKEN = dataLogin.getUserToken();
-        SplitWeb.getSplitWeb().MOBILE = dataLogin.getMobile();
-        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
-        SplitWeb.getSplitWeb().NICK_NAME = dataLogin.getNickName();
-        SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
-        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
-        SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
-        SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
-        SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
-        mCache.put(AppAllKey.USER_ID_KEY,dataLogin.getUserId());
-        //TODO 集群
-        try {
-            SplitWeb.getSplitWeb().WS_REQUEST = dataLogin.getServerIpWs();
-            SplitWeb.getSplitWeb().HTTP_REQUEST = dataLogin.getServerIpHttp();
-            String serverIpWs = dataLogin.getServerIpWs();
-            String serverIpHttp = dataLogin.getServerIpHttp();
-            mCache.remove(AppConfig.TYPE_WS_REQUEST);
-            mCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
-            mCache.remove(AppConfig.TYPE_URL);
-            mCache.put(AppConfig.TYPE_URL,serverIpHttp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-                if (dataLogin.getIsFirstLogin().equals("1")) {
-                    IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
-                }
-                else
-                    IntentUtils.JumpFinishTo(LoginActivity.this,LoadLinkManActivity.class);
-
-//        //TODO 集群
-//        Intent intent = new Intent();
-//        intent.setAction("server_application");
-//        sendBroadcast(intent);
-    }
     @Override
     protected void onResume() {
         super.onResume();
@@ -225,20 +131,6 @@ public class LoginActivity extends BaseLogin {
         return false;
     }
 
-    @Override
-    public void receiveResultMsg(String responseText) {
-        super.receiveResultMsg(responseText);
-        String s = HelpUtils.backMethod(responseText);
-        if (s.equals("bindUid")) {
-            if (!isFirst) {
-//                TODO 修改
-                IntentUtils.JumpFinishTo(LoginActivity.this,LoadLinkManActivity.class);
-//                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
-            }
-            else
-                IntentUtils.JumpFinishTo(LoginActivity.this,FirstAddHeaderActivity.class);
-        }
-    }
     private void listenEnter() {
         loginEdPsw.setImeOptions(EditorInfo.IME_ACTION_SEND);
         loginEdPsw.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -252,7 +144,6 @@ public class LoginActivity extends BaseLogin {
             }
         });
     }
-
     @OnClick({R.id.login_tv_code_login, R.id.login_tv_forget_pwd, R.id.login_btn_login, R.id.login_tv_new_resgister})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -302,52 +193,15 @@ public class LoginActivity extends BaseLogin {
         } catch (RemoteException e) {
             e.printStackTrace();
         }
-
-//        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-//        netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower,SplitWeb.getSplitWeb().loginIn(phone, pwd), new NetWorkUtlis.OnNetWork() {
-//            @Override
-//            public void onNetSuccess(String msg) {
-//                SPUtils.put(LoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT,phone);
-//                SPUtils.put(LoginActivity.this,AppConfig.TYPE_PSW,pwd);
-//                SplitWeb.getSplitWeb().PSW=pwd;
-//                DataLogin dataLogin = JSON.parseObject(msg, DataLogin.class);
-//                DataLogin.RecordBean record = dataLogin.getRecord();
-//                if (record != null)
-//                    SaveLoginResultData(record);
-////                IntentUtils.JumpFinishTo(MainActivity.class);
-//            }
-//        });
-    }
-    boolean isFirst = false;
-    private void SaveLoginResultData(DataLogin.RecordBean userInfo,String json) {
-//        String json = JSON.toJSON(userInfo).toString();
-//        String json =   JSON.toJSONString(userInfo);
-        mCache.clear();
-        mCache.put(AppAllKey.TOKEN_KEY, json);
-        mCache.put(IMAGE_BASE64, userInfo.getHeadImg());
-        mCache.put(QR_CODE, userInfo.getQrcode());
-        MyLog.e("SaveLoginResultData",userInfo.toString());
-        if (userInfo!=null) {
-//            String is_first_login = userInfo.getIsFirstLogin();
-//            if (is_first_login.equals("1"))
-//                isFirst = true;
-//            else
-//                isFirst = false;
-
-            initSetData(userInfo);
-        }
     }
 
     @Override
     void onLoginSuccees(String mLoginModel) {
-      Log.e("onLoginSuccees","mLoginModel="+mLoginModel);
-        DataLogin dataLogin = JSON.parseObject(mLoginModel, DataLogin.class);
-        DataLogin.RecordBean record = dataLogin.getRecord();
-        if (record != null)
-            SaveLoginResultData(record,mLoginModel);
-
-
-
+        String isSucess = HelpUtils.HttpIsSucess(mLoginModel);
+        if (isSucess.equals(AppAllKey.CODE_OK)) {
+            AboutLoginSaveData aboutLoginSaveData = new AboutLoginSaveData(LoginActivity.this);
+            aboutLoginSaveData.initSaveData(mLoginModel);
+        }
     }
 
     @Override
@@ -359,14 +213,10 @@ public class LoginActivity extends BaseLogin {
     protected void onDestroy() {
         super.onDestroy();
         try {
-            unbindService(this);
+            String asString = BaseApplication.getaCache().getAsString(AppAllKey.TOKEN_KEY);
+            if (!StrUtils.isEmpty(asString))
+                unbindService(this);
 //            stopService(intent);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        try {
-            if (mRefreshBroadcastReceiver!=null)
-                unregisterReceiver(mRefreshBroadcastReceiver);
         } catch (Exception e) {
             e.printStackTrace();
         }

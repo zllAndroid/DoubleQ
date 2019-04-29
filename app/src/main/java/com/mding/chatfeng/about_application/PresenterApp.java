@@ -91,12 +91,7 @@ public class PresenterApp extends BaseApp {
             public void receivedCrash(Thread thread, Throwable throwable) {
             }
         });
-
-
-//        初始化缓存，集群部分
-        initCache();
         initRealm();
-
     }
 
     public  void start(Context mc)
@@ -135,33 +130,26 @@ public class PresenterApp extends BaseApp {
             }
         }
     }
-    long lastSendTime=0;
-    private void initCache() {
-//        if (aCache==null)
-//            aCache =  ACache.get(mContext);
-//        String asString = aCache.getAsString(AppConfig.TYPE_WS_REQUEST);
-//        initServerBro();
-//        if (StrUtils.isEmpty(asString)) {
-////            initServerBro();
-//        }else {
-//            initManagerService();
-//        }
-    }
 
     public static WebSocketServiceConnectManager mConnectManager =null;
     /**
      * 配置初始化realm数据库
      */
     private void initRealm() {
-        Realm.init(mContext);
-        RealmConfiguration configuration = new RealmConfiguration.Builder()
-                .name(RealmHomeHelper.DB_NAME)
-//                .deleteRealmIfMigrationNeeded()
-//                .schemaVersion(3)
-//                .migration(new Migration())
-                .deleteRealmIfMigrationNeeded()
-                .build();
-        Realm.setDefaultConfiguration(configuration);
+        try {
+            Realm.init(mContext);
+            RealmConfiguration configuration = new RealmConfiguration.Builder()
+                    .name(RealmHomeHelper.DB_NAME)
+    //                .deleteRealmIfMigrationNeeded()
+    //                .schemaVersion(3)
+    //                .migration(new Migration())
+    //                .deleteRealmIfMigrationNeeded()
+                    .build();
+            Realm.setDefaultConfiguration(configuration);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("Realm","------------------>>"+e);
+        }
 //        Realm.getDefaultInstance();
 //        Realm realm = Realm.getInstance(configuration);
     }
@@ -206,13 +194,28 @@ public class PresenterApp extends BaseApp {
         if (appView!=null)
             appView.backData(message);
         String method = HelpUtils.backMethod(message);
-        HelpUtils.HttpIsSucess(message);
-        if (method.equals("bindUid")) {
-            String only = HelpUtils.backOnly(message);
+        String isSucess = HelpUtils.HttpIsSucess(message);
+        switch (isSucess)
+        {
+            case AppAllKey.CODE_OK:
+                if (method.equals("bindUid")) {
+                    String only = HelpUtils.backOnly(message);
+                }
+                dealDataAsy myTask = new dealDataAsy();
+                myTask.execute(message);
+                break;
+            case AppAllKey.CODE_EPC:
+
+
+                break;
         }
-//        DealDataByApp.synData(mContext,message);
-        dealDataAsy myTask = new dealDataAsy();
-        myTask.execute(message);
+        if (isSucess.equals(AppAllKey.CODE_OK)) {
+            if (method.equals("bindUid")) {
+                String only = HelpUtils.backOnly(message);
+            }
+            dealDataAsy myTask = new dealDataAsy();
+            myTask.execute(message);
+        }
 //        DealDataByApp.synData(mContext,message,realmHelper,realmChatHelper,realmGroupChatHelper);
 //            DealDataByApp.initReceiver();
     }

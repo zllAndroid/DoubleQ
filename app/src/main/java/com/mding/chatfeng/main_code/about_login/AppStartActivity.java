@@ -33,6 +33,7 @@ import com.mding.chatfeng.about_base.BaseActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -229,7 +230,10 @@ public class AppStartActivity extends BaseLogin {
                 mCache=  ACache.get(this);
             String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
             if (!StrUtils.isEmpty(asString))
+            {
+                MyLog.e("unbindService","-----------un----------------->>appstartActivity");
                 unbindService(this);
+            }
 //            stopService(intent);
         } catch (Exception e) {
             e.printStackTrace();
@@ -291,6 +295,7 @@ public class AppStartActivity extends BaseLogin {
                     }else {
                         IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
                     }
+                    MyLog.e("unbindService","------------init---------------->>appstartActivity");
                     init(BaseApplication.getAppContext());
                     overridePendingTransition(0, 0);
                     return;

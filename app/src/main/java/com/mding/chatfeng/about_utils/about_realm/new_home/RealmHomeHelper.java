@@ -42,7 +42,7 @@ public class RealmHomeHelper {
         homeRealmData.setType(TypeMsg);
         homeRealmData.setUserid(SplitWeb.getSplitWeb().getUserId());
         homeRealmData.setTotalId(realmMsg.getFriendId()+SplitWeb.getSplitWeb().getUserId());
-
+        homeRealmData.setMessageType(homeRealmData.getMessageType());
         mRealm.beginTransaction();
 //        mRealm.copyToRealm(homeRealmData);//进来几次就添加几个
         mRealm.copyToRealmOrUpdate(homeRealmData);//有主键的情况下使用，添加更新
@@ -69,7 +69,7 @@ public class RealmHomeHelper {
         }
         homeRealmData.setNum(num + 1);
         homeRealmData.setTotalId(homeRealmData.getFriendId() + SplitWeb.getSplitWeb().getUserId());
-
+        homeRealmData.setMessageType(homeRealmData.getMessageType());
         mRealm.beginTransaction();
         mRealm.copyToRealmOrUpdate(homeRealmData);//有主键的情况下使用，添加更新
         mRealm.commitTransaction();
@@ -86,7 +86,7 @@ public class RealmHomeHelper {
         }
         homeRealmData.setNum(num + 1);
         homeRealmData.setTotalId(homeRealmData.getFriendId() + SplitWeb.getSplitWeb().getUserId());
-
+        homeRealmData.setMessageType(homeRealmData.getMessageType());
         mRealm.beginTransaction();
         mRealm.copyToRealmOrUpdate(homeRealmData);//有主键的情况下使用，添加更新
         mRealm.commitTransaction();
@@ -128,12 +128,15 @@ public class RealmHomeHelper {
     /**
      * update （改） 消息和时间
      */
-    public void updateMsg(String friendId, String msg, String time,String shield,String disturb,String top) {
+    public void updateMsg(String friendId, String msg, String time,String shield,String disturb,String top,String msgType) {
         CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
         if (realmMsg!=null) {
             mRealm.beginTransaction();
             realmMsg.setMsg(msg);
             realmMsg.setTime(time);
+
+            realmMsg.setMessageType(msgType);
+
             realmMsg.setMsgIsDisTurb(disturb);
             realmMsg.setIsTopMsg(top);
             realmMsg.setIsShield(shield);
@@ -148,6 +151,8 @@ public class RealmHomeHelper {
             realmMsg.setMsg(msg);
             realmMsg.setTime(time);
             realmMsg.setNickName(record.getGroupName());
+
+            realmMsg.setMessageType(record.getMessageType());
             realmMsg.setMsgIsDisTurb(record.getDisturbType());
             realmMsg.setIsTopMsg(record.getTopType());
             realmMsg.setIsShield(record.getOperationType());
@@ -197,6 +202,8 @@ public class RealmHomeHelper {
             mRealm.beginTransaction();
             realmMsg.setMsg(msg);
             realmMsg.setTime(time);
+            realmMsg.setMessageType(record.getMessageType());
+
             realmMsg.setMsgIsDisTurb(record.getDisturbType());
             realmMsg.setIsTopMsg(record.getTopType());
             realmMsg.setIsShield(record.getOperationType());

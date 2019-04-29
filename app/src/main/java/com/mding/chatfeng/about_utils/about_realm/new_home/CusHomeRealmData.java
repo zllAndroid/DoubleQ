@@ -36,6 +36,7 @@ public  class CusHomeRealmData extends RealmObject implements Parcelable {
     String userid;
     //    昵称
     String nickName;
+    String messageType;
     //    头像
     String headImg;
     //是否消息免打扰   1否2是
@@ -111,6 +112,14 @@ public  class CusHomeRealmData extends RealmObject implements Parcelable {
             return new CusHomeRealmData[size];
         }
     };
+
+    public void setMessageType(String messageType) {
+        this.messageType = messageType;
+    }
+
+    public String getMessageType() {
+        return messageType;
+    }
 
     public String getGroupNumMsg() {
         return groupNumMsg;
