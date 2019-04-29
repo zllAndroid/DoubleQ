@@ -71,6 +71,7 @@ public class AboutLoginSaveData {
         SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
         SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
         mCache.put(AppAllKey.USER_ID_KEY,dataLogin.getUserId());
+        mCache.put(AppAllKey.USER_Token,dataLogin.getUserToken());
 
         if (dataLogin.getIsFirstLogin().equals("1")) {
             IntentUtils.JumpFinishTo(mContext,FirstAddHeaderActivity.class);

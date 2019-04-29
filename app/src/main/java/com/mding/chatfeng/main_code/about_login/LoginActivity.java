@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.R;
@@ -17,6 +18,7 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.model.DataForceLogin;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
@@ -114,6 +116,26 @@ public class LoginActivity extends BaseLogin {
             }
         });
     }
+
+    @Override
+    public void receiveResultMsg(String responseText) {
+        super.receiveResultMsg(responseText);
+        String isSucess = HelpUtils.HttpIsSucess(responseText);
+        if (isSucess.equals(AppAllKey.CODE_OK)) {
+            String s = HelpUtils.backMethod(responseText);
+            if (s.equals("sendForceLogin")) {
+                DataForceLogin dataForceLogin = JSON.parseObject(responseText, DataForceLogin.class);
+                DataForceLogin.RecordBean record = dataForceLogin.getRecord();
+                if (record!=null)
+                {
+                    DialogUtils.showDialog(record.getMessage());
+                }
+
+
+            }
+        }
+    }
+
     @OnClick({R.id.login_tv_code_login, R.id.login_tv_forget_pwd, R.id.login_btn_login, R.id.login_tv_new_resgister})
     public void onViewClicked(View view) {
         switch (view.getId()) {

@@ -13,12 +13,15 @@ import android.util.Log;
 
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.main_code.about_login.LoginActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
+import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -199,10 +202,8 @@ public class HelpUtils {
                         return "1007";
                     //                    break;
                     case AppConfig.CODE_TOKEN_OUT:
-                        //                    SplitWeb.getSplitWeb().USER_ID="";
-                        ////                    AppManager.getAppManager().finishAllActivity();
                         IntentUtils.JumpTo(LoginActivity.class);
-                        getACt().overridePendingTransition(0,0);
+                        getACt().overridePendingTransition(0, 0);
                         BaseApplication.getaCache().clear();
                         SPUtils.clear(getACt());
                         return code;

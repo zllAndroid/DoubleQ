@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Service;
 import android.content.ComponentName;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
@@ -58,58 +59,16 @@ import site.gemus.openingstartanimation.OpeningStartAnimation;
 public class AppStartActivity extends BaseLogin {
 
     Timer timer = null;
-    //    @BindView(R.id.appstart_lin)
-//    LinearLayout appstartLin;
-//    @BindView(R.id.videoview)
-//    CustomVideoView videoview;
-    boolean isClick =true;
-    //创建播放视频的控件对象
-//    private CustomVideoView videoview;
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
     OpeningStartAnimation openingStartAnimation;
     @Override
     protected void initBaseView() {
         super.initBaseView();
-//         openingStartAnimation = new OpeningStartAnimation.Builder(this)
-//                .setDrawStategy(new RotationDrawStrategy()) //设置动画效果
-////                .setAppIcon((Drawable) getResources().getDrawable(R.drawable.tttest)) //设置图标
-////                .setAppIcon((Drawable)bmp) //设置图标
-//                .setColorOfAppIcon(getResources().getColor(R.color.app_theme)) //设置绘制图标线条的颜色
-////                .setAppName() //设置app名称
-////                .setColorOfAppName() //设置app名称颜色
-//                .setAppStatement("just  do  it") //设置一句话描述
-//                .setColorOfAppStatement(getResources().getColor(R.color.app_theme)) // 设置一句话描述的颜色
-//                .setAnimationInterval(3000) // 设置动画时间间隔
-//                .setAnimationFinishTime(1500) // 设置动画的消失时长
-//                .create();
-//
-//        serviceConnection = new MyServiceConnection();
-//        initNetReceive();
-////        TODO 测试创建数据库，添加一条数据在home_msg表
-//        DBgreatTable dBgreatTable = new DBgreatTable(this);
-//        SQLiteDatabase writableDatabase = dBgreatTable.getWritableDatabase();
-//        ContentValues values = new ContentValues();
-//        values.put("userId","1234");
-//        values.put("friendId","456");
-//        writableDatabase.insert(TotalEntry.TABLE_NAME_Msg,null,values);
-
-//        SQLiteDatabase   db= (new DBgreatTable(this)).getWritableDatabase();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
             AppStartActivityPermissionsDispatcher.needWithCheck(this);
 //            need();
         else
             need();
-    }
-    private NetReceiver mReceiver;
-    private void initNetReceive() {
-        mReceiver = new NetReceiver();
-        IntentFilter mFilter = new IntentFilter();
-        mFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        this.registerReceiver(mReceiver, mFilter);
     }
     private WindowService.MyBinder mybinder;
 
@@ -167,32 +126,18 @@ public class AppStartActivity extends BaseLogin {
     TimerTask task = new TimerTask() {
         @Override
         public void run() {
-//            IntentUtils.JumpFinishTo(LoginActivity.class);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 //                showFloatingWindow();
             }
-//            IntentUtils.JumpFinishTo(MainActivity.class);
-//            IntentUtils.JumpTo(LoginActivity.class);
-//            AppManager.getAppManager().finishActivity(AppStartActivity.this);
-//            init(BaseApplication.getAppContext());
             initCaChe();
-//            if (isClick) {
-////                IntentUtils.JumpFinishTo(MainActivity.class);
-////                openingStartAnimation.show(AppStartActivity.this);
-//
-//            }
         }
-
-
     };
 
     @Override
     public void initStateBar() {
         StatusBarUtil.setRootViewFitsSystemWindows(this,false);
-
     }
-
 
     @Override
     public boolean isSupportSwipeBack() {
@@ -208,21 +153,12 @@ public class AppStartActivity extends BaseLogin {
         return false;
     }
 
-
-
-
     @Override
     void onLoginSuccees(String mLoginModel) {
-
     }
-
     @Override
     void onLoginFail(String mLoginModel) {
-
     }
-
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -235,41 +171,21 @@ public class AppStartActivity extends BaseLogin {
                 MyLog.e("unbindService","-----------un----------------->>appstartActivity");
                 unbindService(this);
             }
-//            stopService(intent);
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (timer != null)
             timer.cancel();
 
-        try {
-            if (mReceiver!=null)
-                unregisterReceiver(mReceiver);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
-    //    @OnClick(R.id.appstart_lin)
-//    public void onViewClicked() {
-//        if (timer != null) {
-//            timer.cancel();
-//        }
-//        isClick=false;
-//        IntentUtils.JumpFinishTo(LoginDealActivity.class);
-//    }
-//    SYSTEM_ALERT_WINDOW
     @NeedsPermission({Manifest.permission.CAMERA, Manifest.permission.ACCESS_NETWORK_STATE,Manifest.permission.READ_EXTERNAL_STORAGE
             ,Manifest.permission.WRITE_EXTERNAL_STORAGE
     })
     void need() {
-//        openingStartAnimation.show(AppStartActivity.this);
         if (timer == null) {
             timer = new Timer();
             timer.schedule(task, 1500);
-
         }
-
-//        ToastUtil.show("权限通过执行");
     }
     private ACache mCache;
     private void initCaChe() {
@@ -277,7 +193,6 @@ public class AppStartActivity extends BaseLogin {
         if (mCache==null)
             mCache = ACache.get(this);
         if (mCache!=null){
-
             String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
             if (!StrUtils.isEmpty(asString))
             {
@@ -286,14 +201,13 @@ public class AppStartActivity extends BaseLogin {
                 DataLogin.RecordBean record = dataLogin.getRecord();
 //                DataLogin.RecordBean dataLogin = JSON.parseObject(asString, DataLogin.RecordBean.class);
                 if (record!=null) {
-                    initSetData(record);
+                    initSetData(AppStartActivity.this,record);
                     String asFriend = mCache.getAsString(AppAllKey.FRIEND_DATA);
                     Log.e("result","FRIEND_DATA信息="+asFriend);
 //                    IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
 
                     if (StrUtils.isEmpty(asFriend))
                     {
-//                        IntentUtils.JumpFinishTo(AppStartActivity.this, LoadDataActivity.class);
                         IntentUtils.JumpFinishTo(AppStartActivity.this, LoadLinkManActivity.class);
                     }else {
                         IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
@@ -307,44 +221,28 @@ public class AppStartActivity extends BaseLogin {
         }
         IntentUtils.JumpFinishTo(AppStartActivity.this,LoginActivity.class);
         overridePendingTransition(0,0);
-
     }
+    private void initSetData(Context mContext,DataLogin.RecordBean dataLogin) {
+        SPUtils.put(mContext, AppAllKey.USER_ID_KEY,dataLogin.getUserId());
+        SPUtils.put(mContext,AppAllKey.USER_Token,dataLogin.getUserToken());
 
-    private void initSetData(DataLogin.RecordBean dataLogin) {
-        if(dataLogin!=null){
-            if(!StrUtils.isEmpty(dataLogin.getUserId()))
-                SPUtils.put(this,AppAllKey.USER_ID_KEY,dataLogin.getUserId());
-            if(!StrUtils.isEmpty(dataLogin.getUserToken()))
-                SPUtils.put(this,AppAllKey.USER_Token,dataLogin.getUserToken());
-            if(!StrUtils.isEmpty(dataLogin.getMobile()))
-                SPUtils.put(this, AppAllKey.SP_LOGIN_ACCOUNT,dataLogin.getMobile());
-            SplitWeb.getSplitWeb().USER_TOKEN = dataLogin.getUserToken();
-            SplitWeb.getSplitWeb().MOBILE = dataLogin.getMobile();
-            SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
-            SplitWeb.getSplitWeb().NICK_NAME = dataLogin.getNickName();
-            SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
-            SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
-            SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
-            SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
-            SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
+        SPUtils.put(mContext, AppConfig.TYPE_NAME,dataLogin.getNickName());
+        SPUtils.put(mContext,AppConfig.TYPE_NO,dataLogin.getWxSno());
+        SPUtils.put(mContext,AppConfig.TYPE_PHONE,dataLogin.getWxSno());
+        SPUtils.put(mContext, AppConfig.User_HEAD_URL,dataLogin.getHeadImg());
+        SPUtils.put(mContext,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
 
-//            //TODO 集群
-//            try {
-////                SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
-////                SplitWeb.HTTP_REQUEST = dataLogin.getServerIpHttp();
-//                SplitWeb.getSplitWeb().WS_REQUEST = dataLogin.getServerIpWs();
-//                SplitWeb.getSplitWeb().HTTP_REQUEST = dataLogin.getServerIpHttp();
-//                String serverIpWs = dataLogin.getServerIpWs();
-//                String serverIpHttp = dataLogin.getServerIpHttp();
-//                mCache.remove(AppConfig.TYPE_WS_REQUEST);
-//                mCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
-//                mCache.remove(AppConfig.TYPE_URL);
-//                mCache.put(AppConfig.TYPE_URL,serverIpHttp);
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
-        }
+        SplitWeb.getSplitWeb().USER_TOKEN = dataLogin.getUserToken();
+        SplitWeb.getSplitWeb().MOBILE = dataLogin.getMobile();
+        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
+        SplitWeb.getSplitWeb().NICK_NAME = dataLogin.getNickName();
+        SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
+        SplitWeb.getSplitWeb().QR_CODE = dataLogin.getQrcode();
+        SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
+        SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
+        SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
+        mCache.put(AppAllKey.USER_ID_KEY,dataLogin.getUserId());
+        mCache.put(AppAllKey.USER_Token,dataLogin.getUserToken());
     }
     //    @NeedsPermission(value = {Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, maxSdkVersion = 16)
 //    void OnNeed() {

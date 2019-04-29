@@ -106,75 +106,6 @@ public class ChannelDeamon extends Service {
         @Override
         public void loginRequest(String loginUrl) throws RemoteException {
             initHttp(callback,loginUrl);
-//            AppConfig.logs("========elseIF==str======"+loginUrl);
-//            try{
-//                AppConfig.logs("=======loginUrl========="+loginUrl);
-//                //ok3请求
-//                OkHttpClient mOkHttpClient = new OkHttpClient();
-//                Request.Builder requestBuilder = new Request.Builder().url(loginUrl);
-//                requestBuilder.method("GET",null);
-//                Request request = requestBuilder.build();
-//                Call mcall = mOkHttpClient.newCall(request);
-//
-//                //get
-//                mOkHttpClient.newCall(request).enqueue(null);
-//                //
-//                mOkHttpClient.newCall(request).enqueue(new Callback() {
-//                    @Override
-//                    public void onFailure(Call call, IOException e) {
-//                        try {
-//
-//                            callback.onFailure("请求失败");
-//                        } catch (RemoteException e1) {
-//                            e1.printStackTrace();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onResponse(Call call, Response response) throws IOException {
-//                        String body=response.body().string();
-//                        if (null != response.cacheResponse()) {
-//                            String str = response.cacheResponse().toString();
-//                            try {
-//                                callback.onFailure(str);
-//                            } catch (RemoteException e) {
-//                                e.printStackTrace();
-//                            }
-//                        } else if(!response.isSuccessful()) {
-//                            String str = response.networkResponse().toString();
-//                            try {
-//                                callback.onFailure(str);
-//                            } catch (RemoteException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }else{
-//                            String str =response.networkResponse().toString();
-//                            AppConfig.logs("========elseIF==str======"+str);
-//                            try {
-//                                MyLog.e("body","body="+body);
-////                                initDataDeal(body);
-//                                callback.onSuccess(body );
-//                            } catch (RemoteException e) {
-//                                e.printStackTrace();
-//                            }
-//                            //启动 WsChannelService 进入消息通道服务
-////                            if(intent==null)
-////                            {
-////                                //启动WS通道连接服务
-////                                intent=new Intent(ChannelDeamon.this, WsChannelService.class);
-////                                intent.putExtra("data",body);
-////                                startService(intent);
-////                            }else {
-////                                //尝试重连Ws，此次肯定至少是从第二次开始连接
-////                                intent.putExtra("data",body);
-////                                startService(intent);
-////                            }
-//                        }
-//                    }
-//                });
-//            }catch (Exception e){
-//                callback.onFailure("请求连接格式不规范");
-//            }
 
         }
 
@@ -213,51 +144,6 @@ public class ChannelDeamon extends Service {
             }
         });
     }
-
-
-  /*  //（2）与通道服务互动，主要获取回执，如果在指定时间内没有回执，则重启通道服务
-    ServiceConnection conn = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-
-            //获得Service中的WsChannelService
-            mIGetData=(WsChannelService.WsCreateBinder)service;
-            //新建接口，并且获得数据
-            mIGetData.register(new IGetDataCallBacks() {
-                @Override
-                public void receiveData(String msg) {
-                    //此处还可以拓展一个定时监听回执接口，如果在指定时间内，得不到回执，那么就重启通道（对象为空也要重启通道，不在此处做）
-                    AppConfig.logs(msg+"-------------本条消息发送成功");
-
-                }
-
-            });
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    //这里写入子线程需要做的工作
-                    while(true){
-                        try {
-                            Thread.sleep(1000);
-                            mIGetData.sendMsgToWs("你好！！！");
-
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                            AppConfig.logs("-------------sendMsgToWs执行崩溃");
-                        }
-                    }
-                }
-            }).start(); //启动线程;
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-    };*/
-
 
     @Override
     public void onDestroy() {

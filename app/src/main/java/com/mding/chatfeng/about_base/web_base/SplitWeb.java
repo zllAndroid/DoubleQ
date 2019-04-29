@@ -69,7 +69,7 @@ public class SplitWeb {
 //        Log.e("getUserId","getUserId="+USER_ID);
 //        return USER_ID;
 //    }
-
+public boolean isOne =true;
     public  String getUserId() {
 //        if(StrUtils.isEmpty(USER_ID))
             USER_ID= BaseApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);
@@ -104,7 +104,8 @@ public class SplitWeb {
     }
     public  String getUserToken() {
 //        if(StrUtils.isEmpty(USER_TOKEN))
-            USER_TOKEN= (String )SPUtils.get(BaseApplication.getAppContext(),AppAllKey.USER_Token,"");
+            USER_TOKEN= BaseApplication.getaCache().getAsString(AppAllKey.USER_Token);
+//            USER_TOKEN= (String )SPUtils.get(BaseApplication.getAppContext(),AppAllKey.USER_Token,"");
         return USER_TOKEN;
     }
 
