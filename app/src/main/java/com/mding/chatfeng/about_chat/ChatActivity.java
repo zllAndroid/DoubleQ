@@ -275,7 +275,7 @@ public class ChatActivity extends BaseActivity {
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
 //        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-        sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
+//        sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
         if (isLocked){
             includeTopIvLock.setVisibility(View.VISIBLE);
         }
@@ -286,6 +286,7 @@ public class ChatActivity extends BaseActivity {
         initWidget();
 //        初始化数据库的聊天记录
         initRealm();
+
 //        通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
         realmHomeHelper.updateNumZero(FriendId);
         listenEnter();
@@ -326,8 +327,10 @@ public class ChatActivity extends BaseActivity {
                 cusChatPop.setContext(this);
                 cusChatPop.setType("1");
                 cusChatPop.setFriendId(FriendId);
-                cusChatPop.setGroupingName(groupName);
-                cusChatPop.setRemarkName(remarkName);
+//                cusChatPop.setGroupingName(groupName);
+//                cusChatPop.setRemarkName(remarkName);
+                cusChatPop.setGroupingName(StrUtils.isEmpty(cusJumpChatData.getFriendGroupName()) ? "暂无" : cusJumpChatData.getFriendGroupName());
+                cusChatPop.setRemarkName(StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? "暂无" : cusJumpChatData.getFriendRemarkName());
                 cusChatPop.setChatLinMainWhole(chatLinMainWhole);
                 cusChatPop.setLocked(isLocked);
                 if (chatPopWindow == null)
@@ -556,10 +559,10 @@ public class ChatActivity extends BaseActivity {
         switch (method) {
 //            发送消息返回
             case Methon.PrivateSend:  // sendPrivateChat  私聊新接口
-                String ed = editText.getText().toString().trim();
-                if (!StrUtils.isEmpty(ed)) {
-                    editText.setText("");
-                }
+//                String ed = editText.getText().toString().trim();
+//                if (!StrUtils.isEmpty(ed)) {
+//                    editText.setText("");
+//                }
                 dealSendResult(responseText);
                 break;
             case Methon.PrivateChat:
@@ -567,16 +570,17 @@ public class ChatActivity extends BaseActivity {
                 break;
             case "friendRemarkName":
                 String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
-                includeTopTvTital.setText("和" + nameText + "的聊天");
+                includeTopTvTital.setText(nameText);
 //                sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
                 break;
             case "privateSendInterface":
                 dataChatPop = JSON.parseObject(responseText, DataChatPop.class);
                 DataChatPop.RecordBean recordBean = dataChatPop.getRecord();
                 if (recordBean != null) {
+                    String name = StrUtils.isEmpty(recordBean.getRemarkName()) ? recordBean.getNickName() : recordBean.getRemarkName();
+                    includeTopTvTital.setText(name);
                     remarkName = StrUtils.isEmpty(recordBean.getRemarkName()) ? "暂未设置" : recordBean.getRemarkName();
                     groupName = StrUtils.isEmpty(recordBean.getGroupName()) ? "暂无" : recordBean.getGroupName();
-                   String name=StrUtils.isEmpty(recordBean.getRemarkName()) ? recordBean.getNickName() : recordBean.getRemarkName();
                     includeTopTvTital.setText(name);
                 }
                 break;
@@ -644,7 +648,6 @@ public class ChatActivity extends BaseActivity {
     }
     Intent mIntent = null;
     String time = null;
-
     private void dealSendResult(String responseText) {
         DataJieShou dataJieShou = JSON.parseObject(responseText, DataJieShou.class);
         DataJieShou.RecordBean record = dataJieShou.getRecord();
@@ -664,6 +667,17 @@ public class ChatActivity extends BaseActivity {
                     e.printStackTrace();
                 }
             }
+
+            if (record.getMessageType().equals(messageType)){
+                String ed = editText.getText().toString().trim();
+                if (!StrUtils.isEmpty(ed)) {
+                    editText.setText("");
+                }
+            }
+            else if (record.getMessageType().equals(messageTypeImg)){
+                ToastUtil.isDebugShow("发送图片成功!");
+            }
+
             record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
             record.setType(Constants.CHAT_ITEM_TYPE_RIGHT);
             chatAdapter.add(record);

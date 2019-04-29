@@ -57,13 +57,19 @@
                 android:layout_marginRight="@dimen/dp40"
                 >
                 <!--android:layout_toLeftOf="@id/chat_item_header"-->
+                <!--<com.rance.chatui.util.about_bubbleimageview.BubbleImageView-->
+                    <!--android:id="@+id/chat_item_by_image"-->
+                    <!--android:layout_width="60dp"-->
+                    <!--android:layout_height="70dp"-->
+                   <!--/>-->
                 <com.rance.chatui.widget.BubbleImageView
                     android:id="@+id/chat_item_content_image"
-                    android:layout_width="75dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="centerCrop"
+                    android:adjustViewBounds="true"
                     app:angle="6dp"
                     app:arrowHeight="8dp"
+                    android:visibility="gone"
                     app:arrowLocation="right"
                     app:arrowPosition="15dp"
                     app:arrowWidth="10dp" />

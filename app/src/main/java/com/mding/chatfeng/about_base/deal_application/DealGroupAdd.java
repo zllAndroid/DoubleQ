@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
+import com.mding.chatfeng.about_utils.JsonUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataGroup;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
@@ -309,7 +310,8 @@ public class DealGroupAdd {
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
 
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
 
         Log.e("jsonString","不展开（修改）="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
@@ -367,7 +369,8 @@ public class DealGroupAdd {
             DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
             recordBean.setGroupInfoList(group_info_list);
 
-            String jsonString = JSON.toJSONString(recordBean);
+//            String jsonString = JSON.toJSONString(recordBean);
+            String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
             Log.e("jsonString","减少="+jsonString);
             aCache.remove(AppAllKey.GROUD_DATA);
             aCache.put(AppAllKey.GROUD_DATA, jsonString);
@@ -468,7 +471,8 @@ public class DealGroupAdd {
 
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","原本没有本chart展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
@@ -500,7 +504,8 @@ public class DealGroupAdd {
 
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","原本没有本chart展开（修改）="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
@@ -549,7 +554,8 @@ public class DealGroupAdd {
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
 
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
 
         Log.e("jsonString","展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
@@ -576,7 +582,8 @@ public class DealGroupAdd {
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
 
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
 
         Log.e("jsonString","展开（修改）="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);

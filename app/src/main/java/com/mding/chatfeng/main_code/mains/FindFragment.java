@@ -7,12 +7,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.mding.chatfeng.main_code.ui.about_discovery.FriendCircleActivity;
 import com.mding.chatfeng.about_base.BaseFragment;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;

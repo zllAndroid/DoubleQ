@@ -18,6 +18,7 @@ import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
 import com.rance.chatui.util.Constants;
+//import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
 
@@ -33,7 +34,8 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
     @BindView(R.id.chat_item_content_text)
     GifTextView chatItemContentText;
     @BindView(R.id.chat_item_content_image)
-    BubbleImageView chatItemContentImage;
+//    @BindView(R.id.chat_item_by_image)
+            BubbleImageView chatItemContentImage;
     @BindView(R.id.chat_item_voice)
     ImageView chatItemVoice;
     @BindView(R.id.chat_item_layout_content)

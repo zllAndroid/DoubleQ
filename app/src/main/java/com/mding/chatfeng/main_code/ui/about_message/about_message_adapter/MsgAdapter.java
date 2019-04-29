@@ -35,7 +35,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolder> {
     Context context;
     public List<CusHomeRealmData> data;
-//    RealmFriendUserHelper realmFriendUserHelper;
+    //    RealmFriendUserHelper realmFriendUserHelper;
 //    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
 //    RealmGroupHelper realmGroupHelper;
     public MsgAdapter(Context context, List<CusHomeRealmData> data, ItemTouchListener mItemTouchListener) {
@@ -78,7 +78,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         helper.addOnClickListener(R.id.item_tv_click_ok);
         helper.addOnClickListener(R.id.item_msg_re);
 
-        ImageView mIvHead = (ImageView) helper.getView(R.id.item_iv_head);
+        ImageView mIvHead = helper.getView(R.id.item_iv_head);
         TextView mTvNum = helper.getView(R.id.item_tv_num);
 //        TextView mTvMsg = helper.getView(R.id.item_tv_msg);
 //        ImageView mIvClick = (ImageView) helper.getView(R.id.item_tv_click_ok);
@@ -104,7 +104,10 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                 ImageUtils.useBase64WithError(context,mIvHead,imgPath,errorImg);
                 helper.setText(R.id.item_tv_name,nickName);
             }
-            helper.setText(R.id.item_tv_msg,item.getMsg());
+            if (item.getMsg().length() > 100000){
+                helper.setText(R.id.item_tv_msg, "[图片]");
+            }else
+                helper.setText(R.id.item_tv_msg,item.getMsg());
 
             helper.setText(R.id.item_tv_time, TimeUtil.formatDisplayTime(item.getTime(),null));
 //          helper.setText(R.id.item_tv_time,item.getTime());

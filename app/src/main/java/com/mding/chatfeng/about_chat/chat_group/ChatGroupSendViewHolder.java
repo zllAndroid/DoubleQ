@@ -36,6 +36,7 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
     @BindView(R.id.chat_item_content_text)
     GifTextView chatItemContentText;
     @BindView(R.id.chat_item_content_image)
+//    @BindView(R.id.chat_item_by_image)
     BubbleImageView chatItemContentImage;
     @BindView(R.id.chat_item_fail)
     ImageView chatItemFail;
@@ -161,7 +162,7 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
                     chatItemVoiceTime.setVisibility(View.VISIBLE);
                     chatItemContentImage.setVisibility(View.GONE);
                     chatItemVoiceTime.setText("文件");
-    //                chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
+                    //                chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
                     chatItemLayoutContent.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

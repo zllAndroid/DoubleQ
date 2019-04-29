@@ -33,6 +33,7 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.MyAccountActivity;
 import com.mding.model.CusJumpChatData;
+import com.mding.model.DataChatPop;
 import com.mding.model.DataMyFriend;
 import com.mding.model.DataScanFirendRequest;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -230,7 +231,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 }
                 break;
             case "friendRemarkName"://修改备注成功
-                if (contant.equals(""))
+                if (StrUtils.isEmpty(contant))
                     fdTvBeizhu.setText("暂未设置备注");
                 else
                     fdTvBeizhu.setText(contant + "");
@@ -258,10 +259,17 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     }
                 });
                 break;
+            case "privateSendInterface":
+                DataChatPop dataChatPop = JSON.parseObject(responseText, DataChatPop.class);
+                DataChatPop.RecordBean recordBean = dataChatPop.getRecord();
+                if (recordBean != null){
+                    groupName = recordBean.getGroupName();
+                }
+                break;
         }
 
     }
-
+String groupName;
     DataMyFriend.RecordBean dataRecord1;
 
     private void initDataFriend(String responseText) {
@@ -407,12 +415,14 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     {
                         AppManager.getAppManager().finishActivity(this);
                     }else {
+                        sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
                         if (dataRecord != null) {
                             CusJumpChatData cusJumpChatData = new CusJumpChatData();
                             cusJumpChatData.setFriendHeader(dataRecord.getHeadImg());
                             cusJumpChatData.setFriendId(dataRecord.getFriendId());
                             cusJumpChatData.setFriendName(dataRecord.getNickName());
                             cusJumpChatData.setFriendRemarkName(dataRecord.getRemarkName());
+                            cusJumpChatData.setFriendGroupName(groupName);
                             realmHelper.addRealmMsg(cusJumpChatData);
                             if (esc != null && esc.equals("esc")) {
 //                            AppManager.getAppManager().finishActivity(ChatActivity.class);

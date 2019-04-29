@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
+import com.mding.chatfeng.about_utils.JsonUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.DataModifyGroupOfList;
@@ -183,7 +184,8 @@ public class DealModifyGroupList {
         GroupList.get(i).setGroupName(mRecord.getNewGroupManageName());
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(GroupList);
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","不展开（群添加至分组）="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
@@ -231,7 +233,8 @@ public class DealModifyGroupList {
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(GroupList);
 
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","更改群分组（删）="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);

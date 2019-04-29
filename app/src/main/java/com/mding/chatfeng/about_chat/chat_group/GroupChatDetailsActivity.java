@@ -69,6 +69,7 @@ import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoW
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ClipImgActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.mding.model.DataAddQunDetails;
+import com.mding.model.DataChatGroupPop;
 import com.mding.model.DataSetGroupHeadResult;
 import com.mding.model.GroupHeadImgInfo;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -363,9 +364,44 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 String text1 = checked2 ? "设置免打扰成功" : "取消免打扰";
                 ToastUtil.show(text1);
                 break;
+
+            case "groupSendInterface":
+                // 群聊
+                CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
+                DataChatGroupPop dataChatGroupPop = JSON.parseObject(responseText, DataChatGroupPop.class);
+                DataChatGroupPop.RecordBean recordBean = dataChatGroupPop.getRecord();
+                if (recordBean != null){
+                    DataChatGroupPop.RecordBean.GroupDetailInfoBean groupDetailInfoBean = recordBean.getGroupDetailInfo();
+                    if (groupDetailInfoBean != null){
+                        DataChatGroupPop.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean = groupDetailInfoBean.getGroupInfo();
+                        if (groupInfoBean != null){
+                            cusJumpGroupChatData.setGroupName(groupInfoBean.getGroupName());
+                        }
+                        DataChatGroupPop.RecordBean.GroupDetailInfoBean.UserInfoBean userInfoBean = groupDetailInfoBean.getUserInfo();
+                        if (userInfoBean != null){
+                            cusJumpGroupChatData.setGroupId(groupId);
+                            cusJumpGroupChatData.setCardName(userInfoBean.getCarteName());
+                            cusJumpGroupChatData.setIdentifyType(userInfoBean.getIdentityType());
+                        }
+                    }
+                }
+//                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
+//                cusHomeRealmData.setHeadImg(groupHeadImg);
+//                cusHomeRealmData.setFriendId(groupId);
+//                cusHomeRealmData.setNickName(groupChatName);
+//                cusHomeRealmData.setNum(0);
+//                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
+//                if (cusHomeRealmData1!=null)
+//                {
+//                    realmHelper.updateGroup(groupId,cusHomeRealmData);
+//                }else
+//                {
+//                    realmHelper.addRealmMsgQun(cusHomeRealmData);
+//                }
+                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
+                break;
         }
     }
-
     CustomPopWindow popWindow;
     private PhotoPopWindow photoPopWindow = null;
     //为弹出窗口实现监听类
@@ -625,7 +661,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 cusDataFriendUser.setRemarkName(groupUser.getNickName());
                 cusDataFriendUser.setTime(groupUser.getModified());
                 //TODO 用户信息存库（用户表）
-              friendUserHelper.updateAllOrAdd(friendId,cusDataFriendUser);//添加或者更新（存在则更新，不存在则增加）
+                friendUserHelper.updateAllOrAdd(friendId,cusDataFriendUser);//添加或者更新（存在则更新，不存在则增加）
             }
         }
 
@@ -928,11 +964,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 {
                     AppManager.getAppManager().finishActivity(this);
                 }else{
-                    // 群聊
-                    CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
-                    cusJumpChatData.setGroupId(groupId);
-                    cusJumpChatData.setGroupName(groupChatName);
-
                     final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
                     cusHomeRealmData.setHeadImg(groupHeadImg);
                     cusHomeRealmData.setFriendId(groupId);
@@ -946,7 +977,14 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     {
                         realmHelper.addRealmMsgQun(cusHomeRealmData);
                     }
-                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+
+                    sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
+//                    // 群聊
+//                    CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
+//                    cusJumpChatData.setGroupId(groupId);
+//                    cusJumpChatData.setGroupName(groupChatName);
+//
+//                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
                 }
                 break;
         }

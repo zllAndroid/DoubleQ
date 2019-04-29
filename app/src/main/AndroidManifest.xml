@@ -518,7 +518,9 @@
             android:name=".about_chat.fragment.ShowImgActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <activity android:name=".about_chat.chat_group.ShowChatImgActivity"></activity>
+        <activity android:name=".about_chat.chat_group.ShowChatImgActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
     </application>
 
 </manifest>

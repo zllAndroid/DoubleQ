@@ -98,9 +98,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-import static com.mding.chatfeng.about_chat.ChatActivity.messageTypeImg;
-import static com.mding.chatfeng.about_utils.about_file.HeadFileUtils.getRealFilePathFromUri;
-
 /**
  * 项目：DoubleQ
  * 文件描述：群聊界面
@@ -221,14 +218,16 @@ public class ChatGroupActivity extends BaseActivity {
         initReceiver();
         Intent intent = getIntent();
         if (intent != null) {
-            Uri uri = intent.getData();
-            initUri(uri);
+//            Uri uri = intent.getData();
+//            initUri(uri);
             jumpGroupChatData = (CusJumpGroupChatData) intent.getSerializableExtra(Constants.KEY_FRIEND_HEADER);
             GroupChatData = (DataSearch) intent.getSerializableExtra("dataSearch");
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
             if (jumpGroupChatData != null) {
                 groupId = jumpGroupChatData.getGroupId();
                 includeTopTvTitle.setText(jumpGroupChatData.getGroupName());
+                cardName = StrUtils.isEmpty(jumpGroupChatData.getCardName()) ? "暂未设置" : jumpGroupChatData.getCardName();
+                isChecked = jumpGroupChatData.getDisturbType();
             } else if (GroupChatData != null) {
                 groupId = GroupChatData.getId();
                 includeTopTvTitle.setText(GroupChatData.getName());
@@ -244,24 +243,24 @@ public class ChatGroupActivity extends BaseActivity {
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
-        sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
+//        sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
     }
 
-    private void initUri(Uri uri) {
-        if (uri == null) {
-            return;
-        }
-        String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
-        // 原图
-        Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
-        String imgNoZoom = ImageUtils.Bitmap2StrByBase64(bitMap);
-        // 压缩图
-        Bitmap bm = ImageUtils.imageZoom(bitMap);
-        String imgByZoom = ImageUtils.Bitmap2StrByBase64(bm);
-        // TODO 发送图片（格式：压缩图片的base64_高清原图的base64）
-        String imgTotal = imgByZoom + "_" + imgNoZoom;
-        send(SplitWeb.getSplitWeb().groupSend(groupId, imgTotal, messageTypeImg, TimeUtil.getTime()));
-    }
+//    private void initUri(Uri uri) {
+//        if (uri == null) {
+//            return;
+//        }
+//        String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
+//        // 原图
+//        Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+//        String imgNoZoom = ImageUtils.Bitmap2StrByBase64(bitMap);
+//        // 压缩图
+//        Bitmap bm = ImageUtils.imageZoom(bitMap);
+//        String imgByZoom = ImageUtils.Bitmap2StrByBase64(bm);
+//        // TODO 发送图片（格式：压缩图片的base64_高清原图的base64）
+//        String imgTotal = imgByZoom + "_" + imgNoZoom;
+//        send(SplitWeb.getSplitWeb().groupSend(groupId, imgTotal, messageTypeImg, TimeUtil.getTime()));
+//    }
 
 //    @Override
 //    public void sendUri(Uri uri) {
@@ -615,6 +614,8 @@ public class ChatGroupActivity extends BaseActivity {
                 if (recordBean != null) {
                     DataChatGroupPop.RecordBean.GroupDetailInfoBean groupDetailInfoBean = recordBean.getGroupDetailInfo();
                     DataChatGroupPop.RecordBean.GroupDetailInfoBean.UserInfoBean userInfoBean = groupDetailInfoBean.getUserInfo();
+                    DataChatGroupPop.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfo = groupDetailInfoBean.getGroupInfo();
+                    includeTopTvTitle.setText(groupInfo.getGroupName());
                     cardName = StrUtils.isEmpty(userInfoBean.getCarteName()) ? "暂未设置" : userInfoBean.getCarteName();
                     isChecked = userInfoBean.getDisturbType();
                     Log.e("setUserGroupDisturb","-------------------群聊界面请求-----------------"+isChecked);

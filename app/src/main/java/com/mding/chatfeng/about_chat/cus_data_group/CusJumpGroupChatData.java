@@ -6,6 +6,32 @@ import java.io.Serializable;
 public class CusJumpGroupChatData implements Serializable{
     String groupName;
     String groupId;
+    String disturbType;
+    String identifyType;
+    String cardName;
+
+    public String getIdentifyType() {
+        return identifyType;
+    }
+
+    public void setIdentifyType(String identifyType) {
+        this.identifyType = identifyType;
+    }
+    public String getDisturbType() {
+        return disturbType;
+    }
+
+    public void setDisturbType(String disturbType) {
+        this.disturbType = disturbType;
+    }
+
+    public String getCardName() {
+        return cardName;
+    }
+
+    public void setCardName(String cardName) {
+        this.cardName = cardName;
+    }
 
     public String getGroupName() {
         return groupName;

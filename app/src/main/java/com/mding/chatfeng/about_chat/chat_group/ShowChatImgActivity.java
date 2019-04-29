@@ -6,8 +6,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +24,7 @@ import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class ShowChatImgActivity extends BaseActivity {
@@ -29,6 +34,8 @@ public class ShowChatImgActivity extends BaseActivity {
     ImageView showChatImgIvFull;
     @BindView(R.id.showImg_tv_decoding)
     TextView showImgTvDecoding;
+    @BindView(R.id.showChatImg_iv_bac)
+    ImageView showChatImgIvBac;
 
     public static String SHOW_CHAT_IMG_REGION = "show_chat_img_http";
     String imgRegion;
@@ -42,22 +49,28 @@ public class ShowChatImgActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
 
+        //设置图片旋转
+        Animation animation = AnimationUtils.loadAnimation(this, R.anim.rotate_img);
+        LinearInterpolator linearInterpolator = new LinearInterpolator();
+        animation.setInterpolator(linearInterpolator);
+        showChatImgIvBac.startAnimation(animation);
+
         Intent intent = getIntent();
         if (intent != null) {
             imgRegion = intent.getStringExtra(SHOW_CHAT_IMG_REGION);
         }
-        if (imgRegion != null){
+        if (imgRegion != null) {
             Glide.with(ShowChatImgActivity.this).load(imgRegion)
                     .dontAnimate()
                     .placeholder(showChatImgIvFull.getDrawable())
                     .into(showChatImgIvFull);
-            MyLog.e("ChatSendViewHolder","----------------------showChatImg-----------------------"+imgRegion);
+            MyLog.e("ChatSendViewHolder", "----------------------showChatImg-----------------------" + imgRegion);
         }
-        showChatImgIvFull.setVisibility(View.VISIBLE);
-        showImgTvDecoding.setVisibility(View.GONE);
+//        showChatImgIvFull.setVisibility(View.VISIBLE);
+//        showImgTvDecoding.setVisibility(View.GONE);
     }
 
-    @OnClick({R.id.showChatImg_iv_full, R.id.showChatImg_lin_full})
+    @OnClick({R.id.showChatImg_iv_full, R.id.showChatImg_rel_full})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.showChatImg_iv_full:
@@ -69,7 +82,7 @@ public class ShowChatImgActivity extends BaseActivity {
                     }
                 });
                 break;
-            case R.id.showChatImg_lin_full:
+            case R.id.showChatImg_rel_full:
                 activityExitAnim(new Runnable() {
                     @Override
                     public void run() {
@@ -81,6 +94,10 @@ public class ShowChatImgActivity extends BaseActivity {
         }
     }
 
+//    @Override
+//    public boolean isSupportSwipeBack() {
+//        return false;
+//    }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     private void activityExitAnim(Runnable runnable) {

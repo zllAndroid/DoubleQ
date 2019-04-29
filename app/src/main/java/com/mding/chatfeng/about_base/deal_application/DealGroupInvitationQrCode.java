@@ -8,6 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
+import com.mding.chatfeng.about_utils.JsonUtils;
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.push_data.DataInvitationQrCodeGroupList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -127,7 +128,8 @@ public class DealGroupInvitationQrCode {
 
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","原本没有本chart展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
@@ -156,7 +158,8 @@ public class DealGroupInvitationQrCode {
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
 
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
 
         Log.e("jsonString","展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);

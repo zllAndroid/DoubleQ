@@ -13,31 +13,23 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.mding.chatfeng.about_application.BaseApplication;
-import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
-import com.mding.chatfeng.about_base.AppConfig;
-import com.mding.chatfeng.about_utils.GlideCacheUtil;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
-import com.mding.chatfeng.about_utils.about_file.FilePath;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
 import com.mding.model.DataJieShou;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
-import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
 import com.rance.chatui.util.Constants;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
 
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import jp.wasabeef.glide.transformations.CropCircleTransformation;
 
 /**
  */
@@ -50,6 +42,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
     @BindView(R.id.chat_item_content_text)
     GifTextView chatItemContentText;
     @BindView(R.id.chat_item_content_image)
+//    @BindView(R.id.chat_item_by_image)
     BubbleImageView chatItemContentImage;
     @BindView(R.id.chat_item_fail)
     ImageView chatItemFail;

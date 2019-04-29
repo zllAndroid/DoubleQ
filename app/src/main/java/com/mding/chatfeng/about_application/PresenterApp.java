@@ -186,7 +186,7 @@ public class PresenterApp extends BaseApp {
 //            mConnectManager.sendText(text);
             try {
                 mIChatRequst.sendMsg(text);
-            } catch (RemoteException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }else {

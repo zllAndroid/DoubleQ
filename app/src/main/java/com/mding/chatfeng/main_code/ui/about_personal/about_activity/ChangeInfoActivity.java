@@ -30,6 +30,7 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
+import com.mding.chatfeng.about_utils.JsonUtils;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.mding.model.DataLogin;
@@ -405,7 +406,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     DataLogin.RecordBean recordBean = JSON.parseObject(json, DataLogin.RecordBean.class);
 //                    if (dataLogin != null) {
                         recordBean.setNickName(contant);
-                        String jsonString = JSON.toJSONString(recordBean);
+//                        String jsonString = JSON.toJSONString(recordBean);
+                    String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
                         aCache.put(AppAllKey.TOKEN_KEY, jsonString);
 //                    }
                 }
@@ -421,7 +423,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     DataLogin.RecordBean recordBean = JSON.parseObject(json2, DataLogin.RecordBean.class);
 //                    if (dataLogin != null) {
                     recordBean.setPersonaSignature(contant);
-                    String jsonString = JSON.toJSONString(recordBean);
+//                    String jsonString = JSON.toJSONString(recordBean);
+                    String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
                     aCache.put(AppAllKey.TOKEN_KEY, jsonString);
 //                    }
                 }
@@ -436,7 +439,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     DataLogin.RecordBean recordBean = JSON.parseObject(json3, DataLogin.RecordBean.class);
 //                    if (dataLogin != null) {
                     recordBean.setWxSno(contant);
-                    String jsonString = JSON.toJSONString(recordBean);
+//                    String jsonString = JSON.toJSONString(recordBean);
+                    String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
                     aCache.put(AppAllKey.TOKEN_KEY, jsonString);
 //                    }
                 }

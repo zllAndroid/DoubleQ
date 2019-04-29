@@ -7,6 +7,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
+import com.mding.chatfeng.about_utils.JsonUtils;
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.DataLinkManList;
 import com.mding.model.DataModifyGroupingSort;
@@ -96,7 +97,8 @@ public class DealGroupingSort {
 
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendSortList);
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
         Log.e("jsonString","分组排序（修改）="+jsonString);
@@ -138,7 +140,8 @@ public class DealGroupingSort {
 
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(groupSortList);
-        String jsonString = JSON.toJSONString(recordBean);
+//        String jsonString = JSON.toJSONString(recordBean);
+        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
         Log.e("jsonString","分组排序（修改）="+jsonString);

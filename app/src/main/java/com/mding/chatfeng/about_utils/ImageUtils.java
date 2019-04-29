@@ -22,6 +22,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.ScreenUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -184,8 +185,8 @@ public class ImageUtils {
                 int imageHeight = resource.getHeight();
                 int height = ScreenUtils.getScreenWidth(context) * imageHeight / imageWidth;
                 ViewGroup.LayoutParams para = imageView.getLayoutParams();
-                para.height = height / 2;
-                para.width = ScreenUtils.getScreenWidth(context) / 2;
+                para.height = height / 4;
+                para.width = ScreenUtils.getScreenWidth(context) / 4;
                 imageView.setImageBitmap(resource);
             }
         });
@@ -676,23 +677,38 @@ public class ImageUtils {
 		return bm;
 	}
 
-	public static Bitmap imageZoom(Bitmap bitMap) {
+	public static Bitmap imageZoom(Bitmap bitMap)
+	{
+		return imageZoom(bitMap,10);
+	}
+	public static Bitmap imageZoom(Bitmap bitMap,double doSize) {
 		//图片允许最大空间   单位：KB
-		double maxSize =10.00;
+		double maxSize =doSize;
 		//将bitmap放至数组中，意在bitmap的大小（与实际读取的原文件要大）
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		bitMap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
 		byte[] b = baos.toByteArray();
 		//将字节换成KB
 		double mid = b.length/1024;
+		MyLog.e("imageSize","--------------------------------------------mid = "+mid);
+		MyLog.e("imageSize","---------------------压缩前-----------------------mid---bitMap.getByteCount() = "+bitMap.getByteCount());
 		//判断bitmap占用空间是否大于允许最大空间  如果大于则压缩 小于则不压缩
 		if (mid > maxSize) {
 			//获取bitmap大小 是允许最大大小的多少倍
 			double i = mid / maxSize;
-			//开始压缩  此处用到平方根 将宽带和高度压缩掉对应的平方根倍 （1.保持刻度和高度和原bitmap比率一致，压缩后也达到了最大大小占用空间的大小）
-			bitMap = zoomImage(bitMap, bitMap.getWidth() / Math.sqrt(i),
-					bitMap.getHeight() / Math.sqrt(i));
+			//开始压缩  此处用到平方根 将宽带和高度压缩到对应的平方根倍 （1.保持刻度和高度和原bitmap比率一致，压缩后也达到了最大大小占用空间的大小）
+			bitMap = zoomImage(bitMap, bitMap.getWidth() / Math.sqrt(i), bitMap.getHeight() / Math.sqrt(i));
+			MyLog.e("imageSize","---------------------压缩前-----------------------mid---bitMap.getByteCount() = "+mid);
+			MyLog.e("imageSize",bitMap.getWidth()+"---------------------压缩后-----------------------mid---bitMap.getWidth() / Math.sqrt(i) = "+bitMap.getWidth() / Math.sqrt(i));
+			MyLog.e("imageSize",bitMap.getHeight()+"---------------------压缩后-----------------------mid---bitMap.getHeight() / Math.sqrt(i) = "+bitMap.getHeight() / Math.sqrt(i));
+
 		}
+		ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+		bitMap.compress(Bitmap.CompressFormat.JPEG, 100, baos2);
+		byte[] b2 = baos2.toByteArray();
+		//将字节换成KB
+		double mid2 = b2.length/1024;
+		MyLog.e("imageSize","---------------------压缩后-----------------------mid---bitMap.getByteCount() = "+mid2);
 		return bitMap;
 	}
 
@@ -723,4 +739,15 @@ public class ImageUtils {
 				(int) height, matrix, true);
 		return bitmap;
 	}
+
+	//  把base64转为byteArray类型
+	public static byte[] base64ToByteArray(String base64Data) {
+		byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
+		Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+		byte[] byteArray = baos.toByteArray();
+		return byteArray;
+	}
+
 }

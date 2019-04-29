@@ -8,8 +8,15 @@ public class CusJumpChatData implements Serializable{
     String friendName;
     String friendRemarkName;
     String friendId;
+    String friendGroupName;
 
+    public String getFriendGroupName() {
+        return friendGroupName;
+    }
 
+    public void setFriendGroupName(String friendGroupName) {
+        this.friendGroupName = friendGroupName;
+    }
 
     public String getFriendHeader() {
         return friendHeader;

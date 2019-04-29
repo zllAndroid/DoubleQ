@@ -39,6 +39,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
     @BindView(R.id.chat_item_content_text)
     GifTextView chatItemContentText;
     @BindView(R.id.chat_item_content_image)
+//    @BindView(R.id.chat_item_by_image)
     BubbleImageView chatItemContentImage;
     @BindView(R.id.chat_item_voice)
     ImageView chatItemVoice;

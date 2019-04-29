@@ -138,7 +138,11 @@ public class ChatService extends Service {
 
                         @Override
                         public void onFail(String onFail) throws RemoteException {
-                            callback.onFail(onFail);
+                            try {
+                                callback.onFail(onFail);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
                     });
 

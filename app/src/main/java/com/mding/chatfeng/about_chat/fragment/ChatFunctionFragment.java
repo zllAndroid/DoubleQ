@@ -264,17 +264,27 @@ public class ChatFunctionFragment extends ChatBaseFragment {
 //             原图
             Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
             String imgByOrigin = ImageUtils.Bitmap2StrByBase64(bitMap);
-//             压缩图
-            Bitmap bitmap = ImageUtils.imageZoom(bitMap);
-            String imgByZoom = ImageUtils.Bitmap2StrByBase64(bitmap);
-            // TODO 发送图片（格式：压缩图片的base64_高清原图的base64）
-            String imgTotal = imgByZoom + "_" + imgByOrigin;
-            if (SplitWeb.getSplitWeb().IS_CHAT.equals("1"))
-                send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, imgTotal, messageTypeImg, TimeUtil.getTime()));
-            else
-                send(SplitWeb.getSplitWeb().groupSend(ChatGroupActivity.groupId, imgTotal, messageTypeImg, TimeUtil.getTime()));
+            //相对高清图
+            Bitmap bigImg = ImageUtils.imageZoom(bitMap,200);
+            String bigImgByBase64 = ImageUtils.Bitmap2StrByBase64(bigImg);
 
-            ToastUtil.isDebugShow("正在发送图片"+imgTotal.length());
+//             压缩图
+            Bitmap smallImg = ImageUtils.imageZoom(bigImg);
+            String smallImgByBase64 = ImageUtils.Bitmap2StrByBase64(smallImg);
+            // TODO 发送图片（格式：压缩图片的base64_高清原图的base64）
+            String imgTotal = smallImgByBase64 + "_" + bigImgByBase64;
+//            String imgTotal2 = imgByZoom + "_" + imgByZoom;
+            if (SplitWeb.getSplitWeb().IS_CHAT.equals("1")){
+                MyLog.e("imageSize","--------------------------------------------bitMap.getByteCount() = " + bitMap.getByteCount());
+//                if (bitMap.getByteCount() <= (1024 * 1024 * 2)) {    //  小于2M才上传    1024*1024*2 = 209 7152
+                    send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, imgTotal, messageTypeImg, TimeUtil.getTime()));
+                    ToastUtil.isDebugShow("正在发送图片...");
+//                }
+            }
+            else {
+                send(SplitWeb.getSplitWeb().groupSend(ChatGroupActivity.groupId, imgTotal, messageTypeImg, TimeUtil.getTime()));
+                ToastUtil.isDebugShow("正在发送图片...");
+            }
             MyLog.e("ChatSendViewHolder", "正在发送图片"+imgTotal.length());
 //            ImageUtils.useBase64(getActivity(), changeinfoIvHead, s1);
 
@@ -474,7 +484,6 @@ public class ChatFunctionFragment extends ChatBaseFragment {
                 break;
         }
     }
-
 //    CallBackValue callBackValue;
 //    public interface CallBackValue{
 //        void sendUri(Uri uri);
