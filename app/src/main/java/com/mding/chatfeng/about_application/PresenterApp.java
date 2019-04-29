@@ -209,13 +209,13 @@ public class PresenterApp extends BaseApp {
 
                 break;
         }
-        if (isSucess.equals(AppAllKey.CODE_OK)) {
-            if (method.equals("bindUid")) {
-                String only = HelpUtils.backOnly(message);
-            }
-            dealDataAsy myTask = new dealDataAsy();
-            myTask.execute(message);
-        }
+//        if (isSucess.equals(AppAllKey.CODE_OK)) {
+//            if (method.equals("bindUid")) {
+//                String only = HelpUtils.backOnly(message);
+//            }
+//            dealDataAsy myTask = new dealDataAsy();
+//            myTask.execute(message);
+//        }
 //        DealDataByApp.synData(mContext,message,realmHelper,realmChatHelper,realmGroupChatHelper);
 //            DealDataByApp.initReceiver();
     }

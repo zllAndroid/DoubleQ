@@ -176,6 +176,7 @@ public class LoginActivity extends BaseLogin {
 
     @Override
     void onLoginSuccees(String mLoginModel) {
+        MyLog.e("request", "-------登录返回消息---------->>" + mLoginModel);
         String isSucess = HelpUtils.HttpIsSucess(mLoginModel);
         if (isSucess.equals(AppAllKey.CODE_OK)) {
             AboutLoginSaveData aboutLoginSaveData = new AboutLoginSaveData(LoginActivity.this);

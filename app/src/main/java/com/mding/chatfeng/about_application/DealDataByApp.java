@@ -80,7 +80,6 @@ public class DealDataByApp {
 //        realmHelper=mrealmHelper;
 //        realmChatHelper=mrealmChatHelper;
 //       realmGroupChatHelper=mrealmGroupChatHelper;
-
         realmHelper = new RealmHomeHelper(mContext);
         realmGroupChatHelper = new RealmGroupChatHelper(mContext);
         realmChatHelper = new RealmChatHelper(mContext);
@@ -132,13 +131,13 @@ public class DealDataByApp {
                     dealSend(message);
                     break;
 //                    用户在线私聊 - 离线消息
-                case "messagePush":
-                    dealOffLineChat(message);
-                    break;
+//                case "messagePush":
+//                    dealOffLineChat(message);
+//                    break;
 //                    用户在线群聊 - 离线消息
-                case "messageGroupPush":
-                    dealOffLineGroupChat(message);
-                    break;
+//                case "messageGroupPush":
+//                    dealOffLineGroupChat(message);
+//                    break;
 //                    创建群
                 case "agreeGroupListSend":
                     DealGroupAdd.getDealGroupAdd().updateGroupDataByAdd(mContext, message);
@@ -314,7 +313,7 @@ public class DealDataByApp {
                         msg = record.getMemberName() + "：" + record.getMessage();
                     }
                     try {
-                      Bitmap  bitmap = Glide.with(mContext)
+                        Bitmap  bitmap = Glide.with(mContext)
                                 .load(record.getGroupHeadImg())
                                 .asBitmap() //必须
                                 .centerCrop()
@@ -467,7 +466,7 @@ public class DealDataByApp {
                 @Override
                 public void run() {
                     try {
-                       Bitmap bitmap = Glide.with(mContext)
+                        Bitmap bitmap = Glide.with(mContext)
                                 .load(messageListBean.getHeadImg())
                                 .asBitmap() //必须
                                 .centerCrop()
@@ -510,9 +509,9 @@ public class DealDataByApp {
 
     }
     private static void initMsgSend(DataJieShou.RecordBean record) {
+        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType(),record.getMessageType());//更新首页聊天界面数据（消息和时间）
         EventBus.getDefault().post(new MsgHomeEvent(record.getMessage(),record.getFriendsId(),AppConfig.MSG_ACTION_REFRESH));
 //        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime());//更新首页聊天界面数据（消息和时间）
-        realmHelper.updateMsg(record.getFriendsId(), record.getMessage(), record.getRequestTime(),record.getShieldType(),record.getDisturbType(),record.getTopType(),record.getMessageType());//更新首页聊天界面数据（消息和时间）
     }
     private static void dealSend(String message) {
         DataJieShou dataJieShou = JSON.parseObject(message, DataJieShou.class);
@@ -828,7 +827,7 @@ public class DealDataByApp {
                     if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
                         msg = record.getMemberName() + "：" + record.getMessage();
                     }
-                  Bitmap  bitmap = Glide.with(mContext)
+                    Bitmap  bitmap = Glide.with(mContext)
                             .load(record.getGroupHeadImg())
                             .asBitmap() //必须
                             .centerCrop()

@@ -191,10 +191,10 @@ public class BaseActivityForResult extends AppCompatActivity  {
             switch (s)
             {
 //                接收消息
-                case "privateReceive":
+                case Methon.PrivateChat:
                     initReceive(data.toString());
                     break;
-                case "privateSend":
+                case Methon.PrivateSend:
 //                    DataJieShou dataJieShou = JSON.parseObject(data.toString(), DataJieShou.class);
 //                    DataJieShou.RecordBean record = dataJieShou.getRecord();
 //                    realmHelper.updateMsg(record.getFriendsId()+SplitWeb.getSplitWeb().getUserId(),record.getMessage(),record.getRequestTime());//更新首页聊天界面数据（消息和时间）
