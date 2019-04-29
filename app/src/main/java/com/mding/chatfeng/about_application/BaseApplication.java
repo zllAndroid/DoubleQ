@@ -4,12 +4,13 @@ import android.app.Application;
 import android.content.Context;
 import android.os.PowerManager;
 import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
 
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.zll.websocket.WebSocketServiceConnectManager;
 
-public class BaseApplication extends Application  implements AppView{
+public class BaseApplication extends Application implements AppView{
     private static BaseApplication mInstance;
     public static Context mContext;
     /**
@@ -31,6 +32,7 @@ public class BaseApplication extends Application  implements AppView{
     @Override
     public void onCreate() {
         super.onCreate();
+
         isMain=true;
         mContext = this;
         mInstance = this;

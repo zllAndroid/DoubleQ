@@ -1,17 +1,15 @@
 package com.mding.chatfeng.about_base.deal_application;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
-import com.mding.chatfeng.about_utils.JsonUtils;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataGroup;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
 import com.mding.model.DataLinkGroupList;
-import com.mding.model.push_data.DataAboutGroup;
 import com.mding.model.push_data.DataInvitationGroupList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
@@ -167,7 +165,7 @@ public class DealGroupInvitation {
         DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
         recordBean.setGroupInfoList(group_info_list);
 //        String jsonString = JSON.toJSONString(recordBean);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","原本没有本chart展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
@@ -195,7 +193,7 @@ public class DealGroupInvitation {
         recordBean.setGroupInfoList(group_info_list);
 
 //        String jsonString = JSON.toJSONString(recordBean);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","展开="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);

@@ -182,19 +182,19 @@ public class NotifyDeamon extends Service {
         public void startLogin(String loginUrl) throws RemoteException {
             if(iLoginRequstByChannel!=null)
             {
-                if(isAutoLogin)
-                {
-                    AppConfig.logs("我是自动登入--------");
-                    AppConfig.logs("我是自动登入--------启动成功");
-                    //设置自动登入的账号密码
-/*                    LoginModel mLoginModelz = new LoginModel();
-                    mLoginModelz.setUserid("账号12331232ddddd");
-                    mLoginModelz.setPsw("密码123233213123");*/
-                    loginUrl="http://www.baidu.com";
-//                    ACache aCache = BaseApplication.getApp().getaCache();
-//                    getaCache().getAsString()
-
-                }
+//                if(isAutoLogin)
+//                {
+//                    AppConfig.logs("我是自动登入--------");
+//                    AppConfig.logs("我是自动登入--------启动成功");
+//                    //设置自动登入的账号密码
+///*                    LoginModel mLoginModelz = new LoginModel();
+//                    mLoginModelz.setUserid("账号12331232ddddd");
+//                    mLoginModelz.setPsw("密码123233213123");*/
+//                    loginUrl="http://www.baidu.com";
+////                    ACache aCache = BaseApplication.getApp().getaCache();
+////                    getaCache().getAsString()
+//
+//                }
                 try {
                     iLoginRequstByChannel.loginRequest(loginUrl);
                 } catch (RemoteException e) {

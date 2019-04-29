@@ -20,6 +20,7 @@ import android.util.Log;
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataLogin;
 import com.mding.chatfeng.R;
@@ -272,9 +273,11 @@ public class AppStartActivity extends BaseLogin {
     }
     private ACache mCache;
     private void initCaChe() {
+            MyJsonUtils.initBeforeLogin(AppStartActivity.this);
         if (mCache==null)
             mCache = ACache.get(this);
         if (mCache!=null){
+
             String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
             if (!StrUtils.isEmpty(asString))
             {
@@ -325,21 +328,21 @@ public class AppStartActivity extends BaseLogin {
             SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
             SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
 
-            //TODO 集群
-            try {
-//                SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
-//                SplitWeb.HTTP_REQUEST = dataLogin.getServerIpHttp();
-                SplitWeb.getSplitWeb().WS_REQUEST = dataLogin.getServerIpWs();
-                SplitWeb.getSplitWeb().HTTP_REQUEST = dataLogin.getServerIpHttp();
-                String serverIpWs = dataLogin.getServerIpWs();
-                String serverIpHttp = dataLogin.getServerIpHttp();
-                mCache.remove(AppConfig.TYPE_WS_REQUEST);
-                mCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
-                mCache.remove(AppConfig.TYPE_URL);
-                mCache.put(AppConfig.TYPE_URL,serverIpHttp);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            //TODO 集群
+//            try {
+////                SplitWeb.WS_REQUEST = dataLogin.getServerIpWs();
+////                SplitWeb.HTTP_REQUEST = dataLogin.getServerIpHttp();
+//                SplitWeb.getSplitWeb().WS_REQUEST = dataLogin.getServerIpWs();
+//                SplitWeb.getSplitWeb().HTTP_REQUEST = dataLogin.getServerIpHttp();
+//                String serverIpWs = dataLogin.getServerIpWs();
+//                String serverIpHttp = dataLogin.getServerIpHttp();
+//                mCache.remove(AppConfig.TYPE_WS_REQUEST);
+//                mCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
+//                mCache.remove(AppConfig.TYPE_URL);
+//                mCache.put(AppConfig.TYPE_URL,serverIpHttp);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
 
         }
     }

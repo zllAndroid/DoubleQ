@@ -1,19 +1,15 @@
 package com.mding.chatfeng.about_base.deal_application;
 
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.google.gson.Gson;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
-import com.mding.chatfeng.about_utils.JsonUtils;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.model.DataLinkManList;
 import com.mding.model.DataModifyFriendList;
-import com.mding.model.push_data.DataAboutFriend;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -193,7 +189,7 @@ public class DealModifyFriendList {
 
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
         EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
@@ -261,7 +257,7 @@ public class DealModifyFriendList {
 
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
 
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
@@ -305,7 +301,7 @@ public class DealModifyFriendList {
 
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
         EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
@@ -332,7 +328,7 @@ public class DealModifyFriendList {
 
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
 //        String jsonString = JSON.toJSONString(recordBean);
         Log.e("jsonString","JSONObject---->>="+jsonString);
         aCache.remove(AppAllKey.FRIEND_DATA);
@@ -442,7 +438,7 @@ public class DealModifyFriendList {
         friendList.get(i).setGroupName(mRecord.getNewGroupName());
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","不展开（好友添加至分组）="+jsonString);
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
@@ -488,7 +484,7 @@ public class DealModifyFriendList {
         DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
         recordBean.setFriendList(friendList);
 
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","更改好友分组（删）="+jsonString);
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);

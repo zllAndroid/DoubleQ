@@ -6,7 +6,7 @@ android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 20
         targetSdkVersion 28
         versionCode 3
         versionName "1.0.2"
@@ -27,6 +27,8 @@ dependencies {
     api 'com.squareup.okhttp3:okhttp:3.14.1'
     api 'com.squareup.okhttp3:logging-interceptor:3.8.1'
     api 'com.squareup.retrofit2:retrofit:2.0.0-beta3'
+//    implementation files('libs/okhttp-3.14.1.jar')
+//    implementation files('libs/okio-1.17.2.jar')
 }
 
 Properties properties = new Properties()

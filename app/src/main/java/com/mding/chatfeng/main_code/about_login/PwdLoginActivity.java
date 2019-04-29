@@ -17,9 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.android.volley.VolleyError;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_utils.ImageUtils;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.model.DataLogin;
 import com.mding.chatfeng.R;
@@ -37,6 +39,8 @@ import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyInterface;
+import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -68,10 +72,6 @@ public class PwdLoginActivity extends BaseLogin {
     TextView pwdTvNotice;
     @BindView(R.id.include_top_lin_newback)
     LinearLayout mLinBack;
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
 
     @Override
     protected void initBaseView() {
@@ -83,22 +83,10 @@ public class PwdLoginActivity extends BaseLogin {
         initUrl();
         listenEnter();
     }
-//    初始化获取url
+    //    初始化获取url
     private void initUrl() {
-        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().PreRequest, new NetWorkUtlis.OnNetWork() {
-            @Override
-            public void onNetSuccess(String result) {
-                Log.e("result=", result + "---------------------------");
-                DataServer dataServer = JSON.parseObject(result, DataServer.class);
-                //测试
-                String swooleServer = dataServer.getSwooleServer();
-//                String swooleServer = dataServer.getSwooleServer_v1();
+            MyJsonUtils.initBeforeLogin(PwdLoginActivity.this);
 
-                SplitWeb.getSplitWeb().HttpURL = swooleServer;
-                SPUtils.put(PwdLoginActivity.this, AppConfig.TYPE_URL, swooleServer+"");
-            }
-        });
     }
     private void listenEnter() {
         pwdEdCode.setImeOptions(EditorInfo.IME_ACTION_SEND);
@@ -161,7 +149,7 @@ public class PwdLoginActivity extends BaseLogin {
                 break;
         }
     }
-//获取短信验证码按钮
+    //获取短信验证码按钮
     private void initSendSms() {
         String phone = regEdPhone.getText().toString().trim();
         if (StrUtils.isEmpty(phone)) {
@@ -182,11 +170,16 @@ public class PwdLoginActivity extends BaseLogin {
             }
         });
     }
-//点击验证码登录，执行短信登录内容
+    //点击验证码登录，执行短信登录内容
     private void initCodeLogin() {
         timer.cancel();
         final String phone = regEdPhone.getText().toString().trim();
         String code = pwdEdCode.getText().toString().trim();
+
+        if (StrUtils.isEmpty(SplitWeb.getSplitWeb().HttpURL))
+        {
+            initUrl();
+        }
         if (StrUtils.isEmpty(phone)) {
             ToastUtil.show("手机号不能为空");
 //            Tip.getDialog(this,"手机号不能为空");
@@ -201,13 +194,23 @@ public class PwdLoginActivity extends BaseLogin {
         try {
             SPUtils.put(PwdLoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, phone);
             if(iLoginRequst!=null)
-                iLoginRequst.loginRequest(SplitWeb.getSplitWeb().smsLogin(phone, code));
+            {
+
+                String s = SplitWeb.getSplitWeb().smsLogin(phone, code);
+                if(s.contains("http")) {
+                    MyLog.e("request", "-------登录请求---------->>" + s);
+                    iLoginRequst.loginRequest(s);
+                }else
+                {
+                    initUrl();
+                }
+            }
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
     }
-//短信倒计时
+    //短信倒计时
     private CountDownTimer timer = new CountDownTimer(60000, 1000) {
         @Override
         public void onTick(long l) {
@@ -228,7 +231,7 @@ public class PwdLoginActivity extends BaseLogin {
         }
     };
 
-//    文本消失倒计时
+    //    文本消失倒计时
     private CountDownTimer notice_timer = new CountDownTimer(3000,1000) {
         @Override
         public void onTick(long l) {
@@ -239,7 +242,7 @@ public class PwdLoginActivity extends BaseLogin {
             pwdTvNotice.setVisibility(View.INVISIBLE);
         }
     };
-//返回成功内容
+    //返回成功内容
     @Override
     void onLoginSuccees(String mLoginModel) {
         String isSucess = HelpUtils.HttpIsSucess(mLoginModel);
@@ -250,7 +253,7 @@ public class PwdLoginActivity extends BaseLogin {
             ToastUtil.show(isSucess);
         }
     }
-//返回错误
+    //返回错误
     @Override
     void onLoginFail(String mLoginModel) {
 //        显示短信验证码输入错误的内容

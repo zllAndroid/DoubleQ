@@ -1,16 +1,7 @@
 package com.mding.chatfeng.main_code.about_login;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
-import android.os.PowerManager;
 import android.os.RemoteException;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -19,34 +10,22 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
 import com.mding.chatfeng.about_application.BaseApplication;
-import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
-import com.mding.model.DataLogin;
-import com.mding.model.DataServer;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
-import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.about_base.AppConfig;
-import com.mding.chatfeng.about_base.BaseActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
-import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
-import java.util.List;
-
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
 
 /**
  * 项目：DoubleQ
@@ -81,21 +60,12 @@ public class LoginActivity extends BaseLogin {
         init(BaseApplication.getAppContext());
         //TODO  获取第一层url
         initUrl();
+
         listenEnter();
     }
 
     private void initUrl() {
-        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().PreRequest, new NetWorkUtlis.OnNetWork() {
-            @Override
-            public void onNetSuccess(String result) {
-                DataServer dataServer = JSON.parseObject(result, DataServer.class);
-                //测试
-                String swooleServer = dataServer.getSwooleServer();
-                SplitWeb.getSplitWeb().HttpURL = swooleServer;
-                SPUtils.put(LoginActivity.this, AppConfig.TYPE_URL, swooleServer+"");
-            }
-        });
+        MyJsonUtils.initBeforeLogin(LoginActivity.this);
     }
 
     @Override
@@ -189,7 +159,16 @@ public class LoginActivity extends BaseLogin {
             SPUtils.put(LoginActivity.this,AppConfig.TYPE_PSW,pwd);
             SplitWeb.getSplitWeb().PSW=pwd;
             if(iLoginRequst!=null)
-                iLoginRequst.loginRequest(SplitWeb.getSplitWeb().loginIn(phone, pwd));
+            {
+                String s = SplitWeb.getSplitWeb().loginIn(phone, pwd);
+                if(s.contains("http")) {
+                    MyLog.e("request", "-------登录请求---------->>" + s);
+                    iLoginRequst.loginRequest(s);
+                }else
+                {
+                    initUrl();
+                }
+            }
         } catch (RemoteException e) {
             e.printStackTrace();
         }

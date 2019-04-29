@@ -17,14 +17,19 @@ import android.os.IBinder;
 import android.os.PowerManager;
 import android.os.RemoteException;
 import android.provider.Settings;
+import android.support.multidex.MultiDex;
+import android.util.Log;
 
 import com.mding.IChatCallBack;
 import com.mding.IChatRequst;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rabtman.wsmanager.WsManager;
 import com.rabtman.wsmanager.listener.WsStatusListener;
 
@@ -55,40 +60,55 @@ public class WsChannelService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         AppConfig.logs("WsChannelService-》onBind");
-
+        MultiDex.install(getBaseContext());
         return binders;
     }
 
+    ACache mACache=null;
+
+    public ACache getACache() {
+        if (mACache==null)
+        {
+            mACache=ACache.get(BaseApplication.getAppContext());
+        }
+        return mACache;
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        String asString = ACache.get(getBaseContext()).getAsString(AppConfig.TYPE_WS_REQUEST);
-        AppConfig.logs("asString"+asString);
-        if (!StrUtils.isEmpty(asString))
-            if (wsManager == null) {
-                wsManager = new WsManager.Builder(getBaseContext())
-                        .client(
-                                new OkHttpClient().newBuilder()
-                                        .pingInterval(40, TimeUnit.SECONDS)
-                                        .retryOnConnectionFailure(true)
-                                        .build())
-                        .needReconnect(true)
-//                    .wsUrl("ws://120.78.92.225:9093")
-                        .wsUrl(asString)
-                        .build();
-                wsManager.setWsStatusListener(wsStatusListener);
-                wsManager.startConnect();
+        try {
+            String ws = (String) SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_WS_REQUEST, "123");
+            Log.e("mACache","---------------------------->>>"+ws);
+            if (!StrUtils.isEmpty(ws))
+                if (wsManager == null) {
+                    wsManager = new WsManager.Builder(getBaseContext())
+                            .client(
+                                    new OkHttpClient().newBuilder()
+                                            .pingInterval(40, TimeUnit.SECONDS)
+                                            .retryOnConnectionFailure(true)
+                                            .build())
+                            .needReconnect(true)
+                            //                    .wsUrl("ws://120.78.92.225:9093")
+                            .wsUrl(ws)
+                            .build();
+                    wsManager.setWsStatusListener(wsStatusListener);
+                    wsManager.startConnect();
 
-                AppConfig.logs("--------------------ws:::"+ wsManager.isWsConnected()+"URL地址："+asString);
+                    AppConfig.logs("-------------------->>"+ wsManager.isWsConnected()+"URL地址："+ ws);
 
-            }
+                }else
+                {
+                    ToastUtil.show("加载失败，请退出重试");
+                }
+        } catch (Exception e) {
+            e.printStackTrace();
 
-        AppConfig.logs("WsChannelService->:onStartCommand");
+        }
+
         try{
             String  data = intent.getStringExtra("data");
-            AppConfig.logs("WsChannelService->:"+data);
             /*  connectionWs("第一次连"+data);*/
-
+            AppConfig.logs("WsChannelService->:报错了"+data);
             //启动OK3，在OK3中判断UI状态，ChatService状态，然后执行消息通知栏
         }catch (Exception e){
             AppConfig.logs("WsChannelService->:报错了");

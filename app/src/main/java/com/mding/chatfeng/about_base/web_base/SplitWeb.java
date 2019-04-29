@@ -52,7 +52,7 @@ public class SplitWeb {
 //    public  final String PreRequest= "http://192.168.4.131:40003/";
 //    public  final String PreRequest= "http://39.108.3.131/server_api.php";
 
-    public  final String PreRequest= "http://39.108.3.131/server_api.php";
+    public  final String PreRequest= "http://120.78.92.225:9092/V2_0_0/LoginController/getClusterIp";
 //    public  final String PreRequest= "http://192.168.4.68/server_api.php";
 
 //      SPUtils.put(this,"header",record.getHeadImg());
@@ -142,7 +142,7 @@ public class SplitWeb {
 //192.168.4.48
 
 //    public  String WebSocket_URL = "ws://192.168.4.55:9093";
-    public  String Error_URL = "http://39.108.3.131/check_ip_statu.php?";
+//    public  String Error_URL = "http://39.108.3.131/check_ip_statu.php?";
 
     //    public  String WebSocket_URL = "ws://192.168.4.48:9093";
 //    public  String URL = "http://192.168.4.48:9092/LoginController/";
@@ -151,11 +151,12 @@ public class SplitWeb {
     //    public  String HttpURL = "192.168.4.55:9092";
     private  String getURL() {
         if(StrUtils.isEmpty(HttpURL))
-            HttpURL= (String )SPUtils.get(HelpUtils.activity,AppConfig.TYPE_URL,"");
+            HttpURL= BaseApplication.getaCache().getAsString(AppConfig.TYPE_URL);
         return HttpURL+"/V2_0_0";
     }
     public  String getURLRequest() {
-        return "http://"+getURL()+"/LoginController/";
+        return getURL()+"/LoginController/";
+//        return "http://"+getURL()+"/LoginController/";
     }
 
     public  String loginIn(String mobile, String password){
@@ -170,9 +171,9 @@ public class SplitWeb {
         mList.clear();
         return getURLRequest()+"addrPort?"+ SignForXm6leefunJava.getSing(mList);
     }
-    public  String errorRequest(String url){
-        return Error_URL+"url="+url;
-    }
+//    public  String errorRequest(String url){
+//        return Error_URL+"url="+url;
+//    }
     public  String register(String mobile, String password,String code){
         mList.clear();
         mList.add("mobile="+mobile);

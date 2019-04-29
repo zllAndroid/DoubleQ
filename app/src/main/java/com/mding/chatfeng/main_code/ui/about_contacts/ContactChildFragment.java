@@ -3,7 +3,6 @@ package com.mding.chatfeng.main_code.ui.about_contacts;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Message;
@@ -16,32 +15,22 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.animation.GlideAnimation;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseFragment;
-import com.mding.chatfeng.about_base.web_base.MessageEvent;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
 import com.mding.chatfeng.about_broadcastreceiver.NetEvent;
 import com.mding.chatfeng.about_chat.chat_group.GroupChatDetailsActivity;
-import com.mding.chatfeng.about_chat.cus_data_group.CusJumpGroupChatData;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
-import com.mding.chatfeng.about_utils.JsonUtils;
-import com.mding.chatfeng.about_utils.about_file.HeadFileUtils;
-import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
-import com.mding.chatfeng.main_code.mains.MsgFragment;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.LinkFriendAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.LinkGroupAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_custom.LetterBar;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataLinkFriend;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.DataLinkManList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -53,7 +42,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -464,7 +452,7 @@ public class ContactChildFragment extends BaseFragment {
             }
             mFriendList.addAll(friend_list);
             if(isWs.equals(USE_WS)) {
-                String json = JsonUtils.toChangeJson(record);
+                String json = MyJsonUtils.toChangeJson(record);
                 aCache.remove(AppAllKey.FRIEND_DATA);
                 aCache.put(AppAllKey.FRIEND_DATA, json);
             }
@@ -556,7 +544,7 @@ public class ContactChildFragment extends BaseFragment {
                 }
                 mGroupList.addAll(group_info_list);
                 if(isWs.equals(USE_WS)) {
-                    String json = JsonUtils.toChangeJson(record1);
+                    String json = MyJsonUtils.toChangeJson(record1);
 
                     aCache.remove(AppAllKey.GROUD_DATA);
                     aCache.put(AppAllKey.GROUD_DATA, json);

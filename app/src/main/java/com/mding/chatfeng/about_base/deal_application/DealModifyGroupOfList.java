@@ -2,14 +2,13 @@ package com.mding.chatfeng.about_base.deal_application;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
-import com.mding.chatfeng.about_utils.JsonUtils;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.model.DataAgreeGroupList;
 import com.mding.model.DataDeleteGroupingList;
 import com.mding.model.DataLinkGroupList;
@@ -108,7 +107,7 @@ public class DealModifyGroupOfList {
             record.setFriendList(friendList);
 
 //            String jsonString = JSON.toJSONString(record);
-            String jsonString = JsonUtils.toChangeJson(record);//将java对象转换为json对象
+            String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
             Log.e("jsonString","不展开（增加）="+jsonString);
 
             aCache.remove(AppAllKey.FRIEND_DATA);
@@ -161,7 +160,7 @@ public class DealModifyGroupOfList {
             record.setGroupInfoList(groupList);
 
 //            String jsonString = JSON.toJSONString(record);
-            String jsonString = JsonUtils.toChangeJson(record);//将java对象转换为json对象
+            String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
             Log.e("jsonString","不展开（增加）="+jsonString);
 
             aCache.remove(AppAllKey.GROUD_DATA);
@@ -187,7 +186,7 @@ public class DealModifyGroupOfList {
         recordBean.setFriendList(friend_info_list);
 
 //        String jsonString = JSON.toJSONString(recordBean);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","不展开（添加）="+jsonString);
 
         aCache.remove(AppAllKey.FRIEND_DATA);
@@ -212,7 +211,7 @@ public class DealModifyGroupOfList {
         recordBean.setGroupInfoList(group_info_list);
 
 //        String jsonString = JSON.toJSONString(recordBean);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","不展开（添加）="+jsonString);
 
         aCache.remove(AppAllKey.GROUD_DATA);
@@ -292,7 +291,7 @@ public class DealModifyGroupOfList {
         recordBean.setFriendList(friendList);
 
 //        String jsonString = JSON.toJSONString(recordBean);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","不展开（删除）="+jsonString);
 
         aCache.remove(AppAllKey.FRIEND_DATA);
@@ -310,7 +309,7 @@ public class DealModifyGroupOfList {
         recordBean.setGroupInfoList(groupList);
 
 //        String jsonString = JSON.toJSONString(recordBean);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","不展开（删除）="+jsonString);
         aCache.remove(AppAllKey.GROUD_DATA);
         aCache.put(AppAllKey.GROUD_DATA, jsonString);
@@ -390,7 +389,7 @@ public class DealModifyGroupOfList {
         recordBean.setFriendList(friend_info_list);
 
 //        String jsonString = JSON.toJSONString(recordBean);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","不展开（修改）="+jsonString);
 
         aCache.remove(AppAllKey.FRIEND_DATA);
@@ -407,7 +406,7 @@ public class DealModifyGroupOfList {
         recordBean.setGroupInfoList(group_info_list);
 
 //        String jsonString = JSON.toJSONString(recordBean);
-        String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+        String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
         Log.e("jsonString","不展开（修改）="+jsonString);
 
         aCache.remove(AppAllKey.GROUD_DATA);

@@ -191,17 +191,17 @@ public class ChannelDeamon extends Service {
                     callback.onSuccess(result);
 
                     //启动 WsChannelService 进入消息通道服务
-                            if(intent==null)
-                            {
-                                //启动WS通道连接服务
-                                intent=new Intent(ChannelDeamon.this, WsChannelService.class);
-                                intent.putExtra("data",result);
-                                startService(intent);
-                            }else {
-                                //尝试重连Ws，此次肯定至少是从第二次开始连接
-                                intent.putExtra("data",result);
-                                startService(intent);
-                            }
+                    if(intent==null)
+                    {
+                        //启动WS通道连接服务
+                        intent=new Intent(ChannelDeamon.this, WsChannelService.class);
+                        intent.putExtra("data",result);
+                        startService(intent);
+                    }else {
+                        //尝试重连Ws，此次肯定至少是从第二次开始连接
+                        intent.putExtra("data",result);
+                        startService(intent);
+                    }
                 } catch (RemoteException e) {
                     e.printStackTrace();
                 }

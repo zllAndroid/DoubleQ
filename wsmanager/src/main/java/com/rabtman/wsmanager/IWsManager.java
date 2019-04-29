@@ -3,6 +3,8 @@ package com.rabtman.wsmanager;
 import okhttp3.WebSocket;
 import okio.ByteString;
 
+import okhttp3.WebSocket;
+
 /**
  * @author rabtman
  */

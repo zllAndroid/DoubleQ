@@ -143,7 +143,7 @@ public class PresenterApp extends BaseApp {
     //                .deleteRealmIfMigrationNeeded()
     //                .schemaVersion(3)
     //                .migration(new Migration())
-    //                .deleteRealmIfMigrationNeeded()
+                    .deleteRealmIfMigrationNeeded()
                     .build();
             Realm.setDefaultConfiguration(configuration);
         } catch (Exception e) {

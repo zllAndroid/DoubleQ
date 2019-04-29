@@ -19,7 +19,7 @@ android {
         }
         vectorDrawables.useSupportLibrary = true
         applicationId "com.mding.chatfeng"
-        minSdkVersion 16
+        minSdkVersion 20
         targetSdkVersion 28
         versionCode 1
         versionName "1.0.0"
@@ -83,6 +83,7 @@ dependencies {
         exclude module: 'support-v4'
         exclude group: 'com.android.support'
         exclude group: 'org.greenrobot:eventbus:3.1.1'
+        exclude group: 'okio'
     })
 //    implementation 'com.facebook.stetho:stetho:1.5.0' //添加这两行
 //    implementation 'com.uphyca:stetho_realm:2.2.2'

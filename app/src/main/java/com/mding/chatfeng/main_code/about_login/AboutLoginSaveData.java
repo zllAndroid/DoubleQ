@@ -37,7 +37,7 @@ public class AboutLoginSaveData {
 
     public  void initSaveData(String data)
     {
-        DataLogin dataLogin = JSON.parseObject(data, DataLogin.class);
+       DataLogin dataLogin = JSON.parseObject(data, DataLogin.class);
         DataLogin.RecordBean record = dataLogin.getRecord();
         if (record != null)
         {
@@ -71,18 +71,7 @@ public class AboutLoginSaveData {
         SplitWeb.getSplitWeb().USER_ID = dataLogin.getUserId();
         SplitWeb.getSplitWeb().USER_HEADER = dataLogin.getHeadImg();
         mCache.put(AppAllKey.USER_ID_KEY,dataLogin.getUserId());
-        try {
-            SplitWeb.getSplitWeb().WS_REQUEST = dataLogin.getServerIpWs();
-            SplitWeb.getSplitWeb().HTTP_REQUEST = dataLogin.getServerIpHttp();
-            String serverIpWs = dataLogin.getServerIpWs();
-            String serverIpHttp = dataLogin.getServerIpHttp();
-            mCache.remove(AppConfig.TYPE_WS_REQUEST);
-            mCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
-            mCache.remove(AppConfig.TYPE_URL);
-            mCache.put(AppConfig.TYPE_URL,serverIpHttp);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         if (dataLogin.getIsFirstLogin().equals("1")) {
             IntentUtils.JumpFinishTo(mContext,FirstAddHeaderActivity.class);
         }

@@ -1,5 +1,6 @@
 package com.mding.chatfeng.about_utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Handler;
 import android.os.Message;
@@ -137,6 +138,7 @@ public class NetWorkUtlis {
         loadText = "登陆中";
         initHttpFlower();
     }
+    @SuppressLint("HandlerLeak")
     Handler h = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
