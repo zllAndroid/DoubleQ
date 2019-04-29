@@ -6,33 +6,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/showChatImg_rel_full"
-    android:gravity="center"
     android:orientation="vertical"
     android:background="@color/black_show_img_bac"
     tools:context=".about_chat.chat_group.ShowChatImgActivity">
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:orientation="vertical">
+
         <ImageView
             android:id="@+id/showChatImg_iv_bac"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:src="@drawable/show_chat_img_rotate"
-            />
+            android:src="@drawable/show_chat_img_rotate" />
 
         <TextView
             android:id="@+id/showImg_tv_decoding"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_alignBottom="@+id/showChatImg_iv_bac"
-            android:text="请稍等，正在加载..."
-            android:textSize="@dimen/sp13"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:layout_marginTop="@dimen/dp15"
-            android:textColor="@color/greyf3"/>
+            android:gravity="center"
+            android:text="请稍等，正在加载..."
+            android:textColor="@color/greyf3"
+            android:textSize="@dimen/sp13" />
 
     </LinearLayout>
 
@@ -40,7 +41,21 @@
         android:id="@+id/showChatImg_iv_full"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:src="@color/greyf3"
-        />
+        android:src="@color/greyf3" />
+
+    <ImageView
+        android:id="@+id/showChatImg_iv_download"
+        android:layout_width="@dimen/dp30"
+        android:layout_height="@dimen/dp30"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:padding="@dimen/dp7"
+        android:visibility="gone"
+        android:background="@drawable/btn_shape_download"
+        android:layout_marginBottom="@dimen/dp30"
+        android:layout_marginRight="@dimen/dp30"
+        android:src="@drawable/save_to_album"/>
 </RelativeLayout>

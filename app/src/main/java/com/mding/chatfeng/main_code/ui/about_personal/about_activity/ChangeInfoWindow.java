@@ -134,7 +134,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 }
                 break;
             }
-            case "修改名字": {
+            case "修改昵称": {
                 if (mContant.length() > BEIZHU_MAX_NUM) {
                     mTvMax.setText(BEIZHU_MAX_NUM + " / " + BEIZHU_MAX_NUM);
                     mEd.setText(mContant.substring(0, BEIZHU_MAX_NUM));
@@ -234,7 +234,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
 
             switch (title) {
                 case "修改备注":
-                case "修改名字":
+                case "修改昵称":
                 case "修改分组":
                 case "增加分组":
                 case "修改群名":

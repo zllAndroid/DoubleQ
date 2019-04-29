@@ -93,13 +93,12 @@ public class WsChannelService extends Service {
                             .build();
                     wsManager.setWsStatusListener(wsStatusListener);
                     wsManager.startConnect();
-
                     AppConfig.logs("-------------------->>"+ wsManager.isWsConnected()+"URL地址："+ ws);
-
                 }else
                 {
                     ToastUtil.show("加载失败，请退出重试");
                 }
+
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -185,7 +184,6 @@ public class WsChannelService extends Service {
         @Override
         public void onMessage(String text) {
             super.onMessage(text);
-            AppConfig.logs("onMessage==>>"+text);
             String backMethod = HelpUtils.backMethod(text);
             if (backMethod.equals("")) {
             }

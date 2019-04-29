@@ -48,6 +48,7 @@ import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
 import com.mding.chatfeng.about_chat.adapter.CommonFragmentPagerAdapter;
+import com.mding.chatfeng.about_chat.chat_group.ChatGroupActivity;
 import com.mding.chatfeng.about_chat.chat_group.ShowChatImgActivity;
 import com.mding.chatfeng.about_chat.fragment.ChatEmotionFragment;
 import com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment;
@@ -73,7 +74,9 @@ import com.mding.model.CusChatPop;
 import com.mding.model.CusJumpChatData;
 import com.mding.model.DataChatPop;
 import com.mding.model.DataJieShou;
+import com.mding.model.DataQueryRepetition;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -94,6 +97,9 @@ import java.util.concurrent.ExecutionException;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment.imgMD5FunFrag;
+import static com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment.imgTotalFunFrag;
 
 /**
  * 项目：DoubleQ
@@ -275,7 +281,10 @@ public class ChatActivity extends BaseActivity {
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
 //        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-//        sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
+        MyLog.e("ChatActivity","--------------------标题------------------------->>"+includeTopTvTital.getText().toString());
+        if (StrUtils.isEmpty(includeTopTvTital.getText().toString())) {
+            sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
+        }
         if (isLocked){
             includeTopIvLock.setVisibility(View.VISIBLE);
         }
@@ -352,8 +361,9 @@ public class ChatActivity extends BaseActivity {
                 });
                 chatPopWindow.setOnReRemarkListener(new ChatPopWindow.OnReRemarkListener() {
                     @Override
-                    public void reRemark(String remarkName) {
-                        sendWeb(SplitWeb.getSplitWeb().friendRemarkName(FriendId, remarkName));
+                    public void reRemark(String RemarkName) {
+                        remarkName = RemarkName;
+                        sendWeb(SplitWeb.getSplitWeb().friendRemarkName(FriendId, RemarkName));
                     }
                 });
                 chatPopWindow.setOnClickLockListener(new ChatPopWindow.OnClickLockListener() {
@@ -569,7 +579,8 @@ public class ChatActivity extends BaseActivity {
                 dealReceiverResult(responseText);
                 break;
             case "friendRemarkName":
-                String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
+                String nameText = StrUtils.isEmpty(remarkName) ? "暂无" : remarkName;
+//                String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
                 includeTopTvTital.setText(nameText);
 //                sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
                 break;
@@ -579,9 +590,25 @@ public class ChatActivity extends BaseActivity {
                 if (recordBean != null) {
                     String name = StrUtils.isEmpty(recordBean.getRemarkName()) ? recordBean.getNickName() : recordBean.getRemarkName();
                     includeTopTvTital.setText(name);
-                    remarkName = StrUtils.isEmpty(recordBean.getRemarkName()) ? "暂未设置" : recordBean.getRemarkName();
+                    remarkName = StrUtils.isEmpty(recordBean.getRemarkName()) ? "暂无" : recordBean.getRemarkName();
                     groupName = StrUtils.isEmpty(recordBean.getGroupName()) ? "暂无" : recordBean.getGroupName();
                     includeTopTvTital.setText(name);
+                }
+                break;
+                // TODO 请求MD5查询，返回值判断是否存在该key
+            case "getQueryRepetition":
+                DataQueryRepetition dataQueryRepetition = JSON.parseObject(responseText, DataQueryRepetition.class);
+                if (dataQueryRepetition != null){
+                    DataQueryRepetition.RecordBean recordBeanQuery = dataQueryRepetition.getRecord();
+                    if (recordBeanQuery != null){
+                        if (recordBeanQuery.getFileType() == 1){
+                            // 是否发送 1需发送 2无需发送
+                            send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, imgTotalFunFrag, messageTypeImg, TimeUtil.getTime()));
+                        }else if (recordBeanQuery.getFileType() == 2){
+                            send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, imgMD5FunFrag, messageTypeImg, TimeUtil.getTime()));
+                        }
+
+                    }
                 }
                 break;
         }
@@ -733,20 +760,6 @@ public class ChatActivity extends BaseActivity {
 
         @Override
         public void onImageClick(BubbleImageView view, int position, String imgHttp) {
-//            int location[] = new int[2];
-//            view.getLocationOnScreen(location);
-//            FullImageInfo fullImageInfo = new FullImageInfo();
-//            fullImageInfo.setLocationX(location[0]);
-//            fullImageInfo.setLocationY(location[1]);
-//            fullImageInfo.setWidth(view.getWidth());
-//            fullImageInfo.setHeight(view.getHeight());
-//            // TODO 放大聊天图片
-////            fullImageInfo.setImageUrl(messageInfos.get(position).getImageUrl());
-//            fullImageInfo.setImageBase64(messageInfos.get(position).getFilepath());
-//            EventBus.getDefault().postSticky(fullImageInfo);
-//            startActivity(new Intent(ChatActivity.this, FullImageActivity.class));
-//            overridePendingTransition(0, 0);
-//            okHttp_asynchronousGet(view, imgHttp);
             IntentUtils.JumpToHaveOne(ShowChatImgActivity.class, ShowChatImgActivity.SHOW_CHAT_IMG_REGION, imgHttp);
         }
 

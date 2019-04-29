@@ -1,9 +1,6 @@
 package com.mding.chatfeng.about_utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
@@ -12,10 +9,7 @@ import com.google.gson.Gson;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
-import com.mding.chatfeng.main_code.about_login.LoginActivity;
 import com.mding.model.DataServer;
-import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
-import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -41,6 +35,15 @@ public class MyJsonUtils {
         Log.e("toChangeJson","JSONObject--objectStr-->>="+objectStr);
         return objectStr;
     }
+    public static  void setJson( String key, String value ){
+        BaseApplication.getaCache().put(key, value);
+
+    }
+    public static String getJson(String key){
+        String value = BaseApplication.getaCache().getAsString(key);
+       return value;
+    }
+
     public static  void initBeforeLogin(final Context mContext) {
         if (StrUtils.isEmpty(SplitWeb.getSplitWeb().HttpURL)) {
 //            Activity activity = AppManager.getAppManager().currentActivity();

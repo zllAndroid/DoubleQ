@@ -33,6 +33,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.mding.chatfeng.about_base.AppConfig;
@@ -74,6 +75,8 @@ import com.mding.model.DataSetGroupHeadResult;
 import com.mding.model.GroupHeadImgInfo;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -160,6 +163,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     //请求写入外部存储
     private static final int WRITE_EXTERNAL_STORAGE_REQUEST_CODE = 204;
     boolean isNeedChangeHeadImg = true;
+    ACache mACache;
+    String searchDetailInfo;
 
     @Override
     protected void initBaseView() {
@@ -179,10 +184,17 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         Intent intent = getIntent();
         if (intent != null) {
             groupId = intent.getStringExtra(AppConfig.GROUP_ID);
+            MyLog.e("myGroupId","-----------------------details-------------------------"+groupId);
             groupType = intent.getStringExtra(AppConfig.IS_CHATGROUP_TYPE);
             if (!StrUtils.isEmpty(groupId)) {
+                searchDetailInfo = BaseApplication.getaCache().getAsString(groupId + SplitWeb.getSplitWeb().USER_ID);
 //                IntentUtils.JumpToHaveOne(GroupTeamActivity.class,"groupId",groupId);
-                sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId));
+                if (StrUtils.isEmpty(searchDetailInfo))  {
+                    sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId));
+                }
+                else{
+                    dealSearchDetailInfo(searchDetailInfo);
+                }
             }
         }
         initRightPop();
@@ -215,8 +227,15 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     protected void onResume() {
         super.onResume();
         if (isFirst) {
-            if (!StrUtils.isEmpty(groupId))
-                sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId));
+            if (!StrUtils.isEmpty(groupId)) {
+                searchDetailInfo = BaseApplication.getaCache().getAsString(groupId + SplitWeb.getSplitWeb().USER_ID);
+                if (StrUtils.isEmpty(searchDetailInfo)) {
+                    sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId));
+                }
+                else{
+                    dealSearchDetailInfo(searchDetailInfo);
+                }
+            }
         }
         isFirst = true;
     }
@@ -269,40 +288,9 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         String s = HelpUtils.backMethod(responseText);
         switch (s) {
             case "searchDetailInfo":
-                DataAddQunDetails dataAddQunDetails = JSON.parseObject(responseText, DataAddQunDetails.class);
-                DataAddQunDetails.RecordBean record = dataAddQunDetails.getRecord();
-                if (record != null) {
-                    DataAddQunDetails.RecordBean.GroupDetailInfoBean group_detail_info = record.getGroupDetailInfo();
-                    if (group_detail_info != null) {
-                        DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfo = group_detail_info.getGroupInfo();
-                        DataAddQunDetails.RecordBean.GroupDetailInfoBean.UserInfoBean userInfo = group_detail_info.getUserInfo();
-                        if (userInfo != null) {
-                            initUserInfo(userInfo);
-                            String identityType = userInfo.getIdentityType();
-                            isGrouper = identityType.equals("3") ? false : true;
-                            if (isGrouper) {
-                                groupDetailsIvEdit.setVisibility(View.VISIBLE);
-                                groupDetailsLinName.setClickable(true);
-                            } else {
-                                groupDetailsIvEdit.setVisibility(View.GONE);
-                                groupDetailsLinName.setClickable(false);
-                            }
-                            List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info = group_detail_info.getGroupUserInfo();
-                            if (group_user_info.size() > 0) {
-//                                initListHead(group_user_info);
-                                initAdapter(group_user_info, isGrouper);
-                            }
-                        }
-                        if (groupInfo != null) {
-                            dataRecord = groupInfo;
-                            initUI(groupInfo);
-                        }
-                        DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupNoticeBean group_notice = group_detail_info.getGroupNotice();
-                        if (group_notice != null) {
-                            initNotice(group_notice);
-                        }
-                    }
-                }
+                BaseApplication.getaCache().put(groupId + SplitWeb.getSplitWeb().USER_ID, responseText);
+
+                dealSearchDetailInfo(responseText);
                 break;
             case "outGroupChat":
                 DialogUtils.showDialogOne("退出群聊成功", new DialogUtils.OnClickSureListener() {
@@ -368,6 +356,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             case "groupSendInterface":
                 // 群聊
                 CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
+                cusJumpGroupChatData.setGroupId(groupId);
                 DataChatGroupPop dataChatGroupPop = JSON.parseObject(responseText, DataChatGroupPop.class);
                 DataChatGroupPop.RecordBean recordBean = dataChatGroupPop.getRecord();
                 if (recordBean != null){
@@ -379,11 +368,13 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                         }
                         DataChatGroupPop.RecordBean.GroupDetailInfoBean.UserInfoBean userInfoBean = groupDetailInfoBean.getUserInfo();
                         if (userInfoBean != null){
-                            cusJumpGroupChatData.setGroupId(groupId);
+                            MyLog.e("myGroupId","----------------------groupSendInterface--------------------------"+groupId);
+                            MyLog.e("myGroupId","----------------------groupSendInterface2222--------------------------"+cusJumpGroupChatData.getGroupId());
                             cusJumpGroupChatData.setCardName(userInfoBean.getCarteName());
                             cusJumpGroupChatData.setIdentifyType(userInfoBean.getIdentityType());
                         }
                     }
+                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
                 }
 //                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
 //                cusHomeRealmData.setHeadImg(groupHeadImg);
@@ -398,10 +389,47 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 //                {
 //                    realmHelper.addRealmMsgQun(cusHomeRealmData);
 //                }
-                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
                 break;
         }
     }
+
+    private void dealSearchDetailInfo(String responseText) {
+        DataAddQunDetails dataAddQunDetails = JSON.parseObject(responseText, DataAddQunDetails.class);
+        DataAddQunDetails.RecordBean record = dataAddQunDetails.getRecord();
+        if (record != null) {
+            DataAddQunDetails.RecordBean.GroupDetailInfoBean group_detail_info = record.getGroupDetailInfo();
+            if (group_detail_info != null) {
+                DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfo = group_detail_info.getGroupInfo();
+                DataAddQunDetails.RecordBean.GroupDetailInfoBean.UserInfoBean userInfo = group_detail_info.getUserInfo();
+                if (userInfo != null) {
+                    initUserInfo(userInfo);
+                    String identityType = userInfo.getIdentityType();
+                    isGrouper = identityType.equals("3") ? false : true;
+                    if (isGrouper) {
+                        groupDetailsIvEdit.setVisibility(View.VISIBLE);
+                        groupDetailsLinName.setClickable(true);
+                    } else {
+                        groupDetailsIvEdit.setVisibility(View.GONE);
+                        groupDetailsLinName.setClickable(false);
+                    }
+                    List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info = group_detail_info.getGroupUserInfo();
+                    if (group_user_info.size() > 0) {
+//                                initListHead(group_user_info);
+                        initAdapter(group_user_info, isGrouper);
+                    }
+                }
+                if (groupInfo != null) {
+                    dataRecord = groupInfo;
+                    initUI(groupInfo);
+                }
+                DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupNoticeBean group_notice = group_detail_info.getGroupNotice();
+                if (group_notice != null) {
+                    initNotice(group_notice);
+                }
+            }
+        }
+    }
+
     CustomPopWindow popWindow;
     private PhotoPopWindow photoPopWindow = null;
     //为弹出窗口实现监听类
@@ -964,6 +992,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 {
                     AppManager.getAppManager().finishActivity(this);
                 }else{
+//                    sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
                     final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
                     cusHomeRealmData.setHeadImg(groupHeadImg);
                     cusHomeRealmData.setFriendId(groupId);
@@ -978,13 +1007,12 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                         realmHelper.addRealmMsgQun(cusHomeRealmData);
                     }
 
-                    sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
 //                    // 群聊
-//                    CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
-//                    cusJumpChatData.setGroupId(groupId);
-//                    cusJumpChatData.setGroupName(groupChatName);
-//
-//                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                    CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
+                    cusJumpChatData.setGroupId(groupId);
+                    cusJumpChatData.setGroupName(groupChatName);
+
+                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
                 }
                 break;
         }

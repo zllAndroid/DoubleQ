@@ -91,23 +91,22 @@ public class ChatService extends Service {
 
                         @Override
                         public void recevieMsg(String type, String recevieMsg) throws RemoteException {
-                            AppConfig.logs("CS"+recevieMsg);
-                            switch (type)
-                            {
-                                case "1":
-                                    List<CusHomeRealmData> mHomeList=new ArrayList<>();
-                                    CusHomeRealmData mCusHomeRealmData=new CusHomeRealmData();
-                                    mCusHomeRealmData.setName("我是主頁列表數據:我是名稱");
-                                    ArrayList<CusChatData> chatMsgs=new ArrayList<>();
-                                    CusChatData mCusChatData=new CusChatData();
-                                    mCusChatData.setMyNumber("主頁");
-                                    chatMsgs.add(mCusChatData);
-                                    mCusHomeRealmData.setChatMsgs(chatMsgs);
-                                    mHomeList.add(mCusHomeRealmData);
-
-                                    callback.recevieHomeList(mHomeList);
-                                    break;
-                            }
+//                            switch (type)
+//                            {
+//                                case "1":
+//                                    List<CusHomeRealmData> mHomeList=new ArrayList<>();
+//                                    CusHomeRealmData mCusHomeRealmData=new CusHomeRealmData();
+//                                    mCusHomeRealmData.setName("我是主頁列表數據:我是名稱");
+//                                    ArrayList<CusChatData> chatMsgs=new ArrayList<>();
+//                                    CusChatData mCusChatData=new CusChatData();
+//                                    mCusChatData.setMyNumber("主頁");
+//                                    chatMsgs.add(mCusChatData);
+//                                    mCusHomeRealmData.setChatMsgs(chatMsgs);
+//                                    mHomeList.add(mCusHomeRealmData);
+//
+//                                    callback.recevieHomeList(mHomeList);
+//                                    break;
+//                            }
 
 
                             try {

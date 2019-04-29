@@ -77,7 +77,9 @@ import com.mding.model.DataChatGroupPop;
 import com.mding.model.DataGroupChatResult;
 import com.mding.model.DataGroupChatSend;
 import com.mding.model.DataJieShou;
+import com.mding.model.DataQueryRepetition;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -97,6 +99,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+
+import static com.mding.chatfeng.about_chat.ChatActivity.messageTypeImg;
+import static com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment.imgMD5FunFrag;
+import static com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment.imgTotalFunFrag;
 
 /**
  * 项目：DoubleQ
@@ -218,16 +224,15 @@ public class ChatGroupActivity extends BaseActivity {
         initReceiver();
         Intent intent = getIntent();
         if (intent != null) {
-//            Uri uri = intent.getData();
-//            initUri(uri);
             jumpGroupChatData = (CusJumpGroupChatData) intent.getSerializableExtra(Constants.KEY_FRIEND_HEADER);
             GroupChatData = (DataSearch) intent.getSerializableExtra("dataSearch");
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
             if (jumpGroupChatData != null) {
                 groupId = jumpGroupChatData.getGroupId();
+                MyLog.e("myGroupId","----------------------CusJumpGroupChatData--------------------------"+groupId);
                 includeTopTvTitle.setText(jumpGroupChatData.getGroupName());
-                cardName = StrUtils.isEmpty(jumpGroupChatData.getCardName()) ? "暂未设置" : jumpGroupChatData.getCardName();
-                isChecked = jumpGroupChatData.getDisturbType();
+//                cardName = StrUtils.isEmpty(jumpGroupChatData.getCardName()) ? "暂无" : jumpGroupChatData.getCardName();
+//                isChecked = jumpGroupChatData.getDisturbType();
             } else if (GroupChatData != null) {
                 groupId = GroupChatData.getId();
                 includeTopTvTitle.setText(GroupChatData.getName());
@@ -243,7 +248,10 @@ public class ChatGroupActivity extends BaseActivity {
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
-//        sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
+        MyLog.e("ChatActivity","--------------------标题---------Group---------------->>"+includeTopTvTitle.getText().toString());
+//        if (StrUtils.isEmpty(includeTopTvTitle.getText().toString())) {
+            sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
+//        }
     }
 
 //    private void initUri(Uri uri) {
@@ -400,8 +408,6 @@ public class ChatGroupActivity extends BaseActivity {
             case R.id.include_top_iv_more:
 //                IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
                 IntentUtils.JumpToHaveTwo(GroupChatDetailsActivity.class, AppConfig.GROUP_ID,groupId,AppConfig.IS_CHATGROUP_TYPE,AppConfig.CHATGROUP);
-//
-
                 break;
             case R.id.include_top_lin_title:
                 includeTopIvDrop.setActivated(true);
@@ -411,6 +417,7 @@ public class ChatGroupActivity extends BaseActivity {
                 cusChatPop.setChatLinMainWhole(chatLinMainWhole);
                 cusChatPop.setGroupId(groupId);
                 cusChatPop.setIsChecked(isChecked);
+//                String cardNames = cardName.equals("暂无") ? "" : cardName;
                 cusChatPop.setCardName(cardName);
                 if (chatGroupPopWindow == null)
                     chatGroupPopWindow = new ChatPopWindow(cusChatPop);
@@ -616,9 +623,24 @@ public class ChatGroupActivity extends BaseActivity {
                     DataChatGroupPop.RecordBean.GroupDetailInfoBean.UserInfoBean userInfoBean = groupDetailInfoBean.getUserInfo();
                     DataChatGroupPop.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfo = groupDetailInfoBean.getGroupInfo();
                     includeTopTvTitle.setText(groupInfo.getGroupName());
-                    cardName = StrUtils.isEmpty(userInfoBean.getCarteName()) ? "暂未设置" : userInfoBean.getCarteName();
+                    cardName = StrUtils.isEmpty(userInfoBean.getCarteName()) ? "暂无" : userInfoBean.getCarteName();
                     isChecked = userInfoBean.getDisturbType();
                     Log.e("setUserGroupDisturb","-------------------群聊界面请求-----------------"+isChecked);
+                }
+                break;
+                // 请求MD5返回值判断
+            case "getQueryRepetition":
+                DataQueryRepetition dataQueryRepetition = JSON.parseObject(responseText, DataQueryRepetition.class);
+                if (dataQueryRepetition != null){
+                    DataQueryRepetition.RecordBean recordBeanQuery = dataQueryRepetition.getRecord();
+                    if (recordBeanQuery != null){
+                        if (recordBeanQuery.getFileType() == 1){
+                            // 是否发送 1需发送 2无需发送
+                            send(SplitWeb.getSplitWeb().groupSend(ChatGroupActivity.groupId, imgTotalFunFrag, messageTypeImg, TimeUtil.getTime()));
+                        }else if (recordBeanQuery.getFileType() == 1){
+                            send(SplitWeb.getSplitWeb().groupSend(ChatGroupActivity.groupId, imgMD5FunFrag, messageTypeImg, TimeUtil.getTime()));
+                        }
+                    }
                 }
                 break;
         }

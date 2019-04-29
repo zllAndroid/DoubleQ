@@ -111,8 +111,7 @@ public class PresenterApp extends BaseApp {
 
     @Override
     void onRecevieMsg(String onSendMsg) {
-
-        AppConfig.logs("onSendMsg======================================================"+onSendMsg);
+        MyLog.e("onRecevieMsg","onSendMsg=============收到的消息========================================="+onSendMsg);
         onMessageResponse(onSendMsg);
         EventBus.getDefault().post(new MessageEvent(onSendMsg));
 

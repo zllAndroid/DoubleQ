@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_chat.chat_group.FriendDataGroupMemberActivity;
@@ -22,6 +23,8 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_custom.Allcity;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_custom.LetterBar;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.model.DataGroupMember;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +45,10 @@ public class GroupTeamActivity extends BaseActivity {
     ExpandableListView mExpanList;
     @BindView(R.id.group_team_letter)
     LetterBar mLetterBar;
-
+    ACache mACache = null;
     private Runnable runnable;
+    String MEMBER_LIST = "member_list";
+    String memberListString;
 
     @Override
     protected int getLayoutView() {
@@ -64,8 +69,14 @@ public class GroupTeamActivity extends BaseActivity {
         Intent intent = getIntent();
         if (intent!=null) {
             groupId = intent.getStringExtra(GROUP_ID);
-            if (groupId != null)
-                sendWeb(SplitWeb.getSplitWeb().getGroupMemberList(groupId));
+            if (groupId != null){
+                memberListString = BaseApplication.getaCache().getAsString(groupId + SplitWeb.getSplitWeb().USER_ID+MEMBER_LIST);
+                if (StrUtils.isEmpty(memberListString)){
+                    sendWeb(SplitWeb.getSplitWeb().getGroupMemberList(groupId));
+                }else {
+                    dealMemberList(memberListString);
+                }
+            }
         }
     }
     private void initGroup() {
@@ -90,7 +101,7 @@ public class GroupTeamActivity extends BaseActivity {
             public void run() {
                 try {
                     if (mTvAbc!=null)
-                    mTvAbc.setVisibility(View.INVISIBLE);
+                        mTvAbc.setVisibility(View.INVISIBLE);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -143,17 +154,23 @@ public class GroupTeamActivity extends BaseActivity {
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
             case "getGroupMemberList":
-                DataGroupMember dataGroupMember = JSON.parseObject(responseText, DataGroupMember.class);
-                DataGroupMember.RecordBean record = dataGroupMember.getRecord();
-                List<DataGroupMember.RecordBean.MemberListBean> memberList = record.getMemberList();
-                allCusList.clear();
-                allCusList.addAll(memberList);
+                BaseApplication.getaCache().put(groupId + SplitWeb.getSplitWeb().USER_ID+MEMBER_LIST, responseText);
+
+                dealMemberList(responseText);
+                break;
+        }
+    }
+
+    private void dealMemberList(String responseText) {
+        DataGroupMember dataGroupMember = JSON.parseObject(responseText, DataGroupMember.class);
+        DataGroupMember.RecordBean record = dataGroupMember.getRecord();
+        List<DataGroupMember.RecordBean.MemberListBean> memberList = record.getMemberList();
+        allCusList.clear();
+        allCusList.addAll(memberList);
 //                String groupName = record.getMemberList().get(0).getGroupName();
 //                List<DataGroupMember.RecordBean.MemberListBean.GroupListBean> groupList = record.getMemberList().get(0).getGroupList();
 //                initABCByGroup();
-                initGroupTeamAdapter();
-                break;
-        }
+        initGroupTeamAdapter();
     }
 
     private void initGroupTeamAdapter() {

@@ -882,7 +882,7 @@ public boolean isOne =true;
      * @param friendsId
      * @return
      */
-    public    String privateSend(String friendsId,String message,String messageType,String requestTime){
+    public String privateSend(String friendsId,String message,String messageType,String requestTime){
         dealMap();
         putData("friendsId",friendsId);
         putData("message",message);
@@ -893,6 +893,17 @@ public boolean isOne =true;
         return  request;
     }
 
+    /**
+     * 聊天 发送图片前检测
+     */
+    public String getQueryRepetition(String type, String fileMd5){
+        dealMap();
+        putData("type",type);
+        putData("fileMd5",fileMd5);
+        String request = WebUrl.request("MyAMQPTask", "getQueryRepetition", map);
+//        String request = WebUrl.request("Chat","2.0.0", "privateSend", map);
+        return  request;
+    }
     public    String messageObtain(String friendsId){
         dealMap();
         putData("friendsId",friendsId);

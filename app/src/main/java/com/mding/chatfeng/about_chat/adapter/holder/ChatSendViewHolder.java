@@ -31,6 +31,8 @@ import com.rance.chatui.widget.GifTextView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment.smallImgByBase64;
+
 /**
  */
 public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
@@ -156,10 +158,12 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.VISIBLE);
+                    ImageUtils.useBase64ToChat(getContext(),chatItemContentImage,smallImgByBase64);
                     // TODO 显示发送的图片
                     String message = data.getMessage();
                     final String[] split = message.split("_");
                     ImageUtils.useBase64ToChat(getContext(),chatItemContentImage,split[0]);
+                    MyLog.e("ChatSendViewHolder","------------------------ChatSend-------------------------"+split[0].length());
                     MyLog.e("ChatSendViewHolder","------------------------ChatSend-------------------------"+split[1]);
 //                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
                     chatItemContentImage.setOnClickListener(new View.OnClickListener() {

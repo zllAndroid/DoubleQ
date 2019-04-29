@@ -142,14 +142,15 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             sendWeb(SplitWeb.getSplitWeb().personalCenter());
         }
     }
-
+    String signatureText;
     private void initUI(String json) {
         DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
         DataLogin.RecordBean recordBean = dataLogin.getRecord();
         if (recordBean!=null) {
-           changeinfoTvName.setText(recordBean.getNickName());
-           changeinfoTvCount.setText(recordBean.getWxSno());
-           changeinfoTvSign.setText(recordBean.getPersonaSignature());
+            changeinfoTvName.setText(recordBean.getNickName());
+            changeinfoTvCount.setText(recordBean.getWxSno());
+            signatureText = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? "暂未设置" : recordBean.getPersonaSignature();
+            changeinfoTvSign.setText(signatureText);
         }
     }
 
@@ -218,7 +219,13 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     //修改个签
     private void doChangeSign() {
         isChangeName = "2";
-        ChangeInfoWindow changeInfoWindowSign = new ChangeInfoWindow(ChangeInfoActivity.this, "修改个性签名", changeinfoTvSign.getText().toString().trim());
+        ChangeInfoWindow changeInfoWindowSign;
+        if (signatureText.equals("暂未设置")){
+            changeInfoWindowSign = new ChangeInfoWindow(ChangeInfoActivity.this, "修改个性签名", "");
+        }
+        else {
+            changeInfoWindowSign = new ChangeInfoWindow(ChangeInfoActivity.this, "修改个性签名", changeinfoTvSign.getText().toString().trim());
+        }
         changeInfoWindowSign.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindowSign.setOnAddpopClickListener(this);
     }
@@ -234,7 +241,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     //修改昵称
     private void doChangeName() {
         isChangeName = "0";
-        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(ChangeInfoActivity.this, "修改名字", changeinfoTvName.getText().toString().trim());
+        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(ChangeInfoActivity.this, "修改昵称", changeinfoTvName.getText().toString().trim());
         changeInfoWindow.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindow.setOnAddpopClickListener(this);
     }
@@ -405,8 +412,10 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 if (!StrUtils.isEmpty(json)) {
                     DataLogin.RecordBean recordBean = JSON.parseObject(json, DataLogin.RecordBean.class);
 //                    if (dataLogin != null) {
-                        recordBean.setNickName(contant);
+                    recordBean.setNickName(contant);
 //                        String jsonString = JSON.toJSONString(recordBean);
+//                    String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
+//                    aCache.put(AppAllKey.TOKEN_KEY, jsonString);
                     String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
                         aCache.put(AppAllKey.TOKEN_KEY, jsonString);
 //                    }

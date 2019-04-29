@@ -24,7 +24,7 @@ public final static  int WHAT_REALM_INITADAPTER=0x1;
 
     public static final String QR_CODE = "qrCode";
 
-    public final static  boolean DEBUG = true;
+    public final static  boolean DEBUG = false;
     public final static  String TAG = "xf";
     public final static  int NotifyDeamonID=-1001;
     public static String ok="11111";

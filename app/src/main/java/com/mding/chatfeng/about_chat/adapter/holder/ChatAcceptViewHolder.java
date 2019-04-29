@@ -125,7 +125,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
                     // TODO 显示接收的图片
                     String message = data.getMessage();
                     final String[] split = message.split("_");
-                    ImageUtils.useBase64Rectangle(getContext(),chatItemContentImage,split[0]);
+                    ImageUtils.useBase64ToChat(getContext(),chatItemContentImage,split[0]);
                     MyLog.e("ChatSendViewHolder","------------------------ChatAccept-------------------------"+split[1]);
 //                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
                     chatItemContentImage.setOnClickListener(new View.OnClickListener() {

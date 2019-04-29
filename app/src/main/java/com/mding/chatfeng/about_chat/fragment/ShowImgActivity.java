@@ -189,7 +189,7 @@ public class ShowImgActivity extends BaseActivity implements View.OnClickListene
 //            // 压缩图
 //            Bitmap bm = ImageUtils.imageZoom(bitMap);
 //            String imgByZoom = ImageUtils.Bitmap2StrByBase64(bm);
-//            // TODO 发送图片（格式：压缩图片的base64_高清原图的base64）
+//            // 发送图片（格式：压缩图片的base64_高清原图的base64）
 //            imgTotal = imgByZoom + "_" + imgNoZoom;
 //            String is_chat = SplitWeb.getSplitWeb().IS_CHAT;
 //            String is_chat_group = SplitWeb.getSplitWeb().IS_CHAT_GROUP;
@@ -203,28 +203,21 @@ public class ShowImgActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    @Override
-    public void receiveResultMsg(String responseText) {
-        super.receiveResultMsg(responseText);
-        String method = HelpUtils.backMethod(responseText);
-        switch (method) {
-            case Methon.PrivateSend:
-                DataJieShou dataJieShou = JSON.parseObject(responseText, DataJieShou.class);
-                DataJieShou.RecordBean recordBean = dataJieShou.getRecord();
-                ToastUtil.isDebugShow("发送图片成功");
-                break;
-            case Methon.GroupChatSend:
-                DataGroupChatResult dataGroupChatResult = JSON.parseObject(responseText, DataGroupChatResult.class);
-                DataGroupChatResult.RecordBean recordBean1 = dataGroupChatResult.getRecord();
-                ToastUtil.isDebugShow("发送群聊图片成功");
-                break;
-        }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
-    }
+//    @Override
+//    public void receiveResultMsg(String responseText) {
+//        super.receiveResultMsg(responseText);
+//        String method = HelpUtils.backMethod(responseText);
+//        switch (method) {
+//            case Methon.PrivateSend:
+//                DataJieShou dataJieShou = JSON.parseObject(responseText, DataJieShou.class);
+//                DataJieShou.RecordBean recordBean = dataJieShou.getRecord();
+//                ToastUtil.isDebugShow("发送图片成功");
+//                break;
+//            case Methon.GroupChatSend:
+//                DataGroupChatResult dataGroupChatResult = JSON.parseObject(responseText, DataGroupChatResult.class);
+//                DataGroupChatResult.RecordBean recordBean1 = dataGroupChatResult.getRecord();
+//                ToastUtil.isDebugShow("发送群聊图片成功");
+//                break;
+//        }
+//    }
 }

@@ -117,7 +117,6 @@ public class ChannelDeamon extends Service {
         VolleyRequest.RequestGet(getApplicationContext(),loginUrl, new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
             @Override
             public void onSuccess(final String result) {
-                MyLog.e("result","请求结果result----------=="+result);
                 try {
                     callback.onSuccess(result);
 

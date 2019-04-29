@@ -62,7 +62,7 @@ import java.util.concurrent.ExecutionException;
  * 文件描述：
  * 作者：zll
  * 创建时间：2019/4/12 0012
- * 修改人：
+ * 修改人：ljj
  * 更改时间：
  * 修改备注：
  */
@@ -92,7 +92,7 @@ public class DealDataByApp {
 //            判断返回的方法名
             String s = HelpUtils.backMethod(message);
             switch (s) {
-                //接收好友消息
+//                   接收好友消息
                 case Methon.PrivateChat:
 //                case "privateReceive":
                     MsgFragment.isZero = true;
@@ -114,7 +114,7 @@ public class DealDataByApp {
                 case "addFriendSend":
                     dealFriend(message);
                     break;
-//                添加好友-离线推送通知接口(接收者)
+//                    添加好友-离线推送通知接口(接收者)
                 case "addFriendPush":
                     dealFriendPush(message);
                     break;
@@ -142,19 +142,19 @@ public class DealDataByApp {
                 case "agreeGroupListSend":
                     DealGroupAdd.getDealGroupAdd().updateGroupDataByAdd(mContext, message);
                     break;
-//                   加入群聊  用户加入群 - 给成员发送 联系人变动信息接口
+//                    加入群聊  用户加入群 - 给成员发送 联系人变动信息接口
                 case "joinGroupListSend":
                     DealGroupAdd.getDealGroupAdd().updateGroupDataByAdd(mContext, message);
                     break;
-//                   退出群聊
+//                    退出群聊
                 case "outGroupListSend":
                     DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,realmHelper);
                     break;
-//                   被移出群，被移除的成員收到的推送
+//                    被移出群，被移除的成員收到的推送
                 case "removeGroupListSend":
                     DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,realmHelper);
                     break;
-//                   修改群信息   给成员发送 联系人变动信息接口  （含：用户修改自己群的名称）
+//                    修改群信息   给成员发送 联系人变动信息接口  （含：用户修改自己群的名称）
                 case "modifyGroupListSend":
                     String s1 = DealGroupAdd.getDealGroupAdd().updateGroupDataByModifySub(mContext, message);
                     if (!StrUtils.isEmpty(s1))
@@ -175,7 +175,7 @@ public class DealDataByApp {
                 case "deleteFriendSend":
                     DealFriendAdd.getDealFriendAdd().updateFriendDataBySub(mContext,message);
                     break;
-//                添、删、改好友分组or群分组管理
+//                    添、删、改好友分组or群分组管理
                 case "addFriendGroupManageSend":
 //                    DealModifyGroupOfList.modifyGroupOfList(this,message);
                     break;
@@ -215,7 +215,7 @@ public class DealDataByApp {
                 case "updateFriendSend":
                     DealUpdateFriend.getDealUpdateFriend().updateFriend(mContext,message);
                     break;
-//成员列表 变动 推送
+//                    成员列表 变动 推送
                 case "invitationfGroupMemberSend":
 //                    DealUpdateFriend.getDealUpdateFriend().updateFriend(mContext,message);
                     break;

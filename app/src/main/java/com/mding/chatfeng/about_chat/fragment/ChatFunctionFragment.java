@@ -30,6 +30,7 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_chat.ChatActivity;
 import com.mding.chatfeng.about_chat.chat_group.ChatGroupActivity;
 import com.mding.chatfeng.about_utils.ImageUtils;
+import com.mding.chatfeng.about_utils.MD5Utils;
 import com.mding.chatfeng.about_utils.MathUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.model.DataJieShou;
@@ -77,6 +78,9 @@ public class ChatFunctionFragment extends ChatBaseFragment {
     private File output;
     private Uri imageUri;
     String messageTypeImg = "2";
+    public static String imgTotalFunFrag;
+    public static String imgMD5FunFrag;
+    public static String smallImgByBase64;
 
     @Nullable
     @Override
@@ -263,31 +267,32 @@ public class ChatFunctionFragment extends ChatBaseFragment {
             String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
 //             原图
             Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
-            String imgByOrigin = ImageUtils.Bitmap2StrByBase64(bitMap);
+//            String imgByOrigin = ImageUtils.Bitmap2StrByBase64(bitMap);
+
             //相对高清图
             Bitmap bigImg = ImageUtils.imageZoom(bitMap,200);
             String bigImgByBase64 = ImageUtils.Bitmap2StrByBase64(bigImg);
 
 //             压缩图
             Bitmap smallImg = ImageUtils.imageZoom(bigImg);
-            String smallImgByBase64 = ImageUtils.Bitmap2StrByBase64(smallImg);
-            // TODO 发送图片（格式：压缩图片的base64_高清原图的base64）
-            String imgTotal = smallImgByBase64 + "_" + bigImgByBase64;
+            smallImgByBase64 = ImageUtils.Bitmap2StrByBase64(smallImg);
+            // 发送图片（格式：压缩图片的base64_高清原图的base64）
 //            String imgTotal2 = imgByZoom + "_" + imgByZoom;
-            if (SplitWeb.getSplitWeb().IS_CHAT.equals("1")){
-                MyLog.e("imageSize","--------------------------------------------bitMap.getByteCount() = " + bitMap.getByteCount());
-//                if (bitMap.getByteCount() <= (1024 * 1024 * 2)) {    //  小于2M才上传    1024*1024*2 = 209 7152
-                    send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, imgTotal, messageTypeImg, TimeUtil.getTime()));
-                    ToastUtil.isDebugShow("正在发送图片...");
-//                }
-            }
-            else {
-                send(SplitWeb.getSplitWeb().groupSend(ChatGroupActivity.groupId, imgTotal, messageTypeImg, TimeUtil.getTime()));
-                ToastUtil.isDebugShow("正在发送图片...");
-            }
-            MyLog.e("ChatSendViewHolder", "正在发送图片"+imgTotal.length());
-//            ImageUtils.useBase64(getActivity(), changeinfoIvHead, s1);
 
+            // TODO  请求MD5的key查询
+            String imgTotalMD5 = MD5Utils.encryptMD5(bigImgByBase64);
+            imgTotalFunFrag = smallImgByBase64 + "_" + bigImgByBase64 + "_" + imgTotalMD5;
+            imgMD5FunFrag = "__"+imgTotalMD5;
+            if (SplitWeb.getSplitWeb().IS_CHAT.equals("1")){  // 私聊
+                //  type：发送类型 1私聊图片 2群聊
+                send(SplitWeb.getSplitWeb().getQueryRepetition("1", imgTotalMD5));
+//                send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, imgTotalStringFunFrag, messageTypeImg, TimeUtil.getTime()));
+            }
+            else {    // 群聊
+                send(SplitWeb.getSplitWeb().getQueryRepetition("2", imgTotalMD5));
+//                send(SplitWeb.getSplitWeb().groupSend(ChatGroupActivity.groupId, imgTotalStringFunFrag, messageTypeImg, TimeUtil.getTime()));
+            }
+            ToastUtil.isDebugShow("正在发送图片...");
         }
     }
 
@@ -357,7 +362,6 @@ public class ChatFunctionFragment extends ChatBaseFragment {
         String[] proj = {MediaStore.Images.Media.DATA};
         Cursor cursor = getActivity().getContentResolver().query(contentUri, proj, null, null, null);
         if (cursor.moveToFirst()) {
-
             int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
             res = cursor.getString(column_index);
         }
