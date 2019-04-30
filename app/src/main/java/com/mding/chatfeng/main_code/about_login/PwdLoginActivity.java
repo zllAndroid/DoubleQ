@@ -23,6 +23,7 @@ import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
+import com.mding.core.pushservice.WsChannelService;
 import com.mding.model.DataLogin;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
@@ -51,7 +52,7 @@ import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
  * 项目：DoubleQ
  * 文件描述：验证码登录界面
  * 作者：zll
- * 修改者：刘佳佳
+ * 修改者：ljj
  */
 public class PwdLoginActivity extends BaseLogin {
     @BindView(R.id.include_top_iv_back)
@@ -104,6 +105,7 @@ public class PwdLoginActivity extends BaseLogin {
     @Override
     protected void onResume() {
         super.onResume();
+        WsChannelService.isBind=true;
     }
 
     @Override
@@ -245,6 +247,7 @@ public class PwdLoginActivity extends BaseLogin {
     //返回成功内容
     @Override
     void onLoginSuccees(String mLoginModel) {
+        MyLog.e("request","---------短信登录----------->>"+mLoginModel);
         String isSucess = HelpUtils.HttpIsSucess(mLoginModel);
         if (isSucess.equals(AppAllKey.CODE_OK)) {
             AboutLoginSaveData aboutLoginSaveData = new AboutLoginSaveData(PwdLoginActivity.this);

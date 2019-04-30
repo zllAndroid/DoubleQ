@@ -18,6 +18,7 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_base.AppConfig;
+import com.mding.core.pushservice.WsChannelService;
 import com.mding.model.DataForceLogin;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -25,6 +26,7 @@ import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -73,6 +75,7 @@ public class LoginActivity extends BaseLogin {
     @Override
     protected void onResume() {
         super.onResume();
+        WsChannelService.isBind=true;
         String phone =(String ) SPUtils.get(LoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, "");
         if (!phone.isEmpty()) {
             loginEdPhone.setText(phone);
@@ -203,6 +206,14 @@ public class LoginActivity extends BaseLogin {
         if (isSucess.equals(AppAllKey.CODE_OK)) {
             AboutLoginSaveData aboutLoginSaveData = new AboutLoginSaveData(LoginActivity.this);
             aboutLoginSaveData.initSaveData(mLoginModel);
+        }
+        else if (isSucess.equals(AppConfig.CODE_EPC)){
+            String httpReturnMsg = HelpUtils.HttpReturnMsg(mLoginModel);
+            try {
+                ToastUtil.show(httpReturnMsg);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

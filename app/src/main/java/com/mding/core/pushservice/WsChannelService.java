@@ -20,13 +20,16 @@ import android.provider.Settings;
 import android.support.multidex.MultiDex;
 import android.util.Log;
 
+import com.alibaba.fastjson.JSON;
 import com.mding.IChatCallBack;
 import com.mding.IChatRequst;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.model.DataLogin;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
@@ -78,6 +81,7 @@ public class WsChannelService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         try {
             String ws = (String) SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_WS_REQUEST, "123");
+            isBind=true;
             Log.e("mACache","---------------------------->>>"+ws);
             if (!StrUtils.isEmpty(ws))
                 if (wsManager == null) {
@@ -93,6 +97,7 @@ public class WsChannelService extends Service {
                             .build();
                     wsManager.setWsStatusListener(wsStatusListener);
                     wsManager.startConnect();
+
                     AppConfig.logs("-------------------->>"+ wsManager.isWsConnected()+"URL地址："+ ws);
                 }else
                 {
@@ -106,11 +111,21 @@ public class WsChannelService extends Service {
 
         try{
             String  data = intent.getStringExtra("data");
+            if (!StrUtils.isEmpty(data))
+            {
+//                WsBindUid
+                DataLogin dataLogin = JSON.parseObject(data, DataLogin.class);
+                DataLogin.RecordBean record = dataLogin.getRecord();
+                String userToken = record.getUserToken();
+                String userId = record.getUserId();
+                wsManager.sendMessage(SplitWeb.getSplitWeb().WsBindUid(userId,userToken));
+            }
             /*  connectionWs("第一次连"+data);*/
-            AppConfig.logs("WsChannelService->:报错了"+data);
+            MyLog.e("isBind",isBind+"---------------------isBind--------------------------------"+data);
             //启动OK3，在OK3中判断UI状态，ChatService状态，然后执行消息通知栏
         }catch (Exception e){
             AppConfig.logs("WsChannelService->:报错了");
+            isBind=true;
         }
 
         return START_STICKY;
@@ -170,14 +185,19 @@ public class WsChannelService extends Service {
         }
     };
 
-
+    public static boolean isBind=true;
 
     private final WsStatusListener wsStatusListener = new WsStatusListener() {
         @Override
         public void onOpen(Response response) {
             super.onOpen(response);
             AppConfig.logs("连接成功");
+            MyLog.e("onOpen","----------是否启动绑定-------------->>>>"+isBind);
             wsManager.sendMessage(SplitWeb.getSplitWeb().bindUid());
+            if (isBind)
+            {
+                MyLog.e("onOpen","----------启动绑定-------------->>>>"+SplitWeb.getSplitWeb().bindUid());
+            }
 //            callbacks.recevieContactsList();
         }
 
@@ -185,6 +205,16 @@ public class WsChannelService extends Service {
         public void onMessage(String text) {
             super.onMessage(text);
             String backMethod = HelpUtils.backMethod(text);
+            String only = HelpUtils.backOnly(text);
+            if (only.equals("1")&&backMethod.equals("bindUid"))
+            {
+//            sendWebHaveDialog(SplitWeb.getSplitWeb().bindUid(),"断线重连中...","重连成功");
+                if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId()))
+                {
+                    MyLog.e("onOpen","----------接收断线重新绑定-------------->>>>"+SplitWeb.getSplitWeb().bindUid());
+                    wsManager.sendMessage(SplitWeb.getSplitWeb().bindUid());
+                }
+            }
             if (backMethod.equals("")) {
             }
 

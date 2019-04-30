@@ -184,7 +184,7 @@ public class HelpUtils {
     public static String HttpIsSucess(String result){
         CustomDialog.Builder mBuilder;
         try {
-            if (!result.equals("")&&result!=null) {
+            if (!StrUtils.isEmpty(result)) {
 
                 JSONObject object = null;
                 try {
@@ -197,6 +197,9 @@ public class HelpUtils {
                     return "";
                 switch (code) {
                     case AppConfig.CODE_OK:
+                        return code;
+                    case AppConfig.CODE_EPC:
+
                         return code;
                     case AppConfig.CODE_TIMEOUT:
                         return "1007";
@@ -211,6 +214,25 @@ public class HelpUtils {
                         String msg = object.optString("msg").toString().trim();
                         return msg;
                 }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "10086";
+    }
+    public static String HttpReturnMsg(String result){
+        CustomDialog.Builder mBuilder;
+        try {
+            if (!result.equals("")&&result!=null) {
+
+                JSONObject object = null;
+                try {
+                    object = new JSONObject(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String msg = object.optString("msg").toString().trim();
+                return msg;
             }
         } catch (Exception e) {
             e.printStackTrace();

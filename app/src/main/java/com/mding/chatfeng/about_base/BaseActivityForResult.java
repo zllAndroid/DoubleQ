@@ -243,13 +243,13 @@ public class BaseActivityForResult extends AppCompatActivity  {
         }
 
 
-        String only = HelpUtils.backOnly(data.toString());
-        if (only.equals("1"))
-        {
-//            sendWebHaveDialog(SplitWeb.getSplitWeb().bindUid(),"断线重连中...","重连成功");
-            if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId()))
-                sendWeb(SplitWeb.getSplitWeb().bindUid());
-        }
+//        String only = HelpUtils.backOnly(data.toString());
+//        if (only.equals("1"))
+//        {
+////            sendWebHaveDialog(SplitWeb.getSplitWeb().bindUid(),"断线重连中...","重连成功");
+//            if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId()))
+//                sendWeb(SplitWeb.getSplitWeb().bindUid());
+//        }
     }
     public void errorResult(String s) {
     }

@@ -23,6 +23,7 @@ import com.mding.chatfeng.main_code.ui.about_personal.about_set.ShareSetActivity
 import com.mding.chatfeng.main_code.ui.about_personal.about_set.YinSiActivity;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.main_code.about_login.LoginActivity;
+import com.mding.core.pushservice.WsChannelService;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -203,6 +204,7 @@ public class MineSetActivity extends BaseActivity {
                         public void onClickSure(String checkingId) {
                             switch (checkingId){
                                 case "1":
+                                    WsChannelService.isBind=true;
 //                                    ToastUtil.show("1");
                                     SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD=true;
                                     sendWeb(SplitWeb.getSplitWeb().kickUid());
@@ -217,13 +219,9 @@ public class MineSetActivity extends BaseActivity {
                                     IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",userPhone);
                                     overridePendingTransition(0,0);
 
-                                    if (BaseApplication.getApp().getmConnectManager()!=null) {
-                                        BaseApplication.getApp().getmConnectManager().onDestroy();
-                                        BaseApplication.mConnectManager = null;
-                                    }
-//                                    MyApplication.getmConnectManager().onDestroyService();
                                     break;
                                 case "2":
+                                    WsChannelService.isBind=true;
                                     SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD=true;
 //                                    ToastUtil.show("2");
                                     sendWeb(SplitWeb.getSplitWeb().kickUid());

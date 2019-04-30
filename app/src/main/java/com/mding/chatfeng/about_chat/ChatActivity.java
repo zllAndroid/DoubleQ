@@ -621,6 +621,7 @@ public class ChatActivity extends BaseActivity {
         }
     }
 
+
     ChatNewsWindow chatWindow = null;
     private void dealReceiverResult(String responseText) {
         DataJieShou dataJieShou1 = JSON.parseObject(responseText, DataJieShou.class);

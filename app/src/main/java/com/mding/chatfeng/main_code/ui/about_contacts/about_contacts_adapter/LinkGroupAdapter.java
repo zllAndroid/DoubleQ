@@ -116,13 +116,15 @@ public class LinkGroupAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (LinkGroupAdapter.ChildHolder) convertView.getTag();
         }
-        final  DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
-        if (groupListBean!=null) {
+        if (mGroupList.size() > 0){
+            final  DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
+            if (groupListBean!=null) {
 
 
-            String headImg = groupListBean.getHeadImg();
-            ImageUtils.useBase64(context,holder.img_contacts_child_head,headImg);
-            holder.tv_contacts_child_name.setText(groupListBean.getNickName());
+                String headImg = groupListBean.getHeadImg();
+                ImageUtils.useBase64(context,holder.img_contacts_child_head,headImg);
+                holder.tv_contacts_child_name.setText(groupListBean.getNickName());
+            }
         }
 //        holder.tv_contacts_child_state.setText(dataContactsManageChild.get());
 //        holder.tv_contacts_child_motto.setText(dataContactsManageChild.getTv_child_motto_m());

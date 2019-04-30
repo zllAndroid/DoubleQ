@@ -70,7 +70,6 @@ public class SplitWeb {
 //        Log.e("getUserId","getUserId="+USER_ID);
 //        return USER_ID;
 //    }
-public boolean isOne =true;
     public  String getUserId() {
 //        if(StrUtils.isEmpty(USER_ID))
             USER_ID= BaseApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);
@@ -149,6 +148,7 @@ public boolean isOne =true;
     //    public  String WebSocket_URL = "ws://192.168.4.48:9093";
 //    public  String URL = "http://192.168.4.48:9092/LoginController/";
 //    public  String WebSocket_URL = "ws://119.23.229.66:9093";
+
     public  String HttpURL = "";
     //    public  String HttpURL = "192.168.4.55:9092";
     private  String getURL() {
@@ -231,6 +231,18 @@ public boolean isOne =true;
 
     public    String bindUid(){
         dealMap();
+//        Log.e("WebSocketLib","userIdParameter="+userIdParameter+"-------------------------------------"+USER_ID);
+        String request = WebUrl.request("PersonCenter", "bindUid", map);
+        return  request;
+    }
+    public    String WsBindUid(String userId ,String token){
+        map.clear();
+        if(StrUtils.isEmpty(USER_ID))
+            getUserId();
+        putData(userIdParameter,USER_ID);
+        if(StrUtils.isEmpty(USER_TOKEN))
+            getUserToken();
+        putData(userTokenParameter,USER_TOKEN);
 //        Log.e("WebSocketLib","userIdParameter="+userIdParameter+"-------------------------------------"+USER_ID);
         String request = WebUrl.request("PersonCenter", "bindUid", map);
         return  request;
