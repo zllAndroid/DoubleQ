@@ -12,15 +12,13 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
-import com.mding.chatfeng.about_chat.chat_group.FriendDataGroupMemberActivity;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
-import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.GroupTeamMemberAdapter;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.SeachAdapter;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_custom.Allcity;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_custom.LetterBar;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.model.DataGroupMember;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
@@ -167,12 +165,42 @@ public class GroupTeamActivity extends BaseActivity {
         List<DataGroupMember.RecordBean.MemberListBean> memberList = record.getMemberList();
         allCusList.clear();
         allCusList.addAll(memberList);
+        dealMemberRealm();
 //                String groupName = record.getMemberList().get(0).getGroupName();
 //                List<DataGroupMember.RecordBean.MemberListBean.GroupListBean> groupList = record.getMemberList().get(0).getGroupList();
 //                initABCByGroup();
         initGroupTeamAdapter();
     }
 
+    private void dealMemberRealm() {
+        for (int i=0;i<allCusList.size();i++)
+        {
+            List<DataGroupMember.RecordBean.MemberListBean.GroupListBean> groupList = allCusList.get(i).getGroupList();
+            for (int j=0;j<groupList.size();j++)
+            {
+                String memberId = groupList.get(j).getMemberId();
+                String imgPath = getFriendUserHelper().queryLinkFriendReturnImgPath(memberId);
+                if (StrUtils.isEmpty(imgPath))
+                {
+                    CusDataFriendUser cusDataFriendUser = new CusDataFriendUser();
+                    cusDataFriendUser.setFriendId(memberId);
+                    cusDataFriendUser.setHeadImgBase64(groupList.get(j).getHeadImg());
+                    cusDataFriendUser.setName(groupList.get(j).getNickName());
+                    cusDataFriendUser.setRemarkName(groupList.get(j).getNickName());
+                    //TODO 用户信息存库（用户表）
+                    getFriendUserHelper().updateAllOrAdd(memberId,cusDataFriendUser);//添加或者更新（存在则更新，不存在则增加）
+                }
+
+            }
+        }
+
+    }
+    RealmFriendUserHelper friendUserHelper;
+private  RealmFriendUserHelper  getFriendUserHelper(){
+    if (friendUserHelper==null)
+        friendUserHelper = new RealmFriendUserHelper(this);
+    return  friendUserHelper;
+}
     private void initGroupTeamAdapter() {
         final GroupTeamMemberAdapter groupTeamAdapter = new GroupTeamMemberAdapter(GroupTeamActivity.this, allCusList);
         mExpanList.setAdapter(groupTeamAdapter);

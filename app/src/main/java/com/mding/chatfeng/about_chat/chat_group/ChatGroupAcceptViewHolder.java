@@ -1,6 +1,5 @@
 package com.mding.chatfeng.about_chat.chat_group;
 
-import android.graphics.Bitmap;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -10,7 +9,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
-import com.mding.chatfeng.about_chat.chat_group.group_realm.RealmGroupChatHeaderHelper;
 import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
@@ -19,7 +17,6 @@ import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
 import com.rance.chatui.util.Constants;
-//import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
 
@@ -49,7 +46,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
     private Handler handler;
     MotionEvent event;
     boolean isScrolling;
-    RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
+//    RealmFriendUserHelper realmGroupChatHeaderHelper;
     RealmFriendUserHelper realmFriendUserHelper;
     public ChatGroupAcceptViewHolder(ViewGroup parent, ChatGroupAdapter.onItemClickListener onItemClickListener, Handler handler,boolean isScrolling) {
         super(parent, R.layout.item_group_chat_accept);
@@ -57,8 +54,8 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
         this.isScrolling = isScrolling;
-        if (realmGroupChatHeaderHelper ==null)
-        realmGroupChatHeaderHelper = new RealmGroupChatHeaderHelper(getContext());
+//        if (realmGroupChatHeaderHelper ==null)
+//        realmGroupChatHeaderHelper = new RealmFriendUserHelper(getContext());
 
         if (realmFriendUserHelper==null)
             realmFriendUserHelper = new RealmFriendUserHelper(getContext());

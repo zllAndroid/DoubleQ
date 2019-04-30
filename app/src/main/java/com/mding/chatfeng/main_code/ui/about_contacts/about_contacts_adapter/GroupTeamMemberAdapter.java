@@ -14,9 +14,9 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.model.DataGroupMember;
 import com.mding.chatfeng.R;
-import com.mding.chatfeng.about_chat.chat_group.group_realm.RealmGroupChatHeaderHelper;
 
 import java.util.List;
 
@@ -25,13 +25,13 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
 
     Context context;
-    RealmGroupChatHeaderHelper realmGroupChatHeaderHelper;
+    RealmFriendUserHelper realmGroupChatHeaderHelper;
     List<DataGroupMember.RecordBean.MemberListBean> mGroupList;
     public GroupTeamMemberAdapter(Context context, List<DataGroupMember.RecordBean.MemberListBean> mGroupList
     ) {
         this.mGroupList = mGroupList;
         this.context = context;
-        realmGroupChatHeaderHelper = new RealmGroupChatHeaderHelper(context);
+        realmGroupChatHeaderHelper = new RealmFriendUserHelper(context);
     }
     @Override
     public int getGroupCount() {
@@ -123,7 +123,7 @@ public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
         }
 
       final   DataGroupMember.RecordBean.MemberListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
-        String imgPath = realmGroupChatHeaderHelper.queryGroupChatReturnImgPath(groupListBean.getMemberId());
+        String imgPath = realmGroupChatHeaderHelper.queryLinkFriendReturnImgPath(groupListBean.getMemberId());
         if (imgPath!=null) {
             Glide.with(context)
                     .load(imgPath)
