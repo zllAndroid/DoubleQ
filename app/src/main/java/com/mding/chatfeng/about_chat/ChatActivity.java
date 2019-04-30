@@ -19,6 +19,7 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -162,7 +163,8 @@ public class ChatActivity extends BaseActivity {
     private CommonFragmentPagerAdapter adapter;
 
     private ChatAdapter chatAdapter;
-    private LinearLayoutManager layoutManager;
+    private StaggeredGridLayoutManager layoutManager;
+//    private LinearLayoutManager layoutManager;
     private List<MessageInfo> messageInfos;
     private List<DataJieShou.RecordBean> messageList;
     //录音相关
@@ -493,10 +495,15 @@ public class ChatActivity extends BaseActivity {
         GlobalOnItemClickManagerUtils globalOnItemClickListener = GlobalOnItemClickManagerUtils.getInstance(this);
         globalOnItemClickListener.attachToEditText(editText);
         chatAdapter = new ChatAdapter(this);
-        layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
+        layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        
+//        layoutManager = new LinearLayoutManager(this);
+//
+//
+//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        layoutManager.setRecycleChildrenOnDetach(true);//复用RecycledViewPool
+//        layoutManager.setRecycleChildrenOnDetach(true);//复用RecycledViewPool
 //        chatList.setHasFixedSize(true);
         chatList.setLayoutManager(layoutManager);
         chatList.setAdapter(chatAdapter);

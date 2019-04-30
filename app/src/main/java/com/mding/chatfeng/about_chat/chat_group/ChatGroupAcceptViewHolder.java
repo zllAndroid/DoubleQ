@@ -1,5 +1,6 @@
 package com.mding.chatfeng.about_chat.chat_group;
 
+import android.graphics.Bitmap;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -126,7 +127,8 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                     // TODO 显示发送的图片
                     String message = data.getMessage();
                     final String[] split = message.split("_");
-                    ImageUtils.useBase64ToChat(getContext(),chatItemContentImage,split[0]);
+
+                    ImageUtils.useBase64ToBitmap(getContext(),chatItemContentImage,split[0]);
                     MyLog.e("ChatSendViewHolder","------------------------groupAccept-------------------------"+split[1]);
 //                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
                     chatItemContentImage.setOnClickListener(new View.OnClickListener() {

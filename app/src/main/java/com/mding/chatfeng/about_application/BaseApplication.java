@@ -1,12 +1,15 @@
 package com.mding.chatfeng.about_application;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.PowerManager;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.zll.websocket.WebSocketServiceConnectManager;
 
@@ -98,6 +101,9 @@ public class BaseApplication extends Application implements AppView{
             aCache =  ACache.get(getAppContext());
         }
         return aCache;
+    }
+    public static AppCompatActivity getACt(){
+        return  AppManager.getAppManager().currentActivity();
     }
 //    发送websocket请求
     @Override

@@ -20,6 +20,7 @@ import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.target.Target;
+import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.ScreenUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
@@ -91,6 +92,17 @@ public class ImageUtils {
 			return null;
 		}
 	}
+	/**
+	 * base64转为bitmap
+	 * @param base64Data
+	 * @return
+	 */
+	public static Bitmap base64ToBitmap(String base64Data) {
+		byte[] bytes = Base64.decode(base64Data, Base64.DEFAULT);
+		return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+	}
+
+
 	public static String GetStringByImageView(Bitmap bitmap){
 		Bitmap bitmap1 =comp(bitmap);
 //		Bitmap bitmap1 = getBitmapCompress(imgPath);
@@ -172,13 +184,38 @@ public class ImageUtils {
 			e.printStackTrace();
 		}
 	}
+	public static void useBase64ToBitmap(Context context, ImageView imageView, String s) {
+//		try {
+//			Bitmap bitmap = ImageUtils.base64ToBitmap(s);
+//			imageView.setImageBitmap(bitmap);
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		byte[] decodeByde = Base64.decode(s, Base64.DEFAULT);
+		Glide.with(context).load(decodeByde).asBitmap()
+				.placeholder(R.drawable.app_logo)//这是占位图。
+				.into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+					@Override
+					public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+						int imageWidth = resource.getWidth();
+						int imageHeight = resource.getHeight();
+						int height = ScreenUtils.getScreenWidth(context) * imageHeight / imageWidth;
+						ViewGroup.LayoutParams para = imageView.getLayoutParams();
+						para.height = height / 4;
+						para.width = ScreenUtils.getScreenWidth(context) / 4;
+						imageView.setImageBitmap(resource);
+					}
+				});
+	}
     /**
      *  等比例缩放图片至屏幕宽度
      */
     public static void useBase64ToChat(final Context context, final ImageView imageView, String s) {
 
         byte[] decodeByde = Base64.decode(s, Base64.DEFAULT);
-        Glide.with(context).load(decodeByde).asBitmap().into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
+        Glide.with(context).load(decodeByde).asBitmap()
+				.placeholder(R.drawable.app_logo)//这是占位图。
+				.into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
             @Override
             public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
                 int imageWidth = resource.getWidth();

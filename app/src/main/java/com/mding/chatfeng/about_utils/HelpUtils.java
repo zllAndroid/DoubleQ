@@ -38,7 +38,7 @@ import java.net.URL;
  */
 
 public class HelpUtils {
-    public static Activity activity = AppManager.getAppManager().currentActivity();
+//    public static Activity activity = AppManager.getAppManager().currentActivity();
     public static Activity getACt() {
 
         return AppManager.getAppManager().currentActivity();

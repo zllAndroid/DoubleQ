@@ -14,6 +14,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 
@@ -121,13 +122,13 @@ public class GoH5Activity extends AppCompatActivity {
     public static  void  JumpGoH5(String tital,String net_url)
     {
         Intent intent = new Intent();
-        intent.setClass(HelpUtils.activity, GoH5Activity.class);
+        intent.setClass(BaseApplication.getACt(), GoH5Activity.class);
 
         Bundle mBundle = new Bundle();
         mBundle.putString(AppAllKey.GOH5_TITAL_KEY, tital);
         mBundle.putString(AppAllKey.GOH5_ARTICAL_KEY, net_url);
         intent.putExtras(mBundle);
-        HelpUtils.activity.startActivity(intent);
+        BaseApplication.getACt().startActivity(intent);
     }
 //    @OnClick(R.id.include_top_lin_back)
 //    public void onViewClicked() {

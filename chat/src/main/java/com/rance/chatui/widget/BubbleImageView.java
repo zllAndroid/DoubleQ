@@ -90,6 +90,13 @@ public class BubbleImageView extends AppCompatImageView {
 
     @Override
     protected void onDraw(Canvas canvas) {
+        // TODO Auto-generated method stub
+        try{
+            super.onDraw(canvas);
+        }catch(Exception e){
+            Log.e("Exception","-------BubbleImageView----onDraw--------------->>"+e);
+        }
+
         int saveCount = canvas.getSaveCount();
         canvas.translate(getPaddingLeft(), getPaddingTop());
         if (bubbleDrawable != null)

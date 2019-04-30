@@ -1,6 +1,7 @@
 package com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -139,6 +140,7 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
 //            }
             String headImg = groupListBean.getHeadImg();
             ImageUtils.useBase64(context,holder.img_contacts_child_head,headImg);
+
             String name =groupListBean.getNickName();
             if(!StrUtils.isEmpty(groupListBean.getRemarkName()))
             {

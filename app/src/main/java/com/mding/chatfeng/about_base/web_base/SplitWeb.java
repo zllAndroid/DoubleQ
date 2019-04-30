@@ -52,7 +52,8 @@ public class SplitWeb {
 //    public  final String PreRequest= "http://192.168.4.131:40003/";
 //    public  final String PreRequest= "http://39.108.3.131/server_api.php";
 
-    public  final String PreRequest= "http://120.78.92.225:9092/V2_0_0/LoginController/getClusterIp";
+    public  final String PreRequest= "http://47.112.116.35:30092/V2_0_0/LoginController/getClusterIp";
+//    public  final String PreRequest= "http://120.78.92.225:9092/V2_0_0/LoginController/getClusterIp";
 //    public  final String PreRequest= "http://192.168.4.68/server_api.php";
 
 //      SPUtils.put(this,"header",record.getHeadImg());
@@ -78,18 +79,18 @@ public boolean isOne =true;
 
     //     SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIp());
     public  String getWsRequest(Context mContext) {
-        if(StrUtils.isEmpty(WS_REQUEST)&&HelpUtils.activity!=null)
+        if(StrUtils.isEmpty(WS_REQUEST))
             WS_REQUEST=(String ) SPUtils.get(mContext, AppConfig.TYPE_WS_REQUEST,"");
         return WS_REQUEST;
     }
     public  String getUserMobile() {
-        if(StrUtils.isEmpty(MOBILE)&&HelpUtils.activity!=null)
+        if(StrUtils.isEmpty(MOBILE))
             MOBILE=(String ) SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_PHONE,"");
         return MOBILE;
     }
     public  String getUserPSW() {
-        if(StrUtils.isEmpty(PSW)&&HelpUtils.activity!=null)
-            PSW=(String ) SPUtils.get(HelpUtils.activity, AppConfig.TYPE_PSW,"");
+        if(StrUtils.isEmpty(PSW))
+            PSW=(String ) SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_PSW,"");
         return PSW;
     }
     public  String getName() {

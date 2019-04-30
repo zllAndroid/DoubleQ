@@ -1,10 +1,17 @@
 package com.mding.chatfeng.about_chat.adapter.holder;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Message;
+import android.support.annotation.NonNull;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +20,17 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.mding.chatfeng.about_application.BaseApplication;
+import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
+import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
+import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.mding.chatfeng.main_code.mains.MsgFragment;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
 import com.mding.model.DataJieShou;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
@@ -28,10 +41,13 @@ import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.GifTextView;
 
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
-
-import static com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment.smallImgByBase64;
 
 /**
  */
@@ -45,7 +61,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
     GifTextView chatItemContentText;
     @BindView(R.id.chat_item_content_image)
 //    @BindView(R.id.chat_item_by_image)
-    BubbleImageView chatItemContentImage;
+            BubbleImageView chatItemContentImage;
     @BindView(R.id.chat_item_fail)
     ImageView chatItemFail;
     @BindView (R.id.chat_item_progress)
@@ -93,21 +109,6 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
             }
         });
 
-//        chatItemContentText.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View view, MotionEvent e) {
-//                switch (e.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        event = e;
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                // 如果onTouch返回false,首先是onTouch事件的down事件发生，此时，如果长按，触发onLongClick事件；
-//                // 然后是onTouch事件的up事件发生，up完毕，最后触发onClick事件。
-//                return false;
-//            }
-//        });
         chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -152,26 +153,9 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.GONE);
                     break;
+//                    图片
                 case Constants.CHAT_PICTURE:
-                    chatItemVoice.setVisibility(View.GONE);
-                    chatItemLayoutContent.setVisibility(View.GONE);
-                    chatItemVoiceTime.setVisibility(View.GONE);
-                    chatItemContentText.setVisibility(View.GONE);
-                    chatItemContentImage.setVisibility(View.VISIBLE);
-                    ImageUtils.useBase64ToChat(getContext(),chatItemContentImage,smallImgByBase64);
-                    // TODO 显示发送的图片
-                    String message = data.getMessage();
-                    final String[] split = message.split("_");
-                    ImageUtils.useBase64ToChat(getContext(),chatItemContentImage,split[0]);
-                    MyLog.e("ChatSendViewHolder","------------------------ChatSend-------------------------"+split[0].length());
-                    MyLog.e("ChatSendViewHolder","------------------------ChatSend-------------------------"+split[1]);
-//                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
-                    chatItemContentImage.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition(), split[1]);
-                        }
-                    });
+                    initImg(data);
                     break;
                 case Constants.CHAT_EMOTION:
                     chatItemContentText.setSpanText(handler, data.getMessage(), false);
@@ -188,7 +172,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
                     chatItemVoiceTime.setVisibility(View.VISIBLE);
                     chatItemContentImage.setVisibility(View.GONE);
                     chatItemVoiceTime.setText("文件");
-    //                chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
+                    //                chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
                     chatItemLayoutContent.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -200,40 +184,6 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        if (data.getMessage() != null) {
-//            chatItemContentText.setSpanText(handler, data.getContent(), true);
-//            chatItemVoice.setVisibility(View.GONE);
-//            chatItemContentText.setVisibility(View.VISIBLE);
-//            chatItemLayoutContent.setVisibility(View.VISIBLE);
-//            chatItemVoiceTime.setVisibility(View.GONE);
-//            chatItemContentImage.setVisibility(View.GONE);
-//        } else if (data.getImageUrl() != null) {
-//            chatItemVoice.setVisibility(View.GONE);
-//            chatItemLayoutContent.setVisibility(View.GONE);
-//            chatItemVoiceTime.setVisibility(View.GONE);
-//            chatItemContentText.setVisibility(View.GONE);
-//            chatItemContentImage.setVisibility(View.VISIBLE);
-//            Glide.with(getContext()).load(data.getImageUrl()).into(chatItemContentImage);
-//            chatItemContentImage.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    onItemClickListener.onImageClick(chatItemContentImage, getDataPosition());
-//                }
-//            });
-//        } else if (data.getFilepath() != null) {
-//            chatItemVoice.setVisibility(View.VISIBLE);
-//            chatItemLayoutContent.setVisibility(View.VISIBLE);
-//            chatItemContentText.setVisibility(View.GONE);
-//            chatItemVoiceTime.setVisibility(View.VISIBLE);
-//            chatItemContentImage.setVisibility(View.GONE);
-//            chatItemVoiceTime.setText(Utils.formatTime(data.getVoiceTime()));
-//            chatItemLayoutContent.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    onItemClickListener.onVoiceClick(chatItemVoice, getDataPosition());
-//                }
-//            });
-//        }
         switch (data.getSendState()) {
             case Constants.CHAT_ITEM_SENDING:
                 chatItemProgress.setVisibility(View.VISIBLE);
@@ -249,4 +199,26 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
                 break;
         }
     }
+
+    private void initImg(DataJieShou.RecordBean data) {
+        chatItemVoice.setVisibility(View.GONE);
+        chatItemLayoutContent.setVisibility(View.GONE);
+        chatItemVoiceTime.setVisibility(View.GONE);
+        chatItemContentText.setVisibility(View.GONE);
+        chatItemContentImage.setVisibility(View.VISIBLE);
+        // TODO 显示发送的图片
+        String message = data.getMessage();
+        final String[] split = message.split("_");
+//        Glide.with(getContext()).load(bitmap).into(chatItemContentImage);
+        ImageUtils.useBase64ToBitmap(getContext(),chatItemContentImage,split[0]);
+        MyLog.e("ChatSendViewHolder","------------------------ChatSend-------------------------"+split[1]);
+        chatItemContentImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onItemClickListener.onImageClick(chatItemContentImage, getDataPosition(), split[1]);
+            }
+        });
+    }
+
+
 }

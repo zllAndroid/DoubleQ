@@ -2,6 +2,7 @@ package com.mding.chatfeng.about_chat.adapter;
 
 import android.content.Context;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -27,6 +28,13 @@ public class ChatAdapter extends RecyclerArrayAdapter<DataJieShou.RecordBean> {
     protected boolean isScrolling = false;
     public void setScrolling(boolean scrolling) {
         isScrolling = scrolling;
+    }
+
+    @Override
+    public void onViewRecycled(@NonNull BaseViewHolder holder) {
+        super.onViewRecycled(holder);
+
+
     }
 
     @Override
