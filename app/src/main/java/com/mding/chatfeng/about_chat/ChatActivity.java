@@ -614,7 +614,6 @@ public class ChatActivity extends BaseActivity {
                         }else if (recordBeanQuery.getFileType() == 2){
                             send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, imgMD5FunFrag, messageTypeImg, TimeUtil.getTime()));
                         }
-
                     }
                 }
                 break;

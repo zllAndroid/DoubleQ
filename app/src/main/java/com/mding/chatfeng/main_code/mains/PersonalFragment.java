@@ -183,7 +183,11 @@ public class PersonalFragment extends BaseFragment {
             if (recordBean != null) {
                 mineTvName.setText(recordBean.getNickName());
                 userPhone = recordBean.getMobile();
-                mineTvSign.setText(recordBean.getPersonaSignature());
+                String signature = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? "你还没有设置签名哦！" : recordBean.getPersonaSignature();
+                mineTvSign.setText(signature);
+                if (signature.equals("你还没有设置签名哦！")){
+                    mineTvSign.setTextColor(getResources().getColor(R.color.greye5));
+                }
 //                changeinfoTvCount.setText(dataLogin.getWxSno());
             }else
             {

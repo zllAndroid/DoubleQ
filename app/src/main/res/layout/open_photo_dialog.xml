@@ -47,7 +47,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp1"
-            android:background="@color/grayeee"
+            android:background="@color/graye5"
             />
         <Button
             android:id="@+id/btn_open_xaingce"
@@ -62,7 +62,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp8"
-            android:background="@color/grayeee"
+            android:background="@color/graye5"
             />
         <Button
             android:id="@+id/btn_open_cancle"

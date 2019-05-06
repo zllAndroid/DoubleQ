@@ -191,7 +191,7 @@ public class ShowChatImgActivity extends BaseActivity {
 //        saveImageToGallery(ShowChatImgActivity.this, bitmap);
 //    }
 
-    /*
+    /**
      * 保存文件，文件名为当前日期
      */
     public void saveBitmap(Bitmap bitmap, String bitName){
@@ -211,7 +211,7 @@ public class ShowChatImgActivity extends BaseActivity {
         try{
             out = new FileOutputStream(file);
             // 格式为 JPEG，照相机拍出的图片为JPEG格式的，PNG格式的不能显示在相册中
-            if(bitmap.compress(Bitmap.CompressFormat.JPEG, 90, out))
+            if(bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out))
             {
                 out.flush();
                 out.close();
@@ -220,10 +220,10 @@ public class ShowChatImgActivity extends BaseActivity {
                 ToastUtil.isDebugShow("图片保存在："+ file.getAbsolutePath());
             }
         }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
+//        catch (FileNotFoundException e)
+//        {
+//            e.printStackTrace();
+//        }
         catch (IOException e)
         {
             e.printStackTrace();
@@ -231,7 +231,7 @@ public class ShowChatImgActivity extends BaseActivity {
         }
         // 发送广播，通知刷新图库的显示
         this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + fileName)));
-        ToastUtil.isDebugShow("保存成功");
+        ToastUtil.show("保存成功");
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

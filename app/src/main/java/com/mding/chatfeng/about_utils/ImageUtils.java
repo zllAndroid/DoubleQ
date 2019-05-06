@@ -175,7 +175,8 @@ public class ImageUtils {
 	public static void useBase64(Context context, ImageView imageView, String s) {
 		try {
 			byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
-			Glide.with(context).load(decodedByte)
+			Glide.with(context.getApplicationContext()).load(decodedByte)
+//			Glide.with(context).load(decodedByte)
 					.dontAnimate()
 					.bitmapTransform(new CropCircleTransformation(context))
 					.placeholder(imageView.getDrawable())
@@ -184,7 +185,7 @@ public class ImageUtils {
 			e.printStackTrace();
 		}
 	}
-	public static void useBase64ToBitmap(Context context, ImageView imageView, String s) {
+	public static void useBase64ToBitmap(final Context context, final ImageView imageView, String s) {
 //		try {
 //			Bitmap bitmap = ImageUtils.base64ToBitmap(s);
 //			imageView.setImageBitmap(bitmap);
@@ -192,8 +193,9 @@ public class ImageUtils {
 //			e.printStackTrace();
 //		}
 		byte[] decodeByde = Base64.decode(s, Base64.DEFAULT);
-		Glide.with(context).load(decodeByde).asBitmap()
-				.placeholder(R.drawable.app_logo)//这是占位图。
+		Glide.with(context.getApplicationContext()).load(decodeByde).asBitmap()
+//		Glide.with(context).load(decodeByde).asBitmap()
+				.placeholder(R.drawable.app_logo)//这是占位图
 				.into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
 					@Override
 					public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {

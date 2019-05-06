@@ -75,19 +75,18 @@ public class DealDataByApp {
     private  static RealmHomeHelper  getRealmHomeHelper()
     {
 //        if (realmHelper==null)
-            realmHelper = new RealmHomeHelper(mContext);
+        realmHelper = new RealmHomeHelper(mContext);
         return realmHelper;
     }
     private  static RealmChatHelper  getRealmChatHelper()
     {
 //        if (realmChatHelper==null)
-            realmChatHelper = new RealmChatHelper(mContext);
+        realmChatHelper = new RealmChatHelper(mContext);
         return realmChatHelper;
     }
-    private  static RealmGroupChatHelper  getRealmGroupChatHelper()
-    {
+    private  static RealmGroupChatHelper  getRealmGroupChatHelper() {
 //        if (realmGroupChatHelper==null)
-            realmGroupChatHelper = new RealmGroupChatHelper(mContext);
+        realmGroupChatHelper = new RealmGroupChatHelper(mContext);
         return realmGroupChatHelper;
     }
     public static void synData(Context mmContext ,String mmessage) {
@@ -286,13 +285,13 @@ public class DealDataByApp {
         groupChatData.setUserMessageType(Constants.CHAT_ITEM_TYPE_LEFT);
         groupChatData.setMessageType(record.getMessageType());
 
-        realmGroupChatHelper.addRealmChat(groupChatData);//更新群聊聊天数据
+        getRealmGroupChatHelper().addRealmChat(groupChatData);//更新群聊聊天数据
         MyLog.e("realmGroupChatHelper", "msg=" + record.getMessage());
         CusHomeRealmData homeRealmData = getRealmHomeHelper().queryAllRealmChat(record.getGroupId());
         String msg = record.getMessage();
-        if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
-            msg = record.getMemberName() + "：" + record.getMessage();
-        }
+//        if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
+//            msg = record.getMemberName() + "：" + record.getMessage();
+//        }
 
         if (homeRealmData != null) {
             getRealmHomeHelper().updateGroupMsg(record.getGroupId(), msg, record.getRequestTime(),record);//更新首页聊天界面数据（消息和时间）
@@ -603,7 +602,7 @@ public class DealDataByApp {
 //            cusRealmChatMsg.setSendId(record.getMemberId());
             cusRealmChatMsg.setUserMessageType(Constants.CHAT_ITEM_TYPE_RIGHT);
             cusRealmChatMsg.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);
-            realmGroupChatHelper.addRealmChat(cusRealmChatMsg);
+            getRealmGroupChatHelper().addRealmChat(cusRealmChatMsg);
 
 //            getRealmHomeHelper()getRealmHomeHelper().updateMsg(record.getGroupId(),record.getMessage(),record.getRequestTime());
 //            realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）
@@ -781,13 +780,13 @@ public class DealDataByApp {
         groupChatData.setAssistantType("1");
 //        groupChatData.setAssistantType(record.getAssistantType());
 
-        realmGroupChatHelper.addRealmChat(groupChatData);//更新群聊聊天数据
+        getRealmGroupChatHelper().addRealmChat(groupChatData);//更新群聊聊天数据
         MyLog.e("realmGroupChatHelper", "msg=" + record.getMessage());
         CusHomeRealmData homeRealmData = getRealmHomeHelper().queryAllRealmChat(record.getGroupId());
         String msg = record.getMessage();
-        if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
-            msg = record.getMemberName() + "：" + record.getMessage();
-        }
+//        if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
+//            msg = record.getMemberName() + "：" + record.getMessage();
+//        }
         if (homeRealmData != null) {
             getRealmHomeHelper().updateGroupMsg(record.getGroupId(), msg, record.getRequestTime(),record);//更新首页聊天界面数据（消息和时间）
             getRealmHomeHelper().updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）

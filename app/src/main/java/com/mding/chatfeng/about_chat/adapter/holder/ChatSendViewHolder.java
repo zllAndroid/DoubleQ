@@ -211,7 +211,8 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
         final String[] split = message.split("_");
 //        Glide.with(getContext()).load(bitmap).into(chatItemContentImage);
         ImageUtils.useBase64ToBitmap(getContext(),chatItemContentImage,split[0]);
-        MyLog.e("ChatSendViewHolder","------------------------ChatSend-------------------------"+split[1]);
+        MyLog.e("ChatSendViewHolder","------------------------ChatSend------------split[0]-------------"+split[0]);
+        MyLog.e("ChatSendViewHolder","------------------------ChatSend------------split[1]-------------"+split[1]);
         chatItemContentImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

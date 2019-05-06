@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/grayeee"
+        android:background="@color/graye5"
         android:text="以下为收进群助手且不提醒的群消息"
         android:textSize="@dimen/sp12"
         android:padding="@dimen/dp5"
