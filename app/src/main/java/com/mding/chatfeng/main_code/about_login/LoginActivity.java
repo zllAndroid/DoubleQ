@@ -1,5 +1,7 @@
 package com.mding.chatfeng.main_code.about_login;
 
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
@@ -9,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_application.BaseApplication;
@@ -209,14 +212,36 @@ public class LoginActivity extends BaseLogin {
         }
         else if (isSucess.equals(AppConfig.CODE_EPC)){
             String httpReturnMsg = HelpUtils.HttpReturnMsg(mLoginModel);
+//            DialogUtils.showDialog(httpReturnMsg);
+//            Toast.makeText(this,httpReturnMsg,Toast.LENGTH_SHORT).show();
+            Message message = new Message();
+            message.what=BackError;
+            message.obj=httpReturnMsg;
+            successHandle.sendMessage(message);
             try {
-                ToastUtil.show(httpReturnMsg);
+//                ToastUtil.show(httpReturnMsg);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
     }
-
+    public  static  final  int BackError=1;
+    Handler successHandle = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message message) {
+            switch (message.what)
+            {
+                case BackError:
+                    try {
+                        ToastUtil.show((String) message.obj);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+            return false;
+        }
+    });
     @Override
     void onLoginFail(String mLoginModel) {
 

@@ -15,8 +15,10 @@ import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.main_code.about_login.LoginActivity;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.MineSetActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
@@ -207,8 +209,12 @@ public class HelpUtils {
                     case AppConfig.CODE_TOKEN_OUT:
                         IntentUtils.JumpTo(LoginActivity.class);
                         getACt().overridePendingTransition(0, 0);
+                        SplitWeb.getSplitWeb().USER_ID="";
+                        SplitWeb.getSplitWeb().USER_TOKEN="";
+                        SPUtils.put(BaseApplication.getAppContext(), AppAllKey.USER_ID_KEY,"");
+                        SPUtils.put(BaseApplication.getAppContext(),AppAllKey.USER_Token,"");
+                        SPUtils.clear(BaseApplication.getAppContext());
                         BaseApplication.getaCache().clear();
-                        SPUtils.clear(getACt());
                         return code;
                     default:
                         String msg = object.optString("msg").toString().trim();

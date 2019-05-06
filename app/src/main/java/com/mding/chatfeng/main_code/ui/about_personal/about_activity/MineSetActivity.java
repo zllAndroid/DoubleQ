@@ -209,8 +209,10 @@ public class MineSetActivity extends BaseActivity {
                                     SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD=true;
                                     sendWeb(SplitWeb.getSplitWeb().kickUid());
                                     SplitWeb.getSplitWeb().USER_ID="";
+                                    SplitWeb.getSplitWeb().USER_TOKEN="";
                                     ACache.get(MineSetActivity.this).clear();
                                     SPUtils.put(MineSetActivity.this,AppAllKey.USER_ID_KEY,"");
+                                    SPUtils.put(MineSetActivity.this,AppAllKey.USER_Token,"");
                                     SPUtils.clear(MineSetActivity.this);
                                     AppManager.getAppManager().finishAllActivity();
 //                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
@@ -226,20 +228,17 @@ public class MineSetActivity extends BaseActivity {
 //                                    ToastUtil.show("2");
                                     sendWeb(SplitWeb.getSplitWeb().kickUid());
                                     SplitWeb.getSplitWeb().USER_ID="";
+                                    SplitWeb.getSplitWeb().USER_TOKEN="";
                                     ACache.get(MineSetActivity.this).clear();
+                                    SPUtils.put(MineSetActivity.this,AppAllKey.USER_ID_KEY,"");
+                                    SPUtils.put(MineSetActivity.this,AppAllKey.USER_Token,"");
                                     SPUtils.clear(MineSetActivity.this);
-
                                     AppManager.getAppManager().finishAllActivity();
                                     Intent intent = new Intent(MineSetActivity.this, LoginActivity.class);
                                     startActivity(intent);
                                     overridePendingTransition(0,0);
-
                                     realmHelper.deleteAll();
                                     realmChatHelper.deleteAll();
-                                    if (BaseApplication.getApp().getmConnectManager()!=null) {
-                                        BaseApplication.getApp().getmConnectManager().onDestroy();
-                                        BaseApplication.getApp().mConnectManager = null;
-                                    }
                                     break;
                             }
 

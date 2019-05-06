@@ -71,11 +71,16 @@ public class SplitWeb {
 //        return USER_ID;
 //    }
     public  String getUserId() {
-//        if(StrUtils.isEmpty(USER_ID))
+        if(StrUtils.isEmpty(USER_ID))
             USER_ID= BaseApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);
         return USER_ID;
     }
-
+    public  String getUserToken() {
+        if(StrUtils.isEmpty(USER_TOKEN))
+        USER_TOKEN= BaseApplication.getaCache().getAsString(AppAllKey.USER_Token);
+//            USER_TOKEN= (String )SPUtils.get(BaseApplication.getAppContext(),AppAllKey.USER_Token,"");
+        return USER_TOKEN;
+    }
     //     SPUtils.put(this,AppConfig.TYPE_WS_REQUEST,dataLogin.getServerIp());
     public  String getWsRequest(Context mContext) {
         if(StrUtils.isEmpty(WS_REQUEST))
@@ -102,12 +107,7 @@ public class SplitWeb {
             PERSON_SIGN=(String )SPUtils.get(BaseApplication.getAppContext(), AppConfig.TYPE_SIGN,"");
         return PERSON_SIGN;
     }
-    public  String getUserToken() {
-//        if(StrUtils.isEmpty(USER_TOKEN))
-            USER_TOKEN= BaseApplication.getaCache().getAsString(AppAllKey.USER_Token);
-//            USER_TOKEN= (String )SPUtils.get(BaseApplication.getAppContext(),AppAllKey.USER_Token,"");
-        return USER_TOKEN;
-    }
+
 
     public  String getNiName() {
 
