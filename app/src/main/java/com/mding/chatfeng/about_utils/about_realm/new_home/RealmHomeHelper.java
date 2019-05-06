@@ -152,6 +152,7 @@ public class RealmHomeHelper {
             realmMsg.setTime(time);
             realmMsg.setNickName(record.getGroupName());
 
+            realmMsg.setMemberId(record.getMemberId());
             realmMsg.setMessageType(record.getMessageType());
             realmMsg.setMsgIsDisTurb(record.getDisturbType());
             realmMsg.setIsTopMsg(record.getTopType());

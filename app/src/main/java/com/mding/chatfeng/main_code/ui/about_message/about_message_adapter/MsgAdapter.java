@@ -41,7 +41,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolder> {
     Context context;
     public List<CusHomeRealmData> data;
-//    RealmFriendUserHelper realmFriendUserHelper;
+    //    RealmFriendUserHelper realmFriendUserHelper;
 //    RealmMsgInfoTotalHelper realmMsgInfoTotalHelper;
 //    RealmGroupHelper realmGroupHelper;
     public MsgAdapter(Context context, List<CusHomeRealmData> data, ItemTouchListener mItemTouchListener) {
@@ -89,12 +89,14 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
 //        TextView mTvMsg = helper.getView(R.id.item_tv_msg);
 //        ImageView mIvClick = (ImageView) helper.getView(R.id.item_tv_click_ok);
 //        TextView mTvTime = helper.getView(R.id.item_tv_time);
+        String groupMemberName = "";
         try {
             if (!StrUtils.isEmpty(item.getFriendId())) {
 //                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                 final int errorImg;
                 String imgPath;
                 String nickName;
+
                 if (item.getType().equals("1"))
                 {
                     imgPath = new RealmFriendUserHelper(context).queryLinkFriendReturnImgPath(item.getFriendId());
@@ -104,30 +106,40 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                 {
                     imgPath =  new RealmGroupHelper(context).queryLinkFriendReturnImgPath(item.getFriendId());
                     errorImg=R.drawable.qun_head;
+                    groupMemberName = new RealmFriendUserHelper(context).queryLinkFriendReturnname(item.getMemberId());
                     nickName=  new RealmGroupHelper(context).queryLinkFriendReturnName(item.getFriendId());//获取群聊群名
+
                 }
 //                 imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                 ImageUtils.useBase64WithError(context,mIvHead,imgPath,errorImg);
                 helper.setText(R.id.item_tv_name,nickName);
             }
+            String msg="";
             if (!StrUtils.isEmpty(item.getMessageType()))
-            switch (item.getMessageType())
-            {
-                case Constants.CHAT_PICTURE:
-                    helper.setText(R.id.item_tv_msg,"[图片]");
-                    break;
-                case Constants.CHAT_TEXT:
+                switch (item.getMessageType())
+                {
+                    case Constants.CHAT_PICTURE:
+                        helper.setText(R.id.item_tv_msg,"[图片]");
+                        break;
+                    case Constants.CHAT_TEXT:
 //                break;
-                default:
-                    helper.setText(R.id.item_tv_msg,item.getMsg());
-                    break;
+                    default:
+                        if (!StrUtils.isEmpty(groupMemberName)&&item.getType().equals("2"))
+                        {
+                            msg= groupMemberName+"："+ item.getMsg();
+                            helper.setText(R.id.item_tv_msg,msg);
+                        }else
+                        {
+                            helper.setText(R.id.item_tv_msg,item.getMsg());
+                        }
+                        break;
 //                case Constants.CHAT_NO_FRIEND:
 //                    break;
 //                case Constants.CHAT_EMOTION:
 //                    break;
 //                case Constants.CHAT_FILE:
 //                    break;
-            }
+                }
 //            helper.setText(R.id.item_tv_msg,item.getMsg());
 
             helper.setText(R.id.item_tv_time, TimeUtil.formatDisplayTime(item.getTime(),null));

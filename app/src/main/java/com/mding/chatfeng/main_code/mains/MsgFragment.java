@@ -366,7 +366,8 @@ public class MsgFragment extends BaseFragment {
         if (cusHomeRealmData.size()!=0)
         {
             mList.clear();
-            addListMethon(cusHomeRealmData);
+            mList.addAll(cusHomeRealmData);
+//            addListMethon(cusHomeRealmData);
             twoAdapter();
         }
     }
@@ -415,7 +416,8 @@ public class MsgFragment extends BaseFragment {
             if (mList.size()==0&&cusHomeRealmData.size()!=0)
             {
                 mList.clear();
-                addListMethon(cusHomeRealmData);
+                mList.addAll(cusHomeRealmData);
+//                addListMethon(cusHomeRealmData);
                 twoAdapter();
             }
             if (mList.size()!=0)
@@ -465,21 +467,30 @@ public class MsgFragment extends BaseFragment {
         {
             return;
         }
-        for (int i=0;i<realmData.size();i++)
-        {
-            String assistantType = realmData.get(i).getAssistantType();
-            String mTy = realmData.get(i).getType();
-            if (mTy != null && assistantType != null&&mTy.equals("2") && assistantType.equals("2")) {
-            }else {
-                mList.add(realmData.get(i));
-            }
-        }
+        mList.addAll(realmData);
+
+//        for (int i=0;i<realmData.size();i++)
+//        {
+//            String assistantType = realmData.get(i).getAssistantType();
+//            String mTy = realmData.get(i).getType();
+//            if (mTy != null && assistantType != null&&mTy.equals("2") && assistantType.equals("2")) {
+//            }else {
+//                mList.add(realmData.get(i));
+//            }
+//        }
         mIsRefreshing=true;
     }
     private void twoAdapter() {
         if (msgAdapter==null) {
             msgAdapter = new MsgAdapter(getActivity(), mList, mItemTouchListener);
             mRecyclerView.setAdapter(msgAdapter);
+//            上拉加载
+            msgAdapter.setUpFetchListener(new BaseQuickAdapter.UpFetchListener() {
+                @Override
+                public void onUpFetch() {
+
+                }
+            });
         }
         if(msgAdapter!=null)
         {

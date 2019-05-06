@@ -164,7 +164,7 @@ public class ChatActivity extends BaseActivity {
 
     private ChatAdapter chatAdapter;
     private StaggeredGridLayoutManager layoutManager;
-//    private LinearLayoutManager layoutManager;
+    //    private LinearLayoutManager layoutManager;
     private List<MessageInfo> messageInfos;
     private List<DataJieShou.RecordBean> messageList;
     //录音相关
@@ -278,7 +278,8 @@ public class ChatActivity extends BaseActivity {
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
         friendHeader = cusJumpChatData.getFriendHeader();
         String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
-        includeTopTvTital.setText(nameText);
+        if(!StrUtils.isEmpty(nameText))
+            includeTopTvTital.setText(nameText);
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
@@ -497,7 +498,6 @@ public class ChatActivity extends BaseActivity {
         chatAdapter = new ChatAdapter(this);
         layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        
 //        layoutManager = new LinearLayoutManager(this);
 //
 //
@@ -507,6 +507,7 @@ public class ChatActivity extends BaseActivity {
 //        chatList.setHasFixedSize(true);
         chatList.setLayoutManager(layoutManager);
         chatList.setAdapter(chatAdapter);
+//        chatAdapter.setHasStableIds(true);
         chatAdapter.addItemClickListener(itemClickListener);
         chatList.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -588,7 +589,8 @@ public class ChatActivity extends BaseActivity {
             case "friendRemarkName":
                 String nameText = StrUtils.isEmpty(remarkName) ? "暂无" : remarkName;
 //                String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
-                includeTopTvTital.setText(nameText);
+                if (!StrUtils.isEmpty(nameText))
+                    includeTopTvTital.setText(nameText);
 //                sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
                 break;
             case "privateSendInterface":
@@ -596,13 +598,13 @@ public class ChatActivity extends BaseActivity {
                 DataChatPop.RecordBean recordBean = dataChatPop.getRecord();
                 if (recordBean != null) {
                     String name = StrUtils.isEmpty(recordBean.getRemarkName()) ? recordBean.getNickName() : recordBean.getRemarkName();
-                    includeTopTvTital.setText(name);
                     remarkName = StrUtils.isEmpty(recordBean.getRemarkName()) ? "暂无" : recordBean.getRemarkName();
                     groupName = StrUtils.isEmpty(recordBean.getGroupName()) ? "暂无" : recordBean.getGroupName();
-                    includeTopTvTital.setText(name);
+                    if(!StrUtils.isEmpty(name))
+                        includeTopTvTital.setText(name);
                 }
                 break;
-                // TODO 请求MD5查询，返回值判断是否存在该key
+            // TODO 请求MD5查询，返回值判断是否存在该key
             case "getQueryRepetition":
                 DataQueryRepetition dataQueryRepetition = JSON.parseObject(responseText, DataQueryRepetition.class);
                 if (dataQueryRepetition != null){

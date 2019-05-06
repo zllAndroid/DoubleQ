@@ -797,6 +797,7 @@ public class DealDataByApp {
             cusJumpChatData.setNickName(record.getGroupName());
             cusJumpChatData.setMsg(msg);
             cusJumpChatData.setTime(record.getRequestTime());
+            cusJumpChatData.setMemberId(record.getMemberId());
             cusJumpChatData.setMsgIsDisTurb(record.getDisturbType());
             cusJumpChatData.setTopType(record.getTopType());
             cusJumpChatData.setOperationType(record.getOperationType());

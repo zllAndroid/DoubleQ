@@ -180,6 +180,7 @@ public class ImageUtils {
 					.dontAnimate()
 					.bitmapTransform(new CropCircleTransformation(context))
 					.placeholder(imageView.getDrawable())
+					.diskCacheStrategy(DiskCacheStrategy.RESULT)
 					.into(imageView);
 		} catch (Exception e) {
 			e.printStackTrace();

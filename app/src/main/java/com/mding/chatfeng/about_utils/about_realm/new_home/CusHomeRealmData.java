@@ -43,6 +43,8 @@ public  class CusHomeRealmData extends RealmObject implements Parcelable {
     String MsgIsDisTurb;
     //    消息时间
     String time;
+//    群成员id（当前发送消息的这个人）
+    String memberId;
     //    消息数量
     int num;
 //    消息
@@ -63,20 +65,29 @@ public  class CusHomeRealmData extends RealmObject implements Parcelable {
 
     private String groupNumMsg;//有几个群有新消息
 
-/*   public List<CusChatData> chatMsgs;
-
-    public List<CusChatData> getChatMsgs() {
-    return chatMsgs;
+    public String getMemberId() {
+        return memberId;
     }
-    public void setChatMsgs(List<CusChatData> chatMsgs) {
-        this.chatMsgs = chatMsgs;
-    }*/
+
+    public void setMemberId(String memberId) {
+        this.memberId = memberId;
+    }
+
+    /*   public List<CusChatData> chatMsgs;
+
+        public List<CusChatData> getChatMsgs() {
+        return chatMsgs;
+        }
+        public void setChatMsgs(List<CusChatData> chatMsgs) {
+            this.chatMsgs = chatMsgs;
+        }*/
     public CusHomeRealmData(Parcel in) {
         readFromParcel(in);
     }
     public CusHomeRealmData() {
 
     }
+
     public void readFromParcel(Parcel in){
         totalId = in.readString();
         friendId = in.readString();

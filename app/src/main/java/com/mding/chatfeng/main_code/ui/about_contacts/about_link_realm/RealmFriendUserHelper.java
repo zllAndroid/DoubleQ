@@ -157,7 +157,7 @@ public class RealmFriendUserHelper {
                 return realmMsgs.getName();
             else
             {
-                return realmMsgs.getRemarkName();
+                return realmMsgs.getName();
             }
         }
         else
