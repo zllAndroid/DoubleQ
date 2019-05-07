@@ -99,9 +99,6 @@ public class MineSetActivity extends BaseActivity {
 
     //    清理缓存
     private void cleanCaChe() {
-//        ACache mCache = ACache.get(this);
-//        String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
-//        DataCleanManager.clearAllCache(MyApplication.getAppContext());
         try {
             String totalCacheSize = DataCleanManager.getTotalCacheSize(this);
             setTvCache.setText(totalCacheSize);
@@ -111,9 +108,6 @@ public class MineSetActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-//        ACache mCache2 = ACache.get(this);
-//        mCache2.put(AppAllKey.TOKEN_KEY, asString);
-//        String asString2 = mCache.getAsString(AppAllKey.TOKEN_KEY);
     }
 
 

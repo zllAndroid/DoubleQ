@@ -522,7 +522,7 @@ public class MsgFragment extends BaseFragment {
                                 // 跳转群助手
                                 IntentUtils.JumpTo(GroupAssistantActivity.class);
                             } else {
-                                clickItem(position);
+                                clickItem(adapter,position);
                             }
                             break;
                         //点击编辑，弹出聊天窗口
@@ -543,7 +543,8 @@ public class MsgFragment extends BaseFragment {
         }
     }
 
-    private void clickItem(int position) {
+    private void clickItem(BaseQuickAdapter adapter,int position) {
+        CusHomeRealmData   item = (CusHomeRealmData) adapter.getItem(position);
         int num = item.getNum();
         if (num>0)
         {

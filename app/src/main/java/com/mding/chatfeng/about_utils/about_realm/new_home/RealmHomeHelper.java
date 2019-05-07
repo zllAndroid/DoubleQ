@@ -85,6 +85,7 @@ public class RealmHomeHelper {
             e.printStackTrace();
         }
         homeRealmData.setNum(num + 1);
+
         homeRealmData.setTotalId(homeRealmData.getFriendId() + SplitWeb.getSplitWeb().getUserId());
         homeRealmData.setMessageType(homeRealmData.getMessageType());
         mRealm.beginTransaction();
@@ -188,6 +189,8 @@ public class RealmHomeHelper {
             mRealm.beginTransaction();
             realmMsg.setMsg(msg);
             realmMsg.setTime(time);
+            realmMsg.setMemberId(record.getMemberId());
+            realmMsg.setMessageType(record.getMessageType());
             realmMsg.setMsgIsDisTurb(record.getDisturbType());
             realmMsg.setIsTopMsg(record.getTopType());
             realmMsg.setIsShield(record.getOperationType());

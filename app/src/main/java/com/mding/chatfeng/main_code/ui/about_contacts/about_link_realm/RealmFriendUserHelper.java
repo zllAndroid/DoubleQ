@@ -154,7 +154,7 @@ public class RealmFriendUserHelper {
 //        //降序排列
         if (realmMsgs!=null) {
             if (StrUtils.isEmpty(realmMsgs.getRemarkName()))
-                return realmMsgs.getName();
+                return realmMsgs.getRemarkName();
             else
             {
                 return realmMsgs.getName();

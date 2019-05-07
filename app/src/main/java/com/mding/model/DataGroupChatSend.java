@@ -91,6 +91,7 @@ public class DataGroupChatSend {
         private String messageType;
         private String requestTime;
         private String userId;
+        private String memberId;
 
 
         //        加入群助手1否 2是
@@ -100,6 +101,14 @@ public class DataGroupChatSend {
         private String disturbType;//消息免打扰
         private String operationType;//屏蔽该群
         private String topType;//置顶状态
+
+        public String getMemberId() {
+            return memberId;
+        }
+
+        public void setMemberId(String memberId) {
+            this.memberId = memberId;
+        }
 
         public String getAssistantType() {
             return assistantType;

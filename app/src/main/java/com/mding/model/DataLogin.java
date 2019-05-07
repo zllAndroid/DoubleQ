@@ -64,12 +64,21 @@ public class DataLogin {
         private String mobile;
         private String wxSno;
         private String userToken;
+        private String upSnoNum;
         private String isFirstLogin;
         private String qrcode;
         private String personaSignature;
         private String headImg;
         private String serverIpWs;
         private String serverIpHttp;
+
+        public String getUpSnoNum() {
+            return upSnoNum;
+        }
+
+        public void setUpSnoNum(String upSnoNum) {
+            this.upSnoNum = upSnoNum;
+        }
 
         public String getServerIpWs() {
             return serverIpWs;

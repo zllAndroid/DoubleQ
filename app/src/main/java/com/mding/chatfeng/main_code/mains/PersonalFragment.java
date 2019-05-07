@@ -25,6 +25,7 @@ import com.mding.chatfeng.about_utils.GlideCacheUtil;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.OrangePocketActivity;
 import com.mding.chatfeng.about_base.BaseFragment;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
@@ -176,10 +177,10 @@ public class PersonalFragment extends BaseFragment {
 //        if (!StrUtils.isEmpty(phone)){
 //            userPhone = phone;
 //        }
-        String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
+        String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
         if (!StrUtils.isEmpty(json)) {
-            DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
-            DataLogin.RecordBean recordBean = dataLogin.getRecord();
+            DataMyZiliao.RecordBean recordBean = JSON.parseObject(json, DataMyZiliao.RecordBean.class);
+//            DataLogin.RecordBean recordBean = dataLogin.getRecord();
             if (recordBean != null) {
                 mineTvName.setText(recordBean.getNickName());
                 userPhone = recordBean.getMobile();
@@ -193,6 +194,9 @@ public class PersonalFragment extends BaseFragment {
             {
                 sendWeb(SplitWeb.getSplitWeb().personalCenter());
             }
+        }else
+        {
+            sendWeb(SplitWeb.getSplitWeb().personalCenter());
         }
     }
 
@@ -238,6 +242,8 @@ public class PersonalFragment extends BaseFragment {
                 DataMyZiliao.RecordBean record= dataMyZiliao.getRecord();
                 if (record!=null)
                 {
+                    String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
+                    aCache.put(AppAllKey.PPERSON_iNFO,jsonString);
                     String headImg = record.getHeadImg();
 //                    String substring = headImg.substring(22);
                     if (!StrUtils.isEmpty(headImg)){

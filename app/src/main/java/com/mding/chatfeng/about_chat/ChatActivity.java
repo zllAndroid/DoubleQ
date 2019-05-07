@@ -70,6 +70,7 @@ import com.mding.chatfeng.about_utils.windowStatusBar;
 import com.mding.chatfeng.main_code.mains.top_pop.ChatPopWindow;
 import com.mding.chatfeng.main_code.ui.about_contacts.ChooseGroupActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataMixActivity;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.model.CusChatPop;
 import com.mding.model.CusJumpChatData;
@@ -278,8 +279,9 @@ public class ChatActivity extends BaseActivity {
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
         friendHeader = cusJumpChatData.getFriendHeader();
         String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
-        if(!StrUtils.isEmpty(nameText))
-            includeTopTvTital.setText(nameText);
+        String  nickName = new RealmFriendUserHelper(this).queryLinkFriendReturnname(FriendId);//获取私聊好友名
+        if(!StrUtils.isEmpty(nickName))
+            includeTopTvTital.setText(nickName);
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);

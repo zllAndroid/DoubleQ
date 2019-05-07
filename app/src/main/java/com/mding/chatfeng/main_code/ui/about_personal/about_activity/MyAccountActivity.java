@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
 import com.mding.chatfeng.about_utils.ImageUtils;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.model.DataLogin;
 import com.mding.model.DataMyZiliao;
 import com.mding.chatfeng.R;
@@ -69,12 +70,14 @@ public class MyAccountActivity extends BaseActivity  {
         }
 //        else {
         aCache = ACache.get(this);
-        String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
+        String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
+//        String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
+//        aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
 //        String aCacheNickName = aCache.getAsString(ChangeInfoActivity.NICK_NAME);
         if (!StrUtils.isEmpty(json))
-        {DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
+        {
+            DataMyZiliao.RecordBean recordBean = JSON.parseObject(json, DataMyZiliao.RecordBean.class);
             Log.e("result","token信息"+json.toString());
-            DataLogin.RecordBean recordBean = dataLogin.getRecord();
             if (recordBean!=null) {
                 String qrCodeString = recordBean.getQrcode();
                 createQrCodeImg(qrCodeString);

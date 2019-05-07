@@ -135,22 +135,31 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         if (imageBase64!=null){
             ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, imageBase64);
         }
-        String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
+        String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
         if (!StrUtils.isEmpty(json)){
-            initUI(json);
+            try {
+                initUI(json);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }else {
             sendWeb(SplitWeb.getSplitWeb().personalCenter());
         }
     }
     String signatureText;
     private void initUI(String json) {
-        DataLogin dataLogin = JSON.parseObject(json, DataLogin.class);
-        DataLogin.RecordBean recordBean = dataLogin.getRecord();
+        DataMyZiliao.RecordBean recordBean = JSON.parseObject(json, DataMyZiliao.RecordBean.class);
         if (recordBean!=null) {
             changeinfoTvName.setText(recordBean.getNickName());
             changeinfoTvCount.setText(recordBean.getWxSno());
             signatureText = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? "暂未设置" : recordBean.getPersonaSignature();
             changeinfoTvSign.setText(signatureText);
+            String up_sno_num = recordBean.getUpSnoNum();
+            if (up_sno_num.equals("1")) {
+                changeinfoIvWrite.setVisibility(View.VISIBLE);
+            } else {
+                changeinfoIvWrite.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -207,12 +216,17 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     doChangeSign();
                 break;
             case R.id.changeinfo_lin_count:
-                if (record != null) {
-                    String up_sno_num = record.getUpSnoNum();
-                    if (up_sno_num.equals("1"))
-                        if (NoDoubleClickUtils.isDoubleClick())
-                            doChangeCount();
+                int visibility = changeinfoIvWrite.getVisibility();
+                if (visibility!=View.GONE)
+                {
+                    if (NoDoubleClickUtils.isDoubleClick())
+                        doChangeCount();
                 }
+//                if (record != null) {
+//                    String up_sno_num = record.getUpSnoNum();
+//                    if (up_sno_num.equals("1"))
+//
+//                }
                 break;
         }
     }
@@ -362,6 +376,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 DataMyZiliao dataMyZiliao = JSON.parseObject(responseText, DataMyZiliao.class);
                 record = dataMyZiliao.getRecord();
                 if (record != null) {
+                    String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
+                    aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
                     String up_sno_num = record.getUpSnoNum();
 //                    int visibility = changeinfoIvWrite.getVisibility();
                     if (up_sno_num.equals("1")) {
@@ -377,25 +393,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     } else {
                         changeinfoTvSign.setText(record.getPersonaSignature());
                     }
-
-                    String userId = SplitWeb.getSplitWeb().getUserId();
-//                    String substring = headImg.substring(22);
-//                    if (!StrUtils.isEmpty(headImg)){
-//                        Glide.with(this)
-//                                .load(headImg)
-//                                .downloadOnly(new SimpleTarget<File>() {
-//                                    @Override
-//                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-////                                    这里拿到的resource就是下载好的文件，
-//                                        File file = HeadFileUtils.saveHeadPath(ChangeInfoActivity.this, resource);
-////                                        Glide.with(ChangeInfoActivity.this).load(file)
-////                                                .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-////                                                .thumbnail(0.1f)
-////                                                .into(changeinfoIvHead);
-//                                    }
-//                                });
-//                        ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, headImg);
-//                    }
                 }
 //                }
                 break;
@@ -408,16 +405,13 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //                SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
 //                SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
 //                aCache.put(NICK_NAME,contant);
-                String json = aCache.getAsString(AppAllKey.TOKEN_KEY);
+                String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
                 if (!StrUtils.isEmpty(json)) {
-                    DataLogin.RecordBean recordBean = JSON.parseObject(json, DataLogin.RecordBean.class);
-//                    if (dataLogin != null) {
-                    recordBean.setNickName(contant);
-//                        String jsonString = JSON.toJSONString(recordBean);
-//                    String jsonString = JsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
-//                    aCache.put(AppAllKey.TOKEN_KEY, jsonString);
-                    String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
-                        aCache.put(AppAllKey.TOKEN_KEY, jsonString);
+//                    DataMyZiliao dataMyZiliao2 = JSON.parseObject(json,DataMyZiliao.class);
+                    DataMyZiliao.RecordBean record = JSON.parseObject(json, DataMyZiliao.RecordBean.class);
+                    record.setNickName(contant);
+                    String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
+                    aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
 //                    }
                 }
 
@@ -427,14 +421,14 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 PersonalFragment.isChange = true;
                 SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_SIGN, contant);
                 SplitWeb.getSplitWeb().PERSON_SIGN = contant;
-                String json2 = aCache.getAsString(AppAllKey.TOKEN_KEY);
+                String json2 = aCache.getAsString(AppAllKey.PPERSON_iNFO);
                 if (!StrUtils.isEmpty(json2)) {
-                    DataLogin.RecordBean recordBean = JSON.parseObject(json2, DataLogin.RecordBean.class);
+                    DataMyZiliao.RecordBean record = JSON.parseObject(json2, DataMyZiliao.RecordBean.class);
 //                    if (dataLogin != null) {
-                    recordBean.setPersonaSignature(contant);
+                    record.setPersonaSignature(contant);
 //                    String jsonString = JSON.toJSONString(recordBean);
-                    String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
-                    aCache.put(AppAllKey.TOKEN_KEY, jsonString);
+                    String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
+                    aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
 //                    }
                 }
                 changeinfoTvSign.setText(contant);
@@ -443,20 +437,20 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_NO, contant);
                 SplitWeb.getSplitWeb().WX_SNO = contant;
                 changeinfoIvWrite.setVisibility(View.GONE);
-                String json3 = aCache.getAsString(AppAllKey.TOKEN_KEY);
+                String json3 = aCache.getAsString(AppAllKey.PPERSON_iNFO);
                 if (!StrUtils.isEmpty(json3)) {
-                    DataLogin.RecordBean recordBean = JSON.parseObject(json3, DataLogin.RecordBean.class);
-//                    if (dataLogin != null) {
-                    recordBean.setWxSno(contant);
-//                    String jsonString = JSON.toJSONString(recordBean);
-                    String jsonString = MyJsonUtils.toChangeJson(recordBean);//将java对象转换为json对象
-                    aCache.put(AppAllKey.TOKEN_KEY, jsonString);
-//                    }
+                    DataMyZiliao.RecordBean record = JSON.parseObject(json3, DataMyZiliao.RecordBean.class);
+                    record.setWxSno(contant);
+                    String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
+                    aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
                 }
                 changeinfoTvCount.setText(contant);
                 break;
             case "upHeadImg":
+
                 PersonalFragment.isChangeHead = true;
+
+
                 DataSetHeadResult dataSetHeadResult = JSON.parseObject(responseText, DataSetHeadResult.class);
                 if (dataSetHeadResult != null) {
                     String headImg = dataSetHeadResult.getRecord().getHeadImg();
@@ -473,16 +467,22 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //                                    }
 //                                });
 //                        ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, headImg);
+
+
                         HeadImgInfo headImgInfo = new HeadImgInfo();
                         headImgInfo.setHeadImgBase64(headImg);
                         EventBus.getDefault().postSticky(headImgInfo);
+
+
+                        String json4 = aCache.getAsString(AppAllKey.PPERSON_iNFO);
+                        if (!StrUtils.isEmpty(json4)) {
+                            DataMyZiliao.RecordBean record = JSON.parseObject(json4, DataMyZiliao.RecordBean.class);
+                            record.setHeadImg(headImg);
+                            String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
+                            aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
+                        }
                     }
                 }
-////                Glide.with(this).load(save)
-//                Glide.with(this).load(decodedByte)
-//                        .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-//                        .thumbnail(0.1f)
-//                        .into(changeinfoIvHead);
                 break;
         }
     }

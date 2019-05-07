@@ -70,6 +70,7 @@ import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.about_utils.windowStatusBar;
 import com.mding.chatfeng.main_code.mains.top_pop.ChatPopWindow;
 import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataMixActivity;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.model.CusChatPop;
@@ -230,7 +231,12 @@ public class ChatGroupActivity extends BaseActivity {
             if (jumpGroupChatData != null) {
                 groupId = jumpGroupChatData.getGroupId();
                 MyLog.e("myGroupId","----------------------CusJumpGroupChatData--------------------------"+groupId);
-                includeTopTvTitle.setText(jumpGroupChatData.getGroupName());
+                String  nickName=  new RealmGroupHelper(this).queryLinkFriendReturnName(groupId);//获取群聊群名
+                if (!StrUtils.isEmpty(nickName))
+                {
+                    includeTopTvTitle.setText(nickName);
+                }
+//                includeTopTvTitle.setText(jumpGroupChatData.getGroupName());
 //                cardName = StrUtils.isEmpty(jumpGroupChatData.getCardName()) ? "暂无" : jumpGroupChatData.getCardName();
 //                isChecked = jumpGroupChatData.getDisturbType();
             } else if (GroupChatData != null) {
@@ -250,7 +256,7 @@ public class ChatGroupActivity extends BaseActivity {
         includeTopIvMore.setImageResource(R.drawable.group_chat_head_right);
         MyLog.e("ChatActivity","--------------------标题---------Group---------------->>"+includeTopTvTitle.getText().toString());
 //        if (StrUtils.isEmpty(includeTopTvTitle.getText().toString())) {
-            sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
+        sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
 //        }
     }
 
@@ -628,7 +634,7 @@ public class ChatGroupActivity extends BaseActivity {
                     Log.e("setUserGroupDisturb","-------------------群聊界面请求-----------------"+isChecked);
                 }
                 break;
-                // 请求MD5返回值判断
+            // 请求MD5返回值判断
             case "getQueryRepetition":
                 DataQueryRepetition dataQueryRepetition = JSON.parseObject(responseText, DataQueryRepetition.class);
                 if (dataQueryRepetition != null){

@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
@@ -124,7 +125,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                     case Constants.CHAT_TEXT:
 //                break;
                     default:
-                        if (!StrUtils.isEmpty(groupMemberName)&&item.getType().equals("2"))
+                        if (!StrUtils.isEmpty(groupMemberName)&&item.getType().equals("2")&&!item.getMemberId().equals(SplitWeb.getSplitWeb().getUserId()))
                         {
                             msg= groupMemberName+"："+ item.getMsg();
                             helper.setText(R.id.item_tv_msg,msg);
