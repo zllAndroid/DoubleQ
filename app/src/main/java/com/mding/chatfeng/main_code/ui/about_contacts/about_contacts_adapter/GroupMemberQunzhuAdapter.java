@@ -56,6 +56,7 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
         String headImg = realmGroupMemberHelper.queryLinkFriendReturnImgPath(item.getUserId());
 
         if (headImg!=null) {
+//            ImageUtils.useBase64WithError(context, mIvHead,  headImg.substring(0, headImg.indexOf("_")), R.drawable.first_head_nor);
             ImageUtils.useBase64WithError(context, mIvHead, headImg, R.drawable.first_head_nor);
 //            headImg = headImg.replace("data:image/png;base64,", "");
 //            Log.e("ChatAcceptViewHolder", headImg);
@@ -68,6 +69,8 @@ public class GroupMemberQunzhuAdapter extends BaseQuickAdapter<DataAddQunDetails
 //                    .into(mIvHead);
         }else
         {
+            String headImg1 = item.getHeadImg();
+//            ImageUtils.useBase64WithError(context, mIvHead,  headImg1.substring(0, headImg1.indexOf("_")), R.drawable.first_head_nor);
             ImageUtils.useBase64WithError(context, mIvHead, item.getHeadImg(), R.drawable.first_head_nor);
 //            byte[] decode = Base64.decode(item.getHeadImg(), Base64.DEFAULT);
 //            Glide.with(context)

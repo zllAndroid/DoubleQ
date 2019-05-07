@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
+import com.mding.chatfeng.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataGroup;
@@ -60,7 +61,11 @@ public class DealGroupAdd {
             doRealmGroup(dataAboutGroup,"1"); //  1 add   2 modify  3 delete
         }
     }
-
+    private   RealmGroupHelper getRealmGroupHelper() {
+//        if (realmGroupChatHelper==null)
+        groupHelper = new RealmGroupHelper(mContext);
+        return groupHelper;
+    }
     private  void doRealmGroup(DataAboutGroup dataAboutGroup, String type) {
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
         CusDataGroup cusDataGroup = new CusDataGroup();
@@ -69,19 +74,19 @@ public class DealGroupAdd {
         cusDataGroup.setGroupName(record.getGroupName());
         cusDataGroup.setGroupManageId(record.getGroupManageId());
         cusDataGroup.setGroupManageName(record.getGroupManageName());
-        CusDataGroup dataGroup = groupHelper.queryLinkFriend(record.getGroupId());
+        CusDataGroup dataGroup = getRealmGroupHelper().queryLinkFriend(record.getGroupId());
         if (type.equals("1") || type.equals("2")) {
             if (dataGroup != null) {
                 //不为空说明有该群，则进行修改操作
-                groupHelper.updateAll(record.getGroupId(), cusDataGroup);
+                getRealmGroupHelper().updateAll(record.getGroupId(), cusDataGroup);
             } else {
                 //为空说明有该群，则进行添加操作
-                groupHelper.addRealmGroup(cusDataGroup);
+                getRealmGroupHelper().addRealmGroup(cusDataGroup);
             }
         }
         else if (type.equals("3")){
             //不为空说明有该群，则进行删除操作
-            groupHelper.deleteRealmFriend(record.getGroupId());
+            getRealmGroupHelper().deleteRealmFriend(record.getGroupId());
         }
     }
 
@@ -94,21 +99,21 @@ public class DealGroupAdd {
         cusDataGroup.setGroupName(record.getNewGroupName());
         cusDataGroup.setGroupManageId(record.getNewGroupManageId());
         cusDataGroup.setGroupManageName(record.getNewGroupManageName());
-        CusDataGroup dataGroup = groupHelper.queryLinkFriend(record.getGroupId());
+        CusDataGroup dataGroup = getRealmGroupHelper().queryLinkFriend(record.getGroupId());
         if (dataGroup != null) {
             //不为空说明有该群，则进行修改操作
-            groupHelper.updateAll(record.getGroupId(), cusDataGroup);
+            getRealmGroupHelper().updateAll(record.getGroupId(), cusDataGroup);
         } else {
             //为空说明有该群，则进行添加操作
-            groupHelper.addRealmGroup(cusDataGroup);
+            getRealmGroupHelper().addRealmGroup(cusDataGroup);
         }
     }
 
     // 退出群聊；解散群聊
     public   void updateGroupDataBySub(Context context, String result, RealmHomeHelper realmHomeHelper) {
         mContext=context;
-        if (groupHelper==null)
-            groupHelper = new RealmGroupHelper(mContext);
+//        if (groupHelper==null)
+//            groupHelper = new RealmGroupHelper(mContext);
         DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
         if (aCache == null) {
@@ -129,7 +134,7 @@ public class DealGroupAdd {
     //修改群聊信息的删除操作
     public   String updateGroupDataByModifySub(Context context,String result ) {
         mContext=context;
-        groupHelper = new RealmGroupHelper(mContext);
+//        groupHelper = new RealmGroupHelper(mContext);
         DataAboutGroupModify dataAboutGroupModify = JSON.parseObject(result, DataAboutGroupModify.class);
         DataAboutGroupModify.RecordBean record = dataAboutGroupModify.getRecord();
         if (aCache == null) {

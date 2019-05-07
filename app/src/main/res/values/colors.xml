@@ -78,6 +78,7 @@
     <color name="black_show_img_bac">#171716</color>
     <color name="black_show_img_bac_trans">#77171716</color>
     <color name="black_half_trans">#66000000</color>
+    <color name="black_transparent">#aa000000</color>
     <color name="black_trans">#33000000</color>
 
     <color name="trans_all">#ffffffff</color>

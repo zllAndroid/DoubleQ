@@ -122,6 +122,7 @@ public class LinkGroupAdapter extends BaseExpandableListAdapter {
 
 
                 String headImg = groupListBean.getHeadImg();
+//                ImageUtils.useBase64(context,holder.img_contacts_child_head, headImg.substring(0, headImg.indexOf("_")));
                 ImageUtils.useBase64(context,holder.img_contacts_child_head,headImg);
                 holder.tv_contacts_child_name.setText(groupListBean.getNickName());
             }

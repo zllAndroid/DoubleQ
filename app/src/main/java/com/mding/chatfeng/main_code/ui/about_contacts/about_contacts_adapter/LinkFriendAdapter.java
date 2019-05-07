@@ -16,6 +16,7 @@ import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.model.DataLinkManList;
 import com.mding.chatfeng.R;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.io.File;
@@ -139,8 +140,13 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
 //                        .into(holder.img_contacts_child_head);
 //            }
             String headImg = groupListBean.getHeadImg();
-            ImageUtils.useBase64(context,holder.img_contacts_child_head,headImg);
-
+//            if (headImg.contains("_")){
+//                ImageUtils.useBase64(context,holder.img_contacts_child_head, headImg.substring(0, headImg.indexOf("_")));
+                ImageUtils.useBase64(context,holder.img_contacts_child_head, headImg);
+//                MyLog.i("imageBase64","-----------------------------------"+headImg.substring(headImg.indexOf("_")+1, headImg.length()));
+//            }
+//            else
+//                ImageUtils.useBase64(context,holder.img_contacts_child_head, headImg);
             String name =groupListBean.getNickName();
             if(!StrUtils.isEmpty(groupListBean.getRemarkName()))
             {

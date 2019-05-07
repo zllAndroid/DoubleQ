@@ -77,7 +77,9 @@ public class FriendDataAddActivity extends BaseActivity {
                 mTvName.setText(dataSearch.getName());
                 fdaTvNum.setText(dataSearch.getSno());
                 fdaTvSign.setText(StrUtils.isEmpty(dataSearch.getSign()) ? "暂未设置签名" : dataSearch.getSign());
-                ImageUtils.useBase64(FriendDataAddActivity.this, mIvHead, dataSearch.getHeadImg());
+                String headImg = dataSearch.getHeadImg();
+//                ImageUtils.useBase64(FriendDataAddActivity.this, mIvHead, headImg.substring(0, headImg.indexOf("_")));
+                ImageUtils.useBase64(FriendDataAddActivity.this, mIvHead, headImg);
 //                Glide.with(this).load(dataSearch.getHeadImg())
 //                        .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
 //                        .into(mIvHead);
@@ -107,6 +109,8 @@ public class FriendDataAddActivity extends BaseActivity {
                     fdaTvNum.setText(record.getWxSno());
                     String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未签名" : record.getPersonaSignature();
                     fdaTvSign.setText(signText);
+                    String headImg = dataSearch.getHeadImg();
+//                    ImageUtils.useBase64(FriendDataAddActivity.this, mIvHead, headImg.substring(0, headImg.indexOf("_")));
                     ImageUtils.useBase64(FriendDataAddActivity.this, mIvHead, dataSearch.getHeadImg());
 //                    Glide.with(this).load(record.getHeadImg())
 //                            .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))
@@ -132,6 +136,8 @@ public class FriendDataAddActivity extends BaseActivity {
         DataMyFriend.RecordBean record = dataMyFriend.getRecord();
         if (record != null) {
 //            dataRecord = record;
+            String headImg = dataSearch.getHeadImg();
+//            ImageUtils.useBase64(FriendDataAddActivity.this, mIvHead, headImg.substring(0, headImg.indexOf("_")));
             ImageUtils.useBase64(FriendDataAddActivity.this, mIvHead, dataSearch.getHeadImg());
 //            Glide.with(this).load(record.getHeadImg())
 //                    .bitmapTransform(new CropCircleTransformation(FriendDataAddActivity.this))

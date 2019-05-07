@@ -113,7 +113,9 @@ public class ContactFriendAdapter extends BaseExpandableListAdapter {
         }
         DataContactsFriendChild dataContactsFriendChild = fList.get(groupPosition).getDataContactsFriendChildList().get(childPosition);
         try {
-            ImageUtils.useBase64WithError(context, holder.img_contacts_child_head, dataContactsFriendChild.getImg_child_head_f(), R.drawable.first_head_nor);
+            String img_child_head_f = dataContactsFriendChild.getImg_child_head_f();
+            ImageUtils.useBase64WithError(context, holder.img_contacts_child_head,  img_child_head_f.substring(0, img_child_head_f.indexOf("_")), R.drawable.first_head_nor);
+//            ImageUtils.useBase64WithError(context, holder.img_contacts_child_head, dataContactsFriendChild.getImg_child_head_f(), R.drawable.first_head_nor);
         } catch (Exception e) {
             e.printStackTrace();
         }

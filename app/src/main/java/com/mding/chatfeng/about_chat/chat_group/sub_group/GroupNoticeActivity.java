@@ -175,6 +175,8 @@ public  static final  String GROUP_NOTICES="group_notice";
                         if (memberInfoBean != null) {
                             acTvTime.setText(groupInfoBean.getCreated());
                             acTvName.setText(memberInfoBean.getNickName());
+                            String headImg = memberInfoBean.getHeadImg();
+//                            ImageUtils.useBase64WithError(GroupNoticeActivity.this, acIvHead,  headImg.substring(0, headImg.indexOf("_")), R.drawable.first_head_nor);
                             ImageUtils.useBase64WithError(GroupNoticeActivity.this, acIvHead, memberInfoBean.getHeadImg(), R.drawable.first_head_nor);
 //                            Glide.with(this).load(memberInfoBean.getHeadImg())
 //                                    .bitmapTransform(new CropCircleTransformation(GroupNoticeActivity.this))

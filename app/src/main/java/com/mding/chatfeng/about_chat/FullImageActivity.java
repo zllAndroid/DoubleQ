@@ -15,8 +15,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_utils.ImageUtils;
+import com.mding.chatfeng.main_code.mains.PersonalFragment;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.enity.FullImageInfo;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,6 +51,9 @@ public class FullImageActivity extends AppCompatActivity {
 
     float imgWidth;
     float imgHeight;
+    String totalImg;
+    String totalImageBase64;
+    ACache aCache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,11 +67,19 @@ public class FullImageActivity extends AppCompatActivity {
             imgWidth = intent.getFloatExtra("imgWidth", 0);
             imgHeight = intent.getFloatExtra("imgHeight", 0);
         }
+        if (aCache == null){
+            aCache =  ACache.get(this);
+        }
+//        totalImg = aCache.getAsString(AppAllKey.User_HEAD_URL);
+        totalImg = aCache.getAsString(PersonalFragment.IMAGE_BASE64);
+        mBackground = new ColorDrawable(getResources().getColor(R.color.greybf_trans));
+        fullLay.setBackground(mBackground);
+        ImageUtils.useBase64Origin(FullImageActivity.this, fullImage, totalImg);
         EventBus.getDefault().register(this);
     }
 
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true) //在ui线程执行
+    //    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true) //在ui线程执行
+    @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onDataSynEvent(final FullImageInfo fullImageInfo) {
         final int left = fullImageInfo.getLocationX();
         final int top = fullImageInfo.getLocationY();
@@ -84,9 +102,21 @@ public class FullImageActivity extends AppCompatActivity {
             }
         });
 //        Glide.with(this).load(fullImageInfo.getImageUrl()).into(fullImage);
-        ImageUtils.useBase64(FullImageActivity.this, fullImage, fullImageInfo.getImageBase64());
+//        String totalImage = "abcdefg_123456";
+        String totalImage = fullImageInfo.getTotalImage();
+        String s = totalImage.contains("_")?"yes" : "no";
+        MyLog.i("imageBase64","------------fullImageActivity--------------"+s);
+//        MyLog.i("imageBase64","----------------------------------------------" + totalImage.substring(0, totalImage.indexOf("_")));
+        ImageUtils.useBase64Origin(FullImageActivity.this, fullImage, totalImage);
+//        ImageUtils.useBase64(FullImageActivity.this, fullImage, totalImage.substring(0, totalImage.indexOf("_")));
 //        ImageUtils.useBase64Origin(FullImageActivity.this, fullImage, fullImageInfo.getImageBase64());
     }
+
+//    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+
+    // TODO 异步加载高清图片
+
+
 
     private void activityEnterAnim() {
         fullImage.setPivotX(0);

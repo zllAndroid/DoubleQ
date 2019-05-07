@@ -39,6 +39,7 @@ import com.mding.model.DataSetHeadResult;
 import com.mding.model.HeadImgInfo;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
@@ -223,11 +224,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     if (NoDoubleClickUtils.isDoubleClick())
                         doChangeCount();
                 }
-//                if (record != null) {
-//                    String up_sno_num = record.getUpSnoNum();
-//                    if (up_sno_num.equals("1"))
-//
-//                }
                 break;
         }
     }
@@ -448,15 +444,14 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 changeinfoTvCount.setText(contant);
                 break;
             case "upHeadImg":
-
                 PersonalFragment.isChangeHead = true;
-
-
                 DataSetHeadResult dataSetHeadResult = JSON.parseObject(responseText, DataSetHeadResult.class);
                 if (dataSetHeadResult != null) {
                     String headImg = dataSetHeadResult.getRecord().getHeadImg();
 //                    String substring = headImg.substring(22);
                     if (!StrUtils.isEmpty(headImg)){
+                        String s = headImg.contains("_")?"yes" : "no";
+                        MyLog.i("imageBase64","------------changeInfoActivity--------------"+s);
                         SplitWeb.getSplitWeb().USER_HEADER = headImg;
 //                        Glide.with(this)
 //                                .load(headImg)
@@ -468,11 +463,11 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 //                                    }
 //                                });
 //                        ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, headImg);
-
-
+                        aCache.put(AppAllKey.User_HEAD_URL, headImg);
                         HeadImgInfo headImgInfo = new HeadImgInfo();
                         headImgInfo.setHeadImgBase64(headImg);
-                        EventBus.getDefault().postSticky(headImgInfo);
+                        EventBus.getDefault().post(headImgInfo);
+//                        EventBus.getDefault().postSticky(headImgInfo);
 
 
                         String json4 = aCache.getAsString(AppAllKey.PPERSON_iNFO);
@@ -563,12 +558,15 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 return;
             }
             String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
+            // 高清头像
             Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+            String OriginBase64 = ImageUtils.Bitmap2StrByBase64(bitMap);
             //TODO 压缩头像
             Bitmap bm = ImageUtils.imageZoom(bitMap);
-            String s1 = ImageUtils.Bitmap2StrByBase64(bm);
-            ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, s1);
-            sendWeb(SplitWeb.getSplitWeb().upHeadImg(s1));
+            String compressBase64 = ImageUtils.Bitmap2StrByBase64(bm);
+            String totalBase64 = OriginBase64 + "_" + compressBase64;
+            ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, compressBase64);
+            sendWeb(SplitWeb.getSplitWeb().upHeadImg(totalBase64));
 
         }
     }

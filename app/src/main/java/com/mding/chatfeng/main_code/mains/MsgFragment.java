@@ -495,7 +495,8 @@ public class MsgFragment extends BaseFragment {
         if(msgAdapter!=null)
         {
             msgAdapter.notifyDataSetChanged();
-            mRecyclerView.smoothScrollToPosition(0);
+            if (mRecyclerView != null)
+                mRecyclerView.smoothScrollToPosition(0);
             sendBroadcast();
         }
     }
@@ -544,7 +545,7 @@ public class MsgFragment extends BaseFragment {
     }
 
     private void clickItem(BaseQuickAdapter adapter,int position) {
-        CusHomeRealmData   item = (CusHomeRealmData) adapter.getItem(position);
+        CusHomeRealmData item = (CusHomeRealmData) adapter.getItem(position);
         int num = item.getNum();
         if (num>0)
         {
@@ -665,7 +666,7 @@ public class MsgFragment extends BaseFragment {
                         }
                     }
                 }
-                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
+//                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
                 break;
         }
     }

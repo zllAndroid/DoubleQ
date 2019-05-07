@@ -198,7 +198,9 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         fdaTvSign.setText(signText);
                         //  好友分组
                         fdTvFenzu.setText(record.getGroupName());
-                        ImageUtils.useBase64(FriendDataMixActivity.this, mIvHead, record.getHeadImg());
+                        String headImg = record.getHeadImg();
+//                        ImageUtils.useBase64(FriendDataMixActivity.this, mIvHead, headImg.substring(0, headImg.indexOf("_")));
+                        ImageUtils.useBase64(FriendDataMixActivity.this, mIvHead, headImg);
                         imageBase64 = record.getHeadImg();
 //                        Glide.with(this).load(record.getHeadImg())
 //                                .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
@@ -215,6 +217,8 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         fdaTvNum.setText(record.getWxSno());
                         String signText = StrUtils.isEmpty(record.getPersonaSignature()) ? "暂未设置签名" : record.getPersonaSignature();
                         fdaTvSign.setText(signText);
+                        String headImg = record.getHeadImg();
+//                        ImageUtils.useBase64(FriendDataMixActivity.this, mIvHead, headImg.substring(0, headImg.indexOf("_")));
                         ImageUtils.useBase64(FriendDataMixActivity.this, mIvHead, record.getHeadImg());
                         imageBase64 = record.getHeadImg();
 //                        Glide.with(this).load(record.getHeadImg())
@@ -290,6 +294,8 @@ String groupName;
                         .bitmapTransform(new CropCircleTransformation(FriendDataMixActivity.this))
                         .into(mIvHead);
             } else {
+                String headImg = record.getHeadImg();
+//                ImageUtils.useBase64WithError(FriendDataMixActivity.this, mIvHead, headImg.substring(0, headImg.indexOf("_")), R.drawable.first_head_nor);
                 ImageUtils.useBase64WithError(FriendDataMixActivity.this, mIvHead, record.getHeadImg(), R.drawable.first_head_nor);
 //                Glide.with(this).load(record.getHeadImg())
 //                        .error(R.drawable.first_head_nor)
@@ -381,7 +387,8 @@ String groupName;
 //                    ToastUtil.isDebugShow("imageBase64Event");
 //                }
 //                else{
-                    fullImageInfo.setImageBase64(imageBase64);
+
+                    fullImageInfo.setTotalImage(imageBase64);
 //                }
                 EventBus.getDefault().postSticky(fullImageInfo);
                 startActivity(new Intent(this, FullImageActivity.class));

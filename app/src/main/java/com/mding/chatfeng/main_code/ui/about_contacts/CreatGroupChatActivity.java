@@ -559,12 +559,15 @@ public class CreatGroupChatActivity extends BaseActivity {
                 return;
             }
             String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
+            // 高清头像
             Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+            String originBase64 = ImageUtils.Bitmap2StrByBase64(bitMap);
             //TODO 压缩头像
             Bitmap bm = ImageUtils.imageZoom(bitMap);
-            String s1 = ImageUtils.Bitmap2StrByBase64(bm);
-            ImageUtils.useBase64(CreatGroupChatActivity.this, creatIvHead, s1);
-            imageBase64 = s1;
+            String compressBase64 = ImageUtils.Bitmap2StrByBase64(bm);
+            String totalImage = compressBase64 + "_" + originBase64;
+            ImageUtils.useBase64(CreatGroupChatActivity.this, creatIvHead, compressBase64);
+            imageBase64 = totalImage;
         }
     }
     /**

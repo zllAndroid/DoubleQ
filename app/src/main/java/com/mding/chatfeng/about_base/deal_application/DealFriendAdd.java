@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
+import com.mding.chatfeng.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendRelation;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
@@ -24,8 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DealFriendAdd {
-    private   ACache aCache;
-    private   Context mContext;
+    private ACache aCache;
+    private Context mContext;
     static RealmFriendRelationHelper friendHelper;
     static RealmFriendUserHelper friendUserHelper;
     private static DealFriendAdd dealFriendAdd;
@@ -40,11 +41,21 @@ public class DealFriendAdd {
         }
         return dealFriendAdd;
     }
-    public   void updateFriendDataByAdd(Context montext,String result) {
-        if (friendHelper==null)
+    private RealmFriendRelationHelper getRealmFriendRelationHelper() {
+//        if (realmGroupChatHelper==null)
         friendHelper = new RealmFriendRelationHelper(mContext);
-        if (friendUserHelper==null)
+        return friendHelper;
+    }
+    private RealmFriendUserHelper getRealmFriendUserHelper() {
+//        if (realmGroupChatHelper==null)
         friendUserHelper = new RealmFriendUserHelper(mContext);
+        return friendUserHelper;
+    }
+    public void updateFriendDataByAdd(Context montext,String result) {
+//        if (friendHelper==null)
+//            friendHelper = new RealmFriendRelationHelper(mContext);
+//        if (friendUserHelper==null)
+//            friendUserHelper = new RealmFriendUserHelper(mContext);
         mContext=montext;
         DataAboutFriend dataAboutFriend = JSON.parseObject(result, DataAboutFriend.class);
         DataAboutFriend.RecordBean record = dataAboutFriend.getRecord();
@@ -62,8 +73,8 @@ public class DealFriendAdd {
             }
             if (record!=null)
             {
-                CusDataFriendUser cusDataFriendUser = friendUserHelper.queryLinkFriend(record.getFriendsId());
-                CusDataFriendRelation cusDataFriendRelation = friendHelper.queryLinkFriend(record.getFriendsId());
+                CusDataFriendUser cusDataFriendUser = getRealmFriendUserHelper().queryLinkFriend(record.getFriendsId());
+                CusDataFriendRelation cusDataFriendRelation = getRealmFriendRelationHelper().queryLinkFriend(record.getFriendsId());
                 String modified = record.getModified();
                 if (StrUtils.isEmpty(record.getHeadImg()))
                 {
@@ -107,11 +118,11 @@ public class DealFriendAdd {
         if (isUpData)
         {
 //            更新该好友全部内容
-            friendHelper.updateAll(groupListBean.getFriendsId(),cusDataFriendRelation);
+            getRealmFriendRelationHelper().updateAll(groupListBean.getFriendsId(),cusDataFriendRelation);
         }else
         {
 //            添加该好友信息
-            friendHelper.addRealmLinkFriend(cusDataFriendRelation);
+            getRealmFriendRelationHelper().addRealmLinkFriend(cusDataFriendRelation);
         }
     }
     private void setUserData(boolean isUpData,DataAboutFriend.RecordBean groupListBean) {
@@ -125,17 +136,17 @@ public class DealFriendAdd {
 //        cusDataFriendUser.setErWeiCode(groupListBean.get());
         if(isUpData)
         {
-            friendUserHelper.updateAll(groupListBean.getFriendsId(),cusDataFriendUser);
+            getRealmFriendUserHelper().updateAll(groupListBean.getFriendsId(),cusDataFriendUser);
         }else
         {
-            friendUserHelper.addRealmFriendUser(cusDataFriendUser);
+            getRealmFriendUserHelper().addRealmFriendUser(cusDataFriendUser);
         }
     }
     public   void updateFriendDataBySub(Context montext,String result) {
-        if (friendHelper==null)
-            friendHelper = new RealmFriendRelationHelper(mContext);
-        if (friendUserHelper==null)
-            friendUserHelper = new RealmFriendUserHelper(mContext);
+//        if (friendHelper==null)
+//            friendHelper = new RealmFriendRelationHelper(mContext);
+//        if (friendUserHelper==null)
+//            friendUserHelper = new RealmFriendUserHelper(mContext);
         mContext=montext;
         DataAboutFriend dataAboutFriend = JSON.parseObject(result, DataAboutFriend.class);
         DataAboutFriend.RecordBean record = dataAboutFriend.getRecord();
@@ -153,8 +164,8 @@ public class DealFriendAdd {
             }
             if (record!=null)
             {
-                friendHelper.deleteRealmFriend(record.getFriendsId());
-                friendUserHelper.deleteRealmFriend(record.getFriendsId());
+                getRealmFriendRelationHelper().deleteRealmFriend(record.getFriendsId());
+                getRealmFriendUserHelper().deleteRealmFriend(record.getFriendsId());
             }
 
         }

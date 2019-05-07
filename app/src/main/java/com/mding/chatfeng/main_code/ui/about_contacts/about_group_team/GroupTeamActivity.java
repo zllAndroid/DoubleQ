@@ -170,6 +170,7 @@ public class GroupTeamActivity extends BaseActivity {
 //                List<DataGroupMember.RecordBean.MemberListBean.GroupListBean> groupList = record.getMemberList().get(0).getGroupList();
 //                initABCByGroup();
         initGroupTeamAdapter();
+        BaseApplication.getaCache().put(groupId + SplitWeb.getSplitWeb().USER_ID+MEMBER_LIST, responseText);
     }
 
     private void dealMemberRealm() {

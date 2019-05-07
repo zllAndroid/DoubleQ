@@ -11,6 +11,7 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFr
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
 import com.mding.model.DataLinkManList;
 import com.mding.model.push_data.DataUpdateFriend;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -33,6 +34,16 @@ public class DealUpdateFriend {
     private static DealUpdateFriend dealFriendAdd;
     // 构造函数必须是私有的 这样在外部便无法使用 new 来创建该类的实例
     private DealUpdateFriend() {}
+    private RealmFriendRelationHelper getRealmFriendRelationHelper() {
+//        if (realmGroupChatHelper==null)
+        friendHelper = new RealmFriendRelationHelper(mContext);
+        return friendHelper;
+    }
+    private RealmFriendUserHelper getRealmFriendUserHelper() {
+//        if (realmGroupChatHelper==null)
+        friendUserHelper = new RealmFriendUserHelper(mContext);
+        return friendUserHelper;
+    }
     /**
      * 单一实例
      */
@@ -48,10 +59,10 @@ public class DealUpdateFriend {
         return emptys || Empty;
     }
     public  void updateFriend(Context context, String result) {
-        if (friendHelper==null)
-            friendHelper = new RealmFriendRelationHelper(mContext);
-        if (friendUserHelper==null)
-            friendUserHelper = new RealmFriendUserHelper(mContext);
+//        if (friendHelper==null)
+//            friendHelper = new RealmFriendRelationHelper(mContext);
+//        if (friendUserHelper==null)
+//            friendUserHelper = new RealmFriendUserHelper(mContext);
         mContext = context;
         DataUpdateFriend dataUpdateFriend = JSON.parseObject(result, DataUpdateFriend.class);
         DataUpdateFriend.RecordBean record = dataUpdateFriend.getRecord();
@@ -63,8 +74,8 @@ public class DealUpdateFriend {
             }
             if (record!=null)
             {
-                CusDataFriendUser cusDataFriendUser = friendUserHelper.queryLinkFriend(record.getFriendsId());
-                CusDataFriendRelation cusDataFriendRelation = friendHelper.queryLinkFriend(record.getFriendsId());
+                CusDataFriendUser cusDataFriendUser = getRealmFriendUserHelper().queryLinkFriend(record.getFriendsId());
+                CusDataFriendRelation cusDataFriendRelation = getRealmFriendRelationHelper().queryLinkFriend(record.getFriendsId());
                 String modified = record.getModified();
                 if (StrUtils.isEmpty(record.getNewHeadImg()))
                 {
@@ -108,11 +119,11 @@ public class DealUpdateFriend {
         if (isUpData)
         {
 //            更新该好友全部内容
-            friendHelper.updateAll(groupListBean.getFriendsId(),cusDataFriendRelation);
+            getRealmFriendRelationHelper().updateAll(groupListBean.getFriendsId(),cusDataFriendRelation);
         }else
         {
 //            添加该好友信息
-            friendHelper.addRealmLinkFriend(cusDataFriendRelation);
+            getRealmFriendRelationHelper().addRealmLinkFriend(cusDataFriendRelation);
         }
     }
     private void setUserData(boolean isUpData, DataUpdateFriend.RecordBean groupListBean) {
@@ -126,10 +137,10 @@ public class DealUpdateFriend {
 //        cusDataFriendUser.setErWeiCode(groupListBean.get());
         if(isUpData)
         {
-            friendUserHelper.updateAll(groupListBean.getFriendsId(),cusDataFriendUser);
+            getRealmFriendUserHelper().updateAll(groupListBean.getFriendsId(),cusDataFriendUser);
         }else
         {
-            friendUserHelper.addRealmFriendUser(cusDataFriendUser);
+            getRealmFriendUserHelper().addRealmFriendUser(cusDataFriendUser);
         }
     }
     private  int groupListSize = 0;

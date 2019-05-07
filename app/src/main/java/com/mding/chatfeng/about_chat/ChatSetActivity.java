@@ -280,6 +280,8 @@ public class ChatSetActivity extends BaseActivity {
         DataChatFriendInfo.RecordBean record = dataChatFriendInfo.getRecord();
         if (record != null) {
             dataRecord = record;
+            String headImg = record.getHeadImg();
+//            ImageUtils.useBase64WithError(ChatSetActivity.this, mIvHead,  headImg.substring(0, headImg.indexOf("_")), R.drawable.first_head_nor);
             ImageUtils.useBase64WithError(ChatSetActivity.this, mIvHead, record.getHeadImg(), R.drawable.first_head_nor);
 //            Glide.with(this).load(record.getHeadImg())
 //                    .bitmapTransform(new CropCircleTransformation(ChatSetActivity.this))

@@ -31,7 +31,9 @@ public class BlackAdapter extends BaseQuickAdapter<DataBlack.RecordBean, BaseVie
     @Override
     protected void convert(BaseViewHolder helper, DataBlack.RecordBean item) {
         ImageView mIv = helper.getView(R.id.item_iv_black);
-        ImageUtils.useBase64(context,mIv,item.getHeadImg());
+        String headImg = item.getHeadImg();
+//        ImageUtils.useBase64(context,mIv, headImg.substring(0, headImg.indexOf("_")));
+        ImageUtils.useBase64(context,mIv, headImg);
 //        Glide.with(context).load(item.getHeadImg())
 //                .bitmapTransform(new CropCircleTransformation(context))
 //                .into((ImageView) helper.getView(R.id.item_iv_black));

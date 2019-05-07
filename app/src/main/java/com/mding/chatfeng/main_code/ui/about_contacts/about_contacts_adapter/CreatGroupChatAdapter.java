@@ -128,7 +128,9 @@ public class CreatGroupChatAdapter extends BaseExpandableListAdapter {
         }
         final   DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean groupListBean = mDataList.get(groupPosition).getGroupList().get(childPosition);
         try {
-            ImageUtils.useBase64WithError(context, holder.mIvHead, groupListBean.getHeadImg(), R.drawable.first_head_nor);
+            String headImg = groupListBean.getHeadImg();
+//            ImageUtils.useBase64WithError(context, holder.mIvHead, headImg.substring(0, headImg.indexOf("_")), R.drawable.first_head_nor);
+            ImageUtils.useBase64WithError(context, holder.mIvHead, groupListBean.getHeadImg(), R.drawable.qun_head);
         } catch (Exception e) {
             e.printStackTrace();
         }

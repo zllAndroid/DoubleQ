@@ -37,6 +37,8 @@ public class NoticeAdapter extends BaseQuickAdapter<DataNews.RecordBean.ListInfo
     @Override
     protected void convert(BaseViewHolder helper, DataNews.RecordBean.ListInfoBean item) {
         ImageView view = helper.getView(R.id.item_iv_head);
+        String headImg = item.getHeadImg();
+//        ImageUtils.useBase64(context, view, headImg.substring(0, headImg.indexOf("_")));
         ImageUtils.useBase64(context, view, item.getHeadImg());
 //        Glide.with(context).load(item.getHeadImg())
 //                .bitmapTransform(new CropCircleTransformation(context))

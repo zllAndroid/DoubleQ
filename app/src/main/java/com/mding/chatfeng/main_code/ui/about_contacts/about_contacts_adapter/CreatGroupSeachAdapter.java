@@ -36,7 +36,9 @@ public class CreatGroupSeachAdapter extends BaseQuickAdapter<DataCreatGroupChat.
     {
         Log.e("searchCityList","---------输入------------->"+item.getNickName());
         ImageView view = helper.getView(R.id.item_creat_iv_head);
-        ImageUtils.useBase64(context, view, item.getHeadImg());
+        String headImg = item.getHeadImg();
+//        ImageUtils.useBase64(context, view,  headImg.substring(0, headImg.indexOf("_")));
+        ImageUtils.useBase64(context, view,  headImg);
 //        Glide.with(context).load(item.getHeadImg())
 //                .bitmapTransform(new CropCircleTransformation(context))
 //                .into((ImageView) helper.getView(R.id.item_creat_iv_head));

@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.model.DataAddQunDetails;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_utils.HelpUtils;
@@ -83,10 +84,13 @@ public class QunCodeActivity extends BaseActivity {
             if (personData!=null) {
                 qrcodeTvSao.setText(personData.getScanTital());
                 qrcodeTvName.setText(personData.getName());
-                Glide.with(this).load(personData.getHeadImg())
-                        .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
-                        .error(R.drawable.first_head_nor)
-                        .into(qrcodeIvHead);
+                String headImg = personData.getHeadImg();
+                ImageUtils.useBase64WithError(this, qrcodeIvHead, headImg, R.drawable.qun_head);
+//                Glide.with(this).load(headImg.substring(0, headImg.indexOf("_")))
+////                Glide.with(this).load(personData.getHeadImg())
+//                        .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
+//                        .error(R.drawable.qun_head)
+//                        .into(qrcodeIvHead);
 
                 String string = personData.getQrCode();
 //                String string = type + "_xm6leefun_" + userId;

@@ -163,7 +163,9 @@ public class ManageCusAdapter extends BaseExpandableListAdapter {
         }
         DataContactsManageChild dataContactsManageChild = mList.get(groupPosition).getDataContactsManageChildList().get(childPosition);
         try {
-            ImageUtils.useBase64WithError(context, holder.img_contacts_child_head, dataContactsManageChild.getImg_child_head_m(), R.drawable.first_head_nor);
+            String img_child_head_m = dataContactsManageChild.getImg_child_head_m();
+            ImageUtils.useBase64WithError(context, holder.img_contacts_child_head,  img_child_head_m.substring(0, img_child_head_m.indexOf("_")), R.drawable.first_head_nor);
+//            ImageUtils.useBase64WithError(context, holder.img_contacts_child_head, dataContactsManageChild.getImg_child_head_m(), R.drawable.first_head_nor);
         } catch (Exception e) {
             e.printStackTrace();
         }

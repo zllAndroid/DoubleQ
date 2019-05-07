@@ -109,6 +109,8 @@ public class TransferGroupMemberAdapter extends BaseExpandableListAdapter {
 //            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);
         if (!StrUtils.isEmpty(groupListBean.getMemberId())) {
             try {
+                String headImg = groupListBean.getHeadImg();
+//                ImageUtils.useBase64WithError(context, holder.img_contacts_child_head, headImg.substring(0, headImg.indexOf("_")), R.drawable.first_head_nor);
                 ImageUtils.useBase64WithError(context, holder.img_contacts_child_head, groupListBean.getHeadImg(), R.drawable.first_head_nor);
             } catch (Exception e) {
                 e.printStackTrace();

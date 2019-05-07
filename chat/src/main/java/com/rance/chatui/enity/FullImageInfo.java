@@ -11,14 +11,14 @@ public class FullImageInfo {
     private int width;
     private int height;
     private String imageUrl;
-    private String imageBase64;
+    private String totalImage;
 
-    public String getImageBase64() {
-        return imageBase64;
+    public String getTotalImage() {
+        return totalImage;
     }
 
-    public void setImageBase64(String imageBase64) {
-        this.imageBase64 = imageBase64;
+    public void setTotalImage(String imageBase64) {
+        this.totalImage = imageBase64;
     }
 
     public int getLocationX() {

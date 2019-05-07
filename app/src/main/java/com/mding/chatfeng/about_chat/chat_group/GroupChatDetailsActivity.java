@@ -334,11 +334,15 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 if (recordImg != null) {
                     String headImg = recordImg.getHeadImg();
                     if (!StrUtils.isEmpty(headImg)) {
+                        String contains = headImg.contains("_")?"yes" : "no";
+                        MyLog.i("imageBase64","------------groupChatDetailsActivity--------------"+contains);
+//                        ImageUtils.useBase64(GroupChatDetailsActivity.this, groupDataIvHead,  headImg.substring(0, headImg.indexOf("_")));
                         ImageUtils.useBase64(GroupChatDetailsActivity.this, groupDataIvHead, headImg);
                         GroupHeadImgInfo groupHeadImgInfo = new GroupHeadImgInfo();
                         groupHeadImgInfo.setGroupHeadImgBase64(headImg);
                         EventBus.getDefault().postSticky(groupHeadImgInfo);
                     }
+                    BaseApplication.getaCache().put(groupId + SplitWeb.getSplitWeb().USER_ID, responseText);
                 }
                 break;
             case "setUserGroupAssistant":
@@ -427,6 +431,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     initNotice(group_notice);
                 }
             }
+//            BaseApplication.getaCache().put(groupId + SplitWeb.getSplitWeb().USER_ID, responseText);
         }
     }
 
@@ -700,6 +705,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         groupHeadImg = groupInfoBean.getGroupHeadImg();
         groupChatName = groupInfoBean.getGroupName();
         if (isNeedChangeHeadImg){
+//            ImageUtils.useBase64(GroupChatDetailsActivity.this, groupDataIvHead,  groupHeadImg.substring(0, groupHeadImg.indexOf("_")));
             ImageUtils.useBase64(GroupChatDetailsActivity.this, groupDataIvHead, groupInfoBean.getGroupHeadImg());
         }else {
             isNeedChangeHeadImg = true;
@@ -853,11 +859,14 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             }
             String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
 
+            // 高清头像
             Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
+            String originBase64 = ImageUtils.Bitmap2StrByBase64(bitMap);
             //TODO 压缩头像
             Bitmap bm = ImageUtils.imageZoom(bitMap);
-            String s1 = ImageUtils.Bitmap2StrByBase64(bm);
-            sendWeb(SplitWeb.getSplitWeb().upGroupHeadImg(groupId,s1));
+            String compressBase64 = ImageUtils.Bitmap2StrByBase64(bm);
+            String totalBase64 = originBase64 + "_" + compressBase64;
+            sendWeb(SplitWeb.getSplitWeb().upGroupHeadImg(groupId, totalBase64));
         }
     }
 

@@ -59,6 +59,8 @@ public class MyAccountActivity extends BaseActivity  {
             {
                 qrcodeTvSao.setText(personData.getScanTital());
                 qrcodeTvName.setText(personData.getName());
+                String headImg = personData.getHeadImg();
+//                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg.substring(0, headImg.indexOf("_")));
                 ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, personData.getHeadImg());
 
                 String string = personData.getQrCode();
@@ -83,6 +85,7 @@ public class MyAccountActivity extends BaseActivity  {
                 createQrCodeImg(qrCodeString);
 //                    String headImg = dataLogin.getHeadImg();
                 String headImg = aCache.getAsString(IMAGE_BASE64);
+//                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg.substring(0, headImg.indexOf("_")));
                 ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg);
                 String nickName = recordBean.getNickName();
 //                if (aCacheNickName != null)
@@ -104,6 +107,8 @@ public class MyAccountActivity extends BaseActivity  {
             DataMyZiliao.RecordBean record = dataMyZiliao.getRecord();
             if (record != null) {
                 qrcodeTvName.setText(record.getNickName());
+                String headImg = record.getHeadImg();
+//                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg.substring(0, headImg.indexOf("_")));
                 ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, record.getHeadImg());
 //                Glide.with(this).load(record.getHeadImg())
 //                        .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))

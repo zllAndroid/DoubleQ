@@ -186,6 +186,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
                 if (!StrUtils.isEmpty(headImg)) {
                     aCache.put(IMAGE_BASE64, headImg);
                     SPUtils.put(this,AppConfig.User_HEAD_URL,headImg);
+//                    ImageUtils.useBase64(FirstAddHeaderActivity.this, firstIvHead, headImg.substring(0, headImg.indexOf("_")));
                     ImageUtils.useBase64(FirstAddHeaderActivity.this, firstIvHead, headImg);
 //                    Glide.with(this)
 //                            .load(headImg)

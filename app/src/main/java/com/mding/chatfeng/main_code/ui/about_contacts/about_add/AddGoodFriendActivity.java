@@ -78,6 +78,8 @@ public class AddGoodFriendActivity extends BaseActivity {
 //            dataSearch.getHead_img()
             if (dataSearch == null)
                 return;
+            String headImg = dataSearch.getHeadImg();
+//            ImageUtils.useBase64WithError(AddGoodFriendActivity.this,fdaIvHead, headImg.substring(0, headImg.indexOf("_")), R.drawable.first_head_nor);
             ImageUtils.useBase64WithError(AddGoodFriendActivity.this,fdaIvHead, dataSearch.getHeadImg(), R.drawable.first_head_nor);
 //            Glide.with(this).load(dataSearch.getHeadImg())
 //                    .error(R.drawable.first_head_nor)

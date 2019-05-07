@@ -196,6 +196,8 @@ public class GroupDataActivity extends BaseActivity {
     }
 
     private void initUI(DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean) {
+        String groupHeadImg = groupInfoBean.getGroupHeadImg();
+//        ImageUtils.useBase64WithError(GroupDataActivity.this, groupDataIvHead, groupHeadImg.substring(0, groupHeadImg.indexOf("_")), R.drawable.qun_head);
         ImageUtils.useBase64WithError(GroupDataActivity.this, groupDataIvHead, groupInfoBean.getGroupHeadImg(), R.drawable.qun_head);
 //        Glide.with(this).load(groupInfoBean.getGroupHeadImg())
 //                .bitmapTransform(new CropCircleTransformation(GroupDataActivity.this))

@@ -254,6 +254,8 @@ public class NoticeDetailsActivity extends BaseActivity implements ChangeInfoWin
         DataNoticeDetails.RecordBean recordBean = dataNoticeDetails.getRecord();
         if (recordBean != null){
             DataNoticeDetails.RecordBean.UserDetailInfoBean userDetailInfo = recordBean.getUserDetailInfo();
+            String headImg = userDetailInfo.getHeadImg();
+//            ImageUtils.useBase64(NoticeDetailsActivity.this, mIvHead, headImg.substring(0, headImg.indexOf("_")));
             ImageUtils.useBase64(NoticeDetailsActivity.this, mIvHead, userDetailInfo.getHeadImg());
 //            Glide.with(this).load(userDetailInfo.getHeadImg())
 //                    .bitmapTransform(new CropCircleTransformation(this))

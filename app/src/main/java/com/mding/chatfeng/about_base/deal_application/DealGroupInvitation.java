@@ -8,6 +8,7 @@ import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataGroup;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmGroupHelper;
 import com.mding.model.DataLinkGroupList;
 import com.mding.model.push_data.DataInvitationGroupList;
@@ -30,6 +31,11 @@ public class DealGroupInvitation {
     private static DealGroupInvitation dealFriendAdd;
     // 构造函数必须是私有的 这样在外部便无法使用 new 来创建该类的实例
     private DealGroupInvitation() {}
+    private RealmGroupHelper getRealmGroupHelper() {
+//        if (realmGroupChatHelper==null)
+        groupHelper = new RealmGroupHelper(mContext);
+        return groupHelper;
+    }
     /**
      * 单一实例
      */
@@ -42,8 +48,8 @@ public class DealGroupInvitation {
     public   void updateGroupDataByInvitation(Context context,String result)
     {
         mContext=context;
-        if (groupHelper==null)
-            groupHelper = new RealmGroupHelper(mContext);
+//        if (groupHelper==null)
+//            groupHelper = new RealmGroupHelper(mContext);
         DataInvitationGroupList dataInvitationGroupList = JSON.parseObject(result, DataInvitationGroupList.class);
         DataInvitationGroupList.RecordBean record = dataInvitationGroupList.getRecord();
         aCache =  ACache.get(mContext);
@@ -64,19 +70,19 @@ public class DealGroupInvitation {
         cusDataGroup.setGroupName(record.getGroupName());
         cusDataGroup.setGroupManageId(record.getGroupManageId());
         cusDataGroup.setGroupManageName(record.getGroupManageName());
-        CusDataGroup dataGroup = groupHelper.queryLinkFriend(record.getGroupId());
+        CusDataGroup dataGroup = getRealmGroupHelper().queryLinkFriend(record.getGroupId());
         if (type.equals("1") || type.equals("2")) {
             if (dataGroup != null) {
                 //不为空说明有该群，则进行修改操作
-                groupHelper.updateAll(record.getGroupId(), cusDataGroup);
+                getRealmGroupHelper().updateAll(record.getGroupId(), cusDataGroup);
             } else {
                 //为空说明有该群，则进行添加操作
-                groupHelper.addRealmGroup(cusDataGroup);
+                getRealmGroupHelper().addRealmGroup(cusDataGroup);
             }
         }
         else if (type.equals("3")){
             //不为空说明有该群，则进行删除操作
-            groupHelper.deleteRealmFriend(record.getGroupId());
+            getRealmGroupHelper().deleteRealmFriend(record.getGroupId());
         }
     }
     private  boolean isHaveTypeTwo = true;
