@@ -62,6 +62,13 @@
                     <!--android:layout_width="60dp"-->
                     <!--android:layout_height="70dp"-->
                    <!--/>-->
+                <ImageView
+                    android:id="@+id/chat_item_content_image"
+                    android:layout_width="80dp"
+                    android:layout_height="100dp"
+                    android:adjustViewBounds="true"
+                    android:layout_marginBottom="5dp"
+                  />
                 <!--<com.rance.chatui.widget.BubbleImageView-->
                     <!--android:id="@+id/chat_item_content_image"-->
                     <!--android:layout_width="wrap_content"-->
@@ -73,13 +80,7 @@
                     <!--app:arrowLocation="right"-->
                     <!--app:arrowPosition="15dp"-->
                     <!--app:arrowWidth="10dp" />-->
-                <ImageView
-                    android:id="@+id/chat_item_content_image"
-                    android:layout_width="80dp"
-                    android:layout_height="100dp"
-                    android:adjustViewBounds="true"
-                    android:layout_marginBottom="5dp"
-                    />
+
                 <LinearLayout
                     android:id="@+id/chat_item_layout_content"
                     android:layout_width="wrap_content"

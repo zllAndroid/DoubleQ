@@ -27,7 +27,6 @@ public class VersionCheckUtils {
                     {
                         initJsonReturn(result);
                     }
-
                 }  else {
                     ToastUtil.show(sucess);
                 }
@@ -99,17 +98,17 @@ public class VersionCheckUtils {
                         }
                     }else
                     {
-                        DialogUtils.showDialogOne(msg, new DialogUtils.OnClickSureListener() {
-                            @Override
-                            public void onClickSure() {
-                            }
-                        });
-//                        DialogUtils.showDialogOne("已经是最新版本", new DialogUtils.OnClickSureListener() {
+//                        DialogUtils.showDialogOne(msg, new DialogUtils.OnClickSureListener() {
 //                            @Override
 //                            public void onClickSure() {
-//
 //                            }
 //                        });
+                        DialogUtils.showDialogOne("已经是最新版本", new DialogUtils.OnClickSureListener() {
+                            @Override
+                            public void onClickSure() {
+
+                            }
+                        });
 //                       Tip.getDialog(AppManager.getAppManager().currentActivity(),"已经是最新版本");
                     }
                 }

@@ -770,7 +770,7 @@ public class ChatActivity extends BaseActivity {
         }
 
         @Override
-        public void onImageClick(BubbleImageView view, int position, String imgHttp) {
+        public void onImageClick( int position, String imgHttp) {
             IntentUtils.JumpToHaveOne(ShowChatImgActivity.class, ShowChatImgActivity.SHOW_CHAT_IMG_REGION, imgHttp);
         }
 

@@ -41,7 +41,7 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
     GifTextView chatItemContentText;
     @BindView(R.id.chat_item_content_image)
 //    @BindView(R.id.chat_item_by_image)
-    BubbleImageView chatItemContentImage;
+    ImageView chatItemContentImage;
     @BindView(R.id.chat_item_voice)
     ImageView chatItemVoice;
     @BindView(R.id.chat_item_layout_content)
@@ -126,13 +126,13 @@ public class ChatAcceptViewHolder extends BaseViewHolder<DataJieShou.RecordBean>
                     // TODO 显示接收的图片
                     String message = data.getMessage();
                     final String[] split = message.split("_");
-                    ImageUtils.useBase64ToBitmap(getContext(),chatItemContentImage,split[0]);
+                    ImageUtils.useBase64ToBitmap(getContext(),chatItemContentImage,split[1]);
                     MyLog.e("ChatSendViewHolder","------------------------ChatAccept-------------------------"+split[1]);
 //                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
                     chatItemContentImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition(), split[1]);
+                            onItemClickListener.onImageClick( getDataPosition(), split[1]);
                         }
                     });
                     break;

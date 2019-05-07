@@ -8,10 +8,12 @@ import android.widget.TextView;
 
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
+import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_custom.about_cus_dialog.DialogExitUtils;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
+import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.about_utils.VersionCheckUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
@@ -87,9 +89,9 @@ public class MineSetActivity extends BaseActivity {
         if(SplitWeb.getSplitWeb().IS_SET_ACTIVITY.equals("1")) {
             String method = HelpUtils.backMethod(responseText);
             switch (method) {
-                case "appUpdate":
-                    VersionCheckUtils.initUpdata(responseText, false);
-                    break;
+//                case "appUpdate":
+//                    VersionCheckUtils.initUpdata(responseText, false);
+//                    break;
                 case "kickUid":
                     Log.e("kickUid","----------------------kickUid-----------------");
                     break;
@@ -172,8 +174,21 @@ public class MineSetActivity extends BaseActivity {
             case R.id.set_lin_versition:
                 if (NoDoubleClickUtils.isDoubleClick()) {
                     //        版本更新
-                    int localVersion = HelpUtils.getLocalVersion(this);
-                    sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
+                    try {
+                        int localVersion = HelpUtils.getLocalVersion(this);
+//                    sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
+                        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+                        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().appUpdateHttp(localVersion + ""), new NetWorkUtlis.OnNetWork() {
+                            @Override
+                            public void onNetSuccess(String result) {
+                                String isSucess = HelpUtils.HttpIsSucess(result);
+                                if (isSucess.equals(AppConfig.CODE_OK))
+                                    VersionCheckUtils.initUpdata(result, false);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
 //                ToastUtil.show("已经是最新版本");
                 break;

@@ -52,19 +52,26 @@
                 <!--android:layout_height="70dp"-->
                 <!--android:layout_toRightOf="@id/chat_item_header"-->
                 <!--/>-->
-            <com.rance.chatui.widget.BubbleImageView
+            <!--<com.rance.chatui.widget.BubbleImageView-->
+                <!--android:id="@+id/chat_item_content_image"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_toRightOf="@id/chat_item_header"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--app:angle="6dp"-->
+                <!--android:visibility="gone"-->
+                <!--app:arrowHeight="8dp"-->
+                <!--app:arrowLocation="left"-->
+                <!--app:arrowPosition="15dp"-->
+                <!--app:arrowWidth="10dp" />-->
+            <ImageView
                 android:id="@+id/chat_item_content_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
                 android:layout_toRightOf="@id/chat_item_header"
-                android:scaleType="centerCrop"
-                app:angle="6dp"
-                android:visibility="gone"
-                app:arrowHeight="8dp"
-                app:arrowLocation="left"
-                app:arrowPosition="15dp"
-                app:arrowWidth="10dp" />
-
+                android:adjustViewBounds="true"
+                android:layout_marginBottom="5dp"
+                />
             <LinearLayout
                 android:id="@+id/chat_item_layout_content"
                 android:layout_width="wrap_content"

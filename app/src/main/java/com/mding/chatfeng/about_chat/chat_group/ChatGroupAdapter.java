@@ -54,7 +54,7 @@ public class ChatGroupAdapter extends RecyclerArrayAdapter<CusGroupChatData> {
         void onHeaderClick(int position, int type, String friendId);
         void onConClick( int position, String conText);
 
-        void onImageClick(BubbleImageView view, int position, String imgHttp);
+        void onImageClick(int position, String imgHttp);
 
         void onVoiceClick(ImageView imageView, int position);
     }

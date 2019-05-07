@@ -210,8 +210,8 @@ public class DealGroupAdd {
 //            修改数据保存cache
             DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
             recordBean.setGroupInfoList(group_info_list);
-
-            jsonString = JSON.toJSONString(recordBean);
+            jsonString = MyJsonUtils.toChangeJson(recordBean);
+//            jsonString = JSON.toJSONString(recordBean);
             Log.e("jsonString","修改="+jsonString);
             aCache.remove(AppAllKey.GROUD_DATA);
             aCache.put(AppAllKey.GROUD_DATA, jsonString);

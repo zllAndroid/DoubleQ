@@ -13,6 +13,8 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.android.volley.toolbox.ImageLoader;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
@@ -186,6 +188,20 @@ public class ImageUtils {
 			e.printStackTrace();
 		}
 	}
+	public static void useBase64Big(Context context, ImageView imageView, String s) {
+		try {
+			byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
+			Glide.with(context.getApplicationContext()).load(decodedByte)
+//			Glide.with(context).load(decodedByte)
+					.dontAnimate()
+					.bitmapTransform(new CropCircleTransformation(context))
+					.placeholder(imageView.getDrawable())
+					.diskCacheStrategy(DiskCacheStrategy.RESULT)
+					.into(imageView);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public static void useBase64ToBitmap(final Context context, final ImageView imageView, String s) {
 //		try {
 //			Bitmap bitmap = ImageUtils.base64ToBitmap(s);
@@ -193,22 +209,11 @@ public class ImageUtils {
 //		} catch (Exception e) {
 //			e.printStackTrace();
 //		}
-		byte[] decodeByde = Base64.decode(s, Base64.DEFAULT);
-		Glide.with(context.getApplicationContext()).load(decodeByde).asBitmap()
-//		Glide.with(context).load(decodeByde).asBitmap()
-				.placeholder(R.drawable.app_logo)//这是占位图
-				.into(new SimpleTarget<Bitmap>(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL) {
-					@Override
-					public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-						int imageWidth = resource.getWidth();
-						int imageHeight = resource.getHeight();
-						int height = ScreenUtils.getScreenWidth(context) * imageHeight / imageWidth;
-						ViewGroup.LayoutParams para = imageView.getLayoutParams();
-						para.height = height / 4;
-						para.width = ScreenUtils.getScreenWidth(context) / 4;
-						imageView.setImageBitmap(resource);
-					}
-				});
+		Glide.with(context).load(s)
+				.thumbnail(0.1f)
+//				.placeholder(R.drawable.app_logo)//这是占位图。
+				.into(imageView);
+
 	}
     /**
      *  等比例缩放图片至屏幕宽度

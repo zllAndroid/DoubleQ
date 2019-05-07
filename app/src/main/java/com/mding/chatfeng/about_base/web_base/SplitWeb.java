@@ -217,6 +217,14 @@ public class SplitWeb {
 //        String request = WebUrl.request("Contact", "contactsList", map);
 //        return  request;
     }
+    public  String appUpdateHttp(String nowVs){
+        mList.clear();
+        mList.add("nowVs="+nowVs);
+        mList.add("device="+"1");
+        return getURLRequest()+"appUpdate?"+ SignForXm6leefunJava.getSing(mList);
+//        String request = WebUrl.request("Contact", "contactsList", map);
+//        return  request;
+    }
     /**
      * -------------------------------------------------------------------------------------------------------------------------------------------
      */

@@ -12,12 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.jude.easyrecyclerview.adapter.BaseViewHolder;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
@@ -37,8 +39,8 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
     @BindView(R.id.chat_item_content_text)
     GifTextView chatItemContentText;
     @BindView(R.id.chat_item_content_image)
-//    @BindView(R.id.chat_item_by_image)
-    BubbleImageView chatItemContentImage;
+    ImageView chatItemContentImage;
+//    BubbleImageView chatItemContentImage;
     @BindView(R.id.chat_item_fail)
     ImageView chatItemFail;
     @BindView (R.id.chat_item_progress)
@@ -53,7 +55,7 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
     private Handler handler;
     MotionEvent event;
     public ChatGroupSendViewHolder(ViewGroup parent, ChatGroupAdapter.onItemClickListener onItemClickListener, Handler handler) {
-        super(parent, R.layout.item_chat_send);
+        super(parent, R.layout.item_chat_group_send);
         ButterKnife.bind(this, itemView);
         this.onItemClickListener = onItemClickListener;
         this.handler = handler;
@@ -106,7 +108,6 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
             }
         });
 //        chatItemContentText.setTextIsSelectable(true);
-        try {
             switch (data.getMessageType())
             {
                 case Constants.CHAT_TEXT:
@@ -138,13 +139,16 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
                     // TODO 显示发送的图片
                     String message = data.getMessage();
                     final String[] split = message.split("_");
-                    ImageUtils.useBase64ToBitmap(getContext(),chatItemContentImage,split[0]);
+//                    ImageLoader.getInstance().displayImage("http://47.112.123.172/privateChatFiles/1557229943~5399.png",chatItemContentImage);
+                    ImageUtils.useBase64ToBitmap(getContext(),chatItemContentImage,split[1]);
+//                    Glide.with(getContext()).load("http://47.112.123.172/privateChatFiles/1557229943~5399.png")
+//                            .into(chatItemContentImage);
                     MyLog.e("ChatSendViewHolder","------------------------groupSend-------------------------"+split[1]);
 //                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
                     chatItemContentImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition(), split[1]);
+                            onItemClickListener.onImageClick( getDataPosition(), split[1]);
                         }
                     });
                     break;
@@ -172,9 +176,6 @@ public class ChatGroupSendViewHolder extends BaseViewHolder<CusGroupChatData> {
                     });
                     break;
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         switch (data.getSendState()) {
             case Constants.CHAT_ITEM_SENDING:
                 chatItemProgress.setVisibility(View.VISIBLE);

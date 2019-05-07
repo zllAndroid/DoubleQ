@@ -13,6 +13,7 @@ import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;
@@ -33,7 +34,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
     GifTextView chatItemContentText;
     @BindView(R.id.chat_item_content_image)
 //    @BindView(R.id.chat_item_by_image)
-            BubbleImageView chatItemContentImage;
+            ImageView chatItemContentImage;
     @BindView(R.id.chat_item_voice)
     ImageView chatItemVoice;
     @BindView(R.id.chat_item_layout_content)
@@ -124,14 +125,14 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                     // TODO 显示发送的图片
                     String message = data.getMessage();
                     final String[] split = message.split("_");
-
-                    ImageUtils.useBase64ToBitmap(getContext(),chatItemContentImage,split[0]);
+//                    ImageLoader.getInstance().displayImage(split[1],chatItemContentImage);
+                    ImageUtils.useBase64ToBitmap(getContext(),chatItemContentImage,split[1]);
                     MyLog.e("ChatSendViewHolder","------------------------groupAccept-------------------------"+split[1]);
 //                    Glide.with(getContext()).load(data.getMessage()).into(chatItemContentImage);
                     chatItemContentImage.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            onItemClickListener.onImageClick(chatItemContentImage, getDataPosition(), split[1]);
+                            onItemClickListener.onImageClick( getDataPosition(), split[1]);
                         }
                     });
                     break;

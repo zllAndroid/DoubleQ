@@ -153,7 +153,7 @@ public class PersonalFragment extends BaseFragment {
         else
         {
             imageBase64 = asString;
-            ImageUtils.useBase64(getActivity(),mineIvPerson,asString);
+//            ImageUtils.useBase64(getActivity(),mineIvPerson,asString);
             MyLog.e("PersonalFragment","无网时所传头像");
         }
 
@@ -178,10 +178,12 @@ public class PersonalFragment extends BaseFragment {
 //            userPhone = phone;
 //        }
         String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
+        Log.e("DataMyZiliao","---DataMyZiliao----"+json);
         if (!StrUtils.isEmpty(json)) {
             DataMyZiliao.RecordBean recordBean = JSON.parseObject(json, DataMyZiliao.RecordBean.class);
 //            DataLogin.RecordBean recordBean = dataLogin.getRecord();
             if (recordBean != null) {
+                ImageUtils.useBase64(getActivity(),mineIvPerson,recordBean.getHeadImg());
                 mineTvName.setText(recordBean.getNickName());
                 userPhone = recordBean.getMobile();
                 String signature = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? "你还没有设置签名哦！" : recordBean.getPersonaSignature();

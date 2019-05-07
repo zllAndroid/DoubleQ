@@ -25,6 +25,7 @@ import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_custom.about_cus_dialog.DialogRiskTestUtils;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.about_utils.VersionCheckUtils;
 import com.mding.chatfeng.about_utils.about_immersive.StateBarUtils;
 import com.mding.chatfeng.about_utils.about_immersive.StatusBarUtil;
@@ -127,11 +128,11 @@ public class MainActivity extends BaseActivity  {
                 DialogRiskTestUtils.showDialog(getResources().getString(R.string.risk_test_title), getResources().getString(R.string.risk_test),
                         getResources().getString(R.string.risk_test_organization), getResources().getString(R.string.risk_test_time),
                         new DialogRiskTestUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
+                            @Override
+                            public void onClickSure() {
 
-                    }
-                });
+                            }
+                        });
             }
         }
         if (BaseApplication.isMain) {
@@ -142,7 +143,16 @@ public class MainActivity extends BaseActivity  {
 //                sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
 
                 localVersion = HelpUtils.getLocalVersion(MainActivity.this);
-                sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
+//                sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
+                NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+                netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().appUpdateHttp(localVersion + ""), new NetWorkUtlis.OnNetWork() {
+                    @Override
+                    public void onNetSuccess(String result) {
+                        String isSucess = HelpUtils.HttpIsSucess(result);
+                        if (isSucess.equals(AppConfig.CODE_OK))
+                            VersionCheckUtils.initUpdata(result, true);
+                    }
+                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -153,19 +163,18 @@ public class MainActivity extends BaseActivity  {
         BaseApplication.isMain=false;
     }
 
-    @Override
-    public void receiveResultMsg(String responseText) {
-        super.receiveResultMsg(responseText);
-        if(!SplitWeb.getSplitWeb().IS_SET_ACTIVITY.equals("1")) {
-            String method = HelpUtils.backMethod(responseText);
-            switch (method) {
-                case "appUpdate":
-                    VersionCheckUtils.initUpdata(responseText, true);
-                    break;
-            }
-        }
-
-    }
+//    @Override
+//    public void receiveResultMsg(String responseText) {
+//        super.receiveResultMsg(responseText);
+//        if(!SplitWeb.getSplitWeb().IS_SET_ACTIVITY.equals("1")) {
+//            String method = HelpUtils.backMethod(responseText);
+//            switch (method) {
+//                case "appUpdate":
+//                    VersionCheckUtils.initUpdata(responseText, true);
+//                    break;
+//            }
+//        }
+//    }
 
 
     @Override
@@ -208,7 +217,7 @@ public class MainActivity extends BaseActivity  {
         }
     }
     IntentFilter intentFilter=null;
-//    private void initBro() {
+    //    private void initBro() {
 //        if (intentFilter==null) {
 //            intentFilter = new IntentFilter();
 //            intentFilter.addAction("action.refreshMain");
@@ -247,7 +256,7 @@ public class MainActivity extends BaseActivity  {
             updateMsgCount(1,num);
         }
     }
-//获取tab条数并设置
+    //获取tab条数并设置
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEventMainThread(MainTabNumEvent event) {
         int num = event.getNum();

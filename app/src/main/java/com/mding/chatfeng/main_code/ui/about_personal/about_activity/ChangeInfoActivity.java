@@ -59,6 +59,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
 
     @BindView(R.id.include_top_tv_tital)
     TextView includeTopTvTital;
+
     @BindView(R.id.include_top_iv_back)
     ImageView includeTopIvBack;
 
@@ -625,7 +626,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         }
     }
 
-    @Override
+    @Override()
     public void onCancle() {
 
     }
