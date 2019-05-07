@@ -15,6 +15,7 @@ import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.VersionCheckUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.mding.chatfeng.main_code.mains.MainActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_set.CountAndSafeActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_set.DiscoverSetActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_set.LaBlackActivity;
@@ -24,6 +25,7 @@ import com.mding.chatfeng.main_code.ui.about_personal.about_set.YinSiActivity;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.main_code.about_login.LoginActivity;
 import com.mding.core.pushservice.WsChannelService;
+import com.mding.workservice.ChatService;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -205,6 +207,12 @@ public class MineSetActivity extends BaseActivity {
                             switch (checkingId){
                                 case "1":
                                     WsChannelService.isBind=true;
+//                                    ChatService
+//                                    unbindService(ChatService.this);
+//                                    stopService(intent);
+                                    Intent intent2 = new Intent(MineSetActivity.this, ChatService.class);
+                                    stopService(intent2);// 关闭服务
+//                                    unbindService(intent2);
 //                                    ToastUtil.show("1");
                                     SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD=true;
                                     sendWeb(SplitWeb.getSplitWeb().kickUid());
@@ -213,8 +221,9 @@ public class MineSetActivity extends BaseActivity {
                                     ACache.get(MineSetActivity.this).clear();
                                     SPUtils.put(MineSetActivity.this,AppAllKey.USER_ID_KEY,"");
                                     SPUtils.put(MineSetActivity.this,AppAllKey.USER_Token,"");
-                                    SPUtils.clear(MineSetActivity.this);
-                                    AppManager.getAppManager().finishAllActivity();
+//                                    SPUtils.clear(MineSetActivity.this);
+                                    AppManager.getAppManager().onAppExit(MineSetActivity.this);
+//                                    AppManager.getAppManager().finishAllActivity();
 //                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
 //                                    startActivity(intent_recharge);
 //                                    Log.e("userPhone","-------------mineSet-----------------"+userPhone);

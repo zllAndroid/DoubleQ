@@ -11,7 +11,10 @@
 package com.mding.core.pushservice;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Service;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
@@ -37,6 +40,7 @@ import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyInterface;
 import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
 
 import java.io.IOException;
+import java.util.List;
 
 import io.realm.Realm;
 import okhttp3.Call;
@@ -118,19 +122,36 @@ public class ChannelDeamon extends Service {
             @Override
             public void onSuccess(final String result) {
                 try {
-                    callback.onSuccess(result);
+                    String isSucess = HelpUtils.HttpIsSucess(result);
 
-                    //启动 WsChannelService 进入消息通道服务
-                    if(intent==null)
-                    {
-                        //启动WS通道连接服务
-                        intent=new Intent(ChannelDeamon.this, WsChannelService.class);
-                        intent.putExtra("data",result);
-                        startService(intent);
-                    }else {
-                        //尝试重连Ws，此次肯定至少是从第二次开始连接
-                        intent.putExtra("data",result);
-                        startService(intent);
+
+                    if (isSucess.equals(AppConfig.CODE_OK)) {
+                        ACache.get(ChannelDeamon.this).put(AppAllKey.TOKEN_KEY, result);
+                        DataLogin dataLogin = JSON.parseObject(result, DataLogin.class);
+                        DataLogin.RecordBean record = dataLogin.getRecord();
+                        String userToken = record.getUserToken();
+                        String userId = record.getUserId();
+
+                        getTACache().put(AppAllKey.USER_ID_KEY, userId);
+
+                        getTACache().put(AppAllKey.USER_Token, userToken);
+                        MyLog.e("onSuccess", "----------onSuccess-------------->>>>" + userId + "++++++" + userToken);
+                    }
+                    callback.onSuccess(result);
+                    if (isSucess.equals(AppConfig.CODE_OK)) {
+                        //启动 WsChannelService 进入消息通道服务
+                        if (!isServiceExisted(ChannelDeamon.this, "WsChannelService"))
+//                    if(intent==null)
+                        {
+                            //启动WS通道连接服务
+                            intent = new Intent(ChannelDeamon.this, WsChannelService.class);
+                            intent.putExtra("data", result);
+                            startService(intent);
+                        } else {
+                            //尝试重连Ws，此次肯定至少是从第二次开始连接
+                            intent.putExtra("data", result);
+                            startService(intent);
+                        }
                     }
                 } catch (RemoteException e) {
                     e.printStackTrace();
@@ -143,7 +164,31 @@ public class ChannelDeamon extends Service {
             }
         });
     }
+    public ACache getTACache(){
+        aCache =  ACache.get(getBaseContext());
+        return aCache;
+    }
+    ACache aCache;
+    public static boolean isServiceExisted(Context context, String className) {
+        ActivityManager activityManager = (ActivityManager) context
+                .getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningServiceInfo> serviceList = activityManager
+                .getRunningServices(Integer.MAX_VALUE);
 
+        if (!(serviceList.size() > 0)) {
+            return false;
+        }
+
+        for (int i = 0; i < serviceList.size(); i++) {
+            ActivityManager.RunningServiceInfo serviceInfo = serviceList.get(i);
+            ComponentName serviceName = serviceInfo.service;
+
+            if (serviceName.getClassName().equals(className)) {
+                return true;
+            }
+        }
+        return false;
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();

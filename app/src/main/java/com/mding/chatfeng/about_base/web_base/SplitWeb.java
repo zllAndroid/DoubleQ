@@ -71,12 +71,12 @@ public class SplitWeb {
 //        return USER_ID;
 //    }
     public  String getUserId() {
-        if(StrUtils.isEmpty(USER_ID))
+//        if(StrUtils.isEmpty(USER_ID))
             USER_ID= BaseApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);
         return USER_ID;
     }
     public  String getUserToken() {
-        if(StrUtils.isEmpty(USER_TOKEN))
+//        if(StrUtils.isEmpty(USER_TOKEN))
         USER_TOKEN= BaseApplication.getaCache().getAsString(AppAllKey.USER_Token);
 //            USER_TOKEN= (String )SPUtils.get(BaseApplication.getAppContext(),AppAllKey.USER_Token,"");
         return USER_TOKEN;
@@ -237,12 +237,8 @@ public class SplitWeb {
     }
     public    String WsBindUid(String userId ,String token){
         map.clear();
-        if(StrUtils.isEmpty(USER_ID))
-            getUserId();
-        putData(userIdParameter,USER_ID);
-        if(StrUtils.isEmpty(USER_TOKEN))
-            getUserToken();
-        putData(userTokenParameter,USER_TOKEN);
+        putData(userIdParameter,userId);
+        putData(userTokenParameter,token);
 //        Log.e("WebSocketLib","userIdParameter="+userIdParameter+"-------------------------------------"+USER_ID);
         String request = WebUrl.request("PersonCenter", "bindUid", map);
         return  request;

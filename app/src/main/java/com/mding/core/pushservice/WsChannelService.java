@@ -28,6 +28,7 @@ import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.model.DataLogin;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
@@ -92,7 +93,8 @@ public class WsChannelService extends Service {
                                             .retryOnConnectionFailure(true)
                                             .build())
                             .needReconnect(true)
-                            //                    .wsUrl("ws://120.78.92.225:9093")
+//                            TODO 固定ws
+//                                                .wsUrl("ws://192.168.4.133:5053")
                             .wsUrl(ws)
                             .build();
                     wsManager.setWsStatusListener(wsStatusListener);
@@ -111,17 +113,17 @@ public class WsChannelService extends Service {
 
         try{
             String  data = intent.getStringExtra("data");
-            if (!StrUtils.isEmpty(data))
-            {
-//                WsBindUid
-                DataLogin dataLogin = JSON.parseObject(data, DataLogin.class);
-                DataLogin.RecordBean record = dataLogin.getRecord();
-                String userToken = record.getUserToken();
-                String userId = record.getUserId();
-                wsManager.sendMessage(SplitWeb.getSplitWeb().WsBindUid(userId,userToken));
-            }
-            /*  connectionWs("第一次连"+data);*/
-            MyLog.e("isBind",isBind+"---------------------isBind--------------------------------"+data);
+//            if (!StrUtils.isEmpty(data))
+//            {
+////                WsBindUid
+//                DataLogin dataLogin = JSON.parseObject(data, DataLogin.class);
+//                DataLogin.RecordBean record = dataLogin.getRecord();
+//                String userToken = record.getUserToken();
+//                String userId = record.getUserId();
+//                wsManager.sendMessage(SplitWeb.getSplitWeb().WsBindUid(userId,userToken));
+//            }
+//            /*  connectionWs("第一次连"+data);*/
+//            MyLog.e("isBind",isBind+"---------------------isBind--------------------------------"+data);
             //启动OK3，在OK3中判断UI状态，ChatService状态，然后执行消息通知栏
         }catch (Exception e){
             AppConfig.logs("WsChannelService->:报错了");
@@ -136,6 +138,10 @@ public class WsChannelService extends Service {
         {
             aCache =  ACache.get(getBaseContext());
         }
+        return aCache;
+    }
+    public ACache getTACache(){
+            aCache =  ACache.get(getBaseContext());
         return aCache;
     }
     ACache aCache;
@@ -193,10 +199,15 @@ public class WsChannelService extends Service {
             super.onOpen(response);
             AppConfig.logs("连接成功");
             MyLog.e("onOpen","----------是否启动绑定-------------->>>>"+isBind);
-            wsManager.sendMessage(SplitWeb.getSplitWeb().bindUid());
+            String userId = getTACache().getAsString(AppAllKey.USER_ID_KEY);
+            String userToken= getTACache().getAsString(AppAllKey.USER_Token);
+            if(!StrUtils.isEmpty(userId))
+            wsManager.sendMessage(SplitWeb.getSplitWeb().WsBindUid(userId,userToken));
+            MyLog.e("onOpen","----------启动绑定-------------->>>>"+SplitWeb.getSplitWeb().WsBindUid(userId,userToken));
+//            wsManager.sendMessage(SplitWeb.getSplitWeb().bindUid());
             if (isBind)
             {
-                MyLog.e("onOpen","----------启动绑定-------------->>>>"+SplitWeb.getSplitWeb().bindUid());
+//                MyLog.e("onOpen","----------启动绑定-------------->>>>"+SplitWeb.getSplitWeb().bindUid());
             }
 //            callbacks.recevieContactsList();
         }
@@ -206,13 +217,19 @@ public class WsChannelService extends Service {
             super.onMessage(text);
             String backMethod = HelpUtils.backMethod(text);
             String only = HelpUtils.backOnly(text);
-            if (only.equals("1")&&backMethod.equals("bindUid"))
+            MyLog.e("onMessage","only="+only+"---text="+text);
+
+            if (only.equals("1"))
+//            if (only.equals("1")&&backMethod.equals("bindUid"))
             {
 //            sendWebHaveDialog(SplitWeb.getSplitWeb().bindUid(),"断线重连中...","重连成功");
                 if (!StrUtils.isEmpty(SplitWeb.getSplitWeb().getUserId()))
                 {
-                    MyLog.e("onOpen","----------接收断线重新绑定-------------->>>>"+SplitWeb.getSplitWeb().bindUid());
-                    wsManager.sendMessage(SplitWeb.getSplitWeb().bindUid());
+//                    wsManager.sendMessage(SplitWeb.getSplitWeb().bindUid());
+                    String userId = getTACache().getAsString(AppAllKey.USER_ID_KEY);
+                    String userToken= getTACache().getAsString(AppAllKey.USER_Token);
+                    wsManager.sendMessage(SplitWeb.getSplitWeb().WsBindUid(userId,userToken));
+                    MyLog.e("onOpen","----------接收断线重新绑定-------------->>>>"+SplitWeb.getSplitWeb().WsBindUid(userId,userToken));
                 }
             }
             if (backMethod.equals("")) {

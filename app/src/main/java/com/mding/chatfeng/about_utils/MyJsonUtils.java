@@ -58,7 +58,9 @@ public class MyJsonUtils {
                             DataServer.RecordBean record = dataServer.getRecord();
                             if (record != null) {
                                 try {
+                                    //                            TODO 固定ws
                                     String serverIpHttp = record.getHttpProtocolIp();
+//                                    String serverIpHttp = "http://192.168.4.133:5052";
                                     String serverIpWs = record.getWsProtocolIp();
                                     SplitWeb.getSplitWeb().HttpURL = serverIpHttp;
                                     BaseApplication.getaCache().remove(AppConfig.TYPE_URL);

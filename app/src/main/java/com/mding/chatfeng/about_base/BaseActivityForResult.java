@@ -284,13 +284,13 @@ public class BaseActivityForResult extends AppCompatActivity  {
     boolean isSend=false;
     protected void sendWeb(String text) {
         isSendDialog=false;
-        boolean isConnected = false;
-        try {
-            isConnected = NetUtils.isNetworkConnected(BaseApplication.getAppContext());
-        } catch (Exception e) {
-            e.printStackTrace();
-            isConnected = true;
-        }
+        boolean isConnected = true;
+//        try {
+//            isConnected = NetUtils.isNetworkConnected(BaseApplication.getAppContext());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            isConnected = true;
+//        }
         if (isConnected)
             BaseApplication.getApp().sendData(text);
         else
@@ -304,7 +304,8 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //            ToastUtil.show("请检查网络设置...");
     }
     public static  void send(String text) {
-        boolean isConnected = HelpUtils.isNetworkConnected(AppManager.getAppManager().currentActivity());
+        boolean isConnected = true;
+//        boolean isConnected = HelpUtils.isNetworkConnected(AppManager.getAppManager().currentActivity());
         if (isConnected)
             BaseApplication.getApp().sendData(text);
         else
@@ -317,15 +318,15 @@ public class BaseActivityForResult extends AppCompatActivity  {
         }
     }
     protected void sendWebHaveDialog(String text,String loadText,String loadSuccessText) {
-        boolean isConnected = NetUtils.isWifi(this);
-        if (!isConnected) {
-            try {
-                ToastUtil.show(AppManager.getAppManager().currentActivity().getResources().getString(R.string.no_net));
-            } catch (Resources.NotFoundException e) {
-                e.printStackTrace();
-            }
-            return;
-        }
+//        boolean isConnected = NetUtils.isWifi(this);
+//        if (!isConnected) {
+//            try {
+//                ToastUtil.show(AppManager.getAppManager().currentActivity().getResources().getString(R.string.no_net));
+//            } catch (Resources.NotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            return;
+//        }
         isSendDialog=true;
         if ((ld != null))
             ld.close();
@@ -342,15 +343,15 @@ public class BaseActivityForResult extends AppCompatActivity  {
         BaseApplication.getApp().sendData(text);
     }
     protected void sendWebOnlyDialog(String text,String loadText) {
-        boolean isConnected = HelpUtils.isNetworkConnected(this);
-        if (!isConnected) {
-            try {
-                ToastUtil.show(AppManager.getAppManager().currentActivity().getResources().getString(R.string.no_net));
-            } catch (Resources.NotFoundException e) {
-                e.printStackTrace();
-            }
-            return;
-        }
+//        boolean isConnected = HelpUtils.isNetworkConnected(this);
+//        if (!isConnected) {
+//            try {
+//                ToastUtil.show(AppManager.getAppManager().currentActivity().getResources().getString(R.string.no_net));
+//            } catch (Resources.NotFoundException e) {
+//                e.printStackTrace();
+//            }
+//            return;
+//        }
         isSend=true;
         if ((ld != null))
             ld.close();
@@ -454,7 +455,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)
         public void onEvent(MessageEvent messageEvent){
-        Log.e("messageEvent","onEven_messageEvent="+messageEvent.getMessage());
+        Log.i("messageEvent","onEven_messageEvent="+messageEvent.getMessage());
         Stack<AppCompatActivity> stack = AppManager.getAppManager().getStack();
         if (stack!=null&&stack.size()!=0) {
             String stackLast = stack.get(stack.size() - 1).getClass().getSimpleName();
