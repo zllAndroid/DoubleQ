@@ -10,6 +10,7 @@ public class AppAllKey {
     public static final String GOH5_TITAL_KEY= "tital_html";
     public static final String GOH5_ARTICAL_KEY= "artical_html";
     //登录返回的信息key
+    public static final String PPERSON_iNFO= "personinfo";
     public static final String TOKEN_KEY= "token_key";
     public static final String USER_ID_KEY= "userId_key";
     public static final String USER_Token= "user_token";
