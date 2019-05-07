@@ -643,7 +643,7 @@ public class ChatGroupActivity extends BaseActivity {
                         if (recordBeanQuery.getFileType() == 1){
                             // 是否发送 1需发送 2无需发送
                             send(SplitWeb.getSplitWeb().groupSend(ChatGroupActivity.groupId, imgTotalFunFrag, messageTypeImg, TimeUtil.getTime()));
-                        }else if (recordBeanQuery.getFileType() == 1){
+                        }else if (recordBeanQuery.getFileType() == 2){
                             send(SplitWeb.getSplitWeb().groupSend(ChatGroupActivity.groupId, imgMD5FunFrag, messageTypeImg, TimeUtil.getTime()));
                         }
                     }

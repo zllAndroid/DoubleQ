@@ -19,7 +19,6 @@ import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.rance.chatui.R;

@@ -9,11 +9,6 @@ import android.support.multidex.MultiDexApplication;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.memory.impl.LruMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.zll.websocket.WebSocketServiceConnectManager;
@@ -44,19 +39,19 @@ public class BaseApplication extends Application implements AppView{
     @Override
     public void onCreate() {
         super.onCreate();
-        // 初始化 Image-Loader
-        DisplayImageOptions options = new DisplayImageOptions.Builder()
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .build();
-
-        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this)
-                .memoryCache(new LruMemoryCache(MEMORY_SIZE))
-                .diskCache(new UnlimitedDiscCache(new File(getCacheDir(),"caches")))
-                .diskCacheSize(DISK_SIZE)
-                .defaultDisplayImageOptions(options)
-                .build();
-        ImageLoader.getInstance().init(configuration);
+//        // 初始化 Image-Loader
+//        DisplayImageOptions options = new DisplayImageOptions.Builder()
+//                .cacheInMemory(true)
+//                .cacheOnDisk(true)
+//                .build();
+//
+//        ImageLoaderConfiguration configuration = new ImageLoaderConfiguration.Builder(this)
+//                .memoryCache(new LruMemoryCache(MEMORY_SIZE))
+//                .diskCache(new UnlimitedDiscCache(new File(getCacheDir(),"caches")))
+//                .diskCacheSize(DISK_SIZE)
+//                .defaultDisplayImageOptions(options)
+//                .build();
+//        ImageLoader.getInstance().init(configuration);
 
 
         isMain=true;
