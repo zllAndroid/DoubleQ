@@ -112,7 +112,7 @@ public class WsChannelService extends Service {
         }
 
         try{
-            String  data = intent.getStringExtra("data");
+//            String  data = intent.getStringExtra("data");
 //            if (!StrUtils.isEmpty(data))
 //            {
 ////                WsBindUid
