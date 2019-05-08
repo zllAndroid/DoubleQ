@@ -216,6 +216,7 @@ public class MineSetActivity extends BaseActivity {
                             switch (checkingId){
                                 case "1":
                                     WsChannelService.isBind=true;
+                                    BaseApplication.isHomeMsgFragment=true;
 //                                    ChatService
 //                                    unbindService(ChatService.this);
 //                                    stopService(intent);
@@ -242,6 +243,7 @@ public class MineSetActivity extends BaseActivity {
                                     break;
                                 case "2":
                                     WsChannelService.isBind=true;
+                                    BaseApplication.isHomeMsgFragment=true;
                                     SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD=true;
 //                                    ToastUtil.show("2");
                                     sendWeb(SplitWeb.getSplitWeb().kickUid());

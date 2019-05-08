@@ -9,6 +9,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
@@ -53,6 +54,7 @@ public class LoadLinkManActivity extends BaseActivity implements LoadView {
     @Override
     protected void initBaseView() {
         super.initBaseView();
+        BaseApplication.isHomeMsgFragment=true;
         loadPresenter = new LoadPresenter(LoadLinkManActivity.this, this, new LoadInteractor());
         loadPresenter.loadData();
     }

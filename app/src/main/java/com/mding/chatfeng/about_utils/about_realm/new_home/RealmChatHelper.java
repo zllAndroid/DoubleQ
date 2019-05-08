@@ -3,6 +3,7 @@ package com.mding.chatfeng.about_utils.about_realm.new_home;
 import android.content.Context;
 
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 
 import java.util.List;
 
@@ -16,6 +17,7 @@ import io.realm.Sort;
 
 public class RealmChatHelper {
     public static final String FILE_NAME = "totalId";
+    public static final String MSG_ID = "messageStoId";
 
 //  小强  15960525629
 //   123456
@@ -34,9 +36,32 @@ public class RealmChatHelper {
      * add （增）
      */
     public void addRealmChat(final CusChatData realmChat) {
-        mRealm.beginTransaction();
-        mRealm.copyToRealm(realmChat);
-        mRealm.commitTransaction();
+        if (realmChat.getMessageStoId()!=null) {
+            CusChatData cusChatData = mRealm.where(CusChatData.class).equalTo(MSG_ID, realmChat.getMessageStoId()).findFirst();
+            if (cusChatData == null) {
+                addChat(realmChat);
+            }
+        }else
+        {
+            addChat(realmChat);
+        }
+    }
+    public boolean isMessage(String msgId) {
+        if (msgId!=null) {
+            CusChatData dog = mRealm.where(CusChatData.class).equalTo(MSG_ID, msgId).findFirst();
+            if (dog!=null) {
+                return false;
+            }
+        }
+        return true;
+    }
+    /**
+     * add （增）
+     */
+    private void addChat(final CusChatData realmChat) {
+                mRealm.beginTransaction();
+                mRealm.copyToRealm(realmChat);
+                mRealm.commitTransaction();
     }
 
     /**

@@ -153,7 +153,7 @@ public class RealmFriendUserHelper {
          */
 //        //降序排列
         if (realmMsgs!=null) {
-            if (StrUtils.isEmpty(realmMsgs.getRemarkName()))
+            if (!StrUtils.isEmpty(realmMsgs.getRemarkName()))
                 return realmMsgs.getRemarkName();
             else
             {

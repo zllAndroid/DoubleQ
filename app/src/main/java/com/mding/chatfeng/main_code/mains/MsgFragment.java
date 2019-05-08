@@ -13,12 +13,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.android.volley.VolleyError;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mding.chatfeng.about_application.BaseApp;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
 import com.mding.model.CusJumpChatData;
 import com.mding.chatfeng.R;
@@ -47,6 +49,8 @@ import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyInterface;
+import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
 import com.rance.chatui.util.Constants;
 
 import org.greenrobot.eventbus.EventBus;
@@ -188,9 +192,11 @@ public class MsgFragment extends BaseFragment {
     }
     LongTimeTask myTask=null;
     private void initRealmData() {
-        if (myTask==null) {
-            myTask = new LongTimeTask();
-            myTask.execute();
+        if (BaseApplication.isHomeMsgFragment) {
+            if (myTask == null) {
+                myTask = new LongTimeTask();
+                myTask.execute();
+            }
         }
     }
 
@@ -200,16 +206,18 @@ public class MsgFragment extends BaseFragment {
         protected void onPostExecute(List<CusHomeRealmData> o) {
             super.onPostExecute(o);
 //            initAdapter();
-            AppConfig.logs("-----------------------onPostExecute-----------接收----------------------");
+            MyLog.e("LongTimeTask","-----------------------onPostExecute-----------接收----------------------");
             Message message = new Message();
             message.what=AppConfig.WHAT_REALM_INITADAPTER;
             mHandlers.sendMessage(message);
             myTask=null;
+            BaseApplication.isHomeMsgFragment=false;
             return;
         }
         @Override
         protected List<CusHomeRealmData> doInBackground(List<CusHomeRealmData>... lists) {
-            AppConfig.logs("-----------------------doInBackground-----------执行----------------------");
+            MyLog.e("LongTimeTask","-----------------------doInBackground-----------执行----------------------");
+//            initOff();
 
             RealmHomeHelper  realmHelper = new RealmHomeHelper(getActivity());
             if (mList.size()==0) {
@@ -223,9 +231,23 @@ public class MsgFragment extends BaseFragment {
                     return null;
                 }
             }
+
             return null;
         }
     }
+    private void initOff() {
+        Log.e("result","拉去请求结果url=="+SplitWeb.getSplitWeb().pullMergeChat());
+            VolleyRequest.RequestGet(getActivity(),SplitWeb.getSplitWeb().pullMergeChat(), new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
+                @Override
+                public void onSuccess(final String result) {
+                    Log.e("result","拉去请求结果=="+result);
+                }
+                @Override
+                public void onError(VolleyError result) {
+                }
+            });
+    }
+
     @Override
     protected void onFragmentHandleMessage(Message msg) {
         super.onFragmentHandleMessage(msg);
@@ -235,7 +257,7 @@ public class MsgFragment extends BaseFragment {
 //           刷新adapter
             case AppConfig.WHAT_REALM_INITADAPTER:
                 initAdapter();
-                AppConfig.logs("-----------------------handler-----------接收----------------------");
+                MyLog.e("LongTimeTask","-----------------------handler-----------接收----------------------");
                 break;
         }
     }
@@ -556,7 +578,7 @@ public class MsgFragment extends BaseFragment {
             isZero=false;
         }
         if (item.getType().equals("1")) {
-            sendWeb(SplitWeb.getSplitWeb().privateSendInterface(item.getFriendId()));
+//            sendWeb(SplitWeb.getSplitWeb().privateSendInterface(item.getFriendId()));
             CusJumpChatData cusJumpChatData = new CusJumpChatData();
             // 点击进入详情后，消息个数清零
             // 好友
@@ -564,21 +586,20 @@ public class MsgFragment extends BaseFragment {
             cusJumpChatData.setFriendId(item.getFriendId());
 //                  cusJumpChatData.setFriendName(name);
             cusJumpChatData.setFriendName(item.getNickName());
-            cusJumpChatData.setFriendRemarkName(remarkName);
-            cusJumpChatData.setFriendGroupName(groupingName);
+//            cusJumpChatData.setFriendRemarkName(remarkName);
+//            cusJumpChatData.setFriendGroupName(groupingName);
             IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 
         }else {
-            sendWeb(SplitWeb.getSplitWeb().groupSendInterface(item.getFriendId()));
+//            sendWeb(SplitWeb.getSplitWeb().groupSendInterface(item.getFriendId()));
 
             CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
             //跳转群组
             cusJumpGroupChatData.setGroupId(item.getFriendId());
             cusJumpGroupChatData.setGroupName(item.getNickName());
-            MyLog.e("msgFragment","-----------------------------------" + item.getNickName() + "++++++" + remarkName);
-            cusJumpGroupChatData.setIdentifyType(identityType);
-            cusJumpGroupChatData.setCardName(carteName);
-            cusJumpGroupChatData.setDisturbType(disturbType);
+//            cusJumpGroupChatData.setIdentifyType(identityType);
+//            cusJumpGroupChatData.setCardName(carteName);
+//            cusJumpGroupChatData.setDisturbType(disturbType);
 //                            cusJumpGroupChatData.setGroupName(item.getNickName());
             IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
         }
@@ -626,48 +647,4 @@ public class MsgFragment extends BaseFragment {
             sendBroadcast();
         }
     };
-
-    String remarkName;
-    String groupingName;
-    String disturbType;
-    String carteName;
-    String identityType;
-    @Override
-    public void receiveResultMsg(String responseText) {
-        super.receiveResultMsg(responseText);
-        String method = HelpUtils.backMethod(responseText);
-        switch (method){
-            case "privateSendInterface":
-                CusJumpChatData cusJumpChatData = new CusJumpChatData();
-                DataChatPop dataChatPop = JSON.parseObject(responseText, DataChatPop.class);
-                DataChatPop.RecordBean recordBean = dataChatPop.getRecord();
-                if (recordBean != null){
-//                  name = StrUtils.isEmpty(recordBean.getRemarkName()) ? recordBean.getNickName() : recordBean.getRemarkName();
-                    remarkName = recordBean.getRemarkName();
-                    groupingName = recordBean.getGroupName();
-                }
-                break;
-            case "groupSendInterface":
-                CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
-                DataChatGroupPop dataChatGroupPop = JSON.parseObject(responseText, DataChatGroupPop.class);
-                DataChatGroupPop.RecordBean groupRecordBean = dataChatGroupPop.getRecord();
-                if (groupRecordBean != null){
-                    DataChatGroupPop.RecordBean.GroupDetailInfoBean groupDetailInfoBean = groupRecordBean.getGroupDetailInfo();
-                    if (groupDetailInfoBean != null){
-                        DataChatGroupPop.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean = groupDetailInfoBean.getGroupInfo();
-                        DataChatGroupPop.RecordBean.GroupDetailInfoBean.UserInfoBean userInfoBean = groupDetailInfoBean.getUserInfo();
-                        if (groupInfoBean != null){
-                            remarkName = groupInfoBean.getGroupName();
-                        }
-                        if (userInfoBean != null){
-                            disturbType = userInfoBean.getDisturbType();
-                            carteName = userInfoBean.getCarteName();
-                            identityType = userInfoBean.getIdentityType();
-                        }
-                    }
-                }
-//                IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
-                break;
-        }
-    }
 }

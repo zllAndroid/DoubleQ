@@ -183,7 +183,7 @@ public class HelpUtils {
         }
         return localVersion;
     }
-    public static String HttpIsSucess(String result){
+    public static String HttpIsLoginSucess(String result){
         CustomDialog.Builder mBuilder;
         try {
             if (!StrUtils.isEmpty(result)) {
@@ -203,6 +203,49 @@ public class HelpUtils {
                     case AppConfig.CODE_EPC:
 
                         return code;
+                    case AppConfig.CODE_TIMEOUT:
+                        return "1007";
+                    //                    break;
+                    case AppConfig.CODE_TOKEN_OUT:
+                        IntentUtils.JumpTo(LoginActivity.class);
+                        getACt().overridePendingTransition(0, 0);
+                        SplitWeb.getSplitWeb().USER_ID="";
+                        SplitWeb.getSplitWeb().USER_TOKEN="";
+                        SPUtils.put(BaseApplication.getAppContext(), AppAllKey.USER_ID_KEY,"");
+                        SPUtils.put(BaseApplication.getAppContext(),AppAllKey.USER_Token,"");
+                        SPUtils.clear(BaseApplication.getAppContext());
+                        BaseApplication.getaCache().clear();
+                        return code;
+                    default:
+                        String msg = object.optString("msg").toString().trim();
+                        return msg;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "10086";
+    }
+    public static String HttpIsSucess(String result){
+        CustomDialog.Builder mBuilder;
+        try {
+            if (!StrUtils.isEmpty(result)) {
+
+                JSONObject object = null;
+                try {
+                    object = new JSONObject(result);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                String code = object.optString("code").toString().trim();
+                if(code==null)
+                    return "";
+                switch (code) {
+                    case AppConfig.CODE_OK:
+                        return code;
+//                    case AppConfig.CODE_EPC:
+//
+//                        return code;
                     case AppConfig.CODE_TIMEOUT:
                         return "1007";
                     //                    break;

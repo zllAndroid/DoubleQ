@@ -33,6 +33,7 @@ public class BaseApplication extends Application implements AppView{
         public static WebSocketServiceConnectManager mConnectManager =null;
     public static ACache aCache;
     public static  boolean isMain;//MainActivity是否更新
+    public static  boolean isHomeMsgFragment=true;//MsgFragment数据库加载第一次
     PresenterApp presenterApp;
     private static final int MEMORY_SIZE = 5 * 1024 * 1024;
     private static final int DISK_SIZE = 20 * 1024 * 1024;

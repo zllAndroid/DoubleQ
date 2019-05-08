@@ -106,7 +106,7 @@ public class DataOffLineGroupChat {
 
             private String groupId;
             private String message;
-            private int messageStoId;
+            private String messageStoId;
             private String messageType;
             private String memberId;
             private String requestTime;
@@ -180,11 +180,11 @@ public class DataOffLineGroupChat {
                 this.message = message;
             }
 
-            public int getMessageStoId() {
+            public String getMessageStoId() {
                 return messageStoId;
             }
 
-            public void setMessageStoId(int messageStoId) {
+            public void setMessageStoId(String messageStoId) {
                 this.messageStoId = messageStoId;
             }
 

@@ -135,6 +135,8 @@ public class MainActivity extends BaseActivity  {
                         });
             }
         }
+
+
         if (BaseApplication.isMain) {
 //        版本更新
             int localVersion = 0;
@@ -145,14 +147,22 @@ public class MainActivity extends BaseActivity  {
                 localVersion = HelpUtils.getLocalVersion(MainActivity.this);
 //                sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
                 NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-                netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().appUpdateHttp(localVersion + ""), new NetWorkUtlis.OnNetWork() {
+                netWorkUtlis.setOnNetWorkNormal(SplitWeb.getSplitWeb().appUpdateHttp(localVersion + ""), new NetWorkUtlis.OnNetWork() {
                     @Override
                     public void onNetSuccess(String result) {
+                        Log.e("result","appUpdateHttp------------------->"+result);
                         String isSucess = HelpUtils.HttpIsSucess(result);
                         if (isSucess.equals(AppConfig.CODE_OK))
                             VersionCheckUtils.initUpdata(result, true);
                     }
                 });
+//                NetWorkUtlis netWorkUtlis2 = new NetWorkUtlis();
+//                netWorkUtlis2.setOnNetWorkNormal(SplitWeb.getSplitWeb().pullMergeChat(), new NetWorkUtlis.OnNetWork() {
+//                    @Override
+//                    public void onNetSuccess(String result) {
+//                        Log.e("result","pullMergeChat------------------->"+result);
+//                    }
+//                });
             } catch (Exception e) {
                 e.printStackTrace();
             }

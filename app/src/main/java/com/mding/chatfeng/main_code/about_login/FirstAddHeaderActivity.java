@@ -27,9 +27,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ClipImgActivity;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
@@ -44,15 +46,19 @@ import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyInterface;
+import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -93,7 +99,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
 //    }
 
     ACache aCache;
-//    String imageBase64Acache;
+    //    String imageBase64Acache;
     @Override
     protected void initBaseView() {
         super.initBaseView();
@@ -161,21 +167,65 @@ public class FirstAddHeaderActivity extends BaseActivity {
                     ToastUtil.show("请输入您的昵称");
                     return;
                 }
-                sendWebOnlyDialog(SplitWeb.getSplitWeb().setHeadImg(name, imageBase64),"请稍等...");
+
+
+//                NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+//
+//
+//                netWorkUtlis.setOnNetWorkNormal(SplitWeb.getSplitWeb().setHeadImg(name, imageBase64), new NetWorkUtlis.OnNetWork() {
+//                    @Override
+//                    public void onNetSuccess(String result) {
+//                        try {
+//                            initImgData(result);
+//                        } catch (Exception e) {
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                });
+
+//                TreeMap<String, String> map = new TreeMap<>();
+//                map.put()
+//                String img=imageBase64+"_"+imageBase64;
+                TreeMap<String, String> stringStringTreeMap = SplitWeb.getSplitWeb().setHeadImg(name, imageBase64 );
+                Log.e("stringStringTreeMap","---------------------->>stringStringTreeMap="+stringStringTreeMap);
+                VolleyRequest.RequestPost(FirstAddHeaderActivity.this,SplitWeb.getSplitWeb().getURLRequest()+"setHeadImg?","",stringStringTreeMap,new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
+                    @Override
+                    public void onSuccess(final String result) {
+                        try {
+                            initImgData(result);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    @Override
+                    public void onError(VolleyError result) {
+                        try {
+                            ToastUtil.show(AppConfig.ERROR);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+//                sendWebOnlyDialog(SplitWeb.getSplitWeb().setHeadImg(name, imageBase64),"请稍等...");
                 break;
         }
     }
 
-    @Override
-    public void receiveResultMsg(String responseText) {
-        super.receiveResultMsg(responseText);
+//    @Override
+//    public void receiveResultMsg(String responseText) {
+//        super.receiveResultMsg(responseText);
+//        initImgData(responseText);
+//    }
+
+    private void initImgData(String responseText) {
+        Log.e("result","--------------------post--->"+responseText);
         String method = HelpUtils.backMethod(responseText);
         if (method.equals("setHeadImg"))
         {
             DataSetHeader dataSetHeader = JSON.parseObject(responseText, DataSetHeader.class);
             DataSetHeader.RecordBean record = dataSetHeader.getRecord();
-           SplitWeb.getSplitWeb().USER_HEADER= record.getHeadImg();
-           SplitWeb.getSplitWeb().NICK_NAME= record.getNickName();
+            SplitWeb.getSplitWeb().USER_HEADER= record.getHeadImg();
+            SplitWeb.getSplitWeb().NICK_NAME= record.getNickName();
 //            把图片保存至本地文件
             if (record!=null) {
                 String headImg = record.getHeadImg();
@@ -342,11 +392,12 @@ public class FirstAddHeaderActivity extends BaseActivity {
 //                changeinfoIvHead
                 Glide.with(this).load(saveBitmap)
                         .bitmapTransform(new CropCircleTransformation(FirstAddHeaderActivity.this))
-                       .into(firstIvHead);
+                        .into(firstIvHead);
 //                Glide.with(ChangeInfoActivity.this).load(drawable.getBitmap()).;
 //                changeinfoIvHead.setImageBitmap(drawable.getBitmap());
 //                SendDataImg(files);
-                imageBase64=ImageUtils.GetStringByImageView(bitmap);
+//                imageBase64=ImageUtils.GetStringByImageView(bitmap);
+                goToClipActivity(Uri.fromFile(mPhotoFile));
             }
         }
         //		相册
@@ -394,11 +445,18 @@ public class FirstAddHeaderActivity extends BaseActivity {
             }
             String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
             Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
-            //TODO 压缩头像
             Bitmap bm = ImageUtils.imageZoom(bitMap);
             String s1 = ImageUtils.Bitmap2StrByBase64(bm);
-            imageBase64 = s1;
-            sendWeb(SplitWeb.getSplitWeb().upHeadImg(s1));
+
+            // 高清头像
+            String OriginBase64 = ImageUtils.Bitmap2StrByBase64(ImageUtils.imageZoom(bitMap,400));
+            //TODO 压缩头像
+            String compressBase64 = ImageUtils.Bitmap2StrByBase64(bm);
+             imageBase64 = OriginBase64 + "_" + compressBase64;
+
+//            imageBase64 = s1;
+            ImageUtils.useBase64(FirstAddHeaderActivity.this, firstIvHead, s1);
+//            sendWeb(SplitWeb.getSplitWeb().upHeadImg(s1));
 
         }
     }

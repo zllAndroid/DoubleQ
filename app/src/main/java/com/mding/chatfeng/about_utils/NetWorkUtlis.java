@@ -18,7 +18,9 @@ import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Map;
 import java.util.Timer;
+import java.util.TreeMap;
 
 /**
  * Created by  on 2018/2/5 0005.
@@ -274,6 +276,33 @@ public class NetWorkUtlis {
     //默认加载
     private void initNormalHttp() {
         Activity activity = AppManager.getAppManager().currentActivity();
+        MyLog.e("result","url----------=="+url);
+        VolleyRequest.RequestGet(activity,url, new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
+            @Override
+            public void onSuccess(final String result) {
+                MyLog.e("result","请求结果result----------=="+result);
+                final String sucess = HelpUtils.HttpIsSucess(result);
+                if (sucess.equals(AppConfig.CODE_OK))
+                {
+                    onNetWork.onNetSuccess(result);
+                }else if (sucess.equals(AppConfig.CODE_TIMEOUT))
+                {
+                    //超时
+                }else {
+                    ToastUtil.show(sucess);
+//                    onNetWork.onNetSuccess("");
+                }
+            }
+            @Override
+            public void onError(VolleyError result) {
+                ToastUtil.show(AppConfig.ERROR);
+//                Tip.getError(CommonParameter.ERROR);
+            }
+        });
+    }
+    private void initNormalHttpPost() {
+        Activity activity = AppManager.getAppManager().currentActivity();
+
         MyLog.e("result","url----------=="+url);
         VolleyRequest.RequestGet(activity,url, new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
             @Override

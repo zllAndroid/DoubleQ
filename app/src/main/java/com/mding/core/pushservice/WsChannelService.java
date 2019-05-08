@@ -21,6 +21,7 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.android.volley.VolleyError;
 import com.mding.IChatCallBack;
 import com.mding.IChatRequst;
 import com.mding.chatfeng.about_application.BaseApplication;
@@ -34,6 +35,8 @@ import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
+import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyInterface;
+import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
 import com.rabtman.wsmanager.WsManager;
 import com.rabtman.wsmanager.listener.WsStatusListener;
 
@@ -204,6 +207,7 @@ public class WsChannelService extends Service {
             if(!StrUtils.isEmpty(userId))
             wsManager.sendMessage(SplitWeb.getSplitWeb().WsBindUid(userId,userToken));
             MyLog.e("onOpen","----------启动绑定-------------->>>>"+SplitWeb.getSplitWeb().WsBindUid(userId,userToken));
+            initOff();
 //            wsManager.sendMessage(SplitWeb.getSplitWeb().bindUid());
             if (isBind)
             {
@@ -211,7 +215,22 @@ public class WsChannelService extends Service {
             }
 //            callbacks.recevieContactsList();
         }
-
+        private void initOff() {
+            try {
+                Log.e("result","拉去请求结果url=="+SplitWeb.getSplitWeb().pullMergeChat());
+                VolleyRequest.RequestGet(WsChannelService.this,SplitWeb.getSplitWeb().pullMergeChat(), new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
+                    @Override
+                    public void onSuccess(final String result) {
+                        Log.e("result","拉去请求结果=="+result);
+                    }
+                    @Override
+                    public void onError(VolleyError result) {
+                    }
+                });
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         @Override
         public void onMessage(String text) {
             super.onMessage(text);

@@ -35,6 +35,7 @@ import com.mding.model.DataLinkGroupList;
 import com.mding.model.DataLinkManList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -326,13 +327,14 @@ public class ContactChildFragment extends BaseFragment {
             mHandlers.sendMessage(message);
 
 //            initFriendAdapter();
-            AppConfig.logs("-----------------------onPostExecute---------好友列表--接收----------------------");
+            MyLog.e("LongTimeTask","----------------------oonPostExecute---------好友列表--接收---------------------");
+
             myTask=null;
             return;
         }
         @Override
         protected String doInBackground(String... lists) {
-            AppConfig.logs("-----------------------doInBackground--------好友列表---执行----------------------");
+            MyLog.e("LongTimeTask","---------------------doInBackground--------好友列表---执行--------------------");
             initDataFriend(lists[0],lists[1]);
             return null;
         }
@@ -346,13 +348,14 @@ public class ContactChildFragment extends BaseFragment {
             Message message = new Message();
             message.what=AppConfig.LINKMAN_GROUP;
             mHandlers.sendMessage(message);
-            AppConfig.logs("-----------------------onPostExecute-----------群列表接收----------------------");
+            MyLog.e("LongTimeTask","----------------------onPostExecute-----------群列表接收---------------------");
+
             myGroupTask=null;
             return;
         }
         @Override
         protected String doInBackground(String... lists) {
-            AppConfig.logs("-----------------------doInBackground-----------群列表执行----------------------");
+            MyLog.e("LongTimeTask","----------------------doInBackground-----------群列表执行---------------------");
             initDataGroup(lists[0],lists[1]);
             return null;
         }

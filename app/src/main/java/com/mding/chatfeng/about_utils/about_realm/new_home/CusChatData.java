@@ -10,14 +10,13 @@ public  class CusChatData extends RealmObject {
     //    消息存储ID messageStoId varchar 13
 
     String  totalId;
-    String  messageStoId;
+    String  messageStoId;//消息专属id
     String  sendId;//    发送者ID
     String  receiveId;//    接收者ID
     String  messageType;//    消息类型 1文字 2图 3表情 4文件
     int  userMessageType; //1右 发送，2左 接收
     String  message; //    消息内容
     String  imgUrl; //    消息内容
-
     String  created; //    发送时间
 
     public String getImgUrl() {

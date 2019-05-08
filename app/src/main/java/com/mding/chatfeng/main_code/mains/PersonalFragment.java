@@ -283,6 +283,18 @@ public class PersonalFragment extends BaseFragment {
                         ImageUtils.useBase64(getActivity(), mineIvPerson, headImg);
                         aCache.put(IMAGE_BASE64, headImg);
                     }
+
+                    ImageUtils.useBase64(getActivity(),mineIvPerson,record.getHeadImg());
+                    mineTvName.setText(record.getNickName());
+                    userPhone = record.getMobile();
+                    String signature = StrUtils.isEmpty(record.getPersonaSignature()) ? "你还没有设置签名哦！" : record.getPersonaSignature();
+                    mineTvSign.setText(signature);
+                    if (signature.equals("你还没有设置签名哦！")){
+                        mineTvSign.setTextColor(getResources().getColor(R.color.greye5));
+                    }
+                    else {
+                        mineTvSign.setTextColor(getResources().getColor(R.color.grey999));
+                    }
                 }
                 break;
         }

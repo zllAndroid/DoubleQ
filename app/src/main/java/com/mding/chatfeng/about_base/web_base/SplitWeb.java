@@ -64,7 +64,7 @@ public class SplitWeb {
         USER_HEADER=(String ) SPUtils.get(HelpUtils.getACt(),"header","");
         return USER_HEADER;
     }
-//    public  String getUserId() {
+    //    public  String getUserId() {
 //        if(StrUtils.isEmpty(USER_ID))
 //            USER_ID=(String ) SPUtils.get(MyApplication.getAppContext(), AppAllKey.USER_ID_KEY,"");
 //        Log.e("getUserId","getUserId="+USER_ID);
@@ -72,7 +72,7 @@ public class SplitWeb {
 //    }
     public  String getUserId() {
 //        if(StrUtils.isEmpty(USER_ID))
-            USER_ID= BaseApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);
+        USER_ID= BaseApplication.getaCache().getAsString(AppAllKey.USER_ID_KEY);
         return USER_ID;
     }
     public  String getUserToken() {
@@ -114,12 +114,12 @@ public class SplitWeb {
         NICK_NAME=(String ) SPUtils.get(HelpUtils.getACt(),"name","");
 
         return NICK_NAME;
-}
+    }
 
     /**
      * WebSocket 请求参数
      */
-     TreeMap<String, String> map = new TreeMap<>();
+    TreeMap<String, String> map = new TreeMap<>();
 
     /**
      * ------------------------------------------------------------------------------------------------------------------------------
@@ -160,6 +160,10 @@ public class SplitWeb {
         return getURL()+"/LoginController/";
 //        return "http://"+getURL()+"/LoginController/";
     }
+    public  String getURLMessage() {
+        return getURL()+"/MyAMQPTaskController/";
+//        return "http://"+getURL()+"/LoginController/";
+    }
 
     public  String loginIn(String mobile, String password){
         mList.clear();
@@ -173,7 +177,7 @@ public class SplitWeb {
         mList.clear();
         return getURLRequest()+"addrPort?"+ SignForXm6leefunJava.getSing(mList);
     }
-//    public  String errorRequest(String url){
+    //    public  String errorRequest(String url){
 //        return Error_URL+"url="+url;
 //    }
     public  String register(String mobile, String password,String code){
@@ -225,6 +229,31 @@ public class SplitWeb {
 //        String request = WebUrl.request("Contact", "contactsList", map);
 //        return  request;
     }
+    //    http://192.168.4.133/MyAMQPTaskController/pullMergeChat?
+//    合并拉取离线消息http
+    public  String pullMergeChat(){
+        mList.clear();
+        mList.add("userId="+ getUserId());
+        return getURLMessage()+"pullMergeChat?"+ SignForXm6leefunJava.getSing(mList);
+//        String request = WebUrl.request("Contact", "contactsList", map);
+//        return  request;
+    }
+//    public  String setHeadImg(String nickName,String headImg){
+//        mList.clear();
+//        mList.add("userId="+ getUserId());
+//        mList.add("nickName="+ nickName);
+//        mList.add("headImg="+ headImg);
+//        return getURLRequest()+"setHeadImg?"+ SignForXm6leefunJava.getSing(mList);
+//        String request = WebUrl.request("Contact", "contactsList", map);
+//        return  request;
+
+        public  TreeMap<String, String> setHeadImg(String nickName, String headImg){
+            dealMap();
+            putData("nickName",nickName);
+            putData("headImg",headImg);
+            return  map;
+
+    }
     /**
      * -------------------------------------------------------------------------------------------------------------------------------------------
      */
@@ -243,6 +272,13 @@ public class SplitWeb {
         String request = WebUrl.request("PersonCenter", "bindUid", map);
         return  request;
     }
+    //    合并拉取离线消息
+//    public    String pullMergeChat(){
+//        dealMap();
+////        Log.e("WebSocketLib","userIdParameter="+userIdParameter+"-------------------------------------"+USER_ID);
+//        String request = WebUrl.request("MyAMQPTask", "pullMergeChat", map);
+//        return  request;
+//    }
     public    String WsBindUid(String userId ,String token){
         map.clear();
         putData(userIdParameter,userId);
@@ -257,6 +293,20 @@ public class SplitWeb {
         String request = WebUrl.request("PersonCenter", "kickUid", map);
         return  request;
     }
+    //    确认私聊回执接口
+    public    String messageConfirmReceipt(String messageList){
+        dealMap();
+        putData("messageList",messageList);
+        String request = WebUrl.request("MyAMQPTask", "messageConfirmReceipt", map);
+        return  request;
+    }
+    //    确认群聊回执
+    public    String messageGroupConfirmReceipt(String messageList){
+        dealMap();
+        putData("messageList",messageList);
+        String request = WebUrl.request("MyAMQPTask", "messageGroupConfirmReceipt", map);
+        return  request;
+    }
 
     private  void dealMap() {
         map.clear();
@@ -269,13 +319,13 @@ public class SplitWeb {
     }
 
     //注册时设置头像接口
-    public  String setHeadImg(String nickName, String headImg){
-        dealMap();
-        putData("nickName",nickName);
-        putData("headImg",headImg);
-        String request = WebUrl.request("Login", "setHeadImg", map);
-        return  request;
-    }
+//    public  String setHeadImg(String nickName, String headImg){
+//        dealMap();
+//        putData("nickName",nickName);
+//        putData("headImg",headImg);
+//        String request = WebUrl.request("Login", "setHeadImg", map);
+//        return  request;
+//    }
     //    版本检测
     public  String appUpdate(String nowVs){
         dealMap();
@@ -393,7 +443,7 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "friendRemarkName", map);
         return  request;
     }
-     TreeMap<String, String> mapFile = new TreeMap<>();
+    TreeMap<String, String> mapFile = new TreeMap<>();
     public    String upHeadImg(String headImg){
         dealMap();
         putData("headImg",headImg);
@@ -701,7 +751,7 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "topFriend", map);
         return  request;
     }
-//    用户设置群消息提示（消息免打扰）
+    //    用户设置群消息提示（消息免打扰）
     public    String setUserGroupDisturb(String groupOfId,String disturbType){
         dealMap();
         putData("groupOfId",groupOfId);
@@ -836,14 +886,14 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "getFriendInfo", map);
         return  request;
     }
-//    用户好友分组列表
+    //    用户好友分组列表
     public    String friendGroupList(String friendsId){
         dealMap();
         putData("friendsId",friendsId);
         String request = WebUrl.request("Contact", "friendGroupList", map);
         return  request;
     }
-//    用户群分组列表
+    //    用户群分组列表
     public    String groupOfGroupList(String groupOfId){
         dealMap();
         putData("groupOfId",groupOfId);

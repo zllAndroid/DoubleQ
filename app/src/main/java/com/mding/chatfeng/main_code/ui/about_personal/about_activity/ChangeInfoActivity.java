@@ -560,10 +560,10 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
             // 高清头像
             Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
-            String OriginBase64 = ImageUtils.Bitmap2StrByBase64(bitMap);
+            String OriginBase64 = ImageUtils.Bitmap2StrByBase64(ImageUtils.imageZoom(bitMap,400));
             //TODO 压缩头像
-            Bitmap bm = ImageUtils.imageZoom(bitMap);
-            String compressBase64 = ImageUtils.Bitmap2StrByBase64(bm);
+//            Bitmap bm = ImageUtils.imageZoom(bitMap);
+            String compressBase64 = ImageUtils.Bitmap2StrByBase64(ImageUtils.imageZoom(bitMap));
             String totalBase64 = OriginBase64 + "_" + compressBase64;
             ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, compressBase64);
             sendWeb(SplitWeb.getSplitWeb().upHeadImg(totalBase64));

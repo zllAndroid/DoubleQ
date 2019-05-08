@@ -106,7 +106,7 @@ public class DataOffLineChat {
             private String friendsId;
             private String headImg;
             private String message;
-            private int messageStoId;
+            private String messageStoId;
             private String messageType;
             private String nickName;
             private String requestTime;
@@ -180,11 +180,11 @@ public class DataOffLineChat {
                 this.message = message;
             }
 
-            public int getMessageStoId() {
+            public String getMessageStoId() {
                 return messageStoId;
             }
 
-            public void setMessageStoId(int messageStoId) {
+            public void setMessageStoId(String messageStoId) {
                 this.messageStoId = messageStoId;
             }
 

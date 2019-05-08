@@ -17,13 +17,20 @@ public class CusGroupChatData  extends RealmObject {
     String  created; //    发送时间
 
     int sendState;
-
+   String  messageStoId; //消息专属id
     private String bannedType;//是否被禁言
     private String disturbType;//消息免打扰
     private String operationType;//屏蔽该群
     private String topType;//置顶状态
     private String assistantType;//加入群助手
 
+    public String getMessageStoId() {
+        return messageStoId;
+    }
+
+    public void setMessageStoId(String messageStoId) {
+        this.messageStoId = messageStoId;
+    }
 
     public String getAssistantType() {
         return assistantType;

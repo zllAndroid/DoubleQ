@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Message;
 import android.os.RemoteException;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -248,14 +250,37 @@ public class PwdLoginActivity extends BaseLogin {
     @Override
     void onLoginSuccees(String mLoginModel) {
         MyLog.e("request","---------短信登录----------->>"+mLoginModel);
-        String isSucess = HelpUtils.HttpIsSucess(mLoginModel);
+        String isSucess = HelpUtils.HttpIsLoginSucess(mLoginModel);
         if (isSucess.equals(AppAllKey.CODE_OK)) {
             AboutLoginSaveData aboutLoginSaveData = new AboutLoginSaveData(PwdLoginActivity.this);
             aboutLoginSaveData.initSaveData(mLoginModel);
         }else {
-            ToastUtil.show(isSucess);
+            String httpReturnMsg = HelpUtils.HttpReturnMsg(mLoginModel);
+//            Message message = new Message();
+            Message message = Message.obtain();
+            message.what=LoginActivity.BackError;
+            message.obj=httpReturnMsg;
+            successHandle.sendMessage(message);
+
+//            ToastUtil.show(isSucess);
         }
     }
+    Handler successHandle = new Handler(new Handler.Callback() {
+        @Override
+        public boolean handleMessage(Message message) {
+            switch (message.what)
+            {
+                case LoginActivity.BackError:
+                    try {
+                        ToastUtil.show((String) message.obj);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    break;
+            }
+            return false;
+        }
+    });
     //返回错误
     @Override
     void onLoginFail(String mLoginModel) {

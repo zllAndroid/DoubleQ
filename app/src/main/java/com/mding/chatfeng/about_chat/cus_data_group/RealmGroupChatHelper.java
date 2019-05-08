@@ -5,6 +5,7 @@ import android.content.Context;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 
 import java.util.List;
+import java.util.TreeMap;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -16,7 +17,7 @@ import io.realm.Sort;
 
 public class RealmGroupChatHelper {
     public static final String FILE_NAME = "groupUserId";
-
+    public static final String MSG_ID = "messageStoId";
     private Realm mRealm;
     public RealmGroupChatHelper(Context context) {
         mRealm = Realm.getDefaultInstance();
@@ -25,9 +26,29 @@ public class RealmGroupChatHelper {
      * add （增）
      */
     public void addRealmChat(final CusGroupChatData realmChat) {
-        mRealm.beginTransaction();
-        mRealm.copyToRealm(realmChat);
-        mRealm.commitTransaction();
+        if (realmChat.getMessageStoId()!=null) {
+            CusGroupChatData dog = mRealm.where(CusGroupChatData.class).equalTo(MSG_ID, realmChat.getMessageStoId()).findFirst();
+            if (dog==null) {
+                addChat(realmChat);
+            }
+        }else {
+            addChat(realmChat);
+        }
+    }
+    public boolean isMessage(String msgId) {
+        if (msgId!=null) {
+            CusGroupChatData dog = mRealm.where(CusGroupChatData.class).equalTo(MSG_ID, msgId).findFirst();
+            if (dog!=null) {
+                return false;
+            }
+        }
+            return true;
+    }
+
+    private void addChat(final CusGroupChatData realmChat) {
+            mRealm.beginTransaction();
+            mRealm.copyToRealm(realmChat);
+            mRealm.commitTransaction();
     }
 
     /**
