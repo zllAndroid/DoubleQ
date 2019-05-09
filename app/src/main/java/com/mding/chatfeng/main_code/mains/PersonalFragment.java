@@ -139,9 +139,10 @@ public class PersonalFragment extends BaseFragment {
     protected int setTopBarBackground() {
         return getContext().getResources().getColor(R.color.app_theme);
     }
+
     private void initUI() {
-        initName();
-        setImgHead();
+            initName();
+            setImgHead();
     }
 
 //    public static Bitmap base64ToBitmap(String base64String) {

@@ -208,7 +208,7 @@ public class MainActivity extends BaseActivity  {
     private void initUIData() {
         if(mFragmentList==null) {
             mFragmentList = new ArrayList<>();
-            mFragmentList.clear();
+//            mFragmentList.clear();
             mFragmentList.add(new TabItem(
                     MsgFragment.class
             ));
@@ -226,35 +226,6 @@ public class MainActivity extends BaseActivity  {
             ));
         }
     }
-    IntentFilter intentFilter=null;
-    //    private void initBro() {
-//        if (intentFilter==null) {
-//            intentFilter = new IntentFilter();
-//            intentFilter.addAction("action.refreshMain");
-//            intentFilter.addAction("action.addFriend");
-//            registerReceiver(mRefreshBroadcastReceiver, intentFilter);
-//        }
-//    }
-//    private BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
-//        @Override
-//        public void onReceive(Context context, Intent intent) {
-//            String action = intent.getAction();
-//            initTabNum(intent, action);
-//        }
-//    };
-//
-//    private void initTabNum(Intent intent, String action) {
-//        if (action.equals("action.refreshMain"))
-//        {
-//            String num = intent.getStringExtra("num");
-////                更新消息列表
-//            updateMsgCount(0,Integer.valueOf(num));
-//        }else  if (action.equals("action.addFriend"))
-//        {
-//            int num = intent.getIntExtra("num",0);
-//            updateMsgCount(1,num);
-//        }
-//    }
     private void initTabNum(int num, String action) {
         if (action.equals(AppConfig.MAIN_TAB_ONE))
         {
@@ -275,8 +246,6 @@ public class MainActivity extends BaseActivity  {
 //   发送     EventBus.getDefault().post(new MessageEvent(message.getResponseText()));
     }
     private String[] tvtab ={"消息","联系人","发现", "个人中心" };
-    TextView mTvNum;
-    //    int[] imgs = {R.drawable.tab_ac_main_msg,R.drawable.tab_ac_main_contacts, R.drawable.tab_ac_main_pesonal};
     int[] imgs = {R.drawable.tab_ac_main_msg,R.drawable.tab_ac_main_contacts, R.drawable.tab_ac_main_discovery,R.drawable.tab_ac_main_pesonal};
     @Override
     public boolean isSupportSwipeBack() {
