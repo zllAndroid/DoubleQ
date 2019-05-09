@@ -2,98 +2,105 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:id="@+id/dialog_fra"
     >
+
+    <ImageView
+        android:id="@+id/dialog_iv_back"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dialog_test_background" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginLeft="@dimen/dp30"
-        android:layout_marginRight="@dimen/dp30"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/dp20"
+        android:layout_marginRight="@dimen/dp20"
         android:orientation="vertical">
-
 
         <TextView
             android:id="@+id/dialog_tv_title"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp60"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/dp15"
+            android:gravity="center"
             android:text="通知"
-            android:textSize="@dimen/sp18"
-            android:padding="@dimen/dp10"
-            android:gravity="center|top"
             android:textColor="@color/white"
-            android:background="@drawable/dialog_risk_test_background_topses"
-            android:layout_gravity="" />
+            android:textSize="@dimen/sp18" />
+
         <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp350"
-            android:paddingLeft="@dimen/dp30"
-            android:paddingRight="@dimen/dp30"
-            android:paddingTop="@dimen/dp10"
-            android:background="@color/white"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp280"
+            android:paddingBottom="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_weight="1"
             android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:paddingTop="@dimen/dp10"
+                android:paddingBottom="@dimen/dp15"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/dialog_tv_content"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:text="@string/risk_test"
                     android:textSize="@dimen/sp15" />
+
                 <TextView
                     android:id="@+id/dialog_tv_organization"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="信风团队"
                     android:gravity="right"
-                    android:textSize="@dimen/sp15"/>
+                    android:text="信风团队"
+                    android:textSize="@dimen/sp15" />
+
                 <TextView
                     android:id="@+id/dialog_tv_time"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="right"
                     android:text="2019.03.29"
-                    android:textSize="@dimen/sp15"/>
-
-
+                    android:textSize="@dimen/sp15" />
             </LinearLayout>
         </ScrollView>
 
+        <!--按钮-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80dp"
+            android:layout_height="70dp"
             android:gravity="center"
-            android:background="@color/white"
+            android:layout_gravity="bottom"
             android:orientation="horizontal">
+
             <Button
                 android:id="@+id/btn_dialog_negative"
                 android:layout_width="0px"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/dp40"
+                android:layout_marginTop="@dimen/dp30"
+                android:layout_marginRight="@dimen/dp20"
+                android:layout_marginBottom="@dimen/dp20"
                 android:layout_weight="1"
                 android:background="@drawable/bac_dialog_btn"
                 android:text="取消"
-                android:layout_marginLeft="@dimen/dp40"
-                android:layout_marginRight="@dimen/dp20"
-                android:layout_marginTop="@dimen/dp30"
-                android:layout_marginBottom="@dimen/dp20"
                 android:textColor="@color/white"
-                android:visibility="gone"
-                android:textSize="@dimen/sp16" />
+                android:textSize="@dimen/sp16"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_dialog_positive"
-                android:layout_width="160dp"
+                android:layout_width="190dp"
                 android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/dp15"
+                android:layout_marginBottom="@dimen/dp15"
                 android:background="@drawable/btn_stroke_sel"
                 android:text="确定"
                 android:textColor="@color/white"
-                android:layout_marginBottom="@dimen/dp20"
-                android:layout_marginTop="@dimen/dp20"
                 android:textSize="17sp" />
 
         </LinearLayout>

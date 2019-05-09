@@ -726,9 +726,16 @@ public class SplitWeb {
     /**
      * 搜索相关
      */
-    public    String searchDetailInfo(String group_id){
+    public String searchDetailInfo(String group_id){
         dealMap();
         putData("groupId",group_id);
+        String request = WebUrl.request("Contact", "searchDetailInfo", map);
+        return  request;
+    }
+    public String searchDetailInfo(String group_id, String verificationMD5){
+        dealMap();
+        putData("groupId",group_id);
+        putData("verificationMD5",verificationMD5);
         String request = WebUrl.request("Contact", "searchDetailInfo", map);
         return  request;
     }

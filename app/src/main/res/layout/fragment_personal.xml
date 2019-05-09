@@ -105,7 +105,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:textColor="@color/app_theme"
+                android:textColor="@color/grey35"
                 android:textSize="@dimen/sp14"
                 android:layout_margin="@dimen/dp10"
                 />
@@ -114,6 +114,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:text="暂无签名"
+                android:textColor="@color/grey72"
                 android:layout_marginBottom="@dimen/dp10"
                 />
         </LinearLayout>

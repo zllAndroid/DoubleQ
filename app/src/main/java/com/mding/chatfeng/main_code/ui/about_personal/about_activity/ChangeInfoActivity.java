@@ -385,8 +385,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     changeinfoTvName.setText(record.getNickName());
                     changeinfoTvCount.setText(record.getWxSno());
                     if (StrUtils.isEmpty(record.getPersonaSignature())) {
-                        changeinfoTvSign.setHint("暂未签名");
-                        changeinfoTvSign.setHintTextColor(getResources().getColor(R.color.white));
+                        changeinfoTvSign.setHint("暂未设置");
+//                        changeinfoTvSign.setHintTextColor(getResources().getColor(R.color.white));
                     } else {
                         changeinfoTvSign.setText(record.getPersonaSignature());
                     }
@@ -428,7 +428,12 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
 //                    }
                 }
-                changeinfoTvSign.setText(contant);
+                if (StrUtils.isEmpty(contant)) {
+                    changeinfoTvSign.setText("暂未设置");
+                }
+                else {
+                    changeinfoTvSign.setText(contant);
+                }
                 break;
             case "upUserSno":
                 SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_NO, contant);

@@ -9,12 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.ScreenUtils;
 
 import org.w3c.dom.Text;
 
@@ -25,6 +27,7 @@ public class CusRiskTestDialog extends Dialog {
     private TextView tvContent;
     private TextView tvOrganization;
     private TextView tvTime;
+    private FrameLayout frameLayout;
 
     private String mTitle;
     private String mContent;
@@ -35,9 +38,10 @@ public class CusRiskTestDialog extends Dialog {
     private OnClickListener positiveButtonClickListener;
     private OnClickListener negativeButtonClickListener;
 
-
+    Context context;
     public CusRiskTestDialog(Context context){
         super(context);
+        this.context=context;
     }
 
     @Override
@@ -52,6 +56,11 @@ public class CusRiskTestDialog extends Dialog {
         tvContent = findViewById(R.id.dialog_tv_content);
         tvOrganization = findViewById(R.id.dialog_tv_organization);
         tvTime = findViewById(R.id.dialog_tv_time);
+        frameLayout = findViewById(R.id.dialog_fra);
+        int screenWidth = ScreenUtils.getScreenWidth(context);
+        int screenHeight = ScreenUtils.getScreenHeight(context);
+        frameLayout.getLayoutParams().width = (screenWidth/4)*3;
+        frameLayout.getLayoutParams().height = (screenHeight/3)*2;
 
 
         if (positiveButtonText != null){

@@ -108,7 +108,6 @@ public class FullImageActivity extends AppCompatActivity {
         MyLog.i("imageBase64","------------fullImageActivity--------------"+s);
 //        MyLog.i("imageBase64","----------------------------------------------" + totalImage.substring(0, totalImage.indexOf("_")));
         ImageUtils.useBase64Origin(FullImageActivity.this, fullImage, totalImage);
-//        ImageUtils.useBase64(FullImageActivity.this, fullImage, totalImage.substring(0, totalImage.indexOf("_")));
 //        ImageUtils.useBase64Origin(FullImageActivity.this, fullImage, fullImageInfo.getImageBase64());
     }
 

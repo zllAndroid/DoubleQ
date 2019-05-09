@@ -106,7 +106,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
         mTvTopRight.setVisibility(View.VISIBLE);
         mTvTopRight.setText("跳过");
 //        mTvTopRight.setTextColor(getResources().getColor(R.color.gray666));
-        mTvTopRight.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG );
+        mTvTopRight.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         includeTopIvBack.setVisibility(View.VISIBLE);
         includeTopTvTital.setText("用户设置");
     }
@@ -366,7 +366,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         //		相机
-        if (requestCode == CAMERA_RESULT && null != data) {
+        if (requestCode == CAMERA_RESULT) {
 //        if (requestCode == CAMERA_RESULT && resultCode == RESULT_OK) {
             if (mPhotoFile != null && mPhotoFile.exists()) {
                 BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();

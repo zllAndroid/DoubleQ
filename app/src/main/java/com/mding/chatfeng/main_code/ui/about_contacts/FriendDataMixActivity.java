@@ -21,12 +21,14 @@ import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.ChatActivity;
 import com.mding.chatfeng.about_chat.FullImageActivity;
+import com.mding.chatfeng.about_chat.ShowFullImgActivity;
 import com.mding.chatfeng.about_utils.GlideCacheUtil;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.mding.chatfeng.main_code.mains.PersonalFragment;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_add.AddGoodFriendActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
@@ -364,35 +366,37 @@ String groupName;
                 break;
 //                头像按钮
             case R.id.fd_iv_head:
-                int location[] = new int[2];
-                view.getLocationOnScreen(location);
-                FullImageInfo fullImageInfo = new FullImageInfo();
-                fullImageInfo.setLocationX(location[0]);
-                fullImageInfo.setLocationY(location[1]);
-                fullImageInfo.setWidth(view.getWidth());
-                fullImageInfo.setHeight(view.getHeight());
-                GlideCacheUtil.getInstance().clearImageAllCache(this);
-//                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(FriendId);
-////                List<String> fileName = FilePath.getLinkImgPath();
-//                if (imgPath!=null)
-//                {
-////                    String path=fileName.get(fileName.size()-1);
-//                    fullImageInfo.setImageUrl(imgPath);
-//                    EventBus.getDefault().postSticky(fullImageInfo);
-//                    startActivity(new Intent(this, FullImageActivity.class));
-//                    this.overridePendingTransition(0, 0);
-//                }
-//                if (!imageBase64Event.equals("")){
-//                    fullImageInfo.setImageBase64(imageBase64Event);
-//                    ToastUtil.isDebugShow("imageBase64Event");
-//                }
-//                else{
+//                int location[] = new int[2];
+//                view.getLocationOnScreen(location);
+//                FullImageInfo fullImageInfo = new FullImageInfo();
+//                fullImageInfo.setLocationX(location[0]);
+//                fullImageInfo.setLocationY(location[1]);
+//                fullImageInfo.setWidth(view.getWidth());
+//                fullImageInfo.setHeight(view.getHeight());
+//                GlideCacheUtil.getInstance().clearImageAllCache(this);
+////                String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(FriendId);
+//////                List<String> fileName = FilePath.getLinkImgPath();
+////                if (imgPath!=null)
+////                {
+//////                    String path=fileName.get(fileName.size()-1);
+////                    fullImageInfo.setImageUrl(imgPath);
+////                    EventBus.getDefault().postSticky(fullImageInfo);
+////                    startActivity(new Intent(this, FullImageActivity.class));
+////                    this.overridePendingTransition(0, 0);
+////                }
+////                if (!imageBase64Event.equals("")){
+////                    fullImageInfo.setImageBase64(imageBase64Event);
+////                    ToastUtil.isDebugShow("imageBase64Event");
+////                }
+////                else{
+//
+//                    fullImageInfo.setTotalImage(imageBase64);
+////                }
+//                EventBus.getDefault().postSticky(fullImageInfo);
+//                startActivity(new Intent(this, FullImageActivity.class));
+//                this.overridePendingTransition(0, 0);
 
-                    fullImageInfo.setTotalImage(imageBase64);
-//                }
-                EventBus.getDefault().postSticky(fullImageInfo);
-                startActivity(new Intent(this, FullImageActivity.class));
-                this.overridePendingTransition(0, 0);
+                IntentUtils.JumpToHaveOne(ShowFullImgActivity.class, PersonalFragment.IMAGE_BASE64, imageBase64);
                 break;
 //                选择分组
             case R.id.fd_lin_fenzu:

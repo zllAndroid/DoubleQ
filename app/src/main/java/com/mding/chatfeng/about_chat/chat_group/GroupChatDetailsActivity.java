@@ -194,6 +194,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 }
                 else{
                     dealSearchDetailInfo(searchDetailInfo);
+                    sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId, verificationMD5));
                 }
             }
         }
@@ -234,6 +235,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 }
                 else{
                     dealSearchDetailInfo(searchDetailInfo);
+                    sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId,verificationMD5));
                 }
             }
         }
@@ -396,12 +398,13 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 break;
         }
     }
-
+    String verificationMD5;
     private void dealSearchDetailInfo(String responseText) {
         DataAddQunDetails dataAddQunDetails = JSON.parseObject(responseText, DataAddQunDetails.class);
         DataAddQunDetails.RecordBean record = dataAddQunDetails.getRecord();
         if (record != null) {
             DataAddQunDetails.RecordBean.GroupDetailInfoBean group_detail_info = record.getGroupDetailInfo();
+            verificationMD5 = record.getVerificationMD5();
             if (group_detail_info != null) {
                 DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfo = group_detail_info.getGroupInfo();
                 DataAddQunDetails.RecordBean.GroupDetailInfoBean.UserInfoBean userInfo = group_detail_info.getUserInfo();

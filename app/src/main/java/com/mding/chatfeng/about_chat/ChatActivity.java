@@ -49,7 +49,6 @@ import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_chat.adapter.ChatAdapter;
 import com.mding.chatfeng.about_chat.adapter.CommonFragmentPagerAdapter;
-import com.mding.chatfeng.about_chat.chat_group.ChatGroupActivity;
 import com.mding.chatfeng.about_chat.chat_group.ShowChatImgActivity;
 import com.mding.chatfeng.about_chat.fragment.ChatEmotionFragment;
 import com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment;
@@ -70,7 +69,6 @@ import com.mding.chatfeng.about_utils.windowStatusBar;
 import com.mding.chatfeng.main_code.mains.top_pop.ChatPopWindow;
 import com.mding.chatfeng.main_code.ui.about_contacts.ChooseGroupActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataMixActivity;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.model.CusChatPop;
 import com.mding.model.CusJumpChatData;
@@ -85,7 +83,6 @@ import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.enity.MessageInfo;
 import com.rance.chatui.util.Constants;
 import com.rance.chatui.util.MediaManager;
-import com.rance.chatui.widget.BubbleImageView;
 import com.rance.chatui.widget.NoScrollViewPager;
 
 import org.greenrobot.eventbus.EventBus;
@@ -279,17 +276,18 @@ public class ChatActivity extends BaseActivity {
 //        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
         friendHeader = cusJumpChatData.getFriendHeader();
 //        String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
-        String  nickName = new RealmFriendUserHelper(this).queryLinkFriendReturnname(FriendId);//获取私聊好友名
-        if(!StrUtils.isEmpty(nickName))
-            includeTopTvTital.setText(nickName);
+//        String  nickName = new RealmFriendUserHelper(this).queryLinkFriendReturnname(FriendId);//获取私聊好友名
+//        MyLog.i("ChatActivity", "----------------------------------nickName---->>" + nickName);
+//        if(!StrUtils.isEmpty(nickName))
+//            includeTopTvTital.setText(nickName);
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
 //        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-        MyLog.e("ChatActivity","--------------------标题------------------------->>"+includeTopTvTital.getText().toString());
-        if (StrUtils.isEmpty(includeTopTvTital.getText().toString())) {
-            sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
-        }
+        MyLog.i("ChatActivity","----------------------------------------标题----->>"+includeTopTvTital.getText().toString());
+//        if (StrUtils.isEmpty(includeTopTvTital.getText().toString())) {
+        sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
+//        }
         if (isLocked){
             includeTopIvLock.setVisibility(View.VISIBLE);
         }
@@ -341,10 +339,10 @@ public class ChatActivity extends BaseActivity {
                 cusChatPop.setContext(this);
                 cusChatPop.setType("1");
                 cusChatPop.setFriendId(FriendId);
-//                cusChatPop.setGroupingName(groupName);
-//                cusChatPop.setRemarkName(remarkName);
-                cusChatPop.setGroupingName(StrUtils.isEmpty(cusJumpChatData.getFriendGroupName()) ? "暂无" : cusJumpChatData.getFriendGroupName());
-                cusChatPop.setRemarkName(StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? "暂无" : cusJumpChatData.getFriendRemarkName());
+                cusChatPop.setGroupingName(groupName);
+                cusChatPop.setRemarkName(remarkName);
+//                cusChatPop.setGroupingName(StrUtils.isEmpty(cusJumpChatData.getFriendGroupName()) ? "暂无" : cusJumpChatData.getFriendGroupName());
+//                cusChatPop.setRemarkName(StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? "暂无" : cusJumpChatData.getFriendRemarkName());
                 cusChatPop.setChatLinMainWhole(chatLinMainWhole);
                 cusChatPop.setLocked(isLocked);
                 if (chatPopWindow == null)
@@ -593,7 +591,6 @@ public class ChatActivity extends BaseActivity {
 //                String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
                 if (!StrUtils.isEmpty(nameText))
                     includeTopTvTital.setText(nameText);
-//                sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
                 break;
             case "privateSendInterface":
                 dataChatPop = JSON.parseObject(responseText, DataChatPop.class);

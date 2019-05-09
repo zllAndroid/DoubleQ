@@ -104,10 +104,11 @@ public class QunCodeActivity extends BaseActivity {
             else if (groupInfo != null){
                 qrcodeTvSao.setText(groupInfo.getScanTital());
                 qrcodeTvName.setText(groupInfo.getName());
-                Glide.with(this).load(groupInfo.getHeadImg())
-                        .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
-                        .error(R.drawable.first_head_nor)
-                        .into(qrcodeIvHead);
+                ImageUtils.useBase64WithError(this, qrcodeIvHead, groupInfo.getHeadImg(), R.drawable.qun_head);
+//                Glide.with(this).load(groupInfo.getHeadImg())
+//                        .bitmapTransform(new CropCircleTransformation(QunCodeActivity.this))
+//                        .error(R.drawable.first_head_nor)
+//                        .into(qrcodeIvHead);
 
                 String string = groupInfo.getQrCode();
 //                String string = type + "_xm6leefun_" + userId;

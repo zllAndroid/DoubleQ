@@ -169,6 +169,8 @@ public class PersonalFragment extends BaseFragment {
 //        if (!StrUtils.isEmpty(phone)){
 //            userPhone = phone;
 //        }
+        // 名字加粗
+        mineTvName.getPaint().setFakeBoldText(true);
         String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
         Log.e("DataMyZiliao","---个人中心DataMyZiliao----");
         if (!StrUtils.isEmpty(json)) {
@@ -178,13 +180,13 @@ public class PersonalFragment extends BaseFragment {
                 ImageUtils.useBase64(getActivity(),mineIvPerson,recordBean.getHeadImg());
                 mineTvName.setText(recordBean.getNickName());
                 userPhone = recordBean.getMobile();
-                String signature = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? "你还没有设置签名哦！" : recordBean.getPersonaSignature();
+                String signature = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? "快来设置您的个性签名吧" : recordBean.getPersonaSignature();
                 mineTvSign.setText(signature);
-                if (signature.equals("你还没有设置签名哦！")){
+                if (signature.equals("快来设置您的个性签名吧")){
                     mineTvSign.setTextColor(getResources().getColor(R.color.greye5));
                 }
                 else {
-                    mineTvSign.setTextColor(getResources().getColor(R.color.grey999));
+                    mineTvSign.setTextColor(getResources().getColor(R.color.grey72));
                 }
             }else
             {
@@ -261,7 +263,7 @@ public class PersonalFragment extends BaseFragment {
                         mineTvSign.setTextColor(getResources().getColor(R.color.greye5));
                     }
                     else {
-                        mineTvSign.setTextColor(getResources().getColor(R.color.grey999));
+                        mineTvSign.setTextColor(getResources().getColor(R.color.grey72));
                     }
                 }
                 break;
