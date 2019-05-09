@@ -1,6 +1,7 @@
 package com.mding.chatfeng.about_base;
 
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -37,72 +38,66 @@ import butterknife.Unbinder;
  * @Time 2017-11-01
  */
 public class BaseFragment extends Fragment  {
-	public Handler mHandlers = new Handler() {
-		@Override
-		public void handleMessage(Message msg) {
-			if (msg != null)
-				onFragmentHandleMessage(msg);
-		}
-	};
+
 	public ACache mFragCache;
 	String simpleName;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		mFragCache = ACache.get(getActivity());
+		if (mFragCache==null)
+			mFragCache = ACache.get(getActivity());
 		simpleName = getClass().getSimpleName();
 		EventBus.getDefault().register(this);
-
-
-//		initTopBarEvent();
 	}
 	public HandlerThread myHandlerThread ;
-	public Handler handler ;
+//	public Handler handler ;
 	View view =null;
-	boolean mIsPrepare = false;		//视图还没准备好
-	boolean mIsVisible= false;		//不可见
-	boolean mIsFirstLoad = true;	//第一次加载
+//	boolean mIsPrepare = false;		//视图还没准备好
+//	boolean mIsVisible= false;		//不可见
+//	boolean mIsFirstLoad = true;	//第一次加载
+	Unbinder unbinder;
+	@SuppressLint("HandlerLeak")
 	@Nullable
 	@Override
 	public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 		if (view == null)
 			view = inflater.inflate(setFragmentLayout(), container, false);
+		unbinder = ButterKnife.bind(this, view);
+
 		initBaseUI(view);
 		initTopBarEvent();
 		return view;
 	}
+//	@Override
+//	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+//		super.onViewCreated(view, savedInstanceState);
+//		mIsPrepare = true;
+//		lazyLoad();
+//	}
 
-	@Override
-	public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		mIsPrepare = true;
-		lazyLoad();
-	}
+//	@Override
+//	public void setUserVisibleHint(boolean isVisibleToUser) {
+//		super.setUserVisibleHint(isVisibleToUser);
+//		if (isVisibleToUser) {
+//			mIsVisible = true;
+//			lazyLoad();
+//		} else {
+//			mIsVisible = false;
+//		}
+//	}
+//	private void lazyLoad() {
+//		//这里进行三个条件的判断，如果有一个不满足，都将不进行加载
+//		if (!mIsPrepare || !mIsVisible||!mIsFirstLoad) {
+//			return;
+//		}
+//		loadData();
+//		//数据加载完毕,恢复标记,防止重复加载
+//		mIsFirstLoad = false;
+//	}
 
-	@Override
-	public void setUserVisibleHint(boolean isVisibleToUser) {
-		super.setUserVisibleHint(isVisibleToUser);
-		if (isVisibleToUser) {
-			mIsVisible = true;
-			lazyLoad();
-		} else {
-			mIsVisible = false;
-		}
-	}
-	private void lazyLoad() {
-		//这里进行三个条件的判断，如果有一个不满足，都将不进行加载
-		if (!mIsPrepare || !mIsVisible||!mIsFirstLoad) {
-			return;
-		}
-		loadData();
-		//数据加载完毕,恢复标记,防止重复加载
-		mIsFirstLoad = false;
-	}
-
-	private void loadData() {
-		//这里进行网络请求和数据装载
-	}
+//	public void loadData() {
+//		//这里进行网络请求和数据装载
+//	}
 	protected void initBaseUI(View view) {
 
 	}
@@ -177,12 +172,13 @@ public class BaseFragment extends Fragment  {
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-		mIsFirstLoad=true;
-		mIsPrepare=false;
-		mIsVisible = false;
-		if (view != null) {
-			((ViewGroup) view.getParent()).removeView(view);
+		if (unbinder!=null) {
+			unbinder.unbind();
+			unbinder=null;
 		}
+//		if (view != null) {
+//			((ViewGroup) view.getParent()).removeView(view);
+//		}
 	}
 
 	@Override
@@ -204,8 +200,8 @@ public class BaseFragment extends Fragment  {
 	protected boolean FragUseCaChe() {
 		return false;
 	}
-	protected void onFragmentHandleMessage(Message msg) {
-	}
+//	protected void onFragmentHandleMessage(Message msg) {
+//	}
 	//订阅方法，当接收到事件的时候，会调用该方法
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void onEvent(MessageEvent messageEvent){

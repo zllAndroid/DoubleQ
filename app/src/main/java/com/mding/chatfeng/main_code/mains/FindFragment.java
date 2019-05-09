@@ -33,25 +33,14 @@ import static com.mding.chatfeng.about_utils.IntentUtils.JumpTo;
  * 作者：zll
  */
 public class FindFragment extends BaseFragment {
-    Unbinder unbinder;
-
     public FindFragment() {
     }
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(true);
-    }
-    View view;
 //    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        if(view == null) {
-//            view = inflater.inflate(R.layout.fragment_discovery, container, false);
-//        }
-//        initUI(view);
-//        return view;
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(true);
+//        if (this.getView() != null)
+//            this.getView().setVisibility(isVisibleToUser ? View.VISIBLE : View.GONE);
 //    }
-
     @Override
     protected int setFragmentLayout() {
         return R.layout.fragment_discovery;
@@ -65,10 +54,8 @@ public class FindFragment extends BaseFragment {
     @Override
     protected void initBaseUI(View view) {
         super.initBaseUI(view);
-        view = getTopBarView();
         initUI(view);
     }
-    //    ConfirmPopWindow confirmPopWindow=null;
     @Override
     protected String setFragmentTital() {
         return "朋友圈";
@@ -101,20 +88,6 @@ public class FindFragment extends BaseFragment {
 //                startActivity(new Intent(getActivity(), ZllActivity.class));
 //            }
 //        });
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder = ButterKnife.bind(this, rootView);
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     @OnClick({ R.id.discover_lin_friendcircle,R.id.discover_lin_animal_fuhua, R.id.discover_lin_ai, R.id.discover_lin_animal_shop, R.id.discover_lin_animal_life, R.id.discover_lin_yuyanjia, R.id.discover_lin_gaoBaiQiang, R.id.discover_lin_zhi_addFriend, R.id.discover_lin_app_store, R.id.discover_lin_music, R.id.discover_lin_shiYong, R.id.discover_lin_fangWei, R.id.discover_lin_guangGao})

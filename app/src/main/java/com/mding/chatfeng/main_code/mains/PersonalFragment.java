@@ -79,53 +79,36 @@ public class PersonalFragment extends BaseFragment {
     public PersonalFragment() {
     }
 
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(true);
-    }
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(true);
+//    }
 
-    private PopupWindow mNoticePopWindow;
-    View view;
-    int head;
-    TextView tv_title;
-    Unbinder unbinder;
     ACache aCache;
     public static String IMAGE_BASE64 = "headImageBase64";
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        if (view == null) {
-//            view = inflater.inflate(R.layout.fragment_personal, container, false);
-//        }
-//        unbinder = ButterKnife.bind(this, view);
-//        initUI();
-//////圆形头像
-//        return view;
-//    }
 
     @Override
     protected int setFragmentLayout() {
         return R.layout.fragment_personal;
     }
-
+    boolean isFirst =true;
     @Override
     protected void initBaseUI(View view) {
         super.initBaseUI(view);
-        view = getTopBarView();
-        unbinder = ButterKnife.bind(this, view);
-        aCache = ACache.get(getActivity());
-        initUI();
+        if (aCache==null)
+            aCache = ACache.get(getActivity());
+        if (isFirst)
+            initUI();
+        isFirst=false;
     }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN) //在ui线程执行
     public void onDataSynEvent(final HeadImgInfo headImgInfo) {
-        MyLog.i("totalBase64","----------------base64-----------------");
         totalBase64Event = headImgInfo.getHeadImgBase64();
         if (totalBase64Event.contains("_")){
             imageBase64Event = totalBase64.substring(0, totalBase64.indexOf("_"));
             imageHttpEvent = totalBase64.substring(totalBase64.indexOf("_")+1, totalBase64.length());
-            MyLog.i("totalBase64","----------------base64-----------------"+imageBase64Event);
-            MyLog.i("totalBase64","--------------http-------------------"+imageHttpEvent);
         }
 //        ImageUtils.useBase64(getActivity(),mineIvPerson, imageBase64);
     }
@@ -141,18 +124,9 @@ public class PersonalFragment extends BaseFragment {
     }
 
     private void initUI() {
-            initName();
-            setImgHead();
+        initName();
+        setImgHead();
     }
-
-//    public static Bitmap base64ToBitmap(String base64String) {
-//
-//        byte[] decode = Base64.decode(base64String, Base64.DEFAULT);
-//
-//        Bitmap bitmap = BitmapFactory.decodeByteArray(decode, 0, decode.length);
-//
-//        return bitmap;
-//    }
 
     private void setImgHead() {
         String asString = aCache.getAsString(IMAGE_BASE64);
@@ -164,27 +138,20 @@ public class PersonalFragment extends BaseFragment {
         {
             imageBase64 = asString;
 //            ImageUtils.useBase64(getActivity(),mineIvPerson,asString);
-            MyLog.e("PersonalFragment","无网时所传头像");
             totalBase64 = asString;
             String s = asString.contains("_") ? "yes" : "no";
-            MyLog.i("imageBase64", "------------personalFragment--------------s = "+ s);
             if (asString.contains("_")){
                 imageBase64 = asString.substring(0, asString.indexOf("_"));
                 imageHttp = asString.substring(asString.indexOf("_")+1, asString.length());
-                MyLog.i("imageBase64", "-------------personalFragment-------------"+imageHttp);
                 ImageUtils.useBase64(getActivity(),mineIvPerson,imageBase64);
             }else {
                 ImageUtils.useBase64(getActivity(),mineIvPerson,asString);
             }
-            MyLog.i("PersonalFragment","无网时所传头像");
 //            imageBase64 = asString;
 //            ImageUtils.useBase64(getActivity(),mineIvPerson,asString);
 //            MyLog.i("PersonalFragment","无网时所传头像");
         }
 
-//        if (!SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD) {
-//            getHead();
-//        }
     }
 
     private void initName() {
@@ -203,7 +170,7 @@ public class PersonalFragment extends BaseFragment {
 //            userPhone = phone;
 //        }
         String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
-        Log.e("DataMyZiliao","---DataMyZiliao----"+json);
+        Log.e("DataMyZiliao","---个人中心DataMyZiliao----");
         if (!StrUtils.isEmpty(json)) {
             DataMyZiliao.RecordBean recordBean = JSON.parseObject(json, DataMyZiliao.RecordBean.class);
 //            DataLogin.RecordBean recordBean = dataLogin.getRecord();
@@ -232,35 +199,35 @@ public class PersonalFragment extends BaseFragment {
     public  static  boolean isChange=false;
     public  static  boolean isChangeHead=false;
     String imageBase64ACache;
-    @Override
-    public void onResume() {
-        super.onResume();
-//        getHead("aCacheBase64");
-        if (isChange)
-        {
-            initName();
-        }
-        if (isChangeHead)
-        {
-//            getHead();
-            String asString = aCache.getAsString(AppAllKey.User_HEAD_URL);
-            imageBase64ACache = asString.substring(0, asString.indexOf("_"));
-            MyLog.i("personalFragment changeinfo","------------------------------------imageBase64ACache = "+imageBase64ACache.length());
-            if (!StrUtils.isEmpty(imageBase64ACache)){
-                ImageUtils.useBase64(getActivity(),mineIvPerson,imageBase64ACache);
-                aCache.put(IMAGE_BASE64, imageBase64ACache);
-//                MyLog.i("personalFragment changeinfo","eventBus不为空");
-            }
-        }
-        if (SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD){
-//            getHead();
-            sendWeb(SplitWeb.getSplitWeb().personalCenter());
-        }
-        isChange=false;
-        isChangeHead=false;
-        SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD=false;
-
-    }
+    //    @Override
+//    public void onResume() {
+//        super.onResume();
+////        getHead("aCacheBase64");
+//        if (isChange)
+//        {
+//            initName();
+//        }
+//        if (isChangeHead)
+//        {
+////            getHead();
+//            String asString = aCache.getAsString(AppAllKey.User_HEAD_URL);
+//            imageBase64ACache = asString.substring(0, asString.indexOf("_"));
+//            MyLog.i("personalFragment changeinfo","------------------------------------imageBase64ACache = "+imageBase64ACache.length());
+//            if (!StrUtils.isEmpty(imageBase64ACache)){
+//                ImageUtils.useBase64(getActivity(),mineIvPerson,imageBase64ACache);
+//                aCache.put(IMAGE_BASE64, imageBase64ACache);
+////                MyLog.i("personalFragment changeinfo","eventBus不为空");
+//            }
+//        }
+//        if (SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD){
+////            getHead();
+//            sendWeb(SplitWeb.getSplitWeb().personalCenter());
+//        }
+//        isChange=false;
+//        isChangeHead=false;
+//        SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD=false;
+//
+//    }
     String userId;
     String userPhone;
     @Override
@@ -300,16 +267,6 @@ public class PersonalFragment extends BaseFragment {
                 break;
         }
     }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        view = null;
-        if (unbinder!=null) {
-            unbinder.unbind();
-            unbinder=null;
-        }
-    }
     String imageBase64 = "";
     String imageHttp = "";
     String imageBase64Event = "";
@@ -322,47 +279,6 @@ public class PersonalFragment extends BaseFragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.mine_iv_person:
-//                int location[] = new int[2];
-//                view.getLocationOnScreen(location);
-//                FullImageInfo fullImageInfo = new FullImageInfo();
-//                fullImageInfo.setLocationX(location[0]);
-//                fullImageInfo.setLocationY(location[1]);
-//                fullImageInfo.setWidth(view.getWidth());
-//                fullImageInfo.setHeight(view.getHeight());
-//                GlideCacheUtil.getInstance().clearImageAllCache(getActivity());
-////                String mPath= FilePath.getAbsPath(FilePath.appPath+ SplitWeb.getSplitWeb().getUserId()+"/")+"chatHead/";
-////                List<String> fileName = FilePath.getFilesAllName(mPath);
-////                if (fileName!=null&&fileName.size()>0)
-////                {
-////                    String path=fileName.get(fileName.size()-1);
-////                    fullImageInfo.setImageUrl(path);
-////                    EventBus.getDefault().postSticky(fullImageInfo);
-//////
-//////                    if (ChangeInfoActivity.imgWidth != 0 && ChangeInfoActivity.imgHeight != 0){
-//////                        Intent intent = new Intent(getActivity(), FullImageActivity.class);
-//////                        Bundle bundle = new Bundle();
-//////                        bundle.putString("imgWidth", String.valueOf(ChangeInfoActivity.imgWidth));
-//////                        bundle.putString("imgHeight", String.valueOf(ChangeInfoActivity.imgHeight));
-//////                        intent.putExtras(bundle);
-//////                        startActivity(intent);
-//////                    }else
-////                    startActivity(new Intent(getActivity(), FullImageActivity.class));
-////                    getActivity().overridePendingTransition(0, 0);
-////                }
-//
-////                fullImageInfo.setTotalImage(imageBase64ACache);
-//                if (!StrUtils.isEmpty(imageBase64ACache)){
-//                    fullImageInfo.setTotalImage(imageBase64ACache);
-////                    ToastUtil.isDebugShow("imageBase64Event");
-//                }
-//                else if (!StrUtils.isEmpty(totalBase64)){
-//                    fullImageInfo.setTotalImage(totalBase64);
-//                }
-//                EventBus.getDefault().post(fullImageInfo);
-//                startActivity(new Intent(getActivity(), FullImageActivity.class));
-//                getActivity().overridePendingTransition(0, 0);
-
-
                 jumpBigImg();
                 break;
             case R.id.include_frag_img_search:
@@ -408,7 +324,6 @@ public class PersonalFragment extends BaseFragment {
 
     private void jumpBigImg() {
         String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
-        Log.e("jumpBigImg","---jumpBigImg----"+json);
         if (!StrUtils.isEmpty(json)) {
             DataMyZiliao.RecordBean recordBean = JSON.parseObject(json, DataMyZiliao.RecordBean.class);
             if (recordBean != null) {

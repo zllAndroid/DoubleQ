@@ -1,10 +1,12 @@
 package com.mding.chatfeng.main_code.ui.about_contacts;
 
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -57,6 +59,8 @@ public class ContactChildFragment extends BaseFragment {
     int typeWho;
     RealmHomeHelper realmHelper;
     ACache aCache;
+    boolean isFriend =true;
+    boolean isGroup =true;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         Bundle bundle = getArguments();
@@ -66,15 +70,23 @@ public class ContactChildFragment extends BaseFragment {
         realmHelper = new RealmHomeHelper(getActivity());
         if (view==null) {
             if (typeWho == 0) {
+                if (isFriend) {
+                    MyLog.e("ContactChildFragment","isFriend="+isFriend);
 //                初始化好友列表
-                view = inflater.inflate(R.layout.fragment_friend, container, false);
-                initFriendUI(view);
+                    view = inflater.inflate(R.layout.fragment_friend, container, false);
+                    initFriendUI(view);
+                    isFriend =false;
+                }
             }
             else if (typeWho == 1)
             {
+                if (isGroup) {
+                    MyLog.e("ContactChildFragment","isGroup="+isGroup);
 //                初始化群组列表
-                view = inflater.inflate(R.layout.fragment_group,container,false);
-                initGroupUI(view);
+                    view = inflater.inflate(R.layout.fragment_group, container, false);
+                    initGroupUI(view);
+                    isGroup=false;
+                }
             }
         }
         return view;
@@ -267,9 +279,16 @@ public class ContactChildFragment extends BaseFragment {
     }
     LinkManLongTimeTask myTask=null;
     GroupLongTimeTask myGroupTask=null;
+    @SuppressLint("HandlerLeak")
     private void initGroupWs() {
-//        if (aCache==null)
-//            aCache =  ACache.get(getActivity());
+        if (mHandlers==null)
+            mHandlers = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    if (msg != null)
+                        initHanderMsg(msg);
+                }
+            };
         String asString = BaseApplication.getaCache().getAsString(AppAllKey.GROUD_DATA);
         if (!StrUtils.isEmpty(asString))
         {
@@ -277,10 +296,17 @@ public class ContactChildFragment extends BaseFragment {
         }else
             sendWeb(SplitWeb.getSplitWeb().getGroupManage());
     }
-
+    public Handler mHandlers=null;
+    @SuppressLint("HandlerLeak")
     private void initFriendWs() {
-//        if (aCache==null)
-//            aCache =  ACache.get(getActivity());
+        if (mHandlers==null)
+            mHandlers = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    if (msg != null)
+                        initHanderMsg(msg);
+                }
+            };
         String asString = BaseApplication.getaCache().getAsString(AppAllKey.FRIEND_DATA);
         if (!StrUtils.isEmpty(asString))
         {
@@ -289,9 +315,14 @@ public class ContactChildFragment extends BaseFragment {
             sendWeb(SplitWeb.getSplitWeb().getFriendList());
     }
 
-    @Override
-    protected void onFragmentHandleMessage(Message msg) {
-        super.onFragmentHandleMessage(msg);
+//    @Override
+//    protected void onFragmentHandleMessage(Message msg) {
+//        super.onFragmentHandleMessage(msg);
+//        initHanderMsg(msg);
+//
+//    }
+
+    private void initHanderMsg(Message msg) {
         switch (msg.what)
         {
             case AppConfig.LINKMAN_FRIEND:
@@ -314,7 +345,6 @@ public class ContactChildFragment extends BaseFragment {
                 myGroupTask=null;
                 break;
         }
-
     }
 
     private class LinkManLongTimeTask extends AsyncTask<String,Void,String>

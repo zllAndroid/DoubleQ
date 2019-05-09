@@ -173,20 +173,6 @@ public class MainActivity extends BaseActivity  {
         BaseApplication.isMain=false;
     }
 
-//    @Override
-//    public void receiveResultMsg(String responseText) {
-//        super.receiveResultMsg(responseText);
-//        if(!SplitWeb.getSplitWeb().IS_SET_ACTIVITY.equals("1")) {
-//            String method = HelpUtils.backMethod(responseText);
-//            switch (method) {
-//                case "appUpdate":
-//                    VersionCheckUtils.initUpdata(responseText, true);
-//                    break;
-//            }
-//        }
-//    }
-
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -208,22 +194,14 @@ public class MainActivity extends BaseActivity  {
     private void initUIData() {
         if(mFragmentList==null) {
             mFragmentList = new ArrayList<>();
-//            mFragmentList.clear();
-            mFragmentList.add(new TabItem(
-                    MsgFragment.class
-            ));
+            mFragmentList.clear();
+            mFragmentList.add(new TabItem(MsgFragment.class));
 
-            mFragmentList.add(new TabItem(
-                    LinkManFragment.class
-            ));
+            mFragmentList.add(new TabItem( LinkManFragment.class));
 
-            mFragmentList.add(new TabItem(
-                    FindFragment.class
-            ));
+            mFragmentList.add(new TabItem(FindFragment.class));
 
-            mFragmentList.add(new TabItem(
-                    PersonalFragment.class
-            ));
+            mFragmentList.add(new TabItem(PersonalFragment.class));
         }
     }
     private void initTabNum(int num, String action) {
@@ -282,9 +260,7 @@ public class MainActivity extends BaseActivity  {
 
         private View mTabView;
 
-        public TabItem(
-                Class<? extends Fragment>
-                        fragmentClass) {
+        public TabItem(Class<? extends Fragment>fragmentClass) {
             this.fragmentClass = fragmentClass;
         }
         public Class<? extends Fragment> getFragmentClass() {

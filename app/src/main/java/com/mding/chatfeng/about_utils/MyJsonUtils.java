@@ -27,12 +27,17 @@ import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
  */
 public class MyJsonUtils {
     public static  String toChangeJson( Object recordBean ){
-        Log.e("toChangeJson","JSONObject--recordBean-->>="+recordBean.toString());
+//        Log.e("toChangeJson","JSONObject--recordBean-->>="+recordBean.toString());
 //        String jsonString = (String) JSONObject.toJSON(recordBean);//将java对象转换为json对象
 //        String jsonString = JSON.toJSONString(recordBean);
-        Gson gs = new Gson();
-        String objectStr = gs.toJson(recordBean);//把对象转为JSON格式的字符串
-        Log.e("toChangeJson","JSONObject--objectStr-->>="+objectStr);
+        String objectStr = null;//把对象转为JSON格式的字符串
+        try {
+            Gson gs = new Gson();
+            objectStr = gs.toJson(recordBean);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+//        Log.e("toChangeJson","JSONObject--objectStr-->>="+objectStr);
         return objectStr;
     }
     public static  void setJson( String key, String value ){
@@ -67,6 +72,7 @@ public class MyJsonUtils {
                                     BaseApplication.getaCache().put(AppConfig.TYPE_URL, serverIpHttp);
                                     SplitWeb.getSplitWeb().WS_REQUEST = serverIpWs;
                                     SPUtils.put(mContext,AppConfig.TYPE_WS_REQUEST,serverIpWs);
+                                    SPUtils.put(mContext,AppConfig.TYPE_URL,serverIpHttp);
 //                                    BaseApplication.getaCache().remove(AppConfig.TYPE_WS_REQUEST);
                                     BaseApplication.getaCache().put(AppConfig.TYPE_WS_REQUEST, serverIpWs);
                                     String asString = BaseApplication.getaCache().getAsString(AppConfig.TYPE_WS_REQUEST);

@@ -216,9 +216,10 @@ public class WsChannelService extends Service {
 //            callbacks.recevieContactsList();
         }
         private void initOff() {
+            String http = (String) SPUtils.get(getApplication(),AppConfig.TYPE_URL, "123");
+            Log.e("result","拉去请求结果url=="+SplitWeb.getSplitWeb().pullMergeChat(http));
             try {
-                Log.e("result","拉去请求结果url=="+SplitWeb.getSplitWeb().pullMergeChat());
-                VolleyRequest.RequestGet(WsChannelService.this,SplitWeb.getSplitWeb().pullMergeChat(), new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
+                VolleyRequest.RequestGet(getApplication(),SplitWeb.getSplitWeb().pullMergeChat(http), new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
                     @Override
                     public void onSuccess(final String result) {
                         Log.e("result","拉去请求结果=="+result);
@@ -229,6 +230,7 @@ public class WsChannelService extends Service {
                 });
             } catch (Exception e) {
                 e.printStackTrace();
+                Log.e("result","拉去请求结果url=="+"错误");
             }
         }
         @Override

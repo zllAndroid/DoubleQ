@@ -164,6 +164,10 @@ public class SplitWeb {
         return getURL()+"/MyAMQPTaskController/";
 //        return "http://"+getURL()+"/LoginController/";
     }
+    public  String getURLCustom(String http) {
+        return http+"/V2_0_0/MyAMQPTaskController/";
+//        return "http://"+getURL()+"/LoginController/";
+    }
 
     public  String loginIn(String mobile, String password){
         mList.clear();
@@ -231,10 +235,10 @@ public class SplitWeb {
     }
     //    http://192.168.4.133/MyAMQPTaskController/pullMergeChat?
 //    合并拉取离线消息http
-    public  String pullMergeChat(){
+    public  String pullMergeChat(String http){
         mList.clear();
         mList.add("userId="+ getUserId());
-        return getURLMessage()+"pullMergeChat?"+ SignForXm6leefunJava.getSing(mList);
+        return getURLCustom(http)+"pullMergeChat?"+ SignForXm6leefunJava.getSing(mList);
 //        String request = WebUrl.request("Contact", "contactsList", map);
 //        return  request;
     }

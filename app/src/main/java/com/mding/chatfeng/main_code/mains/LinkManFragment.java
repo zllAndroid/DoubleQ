@@ -30,29 +30,14 @@ import static com.mding.chatfeng.about_utils.IntentUtils.JumpTo;
 public class LinkManFragment extends BaseFragment {
 
     public LinkManFragment() {}
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(true);
-    }
-    View mView =null;
+//    @Override
+//    public void setUserVisibleHint(boolean isVisibleToUser) {
+//        super.setUserVisibleHint(true);
+//        if (this.getView() != null)
+//            this.getView().setVisibility(isVisibleToUser ? View.VISIBLE : View.GONE);
+//    }
     CustomViewPager mViewpager;
     private SmartTabLayout viewPagerTab;
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        // Inflate the layout for this fragment
-//        if(mView == null) {
-//            mView = inflater.inflate(R.layout.fragment_contacts, container, false);
-//
-//////            TextView head;
-//////            ImageView search,add;
-//////            head = view.findViewById(R.id.include_frag_tv_title);
-////////            search = view.findViewById(R.id.include_frag_img_search);
-////////            add = view.findViewById(R.id.include_frag_img_add);
-//////            head.setText("联系人");
-//        }
-//        initUI(mView);
-//        return mView;
-//    }
 
     @Override
     protected int setFragmentLayout() {
@@ -62,14 +47,12 @@ public class LinkManFragment extends BaseFragment {
     @Override
     protected void initBaseUI(View view) {
         super.initBaseUI(view);
-        view = getTopBarView();
         initUI(view);
     }
 
     boolean ismPager = true;
     private MyPagerAdapter myPagerAdapter;
     private String[]  contacts_tou = new String[]{"好友","群组"};
-    PopAddWindow popAddWindow =null;
 
     @Override
     protected String setFragmentTital() {
@@ -83,22 +66,6 @@ public class LinkManFragment extends BaseFragment {
 
     public static int isChangePage = 0;
     private void initUI(View mView) {
-//        view.findViewById(R.id.include_frag_img_add).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                new ConfirmPopWindow(getActivity()).showAtBottom(view.findViewById(R.id.include_frag_img_add));
-//            }
-//        });
-//        view.findViewById(R.id.include_frag_img_search).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                JumpTo(SearchActivity.class);
-//            }
-//        });
-
-
-//        PopAddWindow
-
         viewPagerTab = mView.findViewById(R.id.contacts_viewpagertab);
         mViewpager = mView.findViewById(R.id.contacts_viewpager);
         myPagerAdapter = new LinkManFragment.MyPagerAdapter(getChildFragmentManager());

@@ -79,6 +79,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         }
         return  num;
     }
+
     @Override
     protected void convert(final BaseViewHolder helper, final CusHomeRealmData item) {
 //        CusDataLinkFriend linkFriend = realmMsgInfoTotalHelper.queryLinkFriend(item.getFriendId());
@@ -87,9 +88,6 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
 
         ImageView mIvHead = (ImageView) helper.getView(R.id.item_iv_head);
         TextView mTvNum = helper.getView(R.id.item_tv_num);
-//        TextView mTvMsg = helper.getView(R.id.item_tv_msg);
-//        ImageView mIvClick = (ImageView) helper.getView(R.id.item_tv_click_ok);
-//        TextView mTvTime = helper.getView(R.id.item_tv_time);
         String groupMemberName = "";
         try {
             if (!StrUtils.isEmpty(item.getFriendId())) {
@@ -134,12 +132,6 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                             helper.setText(R.id.item_tv_msg,item.getMsg());
                         }
                         break;
-//                case Constants.CHAT_NO_FRIEND:
-//                    break;
-//                case Constants.CHAT_EMOTION:
-//                    break;
-//                case Constants.CHAT_FILE:
-//                    break;
                 }
 //            helper.setText(R.id.item_tv_msg,item.getMsg());
 

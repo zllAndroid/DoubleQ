@@ -21,6 +21,7 @@ import com.mding.chatfeng.about_base.deal_application.DealUpdateFriend;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
+import com.mding.chatfeng.about_chat.ChatActivity;
 import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
 import com.mding.chatfeng.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.mding.chatfeng.about_utils.HelpUtils;
@@ -290,7 +291,7 @@ public class DealDataByApp {
         groupChatData.setMessageType(record.getMessageType());
         groupChatData.setMessageStoId(record.getMessageStoId());
 
-
+        BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().messageGroupConfirmReceipt(record.getMessageStoId()));
         if (getRealmGroupChatHelper().isMessage(record.getMessageStoId())) {
             CusHomeRealmData homeRealmData = getRealmHomeHelper().queryAllRealmChat(record.getGroupId());
             String msg = record.getMessage();
@@ -358,10 +359,11 @@ public class DealDataByApp {
             return;
         }
         List<DataOffLineChat.RecordBean.MessageListBean> messageList = record.getMessageList();
-        if (messageList.size() > 0)
+        if (messageList.size() > 0) {
             for (int i = 0; i < messageList.size(); i++) {
                 initListItem(messageList.get(i));
             }
+        }
     }
     private static void initListItem(final DataOffLineChat.RecordBean.MessageListBean record) {
         AppConfig.CHAT_FRIEND_ID = record.getFriendsId();
@@ -398,7 +400,7 @@ public class DealDataByApp {
         cusRealmChatMsg.setMessageStoId(record.getMessageStoId());
         cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getSplitWeb().getUserId());
 
-
+        BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().messageConfirmReceipt(record.getMessageStoId()));
         if (getRealmChatHelper().isMessage(record.getMessageStoId())) {
             CusHomeRealmData homeRealmData = getRealmHomeHelper().queryAllRealmChat(record.getFriendsId());
             if (homeRealmData != null) {
@@ -467,7 +469,7 @@ public class DealDataByApp {
         DataAgreeFriend.RecordBean record = dataAgreeFriend.getRecord();
         if (record != null) {
 //            TODO   发送 我们已经是好友了，快来聊一聊吧
-//            sendText(SplitWeb.getSplitWeb().privateSend(record.getFriendsId(), "我们已经是好友了，快来聊一聊吧", ChatActivity.messageType, TimeUtil.getTime()));
+            BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().privateSend(record.getFriendsId(), "我们已经是好友了，快来聊一聊吧", ChatActivity.messageType, TimeUtil.getTime()));
 
             final CusHomeRealmData cusJumpChatData = new CusHomeRealmData();
             cusJumpChatData.setHeadImg(record.getHeadImg());

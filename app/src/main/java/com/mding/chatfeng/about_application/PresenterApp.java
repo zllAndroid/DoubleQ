@@ -243,37 +243,6 @@ public class PresenterApp extends BaseApp {
             wakeLock = null;
         }
     }
-    private void errorRequest() {
-        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().addrPort(), new NetWorkUtlis.OnNetWork() {
-            @Override
-            public void onNetSuccess(String msg) {
-                MyLog.e("onNetSuccess","msg="+msg);
-                DataJiqun dataJiqun = JSON.parseObject(msg, DataJiqun.class);
-                DataJiqun.RecordBean record = dataJiqun.getRecord();
-                if (record != null)
-                {
-                    initjiqun(record);
-                }
-                try {
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-
-        });
-    }
-    private void initjiqun(DataJiqun.RecordBean record) {
-        SplitWeb.getSplitWeb().WS_REQUEST = record.getServerIpWs();
-        String serverIpWs = record.getServerIpWs();
-        String http = record.getServerIpHttp();
-        aCache.remove(AppConfig.TYPE_WS_REQUEST);
-        aCache.remove(AppConfig.TYPE_URL);
-        aCache.put(AppConfig.TYPE_WS_REQUEST,serverIpWs);
-        aCache.put(AppConfig.TYPE_URL,http);
-        reStartApp();
-    }
     private void reStartApp() {
 //        ToastUtil.show("一秒后重启应用");
         Intent intent = mContext.getPackageManager()
