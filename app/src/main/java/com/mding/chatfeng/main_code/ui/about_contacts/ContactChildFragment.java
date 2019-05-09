@@ -75,7 +75,7 @@ public class ContactChildFragment extends BaseFragment {
 //                初始化好友列表
                     view = inflater.inflate(R.layout.fragment_friend, container, false);
                     initFriendUI(view);
-                    isFriend =false;
+//                    isFriend =false;
                 }
             }
             else if (typeWho == 1)
@@ -85,7 +85,7 @@ public class ContactChildFragment extends BaseFragment {
 //                初始化群组列表
                     view = inflater.inflate(R.layout.fragment_group, container, false);
                     initGroupUI(view);
-                    isGroup=false;
+//                    isGroup=false;
                 }
             }
         }
@@ -500,9 +500,9 @@ public class ContactChildFragment extends BaseFragment {
     private void initFriendAdapter() {
         if (mlinkFriend==null) {
             mlinkFriend = new LinkFriendAdapter(getActivity(), mFriendList);
-            if (mExListViewFriend!=null)
-                mExListViewFriend.setAdapter(mlinkFriend);
         }
+        if (mExListViewFriend!=null)
+            mExListViewFriend.setAdapter(mlinkFriend);
 
         mlinkFriend.notifyDataSetChanged();
         if (mExListViewFriend!=null)

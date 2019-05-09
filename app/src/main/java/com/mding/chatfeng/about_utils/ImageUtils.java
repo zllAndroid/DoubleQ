@@ -187,6 +187,7 @@ public class ImageUtils {
 					.bitmapTransform(new CropCircleTransformation(context))
 					.placeholder(imageView.getDrawable())
 					.diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .error(R.drawable.first_head_nor)
 					.into(imageView);
 		} catch (Exception e) {
 			e.printStackTrace();

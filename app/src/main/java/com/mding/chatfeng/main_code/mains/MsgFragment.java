@@ -84,8 +84,6 @@ public class MsgFragment extends BaseFragment {
     @Override
     protected void initBaseUI(View view) {
         super.initBaseUI(view);
-
-
         initFriend();
         initRealmData();
 //        首页消息广播处理
@@ -160,22 +158,11 @@ public class MsgFragment extends BaseFragment {
     private void initRealmData() {
         MyLog.e("LongTimeTask", myTask+"-----------------------进来前----------myTask----------------------"+BaseApplication.isHomeMsgFragment);
         if (BaseApplication.isHomeMsgFragment) {
-//            MyLog.e("LongTimeTask", myTask+"-----------------------isHomeMsgFragment----------myTask----------------------"+BaseApplication.isHomeMsgFragment);
-//            if (myTask == null) {
-//                myTask = new LongTimeTask();
-//                myTask.execute();
-//            }
-            RealmHomeHelper realmHelper = new RealmHomeHelper(getActivity());
-            if (mList.size() == 0) {
-                List<CusHomeRealmData> cusHomeRealmData = realmHelper.queryAllmMsg();
-                if (cusHomeRealmData != null && cusHomeRealmData.size() != 0) {
-                    mList.clear();
-                    mList.addAll(cusHomeRealmData);
-//                    addListMethon(cusHomeRealmData);
-                    initAdapter();
-                }
+            MyLog.e("LongTimeTask", myTask+"-----------------------isHomeMsgFragment----------myTask----------------------"+BaseApplication.isHomeMsgFragment);
+            if (myTask == null) {
+                myTask = new LongTimeTask();
+                myTask.execute();
             }
-
         }
     }
 
@@ -223,13 +210,13 @@ public class MsgFragment extends BaseFragment {
 
     private void initHanderMsg(Message msg) {
 
-//        switch (msg.what) {
-////           刷新adapter
-//            case AppConfig.WHAT_REALM_INITADAPTER:
-//                initAdapter();
-//                MyLog.e("LongTimeTask", "-----------------------handler-----------接收----------------------");
-//                break;
-//        }
+        switch (msg.what) {
+//           刷新adapter
+            case AppConfig.WHAT_REALM_INITADAPTER:
+                initAdapter();
+                MyLog.e("LongTimeTask", "-----------------------handler-----------接收----------------------");
+                break;
+        }
     }
 
     //    LinearLayout mLinNet;
@@ -397,7 +384,8 @@ public class MsgFragment extends BaseFragment {
                 mList.clear();
                 mList.addAll(cusHomeRealmData);
 //                addListMethon(cusHomeRealmData);
-                twoAdapter();
+//                twoAdapter();
+                initAdapter();
             }
             if (mList.size() != 0)
                 for (int i = 0; i < mList.size(); i++) {
@@ -477,7 +465,7 @@ public class MsgFragment extends BaseFragment {
     }
 
     private void initAdapter() {
-        if (msgAdapter == null) {
+        if (msgAdapter == null)
             msgAdapter = new MsgAdapter(getActivity(), mList, mItemTouchListener);
             mRecyclerView.setAdapter(msgAdapter);
             msgAdapter.notifyDataSetChanged();
@@ -512,10 +500,7 @@ public class MsgFragment extends BaseFragment {
 
                 }
             });
-        } else {
-//            if (RecyclerView.SCROLL_STATE_IDLE!=mRecyclerView.getScrollState()||!mRecyclerView.isComputingLayout())
-//            msgAdapter.notifyDataSetChanged();
-        }
+
     }
 
     private void clickItem(BaseQuickAdapter adapter, int position) {
