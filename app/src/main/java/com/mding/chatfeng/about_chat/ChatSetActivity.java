@@ -97,7 +97,7 @@ public class ChatSetActivity extends BaseActivity {
         includeTopIvBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AppManager.getAppManager().finishActivity();
+                AppManager.getAppManager().finishActivity(ChatSetActivity.this);
             }
         });
         includeTopTopTvTitle.setText("聊天设置");

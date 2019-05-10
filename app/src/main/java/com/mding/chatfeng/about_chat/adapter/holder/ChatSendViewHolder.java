@@ -49,8 +49,6 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-/**
- */
 public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
 
     @BindView(R.id.chat_item_date)

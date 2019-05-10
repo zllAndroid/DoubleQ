@@ -441,7 +441,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 if (NoDoubleClickUtils.isDoubleClick()) {
                     if (AppConfig.CHATPRIVATE.equals(friendType))
                     {
-                        AppManager.getAppManager().finishActivity(this);
+                        AppManager.getAppManager().finishActivity(FriendDataMixActivity.this);
                     }else {
                         sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
                         if (dataRecord != null) {

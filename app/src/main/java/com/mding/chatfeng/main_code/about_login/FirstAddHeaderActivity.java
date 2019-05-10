@@ -1,6 +1,7 @@
 package com.mding.chatfeng.main_code.about_login;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -360,6 +361,21 @@ public class FirstAddHeaderActivity extends BaseActivity {
 
     private File mPhotoFile;
     File save;
+
+    boolean isBackKey = false;
+    /**
+     * 监听Back键按下事件,方法1:
+     * 注意:
+     * super.onBackPressed()会自动调用finish()方法,关闭
+     * 当前Activity.
+     * 若要屏蔽Back键盘,注释该行代码即可
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        isBackKey = true;
+        System.out.println("按下了back键   onBackPressed()");
+    }
     /**
      * 调用相机以及相册的回调 获取的数据
      */
@@ -378,6 +394,13 @@ public class FirstAddHeaderActivity extends BaseActivity {
                     be = 1;
                 bitmapOptions.inSampleSize = be;
                 bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath(), bitmapOptions);
+                    if(resultCode == Activity.RESULT_CANCELED) {
+                        return;
+                    }
+                if (isBackKey){
+                    isBackKey = false;
+                    return;
+                }
                 if (bitmap==null)
                 {
                     ToastUtil.show("不支持的图片，请重新选择");
@@ -412,6 +435,10 @@ public class FirstAddHeaderActivity extends BaseActivity {
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
 //            File saveBitmap = null;
 //                saveBitmap = ImageUtil.saveFile(bitmap);
+            if (isBackKey){
+                isBackKey = false;
+                return;
+            }
             if (bitmap==null)
             {
                 ToastUtil.show("不支持的图片，请重新选择");

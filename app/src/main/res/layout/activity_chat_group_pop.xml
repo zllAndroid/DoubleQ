@@ -97,6 +97,8 @@
                 android:layout_height="wrap_content"
                 android:text="群名片"
                 android:maxEms="6"
+                android:layout_weight="1"
+                android:gravity="right"
                 android:layout_marginLeft="@dimen/dp10"
                 android:layout_gravity="right"
                 android:textColor="@color/app_theme"

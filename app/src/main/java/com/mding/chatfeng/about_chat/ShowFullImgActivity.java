@@ -77,7 +77,7 @@ public class ShowFullImgActivity extends BaseActivity {
                 activityExitAnim(new Runnable() {
                     @Override
                     public void run() {
-                        AppManager.getAppManager().finishActivity();
+                        AppManager.getAppManager().finishActivity(ShowFullImgActivity.this);
                         overridePendingTransition(0, 0);
                     }
                 });
@@ -86,7 +86,7 @@ public class ShowFullImgActivity extends BaseActivity {
                 activityExitAnim(new Runnable() {
                     @Override
                     public void run() {
-                        AppManager.getAppManager().finishActivity();
+                        AppManager.getAppManager().finishActivity(ShowFullImgActivity.this);
                         overridePendingTransition(0, 0);
                     }
                 });

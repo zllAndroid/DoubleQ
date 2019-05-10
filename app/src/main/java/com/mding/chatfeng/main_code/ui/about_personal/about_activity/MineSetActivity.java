@@ -105,6 +105,14 @@ public class MineSetActivity extends BaseActivity {
         try {
             String totalCacheSize = DataCleanManager.getTotalCacheSize(this);
             setTvCache.setText(totalCacheSize);
+
+            // 群聊删除聊天记录
+            RealmGroupChatHelper realmGroupChatHelper = new RealmGroupChatHelper(MineSetActivity.this);
+            realmGroupChatHelper.deleteAll();
+            // 私聊删除聊天记录
+            RealmChatHelper realmChatHelper = new RealmChatHelper(MineSetActivity.this);
+            realmChatHelper.deleteAll();
+
             ToastUtil.show("清理缓存成功");
             setTvCache.setText("0KB");
 

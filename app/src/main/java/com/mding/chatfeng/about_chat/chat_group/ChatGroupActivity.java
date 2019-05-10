@@ -337,6 +337,7 @@ public class ChatGroupActivity extends BaseActivity {
         includeTopIvDrop.setClickable(false);// 屏蔽主动获得点击
         includeTopIvDrop.setPressed(false);
         includeTopIvDrop.setEnabled(false);
+        sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
     }
 
     @Override

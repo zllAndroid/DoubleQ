@@ -132,7 +132,6 @@ public class ChatActivity extends BaseActivity {
     NoScrollViewPager viewpager;
     @BindView(R.id.emotion_layout)
     RelativeLayout emotionLayout;
-    //
     @BindView(R.id.include_top_tv_title)
     TextView includeTopTvTital;
     @BindView(R.id.chat_tv_show)
@@ -486,7 +485,7 @@ public class ChatActivity extends BaseActivity {
         mInputLinMain.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, final int left, final int top, final int right, final int bottom, final int oldLeft, final int oldTop, final int oldRight, final int oldBottom) {
-//                sofeDeal();
+//                softDeal();
                 if (emotionLayout.isShown() || isSoftShowing()) {
                     if (layoutManager != null && chatAdapter != null)
                         layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
@@ -536,7 +535,7 @@ public class ChatActivity extends BaseActivity {
         }
         return a;
     }
-    private void sofeDeal() {
+    private void softDeal() {
         if (isSoftShowing()) {
 //                if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
             if (layoutManager != null && chatAdapter != null)

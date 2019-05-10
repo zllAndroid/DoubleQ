@@ -23,6 +23,7 @@ import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoW
 import com.mding.model.DataGroupManage;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
@@ -62,6 +63,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //    protected void onCreate(Bundle savedInstanceState) {
 //        super.onCreate(savedInstanceState);
 //    }
+
     String type = "1";
 
     @Override
@@ -75,7 +77,6 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
             includeTopTvTital.setText("群组分组管理");
         }
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
-
 //        mRecyclerView.setHasFixedSize(true);
 //        mRecyclerView.setNestedScrollingEnabled(false);
 //        mRecyclerView.setLayoutManager(new LinearLayoutManager(GroupManageActivity.this));
@@ -106,7 +107,6 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
                 }
                 return false;
             }
-
 
             @Override
             public void beforeDrawingCache(View dragView) {
@@ -196,7 +196,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //                DialogUtils.showDialogOne("保存成功", new DialogUtils.OnClickSureListener() {
 //                    @Override
 //                    public void onClickSure() {
-//                        AppManager.getAppManager().finishActivity();
+//                        AppManager.getAppManager().finishActivity(GroupManageActivity.this);
 //                    }
 //                });
                 ToastUtil.show("保存成功");
@@ -311,7 +311,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
     @OnClick(R.id.inclu_tv_right)
     public void onSave() {
         sendWeb(SplitWeb.getSplitWeb().moveGroupSort(dataInfo()));//拖拽移动的
-        Log.e("personInfos", "----------------personInfos----------------------------" + dataInfo());
+        MyLog.i("personInfos", "----------------personInfos----------------------------" + dataInfo());
     }
 
     @Override

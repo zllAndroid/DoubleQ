@@ -136,7 +136,7 @@ public class EditGroupCardActivity extends BaseActivity {
                 Intent intent = new Intent();
                 intent.putExtra("myGroupCard",editGroupCardEt.getText().toString());
                 setResult(AppConfig.EDIT_GROUP_CARD_RESULT,intent);
-                AppManager.getAppManager().finishActivity();
+                AppManager.getAppManager().finishActivity(EditGroupCardActivity.this);
                 break;
         }
     }

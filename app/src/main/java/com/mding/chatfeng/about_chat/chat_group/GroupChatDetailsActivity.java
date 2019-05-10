@@ -1,6 +1,7 @@
 package com.mding.chatfeng.about_chat.chat_group;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -374,8 +375,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                         }
                         DataChatGroupPop.RecordBean.GroupDetailInfoBean.UserInfoBean userInfoBean = groupDetailInfoBean.getUserInfo();
                         if (userInfoBean != null){
-                            MyLog.e("myGroupId","----------------------groupSendInterface--------------------------"+groupId);
-                            MyLog.e("myGroupId","----------------------groupSendInterface2222--------------------------"+cusJumpGroupChatData.getGroupId());
+                            MyLog.i("myGroupId","----------------------groupSendInterface--------------------------"+groupId);
+                            MyLog.i("myGroupId","----------------------groupSendInterface2222--------------------------"+cusJumpGroupChatData.getGroupId());
                             cusJumpGroupChatData.setCardName(userInfoBean.getCarteName());
                             cusJumpGroupChatData.setIdentifyType(userInfoBean.getIdentityType());
                         }
@@ -822,6 +823,13 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     be = 1;
                 bitmapOptions.inSampleSize = be;
                 bitmap = BitmapFactory.decodeFile(mPhotoFile.getPath(), bitmapOptions);
+                if(resultCode == Activity.RESULT_CANCELED) {
+                    return;
+                }
+                if (isBackKey){
+                    isBackKey = false;
+                    return;
+                }
                 if (bitmap==null)
                 {
                     ToastUtil.show("不支持的图片，请重新选择");
@@ -840,6 +848,10 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             int columnIndex = c.getColumnIndex(filePathColumns[0]);
             String imagePath = c.getString(columnIndex);
             Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
+            if (isBackKey){
+                isBackKey = false;
+                return;
+            }
             if (bitmap==null)
             {
                 ToastUtil.show("不支持的图片，请重新选择");
@@ -867,7 +879,20 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             sendWeb(SplitWeb.getSplitWeb().upGroupHeadImg(groupId, totalBase64));
         }
     }
-
+    boolean isBackKey = false;
+    /**
+     * 监听Back键按下事件,方法1:
+     * 注意:
+     * super.onBackPressed()会自动调用finish()方法,关闭
+     * 当前Activity.
+     * 若要屏蔽Back键盘,注释该行代码即可
+     */
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        isBackKey = true;
+        System.out.println("按下了back键   onBackPressed()");
+    }
     String mTmpPath;
     /**
      * 7.0 拍照权限
@@ -971,7 +996,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             case R.id.group_details_tv_to_chat:
                 if (AppConfig.CHATGROUP.equals(groupType))
                 {
-                    AppManager.getAppManager().finishActivity(this);
+                    AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
                 }else{
 //                    sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
                     final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
