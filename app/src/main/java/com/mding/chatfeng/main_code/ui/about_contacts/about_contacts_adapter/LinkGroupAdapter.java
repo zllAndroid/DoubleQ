@@ -50,7 +50,7 @@ public class LinkGroupAdapter extends BaseExpandableListAdapter {
     }
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-            return mGroupList.get(groupPosition).getGroupList().get(childPosition);
+        return mGroupList.get(groupPosition).getGroupList().get(childPosition);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class LinkGroupAdapter extends BaseExpandableListAdapter {
     ImageView img_parent_toright;
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-      final   LinkGroupAdapter.ChildHolder holder;
+        final LinkGroupAdapter.ChildHolder holder;
         if (convertView == null) {
             holder = new LinkGroupAdapter.ChildHolder();
             convertView = LayoutInflater.from(context).inflate(
@@ -116,19 +116,17 @@ public class LinkGroupAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (LinkGroupAdapter.ChildHolder) convertView.getTag();
         }
-        if (mGroupList.size() > 0){
-            final  DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
-            if (groupListBean!=null) {
-
-
-                String headImg = groupListBean.getHeadImg();
+        if (mGroupList.size() > 0) {
+            if (mGroupList.get(groupPosition).getGroupList().size() > 0){
+                final DataLinkGroupList.RecordBean.GroupInfoListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
+                if (groupListBean != null) {
+                    String headImg = groupListBean.getHeadImg();
 //                ImageUtils.useBase64(context,holder.img_contacts_child_head, headImg.substring(0, headImg.indexOf("_")));
-                ImageUtils.useBase64(context,holder.img_contacts_child_head,headImg);
-                holder.tv_contacts_child_name.setText(groupListBean.getNickName());
+                    ImageUtils.useBase64(context, holder.img_contacts_child_head, headImg);
+                    holder.tv_contacts_child_name.setText(groupListBean.getNickName());
+                }
             }
         }
-//        holder.tv_contacts_child_state.setText(dataContactsManageChild.get());
-//        holder.tv_contacts_child_motto.setText(dataContactsManageChild.getTv_child_motto_m());
         return convertView;
     }
 

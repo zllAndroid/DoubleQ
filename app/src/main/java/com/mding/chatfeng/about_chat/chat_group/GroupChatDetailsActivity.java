@@ -234,7 +234,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId));
                 }
                 else{
-                    dealSearchDetailInfo(searchDetailInfo);
+//                    dealSearchDetailInfo(searchDetailInfo);
                     sendWeb(SplitWeb.getSplitWeb().searchDetailInfo(groupId,verificationMD5));
                 }
             }
@@ -599,11 +599,14 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
     List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> mList2 = new ArrayList<>();
     private void initAdapter(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info, final boolean isGrouper) {
 //添加群员信息到好友表中
-        initUserRealm(group_user_info);
+//        initUserRealm(group_user_info);
         mList2.clear();
         if (group_user_info.size() > 9) {
             for (int i = 0; i <= 9; i++) {
+                DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean groupUserInfoBean = group_user_info.get(i);
                 mList2.add(i, group_user_info.get(i));
+                //添加群员信息到好友表中
+                addRealm(groupUserInfoBean);
             }
         } else {
             mList2.addAll(group_user_info);
@@ -654,33 +657,35 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                             // 自己，跳转个人资料界面
                             IntentUtils.JumpToHaveOne(FriendDataMixActivity.class, "id", item.getUserId());
                         }
-//                        switch (item.getIsRelation()) {
-//                            case "1":
-//                                //                            跳转陌生人显示界面
-//                                IntentUtils.JumpToHaveTwo(FriendDataGroupMemberActivity.class, FriendDataGroupMemberActivity.FRIENG_ID_KEY, item.getUserId(), FriendDataGroupMemberActivity.GROUP_ID_KEY, groupId);
-//                                break;
-//                            case "2":
-//                                //                            ImageView imageView = view.findViewById(R.id.item_iv_group_member_head);
-//                                //
-//                                //
-//                                //                            imageView.setDrawingCacheEnabled(true);
-//                                //                            Bitmap bitmap=imageView.getDrawingCache();
-//                                //                            imageView.setDrawingCacheEnabled(false);
-//                                //                            好友，跳转好友界面
-//                                IntentUtils.JumpToHaveOne(FriendDataActivity.class, "id", item.getUserId());
-//                                break;
-//                            case "3":
-//                                // 自己，跳转个人资料界面
-//                                IntentUtils.JumpTo(ChangeInfoActivity.class);
-//                                break;
-//                        }
                     }
                 }
             }
         });
         groupMemberAdapter.notifyDataSetChanged();
     }
+
+    private void addRealm(DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean record) {
+
+        try {
+            if (!StrUtils.isEmpty(record.getUserId())) {
+                CusDataFriendUser cusDataFriendUser = new CusDataFriendUser();
+                cusDataFriendUser.setFriendId(record.getUserId());
+                cusDataFriendUser.setHeadImgBase64(record.getHeadImg());
+                cusDataFriendUser.setName(record.getNickName());
+                cusDataFriendUser.setRemarkName(record.getNickName());
+                //TODO 用户信息存库（用户表）
+                getFriendUserHelper().updateAllOrAdd(record.getUserId(), cusDataFriendUser);//添加或者更新（存在则更新，不存在则增加）
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     RealmFriendUserHelper friendUserHelper;
+    private  RealmFriendUserHelper  getFriendUserHelper(){
+        if (friendUserHelper==null)
+            friendUserHelper = new RealmFriendUserHelper(this);
+        return  friendUserHelper;
+    }
     private void initUserRealm(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info) {
         if (friendUserHelper==null)
             friendUserHelper = new RealmFriendUserHelper(this);
@@ -708,15 +713,10 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         groupHeadImg = groupInfoBean.getGroupHeadImg();
         groupChatName = groupInfoBean.getGroupName();
         if (isNeedChangeHeadImg){
-//            ImageUtils.useBase64(GroupChatDetailsActivity.this, groupDataIvHead,  groupHeadImg.substring(0, groupHeadImg.indexOf("_")));
             ImageUtils.useBase64(GroupChatDetailsActivity.this, groupDataIvHead, groupInfoBean.getGroupHeadImg());
         }else {
             isNeedChangeHeadImg = true;
         }
-//        Glide.with(this).load(groupInfoBean.getGroupHeadImg())
-//                .bitmapTransform(new CropCircleTransformation(GroupChatDetailsActivity.this))
-//                .error(R.drawable.qun_head)
-//                .into(groupDataIvHead);
         groupDetailsTvGroupId.setText("(" + groupInfoBean.getGroupSno() + ")");
         groupDetailsTvName.setText(groupInfoBean.getGroupName());
         groupDataTvChatnum.setText("群成员(" + groupInfoBean.getNowNum() + ")");
@@ -804,9 +804,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         }
 //        群选择分组
         else if (resultCode == AppConfig.GROUP_DATA_GROUPING_RESULT && null != data) {
-            Log.e("groupingName","---------------------requestCode-----------------------"+requestCode+"--------"+AppConfig.GROUP_DATA_GROUPING_REQUEST);
             if (requestCode == AppConfig.GROUP_DATA_GROUPING_REQUEST) {
-                Log.e("groupingName","---------------------resultCode-----------------------"+resultCode+"--------"+AppConfig.GROUP_DATA_GROUPING_RESULT);
                 String name = data.getStringExtra(ChooseGroupActivity.CHOOSE_NAME_GROUP);
                 groupDataTvGroupingName.setText(name);
             }
@@ -830,9 +828,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     return;
                 }
                 goToClipActivity(Uri.fromFile(mPhotoFile));
-//                Bitmap bm = ImageUtils.getBitmapCompress(mPhotoFile.getPath());
-//                save = ImageUtils.saveBitmap(GroupChatDetailsActivity.this, bm);
-//                sendWeb(SplitWeb.getSplitWeb().upGroupHeadImg(groupId, ImageUtils.GetStringByImageView(bm)));
             }
         }
         //		相册
@@ -904,32 +899,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
             startActivityForResult(intent, CAMERA_RESULT_GROUP);
         }
     }
-
-//    private void setGlideData(final boolean isSame, final boolean isFriend, final String modified, final String groupId, final String headImg) {
-//        Glide.with(this)
-//                .load(headImg)
-//                .downloadOnly(new SimpleTarget<File>() {
-//                    @Override
-//                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-////                                    这里拿到的resource就是下载好的文件，
-//                        File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_FRIEND, groupId, modified);
-//                        if (isSame)
-//                            realmMsgInfoTotalHelper.updateHeadPath(groupId, file.toString(), headImg, modified);
-//                        else {
-//                            CusDataLinkFriend linkFriend = new CusDataLinkFriend();
-//                            linkFriend.setHeadImg(headImg);
-//                            linkFriend.setFriendId(groupId);
-//                            linkFriend.setTime(modified);
-//                            linkFriend.setImgPath(file.toString());
-//                            if (isFriend)
-//                                linkFriend.setWhoType("1");
-//                            else
-//                                linkFriend.setWhoType("2");
-//                            realmMsgInfoTotalHelper.addRealmLinkFriend(linkFriend);
-//                        }
-//                    }
-//                });
-//    }
 
     @OnClick({R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat,
             R.id.include_top_iv_zhuanfa, R.id.group_details_iv_qrcode, R.id.group_details_lin_name, R.id.group_data_iv_head,
@@ -1060,9 +1029,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
 
     @Override
     public void onCancle() {
-
     }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();

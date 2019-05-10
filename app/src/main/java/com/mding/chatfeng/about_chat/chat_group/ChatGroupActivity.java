@@ -260,27 +260,6 @@ public class ChatGroupActivity extends BaseActivity {
 //        }
     }
 
-//    private void initUri(Uri uri) {
-//        if (uri == null) {
-//            return;
-//        }
-//        String cropImagePath = getRealFilePathFromUri(getApplicationContext(), uri);
-//        // 原图
-//        Bitmap bitMap = BitmapFactory.decodeFile(cropImagePath);
-//        String imgNoZoom = ImageUtils.Bitmap2StrByBase64(bitMap);
-//        // 压缩图
-//        Bitmap bm = ImageUtils.imageZoom(bitMap);
-//        String imgByZoom = ImageUtils.Bitmap2StrByBase64(bm);
-//        // TODO 发送图片（格式：压缩图片的base64_高清原图的base64）
-//        String imgTotal = imgByZoom + "_" + imgNoZoom;
-//        send(SplitWeb.getSplitWeb().groupSend(groupId, imgTotal, messageTypeImg, TimeUtil.getTime()));
-//    }
-
-//    @Override
-//    public void sendUri(Uri uri) {
-//        initUri(uri);
-//        MyLog.e("ChatSendViewHolder","-----------------sendUri-------------------"+uri);
-//    }
 
     IntentFilter intentFilter;
 
@@ -293,15 +272,15 @@ public class ChatGroupActivity extends BaseActivity {
         }
     }
 
-    static RealmHomeHelper realmHelper;
+    //    static RealmHomeHelper realmHelper;
     public BroadcastReceiver mRefreshBroadcastReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
-            if (realmHelper == null) {
-                realmHelper = new RealmHomeHelper(ChatGroupActivity.this);
-            }
+//            if (realmHelper == null) {
+//                realmHelper = new RealmHomeHelper(ChatGroupActivity.this);
+//            }
             if (action.equals(GroupChatDetailsActivity.ACTION_UP_GROUP_NAME)) {
                 initGroupName(intent);
             }
@@ -348,13 +327,6 @@ public class ChatGroupActivity extends BaseActivity {
                 return true;
             }
         });
-//        editText.setFocusable(true);
-//        editText.setFocusableInTouchMode(true);
-//        editText.requestFocus();
-//        InputMethodManager inputManager =
-//                (InputMethodManager) editText.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-//        inputManager.showSoftInput(editText, 0);
-
     }
 
     @Override
@@ -373,12 +345,6 @@ public class ChatGroupActivity extends BaseActivity {
         SplitWeb.getSplitWeb().IS_CHAT_GROUP = "00";
         EventBus.getDefault().post(new MsgHomeEvent("",groupId,AppConfig.MSG_ZERO_REFRESH));
         try {
-//            realmHomeHelper.updateNumZero(groupId);
-//            Intent intent2 = new Intent();
-//            intent2.putExtra("message",groupId);
-//            intent2.putExtra("id",groupId);
-//            intent2.setAction("zero.refreshMsgFragment");
-//            sendBroadcast(intent2);
             realmGroupChatHelper.close();
             realmHomeHelper.close();
             realmGroupChatHelper = null;
@@ -484,17 +450,6 @@ public class ChatGroupActivity extends BaseActivity {
         screenHeight = this.getWindowManager().getDefaultDisplay().getHeight();
         //阀值设置为屏幕高度的1/3
         keyHeight = screenHeight / 3;
-//        mInputLin.setOnTouchListener(new View.OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if (emotionLayout.getVisibility()==View.VISIBLE)
-//                {
-//                    if (layoutManager!=null&&chatAdapter!=null)
-//                        layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-//                }
-//                return false;
-//            }
-//        });
         mInputLinMain.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, final int left, final int top, final int right, final int bottom, final int oldLeft, final int oldTop, final int oldRight, final int oldBottom) {
@@ -507,44 +462,30 @@ public class ChatGroupActivity extends BaseActivity {
         });
         GlobalOnItemClickManagerUtils globalOnItemClickListener = GlobalOnItemClickManagerUtils.getInstance(this);
         globalOnItemClickListener.attachToEditText(editText);
-        chatAdapter = new ChatGroupAdapter(this);
+        if (chatAdapter==null)
+            chatAdapter = new ChatGroupAdapter(this);
         layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         layoutManager.setRecycleChildrenOnDetach(true);//复用RecycledViewPool
         chatList.setLayoutManager(layoutManager);
-
-//        chatList.setRefreshingColorResources(R.color.red);
-//        chatList.setRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        // 外部对RecyclerView设置监听
+//        chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
 //            @Override
-//            public void onRefresh() {
-////                chatList.setRefreshing(false);
-//                ToastUtil.show("刷新");
-//                new Handler().postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        chatList.setRefreshing(false);
-//                    }
-//                },2000);
+//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+//                // 查看源码可知State有三种状态：SCROLL_STATE_IDLE（静止）、SCROLL_STATE_DRAGGING（上升）、SCROLL_STATE_SETTLING（下落）
+//                if (newState == RecyclerView.SCROLL_STATE_IDLE) { // 滚动静止时才加载图片资源，极大提升流畅度
+//                    chatAdapter.setScrolling(false);
+//                    chatAdapter.notifyDataSetChanged(); // notify调用后onBindViewHolder会响应调用
+//                } else
+//                    chatAdapter.setScrolling(true);
+//                super.onScrollStateChanged(recyclerView, newState);
 //            }
 //        });
-        // 外部对RecyclerView设置监听
-        chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                // 查看源码可知State有三种状态：SCROLL_STATE_IDLE（静止）、SCROLL_STATE_DRAGGING（上升）、SCROLL_STATE_SETTLING（下落）
-                if (newState == RecyclerView.SCROLL_STATE_IDLE) { // 滚动静止时才加载图片资源，极大提升流畅度
-                    chatAdapter.setScrolling(false);
-                    chatAdapter.notifyDataSetChanged(); // notify调用后onBindViewHolder会响应调用
-                } else
-                    chatAdapter.setScrolling(true);
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-        });
 
 
         chatList.setAdapter(chatAdapter);
-
+        chatList.getRecyclerView().setItemViewCacheSize(20);
         chatAdapter.addItemClickListener(itemClickListener);
 
         chatList.setOnTouchListener(new View.OnTouchListener() {
@@ -560,23 +501,11 @@ public class ChatGroupActivity extends BaseActivity {
                         mDetector.hideEmotionLayout(false);
                         mDetector.hideSoftInput();
                     }
-//                        initChatPopWindow();
-//                        break;
                 } //end switch
                 return false;
             }
         });
-//        LoadData();
     }
-
-    private void sofeDeal() {
-        if (isSoftShowing()) {
-//                if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
-            if (layoutManager != null && chatAdapter != null)
-                layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-        }
-    }
-
     private boolean isSoftShowing() {
         //获取当前屏幕内容的高度
         int screenHeight = getWindow().getDecorView().getHeight();
@@ -598,9 +527,6 @@ public class ChatGroupActivity extends BaseActivity {
                 send(SplitWeb.getSplitWeb().groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
             else if (GroupChatData != null)
                 send(SplitWeb.getSplitWeb().groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
-        } else {
-            Log.e("chat", "---------------------------------" + ed);
-//            ToastUtil.show("发送信息不能为空");
         }
     }
 
@@ -631,7 +557,6 @@ public class ChatGroupActivity extends BaseActivity {
                     includeTopTvTitle.setText(groupInfo.getGroupName());
                     cardName = StrUtils.isEmpty(userInfoBean.getCarteName()) ? "暂无" : userInfoBean.getCarteName();
                     isChecked = userInfoBean.getDisturbType();
-                    Log.e("setUserGroupDisturb","-------------------群聊界面请求-----------------"+isChecked);
                 }
                 break;
             // 请求MD5返回值判断
@@ -690,70 +615,17 @@ public class ChatGroupActivity extends BaseActivity {
                 groupChatData.setCreated(myTime);
                 groupChatData.setMessageType(record2.getMessageType());
                 groupChatData.setUserMessageType(Constants.CHAT_ITEM_TYPE_LEFT);
-//                cusRealmChatMsg.setCreated(myTime);
-//                cusRealmChatMsg.setMessage(record2.getMessage());
-//                cusRealmChatMsg.setMessageType(record2.getMessageType());
-//                cusRealmChatMsg.setReceiveId(record2.getFriendsId());
-//                cusRealmChatMsg.setSendId(record2.getUserId());
-//                cusRealmChatMsg.setUserMessageType(record2.getType());
-//                realmGroupChatHelper.addRealmChat(groupChatData);
-//                    addChatRealm(record.getMessage());
                 chatAdapter.add(groupChatData);
                 chatAdapter.notifyDataSetChanged();
 //                    滑动到底部
                 layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-//                CusHomeRealmData homeRealmData = realmHomeHelper.queryAllRealmChat(record2.getFriendsId());
-//
-//                if (homeRealmData!=null) {
-////                    realmHomeHelper.updateMsg(record2.getFriendsId(), record2.getMessage(), record2.getRequestTime());//更新首页聊天界面数据（消息和时间）
-//                    realmHomeHelper.updateNumZero(record2.getFriendsId());//更新首页聊天界面数据（未读消息数目）
-//                }
-//                Intent intent = new Intent();
-//                intent.putExtra("message", record2.getMessage());
-//                intent.putExtra("id", record2.getGroupId());
-//                intent.setAction("zero.refreshMsgFragment");
-//                sendBroadcast(intent);
                 EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(),record2.getGroupId(),AppConfig.MSG_ZERO_REFRESH));
             } else {
                 ToastUtil.show("收到一条来自" + record2.getGroupName() + "的消息");
-//                Intent intent = new Intent();
-//                intent.putExtra("message", record2.getMessage());
-//                intent.putExtra("id", record2.getGroupId());
-//                intent.setAction("action.refreshMsgFragment");
-//                sendBroadcast(intent);
                 EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(),record2.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
-
             }
-
             if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
-
-//                Intent intent = new Intent();
-//                intent.putExtra("message", record2.getMessage());
-//                intent.putExtra("id", record2.getGroupId());
-//                intent.setAction("action.refreshMsgFragment");
-//                sendBroadcast(intent);
                 EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(),record2.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
-
-                //APP在后台的时候处理接收到消息的事件
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            bitmap = Glide.with(MyApplication.getAppContext())
-//                                    .load(record2.getHeadImg())
-//                                    .asBitmap() //必须
-//                                    .centerCrop()
-//                                    .into(500, 500)
-//                                    .get();
-//                            NotificationUtil notificationUtils = new NotificationUtil(getApplicationContext());
-//                            notificationUtils.sendNotification(cusJumpChatData, record2.getFriendsName(), record2.getMessage(), bitmap, AppConfig.TYPE_CHAT);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        } catch (ExecutionException e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }).start();
             }
         }
     }
@@ -794,11 +666,7 @@ public class ChatGroupActivity extends BaseActivity {
             layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
         }
     }
-
-    Bitmap bitmap;
-    CustomPopWindow popWindow = null;
     View view = null;
-    private int mPressedPos; // 被点击的位置
     /**
      * item点击事件
      */
@@ -820,12 +688,6 @@ public class ChatGroupActivity extends BaseActivity {
 
         @Override
         public void onConClick( int position, String conText) {
-//            mRawX = event.getRawX();
-//            mRawY = event.getRawY();
-            mPressedPos = position;
-//            Log.d("onConClick", "e.getRawX()横坐标=" + mRawX + ", e.getRawY()纵坐标=" + mRawY);
-//            Log.d("onConClick", "position=" + position);
-//            initPopWindow(view, position);
             ClipboardManager myClipboard;
             myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
             ClipData myClip;
@@ -840,22 +702,6 @@ public class ChatGroupActivity extends BaseActivity {
         public void onImageClick( int position, String imgHttp) {
             IntentUtils.JumpToHaveOne(ShowChatImgActivity.class, ShowChatImgActivity.SHOW_CHAT_IMG_REGION, imgHttp);
         }
-
-//        @Override
-//        public void onImageClick(View view, int position) {
-//            int location[] = new int[2];
-//            view.getLocationOnScreen(location);
-//            FullImageInfo fullImageInfo = new FullImageInfo();
-//            fullImageInfo.setLocationX(location[0]);
-//            fullImageInfo.setLocationY(location[1]);
-//            fullImageInfo.setWidth(view.getWidth());
-//            fullImageInfo.setHeight(view.getHeight());
-//            fullImageInfo.setImageUrl(messageInfos.get(position).getImageUrl());
-//            EventBus.getDefault().postSticky(fullImageInfo);
-//            startActivity(new Intent(ChatGroupActivity.this, FullImageActivity.class));
-//            overridePendingTransition(0, 0);
-//        }
-
         @Override
         public void onVoiceClick(final ImageView imageView, final int position) {
             if (animView != null) {
@@ -917,183 +763,14 @@ public class ChatGroupActivity extends BaseActivity {
                             chatWindow = null;
                             if (SoftKeyboardUtils.isSoftShowing(ChatGroupActivity.this)) {
                                 SoftKeyboardUtils.showSoftKeyboard(ChatGroupActivity.this);
-//                                SoftKeyboardUtils.showORhideSoftKeyboard(ChatActivity.this);
                             }
 
                         }
-//                        mChatTvShow.setVisibility(View.GONE);
                         break;
                 }
 
             }
         }
-
-        private Runnable hideRunable = new Runnable() {
-
-            @Override
-            public void run() {
-                mHideHandler.obtainMessage(MSG_HIDE).sendToTarget();
-            }
-        };
-
-        public void startHideTimer() {//开始计时,三秒后执行runable
-            mHideHandler.removeCallbacks(hideRunable);
-            chatWindow.showAtLocation(mLinTop, Gravity.TOP, 0, mLinTop.getHeight());
-//            if(popWindow==null)
-//                popWindow = new CustomPopWindow.PopupWindowBuilder(ChatActivity.this)
-//                        .setView(view)
-//                        .setFocusable(true)
-//                        .setOutsideTouchable(true)
-//                        .size(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//                        .setAnimationStyle(R.style.AnimDown) // 添加自定义显示和消失动画
-//                        .create()
-//                        .showAsDropDown(mLinTop,0,0);
-//            if (mChatTvShow.getVisibility() == View.GONE) {
-//                mChatTvShow.setVisibility(View.VISIBLE);
-//                mChatTvShow.setBackgroundColor(getResources().getColor(R.color.white));
-//            }
-            mHideHandler.postDelayed(hideRunable, showTime);
-        }
-
-        public void endHideTimer() {//移除runable,将不再计时
-            mHideHandler.removeCallbacks(hideRunable);
-        }
-
-        public void resetHideTimer() {//重置计时
-            mHideHandler.removeCallbacks(hideRunable);
-            mHideHandler.postDelayed(hideRunable, showTime);
-        }
-
-    }
-
-    //    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        EventBus.getDefault().removeStickyEvent(this);
-//        EventBus.getDefault().unregister(this);
-//    }
-
-    private void showPopWindows(View v, final String msg) {
-
-        /** pop view */
-        View mPopView = LayoutInflater.from(this).inflate(R.layout.popup, null);
-        final PopupWindow mPopWindow = new PopupWindow(mPopView, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        /** set */
-        mPopWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        /** 这个很重要 ,获取弹窗的长宽度 */
-        mPopView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        int popupWidth = mPopView.getMeasuredWidth();
-        int popupHeight = mPopView.getMeasuredHeight();
-        /** 获取父控件的位置 */
-        int[] location = new int[2];
-        v.getLocationOnScreen(location);
-        /** 显示位置 */
-        mPopWindow.showAtLocation(v, Gravity.NO_GRAVITY, (location[0] + v.getWidth() / 2) - popupWidth / 2, location[1]
-                - popupHeight);
-        mPopWindow.update();
-
-//    final String copyTxt = (String) v.getTag();
-        mPopView.findViewById(R.id.tv_copy_txt).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                //获取剪贴板管理器：
-                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                // 创建普通字符型ClipData
-                ClipData mClipData = ClipData.newPlainText("Label", msg);
-                // 将ClipData内容放到系统剪贴板里。
-                cm.setPrimaryClip(mClipData);
-                ToastUtil.show("复制成功");
-//            copyToClip(copyTxt);
-                if (mPopWindow != null) {
-                    mPopWindow.dismiss();
-                }
-            }
-        });
-        mPopView.findViewById(R.id.tv_shoucang_txt).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                ToastUtil.show("点击收藏");
-//            copyToClip(copyTxt);
-                if (mPopWindow != null) {
-                    mPopWindow.dismiss();
-                }
-            }
-        });
-    }
-
-    private float mRawX;
-    private float mRawY;
-
-    private PopupWindow mPopupWindow;
-    private View mPopContentView;
-
-    private void initPopWindow(final View selectedView, final int position) {
-        if (mPopContentView == null) {
-            mPopContentView = View.inflate(this, R.layout.popup, null);
-        }
-//        LinearLayout layoutDelete = (LinearLayout) mPopContentView.findViewById(R.id.layout_delete);
-        // 在popupWindow还没有弹出显示之前就测量获取其宽高（单位是px像素）
-        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        mPopContentView.measure(w, h);
-        int viewWidth = mPopContentView.getMeasuredWidth();//获取测量宽度px
-        int viewHeight = mPopContentView.getMeasuredHeight();//获取测量高度px
-        final int screenWidth = DensityUtil.getScreenWidth(this.getWindow().getDecorView().getContext());
-        final int screenHeight = DensityUtil.getScreenHeight(this.getWindow().getDecorView().getContext());
-        if (mPopupWindow == null) {
-            mPopupWindow = new PopupWindow(mPopContentView, viewWidth, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        }
-        mPopupWindow.setOutsideTouchable(true);
-//        mPopupWindow.setBackgroundDrawable(drawable);
-        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-        int offX = 0; // 可以自己调整偏移
-        int offY = 0; // 可以自己调整偏移
-        float rawX = mRawX;
-        float rawY = mRawY;
-        if (mRawX <= screenWidth / 2) {
-            rawX = mRawX - offX;
-            if (mRawY < screenHeight / 3) {
-                rawY = mRawY;
-                mPopupWindow.setAnimationStyle(R.style.pop_anim_left_top); //设置动画
-            } else {
-                rawY = mRawY - viewHeight - offY;
-                mPopupWindow.setAnimationStyle(R.style.pop_anim_left_bottom); //设置动画
-            }
-        } else {
-            rawX = mRawX - viewWidth;
-            if (mRawY < screenHeight / 3) {
-                rawY = mRawY - 100;
-                mPopupWindow.setAnimationStyle(R.style.pop_anim_right_top); //设置动画
-            } else {
-                rawY = mRawY - viewHeight;
-                mPopupWindow.setAnimationStyle(R.style.pop_anim_right_bottom); //设置动画
-            }
-        }
-        mPopupWindow.showAtLocation(this.getWindow().getDecorView(), Gravity.NO_GRAVITY, (int) rawX, (int) rawY);
-//        layoutDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mPopupWindow.dismiss();
-//                if (mChatMessages.size() <= 0) {
-//                    return;
-//                } else {
-//                    mChatMessages.remove(position);
-//                    mChatDetailAdapter.notifyDataSetChanged();
-//                    Toast.makeText(MainActivity.this, "已删除此条聊天内容", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                selectedView.setSelected(false);
-            }
-        });
     }
 
 }

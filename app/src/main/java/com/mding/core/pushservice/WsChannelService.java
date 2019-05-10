@@ -92,7 +92,7 @@ public class WsChannelService extends Service {
                     wsManager = new WsManager.Builder(getBaseContext())
                             .client(
                                     new OkHttpClient().newBuilder()
-                                            .pingInterval(40, TimeUnit.SECONDS)
+                                            .pingInterval(250, TimeUnit.SECONDS)
                                             .retryOnConnectionFailure(true)
                                             .build())
                             .needReconnect(true)

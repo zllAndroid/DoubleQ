@@ -507,6 +507,7 @@ public class ChatActivity extends BaseActivity {
 //        chatList.setHasFixedSize(true);
         chatList.setLayoutManager(layoutManager);
         chatList.setAdapter(chatAdapter);
+        chatList.getRecyclerView().setItemViewCacheSize(20);
 //        chatAdapter.setHasStableIds(true);
         chatAdapter.addItemClickListener(itemClickListener);
         chatList.setOnTouchListener(new View.OnTouchListener() {

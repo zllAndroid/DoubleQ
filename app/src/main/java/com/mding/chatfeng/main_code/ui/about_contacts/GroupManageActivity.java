@@ -200,7 +200,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
 //                    }
 //                });
                 ToastUtil.show("保存成功");
-                AppManager.getAppManager().finishActivity();
+                AppManager.getAppManager().finishActivity(GroupManageActivity.this);
                 break;
             case "addFriendGroup":
                 switch (item_type) {
@@ -288,6 +288,7 @@ public class GroupManageActivity extends BaseActivity implements ChangeInfoWindo
         JSONObject tmpObj = null;
         jsonArray.clear();
         int count = group_info.size();
+        if (count>0)
         for (int i = 0; i < count; i++) {
             /**
              * id : 1

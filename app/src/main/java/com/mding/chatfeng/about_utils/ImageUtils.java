@@ -26,6 +26,7 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.ScreenUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
@@ -176,34 +177,67 @@ public class ImageUtils {
      */
     public static void useBase64(Context context, ImageView imageView, String s) {
         try {
-            if (s.contains("_")){
-                // 压缩Base64
-                s = s.substring(0, s.indexOf("_"));
-            }
-            byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
-            Glide.with(context.getApplicationContext()).load(decodedByte)
+            if (!StrUtils.isEmpty(s)) {
+                if (s.contains("_")) {
+                    // 压缩Base64
+                    s = s.substring(0, s.indexOf("_"));
+                }
+                byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
+                Glide.with(context.getApplicationContext()).load(decodedByte)
 //			Glide.with(context).load(decodedByte)
-					.dontAnimate()
-					.bitmapTransform(new CropCircleTransformation(context))
-					.placeholder(imageView.getDrawable())
-					.diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .dontAnimate()
+                        .bitmapTransform(new CropCircleTransformation(context))
+                        .placeholder(imageView.getDrawable())
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .error(R.drawable.first_head_nor)
+                        .into(imageView);
+            }else
+            {
+                Glide.with(context.getApplicationContext()).load(R.drawable.first_head_nor)
+                        .dontAnimate()
+                        .bitmapTransform(new CropCircleTransformation(context))
+                        .error(R.drawable.first_head_nor)
+                        .into(imageView);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void useerror(Context context, ImageView imageView, int s) {
+        try {
+            Glide.with(context.getApplicationContext()).load(s)
+                    .dontAnimate()
+                    .bitmapTransform(new CropCircleTransformation(context))
                     .error(R.drawable.first_head_nor)
-					.into(imageView);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     public static void useBase64Origin(Context context, ImageView imageView, String s) {
         try {
-            if (s.contains("_")){
-                // 压缩Base64
-                s = s.substring(s.indexOf("_")+1, s.length());
-            }
-            Glide.with(context).load(s)
-                    .thumbnail(0.1f)
-					.bitmapTransform(new CropCircleTransformation(context))
+            if (!StrUtils.isEmpty(s)) {
+                if (s.contains("_")) {
+                    // 压缩Base64
+                    s = s.substring(s.indexOf("_") + 1, s.length());
+                }
+                Glide.with(context).load(s)
+                        .thumbnail(0.1f)
+                        .bitmapTransform(new CropCircleTransformation(context))
 //				.placeholder(R.drawable.app_logo)//这是占位图。
-                    .into(imageView);
+                        .into(imageView);
+            }else
+            {
+                try {
+                    Glide.with(context.getApplicationContext()).load(R.drawable.first_head_nor)
+                            .dontAnimate()
+                            .bitmapTransform(new CropCircleTransformation(context))
+                            .error(R.drawable.first_head_nor)
+                            .into(imageView);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
 //            byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
 //            Glide.with(context.getApplicationContext()).load(decodedByte)
 ////			Glide.with(context).load(decodedByte)
@@ -212,45 +246,51 @@ public class ImageUtils {
 //					.placeholder(imageView.getDrawable())
 //					.diskCacheStrategy(DiskCacheStrategy.RESULT)
 //					.into(imageView);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	public static void useBase64Big(Context context, ImageView imageView, String s) {
-		try {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void useBase64Big(Context context, ImageView imageView, String s) {
+        try {
             if (s.contains("_")){
                 // 压缩Base64
                 s = s.substring(s.indexOf("_")+1, s.length());
             }
-			byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
-			Glide.with(context.getApplicationContext()).load(decodedByte)
+            byte[] decodedByte = Base64.decode(s, Base64.DEFAULT);
+            Glide.with(context.getApplicationContext()).load(decodedByte)
 //			Glide.with(context).load(decodedByte)
-					.dontAnimate()
-					.bitmapTransform(new CropCircleTransformation(context))
-					.placeholder(imageView.getDrawable())
-					.diskCacheStrategy(DiskCacheStrategy.RESULT)
-					.into(imageView);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	public static void useBase64ToBitmap(final Context context, final ImageView imageView, String s) {
-//		try {
-//			Bitmap bitmap = ImageUtils.base64ToBitmap(s);
-//			imageView.setImageBitmap(bitmap);
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-        if (s.contains("_")){
-            // 压缩Base64
-            s = s.substring(s.indexOf("_")+1, s.length());
+                    .dontAnimate()
+                    .bitmapTransform(new CropCircleTransformation(context))
+                    .placeholder(imageView.getDrawable())
+                    .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                    .into(imageView);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-		Glide.with(context).load(s)
-				.thumbnail(0.1f)
-//				.placeholder(R.drawable.app_logo)//这是占位图。
-				.into(imageView);
+    }
+    public static void useBase64ToBitmap(final Context context, final ImageView imageView, String s) {
+        try {
+            if (!StrUtils.isEmpty(s)) {
+                if (s.contains("_")) {
+                    // 压缩Base64
+                    s = s.substring(s.indexOf("_") + 1, s.length());
+                }
+                Glide.with(context).load(s)
+                        .thumbnail(0.1f)
+                        //				.placeholder(R.drawable.app_logo)//这是占位图。
+                        .into(imageView);
+            }else
+            {
+                Glide.with(context).load(R.drawable.applogo)
+                        .thumbnail(0.1f)
+                        //				.placeholder(R.drawable.app_logo)//这是占位图。
+                        .into(imageView);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
     /**
      *  等比例缩放图片至屏幕宽度
      */
@@ -293,17 +333,25 @@ public class ImageUtils {
     }
     public static void useBase64WithError(Context context, ImageView imageView, String s, int errorDrawable) {
         try {
-            if (s.contains("_")){
-                // 压缩Base64
-                s = s.substring(0, s.indexOf("_"));
+            if (!StrUtils.isEmpty(s)) {
+                if (s.contains("_")) {
+                    // 压缩Base64
+                    s = s.substring(0, s.indexOf("_"));
+                }
+                byte[] decodedByte = Base64.decode(s, Base64.NO_WRAP);
+                Glide.with(context).load(decodedByte)
+                        .dontAnimate()
+                        .error(errorDrawable)
+                        .bitmapTransform(new CropCircleTransformation(context))
+                        .placeholder(imageView.getDrawable())
+                        .into(imageView);
+            }else
+            {
+                Glide.with(context).load(errorDrawable)
+                        .thumbnail(0.1f)
+//				.placeholder(R.drawable.app_logo)//这是占位图。
+                        .into(imageView);
             }
-            byte[] decodedByte = Base64.decode(s, Base64.NO_WRAP);
-            Glide.with(context).load(decodedByte)
-                    .dontAnimate()
-                    .error(errorDrawable)
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .placeholder(imageView.getDrawable())
-                    .into(imageView);
         } catch (Exception e) {
             e.printStackTrace();
         }

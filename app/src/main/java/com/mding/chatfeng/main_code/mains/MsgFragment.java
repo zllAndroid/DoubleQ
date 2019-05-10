@@ -470,6 +470,7 @@ public class MsgFragment extends BaseFragment {
             mRecyclerView.setAdapter(msgAdapter);
             msgAdapter.notifyDataSetChanged();
             mRecyclerView.smoothScrollToPosition(0);
+            mRecyclerView.setItemViewCacheSize(20);
             sendBroadcast();
             msgAdapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
                 @Override
@@ -583,10 +584,14 @@ public class MsgFragment extends BaseFragment {
         @Override
         public void onLeftMenuClick(View view, int positions, String WaybillNum) {
             ToastUtil.show("删除成功");
+            RealmHomeHelper realmHelper = new RealmHomeHelper(getActivity());
             CusHomeRealmData item = msgAdapter.getItem(positions);
             realmHelper.deleteRealmMsg(item.getFriendId());
             msgAdapter.delItem(positions);
             sendBroadcast();
         }
     };
+
+
+
 }

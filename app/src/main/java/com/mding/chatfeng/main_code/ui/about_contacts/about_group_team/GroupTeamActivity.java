@@ -73,6 +73,7 @@ public class GroupTeamActivity extends BaseActivity {
                     sendWeb(SplitWeb.getSplitWeb().getGroupMemberList(groupId));
                 }else {
                     dealMemberList(memberListString);
+                    sendWeb(SplitWeb.getSplitWeb().getGroupMemberList(groupId,verificationMD5));
                 }
             }
         }
@@ -158,13 +159,14 @@ public class GroupTeamActivity extends BaseActivity {
                 break;
         }
     }
-
+    String verificationMD5;
     private void dealMemberList(String responseText) {
         DataGroupMember dataGroupMember = JSON.parseObject(responseText, DataGroupMember.class);
         DataGroupMember.RecordBean record = dataGroupMember.getRecord();
         List<DataGroupMember.RecordBean.MemberListBean> memberList = record.getMemberList();
         allCusList.clear();
         allCusList.addAll(memberList);
+        verificationMD5 = record.getVerificationMD5();
         dealMemberRealm();
 //                String groupName = record.getMemberList().get(0).getGroupName();
 //                List<DataGroupMember.RecordBean.MemberListBean.GroupListBean> groupList = record.getMemberList().get(0).getGroupList();
@@ -197,13 +199,15 @@ public class GroupTeamActivity extends BaseActivity {
 
     }
     RealmFriendUserHelper friendUserHelper;
-private  RealmFriendUserHelper  getFriendUserHelper(){
-    if (friendUserHelper==null)
-        friendUserHelper = new RealmFriendUserHelper(this);
-    return  friendUserHelper;
-}
+    private  RealmFriendUserHelper  getFriendUserHelper(){
+        if (friendUserHelper==null)
+            friendUserHelper = new RealmFriendUserHelper(this);
+        return  friendUserHelper;
+    }
+    GroupTeamMemberAdapter groupTeamAdapter;
     private void initGroupTeamAdapter() {
-        final GroupTeamMemberAdapter groupTeamAdapter = new GroupTeamMemberAdapter(GroupTeamActivity.this, allCusList);
+        if (groupTeamAdapter==null)
+            groupTeamAdapter = new GroupTeamMemberAdapter(GroupTeamActivity.this, allCusList);
         mExpanList.setAdapter(groupTeamAdapter);
 
         groupTeamAdapter.notifyDataSetChanged();

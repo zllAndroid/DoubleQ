@@ -30,6 +30,8 @@ import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_add.AddGoodFriendActivity;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmMsgInfoTotalHelper;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.DataSearch;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoWindow;
@@ -233,7 +235,15 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     dataSearch.setName(record.getNickName());
                     dataSearch.setId(record.getFriendId());
                     dataSearch.setHeadImg(record.getHeadImg());
-//                    dataSearch.setSign(record.getPersonaSignature());
+                    if (!StrUtils.isEmpty(record.getFriendId())) {
+                        CusDataFriendUser cusDataFriendUser = new CusDataFriendUser();
+                        cusDataFriendUser.setFriendId(record.getFriendId());
+                        cusDataFriendUser.setHeadImgBase64(record.getHeadImg());
+                        cusDataFriendUser.setName(record.getNickName());
+                        cusDataFriendUser.setRemarkName(record.getRemarkName());
+                        //TODO 用户信息存库（用户表）
+                        getFriendUserHelper().updateAllOrAdd(record.getFriendId(), cusDataFriendUser);//添加或者更新（存在则更新，不存在则增加）
+                    }
                 }
                 break;
             case "friendRemarkName"://修改备注成功
@@ -275,7 +285,14 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
         }
 
     }
-String groupName;
+
+    RealmFriendUserHelper friendUserHelper;
+    private  RealmFriendUserHelper  getFriendUserHelper(){
+        if (friendUserHelper==null)
+            friendUserHelper = new RealmFriendUserHelper(this);
+        return  friendUserHelper;
+    }
+    String groupName;
     DataMyFriend.RecordBean dataRecord1;
 
     private void initDataFriend(String responseText) {

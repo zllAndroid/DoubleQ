@@ -124,41 +124,21 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (LinkFriendAdapter.ChildHolder) convertView.getTag();
         }
-        final    DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
-
-//            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);
-        if (!StrUtils.isEmpty(groupListBean.getUserId())) {
-//            String imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(groupListBean.getUserId());
-//            if (imgPath!=null) {
-//                holder.img_contacts_child_head.setImageURI(Uri.fromFile(new File(imgPath)));
-//            }else {
-//                Glide.with(context)
-//                        .load(groupListBean.getHeadImg())qqqqqqqqqqqqqqqqqqqqqqqqqqqq
-//                        .error(R.drawable.first_head_nor)
-//                        .dontAnimate()
-//                        .bitmapTransform(new CropCircleTransformation(context))
-//                        .into(holder.img_contacts_child_head);
-//            }
-            String headImg = groupListBean.getHeadImg();
-//            if (headImg.contains("_")){
-//                ImageUtils.useBase64(context,holder.img_contacts_child_head, headImg.substring(0, headImg.indexOf("_")));
-                ImageUtils.useBase64(context,holder.img_contacts_child_head, headImg);
-//                MyLog.i("imageBase64","-----------------------------------"+headImg.substring(headImg.indexOf("_")+1, headImg.length()));
-//            }
-//            else
-//                ImageUtils.useBase64(context,holder.img_contacts_child_head, headImg);
-            String name =groupListBean.getNickName();
-            if(!StrUtils.isEmpty(groupListBean.getRemarkName()))
-            {
-                name=groupListBean.getRemarkName();
+        if (mGroupList.size()>0)
+        {
+            if ( mGroupList.get(groupPosition).getGroupList().size()>0) {
+                final DataLinkManList.RecordBean.FriendListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
+                if (!StrUtils.isEmpty(groupListBean.getUserId())) {
+                    String headImg = groupListBean.getHeadImg();
+                    ImageUtils.useBase64(context, holder.img_contacts_child_head, headImg);
+                    String name = groupListBean.getNickName();
+                    if (!StrUtils.isEmpty(groupListBean.getRemarkName())) {
+                        name = groupListBean.getRemarkName();
+                    }
+                    holder.tv_contacts_child_name.setText(name);
+                }
             }
-            holder.tv_contacts_child_name.setText(name);
-
-        }else {
-//            delItem(groupPosition);
         }
-//        holder.tv_contacts_child_state.setText(dataContactsManageChild.get());
-//        holder.tv_contacts_child_motto.setText(dataContactsManageChild.getTv_child_motto_m());
         return convertView;
     }
     //添加数据

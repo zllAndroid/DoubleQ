@@ -638,6 +638,13 @@ public class SplitWeb {
         String request = WebUrl.request("Contact", "getGroupMemberList", map);
         return  request;
     }
+    public    String getGroupMemberList(String groupOfId,String verificationMD5){
+        dealMap();
+        putData("groupOfId",groupOfId);
+        putData("verificationMD5",verificationMD5);
+        String request = WebUrl.request("Contact", "getGroupMemberList", map);
+        return  request;
+    }
     //    获取群主转让群成员列表
     public    String getTransterGroupMemberInfo(String groupOfId){
         dealMap();

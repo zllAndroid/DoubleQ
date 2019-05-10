@@ -29,6 +29,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:padding="@dimen/dp10"
+            android:visibility="gone"
             android:scaleType="centerCrop"
             android:src="@mipmap/icon_chat_voice" />
 

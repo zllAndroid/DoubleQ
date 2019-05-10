@@ -14,9 +14,11 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.model.DataGroupMember;
 import com.mding.chatfeng.R;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.util.List;
 
@@ -83,7 +85,7 @@ public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
         {
             tv_contacts_parent_name.setText("#");
         }else
-        tv_contacts_parent_name.setText(mGroupList.get(groupPosition).getGroupName());
+            tv_contacts_parent_name.setText(mGroupList.get(groupPosition).getGroupName());
 //        if (mGroupList.get(groupPosition).getType().equals("1"))
 //        {
 //
@@ -96,7 +98,7 @@ public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
 //            }
 //        }else {
 //            tv_contacts_parent_name.setText(mTotalList.get(groupPosition).getChart());
-            img_parent_toright.setVisibility(View.GONE);
+        img_parent_toright.setVisibility(View.GONE);
         tv_contacts_parent_name.setTextColor(context.getResources().getColor(R.color.app_theme));
         mLinManage.setBackgroundColor(context.getResources().getColor(R.color.linkfriend_bac));
 //            mLinManage.setBackgroundColor(context.getResources().getColor(R.color.grayeee));
@@ -121,59 +123,12 @@ public class GroupTeamMemberAdapter extends BaseExpandableListAdapter {
         } else {
             holder = (GroupTeamMemberAdapter.ChildHolder) convertView.getTag();
         }
-
-      final   DataGroupMember.RecordBean.MemberListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
-        String imgPath = realmGroupChatHeaderHelper.queryLinkFriendReturnImgPath(groupListBean.getMemberId());
-        if (imgPath!=null) {
-            Glide.with(context)
-                    .load(imgPath)
-                    .error(R.drawable.first_head_nor)
-                    .listener(new RequestListener<String, GlideDrawable>() {
-                        @Override
-                        public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-//                                加载错误时，加载网络图片
-                            realmGroupChatHeaderHelper.deleteRealmFriend(groupListBean.getMemberId());
-                            Glide.with(context).load(groupListBean.getHeadImg())
-                                    .error(R.drawable.first_head_nor)
-                                    .bitmapTransform(new CropCircleTransformation(context))
-                                   .into((ImageView) holder.img_contacts_child_head);
-                            return false;
-                        }
-
-                        @Override
-                        public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                            return false;
-                        }
-                    })
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .into((ImageView) holder.img_contacts_child_head);
-        }else {
-            byte[] decodeByte = Base64.decode(groupListBean.getHeadImg(), Base64.DEFAULT);
-            Glide.with(context)
-                    .load(decodeByte)
-                    .dontAnimate()
-                    .error(R.drawable.first_head_nor)
-                    .bitmapTransform(new CropCircleTransformation(context))
-                    .into((ImageView) holder.img_contacts_child_head);
-//            Glide.with(context)
-//                    .load(groupListBean.getHeadImg())
-//                    .error(R.drawable.first_head_nor)
-//                    .bitmapTransform(new CropCircleTransformation(context))
-//                    .into((ImageView) holder.img_contacts_child_head);
-        }
-//            DataLinkManList.RecordBean.FriendGroupBean dataContactsManageChild = mList.get(groupPosition).getDataLinkChildList().get(childPosition);
-//        if (!StrUtils.isEmpty(groupListBean.getMemberId())) {
-//            Glide.with(context)
-//                    .load(groupListBean.getHeadImg())
-//                    .error(R.drawable.img_personal_head)
-//                    .bitmapTransform(new CropCircleTransformation(context)).crossFade(1000)
-//                    .into(holder.img_contacts_child_head);
-            holder.tv_contacts_child_name.setText(groupListBean.getNickName());
-//        }else {
-////            delItem(groupPosition);
-//        }
-//        holder.tv_contacts_child_state.setText(dataContactsManageChild.get());
-//        holder.tv_contacts_child_motto.setText(dataContactsManageChild.getTv_child_motto_m());
+        final   DataGroupMember.RecordBean.MemberListBean.GroupListBean groupListBean = mGroupList.get(groupPosition).getGroupList().get(childPosition);
+        if (!StrUtils.isEmpty(groupListBean.getHeadImg()))
+            ImageUtils.useBase64(context,holder.img_contacts_child_head,groupListBean.getHeadImg());
+        else
+            ImageUtils.useerror(context,holder.img_contacts_child_head,R.drawable.first_head_nor);
+        holder.tv_contacts_child_name.setText(groupListBean.getNickName());
         return convertView;
     }
     //添加数据

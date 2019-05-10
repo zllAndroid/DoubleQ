@@ -46,7 +46,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
     private Handler handler;
     MotionEvent event;
     boolean isScrolling;
-//    RealmFriendUserHelper realmGroupChatHeaderHelper;
+    //    RealmFriendUserHelper realmGroupChatHeaderHelper;
     RealmFriendUserHelper realmFriendUserHelper;
     public ChatGroupAcceptViewHolder(ViewGroup parent, ChatGroupAdapter.onItemClickListener onItemClickListener, Handler handler,boolean isScrolling) {
         super(parent, R.layout.item_group_chat_accept);
@@ -73,7 +73,13 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
         chatItemHeader.setVisibility(View.VISIBLE);
         if (!StrUtils.isEmpty(data.getFriendId())) {
             String imgPath = realmFriendUserHelper.queryLinkFriendReturnImgPath(data.getFriendId());
-            ImageUtils.useBase64(getContext(),chatItemHeader,imgPath);
+            if (!StrUtils.isEmpty(imgPath))
+                ImageUtils.useBase64(getContext(),chatItemHeader,imgPath);
+            else
+                ImageUtils.useerror(getContext(),chatItemHeader, com.mding.chatfeng.R.drawable.first_head_nor);
+        }else
+        {
+            ImageUtils.useerror(getContext(),chatItemHeader, com.mding.chatfeng.R.drawable.first_head_nor);
         }
         chatItemHeader.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -706,6 +706,7 @@ public class DealDataByApp {
         cusRealmChatMsg.setMessageStoId(record.getMessageStoId());
         cusRealmChatMsg.setTotalId(record.getFriendsId() + SplitWeb.getSplitWeb().getUserId());
         getRealmChatHelper().addRealmChat(cusRealmChatMsg);//更新聊天数据
+        BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().messageConfirmReceipt(record.getMessageStoId()));
 
         CusHomeRealmData homeRealmData = getRealmHomeHelper().queryAllRealmChat(record.getFriendsId());
 
@@ -827,6 +828,9 @@ public class DealDataByApp {
         groupChatData.setMessageStoId(record.getMessageStoId());
         getRealmGroupChatHelper().addRealmChat(groupChatData);//更新群聊聊天数据
         MyLog.e("realmGroupChatHelper", "msg=" + record.getMessage());
+
+        BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().messageGroupConfirmReceipt(record.getMessageStoId()));
+
         CusHomeRealmData homeRealmData = getRealmHomeHelper().queryAllRealmChat(record.getGroupId());
         String msg = record.getMessage();
 //        if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
