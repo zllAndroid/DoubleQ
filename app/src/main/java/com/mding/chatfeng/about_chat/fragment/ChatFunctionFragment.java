@@ -288,7 +288,7 @@ public class ChatFunctionFragment extends ChatBaseFragment {
                 send(SplitWeb.getSplitWeb().getQueryRepetition("1", imgTotalMD5));
 //                send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, imgTotalStringFunFrag, messageTypeImg, TimeUtil.getTime()));
             }
-            else {    // 群聊
+            else  if (SplitWeb.getSplitWeb().IS_CHAT_GROUP.equals("2")){    // 群聊
                 send(SplitWeb.getSplitWeb().getQueryRepetition("2", imgTotalMD5));
 //                send(SplitWeb.getSplitWeb().groupSend(ChatGroupActivity.groupId, imgTotalStringFunFrag, messageTypeImg, TimeUtil.getTime()));
             }

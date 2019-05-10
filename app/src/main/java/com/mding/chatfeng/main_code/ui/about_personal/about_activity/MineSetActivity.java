@@ -10,6 +10,7 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.mding.chatfeng.about_custom.about_cus_dialog.DialogExitUtils;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
@@ -106,6 +107,10 @@ public class MineSetActivity extends BaseActivity {
             setTvCache.setText(totalCacheSize);
             ToastUtil.show("清理缓存成功");
             setTvCache.setText("0KB");
+
+            RealmGroupChatHelper realmGroupChatHelper = new RealmGroupChatHelper(MineSetActivity.this);
+            realmGroupChatHelper.deleteAll();
+
 
         } catch (Exception e) {
             e.printStackTrace();
