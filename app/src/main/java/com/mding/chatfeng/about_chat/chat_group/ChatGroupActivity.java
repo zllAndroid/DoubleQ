@@ -621,7 +621,7 @@ public class ChatGroupActivity extends BaseActivity {
                 layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
                 EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(),record2.getGroupId(),AppConfig.MSG_ZERO_REFRESH));
             } else {
-                ToastUtil.show("收到一条来自" + record2.getGroupName() + "的消息");
+                ToastUtil.show("收到一条群聊消息");
                 EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(),record2.getGroupId(),AppConfig.MSG_ACTION_REFRESH));
             }
             if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {

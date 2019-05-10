@@ -652,7 +652,7 @@ public class ChatActivity extends BaseActivity {
 //                    滑动到底部
                     layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
                 } else {
-                    ToastUtil.show("收到一条来自" + record2.getFriendsName() + "的消息");
+                    ToastUtil.show("收到一条私聊的消息");
                     EventBus.getDefault().post(new MsgHomeEvent( record2.getMessage(), record2.getFriendsId(),AppConfig.MSG_ACTION_REFRESH));
 
                 }

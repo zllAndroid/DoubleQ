@@ -151,22 +151,30 @@ public class ContactChildFragment extends BaseFragment {
             switch (action)
             {
                 case AppConfig.LINK_FRIEND_ADD_ACTION:
-                    initFriendWs();
+//                    initFriendWs();
+                    MsgSendHandler(AppConfig.LINKMAN_FRIEND_WS);
                     break;
                 case AppConfig.LINK_FRIEND_DEL_ACTION:
-                    initFriendWs();
+//                    initFriendWs();
+                    MsgSendHandler(AppConfig.LINKMAN_FRIEND_WS);
                     break;
                 case AppConfig.LINK_GROUP_ADD_ACTION:
-                    initGroupWs();
+//                    initGroupWs();
+                    MsgSendHandler(AppConfig.LINKMAN_GROUP_WS);
                     break;
                 case AppConfig.LINK_GROUP_DEL_ACTION:
-                    initGroupWs();
-
+//                    initGroupWs();
+                    MsgSendHandler(AppConfig.LINKMAN_GROUP_WS);
                     break;
             }
         }
     };
-
+    public  void MsgSendHandler(int mWhat)
+    {
+        Message message = new Message();
+        message.what=mWhat;
+        mHandlers.sendMessage(message);
+    }
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -344,6 +352,12 @@ public class ContactChildFragment extends BaseFragment {
                 AppConfig.logs("-----------------------主线程-----------群列表接收----------------------");
                 myGroupTask=null;
                 break;
+            case AppConfig.LINKMAN_FRIEND_WS:
+                initFriendWs();
+                break;
+            case AppConfig.LINKMAN_GROUP_WS:
+                initGroupWs();
+                break;
         }
     }
 
@@ -485,7 +499,9 @@ public class ContactChildFragment extends BaseFragment {
             }
             mFriendList.addAll(friend_list);
             if(isWs.equals(USE_WS)) {
-                String json = MyJsonUtils.toChangeJson(record);
+                DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
+                recordBean.setFriendList(friend_list);
+                String json = MyJsonUtils.toChangeJson(recordBean);
                 aCache.remove(AppAllKey.FRIEND_DATA);
                 aCache.put(AppAllKey.FRIEND_DATA, json);
             }
@@ -577,8 +593,9 @@ public class ContactChildFragment extends BaseFragment {
                 }
                 mGroupList.addAll(group_info_list);
                 if(isWs.equals(USE_WS)) {
-                    String json = MyJsonUtils.toChangeJson(record1);
-
+                    DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
+                    recordBean.setGroupInfoList(group_info_list);
+                    String json = MyJsonUtils.toChangeJson(recordBean);
                     aCache.remove(AppAllKey.GROUD_DATA);
                     aCache.put(AppAllKey.GROUD_DATA, json);
                 }

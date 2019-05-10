@@ -323,7 +323,7 @@ public class DealDataByApp {
 //在前台的时候处理接收到消息的事件
         if (SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
             try {
-                ToastUtil.show("收到来自" + record.getGroupName() + "的一条新消息");
+                ToastUtil.show("收到一条群聊消息");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -436,7 +436,7 @@ public class DealDataByApp {
 //在前台的时候处理接收到消息的事件
         if (SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
             try {
-                ToastUtil.show("收到来自" + record.getNickName() + "的一条新消息");
+                ToastUtil.show("收到一条私聊消息");
             } catch (Exception e) {
                 e.printStackTrace();
             }

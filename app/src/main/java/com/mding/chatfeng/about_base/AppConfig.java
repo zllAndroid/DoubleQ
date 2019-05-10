@@ -10,7 +10,9 @@ import android.util.Log;
 public class AppConfig {
 
     public static final int  LINKMAN_FRIEND= 0x01;//在联系人列表好友列表
+    public static final int  LINKMAN_FRIEND_WS= 0x03;//在联系人列表好友列表
     public static final int  LINKMAN_GROUP= 0x02;//在联系人列表群列表
+    public static final int  LINKMAN_GROUP_WS= 0x04;//在联系人列表群列表
 
 //    fragment消息回调what参数
 public final static  int WHAT_REALM_INITADAPTER=0x1;

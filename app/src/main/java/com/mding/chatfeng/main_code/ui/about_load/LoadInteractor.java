@@ -9,6 +9,7 @@ import com.bumptech.glide.request.target.SimpleTarget;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.about_utils.about_file.HeadFileUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendRelation;
@@ -77,17 +78,17 @@ public class LoadInteractor {
         {
             DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
 //                    DataLinkManList.RecordBean record = JSON.parseObject(friend, DataLinkManList.RecordBean.class);
-            String json = JSON.toJSON(record).toString();
-            aCache.remove(AppAllKey.FRIEND_DATA);
-            aCache.put(AppAllKey.FRIEND_DATA, json);
+//            String json = JSON.toJSON(record).toString();
+//            aCache.remove(AppAllKey.FRIEND_DATA);
+//            aCache.put(AppAllKey.FRIEND_DATA, json);
             dealFriendData(record);
         }
         if (!StrUtils.isEmpty(group))
         {
             DataLinkGroupList.RecordBean recordBean = JSON.parseObject(group, DataLinkGroupList.RecordBean.class);
-            String json_group = JSON.toJSON(recordBean).toString();
-            aCache.remove(AppAllKey.GROUD_DATA);
-            aCache.put(AppAllKey.GROUD_DATA, json_group);
+//            String json_group = JSON.toJSON(recordBean).toString();
+//            aCache.remove(AppAllKey.GROUD_DATA);
+//            aCache.put(AppAllKey.GROUD_DATA, json_group);
             dealGroupData(recordBean);
         }
         onSqlListener.onSqlSuccess();
@@ -109,7 +110,16 @@ public class LoadInteractor {
                 if (group_info_list.size()>0)
                     if (group_info_list.get(i).getType().equals("2"))
                         dealGroupRealm(group_info_list, i);
+
+
+
             }
+            //                处理完空列表携带一条空数据的问题，然后再存缓存
+            DataLinkGroupList.RecordBean recordBean = new DataLinkGroupList.RecordBean();
+            recordBean.setGroupInfoList(group_info_list);
+            String json_group = MyJsonUtils.toChangeJson(recordBean);
+            aCache.remove(AppAllKey.GROUD_DATA);
+            aCache.put(AppAllKey.GROUD_DATA, json_group);
         }
     }
 
@@ -226,6 +236,14 @@ public class LoadInteractor {
                 }
                 if (friendList.size()>0)
                     dealFriendRealm(friendList, i);
+
+//                处理完空列表携带一条空数据的问题，然后再存缓存
+                DataLinkManList.RecordBean recordBean = new DataLinkManList.RecordBean();
+                recordBean.setFriendList(friendList);
+                recordBean.setVerificationMD5(record.getVerificationMD5());
+                String json = MyJsonUtils.toChangeJson(recordBean);
+                aCache.remove(AppAllKey.FRIEND_DATA);
+                aCache.put(AppAllKey.FRIEND_DATA, json);
             }
 
     }
