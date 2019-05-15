@@ -434,7 +434,9 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
 //                Log.e("qrCode", "----------mix-----dataSearch.getName()--------------" + dataSearch.getName());
                 break;
             case R.id.fd_tv_send_call:
-
+                if (NoDoubleClickUtils.isDoubleClick()) {
+                    ToastUtil.show("敬请期待！");
+                }
                 break;
 //                发送消息
             case R.id.fd_tv_send_msg:

@@ -2,18 +2,18 @@ package com.mding.chatfeng.about_custom.about_cus_dialog;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.os.Build;
 
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 
-
-/**
- * Created by  on 2017/7/26.
- */
 
 public class DialogRiskTestUtils {
     public interface OnClickSureListener {
         void onClickSure();
     }
+//    public interface OnClickUpdateListener {
+//        void onClickUpdate();
+//    }
 
     public interface OnClickCancleListener {
         void onClickCancle();
@@ -56,6 +56,10 @@ public class DialogRiskTestUtils {
         haveShow();
         show(text,text_second,organization,time,onClickSureListener);
     }
+//    public static void showDialogUpdate(String text,String text_second,String organization, String time,OnClickUpdateListener onClickUpdateListener){
+//        haveShow();
+//        showUpdate(text,text_second,organization,time,onClickUpdateListener);
+//    }
     static DialogInterface dialogs =null;
     protected static void show(final String text, final String text_second,String organization, String time,final  OnClickSureListener onClickSureListener) {
         if (BUILDER == null)
@@ -89,6 +93,39 @@ public class DialogRiskTestUtils {
 
         custom();
     }
+//    protected static void showUpdate(final String text, final String text_second,String organization, String time,final  OnClickUpdateListener onClickUpdateListener) {
+//        if (BUILDER == null)
+//            BUILDER = new CusRiskTestDialog.Builder(mContext());
+//
+//        BUILDER.setMessage(text,text_second,organization,time);
+//        BUILDER.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                dialogInterface.dismiss();
+//            }
+//        });
+//        BUILDER.setUpdateButton("更新", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                onClickUpdateListener.onClickUpdate();
+//                dialogs = dialog;
+//                dialog.dismiss();
+//            }
+//        });
+//
+////            BUILDER.setPositiveButton("确定", new CusExitDialog.ClickSure() {
+////                @Override
+////                public void onClick(DialogInterface dialog, int which,String type) {
+//////                    mClickSure.clickSure(checkId);
+////                    onClickSureListener.onClickSure(checkId);
+////                    dialogs = dialog;
+////                    dialog.dismiss();
+////
+////                }
+////            });
+//
+//        custom();
+//    }
 
     protected static void custom() {
         try {

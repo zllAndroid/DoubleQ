@@ -346,7 +346,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 break;
             case R.id.fd_tv_send_call:
                 if (NoDoubleClickUtils.isDoubleClick()) {
-
+                    ToastUtil.show("敬请期待！");
                 }
                 break;
         }

@@ -3,19 +3,25 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <!--灰色背景-->
+    <!--灰色背景   默认无-->
     <LinearLayout
         android:id="@+id/cus_linearlayout_lin_grey_bac"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp20"
+        android:visibility="gone"
         android:background="@color/greyf3"
         android:orientation="horizontal" />
-
+    <!--线   默认有-->
+    <View
+        android:id="@+id/cus_linearlayout_view_line"
+        style="@style/style_cus_linear_layout_line"
+        />
     <LinearLayout
         android:id="@+id/cus_linearlayout_lin"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/dp45"
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <ImageView
@@ -23,14 +29,22 @@
             android:layout_width="@dimen/dp20"
             android:layout_height="@dimen/dp20"
             android:layout_marginLeft="@dimen/dp10"
-            app:srcCompat="@drawable/discover_animal_fuhua"/>
+            app:srcCompat="@drawable/dou_logo"/>
         <TextView
             android:id="@+id/cus_linearlayout_tv_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/dp10"
-            android:text="宠物孵化基地" />
+            android:text="信风" />
+        <TextView
+            android:id="@+id/cus_linearlayout_tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/dp10"
+            android:padding="@dimen/dp5"
+            android:visibility="gone"
+            />
         <ImageView
             android:id="@+id/cus_linearlayout_img_to_right"
             android:layout_width="wrap_content"
@@ -39,9 +53,5 @@
             app:srcCompat="@drawable/in_right" />
     </LinearLayout>
 
-    <!--AI宠物学舌-->
-    <View
-        android:id="@+id/cus_linearlayout_view_line"
-        style="@style/style_wei_line"
-        />
+
 </LinearLayout>

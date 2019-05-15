@@ -17,11 +17,14 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
 import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
+import com.projects.zll.utilslibrarybyzll.about_dialog.CustomUpDateDialog;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.io.File;
@@ -46,8 +49,9 @@ public class UpDataUtils {
     private long mDownloadId;
     private CompleteReceiver mReceiver;
     private int mCancleDownload;
+    private CustomUpDateDialog mUpDateDialog;
     private CustomDialog mDialog;
-    private CustomDialog.Builder mBuilder;
+    private CustomUpDateDialog.Builder mUpdateBuilder;
     private boolean mCancelable;
     private String mUpdateInfo;
 
@@ -58,7 +62,7 @@ public class UpDataUtils {
     public UpDataUtils(Activity activity, String url, boolean cancelable) {
         this(activity, url, cancelable, "");
     }
-//shifou
+    //shifou
     public UpDataUtils(Activity activity, String url, boolean cancelable, String info){
         DOWNLOAD_FILE_NAME = System.currentTimeMillis() + ".apk";
         if (activity == null || activity.isFinishing()){
@@ -74,11 +78,13 @@ public class UpDataUtils {
     private void showNewVersionDialog() {
         String message = "发现新版本，是否下载并更新";
         if (!TextUtils.isEmpty(mUpdateInfo)){
-            message = message + "\n\n" + mUpdateInfo;
-//            Lg.i(TAG, "---message===" + message);
+            // TODO 替换成 换行 + 空两格
+            mUpdateInfo = mUpdateInfo.replace("_","\n");
+            message = message + "\n" + mUpdateInfo;
+            MyLog.i(TAG, "---message===" + message);
         }
-        mBuilder = new CustomDialog.Builder(mContext);
-        mBuilder.setMessage(message)
+        mUpdateBuilder = new CustomUpDateDialog.Builder(mContext);
+        mUpdateBuilder.setMessage(message)
                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -92,35 +98,39 @@ public class UpDataUtils {
                     }
                 });
         if (!mCancelable) {
-            mBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            mUpdateBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
                 }
             });
         }
-        mDialog = mBuilder.create();
-        mDialog.setCancelable(false);
-        mDialog.show();
+        mUpDateDialog = mUpdateBuilder.create();
+        mUpDateDialog.setCancelable(false);
+        mUpDateDialog.show();
     }
-
+    CustomDialog.Builder mCusbuilder;
     private void initDownloadingDialog() {
         mCancleDownload = 0;
-        mBuilder = new CustomDialog.Builder(mContext);
-        mBuilder.setMessage("软件更新中...");
-        mBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (mCancelable) {
-                    mDownloadManager.remove(mDownloadId);
-                    dialog.dismiss();
-                    mCancleDownload = 1;
-                    unregisterUpdataReceiver();
-                }
-            }
-        });
+        mCusbuilder  = new CustomDialog.Builder(mContext);
+        mCusbuilder.setProgressBar(true)
+                .setMessage("软件更新中...")
+//        mBuilder = new CustomUpDateDialog.Builder(mContext);
+//        mBuilder.setMessage("软件更新中...");
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (mCancelable) {
+                            mDownloadManager.remove(mDownloadId);
+                            dialog.dismiss();
+                            mCancleDownload = 1;
+                            unregisterUpdataReceiver();
+                        }
+                    }
+                });
 
-        mDialog = mBuilder.create();
+//        mUpDateDialog = mBuilder.create();
+        mDialog = mCusbuilder.create();
         mReceiver = new CompleteReceiver();
         mContext.registerReceiver(mReceiver, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
@@ -218,7 +228,11 @@ public class UpDataUtils {
 
             DecimalFormat decimalFormat = new DecimalFormat("0.00");
             if (mDialog.isShowing()) {
-                TextView mDownloadDialogMessageCancelTv = (TextView) mDialog.findViewById(R.id.tv_dialog_message);
+                ProgressBar progressBar = mDialog.findViewById(R.id.progressbar_dialog_update);
+                TextView mDownloadDialogMessageCancelTv = (TextView) mDialog.findViewById(R.id.tv_dialog_message_progress);
+                if (mDownloadSoFar != 0)
+                    progressBar.setProgress((int) ((mDownloadSoFar*100)/mDownloadAll));
+                MyLog.i("updateDialog", "-------------------------------" + (int)((mDownloadSoFar*100)/mDownloadAll));
                 mDownloadDialogMessageCancelTv.setText("已下载" + decimalFormat.format(mDownloadSoFar) + "M，共" + decimalFormat.format(mDownloadAll) + "M");
             }
         }

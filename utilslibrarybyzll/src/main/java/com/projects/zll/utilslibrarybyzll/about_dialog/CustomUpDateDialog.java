@@ -6,62 +6,57 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.projects.zll.utilslibrarybyzll.R;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.ScreenUtils;
 
 
 /**
  * Created by Administrator on 2017/10/20 0020.
  */
 
-public  class CustomDialog extends Dialog {
+public  class CustomUpDateDialog extends Dialog {
     private TextView mMessageTv;
-    private TextView mProgressTv;
     private Button mPositiveBtn;
     private Button mNegativeBtn;
-    private ProgressBar mProgressBar;
-    private LinearLayout mLinearLayout;
+    FrameLayout frameLayout;
 //    private View mButtonDividerView;
-private boolean isProgress;
+
     private String message;
     private String positiveButtonText;
     private String negativeButtonText;
     private OnClickListener positiveButtonClickListener;
     private OnClickListener negativeButtonClickListener;
-    public CustomDialog(Context context) {
+    public CustomUpDateDialog(Context context) {
         super(context);
+        this.context = context;
     }
 
-//    public CustomDialog(Context context, int theme) {
-//        super(context, theme);
-//    }
+    Context context;
+    public CustomUpDateDialog(Context context, int theme) {
+        super(context, theme);
+        this.context = context;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dialog_custom);
-//        View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_custom,null);
+        setContentView(R.layout.dialog_custom_update);
         mMessageTv = (TextView) findViewById(R.id.tv_dialog_message);
-        mProgressTv = (TextView) findViewById(R.id.tv_dialog_message_progress);
         mPositiveBtn = (Button) findViewById(R.id.btn_dialog_positive);
-        mNegativeBtn = (Button)findViewById(R.id.btn_dialog_negative);
-        mProgressBar = findViewById(R.id.progressbar_dialog_update);
-        mLinearLayout = findViewById(R.id.dialog_lin_progress);
+        mNegativeBtn = (Button) findViewById(R.id.btn_dialog_negative);
+
+        frameLayout = findViewById(R.id.dialog_fra);
+        int screenWidth = ScreenUtils.getScreenWidth(context);
+        int screenHeight = ScreenUtils.getScreenHeight(context);
+        frameLayout.getLayoutParams().width = (screenWidth/4)*3;
+        frameLayout.getLayoutParams().height = (screenHeight/10)*7;
 //        mButtonDividerView = findViewById(R.id.view_dialog_button_divider);
 
         if (message != null) {
             mMessageTv.setText(message);
-            mProgressTv.setText(message);
-        }
-        if (isProgress){
-            mLinearLayout.setVisibility(View.VISIBLE);
-            mMessageTv.setVisibility(View.GONE);
-        }else {
-            mLinearLayout.setVisibility(View.GONE);
-            mMessageTv.setVisibility(View.VISIBLE);
         }
         if (positiveButtonText != null) {
             mPositiveBtn.setText(positiveButtonText);
@@ -69,7 +64,7 @@ private boolean isProgress;
                 mPositiveBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        positiveButtonClickListener.onClick(CustomDialog.this, Dialog.BUTTON_POSITIVE);
+                        positiveButtonClickListener.onClick(CustomUpDateDialog.this, Dialog.BUTTON_POSITIVE);
                     }
                 });
             }
@@ -84,7 +79,7 @@ private boolean isProgress;
                 mNegativeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        negativeButtonClickListener.onClick(CustomDialog.this, Dialog.BUTTON_NEGATIVE);
+                        negativeButtonClickListener.onClick(CustomUpDateDialog.this, Dialog.BUTTON_NEGATIVE);
                     }
                 });
             }
@@ -115,15 +110,9 @@ private boolean isProgress;
         positiveButtonClickListener = listener;
     }
 
-    private void setProgressBar(boolean isNeed) {
-        isProgress=isNeed;
-
-    }
-
     public static class Builder {
         private Context context;
         private String message;
-        private boolean isSetProgress;
         private String positiveButtonText;
         private String negativeButtonText;
         private OnClickListener positiveButtonClickListener;
@@ -133,10 +122,6 @@ private boolean isProgress;
             this.context = context;
         }
 
-        public Builder setProgressBar(boolean isSetProgress) {
-            this.isSetProgress = isSetProgress;
-            return this;
-        }
         public Builder setMessage(String message) {
             this.message = message;
             return this;
@@ -169,8 +154,8 @@ private boolean isProgress;
             return this;
         }
 
-        public CustomDialog create() {
-            CustomDialog dialog = new CustomDialog(context);
+        public CustomUpDateDialog create() {
+            CustomUpDateDialog dialog = new CustomUpDateDialog(context);
 
             if (dialog.isShowing() && null != dialog){
                 dialog.dismiss();
@@ -179,7 +164,6 @@ private boolean isProgress;
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
             dialog.setMessage(message);
-            dialog.setProgressBar(isSetProgress);
             dialog.setNegativeButtonText(negativeButtonText);
             dialog.setPositiveButtonText(positiveButtonText);
             dialog.setOnNegativeListener(negativeButtonClickListener);

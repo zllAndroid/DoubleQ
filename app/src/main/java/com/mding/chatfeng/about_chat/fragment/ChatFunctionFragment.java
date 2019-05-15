@@ -291,11 +291,9 @@ public class ChatFunctionFragment extends ChatBaseFragment {
             if (SplitWeb.getSplitWeb().IS_CHAT.equals("1")){  // 私聊
                 //  type：发送类型 1私聊图片 2群聊
                 send(SplitWeb.getSplitWeb().getQueryRepetition("1", imgTotalMD5));
-//                send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, imgTotalStringFunFrag, messageTypeImg, TimeUtil.getTime()));
             }
             else  if (SplitWeb.getSplitWeb().IS_CHAT_GROUP.equals("2")){    // 群聊
                 send(SplitWeb.getSplitWeb().getQueryRepetition("2", imgTotalMD5));
-//                send(SplitWeb.getSplitWeb().groupSend(ChatGroupActivity.groupId, imgTotalStringFunFrag, messageTypeImg, TimeUtil.getTime()));
             }
             ToastUtil.isDebugShow("正在发送图片...");
         }

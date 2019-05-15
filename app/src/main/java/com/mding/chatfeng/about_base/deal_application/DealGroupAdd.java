@@ -43,13 +43,13 @@ public class DealGroupAdd {
         }
         return dealFriendAdd;
     }
-    
+
     // 创建群聊；加入群聊
     public  void updateGroupDataByAdd(Context context,String result)
     {
         mContext=context;
-        if (groupHelper==null)
-            groupHelper = new RealmGroupHelper(mContext);
+//        if (groupHelper==null)
+//            groupHelper = new RealmGroupHelper(mContext);
         DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
         if (aCache==null)
@@ -112,8 +112,6 @@ public class DealGroupAdd {
     // 退出群聊；解散群聊
     public   void updateGroupDataBySub(Context context, String result, RealmHomeHelper realmHomeHelper) {
         mContext=context;
-//        if (groupHelper==null)
-//            groupHelper = new RealmGroupHelper(mContext);
         DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
         if (aCache == null) {
@@ -134,7 +132,6 @@ public class DealGroupAdd {
     //修改群聊信息的删除操作
     public   String updateGroupDataByModifySub(Context context,String result ) {
         mContext=context;
-//        groupHelper = new RealmGroupHelper(mContext);
         DataAboutGroupModify dataAboutGroupModify = JSON.parseObject(result, DataAboutGroupModify.class);
         DataAboutGroupModify.RecordBean record = dataAboutGroupModify.getRecord();
         if (aCache == null) {

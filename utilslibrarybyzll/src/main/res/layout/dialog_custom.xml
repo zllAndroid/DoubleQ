@@ -16,6 +16,49 @@
             android:padding="10dp"
             android:visibility="gone"
             android:text="版本更新" />
+        <LinearLayout
+            android:id="@+id/dialog_lin_progress"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:layout_marginTop="100dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <!--<com.daimajia.numberprogressbar.NumberProgressBar-->
+                <!--android:id="@+id/progressbar_dialog_update"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_marginRight="30dp"-->
+                <!--android:layout_marginLeft="30dp"/>-->
+            <ProgressBar
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:id="@+id/progressbar_dialog_update"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:max="100"
+                android:progressDrawable="@drawable/progress_bar_style"
+                android:progress="0"
+                android:layout_marginTop="10dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:indeterminate="false"
+                android:layout_gravity="center"
+                />
+            <TextView
+                android:id="@+id/tv_dialog_message_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="message"
+                android:layout_marginTop="15dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:textColor="#666"
+                android:textSize="16sp" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_dialog_message"
@@ -23,16 +66,17 @@
             android:layout_height="80dp"
             android:gravity="center"
             android:text="message"
-            android:layout_marginTop="100dp"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:textColor="#666"
+            android:visibility="gone"
+            android:layout_marginTop="100dp"
             android:textSize="16sp" />
 
         <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="1dp"-->
-            <!--android:background="#e8e8e8" />-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:background="#e8e8e8" />-->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -55,10 +99,10 @@
                 android:textSize="16sp" />
 
             <!--<View-->
-                <!--android:id="@+id/view_dialog_button_divider"-->
-                <!--android:layout_width="1dp"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:background="#e8e8e8" />-->
+            <!--android:id="@+id/view_dialog_button_divider"-->
+            <!--android:layout_width="1dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:background="#e8e8e8" />-->
 
             <Button
                 android:id="@+id/btn_dialog_negative"

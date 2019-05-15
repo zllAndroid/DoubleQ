@@ -181,4 +181,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     //    implementation 'com.race604.flyrefresh:library:1.0.1'
+
+    // numberprogressbar 进度条
+//    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
 }

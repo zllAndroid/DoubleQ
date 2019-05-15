@@ -22,6 +22,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     testImplementation 'junit:junit:4.12'
     implementation 'com.android.support:appcompat-v7:28.+'
+//    implementation 'com.daimajia.numberprogressbar:library:1.4@aar'
     api files('libs/volley.jar')
 //    compile project(path: ':app')
 }

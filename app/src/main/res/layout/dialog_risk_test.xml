@@ -5,49 +5,42 @@
     android:id="@+id/dialog_fra"
     >
 
-    <ImageView
-        android:id="@+id/dialog_iv_back"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/dialog_test_background" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="@dimen/dp20"
-        android:layout_marginRight="@dimen/dp20"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/dialog_tv_title"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/dp15"
             android:gravity="center"
-            android:text="通知"
+            android:text="@string/risk_test_title"
+            android:background="@drawable/dialog_test_back_top"
             android:textColor="@color/white"
             android:textSize="@dimen/sp18" />
 
         <ScrollView
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp280"
-            android:paddingBottom="@dimen/dp10"
-            android:layout_marginTop="@dimen/dp20"
+            android:layout_height="0dp"
+            android:paddingBottom="@dimen/dp5"
             android:layout_weight="1"
+            android:background="@color/white"
             android:scrollbars="none">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/dp10"
-                android:paddingBottom="@dimen/dp15"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/dialog_tv_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:lineSpacingExtra="@dimen/dp2"
                     android:text="@string/risk_test"
                     android:textSize="@dimen/sp15" />
 
@@ -56,7 +49,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="right"
-                    android:text="信风团队"
+                    android:text="@string/risk_test_organization"
                     android:textSize="@dimen/sp15" />
 
                 <TextView
@@ -64,46 +57,90 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="right"
-                    android:text="2019.03.29"
+                    android:text="@string/risk_test_time"
                     android:textSize="@dimen/sp15" />
             </LinearLayout>
         </ScrollView>
 
         <!--按钮-->
         <LinearLayout
+            android:id="@+id/dialog_lin_btn"
             android:layout_width="match_parent"
-            android:layout_height="70dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
+            android:visibility="gone"
             android:layout_gravity="bottom"
+            android:background="@color/white"
             android:orientation="horizontal">
+
+            <!--<Button-->
+                <!--android:id="@+id/btn_dialog_negative"-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="@dimen/dp40"-->
+                <!--android:layout_marginLeft="@dimen/dp40"-->
+                <!--android:layout_marginTop="@dimen/dp5"-->
+                <!--android:layout_marginRight="@dimen/dp20"-->
+                <!--android:layout_marginBottom="@dimen/dp20"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/bac_dialog_btn"-->
+                <!--android:text="取消"-->
+                <!--android:textColor="@color/white"-->
+                <!--android:textSize="@dimen/sp16"-->
+                <!--android:visibility="gone"-->
+                <!--/>-->
 
             <Button
                 android:id="@+id/btn_dialog_negative"
-                android:layout_width="0px"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="@dimen/dp40"
-                android:layout_marginTop="@dimen/dp30"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/dp30"
                 android:layout_marginRight="@dimen/dp20"
-                android:layout_marginBottom="@dimen/dp20"
-                android:layout_weight="1"
-                android:background="@drawable/bac_dialog_btn"
-                android:text="取消"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp16"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/btn_dialog_positive"
-                android:layout_width="190dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="@dimen/dp15"
-                android:layout_marginBottom="@dimen/dp15"
+                android:layout_marginTop="@dimen/dp5"
+                android:layout_marginBottom="@dimen/dp3"
                 android:background="@drawable/btn_stroke_sel"
-                android:text="确定"
+                android:text="取消"
+                android:layout_weight="1"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
-
+            <Button
+                android:id="@+id/btn_dialog_update"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginTop="@dimen/dp5"
+                android:layout_marginBottom="@dimen/dp3"
+                android:layout_marginLeft="@dimen/dp20"
+                android:layout_marginRight="@dimen/dp30"
+                android:layout_gravity="center"
+                android:background="@drawable/btn_stroke_sel"
+                android:text="更新"
+                android:layout_weight="1"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
         </LinearLayout>
-
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_gravity="bottom"
+            android:background="@color/white"
+            android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_dialog_positive"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/dp40"
+            android:layout_marginRight="@dimen/dp40"
+            android:layout_marginTop="@dimen/dp5"
+            android:layout_marginBottom="@dimen/dp3"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_stroke_sel"
+            android:text="确定"
+            android:textColor="@color/white"
+            android:textSize="17sp" />
+    </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/dialog__test_background_bottom"/>
     </LinearLayout>
 </FrameLayout>

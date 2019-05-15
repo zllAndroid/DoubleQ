@@ -98,6 +98,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
         if (!StrUtils.isEmpty(asString))
         {
             ImageUtils.useBase64(getContext(),chatItemHeader,asString);
+            chatItemContentImage.setVisibility(View.VISIBLE);
         }
 
         chatItemHeader.setOnClickListener(new View.OnClickListener() {

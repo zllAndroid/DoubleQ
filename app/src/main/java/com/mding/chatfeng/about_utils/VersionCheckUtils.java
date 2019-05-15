@@ -44,15 +44,15 @@ public class VersionCheckUtils {
                     {
                         if (record.getForce().equals("1"))
                         {
-                            new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), false, record.getContent());
                             try {
+                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), false, record.getContent());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }else
                         {
-                            new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), true, record.getContent());
                             try {
+                                new UpDataUtils(AppManager.getAppManager().currentActivity(), record.getUrl(), true, record.getContent());
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }

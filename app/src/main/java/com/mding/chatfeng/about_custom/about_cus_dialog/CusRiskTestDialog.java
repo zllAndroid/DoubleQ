@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
+import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.ScreenUtils;
 
@@ -23,11 +25,13 @@ import org.w3c.dom.Text;
 public class CusRiskTestDialog extends Dialog {
     private Button mPositiveBtn;
     private Button mNegativeBtn;
+//    private Button mUpdateBtn;
     private TextView tvTitle;
     private TextView tvContent;
     private TextView tvOrganization;
     private TextView tvTime;
     private FrameLayout frameLayout;
+//    private LinearLayout linearLayoutBtn;
 
     private String mTitle;
     private String mContent;
@@ -35,8 +39,10 @@ public class CusRiskTestDialog extends Dialog {
     private String mTime;
     private String positiveButtonText;
     private String negativeButtonText;
+//    private String updateButtonText;
     private OnClickListener positiveButtonClickListener;
     private OnClickListener negativeButtonClickListener;
+//    private OnClickListener updateButtonClickListener;
 
     Context context;
     public CusRiskTestDialog(Context context){
@@ -52,18 +58,20 @@ public class CusRiskTestDialog extends Dialog {
 
         mPositiveBtn = findViewById(R.id.btn_dialog_positive);
         mNegativeBtn = findViewById(R.id.btn_dialog_negative);
+//        mUpdateBtn = findViewById(R.id.btn_dialog_update);
         tvTitle = findViewById(R.id.dialog_tv_title);
         tvContent = findViewById(R.id.dialog_tv_content);
         tvOrganization = findViewById(R.id.dialog_tv_organization);
         tvTime = findViewById(R.id.dialog_tv_time);
+//        linearLayoutBtn = findViewById(R.id.dialog_lin_btn);
         frameLayout = findViewById(R.id.dialog_fra);
         int screenWidth = ScreenUtils.getScreenWidth(context);
         int screenHeight = ScreenUtils.getScreenHeight(context);
         frameLayout.getLayoutParams().width = (screenWidth/4)*3;
-        frameLayout.getLayoutParams().height = (screenHeight/3)*2;
-
+        frameLayout.getLayoutParams().height = (screenHeight/10)*7;
 
         if (positiveButtonText != null){
+//            linearLayoutBtn.setVisibility(View.GONE);
             mPositiveBtn.setText(positiveButtonText);
             if (positiveButtonClickListener != null){
                 mPositiveBtn.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +86,9 @@ public class CusRiskTestDialog extends Dialog {
         }
 
         if (negativeButtonText != null){
+//            linearLayoutBtn.setVisibility(View.VISIBLE);
             mNegativeBtn.setText(negativeButtonText);
+//            mUpdateBtn.setText(updateButtonText);
             if (negativeButtonClickListener != null) {
                 mNegativeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -86,8 +96,15 @@ public class CusRiskTestDialog extends Dialog {
                         negativeButtonClickListener.onClick(CusRiskTestDialog.this, Dialog.BUTTON_NEGATIVE);
                     }
                 });
+//                mUpdateBtn.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        updateButtonClickListener.onClick(CusRiskTestDialog.this, Dialog.BUTTON_POSITIVE);
+//                    }
+//                });
             }
         }else {
+//            linearLayoutBtn.setVisibility(View.GONE);
             mNegativeBtn.setVisibility(View.GONE);
         }
 
@@ -124,14 +141,19 @@ public class CusRiskTestDialog extends Dialog {
     private void setNegativeButtonText(String text){
         negativeButtonText = text;
     }
+//    private void setUpdateButtonText(String text){
+//        updateButtonText = text;
+//    }
 
     private void setOnPositiveListener(OnClickListener listener){
         positiveButtonClickListener = listener;
     }
-
     private void setOnNegativeListener(OnClickListener listener){
         negativeButtonClickListener = listener;
     }
+//    private void setOnUpdateListener(OnClickListener listener){
+//        updateButtonClickListener = listener;
+//    }
 
     public static class Builder{
         private Context context;
@@ -141,8 +163,10 @@ public class CusRiskTestDialog extends Dialog {
         private String organization;
         private String positiveButtonText;
         private String negativeButtonText;
+//        private String updateButtonText;
         private OnClickListener positiveButtonClickListener;
         private OnClickListener negativeButtonClickListener;
+//        private OnClickListener updateButtonClickListener;
 
         public Builder(Context context){
             this.context = context;
@@ -155,35 +179,43 @@ public class CusRiskTestDialog extends Dialog {
             this.time = time;
             return this;
         }
+        public Builder setMessage(String content){
+            this.content = content;
+            return this;
+        }
+//        public Builder setUpdateButton(int updateButtonText,OnClickListener listener){
+//            return setUpdateButton(context.getString(updateButtonText),listener);
+//        }
+//        public Builder setUpdateButton(String updateButtonText,OnClickListener listener){
+//            this.updateButtonText = updateButtonText;
+//            this.updateButtonClickListener = listener;
+//            return this;
+//        }
 
         public Builder setPositiveButton(int positiveButtonText,OnClickListener listener){
             return setPositiveButton(context.getString(positiveButtonText),listener);
         }
-
         public Builder setPositiveButton(String positiveButtonText,OnClickListener listener){
             this.positiveButtonText = positiveButtonText;
             this.positiveButtonClickListener = listener;
             return this;
         }
+
         public Builder setPositiveButtonText(int positiveButtonText){
             return setPositiveButtonText(context.getString(positiveButtonText));
         }
-
         public Builder setPositiveButtonText(String positiveButtonText){
             this.positiveButtonText = positiveButtonText;
             return this;
         }
-
-        public Builder setPositiveButtonListener(OnClickListener listener){
-            this.positiveButtonClickListener = listener;
-            return this;
-        }
-
+//        public Builder setPositiveButtonListener(OnClickListener listener){
+//            this.positiveButtonClickListener = listener;
+//            return this;
+//        }
 
         public Builder setNegativeButton(int negativeButtonText, OnClickListener listener){
             return setNegativeButton(context.getString(negativeButtonText),listener);
         }
-
         public Builder setNegativeButton(String negativeButtonText,OnClickListener listener){
             this.negativeButtonText = negativeButtonText;
             this.negativeButtonClickListener = listener;
@@ -199,12 +231,14 @@ public class CusRiskTestDialog extends Dialog {
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.getWindow().setGravity(Gravity.CENTER);
             dialog.getWindow().setBackgroundDrawableResource(R.color.transparent);
-            dialog.getWindow().setDimAmount((float) 0.3);
+//            dialog.getWindow().setDimAmount((float) 0.3);
             dialog.setMessage(title,content,organization,time);
             dialog.setNegativeButtonText(negativeButtonText);
             dialog.setPositiveButtonText(positiveButtonText);
+//            dialog.setUpdateButtonText(updateButtonText);
             dialog.setOnNegativeListener(negativeButtonClickListener);
             dialog.setOnPositiveListener(positiveButtonClickListener);
+//            dialog.setOnUpdateListener(updateButtonClickListener);
             return dialog;
         }
 

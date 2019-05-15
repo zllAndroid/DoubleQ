@@ -286,7 +286,7 @@ public class DealFriendAdd {
 //                    return;
 //                }
                 }
-                if (isTopTwo || isTopOne)
+                if (isTopTwo || isTopOne){
                     for (int i = 0; i < friendList.size(); i++) {
                         String type = friendList.get(i).getType();
                         if (type.equals("1") && isTopOne && groupId != null && !groupId.equals("0")) {
@@ -314,6 +314,7 @@ public class DealFriendAdd {
                             }
                         }
                     }
+                }
             }
         }
         else {

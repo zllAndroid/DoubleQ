@@ -17,4 +17,14 @@
         <attr name="indicatorInterval" format="dimension" />
     </declare-styleable>
 
+    <declare-styleable name="CustomBanner">
+        <attr name="indeterminateOnly" format="boolean" />
+        <attr name="progressDrawable" format="reference" />
+        <attr name="indeterminateDrawable" format="reference" />
+        <attr name="minHeight" format="dimension" />
+        <attr name="maxHeight" format="dimension" />
+        <attr name="mirrorForRtl" format="boolean" />
+
+
+    </declare-styleable>
 </resources>
