@@ -24,6 +24,7 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:orientation="vertical"
+            android:visibility="gone"
             android:layout_gravity="center">
             <!--<com.daimajia.numberprogressbar.NumberProgressBar-->
                 <!--android:id="@+id/progressbar_dialog_update"-->
@@ -69,7 +70,6 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:textColor="#666"
-            android:visibility="gone"
             android:layout_marginTop="100dp"
             android:textSize="16sp" />
 
