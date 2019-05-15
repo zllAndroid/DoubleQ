@@ -1,7 +1,6 @@
 package com.mding.chatfeng.main_code.ui.about_personal.about_activity;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -14,7 +13,7 @@ import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_chat.cus_data_group.RealmGroupChatHelper;
 import com.mding.chatfeng.about_custom.about_cus_dialog.DialogExitUtils;
-import com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLaout;
+import com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.NetWorkUtlis;
@@ -40,7 +39,6 @@ import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MineSetActivity extends BaseActivity {
@@ -52,23 +50,23 @@ public class MineSetActivity extends BaseActivity {
     //    @BindView(R.id.set_tv_versition)
 //    TextView setTvVersition;
     @BindView(R.id.set_cus_lin_share)
-    CusLinearLaout setCusLinShare;
+    CusLinearLayout setCusLinShare;
     @BindView(R.id.set_lin_count)
-    CusLinearLaout setLinCount;
+    CusLinearLayout setLinCount;
     @BindView(R.id.set_lin_yinsi)
-    CusLinearLaout setLinYinsi;
+    CusLinearLayout setLinYinsi;
     @BindView(R.id.set_lin_message)
-    CusLinearLaout setLinMessage;
+    CusLinearLayout setLinMessage;
     @BindView(R.id.set_lin_pingbi)
-    CusLinearLaout setLinPingbi;
+    CusLinearLayout setLinPingbi;
     @BindView(R.id.set_lin_discover)
-    CusLinearLaout setLinDiscover;
+    CusLinearLayout setLinDiscover;
     @BindView(R.id.set_lin_clear_cache)
-    CusLinearLaout setLinClearCache;
+    CusLinearLayout setLinClearCache;
     @BindView(R.id.set_lin_version)
-    CusLinearLaout setLinVersion;
+    CusLinearLayout setLinVersion;
     @BindView(R.id.set_lin_about_me)
-    CusLinearLaout setLinAboutMe;
+    CusLinearLayout setLinAboutMe;
 
     @Override
     public int getLayoutView() {

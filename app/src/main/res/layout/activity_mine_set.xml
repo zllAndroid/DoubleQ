@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <!--名片分享设置-->
-            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLaout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/set_cus_lin_share"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -52,31 +52,31 @@
             <!--</LinearLayout>-->
 
             <!--帐号与安全-->
-            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLaout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/set_lin_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"/>
             <!--隐私设置-->
-            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLaout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/set_lin_yinsi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"/>
             <!--消息提醒-->
-            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLaout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/set_lin_message"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"/>
             <!--屏蔽设置-->
-            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLaout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/set_lin_pingbi"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"/>
             <!--朋友圈设置-->
-            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLaout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/set_lin_discover"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -233,19 +233,19 @@
             <!--</LinearLayout>-->
 
             <!--清理缓存-->
-            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLaout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/set_lin_clear_cache"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"/>
             <!--检查更新-->
-            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLaout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/set_lin_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"/>
             <!--关于我们-->
-            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLaout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/set_lin_about_me"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
