@@ -123,8 +123,6 @@ public class RegisterActivity extends BaseActivity {
             return;
         }
         String register = SplitWeb.getSplitWeb().register(phone, psw, code);
-
-
         if(register.contains("http"))
         {
             NetWorkUtlis netWorkUtlis = new NetWorkUtlis();

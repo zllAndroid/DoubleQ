@@ -111,7 +111,11 @@ public class DealDataByApp {
 //        realmHelper = new RealmHomeHelper(mContext);
 //        realmGroupChatHelper = new RealmGroupChatHelper(mContext);
 //        realmChatHelper = new RealmChatHelper(mContext);
-        initReceiver();
+        try {
+            initReceiver();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public static void initReceiver() {
         //        接收消息时处理消息并存库

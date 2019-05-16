@@ -343,10 +343,8 @@ public class ChatGroupActivity extends BaseActivity {
         SplitWeb.getSplitWeb().IS_CHAT_GROUP = "00";
         EventBus.getDefault().post(new MsgHomeEvent("",groupId,AppConfig.MSG_ZERO_REFRESH));
         try {
-            getRealmGroupChatHelper().close();
-            getRealmHomeHelper().close();
-            realmGroupChatHelper = null;
-            realmHomeHelper = null;
+            realmGroupChatHelper.close();
+            realmGroupChatHelper.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -516,8 +514,10 @@ public class ChatGroupActivity extends BaseActivity {
     public void onEvent(DataJieShou.RecordBean messageInfo) {
         String ed = editText.getText().toString().trim();
         if (!StrUtils.isEmpty(ed)) {
-            if (groupId != null)
+            if (groupId != null) {
                 send(SplitWeb.getSplitWeb().groupSend(groupId, ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+                MyLog.e("groupSend","groupSend="+SplitWeb.getSplitWeb().groupSend(groupId, ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+            }
             else {
                 editText.setText("");
                 ToastUtil.show("发送的内容不能为空");
@@ -543,6 +543,11 @@ public class ChatGroupActivity extends BaseActivity {
                 dealReceiverResult(responseText);
                 break;
             case "groupSendInterface":
+//                Message message = new Message();
+//                message.
+//                mHandler.sendMessage(message);
+//
+
                 dataChatGroupPop = JSON.parseObject(responseText, DataChatGroupPop.class);
                 DataChatGroupPop.RecordBean recordBean = dataChatGroupPop.getRecord();
                 if (recordBean != null) {

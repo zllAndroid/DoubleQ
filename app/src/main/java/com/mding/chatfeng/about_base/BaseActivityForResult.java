@@ -62,6 +62,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     public static final int LOAD_WITHOUT_ANIM_SUCCESS = 4;
     public static final int LOAD_WITHOUT_ANIM_FAILED = 5;
     public static final int SAVE_YOU = 6;
+    public static final int DATA_DEAL = 7;
     public static final int DOWN_DATA = 520;
     private LoadingDialog ld =null;
     //    是否拦截返回键  true 拦截
@@ -136,6 +137,10 @@ public class BaseActivityForResult extends AppCompatActivity  {
                             case SAVE_YOU:
                                 ld.close();
                                 break;
+                            case DATA_DEAL:
+                                receiveResultMsg((String) msg.obj);
+
+                                break;
                             default:
                                 break;
                         }
@@ -198,7 +203,8 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //                    DataJieShou dataJieShou = JSON.parseObject(data.toString(), DataJieShou.class);
 //                    DataJieShou.RecordBean record = dataJieShou.getRecord();
 //                    realmHelper.updateMsg(record.getFriendsId()+SplitWeb.getSplitWeb().getUserId(),record.getMessage(),record.getRequestTime());//更新首页聊天界面数据（消息和时间）
-                    receiveResultMsg(data.toString());
+                    msgHandler(data);
+//                    receiveResultMsg(data.toString());
                     break;
 //                    添加好友通知
                 case "addFriendSend":
@@ -210,7 +216,8 @@ public class BaseActivityForResult extends AppCompatActivity  {
                     break;
 //                    其他情况返回给子类
                 default:
-                    receiveResultMsg(data.toString());
+                    msgHandler(data);
+//                    receiveResultMsg(data.toString());
                     break;
             }
         }
@@ -456,16 +463,34 @@ public class BaseActivityForResult extends AppCompatActivity  {
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(MessageEvent messageEvent){
         Log.i("messageEvent","onEven_messageEvent="+messageEvent.getMessage());
-        Stack<AppCompatActivity> stack = AppManager.getAppManager().getStack();
-        if (stack!=null&&stack.size()!=0) {
-            String stackLast = stack.get(stack.size() - 1).getClass().getSimpleName();
-            String current = AppManager.getAppManager().currentActivity().getClass().getSimpleName();
-            if (stackLast.equals(current))
-            {
-                dealObs(messageEvent.getMessage());
+        try {
+            Stack<AppCompatActivity> stack = AppManager.getAppManager().getStack();
+            if (stack!=null&&stack.size()!=0) {
+                String stackLast = stack.get(stack.size() - 1).getClass().getSimpleName();
+                String current = AppManager.getAppManager().currentActivity().getClass().getSimpleName();
+                if (stackLast.equals(current))
+                {
+                  new Thread(new Runnable() {
+                      @Override
+                      public void run() {
+                          dealObs(messageEvent.getMessage().toString());
+                      }
+                  }).start();
+
+                }
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
+
+    private void msgHandler(String msg) {
+        Message message = new Message();
+        message.what=DATA_DEAL;
+        message.obj=msg;
+        mHandler.sendMessage(message);
+    }
+
     Bitmap bitmap;
     //    处理好友的信息
     private void dealFriendData(String message) {
@@ -478,7 +503,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
                 public void run() {
                     try {
                         bitmap = Glide.with(BaseApplication.getAppContext())
-                                .load(record.getHeadImg())
+                                .load(R.drawable.applogo)
                                 .asBitmap() //必须
                                 .centerCrop()
                                 .into(500, 500)
@@ -512,7 +537,8 @@ public class BaseActivityForResult extends AppCompatActivity  {
         }else
         {
 //            聊天界面就直接下传数据
-            receiveResultMsg(message);
+            msgHandler(message);
+//            receiveResultMsg(message);
         }
     }
 
@@ -649,6 +675,8 @@ public class BaseActivityForResult extends AppCompatActivity  {
 
     //接收到消息，传递给子类
     public void receiveResultMsg(String responseText) {
+
+
 
     }
 

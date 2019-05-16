@@ -15,7 +15,7 @@ public class ToastUtil {
 
     private static Toast TOAST;
     private static final String TAG = "ToastUtil";
-    private static final boolean isDebug = true;  //若设为true，说明在调试模式；设为false，则将所有的toast取消
+    private static final boolean isDebug = false;  //若设为true，说明在调试模式；设为false，则将所有的toast取消
 
     //是否为调试模式的短时间吐司
     public static void isDebugShow( String text) {
