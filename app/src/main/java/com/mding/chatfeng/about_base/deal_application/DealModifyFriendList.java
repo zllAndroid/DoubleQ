@@ -71,20 +71,20 @@ public class DealModifyFriendList {
                     return;
                 }
                 //  1旧：""  新："NewRemarkName"
-                if (isOld(record.getOldRemarkName()) && !isOld(record.getNewRemarkName())){
-                    initDataUpdate(asString,record);
-                    return;
-                }
-                //  2旧："OldRemarkName"  新："NewRemarkName"   OldRemarkName != NewRemarkName
-                else if (!isOld(record.getOldRemarkName()) && !isOld(record.getNewRemarkName()) && !record.getOldRemarkName().equals(record.getNewRemarkName())){
-                    initDataUpdate(asString,record);
-                    return;
-                }
-                //  3旧："OldRemarkName"  新：""
-                else if (!isOld(record.getOldRemarkName()) && isOld(record.getNewRemarkName())){
-                    initDataUpdate(asString,record);
-                    return;
-                }
+//                if (isOld(record.getOldRemarkName()) && !isOld(record.getNewRemarkName())){
+//                    initDataUpdate(asString,record);
+//                    return;
+//                }
+//                //  2旧："OldRemarkName"  新："NewRemarkName"   OldRemarkName != NewRemarkName
+//                else if (!isOld(record.getOldRemarkName()) && !isOld(record.getNewRemarkName()) && !record.getOldRemarkName().equals(record.getNewRemarkName())){
+//                    initDataUpdate(asString,record);
+//                    return;
+//                }
+//                //  3旧："OldRemarkName"  新：""
+//                else if (!isOld(record.getOldRemarkName()) && isOld(record.getNewRemarkName())){
+//                    initDataUpdate(asString,record);
+//                    return;
+//                }
                 /**
                  * 修改分组
                  */

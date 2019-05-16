@@ -763,7 +763,8 @@ public class DealDataByApp {
             wl.release(); // 释放
         }
 //        if (!SplitWeb.getSplitWeb().IS_CHAT.equals("1"))
-        if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext()))
+        if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
+            BaseApplication.isHomeMsgFragment=true;
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {
                 @Override
@@ -785,6 +786,7 @@ public class DealDataByApp {
                     }
                 }
             }).start();
+        }
     }
     private static void noChatUI(String msg,String id) {
 //        发送广播更新首页
@@ -899,32 +901,34 @@ public class DealDataByApp {
             wl.acquire(10000); // 点亮屏幕
             wl.release(); // 释放
         }
-        if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext()))
-        //APP在后台的时候处理接收到消息的事件
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    String msg = record.getMessage();
-                    if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
-                        msg = record.getMemberName() + "：" + record.getMessage();
+        if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())) {
+            BaseApplication.isHomeMsgFragment=true;
+            //APP在后台的时候处理接收到消息的事件
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String msg = record.getMessage();
+                        if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
+                            msg = record.getMemberName() + "：" + record.getMessage();
+                        }
+                        Bitmap bitmap = Glide.with(mContext)
+                                .load(record.getGroupHeadImg())
+                                .asBitmap() //必须
+                                .centerCrop()
+                                .into(500, 500)
+                                .get();
+                        NotificationUtil notificationUtils = new NotificationUtil(mContext);
+                        String name = getRealmGroupChatHelper().queryGroupChatName(record.getGroupId());
+                        notificationUtils.sendNotification(cusJumpChatData, name, msg, bitmap, AppConfig.TYPE_CHAT_QUN);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
                     }
-                    Bitmap  bitmap = Glide.with(mContext)
-                            .load(record.getGroupHeadImg())
-                            .asBitmap() //必须
-                            .centerCrop()
-                            .into(500, 500)
-                            .get();
-                    NotificationUtil notificationUtils = new NotificationUtil(mContext);
-                    String name = getRealmGroupChatHelper().queryGroupChatName(record.getGroupId());
-                    notificationUtils.sendNotification(cusJumpChatData, name, msg, bitmap, AppConfig.TYPE_CHAT_QUN);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (ExecutionException e) {
-                    e.printStackTrace();
                 }
-            }
-        }).start();
+            }).start();
+        }
     }
 
 }

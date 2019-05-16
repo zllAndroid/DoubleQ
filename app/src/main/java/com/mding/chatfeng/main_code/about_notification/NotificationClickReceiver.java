@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.PowerManager;
 
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.main_code.mains.MainActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.NoticeActivity;
 import com.mding.chatfeng.about_base.AppConfig;
@@ -17,19 +18,21 @@ public class NotificationClickReceiver extends BroadcastReceiver {
         switch (string)
         {
             case AppConfig.TYPE_CHAT:
+
 //                intent2.setClass(context, MainActivity.class);
 //                context.startActivity(intent2);
                 if(IsAppProcessExist.isProcessExist(context,android.os.Process.myPid()))
                 {
+
                     intent2.setClass(context, MainActivity.class);
-                    intent2.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent2);
                 }else
                 {
                     Intent launchIntent = context.getPackageManager().
                             getLaunchIntentForPackage("com.mding.chatfeng");
                     launchIntent.setFlags(
-                            Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                     context.startActivity(launchIntent);
                 }
 
