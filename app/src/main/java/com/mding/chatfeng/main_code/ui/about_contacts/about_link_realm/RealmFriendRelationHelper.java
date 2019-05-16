@@ -3,6 +3,8 @@ package com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm;
 import android.content.Context;
 
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
 import java.util.List;
 
@@ -117,6 +119,26 @@ public class RealmFriendRelationHelper {
             return mRealm.copyFromRealm(realmMsgs);
         else
             return  null;
+    }
+
+    public String queryFriendName(String id) {
+        CusDataFriendRelation realmMsgs = mRealm.where(CusDataFriendRelation.class).equalTo(FILE_NAME, id+SplitWeb.getSplitWeb().getUserId()).findFirst();
+        /**
+         * 对查询结果，按Id进行排序，只能对查询结果进行排序
+         */
+        if (realmMsgs!=null) {
+            //增序排列
+//            realmMsgs = realmMsgs.sort(FILE_NAME);
+//            realmMsgs = realmMsgs.sort(FILE_NAME, Sort.DESCENDING);
+            String nameGroup = realmMsgs.getRemarkName();
+            if (!StrUtils.isEmpty(nameGroup))
+            return nameGroup;
+            else
+                return realmMsgs.getNickName();
+        }
+//        //降序排列
+//        dogs=dogs.sort("id", Sort.DESCENDING);
+        return "你有新消息";
     }
     public String queryLinkFriendReturnImgPath(String friendId) {
         CusDataFriendRelation realmMsgs = mRealm.where(CusDataFriendRelation.class)

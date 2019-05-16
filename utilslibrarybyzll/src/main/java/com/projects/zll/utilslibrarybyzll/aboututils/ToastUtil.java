@@ -35,7 +35,11 @@ public class ToastUtil {
 
     //短时间吐司
     public static void show( String text) {
-        show(text, Toast.LENGTH_SHORT);
+        try {
+            show(text, Toast.LENGTH_SHORT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //自定义时长吐司
@@ -47,12 +51,16 @@ public class ToastUtil {
     //自定义时长吐司
     public static void show( @NonNull final String text, final int duration) {
 
-        if (TOAST == null) {
-            TOAST = Toast.makeText(mContext(), text, duration);
-        } else {
-            TOAST.setText(text);
-            TOAST.setDuration(duration);
+        try {
+            if (TOAST == null) {
+                TOAST = Toast.makeText(mContext(), text, duration);
+            } else {
+                TOAST.setText(text);
+                TOAST.setDuration(duration);
+            }
+            TOAST.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        TOAST.show();
     }
 }

@@ -3,6 +3,7 @@ package com.mding.chatfeng.about_chat.adapter;
 import android.content.Context;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -29,12 +30,17 @@ public class ChatAdapter extends RecyclerArrayAdapter<DataJieShou.RecordBean> {
     public void setScrolling(boolean scrolling) {
         isScrolling = scrolling;
     }
+    public void deleteWho(int position) {
+        getAllData().remove(position);
+    }
+    public void notifyAdapter(int position) {
+//        getAllData().remove(position);
+        notifyItemChanged(position);
+    }
 
     @Override
     public void onViewRecycled(@NonNull BaseViewHolder holder) {
         super.onViewRecycled(holder);
-
-
     }
 
     @Override
@@ -65,7 +71,7 @@ public class ChatAdapter extends RecyclerArrayAdapter<DataJieShou.RecordBean> {
 
     public interface onItemClickListener {
         void onHeaderClick(int position,int type,String friendId);
-        void onConClick( int position,String conText);
+        void onConClick(View v, int position, String conText);
 
         void onImageClick( int position, String imgHttp);
 

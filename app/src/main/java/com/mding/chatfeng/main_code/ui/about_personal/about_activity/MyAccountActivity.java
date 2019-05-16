@@ -29,6 +29,8 @@ import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
 
 /**
  *  我的二维码
+ *
+ *   不需要网络请求，纯数据展示（1、传值显示  2、缓存显示）
  */
 public class MyAccountActivity extends BaseActivity  {
     @BindView(R.id.include_top_tv_tital)
@@ -53,75 +55,55 @@ public class MyAccountActivity extends BaseActivity  {
         Intent intent = getIntent();
         if (intent!=null)
         {
+//            接收传值过来显示
             PersonData personData = (PersonData)intent.getSerializableExtra(TITAL_NAME);
-//            String userId = intent.getStringExtra("userId");
             if (personData!=null)
             {
                 qrcodeTvSao.setText(personData.getScanTital());
                 qrcodeTvName.setText(personData.getName());
                 String headImg = personData.getHeadImg();
-//                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg.substring(0, headImg.indexOf("_")));
-                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, personData.getHeadImg());
-
+                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg);
                 String string = personData.getQrCode();
-//                String string = type + "_xm6leefun_" + userId;
                 createQrCodeImg(string);
                 includeTopTvTital.setText(personData.getTital());
                 return;
             }
         }
-//        else {
+//        显示自个人资料的缓存数据
         aCache = ACache.get(this);
         String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
-//        String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
-//        aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
-//        String aCacheNickName = aCache.getAsString(ChangeInfoActivity.NICK_NAME);
         if (!StrUtils.isEmpty(json))
         {
             DataMyZiliao.RecordBean recordBean = JSON.parseObject(json, DataMyZiliao.RecordBean.class);
-            Log.e("result","token信息"+json.toString());
             if (recordBean!=null) {
+                String headImg = recordBean.getHeadImg();
                 String qrCodeString = recordBean.getQrcode();
                 createQrCodeImg(qrCodeString);
-//                    String headImg = dataLogin.getHeadImg();
-                String headImg = aCache.getAsString(IMAGE_BASE64);
-//                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg.substring(0, headImg.indexOf("_")));
                 ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg);
                 String nickName = recordBean.getNickName();
-//                if (aCacheNickName != null)
-//                    qrcodeTvName.setText(aCacheNickName);
-////                    qrcodeTvSao.setText(personData.getScanTital());
-//                else
-                    qrcodeTvName.setText(nickName);
+                qrcodeTvName.setText(nickName);
             }
         }
-//        }
         includeTopTvTital.setText("我的二维码");
-//        sendWeb(SplitWeb.getSplitWeb().personalCenter());
-    }
-    @Override
-    public void receiveResultMsg(String responseText) {
-        super.receiveResultMsg(responseText);
-        if (HelpUtils.backMethod(responseText).equals("personalCenter")) {
-            DataMyZiliao dataMyZiliao = JSON.parseObject(responseText, DataMyZiliao.class);
-            DataMyZiliao.RecordBean record = dataMyZiliao.getRecord();
-            if (record != null) {
-                qrcodeTvName.setText(record.getNickName());
-                String headImg = record.getHeadImg();
-//                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg.substring(0, headImg.indexOf("_")));
-                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, record.getHeadImg());
-//                Glide.with(this).load(record.getHeadImg())
-//                        .bitmapTransform(new CropCircleTransformation(MyAccountActivity.this))
-//                       .into(qrcodeIvHead);
-
-//                String string = type + "_xm6leefun_" + SplitWeb.getSplitWeb().getUserId();
-                Log.e("qrcode","----------string_myAccount--------------"+record.getQrcode());
-                createQrCodeImg(record.getQrcode());
-                Log.e("qrcode","-------myAccount---------"+record.getQrcode());
-            }
-        }
     }
 
+//    不需要网络请求，纯数据展示（1、传值显示  2、缓存显示）
+//    @Override
+//    public void receiveResultMsg(String responseText) {
+//        super.receiveResultMsg(responseText);
+//        if (HelpUtils.backMethod(responseText).equals("personalCenter")) {
+//            DataMyZiliao dataMyZiliao = JSON.parseObject(responseText, DataMyZiliao.class);
+//            DataMyZiliao.RecordBean record = dataMyZiliao.getRecord();
+//            if (record != null) {
+//                String s = MyJsonUtils.toChangeJson(record);
+//                aCache.put(AppAllKey.PPERSON_iNFO,s);
+//                qrcodeTvName.setText(record.getNickName());
+//                String headImg = record.getHeadImg();
+//                ImageUtils.useBase64(MyAccountActivity.this, qrcodeIvHead, headImg);
+//                createQrCodeImg(record.getQrcode());
+//            }
+//        }
+//    }
     private void createQrCodeImg(String qrcode) {
         Bitmap bitmap = ZXingUtils.createQRImage(qrcode, 300, 300);
         Drawable drawable = new BitmapDrawable(bitmap);

@@ -49,6 +49,7 @@ import com.mding.chatfeng.about_chat.GlobalOnItemClickManagerUtils;
 import com.mding.chatfeng.about_chat.adapter.CommonFragmentPagerAdapter;
 import com.mding.chatfeng.about_chat.fragment.ChatEmotionFragment;
 import com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment;
+import com.mding.chatfeng.about_chat.ui.PopupList;
 import com.mding.chatfeng.about_chat.ui.StateButton;
 import com.example.zhouwei.library.CustomPopWindow;
 import com.jude.easyrecyclerview.EasyRecyclerView;
@@ -66,6 +67,7 @@ import com.mding.chatfeng.about_utils.SoftKeyboardUtils;
 import com.mding.chatfeng.about_utils.SysRunUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
 import com.mding.chatfeng.about_utils.about_immersive.StateBarUtils;
+import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.about_utils.windowStatusBar;
 import com.mding.chatfeng.main_code.mains.top_pop.ChatPopWindow;
@@ -101,6 +103,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.mding.chatfeng.about_chat.ChatActivity.FriendId;
 import static com.mding.chatfeng.about_chat.ChatActivity.messageTypeImg;
 import static com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment.imgMD5FunFrag;
 import static com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment.imgTotalFunFrag;
@@ -208,15 +211,23 @@ public class ChatGroupActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= 21)
             getWindow().setNavigationBarColor(Color.WHITE);
     }
+    private RealmGroupChatHelper getRealmGroupChatHelper()
+    {
+        if (realmGroupChatHelper == null)
+            realmGroupChatHelper = new RealmGroupChatHelper(this);
+        return realmGroupChatHelper;
+    }
+    private  RealmHomeHelper   getRealmHomeHelper()
+    {
+        if (realmHomeHelper == null)
+            realmHomeHelper = new RealmHomeHelper(this);
+        return realmHomeHelper;
+    }
     @Override
     protected void initBaseView() {
         super.initBaseView();
         setAboutBar();
         SplitWeb.getSplitWeb().IS_CHAT_GROUP = "2";
-        if (realmHomeHelper == null)
-            realmHomeHelper = new RealmHomeHelper(this);
-        if (realmGroupChatHelper == null)
-            realmGroupChatHelper = new RealmGroupChatHelper(this);
         if (hideControl == null)
             hideControl = new HideControl();
         mChatTvShow.setBackgroundResource(R.color.chattrans);
@@ -236,9 +247,6 @@ public class ChatGroupActivity extends BaseActivity {
                 {
                     includeTopTvTitle.setText(nickName);
                 }
-//                includeTopTvTitle.setText(jumpGroupChatData.getGroupName());
-//                cardName = StrUtils.isEmpty(jumpGroupChatData.getCardName()) ? "暂无" : jumpGroupChatData.getCardName();
-//                isChecked = jumpGroupChatData.getDisturbType();
             } else if (GroupChatData != null) {
                 groupId = GroupChatData.getId();
                 includeTopTvTitle.setText(GroupChatData.getName());
@@ -247,7 +255,7 @@ public class ChatGroupActivity extends BaseActivity {
 //        初始化数据库的聊天记录
             initRealm();
 //            通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
-            realmHomeHelper.updateNumZero(groupId);
+            getRealmHomeHelper().updateNumZero(groupId);
 
             listenEnter();
         }
@@ -346,8 +354,8 @@ public class ChatGroupActivity extends BaseActivity {
         SplitWeb.getSplitWeb().IS_CHAT_GROUP = "00";
         EventBus.getDefault().post(new MsgHomeEvent("",groupId,AppConfig.MSG_ZERO_REFRESH));
         try {
-            realmGroupChatHelper.close();
-            realmHomeHelper.close();
+            getRealmGroupChatHelper().close();
+            getRealmHomeHelper().close();
             realmGroupChatHelper = null;
             realmHomeHelper = null;
         } catch (Exception e) {
@@ -366,7 +374,7 @@ public class ChatGroupActivity extends BaseActivity {
     }
 
     private void initRealm() {
-        List<CusGroupChatData> cusRealmChatMsgs = realmGroupChatHelper.queryAllGroupChat(groupId);
+        List<CusGroupChatData> cusRealmChatMsgs = getRealmGroupChatHelper().queryAllGroupChat(groupId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
             chatAdapter.addAll(cusRealmChatMsgs);
             chatAdapter.notifyDataSetChanged();
@@ -486,6 +494,7 @@ public class ChatGroupActivity extends BaseActivity {
 
 
         chatList.setAdapter(chatAdapter);
+        initPopMenu();
         chatList.getRecyclerView().setItemViewCacheSize(20);
         chatAdapter.addItemClickListener(itemClickListener);
 
@@ -506,6 +515,13 @@ public class ChatGroupActivity extends BaseActivity {
                 return false;
             }
         });
+    }
+    private List<String> popupMenuItemList = new ArrayList<>();
+    private void initPopMenu() {
+
+        popupMenuItemList.add(getString(R.string.copy));
+        popupMenuItemList.add(getString(R.string.delete));
+        popupMenuItemList.add(getString(R.string.share));
     }
     private boolean isSoftShowing() {
         //获取当前屏幕内容的高度
@@ -688,17 +704,63 @@ public class ChatGroupActivity extends BaseActivity {
         }
 
         @Override
-        public void onConClick( int position, String conText) {
-            ClipboardManager myClipboard;
-            myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-            ClipData myClip;
-//            String text = "hello world";
-            myClip = ClipData.newPlainText("text", conText);
-            myClipboard.setPrimaryClip(myClip);
-            ToastUtil.show("复制成功");
-//            TODO  在这里复制
+        public void onConClick(View view, int position, String conText) {
+            initPopChoose(view, position, conText);
+//            ClipboardManager myClipboard;
+//            myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+//            ClipData myClip;
+////            String text = "hello world";
+//            myClip = ClipData.newPlainText("text", conText);
+//            myClipboard.setPrimaryClip(myClip);
+//            ToastUtil.show("复制成功");
+////            TODO  在这里复制
         }
+        private void initPopChoose(View view, int position, String conText) {
+            int[] location = new int[2];
+            view.getLocationOnScreen(location);
+            PopupList popupList = new PopupList(view.getContext());
+            popupList.showPopupListWindow(view, position, location[0] + view.getWidth() / 2,
+                    location[1], popupMenuItemList, new PopupList.PopupListListener() {
+                        @Override
+                        public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
+                            return true;
+                        }
+                        @Override
+                        public void onPopupListClick(View contextView, int contextPosition, int positions) {
+//                            第二个参数是第几条数据，第三个参数本列表选择第几个
+                            switch (positions)
+                            {
+                                case  0://复制
+                                    ClipboardManager myClipboard;
+                                    myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                                    ClipData myClip;
+                                    myClip = ClipData.newPlainText("text", conText);
+                                    myClipboard.setPrimaryClip(myClip);
+                                    ToastUtil.show("复制成功，可以去粘贴板黏贴哦");
+                                    break;
+                                case  1://删除
+//                                    chatAdapter.getItem(contextPosition);
+                                        boolean b = getRealmGroupChatHelper().deletePosition(groupId, contextPosition);
+//                                        boolean b = getRealmChatHelper().deletePosition(FriendId, item.getMessageStoId());
+                                        if (b) {
+//                                        chatAdapter.deleteWho(contextPosition);
 
+                                            chatAdapter.remove(contextPosition);
+                                            ToastUtil.show("删除成功");
+                                            chatAdapter.notifyItemChanged(contextPosition);
+//                                        chatAdapter.notifyAdapter(contextPosition);
+//                                            chatAdapter.notifyDataSetChanged();
+                                        } else {
+                                            ToastUtil.show("删除失败，请重试");
+                                        }
+                                    break;
+                                case  2://转发
+
+                                    break;
+                            }
+                        }
+                    });
+        }
         @Override
         public void onImageClick( int position, String imgHttp) {
             IntentUtils.JumpToHaveOne(ShowChatImgActivity.class, ShowChatImgActivity.SHOW_CHAT_IMG_REGION, imgHttp);

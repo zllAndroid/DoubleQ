@@ -111,7 +111,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
         chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                onItemClickListener.onConClick(getAdapterPosition(),data.getMessage());
+                onItemClickListener.onConClick(v,getAdapterPosition(),data.getMessage());
                 return false;
             }
         });
@@ -121,6 +121,7 @@ public class ChatSendViewHolder extends BaseViewHolder<DataJieShou.RecordBean> {
             {
                 case Constants.CHAT_TEXT:
                     chatItemContentText.setTextColor(Color.BLACK);
+//                    chatItemContentText.setTextIsSelectable(true);
                     chatItemContentText.setSpanText(handler, data.getMessage(), false);
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.VISIBLE);

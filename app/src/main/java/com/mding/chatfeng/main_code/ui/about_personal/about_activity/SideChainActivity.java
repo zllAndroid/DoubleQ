@@ -4,14 +4,8 @@ import android.content.Intent;
 
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.BaseActivity;
-
+//橙子口袋子页面
 public class SideChainActivity extends BaseActivity {
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_side_chain);
-//    }
 
     String userId;
     @Override

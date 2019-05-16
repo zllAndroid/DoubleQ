@@ -50,11 +50,12 @@ public class MyJsonUtils {
     }
 
     public static  void initBeforeLogin(final Context mContext) {
-        if (StrUtils.isEmpty(SplitWeb.getSplitWeb().HttpURL)) {
+        if (StrUtils.isEmpty(SplitWeb.getSplitWeb().getFirstUrl())) {
 //            Activity activity = AppManager.getAppManager().currentActivity();
             VolleyRequest.RequestGet(mContext,SplitWeb.getSplitWeb().PreRequest, new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
                 @Override
                 public void onSuccess(final String result) {
+                    Log.e("mACache","----------result------------------>>>"+result);
                     try {
                         final String sucess = HelpUtils.HttpIsSucess(result);
                         if (sucess.equals(AppConfig.CODE_OK))

@@ -2,6 +2,7 @@ package com.mding.chatfeng.about_chat.chat_group;
 
 import android.content.Context;
 import android.os.Handler;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
@@ -52,7 +53,7 @@ public class ChatGroupAdapter extends RecyclerArrayAdapter<CusGroupChatData> {
 
     public interface onItemClickListener {
         void onHeaderClick(int position, int type, String friendId);
-        void onConClick( int position, String conText);
+        void onConClick(View view, int position, String conText);
 
         void onImageClick(int position, String imgHttp);
 

@@ -34,6 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
@@ -52,6 +53,7 @@ import com.mding.chatfeng.about_chat.adapter.CommonFragmentPagerAdapter;
 import com.mding.chatfeng.about_chat.chat_group.ShowChatImgActivity;
 import com.mding.chatfeng.about_chat.fragment.ChatEmotionFragment;
 import com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment;
+import com.mding.chatfeng.about_chat.ui.PopupList;
 import com.mding.chatfeng.about_chat.ui.StateButton;
 import com.mding.chatfeng.about_utils.DensityUtil;
 import com.mding.chatfeng.about_utils.HelpUtils;
@@ -69,6 +71,7 @@ import com.mding.chatfeng.about_utils.windowStatusBar;
 import com.mding.chatfeng.main_code.mains.top_pop.ChatPopWindow;
 import com.mding.chatfeng.main_code.ui.about_contacts.ChooseGroupActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataMixActivity;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_group_team.GroupTeamActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.model.CusChatPop;
 import com.mding.model.CusJumpChatData;
@@ -132,6 +135,7 @@ public class ChatActivity extends BaseActivity {
     NoScrollViewPager viewpager;
     @BindView(R.id.emotion_layout)
     RelativeLayout emotionLayout;
+    //
     @BindView(R.id.include_top_tv_title)
     TextView includeTopTvTital;
     @BindView(R.id.chat_tv_show)
@@ -169,14 +173,6 @@ public class ChatActivity extends BaseActivity {
     int res = 0;
     AnimationDrawable animationDrawable = null;
     private ImageView animView;
-    //    外来消息弹窗显示时间
-    int showTime = 2000;
-//    private Intent websocketServiceIntent;
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
 
     @Override
     protected void initBeforeContentView() {
@@ -188,48 +184,10 @@ public class ChatActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= 21)
             getWindow().setNavigationBarColor(Color.WHITE);
     }
-
-    //        设置导航栏颜色
-    public void initStateBar() {
-//        hideBottomUIMenu();
-    }
-
     @Override
     protected boolean isChenjinshi() {
         return false;
     }
-
-    /**
-     * 隐藏虚拟按键，并且全屏
-     */
-    protected void hideBottomUIMenu() {
-        //隐藏虚拟按键，并且全屏
-        if (Build.VERSION.SDK_INT > 11 && Build.VERSION.SDK_INT < 19) { // lower api
-            View v = this.getWindow().getDecorView();
-            v.setSystemUiVisibility(View.GONE);
-        } else if (Build.VERSION.SDK_INT >= 19) {
-            //for new api versions.
-            View decorView = getWindow().getDecorView();
-            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);
-        }
-
-    }
-//    @Override
-//    protected void initBeforeContentView() {
-//        super.initBeforeContentView();
-//
-//        StateBarUtils.setFullscreen(this,true,false);
-////            设置状态栏的颜色
-//        windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
-//    }
-
-//    @Override
-//    protected boolean isChat() {
-//        return true;
-//    }
-
 
     //    好友id
     public static String FriendId = "";
@@ -251,42 +209,37 @@ public class ChatActivity extends BaseActivity {
     String groupName;
     boolean isLocked = false;
     CusChatPop cusChatPop;
-
+    private  RealmChatHelper   getRealmChatHelper()
+    {
+        if (realmHelper == null)
+            realmHelper = new RealmChatHelper(this);
+        return realmHelper;
+    }
+    private  RealmHomeHelper   getRealmHomeHelper()
+    {
+        if (realmHomeHelper == null)
+            realmHomeHelper = new RealmHomeHelper(this);
+        return realmHomeHelper;
+    }
     @Override
     protected void initBaseView() {
         super.initBaseView();
         setAboutBar();
         SplitWeb.getSplitWeb().IS_CHAT = "1";
-        if (realmHelper == null)
-            realmHelper = new RealmChatHelper(this);
-
-        if (realmHomeHelper == null)
-            realmHomeHelper = new RealmHomeHelper(this);
-
-
         if (hideControl == null)
             hideControl = new HideControl();
-
         mChatTvShow.setBackgroundResource(R.color.chattrans);
-//        realmLink = new RealmLinkManHelper(this);
         Intent intent = getIntent();
         cusJumpChatData = (CusJumpChatData) intent.getSerializableExtra(Constants.KEY_FRIEND_HEADER);
         FriendId = cusJumpChatData.getFriendId();
-//        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
         friendHeader = cusJumpChatData.getFriendHeader();
-//        String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
-//        String  nickName = new RealmFriendUserHelper(this).queryLinkFriendReturnname(FriendId);//获取私聊好友名
-//        MyLog.i("ChatActivity", "----------------------------------nickName---->>" + nickName);
-//        if(!StrUtils.isEmpty(nickName))
-//            includeTopTvTital.setText(nickName);
         incluTvRight.setVisibility(View.GONE);
         includeTopIvMore.setVisibility(View.VISIBLE);
         includeTopIvMore.setImageResource(R.drawable.person);
-//        includeTopIvDrop.setImageResource(R.drawable.spinner_right);
-        MyLog.i("ChatActivity","----------------------------------------标题----->>"+includeTopTvTital.getText().toString());
-//        if (StrUtils.isEmpty(includeTopTvTital.getText().toString())) {
+        String friendName = cusJumpChatData.getFriendName();
+        includeTopTvTital.setText(friendName);
+
         sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
-//        }
         if (isLocked){
             includeTopIvLock.setVisibility(View.VISIBLE);
         }
@@ -299,7 +252,7 @@ public class ChatActivity extends BaseActivity {
         initRealm();
 
 //        通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
-        realmHomeHelper.updateNumZero(FriendId);
+        getRealmHomeHelper().updateNumZero(FriendId);
         listenEnter();
 
     }
@@ -424,9 +377,10 @@ public class ChatActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         SplitWeb.getSplitWeb().IS_CHAT = "00";
+        realmHomeHelper.updateNumZero(FriendId);//更新首页聊天界面数据（未读消息数目）
         EventBus.getDefault().post(new MsgHomeEvent("",FriendId,AppConfig.MSG_ZERO_REFRESH));
-        realmHelper.close();
-        realmHomeHelper.close();
+        getRealmChatHelper().close();
+        getRealmHomeHelper().close();
         realmHelper = null;
         realmHomeHelper = null;
         if (chatPopWindow != null) {
@@ -438,9 +392,10 @@ public class ChatActivity extends BaseActivity {
     ArrayList< DataJieShou.RecordBean> mList = new ArrayList<>();
 
     private void initRealm() {
-        List<CusChatData> cusRealmChatMsgs = realmHelper.queryAllRealmChat(FriendId);
+        List<CusChatData> cusRealmChatMsgs = getRealmChatHelper().queryAllRealmChat(FriendId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
-            mList.clear();
+//            mList.clear();
+            chatAdapter.clear();
             for (int i = 0; i < cusRealmChatMsgs.size(); i++) {
                 DataJieShou.RecordBean recordBean = new DataJieShou.RecordBean();
                 recordBean.setType(cusRealmChatMsgs.get(i).getUserMessageType());
@@ -449,9 +404,11 @@ public class ChatActivity extends BaseActivity {
                 recordBean.setRequestTime(cusRealmChatMsgs.get(i).getCreated());
                 recordBean.setFriendsId(cusRealmChatMsgs.get(i).getReceiveId());
                 recordBean.setHeadImg(cusRealmChatMsgs.get(i).getImgUrl());
-                mList.add(recordBean);
+                recordBean.setMessageStoId(cusRealmChatMsgs.get(i).getMessageStoId());
+//                mList.add(recordBean);
+                chatAdapter.add(recordBean);
             }
-            chatAdapter.addAll(mList);
+//            chatAdapter.addAll(mList);
             chatAdapter.notifyDataSetChanged();
             //    滑动到底部
             layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
@@ -485,7 +442,7 @@ public class ChatActivity extends BaseActivity {
         mInputLinMain.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, final int left, final int top, final int right, final int bottom, final int oldLeft, final int oldTop, final int oldRight, final int oldBottom) {
-//                softDeal();
+//                sofeDeal();
                 if (emotionLayout.isShown() || isSoftShowing()) {
                     if (layoutManager != null && chatAdapter != null)
                         layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
@@ -506,6 +463,8 @@ public class ChatActivity extends BaseActivity {
 //        chatList.setHasFixedSize(true);
         chatList.setLayoutManager(layoutManager);
         chatList.setAdapter(chatAdapter);
+
+        initPopMenu();
         chatList.getRecyclerView().setItemViewCacheSize(20);
 //        chatAdapter.setHasStableIds(true);
         chatAdapter.addItemClickListener(itemClickListener);
@@ -529,18 +488,18 @@ public class ChatActivity extends BaseActivity {
             }
         });
     }
+    private List<String> popupMenuItemList = new ArrayList<>();
+    private void initPopMenu() {
+
+        popupMenuItemList.add(getString(R.string.copy));
+        popupMenuItemList.add(getString(R.string.delete));
+        popupMenuItemList.add(getString(R.string.share));
+    }
     public int absInt(int a) {
         if (a < 0) {
             a = -a;
         }
         return a;
-    }
-    private void softDeal() {
-        if (isSoftShowing()) {
-//                if(oldBottom != 0 && bottom != 0 &&(oldBottom - bottom > keyHeight)){
-            if (layoutManager != null && chatAdapter != null)
-                layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
-        }
     }
 
     private boolean isSoftShowing() {
@@ -681,8 +640,6 @@ public class ChatActivity extends BaseActivity {
             }
         }
     }
-    Intent mIntent = null;
-    String time = null;
     private void dealSendResult(String responseText) {
         DataJieShou dataJieShou = JSON.parseObject(responseText, DataJieShou.class);
         DataJieShou.RecordBean record = dataJieShou.getRecord();
@@ -726,7 +683,7 @@ public class ChatActivity extends BaseActivity {
     CustomPopWindow popWindow = null;
     View view = null;
 
-    private int mPressedPos; // 被点击的位置
+//    private int mPressedPos; // 被点击的位置
     /**
      * item点击事件
      */
@@ -749,21 +706,8 @@ public class ChatActivity extends BaseActivity {
         }
 
         @Override
-        public void onConClick( int position, String conText) {
-//            mRawX = event.getRawX();
-//            mRawY = event.getRawY();
-            mPressedPos = position;
-//            Log.d("onConClick", "e.getRawX()横坐标=" + mRawX + ", e.getRawY()纵坐标=" + mRawY);
-//            Log.d("onConClick", "position=" + position);
-//            initPopWindow(view, position);
-            ClipboardManager myClipboard;
-            myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-            ClipData myClip;
-//            String text = "hello world";
-            myClip = ClipData.newPlainText("text", conText);
-            myClipboard.setPrimaryClip(myClip);
-            ToastUtil.show("复制成功");
-            //            TODO  在这里复制
+        public void onConClick(View view, int position, String conText) {
+            initPopChoose(view, position, conText);
         }
 
         @Override
@@ -809,6 +753,56 @@ public class ChatActivity extends BaseActivity {
         }
     };
 
+    private void initPopChoose(View view, int position, String conText) {
+        int[] location = new int[2];
+        view.getLocationOnScreen(location);
+        PopupList popupList = new PopupList(view.getContext());
+        popupList.showPopupListWindow(view, position, location[0] + view.getWidth() / 2,
+                location[1], popupMenuItemList, new PopupList.PopupListListener() {
+                    @Override
+                    public boolean showPopupList(View adapterView, View contextView, int contextPosition) {
+                        return true;
+                    }
+                    @Override
+                    public void onPopupListClick(View contextView, int contextPosition, int positions) {
+//                            第二个参数是第几条数据，第三个参数本列表选择第几个
+                        switch (positions)
+                        {
+                            case  0://复制
+//                                mPressedPos = contextPosition;
+                                ClipboardManager myClipboard;
+                                myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
+                                ClipData myClip;
+                                myClip = ClipData.newPlainText("text", conText);
+                                myClipboard.setPrimaryClip(myClip);
+                                ToastUtil.show("复制成功，可以去粘贴板黏贴哦");
+                                break;
+                            case  1://删除
+                                    boolean b = getRealmChatHelper().deletePosition(FriendId, contextPosition);
+//                                        boolean b = getRealmChatHelper().deletePosition(FriendId, item.getMessageStoId());
+                                    if (b) {
+//                                        chatAdapter.deleteWho(contextPosition);
+
+                                        chatAdapter.remove(contextPosition);
+                                        ToastUtil.show("删除成功");
+                                        chatAdapter.notifyItemChanged(contextPosition);
+//                                        chatAdapter.notifyAdapter(contextPosition);
+//                                            chatAdapter.notifyDataSetChanged();
+                                    } else {
+                                        ToastUtil.show("删除失败，请重试");
+                                    }
+                                break;
+                            case  2://转发
+//                                TODO
+                                DataJieShou.RecordBean item = chatAdapter.getItem(contextPosition);
+                                String message = item.getMessage();
+
+                                break;
+                        }
+                    }
+                });
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -850,172 +844,6 @@ public class ChatActivity extends BaseActivity {
 
             }
         }
-
-        private Runnable hideRunable = new Runnable() {
-
-            @Override
-            public void run() {
-                mHideHandler.obtainMessage(MSG_HIDE).sendToTarget();
-            }
-        };
-
-        public void startHideTimer() {//开始计时,三秒后执行runable
-            mHideHandler.removeCallbacks(hideRunable);
-            chatWindow.showAtLocation(mLinTop, Gravity.TOP, 0, mLinTop.getHeight());
-//            if(popWindow==null)
-//                popWindow = new CustomPopWindow.PopupWindowBuilder(ChatActivity.this)
-//                        .setView(view)
-//                        .setFocusable(true)
-//                        .setOutsideTouchable(true)
-//                        .size(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-//                        .setAnimationStyle(R.style.AnimDown) // 添加自定义显示和消失动画
-//                        .create()
-//                        .showAsDropDown(mLinTop,0,0);
-//            if (mChatTvShow.getVisibility() == View.GONE) {
-//                mChatTvShow.setVisibility(View.VISIBLE);
-//                mChatTvShow.setBackgroundColor(getResources().getColor(R.color.white));
-//            }
-            mHideHandler.postDelayed(hideRunable, showTime);
-        }
-
-        public void endHideTimer() {//移除runable,将不再计时
-            mHideHandler.removeCallbacks(hideRunable);
-        }
-
-        public void resetHideTimer() {//重置计时
-            mHideHandler.removeCallbacks(hideRunable);
-            mHideHandler.postDelayed(hideRunable, showTime);
-        }
-
-    }
-
-    //    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        EventBus.getDefault().removeStickyEvent(this);
-//        EventBus.getDefault().unregister(this);
-//    }
-
-    private void showPopWindows(View v, final String msg) {
-
-        /** pop view */
-        View mPopView = LayoutInflater.from(this).inflate(R.layout.popup, null);
-        final PopupWindow mPopWindow = new PopupWindow(mPopView, ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        /** set */
-        mPopWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        /** 这个很重要 ,获取弹窗的长宽度 */
-        mPopView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-        int popupWidth = mPopView.getMeasuredWidth();
-        int popupHeight = mPopView.getMeasuredHeight();
-        /** 获取父控件的位置 */
-        int[] location = new int[2];
-        v.getLocationOnScreen(location);
-        /** 显示位置 */
-        mPopWindow.showAtLocation(v, Gravity.NO_GRAVITY, (location[0] + v.getWidth() / 2) - popupWidth / 2, location[1]
-                - popupHeight);
-        mPopWindow.update();
-
-//    final String copyTxt = (String) v.getTag();
-        mPopView.findViewById(R.id.tv_copy_txt).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                //获取剪贴板管理器：
-                ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                // 创建普通字符型ClipData
-                ClipData mClipData = ClipData.newPlainText("Label", msg);
-                // 将ClipData内容放到系统剪贴板里。
-                cm.setPrimaryClip(mClipData);
-                ToastUtil.show("复制成功");
-//            copyToClip(copyTxt);
-                if (mPopWindow != null) {
-                    mPopWindow.dismiss();
-                }
-            }
-        });
-        mPopView.findViewById(R.id.tv_shoucang_txt).setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                ToastUtil.show("点击收藏");
-//            copyToClip(copyTxt);
-                if (mPopWindow != null) {
-                    mPopWindow.dismiss();
-                }
-            }
-        });
-    }
-
-    private float mRawX;
-    private float mRawY;
-
-    private PopupWindow mPopupWindow;
-    private View mPopContentView;
-    private void initPopWindow(final View selectedView, final int position) {
-        if (mPopContentView == null) {
-            mPopContentView = View.inflate(this, R.layout.popup, null);
-        }
-//        LinearLayout layoutDelete = (LinearLayout) mPopContentView.findViewById(R.id.layout_delete);
-        // 在popupWindow还没有弹出显示之前就测量获取其宽高（单位是px像素）
-        int w = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        int h = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-        mPopContentView.measure(w, h);
-        int viewWidth = mPopContentView.getMeasuredWidth();//获取测量宽度px
-        int viewHeight = mPopContentView.getMeasuredHeight();//获取测量高度px
-        final int screenWidth = DensityUtil.getScreenWidth(this.getWindow().getDecorView().getContext());
-        final int screenHeight = DensityUtil.getScreenHeight(this.getWindow().getDecorView().getContext());
-        if (mPopupWindow == null) {
-            mPopupWindow = new PopupWindow(mPopContentView, viewWidth, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-        }
-        mPopupWindow.setOutsideTouchable(true);
-//        mPopupWindow.setBackgroundDrawable(drawable);
-        mPopupWindow.setBackgroundDrawable(new BitmapDrawable());
-        int offX = 0; // 可以自己调整偏移
-        int offY = 0; // 可以自己调整偏移
-        float rawX = mRawX;
-        float rawY = mRawY;
-        if (mRawX <= screenWidth / 2) {
-            rawX = mRawX - offX;
-            if (mRawY < screenHeight / 3) {
-                rawY = mRawY;
-                mPopupWindow.setAnimationStyle(R.style.pop_anim_left_top); //设置动画
-            } else {
-                rawY = mRawY - viewHeight - offY;
-                mPopupWindow.setAnimationStyle(R.style.pop_anim_left_bottom); //设置动画
-            }
-        } else {
-            rawX = mRawX - viewWidth;
-            if (mRawY < screenHeight / 3) {
-                rawY = mRawY - 100;
-                mPopupWindow.setAnimationStyle(R.style.pop_anim_right_top); //设置动画
-            } else {
-                rawY = mRawY - viewHeight;
-                mPopupWindow.setAnimationStyle(R.style.pop_anim_right_bottom); //设置动画
-            }
-        }
-        mPopupWindow.showAtLocation(this.getWindow().getDecorView(), Gravity.NO_GRAVITY, (int) rawX, (int) rawY);
-//        layoutDelete.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                mPopupWindow.dismiss();
-//                if (mChatMessages.size() <= 0) {
-//                    return;
-//                } else {
-//                    mChatMessages.remove(position);
-//                    mChatDetailAdapter.notifyDataSetChanged();
-//                    Toast.makeText(MainActivity.this, "已删除此条聊天内容", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//        });
-
-        mPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                selectedView.setSelected(false);
-            }
-        });
     }
 
 }

@@ -58,7 +58,7 @@ public class DealGroupAdd {
         if (!StrUtils.isEmpty(asString)&&record!=null)
         {
             initDataGroup(asString,record);
-            doRealmGroup(dataAboutGroup,"1"); //  1 add   2 modify  3 delete
+            doRealmGroup(dataAboutGroup,"1",false); //  1 add   2 modify  3 delete
         }
     }
     private   RealmGroupHelper getRealmGroupHelper() {
@@ -66,7 +66,7 @@ public class DealGroupAdd {
         groupHelper = new RealmGroupHelper(mContext);
         return groupHelper;
     }
-    private  void doRealmGroup(DataAboutGroup dataAboutGroup, String type) {
+    private  void doRealmGroup(DataAboutGroup dataAboutGroup, String type,boolean isRemove) {
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
         CusDataGroup cusDataGroup = new CusDataGroup();
         cusDataGroup.setGroupHeadImg(record.getGroupHeadImg());
@@ -86,6 +86,7 @@ public class DealGroupAdd {
         }
         else if (type.equals("3")){
             //不为空说明有该群，则进行删除操作
+            if (isRemove)
             getRealmGroupHelper().deleteRealmFriend(record.getGroupId());
         }
     }
@@ -110,7 +111,7 @@ public class DealGroupAdd {
     }
 
     // 退出群聊；解散群聊
-    public   void updateGroupDataBySub(Context context, String result, RealmHomeHelper realmHomeHelper) {
+    public   void updateGroupDataBySub(Context context, String result, RealmHomeHelper realmHomeHelper,boolean isRemove) {
         mContext=context;
         DataAboutGroup dataAboutGroup = JSON.parseObject(result, DataAboutGroup.class);
         DataAboutGroup.RecordBean record = dataAboutGroup.getRecord();
@@ -125,7 +126,7 @@ public class DealGroupAdd {
                 initDataGroupSub(asString,record);
                 realmHomeHelper.deleteRealmMsg(record.getGroupId());
                 //type为 3  删除
-                doRealmGroup(dataAboutGroup, "3");
+                doRealmGroup(dataAboutGroup, "3",isRemove);
             }
         }
     }

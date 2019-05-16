@@ -7,6 +7,7 @@ import android.os.PowerManager;
 
 import com.alibaba.fastjson.JSON;
 import com.bumptech.glide.Glide;
+import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.Methon;
 import com.mding.chatfeng.about_base.deal_application.DealFriendAdd;
@@ -34,6 +35,7 @@ import com.mding.chatfeng.about_utils.about_realm.new_home.CusHomeRealmData;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.mains.MsgFragment;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
 import com.mding.model.CusJumpChatData;
 import com.mding.model.DataAddfriendSendRequest;
 import com.mding.model.DataAgreeFriend;
@@ -70,6 +72,7 @@ import java.util.concurrent.ExecutionException;
 public class DealDataByApp {
     public static Context mContext;
     public static String message;
+    public static RealmFriendRelationHelper realmFriendRelationHelper;
     public static RealmHomeHelper realmHelper;
     public static RealmChatHelper realmChatHelper;
     public static RealmGroupChatHelper realmGroupChatHelper;
@@ -78,6 +81,12 @@ public class DealDataByApp {
 //        if (realmHelper==null)
         realmHelper = new RealmHomeHelper(mContext);
         return realmHelper;
+    }
+    private  static RealmFriendRelationHelper  getRealmFriendRelationHelper()
+    {
+//        if (realmHelper==null)
+        realmFriendRelationHelper = new RealmFriendRelationHelper(mContext);
+        return realmFriendRelationHelper;
     }
     private  static RealmChatHelper  getRealmChatHelper()
     {
@@ -169,11 +178,11 @@ public class DealDataByApp {
                     break;
 //                    退出群聊
                 case "outGroupListSend":
-                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,getRealmHomeHelper());
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,getRealmHomeHelper(),true);
                     break;
 //                    被移出群，被移除的成員收到的推送
                 case "removeGroupListSend":
-                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,getRealmHomeHelper());
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,getRealmHomeHelper(),false);
                     break;
 //                    修改群信息   给成员发送 联系人变动信息接口  （含：用户修改自己群的名称）
                 case "modifyGroupListSend":
@@ -185,7 +194,7 @@ public class DealDataByApp {
                     break;
 //                    解散群聊
                 case "dissolutionGroupListSend":
-                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,getRealmHomeHelper());
+                    DealGroupAdd.getDealGroupAdd().updateGroupDataBySub(mContext, message,getRealmHomeHelper(),true);
                     break;
 
 //                    添加好友
@@ -278,6 +287,7 @@ public class DealDataByApp {
         }
         CusGroupChatData groupChatData = new CusGroupChatData();
         groupChatData.setCreated(Mytime);
+        groupChatData.setTimeSort(record.getRequestTime());
         groupChatData.setFriendId(record.getMemberId());
         groupChatData.setGroupId(record.getGroupId());
         groupChatData.setGroupUserId(record.getGroupId() + SplitWeb.getSplitWeb().getUserId());
@@ -336,7 +346,7 @@ public class DealDataByApp {
                 }
                 try {
                     Bitmap  bitmap = Glide.with(mContext)
-                            .load(record.getGroupHeadImg())
+                            .load(R.drawable.applogo)
                             .asBitmap() //必须
                             .centerCrop()
                             .into(500, 500)
@@ -391,6 +401,7 @@ public class DealDataByApp {
         if (!SplitWeb.getSplitWeb().IS_CHAT.equals("1"))
             dealList(record);
         cusRealmChatMsg.setCreated(Mytime);
+        cusRealmChatMsg.setTimeSort(record.getRequestTime());
         cusRealmChatMsg.setMessage(record.getMessage());
         cusRealmChatMsg.setMessageType(record.getMessageType());
         cusRealmChatMsg.setReceiveId(record.getFriendsId());
@@ -571,6 +582,7 @@ public class DealDataByApp {
                 }
             }
             cusRealmChatMsg.setCreated(myTime);
+            cusRealmChatMsg.setTimeSort(record.getRequestTime());
 //            cusRealmChatMsg.setCreated(TimeUtil.sf.format(new Date()));
             cusRealmChatMsg.setMessage(record.getMessage());
             cusRealmChatMsg.setMessageType(record.getMessageType());
@@ -612,6 +624,7 @@ public class DealDataByApp {
 //            SPUtils.put(this, AppConfig.CHAT_SEND_TIME_REALM_GROUP,record.getRequestTime());
             cusRealmChatMsg.setCreated(MyTime);
 //            cusRealmChatMsg.setCreated(TimeUtil.sf.format(new Date()));
+            cusRealmChatMsg.setTimeSort(record.getRequestTime());
             cusRealmChatMsg.setMessage(record.getMessage());
             cusRealmChatMsg.setMessageType(record.getMessageType());
             cusRealmChatMsg.setGroupId(record.getGroupId());
@@ -692,11 +705,12 @@ public class DealDataByApp {
 ////            不在聊天界面收到消息时候的处理
 //            noChatUI(record.getMessage(),record.getFriendsId());
 //        }
-        if (!record.getDisturbType().equals("2")) {
-            if (record.getDisturbType().equals("1"))
+//        if (!record.getDisturbType().equals("2")) {
+//            if (record.getDisturbType().equals("1"))
                 xipinhuanxing(record);
-        }
+//        }
         cusRealmChatMsg.setCreated(Mytime);
+        cusRealmChatMsg.setTimeSort(record.getRequestTime());
         cusRealmChatMsg.setMessage(record.getMessage());
         cusRealmChatMsg.setMessageType(record.getMessageType());
         cusRealmChatMsg.setReceiveId(record.getFriendsId());
@@ -749,20 +763,21 @@ public class DealDataByApp {
             wl.release(); // 释放
         }
 //        if (!SplitWeb.getSplitWeb().IS_CHAT.equals("1"))
-        if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext())||!SplitWeb.getSplitWeb().IS_CHAT.equals("1"))
+        if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext()))
             //APP在后台的时候处理接收到消息的事件
             new Thread(new Runnable() {
                 @Override
                 public void run() {
                     try {
                         Bitmap bitmap = Glide.with(BaseApplication.getAppContext())
-                                .load(record.getHeadImg())
+                                .load(R.drawable.applogo)
                                 .asBitmap() //必须
                                 .centerCrop()
                                 .into(500, 500)
                                 .get();
                         NotificationUtil notificationUtils = new NotificationUtil(mContext);
-                        notificationUtils.sendNotification(cusJumpChatData, record.getFriendsName(), record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
+                        String name = getRealmFriendRelationHelper().queryFriendName(record.getFriendsId());
+                        notificationUtils.sendNotification(cusJumpChatData, name, record.getMessage(), bitmap, AppConfig.TYPE_CHAT_QUN);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     } catch (ExecutionException e) {
@@ -808,6 +823,7 @@ public class DealDataByApp {
 
         CusGroupChatData groupChatData = new CusGroupChatData();
         groupChatData.setCreated(Mytime);
+        groupChatData.setTimeSort(record.getRequestTime());
         groupChatData.setFriendId(record.getMemberId());
         groupChatData.setGroupId(record.getGroupId());
         groupChatData.setGroupUserId(record.getGroupId() + SplitWeb.getSplitWeb().getUserId());
@@ -862,11 +878,11 @@ public class DealDataByApp {
 //            TODO 群助手
 //            initAss();
         }else {
-            if (!SplitWeb.getSplitWeb().IS_CHAT_GROUP.equals("2")) {
-//            不在聊天界面收到消息时候的处理
-                if (record.getDisturbType().equals("1"))
+//            if (!SplitWeb.getSplitWeb().IS_CHAT_GROUP.equals("2")) {
+////            不在聊天界面收到消息时候的处理
+//                if (record.getDisturbType().equals("1"))
                     setGroupNotify(record);
-            }
+//            }
             noChatUI(record.getMessage(), record.getGroupId());
         }
     }
@@ -883,7 +899,7 @@ public class DealDataByApp {
             wl.acquire(10000); // 点亮屏幕
             wl.release(); // 释放
         }
-//        if (!SysRunUtils.isAppOnForeground(MyApplication.getAppContext()))
+        if (!SysRunUtils.isAppOnForeground(BaseApplication.getAppContext()))
         //APP在后台的时候处理接收到消息的事件
         new Thread(new Runnable() {
             @Override
@@ -900,7 +916,8 @@ public class DealDataByApp {
                             .into(500, 500)
                             .get();
                     NotificationUtil notificationUtils = new NotificationUtil(mContext);
-                    notificationUtils.sendNotification(cusJumpChatData, record.getGroupName(), msg, bitmap, AppConfig.TYPE_CHAT_QUN);
+                    String name = getRealmGroupChatHelper().queryGroupChatName(record.getGroupId());
+                    notificationUtils.sendNotification(cusJumpChatData, name, msg, bitmap, AppConfig.TYPE_CHAT_QUN);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {

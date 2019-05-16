@@ -184,10 +184,8 @@ public class CreatGroupChatActivity extends BaseActivity {
                     List<DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean> group_list = mFriendList.get(a).getGroupList();
                     for (int b = 0; b < group_list.size(); b++) {
                         String nick_name = group_list.get(b).getNickName();
-                        Log.e("searchCityList", nick_name + "---------输入------------->" + putStr);
                         if (nick_name.contains(putStr)) {
                             searchCityList.add(group_list.get(b));
-                            Log.e("searchCityList", nick_name + "---------jinlai------------->" + putStr);
                         }
                     }
                 }
@@ -213,10 +211,8 @@ public class CreatGroupChatActivity extends BaseActivity {
                     public void run() {
                         if (creatGroupChatAdapter!=null)
                         {
-//                            List<String> checkString= creatGroupChatAdapter.getCheckString();
                             if (mList!=null&&mList.size()!=0)
                                 mSeachAdapter.setChoose(mList);
-                            Log.e("checkChat","mList="+mList.toString());
                         }
                         mSeachAdapter.notifyDataSetChanged();
                     }
@@ -225,18 +221,18 @@ public class CreatGroupChatActivity extends BaseActivity {
         });
     }
     private void initListenSearch() {
-        List<String> checkSearch = mSeachAdapter.getCheckString();
-        if (creatGroupChatAdapter!=null) {
-            List<String> checkString1 = creatGroupChatAdapter.getCheckString();
-        }
-        mSeachAdapter.setCheckedChangeListener(new CreatGroupSeachAdapter.OnMyCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(String friendId, boolean isChecked) {
-                if (isChecked)
-                {
-                }
-            }
-        });
+//        List<String> checkSearch = mSeachAdapter.getCheckString();
+//        if (creatGroupChatAdapter!=null) {
+//            List<String> checkString1 = creatGroupChatAdapter.getCheckString();
+//        }
+//        mSeachAdapter.setCheckedChangeListener(new CreatGroupSeachAdapter.OnMyCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(String friendId, boolean isChecked) {
+//                if (isChecked)
+//                {
+//                }
+//            }
+//        });
     }
 
     List<String> ABCList = new ArrayList<>();
@@ -256,9 +252,11 @@ public class CreatGroupChatActivity extends BaseActivity {
         mLetterBar.setonTouchLetterListener(new LetterBar.onTouchLetterListener() {
             @Override
             public void onTouchDown(String letter) {
-                mTvAbc.removeCallbacks(runnable);
-                mTvAbc.setVisibility(View.VISIBLE);
-                mTvAbc.setText(letter);
+                if (mTvAbc!=null) {
+                    mTvAbc.removeCallbacks(runnable);
+                    mTvAbc.setVisibility(View.VISIBLE);
+                    mTvAbc.setText(letter);
+                }
                 if (letter.equals("⇧")) {
                     mExList.setSelection(0);
 //                    linearLayoutManager.scrollToPositionWithOffset(0, 0);
@@ -276,14 +274,13 @@ public class CreatGroupChatActivity extends BaseActivity {
                     }
                 }
             }
-
             @Override
             public void onTouchUp() {
-                mTvAbc.postDelayed(runnable, 1000);
+                if (mTvAbc!=null)
+                    mTvAbc.postDelayed(runnable, 1000);
             }
         });
     }
-
     public String getFirstABC(String pinyin) {
         String upperCase = pinyin.substring(0, 1).toUpperCase();
         return upperCase;
@@ -299,14 +296,7 @@ public class CreatGroupChatActivity extends BaseActivity {
         String method = HelpUtils.backMethod(responseText);
         switch (method) {
             case "getGroupWebInfo":
-                DataCreatGroupChat dataCreatGroupChat = JSON.parseObject(responseText, DataCreatGroupChat.class);
-                DataCreatGroupChat.RecordBean record = dataCreatGroupChat.getRecord();
-                if (record != null) {
-                    List<DataCreatGroupChat.RecordBean.FriendListBean> friend_list = record.getFriendList();
-                    mFriendList.addAll(friend_list);
-                    if (friend_list.size() > 0)
-                        initAdapter(friend_list);
-                }
+                initGroupInfo(responseText);
                 break;
 //            case "groupSend":
 //                if (record1!=null)
@@ -320,25 +310,25 @@ public class CreatGroupChatActivity extends BaseActivity {
                 DataCreatGroupResult dataCreatGroupResult = JSON.parseObject(responseText, DataCreatGroupResult.class);
                 record1 = dataCreatGroupResult.getRecord();
                 if (record1 != null) {
-//                    DialogUtils.showDialogOne("群创建成功，快去聊天吧", new DialogUtils.OnClickSureListener() {
-//                        @Override
-//                        public void onClickSure() {
-                            CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
-                            cusJumpGroupChatData.setGroupId(record1.getGroupOfId());
-                            cusJumpGroupChatData.setGroupName(record1.getGroupNickName());
-                            IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
-                            AppManager.getAppManager().finishActivity(CreatGroupChatActivity.this);
-//                        }
-//                    });
-//                    send(SplitWeb.groupSend(record1.getGroupOfId(),"群创建成功，快去聊天吧",AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+                    CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
+                    cusJumpGroupChatData.setGroupId(record1.getGroupOfId());
+                    cusJumpGroupChatData.setGroupName(record1.getGroupNickName());
+                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
+                    AppManager.getAppManager().finishActivity(CreatGroupChatActivity.this);
                 }
-
-//                if (blackAdapter != null) {
-//                    blackAdapter.delItem(positions);
-//                }
-//                ToastUtil.show("移除成功");
-//                Log.e("position", "点击了移除" + positions);
                 break;
+        }
+    }
+
+    private void initGroupInfo(String responseText) {
+        DataCreatGroupChat dataCreatGroupChat = JSON.parseObject(responseText, DataCreatGroupChat.class);
+        DataCreatGroupChat.RecordBean record = dataCreatGroupChat.getRecord();
+        if (record != null) {
+            List<DataCreatGroupChat.RecordBean.FriendListBean> friend_list = record.getFriendList();
+            mFriendList.clear();
+            mFriendList.addAll(friend_list);
+            if (friend_list.size() > 0)
+                initAdapter(friend_list);
         }
     }
 

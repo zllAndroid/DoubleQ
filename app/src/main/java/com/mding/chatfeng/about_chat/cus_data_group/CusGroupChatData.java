@@ -15,6 +15,7 @@ public class CusGroupChatData  extends RealmObject {
     String messageType;//    消息类型 1文字 2图 3表情 4文件
     int  userMessageType; //1右 发送，2左 接收
     String  created; //    发送时间
+    String  timeSort; //    发送时间
 
     int sendState;
    String  messageStoId; //消息专属id
@@ -23,6 +24,14 @@ public class CusGroupChatData  extends RealmObject {
     private String operationType;//屏蔽该群
     private String topType;//置顶状态
     private String assistantType;//加入群助手
+
+    public String getTimeSort() {
+        return timeSort;
+    }
+
+    public void setTimeSort(String timeSort) {
+        this.timeSort = timeSort;
+    }
 
     public String getMessageStoId() {
         return messageStoId;

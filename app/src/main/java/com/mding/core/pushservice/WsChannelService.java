@@ -238,7 +238,7 @@ public class WsChannelService extends Service {
             super.onMessage(text);
             String backMethod = HelpUtils.backMethod(text);
             String only = HelpUtils.backOnly(text);
-            MyLog.e("onMessage","only="+only+"---text="+text);
+//            MyLog.e("onMessage","only="+only+"---text="+text);
 
             if (only.equals("1"))
 //            if (only.equals("1")&&backMethod.equals("bindUid"))

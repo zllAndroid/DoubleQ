@@ -110,13 +110,13 @@
             android:persistent="true"
             android:priority="1000"
             android:process=":worker" />
-        <service
-            android:name=".main_code.mains.test_service.DaemonService"
-            android:enabled="true"
-            android:exported="false"
-            android:persistent="true"
-            android:priority="1000"
-            android:process=":daemon" />
+        <!--<service-->
+            <!--android:name=".main_code.mains.test_service.DaemonService"-->
+            <!--android:enabled="true"-->
+            <!--android:exported="false"-->
+            <!--android:persistent="true"-->
+            <!--android:priority="1000"-->
+            <!--android:process=":daemon" />-->
 
         <uses-library
             android:name="org.apache.http.legacy"

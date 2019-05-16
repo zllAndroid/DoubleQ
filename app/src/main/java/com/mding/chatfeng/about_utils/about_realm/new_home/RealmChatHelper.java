@@ -115,11 +115,35 @@ public class RealmChatHelper {
         if (realmMsgs!=null) {
             //增序排列
 //            realmMsgs = realmMsgs.sort(FILE_NAME);
-            realmMsgs = realmMsgs.sort(FILE_NAME, Sort.DESCENDING);
+            realmMsgs = realmMsgs.sort("timeSort", Sort.ASCENDING);
         }
 //        //降序排列
 //        dogs=dogs.sort("id", Sort.DESCENDING);
         return realmMsgs;
+    }
+    public boolean deletePosition(String id,String msgId) {
+        CusChatData realmMsgs = mRealm.where(CusChatData.class).equalTo(FILE_NAME, id + SplitWeb.getSplitWeb().getUserId()).equalTo("messageStoId", msgId).findFirst();
+        if (realmMsgs!=null) {
+            mRealm.beginTransaction();
+            realmMsgs.deleteFromRealm();
+            mRealm.commitTransaction();
+            return true;
+        }
+//        //降序排列
+//        dogs=dogs.sort("id", Sort.DESCENDING);
+        return false;
+    }
+    public boolean deletePosition(String id,int position) {
+        RealmResults<CusChatData> realmMsgs = mRealm.where(CusChatData.class).equalTo(FILE_NAME, id+SplitWeb.getSplitWeb().getUserId()).findAll();
+        if (realmMsgs!=null) {
+            mRealm.beginTransaction();
+            realmMsgs.deleteFromRealm(position);
+            mRealm.commitTransaction();
+            return true;
+        }
+//        //降序排列
+//        dogs=dogs.sort("id", Sort.DESCENDING);
+        return false;
     }
     public void delChatMsgAll(String id) {
         RealmResults<CusChatData> realmMsgs = mRealm.where(CusChatData.class).equalTo(FILE_NAME, id+SplitWeb.getSplitWeb().getUserId()).findAll();

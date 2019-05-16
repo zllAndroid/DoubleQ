@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -121,27 +122,30 @@ public class RegisterActivity extends BaseActivity {
             DialogUtils.showDialog("密码至少要包括:\n字母、数字、标点符号\n的其中两项,长度为6-20位");
             return;
         }
+        String register = SplitWeb.getSplitWeb().register(phone, psw, code);
 
-//        if (phone.equals(psw)){
-//            DialogUtils.showDialog("密码不能与会员名相同");
-//            return;
-//        }
 
-        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower, SplitWeb.getSplitWeb().register(phone,psw,code), new NetWorkUtlis.OnNetWork() {
-            @Override
-            public void onNetSuccess(String result) {
-                SPUtils.put(RegisterActivity.this, AppAllKey.SP_LOGIN_ACCOUNT,phone);
-                DialogUtils.showDialogOne("注册成功", new DialogUtils.OnClickSureListener() {
-                    @Override
-                    public void onClickSure() {
-                        AppManager.getAppManager().finishActivity();
-                        overridePendingTransition(0,0);
-                    }
-                });
-//                Tip.getDialog(RegisterActivity.this,"注册成功",true);
-            }
-        });
+        if(register.contains("http"))
+        {
+            NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+            netWorkUtlis.setOnNetWork(AppAllKey.LodingFlower, register, new NetWorkUtlis.OnNetWork() {
+                @Override
+                public void onNetSuccess(String result) {
+                    SPUtils.put(RegisterActivity.this, AppAllKey.SP_LOGIN_ACCOUNT,phone);
+                    DialogUtils.showDialogOne("注册成功", new DialogUtils.OnClickSureListener() {
+                        @Override
+                        public void onClickSure() {
+                            AppManager.getAppManager().finishActivity();
+                            overridePendingTransition(0,0);
+                        }
+                    });
+                }
+            });
+        }else
+        {
+            ToastUtil.show("请稍后再试");
+            MyJsonUtils.initBeforeLogin(RegisterActivity.this);
+        }
     }
     private void initSendSms() {
         String phone = regEdPhone.getText().toString().trim();
@@ -155,15 +159,22 @@ public class RegisterActivity extends BaseActivity {
 //            Tip.getDialog(this,"手机号输入有误");
             return;
         }
-        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().smsCode(phone, "2"), new NetWorkUtlis.OnNetWork() {
-            @Override
-            public void onNetSuccess(String msg) {
-                String isSucess = HelpUtils.HttpIsSucess(msg);
-                if (isSucess.equals(AppAllKey.CODE_OK))
-                    timer.start();
-            }
-        });
+        String smsCodeHttp = SplitWeb.getSplitWeb().smsCode(phone, "2");
+        if (smsCodeHttp.contains("http"))
+        {
+            NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+            netWorkUtlis.setOnNetWork(smsCodeHttp, new NetWorkUtlis.OnNetWork() {
+                @Override
+                public void onNetSuccess(String msg) {
+                    String isSucess = HelpUtils.HttpIsSucess(msg);
+                    if (isSucess.equals(AppAllKey.CODE_OK))
+                        timer.start();
+                }
+            });
+        }else{
+            ToastUtil.show("请稍后再试");
+            MyJsonUtils.initBeforeLogin(RegisterActivity.this);
+        }
     }
     private CountDownTimer timer =new CountDownTimer(60000, 1000) {
         @Override

@@ -85,7 +85,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN,
 //                WindowManager.LayoutParams.FLAG_FORCE_NOT_FULLSCREEN);
         if (isChenjinshi())
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 //        getWindow().setBackgroundDrawableResource(android.R.color.transparent);// 将 Activity 的背景色取消
 
@@ -98,11 +98,11 @@ public class BaseActivityForResult extends AppCompatActivity  {
         simpleName = getClass().getSimpleName();
 //        ScreenUtils.setWindowStatusBarColor(AppManager.getAppManager().currentActivity(),R.color.red);
         if (isChenjinshi())
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
 //            windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
-            getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
-        }
+                getWindow().setNavigationBarColor(getResources().getColor(R.color.white));
+            }
         initBeforeContentView();
         setContentView(getLayoutView());
 //        hideBottomMenu();
@@ -417,17 +417,17 @@ public class BaseActivityForResult extends AppCompatActivity  {
     protected boolean isGonesStatus() {
         return false;
     }
-//    是否沉浸式状态栏  默认是
+    //    是否沉浸式状态栏  默认是
     protected boolean isChenjinshi() {
         return true;
     }
 
-//    是否聊天页面，默认不是
+    //    是否聊天页面，默认不是
     protected boolean isChat() {
         return false;
     }
 
-//    是否登录页面 默认不是
+    //    是否登录页面 默认不是
     protected boolean isLogin() {
         return false;
     }
@@ -454,7 +454,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
     }
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)
-        public void onEvent(MessageEvent messageEvent){
+    public void onEvent(MessageEvent messageEvent){
         Log.i("messageEvent","onEven_messageEvent="+messageEvent.getMessage());
         Stack<AppCompatActivity> stack = AppManager.getAppManager().getStack();
         if (stack!=null&&stack.size()!=0) {

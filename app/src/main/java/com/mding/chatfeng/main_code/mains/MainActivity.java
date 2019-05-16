@@ -1,13 +1,9 @@
 package com.mding.chatfeng.main_code.mains;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Handler;
-import android.os.PowerManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.util.Log;
@@ -22,7 +18,6 @@ import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_broadcastreceiver.MainTabNumEvent;
-import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_custom.about_cus_dialog.DialogRiskTestUtils;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.NetWorkUtlis;
@@ -33,6 +28,7 @@ import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_utils.windowStatusBar;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
+import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 
 import org.greenrobot.eventbus.EventBus;
@@ -43,7 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 /**
  * 项目：DoubleQ
- * 文件描述：程序主界面
+ * 文件描述：程序主界面,app更新接口
  * 作者：zll
  * 创建时间：
  * 修改人：
@@ -59,10 +55,6 @@ public class MainActivity extends BaseActivity  {
         return R.layout.activity_main;
     }
 
-    //    @Override
-//    protected boolean isGones() {
-//        return true;
-//    }
     public static  int stateHight;
     public static  int naigertionHight;
     @Override
@@ -109,16 +101,9 @@ public class MainActivity extends BaseActivity  {
         }
 //        刷新首页tab数量
 //          刷新联系人tab数量
-//        initBro();
-//        initBroc();
         int num = (int) SPUtils.get(this, AppConfig.LINKMAN_FRIEND_NUM, 0);
         if (num>0)
         {
-//            Intent intent = new Intent();
-//            intent.putExtra("num", num );
-//            intent.setAction("action.addFriend");
-//            sendBroadcast(intent);
-
             EventBus.getDefault().post(new MainTabNumEvent(num,AppConfig.MAIN_TAB_TWO));
         }
         Intent intent_dialog = getIntent();
@@ -135,34 +120,22 @@ public class MainActivity extends BaseActivity  {
                         });
             }
         }
-
-
+//initUpData();
         if (BaseApplication.isMain) {
 //        版本更新
             int localVersion = 0;
             try {
-//                int localVersion = HelpUtils.getLocalVersion(this);
-//                sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
-
                 localVersion = HelpUtils.getLocalVersion(MainActivity.this);
-//                sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
                 NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
                 netWorkUtlis.setOnNetWorkNormal(SplitWeb.getSplitWeb().appUpdateHttp(localVersion + ""), new NetWorkUtlis.OnNetWork() {
                     @Override
                     public void onNetSuccess(String result) {
-                        Log.e("result","appUpdateHttp------------------->"+result);
+                        MyLog.e("result","appUpdateHttp------------------->"+result);
                         String isSucess = HelpUtils.HttpIsSucess(result);
                         if (isSucess.equals(AppConfig.CODE_OK))
                             VersionCheckUtils.initUpdata(result, true);
                     }
                 });
-//                NetWorkUtlis netWorkUtlis2 = new NetWorkUtlis();
-//                netWorkUtlis2.setOnNetWorkNormal(SplitWeb.getSplitWeb().pullMergeChat(), new NetWorkUtlis.OnNetWork() {
-//                    @Override
-//                    public void onNetSuccess(String result) {
-//                        Log.e("result","pullMergeChat------------------->"+result);
-//                    }
-//                });
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -171,6 +144,26 @@ public class MainActivity extends BaseActivity  {
             sendWeb(SplitWeb.getSplitWeb().bindUid());
         }
         BaseApplication.isMain=false;
+    }
+
+    private void initUpData() {
+        int localVersion = 0;
+        try {
+            localVersion = HelpUtils.getLocalVersion(MainActivity.this);
+            NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+            netWorkUtlis.setOnNetWorkNormal(SplitWeb.getSplitWeb().appUpdateHttp(localVersion + ""), new NetWorkUtlis.OnNetWork() {
+                @Override
+                public void onNetSuccess(String result) {
+                    Log.e("result","appUpdateHttp------------------->"+result);
+                    String isSucess = HelpUtils.HttpIsSucess(result);
+                    if (isSucess.equals(AppConfig.CODE_OK))
+                        VersionCheckUtils.initUpdata(result, true);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
@@ -235,8 +228,6 @@ public class MainActivity extends BaseActivity  {
         return false;
     }
 
-    boolean isExit;
-    Handler mHandler = new Handler();
     public boolean onKeyDown(int keyCode, KeyEvent event)
     {
         if (keyCode == KeyEvent.KEYCODE_BACK)

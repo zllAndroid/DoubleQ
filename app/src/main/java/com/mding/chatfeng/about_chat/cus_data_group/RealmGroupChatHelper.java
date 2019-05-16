@@ -3,6 +3,7 @@ package com.mding.chatfeng.about_chat.cus_data_group;
 import android.content.Context;
 
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_utils.about_realm.new_home.CusChatData;
 
 import java.util.List;
 import java.util.TreeMap;
@@ -98,13 +99,41 @@ public class RealmGroupChatHelper {
         if (realmMsgs!=null) {
             //增序排列
 //            realmMsgs = realmMsgs.sort(FILE_NAME);
-            realmMsgs = realmMsgs.sort(FILE_NAME, Sort.DESCENDING);
+//            realmMsgs = realmMsgs.sort(FILE_NAME, Sort.DESCENDING);
+            realmMsgs = realmMsgs.sort("timeSort", Sort.ASCENDING);
         }
 //        //降序排列
 //        dogs=dogs.sort("id", Sort.DESCENDING);
         return realmMsgs;
     }
-
+    public String queryGroupChatName(String id) {
+        CusGroupChatData realmMsgs = mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME, id+SplitWeb.getSplitWeb().getUserId()).findFirst();
+        /**
+         * 对查询结果，按Id进行排序，只能对查询结果进行排序
+         */
+        if (realmMsgs!=null) {
+            //增序排列
+//            realmMsgs = realmMsgs.sort(FILE_NAME);
+//            realmMsgs = realmMsgs.sort(FILE_NAME, Sort.DESCENDING);
+            String nameGroup = realmMsgs.getNameGroup();
+            return nameGroup;
+        }
+//        //降序排列
+//        dogs=dogs.sort("id", Sort.DESCENDING);
+        return "你有新消息";
+    }
+    public boolean deletePosition(String id,int position) {
+        RealmResults<CusGroupChatData> realmMsgs = mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME, id+SplitWeb.getSplitWeb().getUserId()).findAll();
+        if (realmMsgs!=null&&realmMsgs.size()>position) {
+            mRealm.beginTransaction();
+            realmMsgs.deleteFromRealm(position);
+            mRealm.commitTransaction();
+            return true;
+        }
+//        //降序排列
+//        dogs=dogs.sort("id", Sort.DESCENDING);
+        return false;
+    }
 
     public boolean isHaveExist(String id){
         CusGroupChatData dog=mRealm.where(CusGroupChatData.class).equalTo(FILE_NAME,id+SplitWeb.getSplitWeb().getUserId()).findFirst();

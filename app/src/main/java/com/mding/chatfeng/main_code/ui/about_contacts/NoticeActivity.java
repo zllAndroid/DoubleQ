@@ -25,6 +25,7 @@ import com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayou
 import com.mding.model.DataNews;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
+import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -99,7 +100,15 @@ public class NoticeActivity extends BaseActivity {
                     if (listInfo.size()==0)
                     {
                         return;
+                    }else if (listInfo.size()==1){
+                        String userId = listInfo.get(0).getUserId();
+                        if (StrUtils.isEmpty(userId))
+                        {
+//                            listInfo.remove(0);
+                            return;
+                        }
                     }
+
                     mList.clear();
                     mList.addAll(listInfo);
                     initAdapter();

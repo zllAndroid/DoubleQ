@@ -29,14 +29,9 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.OnClick;
 import jp.wasabeef.glide.transformations.CropCircleTransformation;
-
+//我的朋友圈
 public class MyDiscoverActivity extends BaseActivity {
 
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_my_discover);
-//    }
 
     String userId;
     @BindView(R.id.top_bar)

@@ -71,7 +71,6 @@ public class ContactChildFragment extends BaseFragment {
         if (view==null) {
             if (typeWho == 0) {
                 if (isFriend) {
-                    MyLog.e("ContactChildFragment","isFriend="+isFriend);
 //                初始化好友列表
                     view = inflater.inflate(R.layout.fragment_friend, container, false);
                     initFriendUI(view);
@@ -418,14 +417,12 @@ public class ContactChildFragment extends BaseFragment {
         {
 //            获取好友列表
             case "getFriendList":
-//                initDataFriend(responseText,"yes");
                 sendTask(responseText, USE_WS);
                 break;
 
 //            获取群组列表
             case "getGroupManage":
                 sendGroupTask(responseText, USE_WS);
-//                initDataGroup(responseText,true);
                 break;
         }
     }
@@ -466,8 +463,6 @@ public class ContactChildFragment extends BaseFragment {
         }else if (friend_list.size()==0)
         {
             mFriendList.clear();
-            if (mlinkFriend!=null)
-                mlinkFriend.notifyDataSetChanged();
         }
     }
 

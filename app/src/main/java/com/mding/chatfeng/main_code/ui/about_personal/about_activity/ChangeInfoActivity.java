@@ -32,12 +32,15 @@ import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
+import com.mding.chatfeng.main_code.about_login.AboutLoginSaveData;
+import com.mding.chatfeng.main_code.about_login.FirstAddHeaderActivity;
 import com.mding.chatfeng.main_code.mains.PersonalFragment;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.mding.model.DataLogin;
 import com.mding.model.DataMyZiliao;
 import com.mding.model.DataSetHeadResult;
 import com.mding.model.HeadImgInfo;
+import com.mding.model.PersonInfo;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
@@ -56,6 +59,8 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 
 import static com.mding.chatfeng.about_utils.about_file.HeadFileUtils.getRealFilePathFromUri;
+import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
+
 //我的资料页面   在个人中心点击进入此
 public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow.OnAddContantClickListener {
 
@@ -85,14 +90,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     LinearLayout mLinMain;
     @BindView(R.id.include_top_lin_background)
     LinearLayout includeTopLinBackground;
-
-//    @BindView(R.id.include_top_lin_back)
-//    LinearLayout includeTopLinBack;
-
-    //    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
 
     //请求相机
     private static final int REQUEST_CAPTURE = 100;
@@ -130,13 +127,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         includeTopIvBack.setVisibility(View.VISIBLE);
         includeTopTvTital.setText("我的资料");
         includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
-//        setHeadForFile();
         if (aCache==null){
             aCache =  ACache.get(this);
-        }
-        imageBase64 = aCache.getAsString(PersonalFragment.IMAGE_BASE64);
-        if (imageBase64!=null){
-            ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, imageBase64);
         }
         String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
         if (!StrUtils.isEmpty(json)){
@@ -153,8 +145,12 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     private void initUI(String json) {
         DataMyZiliao.RecordBean recordBean = JSON.parseObject(json, DataMyZiliao.RecordBean.class);
         if (recordBean!=null) {
+
+            ImageUtils.useBase64(ChangeInfoActivity.this,changeinfoIvHead,recordBean.getHeadImg());
+
             changeinfoTvName.setText(recordBean.getNickName());
             changeinfoTvCount.setText(recordBean.getWxSno());
+
             signatureText = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? "暂未设置" : recordBean.getPersonaSignature();
             changeinfoTvSign.setText(signatureText);
             String up_sno_num = recordBean.getUpSnoNum();
@@ -165,39 +161,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             }
         }
     }
-
-//    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-//    @Subscribe(threadMode = ThreadMode.MAIN, sticky = true) //在ui线程执行
-//    public void onDataSynEvent(final HeadImgInfo headImgInfo) {
-//        imageBase64 = headImgInfo.getHeadImgBase64();
-//        ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, headImgInfo.getHeadImgBase64());
-//    }
-
-    //    从文件中设置头像
-//    private void setHeadForFile() {
-////        GlideCacheUtil.getInstance().clearImageAllCache(ChangeInfoActivity.this);
-////        List<String> fileName = FilePath.getFilesAllName(FilePath.getAbsPath() + "chatHead/");
-//        String userId = SplitWeb.getSplitWeb().getUserId();
-//        String mPath= FilePath.getAbsPath(FilePath.appPath+userId+"/")+"chatHead/";
-//        List<String> fileName = FilePath.getFilesAllName(mPath);
-//        Log.e("setHeadForFile","mPath="+mPath+"--------"+fileName.size());
-//        if (fileName != null && fileName.size() > 0) {
-//            String path = fileName.get(fileName.size() - 1);
-//            Log.e("setHeadForFile","path="+path);
-//            Glide.with(this).load(path)
-//                    .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-//                    .thumbnail(0.1f)
-//                    .into(changeinfoIvHead);
-//        }
-//        else {
-//            Glide.with(this).load(R.drawable.first_head_nor)
-//                    .bitmapTransform(new CropCircleTransformation(ChangeInfoActivity.this))
-//                    .thumbnail(0.1f)
-//
-//                    .into(changeinfoIvHead);
-//        }
-//    }
-
     //0 修改昵称   1 修改帐号 2 修改个签
     String isChangeName = "0";
     private PhotoPopWindow photoPopWindow = null;
@@ -266,23 +229,9 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 case R.id.btn_open_cramre:
                     destoryImage();
                     getPicturesFile();
-//                    //权限判断
-//                    if (ContextCompat.checkSelfPermission(ChangeInfoActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-//                            != PackageManager.PERMISSION_GRANTED) {
-//                        //申请WRITE_EXTERNAL_STORAGE权限
-//                        ActivityCompat.requestPermissions(ChangeInfoActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-//                                WRITE_EXTERNAL_STORAGE_REQUEST_CODE);
-//                    } else {
-//                        //跳转到调用系统相机
-//                        goToCamera();
-//                    }
-//                    photoPopWindow.dismiss();
                     break;
                 case R.id.btn_open_xaingce:
                     //	相册
-//                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                    startActivityForResult(i, RESULT_LOAD_IMAGE);
-
                     //权限判断
                     if (ContextCompat.checkSelfPermission(ChangeInfoActivity.this, Manifest.permission.READ_EXTERNAL_STORAGE)
                             != PackageManager.PERMISSION_GRANTED) {
@@ -301,32 +250,10 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         }
     };
 
-//    /**
-//     * 跳转到照相机
-//     */
-//    private void goToCamera() {
-//        Log.d("==image==", "*****************打开相机********************");
-//        //创建拍照存储的图片文件
-//        tempFile = new File(FileUtil.checkDirPath(Environment.getExternalStorageDirectory().getPath() + "/image/"), System.currentTimeMillis() + ".jpg");
-//
-//        //跳转到调用系统相机
-//        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-//            //设置7.0中共享文件，分享路径定义在xml/file_paths.xml
-//            intent.setFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-//            Uri contentUri = FileProvider.getUriForFile(ChangeInfoActivity.this, BuildConfig.APPLICATION_ID + ".fileProvider", tempFile);
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, contentUri);
-//        } else {
-//            intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(tempFile));
-//        }
-//        startActivityForResult(intent, REQUEST_CAPTURE);
-//    }
-
     /**
      * 跳转到相册
      */
     private void goToAlbum() {
-        Log.d("==image==", "*****************打开相册********************");
         //跳转到调用系统图库
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(Intent.createChooser(intent, "请选择图片"), REQUEST_PICK);
@@ -351,14 +278,11 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == WRITE_EXTERNAL_STORAGE_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission Granted
-//                goToCamera();
                 destoryImage();
                 getPicturesFile();
             }
         } else if (requestCode == READ_EXTERNAL_STORAGE_REQUEST_CODE) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Permission Granted
                 goToAlbum();
             }
         }
@@ -377,7 +301,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
                     aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
                     String up_sno_num = record.getUpSnoNum();
-//                    int visibility = changeinfoIvWrite.getVisibility();
                     if (up_sno_num.equals("1")) {
                         changeinfoIvWrite.setVisibility(View.VISIBLE);
                     } else {
@@ -387,7 +310,6 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     changeinfoTvCount.setText(record.getWxSno());
                     if (StrUtils.isEmpty(record.getPersonaSignature())) {
                         changeinfoTvSign.setHint("暂未设置");
-//                        changeinfoTvSign.setHintTextColor(getResources().getColor(R.color.white));
                     } else {
                         changeinfoTvSign.setText(record.getPersonaSignature());
                     }
@@ -398,22 +320,17 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 PersonalFragment.isChange = true;
                 SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_NAME, contant);
                 SplitWeb.getSplitWeb().NICK_NAME = contant;
-//                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_NO,dataLogin.getWxSno());
-//                SPUtils.put(HelpUtils.activity,AppConfig.TYPE_SIGN,dataLogin.getPersonaSignature());
-//                SplitWeb.getSplitWeb().PERSON_SIGN = dataLogin.getPersonaSignature();
-//                SplitWeb.getSplitWeb().WX_SNO = dataLogin.getWxSno();
-//                aCache.put(NICK_NAME,contant);
                 String json = aCache.getAsString(AppAllKey.PPERSON_iNFO);
                 if (!StrUtils.isEmpty(json)) {
-//                    DataMyZiliao dataMyZiliao2 = JSON.parseObject(json,DataMyZiliao.class);
                     DataMyZiliao.RecordBean record = JSON.parseObject(json, DataMyZiliao.RecordBean.class);
                     record.setNickName(contant);
                     String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
                     aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
-//                    }
                 }
-
                 changeinfoTvName.setText(contant);
+                PersonInfo personInfo = new PersonInfo();
+                personInfo.setNickName(contant);
+                EventBus.getDefault().post(personInfo);
                 break;
             case "upPersonSign":
                 PersonalFragment.isChange = true;
@@ -422,12 +339,9 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 String json2 = aCache.getAsString(AppAllKey.PPERSON_iNFO);
                 if (!StrUtils.isEmpty(json2)) {
                     DataMyZiliao.RecordBean record = JSON.parseObject(json2, DataMyZiliao.RecordBean.class);
-//                    if (dataLogin != null) {
                     record.setPersonaSignature(contant);
-//                    String jsonString = JSON.toJSONString(recordBean);
                     String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
                     aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
-//                    }
                 }
                 if (StrUtils.isEmpty(contant)) {
                     changeinfoTvSign.setText("暂未设置");
@@ -435,6 +349,10 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 else {
                     changeinfoTvSign.setText(contant);
                 }
+
+                PersonInfo personInfo2 = new PersonInfo();
+                personInfo2.setSign(contant);
+                EventBus.getDefault().post(personInfo2);
                 break;
             case "upUserSno":
                 SPUtils.put(ChangeInfoActivity.this, AppConfig.TYPE_NO, contant);
@@ -444,6 +362,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                 if (!StrUtils.isEmpty(json3)) {
                     DataMyZiliao.RecordBean record = JSON.parseObject(json3, DataMyZiliao.RecordBean.class);
                     record.setWxSno(contant);
+                    record.setUpSnoNum("0");
                     String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
                     aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
                 }
@@ -459,16 +378,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                         String s = headImg.contains("_")?"yes" : "no";
                         MyLog.i("imageBase64","------------changeInfoActivity--------------"+s);
                         SplitWeb.getSplitWeb().USER_HEADER = headImg;
-//                        Glide.with(this)
-//                                .load(headImg)
-//                                .downloadOnly(new SimpleTarget<File>() {
-//                                    @Override
-//                                    public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-////                                    这里拿到的resource就是下载好的文件，
-//                                        File file = HeadFileUtils.saveHeadPath(ChangeInfoActivity.this, resource);
-//                                    }
-//                                });
-//                        ImageUtils.useBase64(ChangeInfoActivity.this, changeinfoIvHead, headImg);
+                        aCache.put(IMAGE_BASE64, headImg);
                         aCache.put(AppAllKey.User_HEAD_URL, headImg);
                         HeadImgInfo headImgInfo = new HeadImgInfo();
                         headImgInfo.setHeadImgBase64(headImg);
@@ -482,6 +392,17 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                             record.setHeadImg(headImg);
                             String jsonString = MyJsonUtils.toChangeJson(record);//将java对象转换为json对象
                             aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
+                        }else {
+                            String sNo = (String) SPUtils.get(ChangeInfoActivity.this, AppConfig.TYPE_NO, "");
+                            String qrCode = aCache.getAsString(AboutLoginSaveData.QR_CODE);
+                            String nickName = aCache.getAsString(AppAllKey.User_NI_NAME);
+                            DataMyZiliao.RecordBean recordBean = new DataMyZiliao.RecordBean();
+                            recordBean.setHeadImg(headImg);
+                            recordBean.setNickName(nickName);
+                            recordBean.setWxSno(sNo);
+                            recordBean.setQrcode(qrCode);
+                            String mData = MyJsonUtils.toChangeJson(recordBean);
+                            aCache.put(AppAllKey.PPERSON_iNFO,mData);
                         }
                     }
                 }

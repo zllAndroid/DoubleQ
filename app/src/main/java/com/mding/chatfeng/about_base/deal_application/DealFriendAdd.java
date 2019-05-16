@@ -162,11 +162,11 @@ public class DealFriendAdd {
                     e.printStackTrace();
                 }
             }
-            if (record!=null)
-            {
-                getRealmFriendRelationHelper().deleteRealmFriend(record.getFriendsId());
-                getRealmFriendUserHelper().deleteRealmFriend(record.getFriendsId());
-            }
+//            if (record!=null)
+//            {
+//                getRealmFriendRelationHelper().deleteRealmFriend(record.getFriendsId());
+//                getRealmFriendUserHelper().deleteRealmFriend(record.getFriendsId());
+//            }
 
         }
     }

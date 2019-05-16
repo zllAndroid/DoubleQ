@@ -1,5 +1,7 @@
 package com.mding.model;
 
+import com.google.gson.GsonBuilder;
+
 import java.io.Serializable;
 import java.util.List;
 

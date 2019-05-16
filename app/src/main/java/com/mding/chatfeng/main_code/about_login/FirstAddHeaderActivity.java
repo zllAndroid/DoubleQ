@@ -32,10 +32,12 @@ import com.android.volley.VolleyError;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.about_utils.NetWorkUtlis;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ClipImgActivity;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
+import com.mding.model.DataMyZiliao;
 import com.mding.model.DataSetHeader;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
@@ -46,6 +48,7 @@ import com.mding.chatfeng.about_utils.about_file.HeadFileUtils;
 import com.mding.chatfeng.main_code.ui.about_personal.changephoto.PhotoPopWindow;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_base.BaseActivity;
+import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
@@ -157,36 +160,11 @@ public class FirstAddHeaderActivity extends BaseActivity {
                 break;
             case R.id.first_btn_sure:
                 String name = firstEdName.getText().toString().trim();
-//                if (imageBase64==null)
-//                {
-//                    ToastUtil.show("请选择头像设置");
-//                    return;
-//                }
-//
                 if (StrUtils.isEmpty(name))
                 {
                     ToastUtil.show("请输入您的昵称");
                     return;
                 }
-
-
-//                NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-//
-//
-//                netWorkUtlis.setOnNetWorkNormal(SplitWeb.getSplitWeb().setHeadImg(name, imageBase64), new NetWorkUtlis.OnNetWork() {
-//                    @Override
-//                    public void onNetSuccess(String result) {
-//                        try {
-//                            initImgData(result);
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                });
-
-//                TreeMap<String, String> map = new TreeMap<>();
-//                map.put()
-//                String img=imageBase64+"_"+imageBase64;
                 TreeMap<String, String> stringStringTreeMap = SplitWeb.getSplitWeb().setHeadImg(name, imageBase64 );
                 Log.e("stringStringTreeMap","---------------------->>stringStringTreeMap="+stringStringTreeMap);
                 VolleyRequest.RequestPost(FirstAddHeaderActivity.this,SplitWeb.getSplitWeb().getURLRequest()+"setHeadImg?","",stringStringTreeMap,new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
@@ -235,35 +213,24 @@ public class FirstAddHeaderActivity extends BaseActivity {
                     SPUtils.put(this, AppConfig.TYPE_NAME, nickName);
 
                 if (!StrUtils.isEmpty(headImg)) {
+                    String sNo = (String) SPUtils.get(FirstAddHeaderActivity.this, AppConfig.TYPE_NO, "");
+                    String qrCode = aCache.getAsString(AboutLoginSaveData.QR_CODE);
+                    DataMyZiliao.RecordBean recordBean = new DataMyZiliao.RecordBean();
+                    recordBean.setHeadImg(headImg);
+                    recordBean.setNickName(nickName);
+                    recordBean.setWxSno(sNo);
+                    recordBean.setUpSnoNum("1");
+                    recordBean.setQrcode(qrCode);
+                    String s = MyJsonUtils.toChangeJson(recordBean);
+                    aCache.put(AppAllKey.PPERSON_iNFO,s);
                     aCache.put(IMAGE_BASE64, headImg);
                     SPUtils.put(this,AppConfig.User_HEAD_URL,headImg);
 //                    ImageUtils.useBase64(FirstAddHeaderActivity.this, firstIvHead, headImg.substring(0, headImg.indexOf("_")));
                     ImageUtils.useBase64(FirstAddHeaderActivity.this, firstIvHead, headImg);
-//                    Glide.with(this)
-//                            .load(headImg)
-//                            .downloadOnly(new SimpleTarget<File>() {
-//                                @Override
-//                                public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-////                                    这里拿到的resource就是下载好的文件，
-//                                    File file = HeadFileUtils.saveHeadPath(FirstAddHeaderActivity.this, resource);
-//                                }
-//                            });
                 }
             }
             IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadLinkManActivity.class);
-//            IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
-//                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);
-//                AppManager.getAppManager().finishActivity();
             overridePendingTransition(0,0);
-//            DialogUtils.showDialogOne("头像昵称设置成功", new DialogUtils.OnClickSureListener() {
-//                @Override
-//                public void onClickSure() {
-//                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,LoadDataActivity.class);
-////                    IntentUtils.JumpFinishTo(FirstAddHeaderActivity.this,MainActivity.class);
-////                AppManager.getAppManager().finishActivity();
-//                    overridePendingTransition(0,0);
-//                }
-//            });
         }
     }
 

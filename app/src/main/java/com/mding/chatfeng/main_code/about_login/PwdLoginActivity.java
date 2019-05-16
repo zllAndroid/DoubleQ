@@ -166,13 +166,20 @@ public class PwdLoginActivity extends BaseLogin {
 //            Tip.getDialog(this,"手机号输入有误");
             return;
         }
-        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-        netWorkUtlis.setOnNetWork(SplitWeb.getSplitWeb().smsCode(phone, "1"), new NetWorkUtlis.OnNetWork() {
-            @Override
-            public void onNetSuccess(String msg) {
-                timer.start();
-            }
-        });
+        String smsCode = SplitWeb.getSplitWeb().smsCode(phone, "1");
+        if (smsCode.contains("http")) {
+            NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+            netWorkUtlis.setOnNetWork(smsCode, new NetWorkUtlis.OnNetWork() {
+                @Override
+                public void onNetSuccess(String msg) {
+                    timer.start();
+                }
+            });
+        }else
+        {
+            ToastUtil.show("请稍后再试");
+            MyJsonUtils.initBeforeLogin(PwdLoginActivity.this);
+        }
     }
     //点击验证码登录，执行短信登录内容
     private void initCodeLogin() {
@@ -206,6 +213,7 @@ public class PwdLoginActivity extends BaseLogin {
                     iLoginRequst.loginRequest(s);
                 }else
                 {
+                    ToastUtil.show("请稍后再试");
                     initUrl();
                 }
             }

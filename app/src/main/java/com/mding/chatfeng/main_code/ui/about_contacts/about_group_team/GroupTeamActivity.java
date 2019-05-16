@@ -6,14 +6,18 @@ import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
+import com.mding.chatfeng.about_chat.ui.PopupList;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
+import com.mding.chatfeng.main_code.mains.MainActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.FriendDataMixActivity;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_contacts_adapter.GroupTeamMemberAdapter;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_custom.LetterBar;
@@ -209,7 +213,6 @@ public class GroupTeamActivity extends BaseActivity {
         if (groupTeamAdapter==null)
             groupTeamAdapter = new GroupTeamMemberAdapter(GroupTeamActivity.this, allCusList);
         mExpanList.setAdapter(groupTeamAdapter);
-
         groupTeamAdapter.notifyDataSetChanged();
         for (int i=0; i<allCusList.size(); i++)
         {
@@ -224,6 +227,7 @@ public class GroupTeamActivity extends BaseActivity {
                 return true;
             }
         });
+
         mExpanList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
@@ -258,6 +262,7 @@ public class GroupTeamActivity extends BaseActivity {
         });
 
     }
+
     public int positions;
 
 }

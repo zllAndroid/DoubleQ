@@ -1,5 +1,6 @@
 package com.mding.chatfeng.about_chat.chat_group;
 
+import android.graphics.Color;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
@@ -90,7 +91,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
         chatItemContentText.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                onItemClickListener.onConClick(getAdapterPosition(),data.getMessage());
+                onItemClickListener.onConClick(v,getAdapterPosition(),data.getMessage());
                 return false;
             }
         });
@@ -99,6 +100,8 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
             switch (data.getMessageType())
             {
                 case Constants.CHAT_TEXT:
+                    chatItemContentText.setTextColor(Color.BLACK);
+//                    chatItemContentText.setTextIsSelectable(true);
                     chatItemContentText.setSpanText(handler, data.getMessage(), false);
                     chatItemVoice.setVisibility(View.GONE);
                     chatItemContentText.setVisibility(View.VISIBLE);

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 public class LetterBar  extends View
 {
-
     private Paint mpaint;
     ArrayList<String>  ABCList = new ArrayList<String>();
     private int height;
@@ -66,7 +65,6 @@ public class LetterBar  extends View
         mpaint2.setTextAlign(Align.CENTER);
         mpaint2.setTextSize(Text_Size);
         mpaint2.setColor(context.getResources().getColor(R.color.doubleq_theme));
-//        mpaint2.setColor(context.getResources().getColor(R.color.normal));
     }
 
     @Override
@@ -111,20 +109,17 @@ public class LetterBar  extends View
             case MotionEvent.ACTION_DOWN:
                 if (index!=0)
                 listener.onTouchDown(ABCList.get(index));
-//		Toast.makeText(getContext(), ABCList.get(index), Toast.LENGTH_SHORT).show();
                 isTouch=true;
                 break;
             //监听移动
             case MotionEvent.ACTION_MOVE:
                 if (index!=0)
                 listener.onTouchDown(ABCList.get(index));
-//		Toast.makeText(getContext(),ABCList.get(index), Toast.LENGTH_SHORT).show();
                 isTouch=true;
                 break;
             //手指移开
             case MotionEvent.ACTION_UP:
                 listener.onTouchUp();
-//		Toast.makeText(getContext(), "移开", Toast.LENGTH_LONG).show();
                 isTouch=false;
                 break;
 

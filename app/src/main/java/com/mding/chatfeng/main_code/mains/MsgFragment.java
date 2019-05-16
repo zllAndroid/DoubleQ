@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mding.chatfeng.R;
@@ -26,6 +27,7 @@ import com.mding.chatfeng.about_broadcastreceiver.NetReceiver;
 import com.mding.chatfeng.about_chat.ChatActivity;
 import com.mding.chatfeng.about_chat.chat_group.ChatGroupActivity;
 import com.mding.chatfeng.about_chat.cus_data_group.CusJumpGroupChatData;
+import com.mding.chatfeng.about_chat.ui.PopupList;
 import com.mding.chatfeng.about_custom.WrapContentLinearLayoutManager;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.NetUtils;
@@ -465,7 +467,7 @@ public class MsgFragment extends BaseFragment {
     }
 
     private void initAdapter() {
-        if (msgAdapter == null)
+        if (msgAdapter == null) {
             msgAdapter = new MsgAdapter(getActivity(), mList, mItemTouchListener);
             mRecyclerView.setAdapter(msgAdapter);
             msgAdapter.notifyDataSetChanged();
@@ -501,8 +503,12 @@ public class MsgFragment extends BaseFragment {
 
                 }
             });
-
+        }
+        else {
+            msgAdapter.notifyDataSetChanged();
+        }
     }
+    private List<String> popupMenuItemList = new ArrayList<>();
 
     private void clickItem(BaseQuickAdapter adapter, int position) {
         CusHomeRealmData item = (CusHomeRealmData) adapter.getItem(position);
@@ -522,6 +528,7 @@ public class MsgFragment extends BaseFragment {
             cusJumpChatData.setFriendHeader(item.getHeadImg());
             cusJumpChatData.setFriendId(item.getFriendId());
 //                  cusJumpChatData.setFriendName(name);
+
             cusJumpChatData.setFriendName(item.getNickName());
 //            cusJumpChatData.setFriendRemarkName(remarkName);
 //            cusJumpChatData.setFriendGroupName(groupingName);

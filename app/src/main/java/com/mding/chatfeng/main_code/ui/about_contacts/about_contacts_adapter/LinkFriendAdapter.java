@@ -38,6 +38,9 @@ public class LinkFriendAdapter extends BaseExpandableListAdapter {
     public int getGroupCount() {
         return mGroupList.size();
     }
+    public void notifyFriend() {
+       notifyDataSetChanged();
+    }
 
     @Override
     public int getChildrenCount(int groupPosition) {

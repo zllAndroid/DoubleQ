@@ -37,25 +37,6 @@ public class GroupTeamAdapter extends BaseQuickAdapter<DataGroupMember.RecordBea
 
             tv_cities.setText(groupList.get(i).getNickName());
         }
-//        tv_cities.setText();
-//        Allcity allcity = allCitiesList.get(positions);
-//        tv_cities.setText(allcity.getName());
-//        String firstABC = getFirstABC(allcity.getPinyin());
-//        if (positions==0)
-//        {
-//            tv_zimu.setVisibility(View.VISIBLE);
-//            tv_zimu.setText(firstABC);
-//        }else {
-//            String upFirstABC = getFirstABC(allCitiesList.get(positions-1).getPinyin());
-//            if (firstABC.equals(upFirstABC))
-//            {
-//                tv_zimu.setVisibility(View.GONE);
-//            }
-//            else {
-//                tv_zimu.setVisibility(View.VISIBLE);
-//                tv_zimu.setText(firstABC);
-//            }
-//        }
     }
     public String getFirstABC(String pinyin)
     {

@@ -58,10 +58,6 @@ public class AddGoodFriendActivity extends BaseActivity {
 
     public static String DataKey = "addfriend";
 
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
 
     DataSearch dataSearch = null;
 
@@ -79,12 +75,7 @@ public class AddGoodFriendActivity extends BaseActivity {
             if (dataSearch == null)
                 return;
             String headImg = dataSearch.getHeadImg();
-//            ImageUtils.useBase64WithError(AddGoodFriendActivity.this,fdaIvHead, headImg.substring(0, headImg.indexOf("_")), R.drawable.first_head_nor);
-            ImageUtils.useBase64WithError(AddGoodFriendActivity.this,fdaIvHead, dataSearch.getHeadImg(), R.drawable.first_head_nor);
-//            Glide.with(this).load(dataSearch.getHeadImg())
-//                    .error(R.drawable.first_head_nor)
-//                    .bitmapTransform(new CropCircleTransformation(AddGoodFriendActivity.this))
-//                    .into(fdaIvHead);
+            ImageUtils.useBase64WithError(AddGoodFriendActivity.this,fdaIvHead, headImg, R.drawable.first_head_nor);
             fdaTvName.setText(dataSearch.getName());
         }
 
@@ -105,8 +96,6 @@ public class AddGoodFriendActivity extends BaseActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-
-//            fdaEdYanzheng.setSelection(fdaEdYanzheng.getText().toString().length());
             if (editable.length() > 20) {
                 editable.delete(20, editable.length());
             }

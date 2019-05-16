@@ -156,6 +156,9 @@ public class SplitWeb {
             HttpURL= BaseApplication.getaCache().getAsString(AppConfig.TYPE_URL);
         return HttpURL+"/V2_0_0";
     }
+    public  String getFirstUrl() {
+        return BaseApplication.getaCache().getAsString(AppConfig.TYPE_URL);
+    }
     public  String getURLRequest() {
         return getURL()+"/LoginController/";
 //        return "http://"+getURL()+"/LoginController/";

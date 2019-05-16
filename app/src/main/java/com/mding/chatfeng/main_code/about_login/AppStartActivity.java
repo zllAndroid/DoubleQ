@@ -106,11 +106,7 @@ public class AppStartActivity extends BaseLogin {
             if (mybinder!=null) {
                 mybinder.showFloatingWindowMiUI8();
             }
-//            MiExToast miToast = new MiExToast(getApplicationContext());
-//            miToast.setDuration(MiExToast.LENGTH_ALWAYS);
-//            miToast.show();
         }
-//        startActivity(service.setClass(AppStartActivity.this, MainActivity.class));
     }
 
     @Override
@@ -168,7 +164,6 @@ public class AppStartActivity extends BaseLogin {
             String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
             if (!StrUtils.isEmpty(asString))
             {
-                MyLog.e("unbindService","-----------un----------------->>appstartActivity");
                 unbindService(this);
             }
         } catch (Exception e) {
@@ -196,15 +191,12 @@ public class AppStartActivity extends BaseLogin {
             String asString = mCache.getAsString(AppAllKey.TOKEN_KEY);
             if (!StrUtils.isEmpty(asString))
             {
-                Log.e("result","token信息"+asString.toString());
                 DataLogin dataLogin = JSON.parseObject(asString, DataLogin.class);
                 DataLogin.RecordBean record = dataLogin.getRecord();
 //                DataLogin.RecordBean dataLogin = JSON.parseObject(asString, DataLogin.RecordBean.class);
                 if (record!=null) {
                     initSetData(AppStartActivity.this,record);
                     String asFriend = mCache.getAsString(AppAllKey.FRIEND_DATA);
-                    Log.e("result","FRIEND_DATA信息="+asFriend);
-//                    IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
 
                     if (StrUtils.isEmpty(asFriend))
                     {
@@ -212,7 +204,6 @@ public class AppStartActivity extends BaseLogin {
                     }else {
                         IntentUtils.JumpFinishTo(AppStartActivity.this, MainActivity.class);
                     }
-                    MyLog.e("unbindService","------------init---------------->>appstartActivity");
                     init(BaseApplication.getAppContext());
                     overridePendingTransition(0, 0);
                     return;
@@ -244,9 +235,6 @@ public class AppStartActivity extends BaseLogin {
         mCache.put(AppAllKey.USER_ID_KEY,dataLogin.getUserId());
         mCache.put(AppAllKey.USER_Token,dataLogin.getUserToken());
     }
-    //    @NeedsPermission(value = {Manifest.permission.CAMERA, Manifest.permission.READ_PHONE_STATE, Manifest.permission.ACCESS_NETWORK_STATE}, maxSdkVersion = 16)
-//    void OnNeed() {
-//    }
 //
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {

@@ -45,12 +45,6 @@ public class AddGoodGroupActivity extends BaseActivity {
     @BindView(R.id.fda_lin_main)
     LinearLayout mLinMain;
 
-    public static String DataKey = "addgroup";
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//    }
 
     DataSearch dataSearch=null;
     @Override
@@ -66,8 +60,7 @@ public class AddGoodGroupActivity extends BaseActivity {
                 return;
             String headImg = dataSearch.getHeadImg();
 //            ImageUtils.useBase64WithError(AddGoodGroupActivity.this,fdaIvHead, headImg.substring(0, headImg.indexOf("_")), R.drawable.first_head_nor);
-            ImageUtils.useBase64WithError(this, fdaIvHead, dataSearch.getHeadImg(), R.drawable.qun_head);
-//            Glide.with(this).load(dataSearch.getHeadImg()).error(R.drawable.first_head_nor).into(fdaIvHead);
+            ImageUtils.useBase64WithError(this, fdaIvHead,headImg, R.drawable.qun_head);
             fdaTvName.setText(dataSearch.getName());
 
         }

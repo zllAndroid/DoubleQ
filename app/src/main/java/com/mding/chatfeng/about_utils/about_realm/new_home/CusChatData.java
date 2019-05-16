@@ -18,6 +18,15 @@ public  class CusChatData extends RealmObject {
     String  message; //    消息内容
     String  imgUrl; //    消息内容
     String  created; //    发送时间
+    String  timeSort; //    发送时间
+
+    public String getTimeSort() {
+        return timeSort;
+    }
+
+    public void setTimeSort(String timeSort) {
+        this.timeSort = timeSort;
+    }
 
     public String getImgUrl() {
         return imgUrl;
