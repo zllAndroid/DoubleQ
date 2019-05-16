@@ -34,6 +34,7 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.about_utils.NetWorkUtlis;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ChangeInfoActivity;
 import com.mding.chatfeng.main_code.ui.about_personal.about_activity.ClipImgActivity;
 import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
@@ -209,6 +210,7 @@ public class FirstAddHeaderActivity extends BaseActivity {
             if (record!=null) {
                 String headImg = record.getHeadImg();
                 String nickName = record.getNickName();
+//                new RealmFriendUserHelper(this).updateNameAndHeadImg(SplitWeb.getSplitWeb().getUserId(),nickName,headImg);
                 if (!StrUtils.isEmpty(nickName))
                     SPUtils.put(this, AppConfig.TYPE_NAME, nickName);
 

@@ -36,6 +36,7 @@ import com.mding.chatfeng.about_utils.about_realm.new_home.RealmChatHelper;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.mains.MsgFragment;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendRelationHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.model.CusJumpChatData;
 import com.mding.model.DataAddfriendSendRequest;
 import com.mding.model.DataAgreeFriend;
@@ -57,6 +58,7 @@ import com.zll.websocket.Response;
 import org.greenrobot.eventbus.EventBus;
 
 import java.text.ParseException;
+import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -822,7 +824,7 @@ public class DealDataByApp {
             Mytime = "";
             AppConfig.mCHAT_RECEIVE_TIME_REALM_GROUP = "";
         }
-
+        setGroupNotify(record);
         CusGroupChatData groupChatData = new CusGroupChatData();
         groupChatData.setCreated(Mytime);
         groupChatData.setTimeSort(record.getRequestTime());
@@ -883,7 +885,7 @@ public class DealDataByApp {
 //            if (!SplitWeb.getSplitWeb().IS_CHAT_GROUP.equals("2")) {
 ////            不在聊天界面收到消息时候的处理
 //                if (record.getDisturbType().equals("1"))
-                    setGroupNotify(record);
+
 //            }
             noChatUI(record.getMessage(), record.getGroupId());
         }
@@ -910,10 +912,11 @@ public class DealDataByApp {
                     try {
                         String msg = record.getMessage();
                         if (!record.getMessageType().equals(Constants.CHAT_NOTICE)) {
-                            msg = record.getMemberName() + "：" + record.getMessage();
+                            String membername = new RealmFriendUserHelper(BaseApplication.getAppContext()).queryLinkFriendReturnname(record.getMemberId());
+                            msg = membername+ "：" + record.getMessage();
                         }
                         Bitmap bitmap = Glide.with(mContext)
-                                .load(record.getGroupHeadImg())
+                                .load(R.drawable.app_logo)
                                 .asBitmap() //必须
                                 .centerCrop()
                                 .into(500, 500)

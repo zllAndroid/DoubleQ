@@ -78,6 +78,9 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                 ImageUtils.useBase64(getContext(),chatItemHeader,imgPath);
             else
                 ImageUtils.useerror(getContext(),chatItemHeader, com.mding.chatfeng.R.drawable.first_head_nor);
+
+            String name = realmFriendUserHelper.queryLinkFriendReturnname(data.getFriendId());
+            chatName.setText(name);
         }else
         {
             ImageUtils.useerror(getContext(),chatItemHeader, com.mding.chatfeng.R.drawable.first_head_nor);
@@ -108,7 +111,7 @@ public class ChatGroupAcceptViewHolder extends BaseViewHolder<CusGroupChatData> 
                     chatItemLayoutContent.setVisibility(View.VISIBLE);
 //                    好友昵称
                     chatName.setVisibility(View.VISIBLE);
-                    chatName.setText(data.getNameFriend());
+
 
                     chatItemVoiceTime.setVisibility(View.GONE);
                     chatItemContentImage.setVisibility(View.GONE);
