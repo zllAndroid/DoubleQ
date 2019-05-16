@@ -183,8 +183,6 @@ public class ChatGroupActivity extends BaseActivity {
     RealmHomeHelper realmHomeHelper;
 
     HideControl hideControl;
-    CusJumpGroupChatData jumpGroupChatData;
-    DataSearch GroupChatData;
 
     public static String groupId;
 
@@ -316,12 +314,8 @@ public class ChatGroupActivity extends BaseActivity {
                     //处理事件
                     String ed = editText.getText().toString().trim();
                     if (!StrUtils.isEmpty(ed)) {
-                        if (jumpGroupChatData != null)
-                            send(SplitWeb.getSplitWeb().groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
-                        else if (GroupChatData != null) {
-                            send(SplitWeb.getSplitWeb().groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
-                        }
-//                        send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+                        if (groupId != null)
+                            send(SplitWeb.getSplitWeb().groupSend(groupId, ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
                     } else {
                         editText.setText("");
                         ToastUtil.show("发送的内容不能为空");
@@ -522,13 +516,12 @@ public class ChatGroupActivity extends BaseActivity {
     public void onEvent(DataJieShou.RecordBean messageInfo) {
         String ed = editText.getText().toString().trim();
         if (!StrUtils.isEmpty(ed)) {
-            if (jumpGroupChatData != null)
-                send(SplitWeb.getSplitWeb().groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
-            else if (GroupChatData != null)
-                send(SplitWeb.getSplitWeb().groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
-        } else {
-            editText.setText("");
-            ToastUtil.show("发送的内容不能为空");
+            if (groupId != null)
+                send(SplitWeb.getSplitWeb().groupSend(groupId, ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+            else {
+                editText.setText("");
+                ToastUtil.show("发送的内容不能为空");
+            }
         }
     }
 

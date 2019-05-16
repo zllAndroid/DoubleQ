@@ -212,11 +212,18 @@ public class LoginActivity extends BaseLogin {
         }
         else if (isSucess.equals(AppConfig.CODE_EPC)){
             String httpReturnMsg = HelpUtils.HttpReturnMsg(mLoginModel);
+            try {
+                ToastUtil.show(httpReturnMsg);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Message message = Message.obtain();
+                message.what=BackError;
+                message.obj=httpReturnMsg;
+                successHandle.sendMessage(message);
+            }
+
 //            Message message = new Message();
-            Message message = Message.obtain();
-            message.what=BackError;
-            message.obj=httpReturnMsg;
-            successHandle.sendMessage(message);
+
         }
     }
     public  static  final  int BackError=1;
