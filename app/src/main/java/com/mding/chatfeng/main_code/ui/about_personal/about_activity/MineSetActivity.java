@@ -47,8 +47,6 @@ public class MineSetActivity extends BaseActivity {
     TextView includeTopTvTital;
     @BindView(R.id.include_top_lin_back)
     LinearLayout includeTopLin;
-    //    @BindView(R.id.set_tv_versition)
-//    TextView setTvVersition;
     @BindView(R.id.set_cus_lin_share)
     CusLinearLayout setCusLinShare;
     @BindView(R.id.set_lin_count)
@@ -86,18 +84,6 @@ public class MineSetActivity extends BaseActivity {
         realmChatHelper = new RealmChatHelper(this);
         includeTopTvTital.setText("设置");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
-//        try {
-//            totalCacheSize = DataCleanManager.getTotalCacheSize(this);
-////            setTvCache.setText(totalCacheSize);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        try {
-//            String versionName = HelpUtils.getLocalVersionName();
-//            setTvVersition.setText("v" + versionName);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
         Intent intent = getIntent();
         if (intent != null) {
             userPhone = intent.getStringExtra("phone");
@@ -133,12 +119,6 @@ public class MineSetActivity extends BaseActivity {
         setCusLinShare.setViewLineVisible(false);
         setCusLinShare.setImgLogo(getResources().getDrawable(R.drawable.mine_share));
         setCusLinShare.setTvTitle("名片分享设置");
-        setCusLinShare.setOnLinClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentUtils.JumpTo(ShareSetActivity.class);
-            }
-        });
     }
 
     //        帐号与安全
@@ -147,60 +127,30 @@ public class MineSetActivity extends BaseActivity {
         setLinCount.setViewLineVisible(false);
         setLinCount.setImgLogo(getResources().getDrawable(R.drawable.set_count));
         setLinCount.setTvTitle("帐号与安全");
-        setLinCount.setOnLinClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentUtils.JumpTo(CountAndSafeActivity.class);
-            }
-        });
     }
 
     //        隐私设置
     private void initYinSi() {
         setLinYinsi.setImgLogo(getResources().getDrawable(R.drawable.set_yinsi));
         setLinYinsi.setTvTitle("隐私设置");
-        setLinYinsi.setOnLinClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentUtils.JumpTo(YinSiActivity.class);
-            }
-        });
     }
 
     //        消息提醒
     private void initMsgNotify() {
         setLinMessage.setImgLogo(getResources().getDrawable(R.drawable.set_message));
         setLinMessage.setTvTitle("消息提醒");
-        setLinMessage.setOnLinClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentUtils.JumpTo(NewsRemindActivity.class);
-            }
-        });
     }
 
     //        屏蔽设置
     private void initPingBi() {
         setLinPingbi.setImgLogo(getResources().getDrawable(R.drawable.set_pingbi));
         setLinPingbi.setTvTitle("屏蔽设置");
-        setLinPingbi.setOnLinClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentUtils.JumpTo(LaBlackActivity.class);
-            }
-        });
     }
 
     //        朋友圈设置
     private void initDiscover() {
         setLinDiscover.setImgLogo(getResources().getDrawable(R.drawable.set_pingbi));
         setLinDiscover.setTvTitle("朋友圈设置");
-        setLinDiscover.setOnLinClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                IntentUtils.JumpTo(DiscoverSetActivity.class);
-            }
-        });
     }
 
     //        清理缓存
@@ -208,31 +158,13 @@ public class MineSetActivity extends BaseActivity {
         setLinClearCache.setLinGreyBacVisible(true);
         setLinClearCache.setViewLineVisible(false);
         setLinClearCache.setImgLogo(getResources().getDrawable(R.drawable.set_clean));
-        setLinClearCache.setTvTitle("" +
-                "清理缓存");
+        setLinClearCache.setTvTitle("" + "清理缓存");
         try {
             totalCacheSize = DataCleanManager.getTotalCacheSize(MineSetActivity.this);
         } catch (Exception e) {
             e.printStackTrace();
         }
         setLinClearCache.setTvContent(totalCacheSize);
-        String tvContent = setLinClearCache.getTvContent();
-        setLinClearCache.setOnLinClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!tvContent.equals("0KB")) {
-                    DialogUtils.showDialog("确认清理" + tvContent + "缓存？", new DialogUtils.OnClickSureListener() {
-                        @Override
-                        public void onClickSure() {
-                            cleanCaChe();
-                            setLinClearCache.setTvContent("0KB");
-                        }
-                    });
-                } else {
-                    ToastUtil.show("暂无缓存");
-                }
-            }
-        });
     }
 
     //        检查更新
@@ -241,38 +173,11 @@ public class MineSetActivity extends BaseActivity {
         setLinVersion.setTvTitle("检查更新");
         String versionName = HelpUtils.getLocalVersionName();
         setLinVersion.setTvContent("v" + versionName);
-        setLinVersion.setOnLinClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //        版本更新
-                try {
-                    int localVersion = HelpUtils.getLocalVersion(MineSetActivity.this);
-//                    sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
-                    NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-                    netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().appUpdateHttp(localVersion + ""), new NetWorkUtlis.OnNetWork() {
-                        @Override
-                        public void onNetSuccess(String result) {
-                            String isSucess = HelpUtils.HttpIsSucess(result);
-                            if (isSucess.equals(AppConfig.CODE_OK))
-                                VersionCheckUtils.initUpdata(result, false);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
     }
     //        关于我们
     private void initAboutUs() {
         setLinAboutMe.setImgLogo(getResources().getDrawable(R.drawable.set_aboutme));
         setLinAboutMe.setTvTitle("关于我们");
-        setLinAboutMe.setOnLinClick(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ToastUtil.show("这里是关于我们\n敬请期待！");
-            }
-        });
     }
 
     @Override
@@ -281,9 +186,6 @@ public class MineSetActivity extends BaseActivity {
         if (SplitWeb.getSplitWeb().IS_SET_ACTIVITY.equals("1")) {
             String method = HelpUtils.backMethod(responseText);
             switch (method) {
-//                case "appUpdate":
-//                    VersionCheckUtils.initUpdata(responseText, false);
-//                    break;
                 case "kickUid":
                     Log.e("kickUid", "----------------------kickUid-----------------");
                     break;
@@ -294,9 +196,6 @@ public class MineSetActivity extends BaseActivity {
     //    清理缓存
     private void cleanCaChe() {
         try {
-//            String totalCacheSize = DataCleanManager.getTotalCacheSize(this);
-//            setTvCache.setText(totalCacheSize);
-
             // 群聊删除聊天记录
             RealmGroupChatHelper realmGroupChatHelper = new RealmGroupChatHelper(MineSetActivity.this);
             realmGroupChatHelper.deleteAll();
@@ -305,175 +204,95 @@ public class MineSetActivity extends BaseActivity {
             realmChatHelper.deleteAll();
 
             ToastUtil.show("清理缓存成功");
-//            setTvCache.setText("0KB);
-
-//            RealmGroupChatHelper realmGroupChatHelper = new RealmGroupChatHelper(MineSetActivity.this);
-//            realmGroupChatHelper.deleteAll();
-
 
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    //    @OnClick({R.id.set_lin_pingbi, R.id.set_lin_share, R.id.set_lin_count, R.id.set_lin_yinsi, R.id.set_lin_message, R.id.set_lin_discover,
-//            R.id.set_lin_clear_cache, R.id.set_lin_versition, R.id.set_lin_about_me, R.id.set_btn_esc})
-//    public void onViewClicked(View view) {
-//        switch (view.getId()) {
-////            打开  名片分享  界面
-//            case R.id.set_lin_share:
-//                if (NoDoubleClickUtils.isDoubleClick())
-//                    IntentUtils.JumpTo(ShareSetActivity.class);
-//                break;
-//
-////                打开  帐号与安全  界面
-//            case R.id.set_lin_count:
-//                if (NoDoubleClickUtils.isDoubleClick())
-//                    IntentUtils.JumpTo(CountAndSafeActivity.class);
-//                break;
-//
-////                打开 隐私设置 界面
-//            case R.id.set_lin_yinsi:
-//                if (NoDoubleClickUtils.isDoubleClick())
-//                    IntentUtils.JumpTo(YinSiActivity.class);
-//                break;
-//
-////                打开消息提醒界面
-//            case R.id.set_lin_message:
-//                if (NoDoubleClickUtils.isDoubleClick())
-//                    IntentUtils.JumpTo(NewsRemindActivity.class);
-//                break;
-//
-////                打开 屏蔽设置  界面
-//            case R.id.set_lin_pingbi:
-//                if (NoDoubleClickUtils.isDoubleClick())
-//                    IntentUtils.JumpTo(LaBlackActivity.class);
-//                break;
-//
-////                打开 朋友圈设置 界面
-//            case R.id.set_lin_discover:
-//                if (NoDoubleClickUtils.isDoubleClick())
-//                    IntentUtils.JumpTo(DiscoverSetActivity.class);
-//                break;
-//
-//
-////                清理缓存
-//            case R.id.set_lin_clear_cache:
-//                if (NoDoubleClickUtils.isDoubleClick()) {
-//                    if (!setTvCache.getText().toString().equals("0KB")) {
-//                        DialogUtils.showDialog("确认清理" + setTvCache.getText().toString() + "缓存？", new DialogUtils.OnClickSureListener() {
-//                            @Override
-//                            public void onClickSure() {
-//                                cleanCaChe();
-//                            }
-//                        });
-//                    } else {
-//                        ToastUtil.show("暂无缓存");
-//                    }
-//                }
-//                break;
-////                检查更新
-//            case R.id.set_lin_versition:
-//                if (NoDoubleClickUtils.isDoubleClick()) {
-//                    //        版本更新
-//                    try {
-//                        int localVersion = HelpUtils.getLocalVersion(this);
-////                    sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
-//                        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
-//                        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().appUpdateHttp(localVersion + ""), new NetWorkUtlis.OnNetWork() {
-//                            @Override
-//                            public void onNetSuccess(String result) {
-//                                String isSucess = HelpUtils.HttpIsSucess(result);
-//                                if (isSucess.equals(AppConfig.CODE_OK))
-//                                    VersionCheckUtils.initUpdata(result, false);
-//                            }
-//                        });
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-////                ToastUtil.show("已经是最新版本");
-//                break;
-//
-////                关于我们界面
-//            case R.id.set_lin_about_me:
-//                ToastUtil.show("这里是关于我们");
-////                if (NoDoubleClickUtils.isDoubleClick())
-////                    IntentUtils.JumpTo(ShareSetActivity.class);
-//                break;
-//
-////                退出帐号    回到登录界面
-//            case R.id.set_btn_esc:
-//                if (NoDoubleClickUtils.isDoubleClick()) {
-////                    DialogExitUtils.setOnClickSureListener(new CusExitDialog.ClickSure(){
-////                        @Override
-////                        public void clickSure(String checkedId) {
-////                            if (checkedId != null)
-////                                checkId = checkedId;
-////                        }
-////                    });
-//                    DialogExitUtils.showDialog("仅退出帐号", "退出并删除帐号信息", new DialogExitUtils.OnClickSureListener() {
-//                        @Override
-//                        public void onClickSure(String checkingId) {
-//                            switch (checkingId) {
-//                                case "1":
-//                                    WsChannelService.isBind = true;
-//                                    BaseApplication.isHomeMsgFragment = true;
-////                                    ChatService
-////                                    unbindService(ChatService.this);
-////                                    stopService(intent);
-//                                    Intent intent2 = new Intent(MineSetActivity.this, ChatService.class);
-//                                    stopService(intent2);// 关闭服务
-////                                    unbindService(intent2);
-////                                    ToastUtil.show("1");
-//                                    SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD = true;
-//                                    sendWeb(SplitWeb.getSplitWeb().kickUid());
-//                                    SplitWeb.getSplitWeb().USER_ID = "";
-//                                    SplitWeb.getSplitWeb().USER_TOKEN = "";
-//                                    ACache.get(MineSetActivity.this).clear();
-//                                    SPUtils.put(MineSetActivity.this, AppAllKey.USER_ID_KEY, "");
-//                                    SPUtils.put(MineSetActivity.this, AppAllKey.USER_Token, "");
-////                                    SPUtils.clear(MineSetActivity.this);
-//                                    AppManager.getAppManager().onAppExit(MineSetActivity.this);
-////                                    AppManager.getAppManager().finishAllActivity();
-////                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
-////                                    startActivity(intent_recharge);
-////                                    Log.e("userPhone","-------------mineSet-----------------"+userPhone);
-//                                    IntentUtils.JumpToHaveOne(LoginActivity.class, "phone", userPhone);
-//                                    overridePendingTransition(0, 0);
-//
-//                                    break;
-//                                case "2":
-//                                    WsChannelService.isBind = true;
-//                                    BaseApplication.isHomeMsgFragment = true;
-//                                    SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD = true;
-////                                    ToastUtil.show("2");
-//                                    sendWeb(SplitWeb.getSplitWeb().kickUid());
-//                                    SplitWeb.getSplitWeb().USER_ID = "";
-//                                    SplitWeb.getSplitWeb().USER_TOKEN = "";
-//                                    ACache.get(MineSetActivity.this).clear();
-//                                    SPUtils.put(MineSetActivity.this, AppAllKey.USER_ID_KEY, "");
-//                                    SPUtils.put(MineSetActivity.this, AppAllKey.USER_Token, "");
-//                                    SPUtils.clear(MineSetActivity.this);
-//                                    AppManager.getAppManager().finishAllActivity();
-//                                    Intent intent = new Intent(MineSetActivity.this, LoginActivity.class);
-//                                    startActivity(intent);
-//                                    overridePendingTransition(0, 0);
-//                                    realmHelper.deleteAll();
-//                                    realmChatHelper.deleteAll();
-//                                    break;
-//                            }
-//
-//                        }
-//                    });
-//                }
-//                break;
-//        }
-//    }
-
-    @OnClick({R.id.set_btn_esc})
+    @OnClick({R.id.set_lin_pingbi, R.id.set_cus_lin_share, R.id.set_lin_count, R.id.set_lin_yinsi, R.id.set_lin_message, R.id.set_lin_discover,
+            R.id.set_lin_clear_cache, R.id.set_lin_version, R.id.set_lin_about_me, R.id.set_btn_esc})
     public void onViewClicked(View view) {
         switch (view.getId()) {
+//            打开  名片分享  界面
+            case R.id.set_cus_lin_share:
+                if (NoDoubleClickUtils.isDoubleClick())
+                    IntentUtils.JumpTo(ShareSetActivity.class);
+                break;
+
+//                打开  帐号与安全  界面
+            case R.id.set_lin_count:
+                if (NoDoubleClickUtils.isDoubleClick())
+                    IntentUtils.JumpTo(CountAndSafeActivity.class);
+                break;
+
+//                打开 隐私设置 界面
+            case R.id.set_lin_yinsi:
+                if (NoDoubleClickUtils.isDoubleClick())
+                    IntentUtils.JumpTo(YinSiActivity.class);
+                break;
+
+//                打开消息提醒界面
+            case R.id.set_lin_message:
+                if (NoDoubleClickUtils.isDoubleClick())
+                    IntentUtils.JumpTo(NewsRemindActivity.class);
+                break;
+
+//                打开 屏蔽设置  界面
+            case R.id.set_lin_pingbi:
+                if (NoDoubleClickUtils.isDoubleClick())
+                    IntentUtils.JumpTo(LaBlackActivity.class);
+                break;
+
+//                打开 朋友圈设置 界面
+            case R.id.set_lin_discover:
+                if (NoDoubleClickUtils.isDoubleClick())
+                    IntentUtils.JumpTo(DiscoverSetActivity.class);
+                break;
+
+//                清理缓存
+            case R.id.set_lin_clear_cache:
+                if (NoDoubleClickUtils.isDoubleClick()) {
+                    String tvContent = setLinClearCache.getTvContent();
+                    if (!tvContent.equals("0KB")) {
+                        DialogUtils.showDialog("确认清理" + tvContent + "缓存？", new DialogUtils.OnClickSureListener() {
+                            @Override
+                            public void onClickSure() {
+//                                        cleanCaChe();
+                                setLinClearCache.setTvContent("0KB");
+                            }
+                        });
+                    } else {
+                        ToastUtil.show("暂无缓存");
+                    }
+                }
+                break;
+//                检查更新
+            case R.id.set_lin_version:
+                if (NoDoubleClickUtils.isDoubleClick()) {
+                    //        版本更新
+                    try {
+                        int localVersion = HelpUtils.getLocalVersion(this);
+//                    sendWeb(SplitWeb.getSplitWeb().appUpdate("" + localVersion));
+                        NetWorkUtlis netWorkUtlis = new NetWorkUtlis();
+                        netWorkUtlis.setOnNetWork(AppConfig.NORMAL, SplitWeb.getSplitWeb().appUpdateHttp(localVersion + ""), new NetWorkUtlis.OnNetWork() {
+                            @Override
+                            public void onNetSuccess(String result) {
+                                String isSucess = HelpUtils.HttpIsSucess(result);
+                                if (isSucess.equals(AppConfig.CODE_OK))
+                                    VersionCheckUtils.initUpdata(result, false);
+                            }
+                        });
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                break;
+
+//                关于我们界面
+            case R.id.set_lin_about_me:
+                ToastUtil.show("这里是关于我们\n敬请期待！");
+                break;
 
 //                退出帐号    回到登录界面
             case R.id.set_btn_esc:
@@ -485,13 +304,8 @@ public class MineSetActivity extends BaseActivity {
                                 case "1":
                                     WsChannelService.isBind = true;
                                     BaseApplication.isHomeMsgFragment = true;
-//                                    ChatService
-//                                    unbindService(ChatService.this);
-//                                    stopService(intent);
                                     Intent intent2 = new Intent(MineSetActivity.this, ChatService.class);
                                     stopService(intent2);// 关闭服务
-//                                    unbindService(intent2);
-//                                    ToastUtil.show("1");
                                     SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD = true;
                                     sendWeb(SplitWeb.getSplitWeb().kickUid());
                                     SplitWeb.getSplitWeb().USER_ID = "";
@@ -499,7 +313,6 @@ public class MineSetActivity extends BaseActivity {
                                     ACache.get(MineSetActivity.this).clear();
                                     SPUtils.put(MineSetActivity.this, AppAllKey.USER_ID_KEY, "");
                                     SPUtils.put(MineSetActivity.this, AppAllKey.USER_Token, "");
-//                                    SPUtils.clear(MineSetActivity.this);
                                     AppManager.getAppManager().onAppExit(MineSetActivity.this);
                                     IntentUtils.JumpToHaveOne(LoginActivity.class, "phone", userPhone);
                                     overridePendingTransition(0, 0);
@@ -509,7 +322,6 @@ public class MineSetActivity extends BaseActivity {
                                     WsChannelService.isBind = true;
                                     BaseApplication.isHomeMsgFragment = true;
                                     SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD = true;
-//                                    ToastUtil.show("2");
                                     sendWeb(SplitWeb.getSplitWeb().kickUid());
                                     SplitWeb.getSplitWeb().USER_ID = "";
                                     SplitWeb.getSplitWeb().USER_TOKEN = "";

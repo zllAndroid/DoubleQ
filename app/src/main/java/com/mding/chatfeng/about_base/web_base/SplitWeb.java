@@ -490,7 +490,7 @@ public class SplitWeb {
         dealMap();
         putData("oldPwd",getMd5(oldPwd));
         putData("newPwd",getMd5(newPwd));
-        putData("comfirmPwd",comfirmPwd);
+        putData("comfirmPwd",getMd5(comfirmPwd));
         String request = WebUrl.request("PersonCenter", "upPassWord", map);
         return  request;
     }

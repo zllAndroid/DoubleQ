@@ -273,6 +273,9 @@ public class ChatActivity extends BaseActivity {
                     String ed = editText.getText().toString().trim();
                     if (!StrUtils.isEmpty(ed)) {
                         send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+                    } else {
+                        editText.setText("");
+                        ToastUtil.show("发送的内容不能为空");
                     }
                 }
                 return true;
@@ -526,6 +529,8 @@ public class ChatActivity extends BaseActivity {
             }
 //            send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
         } else {
+            editText.setText("");
+            ToastUtil.show("发送的内容不能为空");
         }
     }
 

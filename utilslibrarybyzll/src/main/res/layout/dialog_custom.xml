@@ -24,7 +24,6 @@
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:orientation="vertical"
-            android:visibility="gone"
             android:layout_gravity="center">
             <!--<com.daimajia.numberprogressbar.NumberProgressBar-->
                 <!--android:id="@+id/progressbar_dialog_update"-->
@@ -34,19 +33,18 @@
                 <!--android:layout_marginRight="30dp"-->
                 <!--android:layout_marginLeft="30dp"/>-->
             <ProgressBar
-                style="@android:style/Widget.ProgressBar.Horizontal"
                 android:id="@+id/progressbar_dialog_update"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="100"
-                android:progressDrawable="@drawable/progress_bar_style"
-                android:progress="0"
-                android:layout_marginTop="10dp"
+                style="@android:style/Widget.ProgressBar.Horizontal"
+                android:layout_width="188.5dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
                 android:layout_marginLeft="40dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="40dp"
                 android:indeterminate="false"
-                android:layout_gravity="center"
-                />
+                android:max="100"
+                android:progress="0"
+                android:progressDrawable="@drawable/progress_bar_style" />
             <TextView
                 android:id="@+id/tv_dialog_message_progress"
                 android:layout_width="match_parent"

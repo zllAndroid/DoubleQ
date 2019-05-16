@@ -39,10 +39,10 @@ public class ChangeBindOldActivity extends BaseActivity {
     EditText changebindEdCode;
     @BindView(R.id.include_top_lin_background)
     LinearLayout mLin;
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected void initBaseView() {

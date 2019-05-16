@@ -330,6 +330,9 @@ public class ChatGroupActivity extends BaseActivity {
                             send(SplitWeb.getSplitWeb().groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
                         }
 //                        send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+                    } else {
+                        editText.setText("");
+                        ToastUtil.show("发送的内容不能为空");
                     }
                 }
                 return true;
@@ -544,6 +547,9 @@ public class ChatGroupActivity extends BaseActivity {
                 send(SplitWeb.getSplitWeb().groupSend(jumpGroupChatData.getGroupId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
             else if (GroupChatData != null)
                 send(SplitWeb.getSplitWeb().groupSend(GroupChatData.getId(), ed, AppConfig.SEND_MESSAGE_TYPE_TEXT, TimeUtil.getTime()));
+        } else {
+            editText.setText("");
+            ToastUtil.show("发送的内容不能为空");
         }
     }
 

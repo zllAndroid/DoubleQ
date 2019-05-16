@@ -1,5 +1,6 @@
 package com.mding.chatfeng.main_code.ui.about_personal.about_set.about_count_and_safe;
 
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,11 +11,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_base.BaseActivity;
 import com.mding.chatfeng.main_code.about_login.LoginActivity;
+import com.mding.chatfeng.main_code.ui.about_personal.about_activity.MineSetActivity;
+import com.mding.core.pushservice.WsChannelService;
+import com.mding.workservice.ChatService;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -111,18 +116,45 @@ public class ChangePwdActivity extends BaseActivity {
                 DialogUtils.showDialogOne("修改密码成功", new DialogUtils.OnClickSureListener() {
                     @Override
                     public void onClickSure() {
-                        SplitWeb.getSplitWeb().USER_ID="";
-                        AppManager.getAppManager().finishAllActivity();
-                        String mPhone = (String)SPUtils.get(ChangePwdActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.getSplitWeb().MOBILE);
-                        if (!StrUtils.isEmpty(mPhone))
-                            IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",mPhone);
-
-//                Intent intent_recharge = new Intent(ChangePwdActivity.this, LoginActivity.class);
-//                startActivity(intent_recharge);
-//                overridePendingTransition(0,0);
+                        WsChannelService.isBind = true;
+                        BaseApplication.isHomeMsgFragment = true;
+//                                    ChatService
+//                                    unbindService(ChatService.this);
+//                                    stopService(intent);
+                        Intent intent2 = new Intent(ChangePwdActivity.this, ChatService.class);
+                        stopService(intent2);// 关闭服务
+//                                    unbindService(intent2);
+//                                    ToastUtil.show("1");
+                        SplitWeb.getSplitWeb().IS_SET_PERSON_HEAD = true;
+                        sendWeb(SplitWeb.getSplitWeb().kickUid());
+                        SplitWeb.getSplitWeb().USER_ID = "";
+                        SplitWeb.getSplitWeb().USER_TOKEN = "";
                         ACache.get(ChangePwdActivity.this).clear();
-                        SPUtils.clear(ChangePwdActivity.this);
-//                AppManager.getAppManager().finishActivity();
+                        SPUtils.put(ChangePwdActivity.this, AppAllKey.USER_ID_KEY, "");
+                        SPUtils.put(ChangePwdActivity.this, AppAllKey.USER_Token, "");
+//                                    SPUtils.clear(MineSetActivity.this);
+                        AppManager.getAppManager().onAppExit(ChangePwdActivity.this);
+//                                    AppManager.getAppManager().finishAllActivity();
+//                                    Intent intent_recharge = new Intent(MineSetActivity.this, LoginActivity.class);
+//                                    startActivity(intent_recharge);
+//                                    Log.e("userPhone","-------------mineSet-----------------"+userPhone);
+                        String mPhone = (String)SPUtils.get(ChangePwdActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.getSplitWeb().MOBILE);
+                        IntentUtils.JumpToHaveOne(LoginActivity.class, "phone", mPhone);
+                        overridePendingTransition(0, 0);
+
+
+//                        SplitWeb.getSplitWeb().USER_ID="";
+//                        AppManager.getAppManager().finishAllActivity();
+//                        String mPhone = (String)SPUtils.get(ChangePwdActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, SplitWeb.getSplitWeb().MOBILE);
+//                        if (!StrUtils.isEmpty(mPhone))
+//                            IntentUtils.JumpToHaveOne(LoginActivity.class,"phone",mPhone);
+//
+////                Intent intent_recharge = new Intent(ChangePwdActivity.this, LoginActivity.class);
+////                startActivity(intent_recharge);
+////                overridePendingTransition(0,0);
+//                        ACache.get(ChangePwdActivity.this).clear();
+//                        SPUtils.clear(ChangePwdActivity.this);
+////                AppManager.getAppManager().finishActivity();
                     }
                 });
                 break;
