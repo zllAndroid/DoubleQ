@@ -22,14 +22,14 @@ public class NotificationClickReceiver extends BroadcastReceiver {
                 if(IsAppProcessExist.isProcessExist(context,android.os.Process.myPid()))
                 {
                     intent2.setClass(context, MainActivity.class);
-                    intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent2.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     context.startActivity(intent2);
                 }else
                 {
                     Intent launchIntent = context.getPackageManager().
                             getLaunchIntentForPackage("com.mding.chatfeng");
                     launchIntent.setFlags(
-                            Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                            Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
                     context.startActivity(launchIntent);
                 }
 

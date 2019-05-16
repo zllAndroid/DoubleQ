@@ -10,6 +10,7 @@ import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
+import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.RealmFriendUserHelper;
 import com.mding.model.DataLinkManList;
 import com.mding.model.DataModifyFriendList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -57,6 +58,18 @@ public class DealModifyFriendList {
                 /**
                  * 修改备注
                  */
+
+                boolean b = isOld(record.getOldRemarkName()) && !isOld(record.getNewRemarkName());
+                boolean b1 = !isOld(record.getOldRemarkName()) && !isOld(record.getNewRemarkName()) && !record.getOldRemarkName().equals(record.getNewRemarkName());
+                boolean b2 = !isOld(record.getOldRemarkName()) && isOld(record.getNewRemarkName());
+
+                if (b||b1||b2)
+                {
+                    getRealmFriendUserHelper().updateName(record.getFriendsId(),record.getNewRemarkName());
+                    initDataUpdate(asString,record);
+                    EventBus.getDefault().post(new MsgHomeEvent("",record.getFriendsId(),AppConfig.MSG_ZLL_REFRESH));
+                    return;
+                }
                 //  1旧：""  新："NewRemarkName"
                 if (isOld(record.getOldRemarkName()) && !isOld(record.getNewRemarkName())){
                     initDataUpdate(asString,record);
@@ -269,7 +282,7 @@ public class DealModifyFriendList {
 //        mContext.sendBroadcast(intent);
     }
 
-//    private  String toChangeJson( Object recordBean ){
+    //    private  String toChangeJson( Object recordBean ){
 //        Log.e("toChangeJson","JSONObject--recordBean-->>="+recordBean.toString());
 ////        String jsonString = (String) JSONObject.toJSON(recordBean);//将java对象转换为json对象
 ////        String jsonString = JSON.toJSONString(recordBean);
@@ -308,13 +321,13 @@ public class DealModifyFriendList {
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
         EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
 //        存库
-        getRealmHomeHelper().updateFriendName(mRecord.getFriendsId(),mRecord.getNewRemarkName());
-        EventBus.getDefault().post(new MsgHomeEvent("",mRecord.getFriendsId(),AppConfig.MSG_ZLL_REFRESH));
+//        getRealmFriendUserHelper().updateName(mRecord.getFriendsId(),mRecord.getNewRemarkName());
+//        EventBus.getDefault().post(new MsgHomeEvent("",mRecord.getFriendsId(),AppConfig.MSG_ZLL_REFRESH));
 
     }
-    public RealmHomeHelper getRealmHomeHelper()
+    public RealmFriendUserHelper getRealmFriendUserHelper()
     {
-        RealmHomeHelper realmHomeHelper = new RealmHomeHelper(BaseApplication.getAppContext());
+        RealmFriendUserHelper realmHomeHelper = new RealmFriendUserHelper(BaseApplication.getAppContext());
         return realmHomeHelper;
     }
     private  void putCacheUpdate(DataModifyFriendList.RecordBean mRecord, int i, String newRemarkName) {

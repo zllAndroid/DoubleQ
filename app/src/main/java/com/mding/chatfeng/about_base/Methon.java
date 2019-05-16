@@ -2,7 +2,7 @@ package com.mding.chatfeng.about_base;
 
 /**
  * 项目：DoubleQ
- * 文件描述：
+ * 文件描述：接收各种推送方法类
  * 作者：zll
  * 创建时间：2019/4/22 0022
  * 修改人：

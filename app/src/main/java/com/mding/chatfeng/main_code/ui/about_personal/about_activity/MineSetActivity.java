@@ -120,7 +120,6 @@ public class MineSetActivity extends BaseActivity {
         setCusLinShare.setImgLogo(getResources().getDrawable(R.drawable.mine_share));
         setCusLinShare.setTvTitle("名片分享设置");
     }
-
     //        帐号与安全
     private void initSafeCount() {
         setLinCount.setLinGreyBacVisible(true);
