@@ -294,6 +294,15 @@ public class RealmHomeHelper {
             mRealm.commitTransaction();
         }
     }
+    public void updateFriendName(String friendId, String groupName) {
+        CusHomeRealmData realmInfo = mRealm.where(CusHomeRealmData.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
+        if (realmInfo!=null) {
+            mRealm.beginTransaction();
+            realmInfo.setNickName(groupName);
+            mRealm.insertOrUpdate(realmInfo);
+            mRealm.commitTransaction();
+        }
+    }
 
     public int queryNum(String friendId) {
         CusHomeRealmData realmMsg = mRealm.where(CusHomeRealmData.class)

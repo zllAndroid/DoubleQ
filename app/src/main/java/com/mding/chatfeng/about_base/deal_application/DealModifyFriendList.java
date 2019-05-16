@@ -4,10 +4,12 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
 import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
+import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.model.DataLinkManList;
 import com.mding.model.DataModifyFriendList;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
@@ -305,9 +307,15 @@ public class DealModifyFriendList {
         aCache.remove(AppAllKey.FRIEND_DATA);
         aCache.put(AppAllKey.FRIEND_DATA, jsonString);
         EventBus.getDefault().post(new LinkChangeEvent(AppConfig.LINK_FRIEND_ADD_ACTION));
-//        Intent intent = new Intent();
-//        intent.setAction(AppConfig.LINK_FRIEND_ADD_ACTION);
-//        mContext.sendBroadcast(intent);
+//        存库
+        getRealmHomeHelper().updateFriendName(mRecord.getFriendsId(),mRecord.getNewRemarkName());
+        EventBus.getDefault().post(new MsgHomeEvent("",mRecord.getFriendsId(),AppConfig.MSG_ZLL_REFRESH));
+
+    }
+    public RealmHomeHelper getRealmHomeHelper()
+    {
+        RealmHomeHelper realmHomeHelper = new RealmHomeHelper(BaseApplication.getAppContext());
+        return realmHomeHelper;
     }
     private  void putCacheUpdate(DataModifyFriendList.RecordBean mRecord, int i, String newRemarkName) {
         List<DataLinkManList.RecordBean.FriendListBean.GroupListBean> groupList = friendList.get(i).getGroupList();
