@@ -521,7 +521,6 @@ public class MsgFragment extends BaseFragment {
             isZero = false;
         }
         if (item.getType().equals("1")) {
-//            sendWeb(SplitWeb.getSplitWeb().privateSendInterface(item.getFriendId()));
             CusJumpChatData cusJumpChatData = new CusJumpChatData();
             // 点击进入详情后，消息个数清零
             // 好友
@@ -535,17 +534,13 @@ public class MsgFragment extends BaseFragment {
             IntentUtils.JumpToHaveObj(ChatActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
 
         } else {
-//            sendWeb(SplitWeb.getSplitWeb().groupSendInterface(item.getFriendId()));
+//            CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
+//            //跳转群组
+//            cusJumpGroupChatData.setGroupId(item.getFriendId());
+//            cusJumpGroupChatData.setGroupName(item.getNickName());
+//            IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
 
-            CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
-            //跳转群组
-            cusJumpGroupChatData.setGroupId(item.getFriendId());
-            cusJumpGroupChatData.setGroupName(item.getNickName());
-//            cusJumpGroupChatData.setIdentifyType(identityType);
-//            cusJumpGroupChatData.setCardName(carteName);
-//            cusJumpGroupChatData.setDisturbType(disturbType);
-//                            cusJumpGroupChatData.setGroupName(item.getNickName());
-            IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
+            IntentUtils.JumpToHaveOne(ChatGroupActivity.class,AppConfig.KEY_GROUP_Id,item.getFriendId());
         }
     }
 

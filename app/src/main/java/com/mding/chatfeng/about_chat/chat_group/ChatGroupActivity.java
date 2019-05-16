@@ -81,6 +81,7 @@ import com.mding.model.DataGroupChatResult;
 import com.mding.model.DataGroupChatSend;
 import com.mding.model.DataJieShou;
 import com.mding.model.DataQueryRepetition;
+import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
@@ -236,20 +237,11 @@ public class ChatGroupActivity extends BaseActivity {
         initReceiver();
         Intent intent = getIntent();
         if (intent != null) {
-            jumpGroupChatData = (CusJumpGroupChatData) intent.getSerializableExtra(Constants.KEY_FRIEND_HEADER);
-            GroupChatData = (DataSearch) intent.getSerializableExtra("dataSearch");
-//        final CusDataFriendRealm friendRealm = realmLink.queryFriendRealmById(FriendId);
-            if (jumpGroupChatData != null) {
-                groupId = jumpGroupChatData.getGroupId();
-                MyLog.e("myGroupId","----------------------CusJumpGroupChatData--------------------------"+groupId);
-                String  nickName=  new RealmGroupHelper(this).queryLinkFriendReturnName(groupId);//获取群聊群名
-                if (!StrUtils.isEmpty(nickName))
-                {
-                    includeTopTvTitle.setText(nickName);
-                }
-            } else if (GroupChatData != null) {
-                groupId = GroupChatData.getId();
-                includeTopTvTitle.setText(GroupChatData.getName());
+            groupId = intent.getStringExtra(AppConfig.KEY_GROUP_Id);
+            String  nickName=  new RealmGroupHelper(this).queryLinkFriendReturnName(groupId);//获取群聊群名
+            if (!StrUtils.isEmpty(nickName))
+            {
+                includeTopTvTitle.setText(nickName);
             }
             initWidget();
 //        初始化数据库的聊天记录
@@ -391,6 +383,7 @@ public class ChatGroupActivity extends BaseActivity {
         switch (view.getId()) {
             case R.id.include_top_iv_more:
 //                IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
+//                AppManager.getAppManager().isNowActivityFinish(GroupChatDetailsActivity.class);
                 IntentUtils.JumpToHaveTwo(GroupChatDetailsActivity.class, AppConfig.GROUP_ID,groupId,AppConfig.IS_CHATGROUP_TYPE,AppConfig.CHATGROUP);
                 break;
             case R.id.include_top_lin_title:
@@ -465,7 +458,6 @@ public class ChatGroupActivity extends BaseActivity {
         mInputLinMain.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View v, final int left, final int top, final int right, final int bottom, final int oldLeft, final int oldTop, final int oldRight, final int oldBottom) {
-//                sofeDeal();
                 if (emotionLayout.isShown() || isSoftShowing()) {
                     if (layoutManager != null && chatAdapter != null)
                         layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
@@ -481,19 +473,6 @@ public class ChatGroupActivity extends BaseActivity {
 
         layoutManager.setRecycleChildrenOnDetach(true);//复用RecycledViewPool
         chatList.setLayoutManager(layoutManager);
-        // 外部对RecyclerView设置监听
-//        chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//            @Override
-//            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-//                // 查看源码可知State有三种状态：SCROLL_STATE_IDLE（静止）、SCROLL_STATE_DRAGGING（上升）、SCROLL_STATE_SETTLING（下落）
-//                if (newState == RecyclerView.SCROLL_STATE_IDLE) { // 滚动静止时才加载图片资源，极大提升流畅度
-//                    chatAdapter.setScrolling(false);
-//                    chatAdapter.notifyDataSetChanged(); // notify调用后onBindViewHolder会响应调用
-//                } else
-//                    chatAdapter.setScrolling(true);
-//                super.onScrollStateChanged(recyclerView, newState);
-//            }
-//        });
 
 
         chatList.setAdapter(chatAdapter);
@@ -712,14 +691,6 @@ public class ChatGroupActivity extends BaseActivity {
         @Override
         public void onConClick(View view, int position, String conText) {
             initPopChoose(view, position, conText);
-//            ClipboardManager myClipboard;
-//            myClipboard = (ClipboardManager)getSystemService(CLIPBOARD_SERVICE);
-//            ClipData myClip;
-////            String text = "hello world";
-//            myClip = ClipData.newPlainText("text", conText);
-//            myClipboard.setPrimaryClip(myClip);
-//            ToastUtil.show("复制成功");
-////            TODO  在这里复制
         }
         private void initPopChoose(View view, int position, String conText) {
             int[] location = new int[2];
@@ -746,19 +717,19 @@ public class ChatGroupActivity extends BaseActivity {
                                     break;
                                 case  1://删除
 //                                    chatAdapter.getItem(contextPosition);
-                                        boolean b = getRealmGroupChatHelper().deletePosition(groupId, contextPosition);
+                                    boolean b = getRealmGroupChatHelper().deletePosition(groupId, contextPosition);
 //                                        boolean b = getRealmChatHelper().deletePosition(FriendId, item.getMessageStoId());
-                                        if (b) {
+                                    if (b) {
 //                                        chatAdapter.deleteWho(contextPosition);
 
-                                            chatAdapter.remove(contextPosition);
-                                            ToastUtil.show("删除成功");
-                                            chatAdapter.notifyItemChanged(contextPosition);
+                                        chatAdapter.remove(contextPosition);
+                                        ToastUtil.show("删除成功");
+                                        chatAdapter.notifyItemChanged(contextPosition);
 //                                        chatAdapter.notifyAdapter(contextPosition);
 //                                            chatAdapter.notifyDataSetChanged();
-                                        } else {
-                                            ToastUtil.show("删除失败，请重试");
-                                        }
+                                    } else {
+                                        ToastUtil.show("删除失败，请重试");
+                                    }
                                     break;
                                 case  2://转发
 

@@ -275,13 +275,6 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     }
                 });
                 break;
-            case "privateSendInterface":
-                DataChatPop dataChatPop = JSON.parseObject(responseText, DataChatPop.class);
-                DataChatPop.RecordBean recordBean = dataChatPop.getRecord();
-                if (recordBean != null){
-                    groupName = recordBean.getGroupName();
-                }
-                break;
         }
 
     }
@@ -445,7 +438,6 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                     {
                         AppManager.getAppManager().finishActivity(FriendDataMixActivity.this);
                     }else {
-                        sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
                         if (dataRecord != null) {
                             CusJumpChatData cusJumpChatData = new CusJumpChatData();
                             cusJumpChatData.setFriendHeader(dataRecord.getHeadImg());

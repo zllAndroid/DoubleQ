@@ -17,8 +17,8 @@ public class AppConfig {
 //    fragment消息回调what参数
 public final static  int WHAT_REALM_INITADAPTER=0x1;
     public final static  int WHAT_=0X01;
-
-
+//群聊界面key
+    public static final String KEY_GROUP_Id= "group_id_key";
 
     public static final String  MAIN_TAB_ONE= "maintabone";//在首页第一个tab
     public static final String  MAIN_TAB_TWO= "maintabtwo";//在首页第二个tab

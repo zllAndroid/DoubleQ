@@ -182,11 +182,13 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         realmHelper = new RealmHomeHelper(this);
         realmGroupChatHeaderHelper = new RealmGroupChatHeaderHelper(this);
         realmMsgInfoTotalHelper = new RealmMsgInfoTotalHelper(this);
+
+
         Intent intent = getIntent();
         if (intent != null) {
             groupId = intent.getStringExtra(AppConfig.GROUP_ID);
-            MyLog.e("myGroupId","-----------------------details-------------------------"+groupId);
             groupType = intent.getStringExtra(AppConfig.IS_CHATGROUP_TYPE);
+            MyLog.e("myGroupId","-----------------------details-------------------------"+groupId+"groupType=="+groupType);
             if (!StrUtils.isEmpty(groupId)) {
                 searchDetailInfo = BaseApplication.getaCache().getAsString(groupId + SplitWeb.getSplitWeb().USER_ID);
 //                IntentUtils.JumpToHaveOne(GroupTeamActivity.class,"groupId",groupId);
@@ -355,48 +357,10 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 break;
             case "setUserGroupDisturb":
                 boolean checked2 = chatsetSwiDarao.isChecked();
-//                chatsetSwiDarao.setChecked(!checked2);
                 String text1 = checked2 ? "设置免打扰成功" : "取消免打扰";
                 ToastUtil.show(text1);
                 break;
 
-            case "groupSendInterface":
-                // 群聊
-                CusJumpGroupChatData cusJumpGroupChatData = new CusJumpGroupChatData();
-                cusJumpGroupChatData.setGroupId(groupId);
-                DataChatGroupPop dataChatGroupPop = JSON.parseObject(responseText, DataChatGroupPop.class);
-                DataChatGroupPop.RecordBean recordBean = dataChatGroupPop.getRecord();
-                if (recordBean != null){
-                    DataChatGroupPop.RecordBean.GroupDetailInfoBean groupDetailInfoBean = recordBean.getGroupDetailInfo();
-                    if (groupDetailInfoBean != null){
-                        DataChatGroupPop.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfoBean = groupDetailInfoBean.getGroupInfo();
-                        if (groupInfoBean != null){
-                            cusJumpGroupChatData.setGroupName(groupInfoBean.getGroupName());
-                        }
-                        DataChatGroupPop.RecordBean.GroupDetailInfoBean.UserInfoBean userInfoBean = groupDetailInfoBean.getUserInfo();
-                        if (userInfoBean != null){
-                            MyLog.i("myGroupId","----------------------groupSendInterface--------------------------"+groupId);
-                            MyLog.i("myGroupId","----------------------groupSendInterface2222--------------------------"+cusJumpGroupChatData.getGroupId());
-                            cusJumpGroupChatData.setCardName(userInfoBean.getCarteName());
-                            cusJumpGroupChatData.setIdentifyType(userInfoBean.getIdentityType());
-                        }
-                    }
-//                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
-                }
-//                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
-//                cusHomeRealmData.setHeadImg(groupHeadImg);
-//                cusHomeRealmData.setFriendId(groupId);
-//                cusHomeRealmData.setNickName(groupChatName);
-//                cusHomeRealmData.setNum(0);
-//                CusHomeRealmData cusHomeRealmData1 = realmHelper.queryAllRealmChat(groupId);
-//                if (cusHomeRealmData1!=null)
-//                {
-//                    realmHelper.updateGroup(groupId,cusHomeRealmData);
-//                }else
-//                {
-//                    realmHelper.addRealmMsgQun(cusHomeRealmData);
-//                }
-                break;
         }
     }
     String verificationMD5;
@@ -477,7 +441,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
      * 跳转到相册
      */
     private void goToAlbum() {
-        Log.d("==image==", "*****************打开图库********************");
         //跳转到调用系统图库
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(Intent.createChooser(intent, "请选择图片"), REQUEST_PICK);
@@ -515,51 +478,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         }
     }
 
-    File save;
-    //存储头像到本地
-    private void initListHead(List<DataAddQunDetails.RecordBean.GroupDetailInfoBean.GroupUserInfoBean> group_user_info) {
-        for (int i = 0; i < group_user_info.size(); i++) {
-            final String headImg = group_user_info.get(i).getHeadImg();
-            final String friendId = group_user_info.get(i).getUserId();
-            final String modified = group_user_info.get(i).getModified();
-//            group_user_info.get(i).get
-            CusDataGroupChat cusDataGroupChat = realmGroupChatHeaderHelper.queryGroupChat(groupId);
-            if (cusDataGroupChat != null) {
-                String time = cusDataGroupChat.getTime();
-                if (time != null)
-                    if (!modified.equals(time)) {
-                        if (!StrUtils.isEmpty(headImg))
-                            Glide.with(this)
-                                    .load(headImg)
-                                    .downloadOnly(new SimpleTarget<File>() {
-                                        @Override
-                                        public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                                            File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_GROUP_CHAT, friendId, modified);
-                                            realmGroupChatHeaderHelper.updateHeadPath(friendId, file.toString(), headImg, modified);
-                                        }
-                                    });
-                    }
-            } else {
-                if (!StrUtils.isEmpty(headImg))
-                    Glide.with(this)
-                            .load(headImg)
-                            .downloadOnly(new SimpleTarget<File>() {
-                                @Override
-                                public void onResourceReady(final File resource, GlideAnimation<? super File> glideAnimation) {
-//                                    这里拿到的resource就是下载好的文件，
-                                    File file = HeadFileUtils.saveImgPath(resource, AppConfig.TYPE_GROUP_CHAT, friendId, modified);
-                                    CusDataGroupChat linkFriend = new CusDataGroupChat();
-                                    linkFriend.setHeadImg(headImg);
-                                    linkFriend.setFriendId(friendId);
-                                    linkFriend.setTime(modified);
-                                    linkFriend.setImgPath(file.toString());
-                                    realmGroupChatHeaderHelper.addRealmGroupChat(linkFriend);
-                                }
-                            });
-            }
-        }
-    }
 
     //设置普通群成员与群主之间的界面差异
     private void initUserInfo(DataAddQunDetails.RecordBean.GroupDetailInfoBean.UserInfoBean userInfo) {
@@ -998,7 +916,6 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 {
                     AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
                 }else{
-//                    sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
                     final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
                     cusHomeRealmData.setHeadImg(groupHeadImg);
                     cusHomeRealmData.setFriendId(groupId);
@@ -1014,11 +931,12 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     }
 
 //                    // 群聊
-                    CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
-                    cusJumpChatData.setGroupId(groupId);
-                    cusJumpChatData.setGroupName(groupChatName);
-
-                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+                    IntentUtils.JumpToHaveOne(ChatGroupActivity.class,AppConfig.KEY_GROUP_Id,groupId);
+//                    CusJumpGroupChatData cusJumpChatData = new CusJumpGroupChatData();
+//                    cusJumpChatData.setGroupId(groupId);
+//                    cusJumpChatData.setGroupName(groupChatName);
+//                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpChatData);
+//                    AppManager.getAppManager().finishActivity(GroupChatDetailsActivity.this);
                 }
                 break;
         }

@@ -22,7 +22,7 @@ android {
         minSdkVersion 20
         targetSdkVersion 28
         versionCode 2
-        versionName "1.1.0"
+        versionName "1.0.1"
         multiDexEnabled true  //防止方法数量超过65536导致错误
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 //        aaptOptions {

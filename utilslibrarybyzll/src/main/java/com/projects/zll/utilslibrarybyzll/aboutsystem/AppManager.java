@@ -46,6 +46,23 @@ public class AppManager {
         else
             return null;
     }
+    public void isNowActivityFinish(Class<?>  activity) {
+        if (activityStack!=null)
+        {
+            try {
+                for (AppCompatActivity is : activityStack)
+                {
+                    if (is.getClass().getSimpleName().equals(activity))
+                    {
+                        removeActivity(is);
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+
+            }
+        }
+    }
 
     /**
      * 从堆栈移除指定的Activity
