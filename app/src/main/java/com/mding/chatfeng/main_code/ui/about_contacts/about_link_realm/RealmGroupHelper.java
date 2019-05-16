@@ -69,6 +69,19 @@ public class RealmGroupHelper {
             mRealm.commitTransaction();
         }
     }
+    /**
+     * update （改） 名称和头像
+     */
+    public void updateNameAndHeadImg(String friendId, String name, String headImg) {
+        CusDataGroup realmMsg = mRealm.where(CusDataGroup.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg.setGroupHeadImg(headImg);
+            realmMsg.setGroupName(name);
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
 
     /**
      * 更新全部

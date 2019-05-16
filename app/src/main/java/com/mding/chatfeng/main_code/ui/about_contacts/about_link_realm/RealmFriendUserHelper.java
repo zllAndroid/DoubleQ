@@ -93,6 +93,25 @@ public class RealmFriendUserHelper {
             mRealm.commitTransaction();
         }
     }
+    public void updateNameAndHeadImg(String friendId, String name, String headImg) {
+        CusDataFriendUser realmMsg = mRealm.where(CusDataFriendUser.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg.setRemarkName(name);
+            realmMsg.setHeadImgBase64(headImg);
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
+    public void updateHeadImg(String friendId, String headImg) {
+        CusDataFriendUser realmMsg = mRealm.where(CusDataFriendUser.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
+        if (realmMsg!=null) {
+            mRealm.beginTransaction();
+            realmMsg.setHeadImgBase64(headImg);
+            mRealm.insertOrUpdate(realmMsg);
+            mRealm.commitTransaction();
+        }
+    }
     public void updateAllOrAdd(String friendId, CusDataFriendUser cusDataFriendUser) {
         CusDataFriendUser realmMsg = mRealm.where(CusDataFriendUser.class).equalTo(FILE_NAME, friendId+SplitWeb.getSplitWeb().getUserId()).findFirst();
         if (realmMsg!=null) {

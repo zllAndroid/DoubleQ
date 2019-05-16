@@ -381,7 +381,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                             cusJumpGroupChatData.setIdentifyType(userInfoBean.getIdentityType());
                         }
                     }
-                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
+//                    IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
                 }
 //                final CusHomeRealmData cusHomeRealmData = new CusHomeRealmData();
 //                cusHomeRealmData.setHeadImg(groupHeadImg);

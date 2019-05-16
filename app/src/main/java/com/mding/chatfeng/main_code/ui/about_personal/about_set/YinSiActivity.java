@@ -47,7 +47,6 @@ public class YinSiActivity extends BaseActivity {
         includeTopTvRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                sendWeb( SplitWeb.getSplitWeb().getPermissStatu("3"));
                 if (NoDoubleClickUtils.isDoubleClick())
                     sendWeb(SplitWeb.getSplitWeb().permissionSetThr("3",isSno,isQrcode));
             }
@@ -79,13 +78,7 @@ public class YinSiActivity extends BaseActivity {
                 }
                 break;
             case "permissionSet":
-//                DialogUtils.showDialogOne("隐私设置成功", new DialogUtils.OnClickSureListener() {
-//                @Override
-//                public void onClickSure() {
-//                    AppManager.getAppManager().finishActivity();
-//                }
-//            });
-                ToastUtil.show("隐私设置成功！");
+                ToastUtil.show("隐私设置处保存成功！");
                 AppManager.getAppManager().finishActivity();
                 break;
         }
@@ -97,10 +90,8 @@ public class YinSiActivity extends BaseActivity {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if(isChecked){
                     isSno = "1";
-//                    ToastUtil.show("帐号显示打开");
                 }else{
                     isSno = "0";
-//                    ToastUtil.show("帐号显示关闭");
                 }
             }
         });
@@ -109,10 +100,8 @@ public class YinSiActivity extends BaseActivity {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if(isChecked){
                     isPhone = "1";
-//                    ToastUtil.show("手机号显示打开");
                 }else{
                     isPhone = "0";
-//                    ToastUtil.show("手机号显示关闭");
                 }
             }
         });
@@ -121,10 +110,8 @@ public class YinSiActivity extends BaseActivity {
             public void onCheckedChanged(SwitchButton view, boolean isChecked) {
                 if(isChecked){
                     isQrcode = "1";
-//                    ToastUtil.show("二维码显示打开");
                 }else{
                     isQrcode = "0";
-//                    ToastUtil.show("二维码显示关闭");
                 }
             }
         });

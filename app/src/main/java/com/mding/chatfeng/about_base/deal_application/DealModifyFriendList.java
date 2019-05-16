@@ -65,7 +65,7 @@ public class DealModifyFriendList {
 
                 if (b||b1||b2)
                 {
-                    getRealmFriendUserHelper().updateName(record.getFriendsId(),record.getNewRemarkName());
+                    getRealmFriendUserHelper().updateNameAndHeadImg(record.getFriendsId(),record.getNewRemarkName(), record.getNewHeadImg());
                     initDataUpdate(asString,record);
                     EventBus.getDefault().post(new MsgHomeEvent("",record.getFriendsId(),AppConfig.MSG_ZLL_REFRESH));
                     return;

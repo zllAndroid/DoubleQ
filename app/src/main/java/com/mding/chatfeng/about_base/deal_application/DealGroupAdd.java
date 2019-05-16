@@ -161,7 +161,9 @@ public class DealGroupAdd {
             String asString = aCache.getAsString(AppAllKey.GROUD_DATA);
             if (!StrUtils.isEmpty(asString)&&record!=null)
             {
+                getRealmGroupHelper().updateNameAndHeadImg(record.getGroupId(),record.getNewGroupName(), record.getNewGroupHeadImg());
                 initDataGroupModifyAdd(asString,record);
+                EventBus.getDefault().post(new MsgHomeEvent("",record.getGroupId(),AppConfig.MSG_ZLL_REFRESH));
             }
         }
     }

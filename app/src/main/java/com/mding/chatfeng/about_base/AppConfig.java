@@ -45,8 +45,8 @@ public final static  int WHAT_REALM_INITADAPTER=0x1;
     public static final String  MSG_ZERO_REFRESH= "zero_refreshMsgFragment";//刷新单条数据  条数
     public static final String  MSG_ACTION_REFRESH= "action_refreshMsgFragment";//刷新单条数据  条数
     public static final String  MSG_ZLL_REFRESH= "zll_refreshMsgFragment";//刷新单条数据  条数
-    public static final String  MSG_ADD_REFRESH= "add_refreshMsgFragment";//刷新单条数据  条数
-    public static final String  MSG_DEL_REFRESH= "del_refreshMsgFragment";//刷新单条数据  条数
+    public static final String  MSG_ADD_REFRESH= "add_refreshMsgFragment";//增加后的刷新单条数据  条数
+    public static final String  MSG_DEL_REFRESH= "del_refreshMsgFragment";//删除后的刷新单条数据  条数
     public static final String ACTION_UP_GROUP_NAME = "action_upGroupName";
 //    public static final String LINK_GROUP_BRO= "link_group";
 

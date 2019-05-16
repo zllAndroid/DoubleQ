@@ -4,8 +4,10 @@ import android.content.Context;
 import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.chatfeng.about_broadcastreceiver.LinkChangeEvent;
+import com.mding.chatfeng.about_broadcastreceiver.MsgHomeEvent;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendRelation;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_link_realm.CusDataFriendUser;
@@ -59,10 +61,6 @@ public class DealUpdateFriend {
         return emptys || Empty;
     }
     public  void updateFriend(Context context, String result) {
-//        if (friendHelper==null)
-//            friendHelper = new RealmFriendRelationHelper(mContext);
-//        if (friendUserHelper==null)
-//            friendUserHelper = new RealmFriendUserHelper(mContext);
         mContext = context;
         DataUpdateFriend dataUpdateFriend = JSON.parseObject(result, DataUpdateFriend.class);
         DataUpdateFriend.RecordBean record = dataUpdateFriend.getRecord();
@@ -70,7 +68,9 @@ public class DealUpdateFriend {
         if (aCache!=null) {
             String asString = aCache.getAsString(AppAllKey.FRIEND_DATA);
             if (!StrUtils.isEmpty(asString) && record != null) {
+                getRealmFriendUserHelper().updateNameAndHeadImg(record.getFriendsId(),record.getNewRemarkName(), record.getNewHeadImg());
                 initDataUpdate(asString,record);
+                EventBus.getDefault().post(new MsgHomeEvent("",record.getFriendsId(),AppConfig.MSG_ZLL_REFRESH));
             }
             if (record!=null)
             {
