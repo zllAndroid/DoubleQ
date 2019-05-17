@@ -45,7 +45,7 @@
         <item name="android:background">@color/graye5</item>
     </style>
     <style name="style_cus_linear_layout_line">
-        <item name="android:layout_height">@dimen/divider_height</item>
+        <item name="android:layout_height">@dimen/dp0_3</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginLeft">@dimen/dp40</item>
         <item name="android:background">@color/graye5</item>

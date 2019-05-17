@@ -49,97 +49,98 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal"
+            android:orientation="vertical"
             android:gravity="center"
             android:descendantFocusability="blocksDescendants"
             >
-            <ImageView
-                android:id="@+id/include_top_iv_lock"
-                android:layout_width="@dimen/dp30"
-                android:layout_height="@dimen/dp30"
-                android:layout_gravity="center"
-                android:padding="@dimen/dp15"
-                android:visibility="gone"
-                android:background="@drawable/chat_lock"
-                />
-            <TextView
-                android:id="@+id/include_top_tv_title"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="end"
+                android:layout_marginTop="@dimen/dp2"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/include_top_iv_lock"
+                    android:layout_width="@dimen/dp30"
+                    android:layout_height="@dimen/dp30"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/dp15"
+                    android:visibility="gone"
+                    android:background="@drawable/chat_lock"
+                    />
+                <TextView
+                    android:id="@+id/include_top_tv_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:ellipsize="end"
+                    android:gravity="center"
+                    android:maxEms="6"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/sp18" />
+                <ImageView
+                    android:id="@+id/include_top_iv_drop"
+                    android:layout_width="@dimen/dp15"
+                    android:layout_height="@dimen/dp15"
+                    android:padding="@dimen/dp5"
+                    android:layout_marginLeft="@dimen/dp3"
+                    android:layout_gravity="center"
+                    android:background="@drawable/chat_pop_down"
+                    />
+                <!--android:src="@drawable/chat_pop_down"-->
+            </LinearLayout>
+            <TextView
+                android:id="@+id/include_top_tv_people_num"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="人数："
+                android:textSize="@dimen/sp12"
                 android:gravity="center"
-                android:maxEms="6"
-                android:textColor="@color/white"
-                android:textSize="@dimen/sp18" />
-            <!--<LinearLayout-->
-            <!--android:id="@+id/include_top_lin_spinner"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_marginLeft="@dimen/dp5"-->
-            <!--android:padding="@dimen/dp5">-->
-
-            <!--<Spinner-->
-            <!--android:id="@+id/include_top_spinner"-->
-            <!--android:layout_width="@dimen/dp30"-->
-            <!--android:layout_height="@dimen/dp30"-->
-            <!--android:spinnerMode="dropdown"-->
-            <!--android:paddingRight="-100dp"-->
-            <!--android:background="@drawable/spinner_selector_chat"-->
-            <!--android:layout_gravity="center"-->
-            <!--/>-->
-
-            <!--</LinearLayout>-->
-            <ImageView
-                android:id="@+id/include_top_iv_drop"
-                android:layout_width="@dimen/dp30"
-                android:layout_height="@dimen/dp30"
-                android:layout_gravity="center"
-                android:background="@drawable/chat_pop_down"
-                />
-            <!--android:src="@drawable/chat_pop_down"-->
+                android:visibility="gone"
+                android:layout_marginBottom="@dimen/dp4"
+                android:textColor="@color/text_group_people_num"/>
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-
-            >
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:orientation="horizontal"
+                android:layout_weight="1"
+                android:orientation="vertical"
+
                 >
-                <ImageView
-                    android:id="@+id/include_top_iv_zhuanfa"
-                    android:layout_width="@dimen/dp40"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_gravity="center_vertical"
-                    android:padding="@dimen/dp10"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/zhuanfa" />
-                <ImageView
-                    android:id="@+id/include_top_iv_more"
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/dp40"
-                    android:layout_gravity="center_vertical"
-                    android:padding="@dimen/dp10"
-                    app:srcCompat="@drawable/person" />
-                <TextView
-                    android:id="@+id/inclu_tv_right"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:padding="@dimen/dp10"
-                    android:textColor="@color/white"
-                    android:visibility="gone"
-                    android:text="保存"
-                    />
+                    android:layout_height="match_parent"
+                    android:layout_gravity="right"
+                    android:orientation="horizontal"
+                    >
+                    <ImageView
+                        android:id="@+id/include_top_iv_zhuanfa"
+                        android:layout_width="@dimen/dp40"
+                        android:layout_height="@dimen/dp40"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/dp10"
+                        android:visibility="gone"
+                        app:srcCompat="@drawable/zhuanfa" />
+                    <ImageView
+                        android:id="@+id/include_top_iv_more"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/dp40"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/dp10"
+                        app:srcCompat="@drawable/person" />
+                    <TextView
+                        android:id="@+id/inclu_tv_right"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:padding="@dimen/dp10"
+                        android:textColor="@color/white"
+                        android:visibility="gone"
+                        android:text="保存"
+                        />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
-</LinearLayout>

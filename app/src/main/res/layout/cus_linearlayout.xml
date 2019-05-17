@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/cus_linearlayout_lin_grey_bac"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp20"
+        android:layout_height="@dimen/dp10"
         android:visibility="gone"
         android:background="@color/greyf3"
         android:orientation="horizontal" />

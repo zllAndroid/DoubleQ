@@ -31,7 +31,7 @@ public class DialogUtils {
 //            show(text);
 //        }
 //        else {
-            show(text);
+        show(text);
 //        }
     }
     public static void showDialogKnow(String text,String clickText){

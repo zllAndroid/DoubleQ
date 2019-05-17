@@ -42,6 +42,8 @@
     <dimen name="dp6">13.5dp</dimen>
     <dimen name="dp2">4.5dp</dimen>
     <dimen name="dp1">2.25dp</dimen>
+    <dimen name="dp0_5">1.125dp</dimen>
+    <dimen name="dp0_3">0.6749999999999999dp</dimen>
     <dimen name="dp3">6.75dp</dimen>
     <dimen name="dp10">22.5dp</dimen>
     <dimen name="dp15">33.75dp</dimen>

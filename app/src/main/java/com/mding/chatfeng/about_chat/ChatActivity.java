@@ -674,7 +674,7 @@ public class ChatActivity extends BaseActivity {
                 }
             }
             else if (record.getMessageType().equals(messageTypeImg)){
-                ToastUtil.isDebugShow("发送图片成功!");
+                ToastUtil.show("发送图片成功!");
             }
 
             record.setSendState(Constants.CHAT_ITEM_SEND_SUCCESS);

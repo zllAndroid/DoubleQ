@@ -666,7 +666,6 @@ public class DealDataByApp {
 //                getRealmHomeHelper().addRealmMsgQun(cusJumpChatData);
 //            }
 
-
             noChatUI(record.getMessage(), record.getGroupId());
 //            getRealmHomeHelper()getRealmHomeHelper().updateMsg(record.getGroupId(),record.getMessage(),record.getRequestTime());
 //            realmHelper.updateNum(record.getGroupId());//更新首页聊天界面数据（未读消息数目）

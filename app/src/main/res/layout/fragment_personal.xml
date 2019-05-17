@@ -16,39 +16,39 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:background="@color/app_theme"-->
-            <!--android:orientation="horizontal"-->
-            <!--&gt;-->
+    <!--<LinearLayout-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@color/app_theme"-->
+    <!--android:orientation="horizontal"-->
+    <!--&gt;-->
 
-            <!--&lt;!&ndash;title bar&ndash;&gt;-->
-            <!--<ImageView-->
-                <!--android:id="@+id/include_frag_img_search"-->
-                <!--android:layout_width="@dimen/dp40"-->
-                <!--android:layout_height="@dimen/dp40"-->
-                <!--android:padding="@dimen/dp10"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:src="@drawable/search" />-->
-            <!--<TextView-->
-                <!--android:id="@+id/include_frag_tv_title"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="center"-->
-                <!--android:layout_gravity="center"-->
-                <!--android:textSize="@dimen/sp18"-->
-                <!--android:textColor="@color/white"-->
-                <!--android:text="标题" />-->
-            <!--<ImageView-->
-                <!--android:id="@+id/include_frag_img_add"-->
-                <!--android:layout_width="@dimen/dp40"-->
-                <!--android:layout_height="@dimen/dp40"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:padding="@dimen/dp10"-->
-                <!--android:src="@drawable/add" />-->
-        <!--</LinearLayout>-->
+    <!--&lt;!&ndash;title bar&ndash;&gt;-->
+    <!--<ImageView-->
+    <!--android:id="@+id/include_frag_img_search"-->
+    <!--android:layout_width="@dimen/dp40"-->
+    <!--android:layout_height="@dimen/dp40"-->
+    <!--android:padding="@dimen/dp10"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:src="@drawable/search" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/include_frag_tv_title"-->
+    <!--android:layout_width="0dp"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center"-->
+    <!--android:layout_gravity="center"-->
+    <!--android:textSize="@dimen/sp18"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:text="标题" />-->
+    <!--<ImageView-->
+    <!--android:id="@+id/include_frag_img_add"-->
+    <!--android:layout_width="@dimen/dp40"-->
+    <!--android:layout_height="@dimen/dp40"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:padding="@dimen/dp10"-->
+    <!--android:src="@drawable/add" />-->
+    <!--</LinearLayout>-->
     <!--上方个人资料-->
     <RelativeLayout
         android:layout_width="match_parent"
@@ -126,7 +126,7 @@
             android:layout_height="@dimen/dp80"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp30"
-           />
+            />
 
     </RelativeLayout>
     <ScrollView
@@ -139,243 +139,263 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <!--分享-->
-            <LinearLayout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/mine_lin_share"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="@dimen/dp20"
-                    android:layout_height="@dimen/dp20"
-                    android:layout_marginLeft="@dimen/dp10"
-                    app:srcCompat="@drawable/mine_share"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="@dimen/dp10"
-                    android:text="分享" />
+                android:orientation="horizontal"/>
+            <!--<LinearLayout-->
+            <!--android:id="@+id/mine_lin_share"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/white"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal">-->
+            <!--<ImageView-->
+            <!--android:layout_width="@dimen/dp20"-->
+            <!--android:layout_height="@dimen/dp20"-->
+            <!--android:layout_marginLeft="@dimen/dp10"-->
+            <!--app:srcCompat="@drawable/mine_share"/>-->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="@dimen/dp10"-->
+            <!--android:text="分享" />-->
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp10"
-                    app:srcCompat="@drawable/in_right" />
-            </LinearLayout>
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="@dimen/dp10"-->
+            <!--app:srcCompat="@drawable/in_right" />-->
+            <!--</LinearLayout>-->
 
             <!--设置-->
-            <View
-                android:layout_width="match_parent"
-                android:background="@color/greyf3"
-                android:layout_height="@dimen/dp1"
-                />
-            <LinearLayout
+            <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
                 android:id="@+id/mine_lin_set"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-                <ImageView
-                    android:layout_width="@dimen/dp20"
-                    android:layout_height="@dimen/dp20"
-                    android:layout_marginLeft="@dimen/dp10"
-                    app:srcCompat="@drawable/mine_set"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:padding="@dimen/dp10"
-                    android:text="设置" />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="@dimen/dp10"
-                    app:srcCompat="@drawable/in_right" />
-            </LinearLayout>
+                android:orientation="horizontal"/>
+            <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:background="@color/greyf3"-->
+            <!--android:layout_height="@dimen/dp1"-->
+            <!--/>-->
+            <!--<LinearLayout-->
+            <!--android:id="@+id/mine_lin_set"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@color/white"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal">-->
+            <!--<ImageView-->
+            <!--android:layout_width="@dimen/dp20"-->
+            <!--android:layout_height="@dimen/dp20"-->
+            <!--android:layout_marginLeft="@dimen/dp10"-->
+            <!--app:srcCompat="@drawable/mine_set"/>-->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="@dimen/dp10"-->
+            <!--android:text="设置" />-->
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="@dimen/dp10"-->
+            <!--app:srcCompat="@drawable/in_right" />-->
+            <!--</LinearLayout>-->
 
             <!--测试-->
             <!--<LinearLayout-->
-                <!--android:id="@+id/mine_lin_test"-->
+            <!--android:id="@+id/mine_lin_test"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:orientation="horizontal">-->
+            <!--<ImageView-->
+            <!--android:layout_width="@dimen/dp20"-->
+            <!--android:layout_height="@dimen/dp20"-->
+            <!--android:layout_marginLeft="@dimen/dp10"-->
+            <!--app:srcCompat="@drawable/mine_set"/>-->
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_weight="1"-->
+            <!--android:padding="@dimen/dp10"-->
+            <!--android:text="测试" />-->
+            <!--<ImageView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:padding="@dimen/dp10"-->
+            <!--app:srcCompat="@drawable/in_right" />-->
+            <!--</LinearLayout>-->
+
+            <!--朋友圈动态-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <View
+                    android:id="@+id/cus_linearlayout_view_line"
+                    style="@style/style_cus_linear_layout_line"
+                    />
+                <LinearLayout
+                    android:id="@+id/mine_lin_discover"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/dp100"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:background="@color/white">
+                    <ImageView
+                        android:layout_width="@dimen/dp20"
+                        android:layout_height="@dimen/dp20"
+                        android:src="@drawable/discover_star"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp10"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp8"
+                        android:text="动态"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/dp30"
+                        android:layout_marginTop="@dimen/dp10"
+                        android:layout_marginBottom="@dimen/dp10"
+                        android:layout_weight="1"
+                        android:layout_gravity="center">
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:descendantFocusability="blocksDescendants">
+
+                            <android.support.v7.widget.RecyclerView
+                                android:id="@+id/mine_recyc_discover"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="0dp"
+                                android:fadingEdge="none" />
+                        </RelativeLayout>
+                    </LinearLayout>
+                    <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:padding="@dimen/dp10"-->
+                    <!--app:srcCompat="@drawable/in_right" />-->
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/in_right"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/dp20"
+                        android:padding="@dimen/dp5"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <!--Part 2-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+                <!--橙子口袋-->
+                <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+                    android:id="@+id/mine_lin_orange_pocket"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+                <!--<View-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:background="@color/greyf3"-->
+                <!--android:layout_height="@dimen/dp1"-->
+                <!--/>-->
+                <!--<LinearLayout-->
+                <!--android:id="@+id/mine_lin_orange_pocket"-->
                 <!--android:layout_width="match_parent"-->
                 <!--android:layout_height="wrap_content"-->
                 <!--android:gravity="center_vertical"-->
                 <!--android:orientation="horizontal">-->
                 <!--<ImageView-->
-                    <!--android:layout_width="@dimen/dp20"-->
-                    <!--android:layout_height="@dimen/dp20"-->
-                    <!--android:layout_marginLeft="@dimen/dp10"-->
-                    <!--app:srcCompat="@drawable/mine_set"/>-->
+                <!--android:layout_width="@dimen/dp20"-->
+                <!--android:layout_height="@dimen/dp20"-->
+                <!--android:layout_marginLeft="@dimen/dp10"-->
+                <!--app:srcCompat="@drawable/mine_orange_pocket"/>-->
                 <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_weight="1"-->
-                    <!--android:padding="@dimen/dp10"-->
-                    <!--android:text="测试" />-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:padding="@dimen/dp10"-->
+                <!--android:text="橙子口袋" />-->
                 <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:padding="@dimen/dp10"-->
-                    <!--app:srcCompat="@drawable/in_right" />-->
-            <!--</LinearLayout>-->
-
-            <View
-                android:layout_width="match_parent"
-                android:background="@color/greyf3"
-                android:layout_height="@dimen/dp1"
-                />
-            <!--朋友圈动态-->
-            <LinearLayout
-                android:id="@+id/mine_lin_discover"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:background="@color/white">
-                <ImageView
-                    android:layout_width="@dimen/dp20"
-                    android:layout_height="@dimen/dp20"
-                    android:src="@drawable/discover_star"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dp10"/>
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dp8"
-                    android:text="动态"/>
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/dp30"
-                    android:layout_marginTop="@dimen/dp10"
-                    android:layout_marginBottom="@dimen/dp10"
-                    android:layout_weight="1"
-                    android:layout_gravity="center">
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:descendantFocusability="blocksDescendants">
-
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/mine_recyc_discover"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="0dp"
-                            android:fadingEdge="none" />
-                    </RelativeLayout>
-                </LinearLayout>
-                <!--<ImageView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:padding="@dimen/dp10"-->
-                    <!--app:srcCompat="@drawable/in_right" />-->
-                <ImageView
-                    android:layout_width="@dimen/dp20"
-                    android:layout_height="@dimen/dp40"
-                    android:src="@drawable/to_right_white"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/dp20"
-                    android:padding="@dimen/dp5"/>
-            </LinearLayout>
-            <!--Part 2-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/dp10"
-                android:background="@color/white"
-                android:orientation="vertical">
-                <!--橙子口袋-->
-                <View
-                    android:layout_width="match_parent"
-                    android:background="@color/greyf3"
-                    android:layout_height="@dimen/dp1"
-                    />
-                <LinearLayout
-                    android:id="@+id/mine_lin_orange_pocket"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="@dimen/dp20"
-                        android:layout_height="@dimen/dp20"
-                        android:layout_marginLeft="@dimen/dp10"
-                        app:srcCompat="@drawable/mine_orange_pocket"/>
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="@dimen/dp10"
-                        android:text="橙子口袋" />
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/dp10"
-                        app:srcCompat="@drawable/in_right" />
-                </LinearLayout>
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="@dimen/dp10"-->
+                <!--app:srcCompat="@drawable/in_right" />-->
+                <!--</LinearLayout>-->
 
                 <!--公益投票-->
                 <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:background="@color/greyf3"-->
-                    <!--android:layout_height="@dimen/dp1"-->
-                    <!--/>-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:background="@color/greyf3"-->
+                <!--android:layout_height="@dimen/dp1"-->
+                <!--/>-->
                 <!--<LinearLayout-->
-                    <!--android:id="@+id/mine_lin_gongyi"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:orientation="horizontal">-->
-                    <!--<ImageView-->
-                        <!--android:layout_width="@dimen/dp20"-->
-                        <!--android:layout_height="@dimen/dp20"-->
-                        <!--android:layout_marginLeft="@dimen/dp10"-->
-                        <!--app:srcCompat="@drawable/mine_gongyi"/>-->
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:padding="@dimen/dp10"-->
-                        <!--android:text="公益投票" />-->
-                    <!--<ImageView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="@dimen/dp10"-->
-                        <!--app:srcCompat="@drawable/in_right" />-->
+                <!--android:id="@+id/mine_lin_gongyi"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal">-->
+                <!--<ImageView-->
+                <!--android:layout_width="@dimen/dp20"-->
+                <!--android:layout_height="@dimen/dp20"-->
+                <!--android:layout_marginLeft="@dimen/dp10"-->
+                <!--app:srcCompat="@drawable/mine_gongyi"/>-->
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:padding="@dimen/dp10"-->
+                <!--android:text="公益投票" />-->
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="@dimen/dp10"-->
+                <!--app:srcCompat="@drawable/in_right" />-->
                 <!--</LinearLayout>-->
 
                 <!--节点投票-->
                 <!--<View-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:background="@color/greyf3"-->
-                    <!--android:layout_height="@dimen/dp1"-->
-                    <!--/>-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:background="@color/greyf3"-->
+                <!--android:layout_height="@dimen/dp1"-->
+                <!--/>-->
                 <!--<LinearLayout-->
-                    <!--android:id="@+id/mine_lin_node"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:orientation="horizontal">-->
-                    <!--<ImageView-->
-                        <!--android:layout_width="@dimen/dp20"-->
-                        <!--android:layout_height="@dimen/dp20"-->
-                        <!--android:layout_marginLeft="@dimen/dp10"-->
-                        <!--app:srcCompat="@drawable/mine_node"/>-->
-                    <!--<TextView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:layout_weight="1"-->
-                        <!--android:padding="@dimen/dp10"-->
-                        <!--android:text="节点投票" />-->
-                    <!--<ImageView-->
-                        <!--android:layout_width="wrap_content"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:padding="@dimen/dp10"-->
-                        <!--app:srcCompat="@drawable/in_right" />-->
+                <!--android:id="@+id/mine_lin_node"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal">-->
+                <!--<ImageView-->
+                <!--android:layout_width="@dimen/dp20"-->
+                <!--android:layout_height="@dimen/dp20"-->
+                <!--android:layout_marginLeft="@dimen/dp10"-->
+                <!--app:srcCompat="@drawable/mine_node"/>-->
+                <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:padding="@dimen/dp10"-->
+                <!--android:text="节点投票" />-->
+                <!--<ImageView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:padding="@dimen/dp10"-->
+                <!--app:srcCompat="@drawable/in_right" />-->
                 <!--</LinearLayout>-->
             </LinearLayout>
 

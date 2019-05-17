@@ -295,7 +295,7 @@ public class ChatFunctionFragment extends ChatBaseFragment {
             else  if (SplitWeb.getSplitWeb().IS_CHAT_GROUP.equals("2")){    // 群聊
                 send(SplitWeb.getSplitWeb().getQueryRepetition("2", imgTotalMD5));
             }
-            ToastUtil.isDebugShow("正在发送图片...");
+            ToastUtil.show("正在发送图片...");
         }
     }
 
@@ -475,19 +475,19 @@ public class ChatFunctionFragment extends ChatBaseFragment {
                 break;
             case R.id.chat_function_video:
 
-                ToastUtil.isDebugShow(getResources().getString(R.string.coming_soon));
+                ToastUtil.show(getResources().getString(R.string.coming_soon));
                 break;
             case R.id.chat_function_voice:
 
-                ToastUtil.isDebugShow(getResources().getString(R.string.coming_soon));
+                ToastUtil.show(getResources().getString(R.string.coming_soon));
                 break;
             case R.id.chat_function_transfer:
 
-                ToastUtil.isDebugShow(getResources().getString(R.string.coming_soon));
+                ToastUtil.show(getResources().getString(R.string.coming_soon));
                 break;
             case R.id.chat_function_card:
 
-                ToastUtil.isDebugShow(getResources().getString(R.string.coming_soon));
+                ToastUtil.show(getResources().getString(R.string.coming_soon));
                 break;
         }
     }

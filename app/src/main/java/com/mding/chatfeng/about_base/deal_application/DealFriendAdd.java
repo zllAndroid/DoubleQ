@@ -52,10 +52,6 @@ public class DealFriendAdd {
         return friendUserHelper;
     }
     public void updateFriendDataByAdd(Context montext,String result) {
-//        if (friendHelper==null)
-//            friendHelper = new RealmFriendRelationHelper(mContext);
-//        if (friendUserHelper==null)
-//            friendUserHelper = new RealmFriendUserHelper(mContext);
         mContext=montext;
         DataAboutFriend dataAboutFriend = JSON.parseObject(result, DataAboutFriend.class);
         DataAboutFriend.RecordBean record = dataAboutFriend.getRecord();
@@ -244,6 +240,7 @@ public class DealFriendAdd {
         String groupManageName = mRecord.getGroupName();  //新加好友的分组名
         String groupId = mRecord.getGroupId();  //新加好友的分组id
         if (friendList.size() > 0) {
+            // 判断是否有type 2
             for (int i = 0; i < friendList.size(); i++) {
                 String type = friendList.get(i).getType();  //已存在的列表中的type
                 if (type.equals("2")) {
@@ -251,6 +248,7 @@ public class DealFriendAdd {
                     break;
                 }
             }
+            // 只有type1
             if (isHaveTypeTwo) {
                 for (int i = 0; i < friendList.size(); i++) {
                     String groupName = friendList.get(i).getGroupName();  //已存在的列表中的分组名
@@ -262,8 +260,7 @@ public class DealFriendAdd {
                     }
                 }
                 dealNoChartFriend(mRecord, friendList, friendList.size(), chart);
-            }
-            else {
+            } else {
                 for (int i = 0; i < friendList.size(); i++) {
                     String groupName = friendList.get(i).getGroupName();  //已存在的列表中的分组名
                     String type = friendList.get(i).getType();  //已存在的列表中的type

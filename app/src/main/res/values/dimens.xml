@@ -53,6 +53,8 @@
     <dimen name="dp6">6dp</dimen>
     <dimen name="dp2">2dp</dimen>
     <dimen name="dp1">1dp</dimen>
+    <dimen name="dp0_5">0.5dp</dimen>
+    <dimen name="dp0_3">0.3dp</dimen>
     <dimen name="dp3">3dp</dimen>
     <dimen name="dp10">10dp</dimen>
     <dimen name="dp15">15dp</dimen>
