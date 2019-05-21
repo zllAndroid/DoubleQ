@@ -63,7 +63,6 @@ public class BaseActivityForResult extends AppCompatActivity  {
     public static final int LOAD_WITHOUT_ANIM_FAILED = 5;
     public static final int SAVE_YOU = 6;
     public static final int DATA_DEAL = 7;
-    public static final int DOWN_DATA = 520;
     private LoadingDialog ld =null;
     //    是否拦截返回键  true 拦截
     private boolean intercept_back_event = true;
@@ -404,7 +403,7 @@ public class BaseActivityForResult extends AppCompatActivity  {
                 //全屏显示状态栏隐藏导航栏
                 StateBarUtils.setFullscreen(this, true, false);
 //            设置状态栏的颜色
-                windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+                windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 0);
 //            StateBarUtils.setFullscreen(this,true,true);
             }
         }

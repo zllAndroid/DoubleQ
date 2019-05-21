@@ -87,6 +87,7 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
         helper.addOnClickListener(R.id.item_msg_re);
 
         ImageView mIvHead = (ImageView) helper.getView(R.id.item_iv_head);
+        ImageView mIvType = (ImageView) helper.getView(R.id.item_iv_group_type);
         TextView mTvNum = helper.getView(R.id.item_tv_num);
         String groupMemberName = "";
         try {
@@ -101,13 +102,14 @@ public class MsgAdapter extends BaseQuickAdapter<CusHomeRealmData, BaseViewHolde
                     imgPath = new RealmFriendUserHelper(context).queryLinkFriendReturnImgPath(item.getFriendId());
                     errorImg=R.drawable.first_head_nor;
                     nickName = new RealmFriendUserHelper(context).queryLinkFriendReturnname(item.getFriendId());//获取私聊好友名
+                    mIvType.setVisibility(View.GONE);
                 }else
                 {
                     imgPath =  new RealmGroupHelper(context).queryLinkFriendReturnImgPath(item.getFriendId());
                     errorImg=R.drawable.qun_head;
                     groupMemberName = new RealmFriendUserHelper(context).queryLinkFriendReturnname(item.getMemberId());
                     nickName=  new RealmGroupHelper(context).queryLinkFriendReturnName(item.getFriendId());//获取群聊群名
-
+                    mIvType.setVisibility(View.VISIBLE);
                 }
 //                 imgPath = realmMsgInfoTotalHelper.queryLinkFriendReturnImgPath(item.getFriendId());
                 ImageUtils.useBase64WithError(context,mIvHead,imgPath,errorImg);

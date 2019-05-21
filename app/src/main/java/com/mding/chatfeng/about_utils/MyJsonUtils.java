@@ -50,8 +50,11 @@ public class MyJsonUtils {
     }
 
     public static  void initBeforeLogin(final Context mContext) {
+        Log.e("mACache","----------getFirstUrl------------------>>>"+SplitWeb.getSplitWeb().getFirstUrl());
         if (StrUtils.isEmpty(SplitWeb.getSplitWeb().getFirstUrl())) {
+
 //            Activity activity = AppManager.getAppManager().currentActivity();
+            Log.e("mACache","----------Url------------------>>>"+SplitWeb.getSplitWeb().PreRequest);
             VolleyRequest.RequestGet(mContext,SplitWeb.getSplitWeb().PreRequest, new VolleyInterface(VolleyInterface.listener,VolleyInterface.errorListener) {
                 @Override
                 public void onSuccess(final String result) {

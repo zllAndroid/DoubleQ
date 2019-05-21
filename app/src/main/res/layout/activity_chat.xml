@@ -1,23 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/chat_lin_main_whole">
+    >
 
     <LinearLayout
-        android:id="@+id/chat_lin_main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:fitsSystemWindows="true"
+        android:id="@+id/chat_lin_main_whole"
         >
 
-        <include
-            layout="@layout/activity_include_title_bar_chat"
-            />
+        <LinearLayout
+            android:id="@+id/chat_lin_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:fitsSystemWindows="true"
+            >
 
-        <!--<com.mding.chatfeng.about_custom.CusScrollView-->
+            <include
+                layout="@layout/activity_include_title_bar_chat"
+                />
+
+            <!--<com.mding.chatfeng.about_custom.CusScrollView-->
             <!--android:layout_width="match_parent"-->
             <!--android:layout_height="match_parent">-->
             <LinearLayout
@@ -49,15 +56,28 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:scrollbars="none"
-                    android:background="@color/bg_content"/>
+                    android:background="@color/bg_content">
+
+                </com.jude.easyrecyclerview.EasyRecyclerView>
                 <!--</RelativeLayout>-->
                 <include
                     layout="@layout/include_reply_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-        <!--</com.mding.chatfeng.about_custom.CusScrollView>-->
+            <!--</com.mding.chatfeng.about_custom.CusScrollView>-->
+        </LinearLayout>
+
     </LinearLayout>
 
-
-</LinearLayout>
+    <ImageView
+        android:id="@+id/chat_scroll_bot"
+        android:layout_width="@dimen/dp40"
+        android:layout_height="@dimen/dp40"
+        android:layout_alignParentBottom="true"
+       android:layout_alignParentRight="true"
+        android:visibility="gone"
+        android:layout_marginBottom="@dimen/dp80"
+        android:layout_marginRight="@dimen/dp20"
+        app:srcCompat="@drawable/chat_bot" />
+</RelativeLayout>

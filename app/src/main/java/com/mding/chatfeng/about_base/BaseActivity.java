@@ -111,7 +111,7 @@ public class BaseActivity extends BaseActivityForResult  implements BGASwipeBack
      * @param color
      */
     protected void setStatusBarColor(@ColorInt int color) {
-        setStatusBarColor(color, StatusBarUtil.DEFAULT_STATUS_BAR_ALPHA);
+        setStatusBarColor(color, 0);
     }
 
     /**

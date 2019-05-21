@@ -178,7 +178,7 @@ public class LoginActivity extends BaseLogin {
             DialogUtils.showDialog("密码不得为空");
             return;
         }
-        if (StrUtils.isEmpty(SplitWeb.getSplitWeb().HttpURL))
+        if (StrUtils.isEmpty(SplitWeb.getSplitWeb().getFirstUrl()))
         {
             initUrl();
         }
@@ -207,8 +207,14 @@ public class LoginActivity extends BaseLogin {
         MyLog.e("request", "-------登录返回消息---------->>" + mLoginModel);
         String isSucess = HelpUtils.HttpIsLoginSucess(mLoginModel);
         if (isSucess.equals(AppAllKey.CODE_OK)) {
-            AboutLoginSaveData aboutLoginSaveData = new AboutLoginSaveData(LoginActivity.this);
-            aboutLoginSaveData.initSaveData(mLoginModel);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    AboutLoginSaveData aboutLoginSaveData = new AboutLoginSaveData(LoginActivity.this);
+                    aboutLoginSaveData.initSaveData(mLoginModel);
+                }
+            });
+
         }
         else if (isSucess.equals(AppConfig.CODE_EPC)){
             String httpReturnMsg = HelpUtils.HttpReturnMsg(mLoginModel);

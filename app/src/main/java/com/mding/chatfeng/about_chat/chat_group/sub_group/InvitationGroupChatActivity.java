@@ -229,17 +229,6 @@ public class InvitationGroupChatActivity extends BaseActivity {
                 Log.e("checkChat", "friendId=" + friendId + isChecked + "++++" + mList.toString() + "---" + checkString.toString());
             }
         });
-//        mExList.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-//            @Override
-//            public boolean onChildClick(ExpandableListView expandableListView, View view, int groupPosition, int childPosition, long l) {
-//                DataCreatGroupChat.RecordBean.FriendListBean.GroupListBean groupListBean = friend_list.get(groupPosition).getGroupList().get(childPosition);
-////                String userId = mFriendList.get(groupPosition).getGroupList().get(childPosition).getUserId();
-////                IntentUtils.JumpToHaveOne(FriendDataActivity.class,"id",userId);
-//                Log.e("checkChat","groupListBean="+groupListBean.getNickName());
-//
-//                return false;
-//            }
-//        });
         creatGroupChatAdapter.notifyDataSetChanged();
     }
 
@@ -248,25 +237,30 @@ public class InvitationGroupChatActivity extends BaseActivity {
         switch (view.getId()) {
 //                点击确定
             case R.id.inclu_tv_right:
-                List<String> checkString = creatGroupChatAdapter.getCheckString();
-                if (checkString.size() > 0) {
+                if(creatGroupChatAdapter!=null) {
+                    List<String> checkString = creatGroupChatAdapter.getCheckString();
+                    if (checkString.size() > 0) {
 //                    String check[]= new String[checkData.size()];
-                    String checkChat = "";
-                    for (int i = 0; i < checkString.size(); i++) {
-                        if (i == 0) {
-                            checkChat += checkString.get(i);
-                        } else {
-                            checkChat += "," + checkString.get(i);
+                        String checkChat = "";
+                        for (int i = 0; i < checkString.size(); i++) {
+                            if (i == 0) {
+                                checkChat += checkString.get(i);
+                            } else {
+                                checkChat += "," + checkString.get(i);
+                            }
                         }
-                    }
-                    if (groupType.equals(AppConfig.GROUP_QUZHU)) {
-                        sendWebHaveDialog(SplitWeb.getSplitWeb().groupInvitationf(groupId, checkChat)
-                                , "邀请中...", "邀请好友入群成功");
+                        if (groupType.equals(AppConfig.GROUP_QUZHU)) {
+                            sendWebHaveDialog(SplitWeb.getSplitWeb().groupInvitationf(groupId, checkChat)
+                                    , "邀请中...", "邀请好友入群成功");
+                        } else {
+                            sendWebHaveDialog(SplitWeb.getSplitWeb().delGroupMember(groupId, checkChat)
+                                    , "删除中...", "删除群成员成功");
+                        }
                     } else {
-                        sendWebHaveDialog(SplitWeb.getSplitWeb().delGroupMember(groupId, checkChat)
-                                , "删除中...", "删除群成员成功");
+                        ToastUtil.show("请选择成员");
                     }
-                } else {
+                }else
+                {
                     ToastUtil.show("请选择成员");
                 }
                 break;

@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity  {
         super.initBeforeContentView();
 
         WindowBugDeal.SetTop(this);
-        windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+        windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 0);
 //        StateBarUtils.setFullscreen(this, false, false);
         StateBarUtils.setAndroidNativeLightStatusBar(this,false);
         if (Build.VERSION.SDK_INT >= 21)

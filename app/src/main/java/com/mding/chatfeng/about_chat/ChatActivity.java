@@ -17,8 +17,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -157,6 +159,8 @@ public class ChatActivity extends BaseActivity {
     LinearLayout chatLinMainWhole;
     @BindView(R.id.include_top_iv_lock)
     ImageView includeTopIvLock;
+    @BindView(R.id.chat_scroll_bot)
+    ImageView mIvScroll;
 
     private EmotionInputDetector mDetector;
     private ArrayList<Fragment> fragments;
@@ -179,7 +183,7 @@ public class ChatActivity extends BaseActivity {
     protected void initBeforeContentView() {
         super.initBeforeContentView();
         WindowBugDeal.SetTop(this);
-        windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 50);
+        windowStatusBar.setStatusColor(this, getResources().getColor(R.color.app_theme), 0);
 //        StateBarUtils.setFullscreen(this, false, false);
         StateBarUtils.setAndroidNativeLightStatusBar(this,false);
         if (Build.VERSION.SDK_INT >= 21)
@@ -253,8 +257,6 @@ public class ChatActivity extends BaseActivity {
 //        初始化数据库的聊天记录
         initRealm();
 
-//        通知栏点击进入后，需要刷新首页的消息条数，发送广播，在首页接收，并进行刷新页面；
-        getRealmHomeHelper().updateNumZero(FriendId);
         listenEnter();
 
     }
@@ -284,11 +286,15 @@ public class ChatActivity extends BaseActivity {
             }
         });
     }
-    @OnClick({R.id.include_top_iv_more, R.id.include_top_lin_title, R.id.include_top_iv_drop})
+    @OnClick({R.id.include_top_iv_more, R.id.include_top_lin_title, R.id.include_top_iv_drop,R.id.chat_scroll_bot})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.include_top_iv_more:
                 IntentUtils.JumpToHaveOne(ChatSetActivity.class, "FriendId", FriendId);
+                break;
+            case R.id.chat_scroll_bot:
+                if (mIvScroll.getVisibility()==View.VISIBLE)
+                    layoutManager.scrollToPositionWithOffset(chatAdapter.getCount() - 1, 0);
                 break;
             case R.id.include_top_lin_title:
                 includeTopIvDrop.setActivated(true);
@@ -355,7 +361,6 @@ public class ChatActivity extends BaseActivity {
             }
         }
     }
-
     //    设置状态栏的高度为负状态栏高度，因为xml 设置了 android:fitsSystemWindows="true",会占用一个状态栏的高度；
     private void setAboutBar() {
 //        获取状态栏的高度
@@ -382,7 +387,7 @@ public class ChatActivity extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         SplitWeb.getSplitWeb().IS_CHAT = "00";
-        realmHomeHelper.updateNumZero(FriendId);//更新首页聊天界面数据（未读消息数目）
+        getRealmHomeHelper().updateNumZero(FriendId);//更新首页聊天界面数据（未读消息数目）
         EventBus.getDefault().post(new MsgHomeEvent("",FriendId,AppConfig.MSG_ZERO_REFRESH));
         getRealmChatHelper().close();
         getRealmHomeHelper().close();
@@ -393,9 +398,6 @@ public class ChatActivity extends BaseActivity {
             chatPopWindow = null;
         }
     }
-
-    ArrayList< DataJieShou.RecordBean> mList = new ArrayList<>();
-
     private void initRealm() {
         List<CusChatData> cusRealmChatMsgs = getRealmChatHelper().queryAllRealmChat(FriendId);
         if (cusRealmChatMsgs != null && cusRealmChatMsgs.size() != 0) {
@@ -459,13 +461,6 @@ public class ChatActivity extends BaseActivity {
         chatAdapter = new ChatAdapter(this);
         layoutManager = new StaggeredGridLayoutManager(1,StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-//        layoutManager = new LinearLayoutManager(this);
-//
-//
-//        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-//        layoutManager.setRecycleChildrenOnDetach(true);//复用RecycledViewPool
-//        chatList.setHasFixedSize(true);
         chatList.setLayoutManager(layoutManager);
         chatList.setAdapter(chatAdapter);
 
@@ -492,6 +487,40 @@ public class ChatActivity extends BaseActivity {
                 return false;
             }
         });
+
+        chatList.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (chatList != null) {
+                    boolean visBottom = isVisBottom();
+                    if (visBottom) {
+                        mIvScroll.setVisibility(View.GONE);
+                    } else {
+                        mIvScroll.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
+    }
+
+    public  boolean isVisBottom(){
+        StaggeredGridLayoutManager layoutManager = (StaggeredGridLayoutManager) chatList.getRecyclerView().getLayoutManager();
+
+        //屏幕中最后一个可见子项的position
+        int[] lastVisibleItemPosition = layoutManager.findLastVisibleItemPositions(null);
+        //当前屏幕所看到的子项个数
+        int visibleItemCount = layoutManager.getChildCount();
+        //当前RecyclerView的所有子项个数
+        int totalItemCount = layoutManager.getItemCount();
+        //RecyclerView的滑动状态
+//        int state = recyclerView.getScrollState();
+        for (int position : lastVisibleItemPosition) {
+            if (visibleItemCount > 0 && position == totalItemCount - 1) {
+                return true;
+            }
+        }
+        return false;
     }
     private List<String> popupMenuItemList = new ArrayList<>();
     private void initPopMenu() {
@@ -543,10 +572,6 @@ public class ChatActivity extends BaseActivity {
         switch (method) {
 //            发送消息返回
             case Methon.PrivateSend:  // sendPrivateChat  私聊新接口
-//                String ed = editText.getText().toString().trim();
-//                if (!StrUtils.isEmpty(ed)) {
-//                    editText.setText("");
-//                }
                 dealSendResult(responseText);
                 break;
             case Methon.PrivateChat:
@@ -687,10 +712,7 @@ public class ChatActivity extends BaseActivity {
     }
 
     Bitmap bitmap;
-    CustomPopWindow popWindow = null;
     View view = null;
-
-//    private int mPressedPos; // 被点击的位置
     /**
      * item点击事件
      */
@@ -700,7 +722,6 @@ public class ChatActivity extends BaseActivity {
         public void onHeaderClick(int position, int type, String friendId) {
             switch (type) {
                 case Constants.CHAT_ITEM_TYPE_LEFT:
-
                     IntentUtils.JumpToHaveTwo(FriendDataMixActivity.class, "id", friendId, "esc", "esc");
 //                    IntentUtils.JumpToHaveTwo(FriendDataActivity.class, "id", friendId,"esc","esc");
                     break;
@@ -785,19 +806,19 @@ public class ChatActivity extends BaseActivity {
                                 ToastUtil.show("复制成功，可以去粘贴板黏贴哦");
                                 break;
                             case  1://删除
-                                    boolean b = getRealmChatHelper().deletePosition(FriendId, contextPosition);
+                                boolean b = getRealmChatHelper().deletePosition(FriendId, contextPosition);
 //                                        boolean b = getRealmChatHelper().deletePosition(FriendId, item.getMessageStoId());
-                                    if (b) {
+                                if (b) {
 //                                        chatAdapter.deleteWho(contextPosition);
 
-                                        chatAdapter.remove(contextPosition);
-                                        ToastUtil.show("删除成功");
-                                        chatAdapter.notifyItemChanged(contextPosition);
+                                    chatAdapter.remove(contextPosition);
+                                    ToastUtil.show("删除成功");
+                                    chatAdapter.notifyItemChanged(contextPosition);
 //                                        chatAdapter.notifyAdapter(contextPosition);
 //                                            chatAdapter.notifyDataSetChanged();
-                                    } else {
-                                        ToastUtil.show("删除失败，请重试");
-                                    }
+                                } else {
+                                    ToastUtil.show("删除失败，请重试");
+                                }
                                 break;
                             case  2://转发
 //                                TODO
