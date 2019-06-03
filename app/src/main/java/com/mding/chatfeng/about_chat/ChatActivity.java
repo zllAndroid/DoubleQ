@@ -273,14 +273,18 @@ public class ChatActivity extends BaseActivity {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEND) {
-                    //处理事件
-                    String ed = editText.getText().toString().trim();
-                    if (!StrUtils.isEmpty(ed)) {
-                        send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
-                    } else {
-                        editText.setText("");
-                        ToastUtil.show("发送的内容不能为空");
-                    }
+
+                    sendMsgDataDeal();
+//                    //处理事件
+//                    String ed = editText.getText().toString().trim();
+//                    if (!StrUtils.isEmpty(ed)) {
+//
+//
+//                        send(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
+//                    } else {
+//                        editText.setText("");
+//                        ToastUtil.show("发送的内容不能为空");
+//                    }
                 }
                 return true;
             }
@@ -551,8 +555,15 @@ public class ChatActivity extends BaseActivity {
     //订阅方法，接收到服务器返回事件处理
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(DataJieShou.RecordBean messageInfo) {
+        sendMsgDataDeal();
+    }
+
+    private void sendMsgDataDeal() {
         String ed = editText.getText().toString().trim();
         if (!StrUtils.isEmpty(ed)) {
+//            TODO  写入数据库先
+//            addRealm(ed);
+
             try {
                 BaseApp.mIChatRequst.sendMsg(SplitWeb.getSplitWeb().privateSend(ChatActivity.FriendId, ed, ChatActivity.messageType, TimeUtil.getTime()));
             } catch (RemoteException e) {
@@ -563,6 +574,30 @@ public class ChatActivity extends BaseActivity {
             editText.setText("");
             ToastUtil.show("发送的内容不能为空");
         }
+    }
+
+    private void addRealm( String msg) {
+        CusChatData cusRealmChatMsg = new CusChatData();
+//        cusRealmChatMsg.setCreated(TimeUtil.getTime());
+        cusRealmChatMsg.setTimeSort(TimeUtil.getTime());
+//            cusRealmChatMsg.setCreated(TimeUtil.sf.format(new Date()));
+        cusRealmChatMsg.setMessage(msg);
+        cusRealmChatMsg.setMessageType(Constants.CHAT_TEXT);
+        cusRealmChatMsg.setReceiveId(FriendId);
+        cusRealmChatMsg.setSendId(SplitWeb.getSplitWeb().getUserId());
+        cusRealmChatMsg.setUserMessageType(Constants.CHAT_ITEM_TYPE_RIGHT);
+        cusRealmChatMsg.setMsgState(Constants.CHAT_ITEM_SENDING);
+//        cusRealmChatMsg.setMessageStoId(record.getMessageStoId());
+        cusRealmChatMsg.setTotalId(FriendId + SplitWeb.getSplitWeb().getUserId());
+        getRealmChatHelper().addRealmChat(cusRealmChatMsg);//更新聊天数据
+
+        DataJieShou.RecordBean recordBean = new DataJieShou.RecordBean();
+        recordBean.setMessage(msg);
+        recordBean.setMessageType(Constants.CHAT_TEXT);
+        recordBean.setSendState(Constants.CHAT_ITEM_SENDING);
+        recordBean.setType(Constants.CHAT_ITEM_TYPE_RIGHT);
+        chatAdapter.add(recordBean);
+        chatAdapter.notifyDataSetChanged();
     }
 
     @Override

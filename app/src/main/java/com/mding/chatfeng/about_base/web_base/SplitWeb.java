@@ -60,7 +60,6 @@ public class SplitWeb {
 //            SPUtils.put(this,"name",record.getNickName());
 
     public  String getUserHeader() {
-
         USER_HEADER=(String ) SPUtils.get(HelpUtils.getACt(),"header","");
         return USER_HEADER;
     }

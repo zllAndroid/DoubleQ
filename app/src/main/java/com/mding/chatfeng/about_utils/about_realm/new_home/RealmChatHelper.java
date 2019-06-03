@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_chat.cus_data_group.CusGroupChatData;
+import com.rance.chatui.util.Constants;
 
 import java.util.List;
 
@@ -19,11 +20,11 @@ public class RealmChatHelper {
     public static final String FILE_NAME = "totalId";
     public static final String MSG_ID = "messageStoId";
 
-//  小强  15960525629
+    //  小强  15960525629
 //   123456
     private Realm mRealm;
 
-//realm.beginTransaction();
+    //realm.beginTransaction();
 //final Dog managedDog = realm.copyToRealm(dog); // Persist unmanaged objects
 //Person person = realm.createObject(Person.class); // Create managed objects directly
 //person.getDogs().add(managedDog);
@@ -40,6 +41,8 @@ public class RealmChatHelper {
             CusChatData cusChatData = mRealm.where(CusChatData.class).equalTo(MSG_ID, realmChat.getMessageStoId()).findFirst();
             if (cusChatData == null) {
                 addChat(realmChat);
+            }else {
+//                upDataState(realmChat);
             }
         }else
         {
@@ -59,9 +62,16 @@ public class RealmChatHelper {
      * add （增）
      */
     private void addChat(final CusChatData realmChat) {
-                mRealm.beginTransaction();
-                mRealm.copyToRealm(realmChat);
-                mRealm.commitTransaction();
+        mRealm.beginTransaction();
+        mRealm.copyToRealm(realmChat);
+        mRealm.commitTransaction();
+    }
+    private void upDataState(final CusChatData realmChat) {
+        mRealm.beginTransaction();
+        realmChat.setMsgState(Constants.CHAT_ITEM_SEND_SUCCESS);
+//                mRealm.copyToRealm(realmChat);
+        mRealm.insertOrUpdate(realmChat);
+        mRealm.commitTransaction();
     }
 
     /**

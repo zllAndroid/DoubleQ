@@ -19,6 +19,15 @@ public  class CusChatData extends RealmObject {
     String  imgUrl; //    消息内容
     String  created; //    发送时间
     String  timeSort; //    发送时间
+    int msgState;//消息状态（发送中，发送成功，发送失败）
+
+    public int getMsgState() {
+        return msgState;
+    }
+
+    public void setMsgState(int msgState) {
+        this.msgState = msgState;
+    }
 
     public String getTimeSort() {
         return timeSort;
