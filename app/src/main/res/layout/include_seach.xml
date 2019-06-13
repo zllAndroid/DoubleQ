@@ -38,7 +38,7 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:textSize="@dimen/sp14"
-                android:hint="搜索"
+                android:hint="@string/search_title"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:textCursorDrawable="@color/app_theme"

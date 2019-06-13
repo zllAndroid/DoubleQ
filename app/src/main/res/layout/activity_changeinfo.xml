@@ -73,7 +73,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="昵称："
+                        android:text="@string/my_info_nick_name"
                         android:textSize="@dimen/sp16"
                         android:layout_gravity="center"
                         android:textColor="@color/white"/>
@@ -102,7 +102,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="帐号："
+                    android:text="@string/my_info_account"
                     android:textSize="@dimen/sp16"
                     android:textColor="@color/white" />
 
@@ -133,7 +133,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="个签："
+                    android:text="@string/my_info_signature"
                     android:textSize="@dimen/sp16"
                     android:layout_gravity="center"
                     android:textColor="@color/white"/>
@@ -144,7 +144,7 @@
                     android:textSize="@dimen/sp16"
                     android:drawableRight="@drawable/change_icon"
                     android:textColor="@color/white"
-                    android:text="暂未设置签名"
+                    android:text="@string/my_info_no_set"
                     />
 
                 <!--<ImageView-->

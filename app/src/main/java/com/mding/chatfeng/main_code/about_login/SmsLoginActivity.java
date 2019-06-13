@@ -1,14 +1,9 @@
 package com.mding.chatfeng.main_code.about_login;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.os.RemoteException;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -18,37 +13,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.android.volley.VolleyError;
 import com.mding.chatfeng.about_application.BaseApplication;
-import com.mding.chatfeng.about_base.AppConfig;
-import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.MyJsonUtils;
-import com.mding.chatfeng.main_code.ui.about_load.LoadLinkManActivity;
 import com.mding.core.pushservice.WsChannelService;
-import com.mding.model.DataLogin;
 import com.mding.chatfeng.R;
 import com.mding.chatfeng.about_base.web_base.SplitWeb;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.NetWorkUtlis;
-import com.mding.chatfeng.main_code.mains.MainActivity;
-import com.mding.chatfeng.about_base.BaseActivity;
-import com.mding.model.DataServer;
 import com.projects.zll.utilslibrarybyzll.about_key.AppAllKey;
-import com.projects.zll.utilslibrarybyzll.aboututils.ACache;
 import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 import com.projects.zll.utilslibrarybyzll.aboututils.NoDoubleClickUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.SPUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
-import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyInterface;
-import com.projects.zll.utilslibrarybyzll.aboutvolley.VolleyRequest;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-
-import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
 
 /**
  * 项目：DoubleQ
@@ -56,7 +37,7 @@ import static com.mding.chatfeng.main_code.mains.PersonalFragment.IMAGE_BASE64;
  * 作者：zll
  * 修改者：ljj
  */
-public class PwdLoginActivity extends BaseLogin {
+public class SmsLoginActivity extends BaseLogin {
     @BindView(R.id.include_top_iv_back)
     ImageView includeTopIvBack;
     @BindView(R.id.include_top_tv_tital)
@@ -80,7 +61,8 @@ public class PwdLoginActivity extends BaseLogin {
     protected void initBaseView() {
         super.initBaseView();
 //        includeTopIvBack.setVisibility(View.INVISIBLE);
-        includeTopTvTital.setText("短信登录");
+//        includeTopTvTital.setText("短信登录");
+        includeTopTvTital.setText(getResources().getString(R.string.login_sms_login_title));
         mLinBack.setVisibility(View.INVISIBLE);
         init(BaseApplication.getAppContext());
         initUrl();
@@ -88,7 +70,7 @@ public class PwdLoginActivity extends BaseLogin {
     }
     //    初始化获取url
     private void initUrl() {
-            MyJsonUtils.initBeforeLogin(PwdLoginActivity.this);
+            MyJsonUtils.initBeforeLogin(SmsLoginActivity.this);
 
     }
     private void listenEnter() {
@@ -149,7 +131,7 @@ public class PwdLoginActivity extends BaseLogin {
                 break;
             case R.id.pwd_tv_code_login:
                 if (NoDoubleClickUtils.isDoubleClick())
-                    IntentUtils.JumpFinishTo(PwdLoginActivity.this, LoginActivity.class);
+                    IntentUtils.JumpFinishTo(SmsLoginActivity.this, LoginActivity.class);
                 break;
         }
     }
@@ -157,12 +139,12 @@ public class PwdLoginActivity extends BaseLogin {
     private void initSendSms() {
         String phone = regEdPhone.getText().toString().trim();
         if (StrUtils.isEmpty(phone)) {
-            ToastUtil.show("手机号不能为空");
+            ToastUtil.show(getResources().getString(R.string.phone_is_null));
 //            Tip.getDialog(this,"手机号不能为空");
             return;
         }
         if (StrUtils.isEmpty(phone)) {
-            ToastUtil.show("手机号输入有误");
+            ToastUtil.show(getResources().getString(R.string.phone_is_error));
 //            Tip.getDialog(this,"手机号输入有误");
             return;
         }
@@ -177,8 +159,9 @@ public class PwdLoginActivity extends BaseLogin {
             });
         }else
         {
-            ToastUtil.show("请稍后再试");
-            MyJsonUtils.initBeforeLogin(PwdLoginActivity.this);
+//            ToastUtil.show("请稍后再试");
+            ToastUtil.show(getResources().getString(R.string.try_again_later));
+            MyJsonUtils.initBeforeLogin(SmsLoginActivity.this);
         }
     }
     //点击验证码登录，执行短信登录内容
@@ -192,18 +175,18 @@ public class PwdLoginActivity extends BaseLogin {
             initUrl();
         }
         if (StrUtils.isEmpty(phone)) {
-            ToastUtil.show("手机号不能为空");
+            ToastUtil.show(getResources().getString(R.string.phone_is_null));
 //            Tip.getDialog(this,"手机号不能为空");
             return;
         }
         if (StrUtils.isEmpty(code)) {
-            ToastUtil.show("验证码不能为空");
-//            Tip.getDialog(this,"手机号不能为空");
+//            ToastUtil.show("验证码不能为空");
+            ToastUtil.show(getResources().getString(R.string.verification_code_is_null));
             return;
         }
 
         try {
-            SPUtils.put(PwdLoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, phone);
+            SPUtils.put(SmsLoginActivity.this, AppAllKey.SP_LOGIN_ACCOUNT, phone);
             if(iLoginRequst!=null)
             {
 
@@ -213,7 +196,7 @@ public class PwdLoginActivity extends BaseLogin {
                     iLoginRequst.loginRequest(s);
                 }else
                 {
-                    ToastUtil.show("请稍后再试");
+                    ToastUtil.show(getResources().getString(R.string.try_again_later));
                     initUrl();
                 }
             }
@@ -238,7 +221,8 @@ public class PwdLoginActivity extends BaseLogin {
         public void onFinish() {
             pwdTvSendCode.setEnabled(true);
             pwdTvSendCode.setClickable(true);
-            pwdTvSendCode.setText("获取验证码");
+//            pwdTvSendCode.setText("获取验证码");
+            pwdTvSendCode.setText(getResources().getString(R.string.login_get_code));
 //            regTvSendCode.setBackgroundResource(R.drawable.btn_stroke_sel);
         }
     };
@@ -260,7 +244,7 @@ public class PwdLoginActivity extends BaseLogin {
         MyLog.e("request","---------短信登录----------->>"+mLoginModel);
         String isSucess = HelpUtils.HttpIsLoginSucess(mLoginModel);
         if (isSucess.equals(AppAllKey.CODE_OK)) {
-            AboutLoginSaveData aboutLoginSaveData = new AboutLoginSaveData(PwdLoginActivity.this);
+            AboutLoginSaveData aboutLoginSaveData = new AboutLoginSaveData(SmsLoginActivity.this);
             aboutLoginSaveData.initSaveData(mLoginModel);
         }else {
             String httpReturnMsg = HelpUtils.HttpReturnMsg(mLoginModel);

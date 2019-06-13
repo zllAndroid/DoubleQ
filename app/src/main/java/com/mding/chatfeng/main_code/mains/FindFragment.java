@@ -75,7 +75,8 @@ public class FindFragment extends BaseFragment {
 
     @Override
     protected String setFragmentTital() {
-        return "朋友圈";
+        return getResources().getString(R.string.discover_title);
+//        return "朋友圈";
     }
 
     private void initUI(final View view) {
@@ -144,107 +145,119 @@ public class FindFragment extends BaseFragment {
 
     private void initDiscover() {
         discoverLinFriendcircle.setImgLogo(getResources().getDrawable(R.drawable.discover_friendcircle));
-        discoverLinFriendcircle.setTvTitle("朋友圈");
+        discoverLinFriendcircle.setTvTitle(getResources().getString(R.string.discover_discover));
+//        discoverLinFriendcircle.setTvTitle("朋友圈");
     }
 
     private void initAnimalFuHua() {
         discoverLinAnimalFuhua.setLinGreyBacVisible(true);
         discoverLinAnimalFuhua.setViewLineVisible(false);
         discoverLinAnimalFuhua.setImgLogo(getResources().getDrawable(R.drawable.discover_animal_fuhua));
-        discoverLinAnimalFuhua.setTvTitle("宠物孵化基地");
+        discoverLinAnimalFuhua.setTvTitle(getResources().getString(R.string.discover_discover));
     }
     private void initAI() {
         discoverLinAi.setImgLogo(getResources().getDrawable(R.drawable.discover_ai));
-        discoverLinAi.setTvTitle("AI宠物学舌");
+        discoverLinAi.setTvTitle(getResources().getString(R.string.discover_pet_ai));
+//        discoverLinAi.setTvTitle("AI宠物学舌");
     }
     private void initAnimalShop() {
         discoverLinAnimalShop.setImgLogo(getResources().getDrawable(R.drawable.discover_animal_shop));
-        discoverLinAnimalShop.setTvTitle("宠物商城");
+        discoverLinAnimalShop.setTvTitle(getResources().getString(R.string.discover_pet_shop));
+//        discoverLinAnimalShop.setTvTitle("宠物商城");
     }
     private void initAnimalLife() {
         discoverLinAnimalLife.setImgLogo(getResources().getDrawable(R.drawable.discover_animal_life));
-        discoverLinAnimalLife.setTvTitle("宠物生涯");
+        discoverLinAnimalLife.setTvTitle(getResources().getString(R.string.discover_pet_life));
+//        discoverLinAnimalLife.setTvTitle("宠物生涯");
     }
 
     private void initYuYanJia() {
         discoverLinYuyanjia.setLinGreyBacVisible(true);
         discoverLinYuyanjia.setViewLineVisible(false);
         discoverLinYuyanjia.setImgLogo(getResources().getDrawable(R.drawable.discover_yuyanjia));
-        discoverLinYuyanjia.setTvTitle("我是预言家");
+        discoverLinYuyanjia.setTvTitle(getResources().getString(R.string.discover_predictor));
+//        discoverLinYuyanjia.setTvTitle("我是预言家");
     }
     private void initGaoBaiWall() {
         discoverLinGaoBaiQiang.setImgLogo(getResources().getDrawable(R.drawable.discover_gaobai));
-        discoverLinGaoBaiQiang.setTvTitle("世界告白墙");
+        discoverLinGaoBaiQiang.setTvTitle(getResources().getString(R.string.discover_gaobai_wall));
+//        discoverLinGaoBaiQiang.setTvTitle("世界告白墙");
     }
     private void initZhiAddFriend() {
         discoverLinZhiAddFriend.setImgLogo(getResources().getDrawable(R.drawable.discover_zhi_addfriend));
-        discoverLinZhiAddFriend.setTvTitle("吱一吱，加好友");
+        discoverLinZhiAddFriend.setTvTitle(getResources().getString(R.string.discover_zhi_add_friend));
+//        discoverLinZhiAddFriend.setTvTitle("吱一吱，加好友");
     }
     private void initAppStore() {
         discoverLinAppStore.setImgLogo(getResources().getDrawable(R.drawable.discover_shop));
-        discoverLinAppStore.setTvTitle("应用商城");
+        discoverLinAppStore.setTvTitle(getResources().getString(R.string.discover_app_store));
+//        discoverLinAppStore.setTvTitle("应用商城");
     }
 
     private void initMusic() {
         discoverLinMusic.setLinGreyBacVisible(true);
         discoverLinMusic.setViewLineVisible(false);
         discoverLinMusic.setImgLogo(getResources().getDrawable(R.drawable.discover_music));
-        discoverLinMusic.setTvTitle("中国好音乐");
+        discoverLinMusic.setTvTitle(getResources().getString(R.string.discover_music));
+//        discoverLinMusic.setTvTitle("中国好音乐");
     }
     private void initShiYong() {
         discoverLinShiYong.setImgLogo(getResources().getDrawable(R.drawable.discover_shiyong));
-        discoverLinShiYong.setTvTitle("周周试用免单");
+        discoverLinShiYong.setTvTitle(getResources().getString(R.string.discover_shiyong));
+//        discoverLinShiYong.setTvTitle("周周试用免单");
     }
     private void initFangWei() {
         discoverLinFangWei.setImgLogo(getResources().getDrawable(R.drawable.discover_fangwei));
-        discoverLinFangWei.setTvTitle("防伪溯源鉴定");
+        discoverLinFangWei.setTvTitle(getResources().getString(R.string.discover_jianding));
+//        discoverLinFangWei.setTvTitle("防伪溯源鉴定");
     }
     private void initGuangGaoWall() {
         discoverLinGuangGao.setImgLogo(getResources().getDrawable(R.drawable.discover_guanggao));
-        discoverLinGuangGao.setTvTitle("广告墙");
+        discoverLinGuangGao.setTvTitle(getResources().getString(R.string.discover_ad_wall));
+//        discoverLinGuangGao.setTvTitle("广告墙");
     }
 
     @OnClick({R.id.discover_lin_friendcircle, R.id.discover_lin_animal_fuhua, R.id.discover_lin_ai, R.id.discover_lin_animal_shop, R.id.discover_lin_animal_life, R.id.discover_lin_yuyanjia, R.id.discover_lin_gaoBaiQiang, R.id.discover_lin_zhi_addFriend, R.id.discover_lin_app_store, R.id.discover_lin_music, R.id.discover_lin_shiYong, R.id.discover_lin_fangWei, R.id.discover_lin_guangGao})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.discover_lin_friendcircle:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.notice_waiting));
                 break;
             case R.id.discover_lin_animal_fuhua:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_ai:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_animal_shop:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_animal_life:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_yuyanjia:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_gaoBaiQiang:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_zhi_addFriend:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_app_store:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_music:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_shiYong:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_fangWei:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.discover_lin_guangGao:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
         }
     }

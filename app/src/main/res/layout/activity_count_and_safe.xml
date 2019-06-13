@@ -30,7 +30,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="@dimen/dp10"
-                android:text="修改密码" />
+                android:text="@string/account_security_modify_pwd" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:padding="@dimen/dp10"
-                android:text="更换绑定" />
+                android:text="@string/account_security_change_bind" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

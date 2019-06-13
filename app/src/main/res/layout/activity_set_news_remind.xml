@@ -28,7 +28,7 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="接收新消息提醒"
+                    android:text="@string/msg_notification_accept_news"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
                     android:id="@+id/news_switch_jieshou_news"
@@ -56,7 +56,7 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="接收语音邀请"
+                    android:text="@string/msg_notification_accept_voice"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
                     android:id="@+id/news_switch_jieshou_yuyin"
@@ -84,7 +84,7 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="接收视频邀请"
+                    android:text="@string/msg_notification_accept_video"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
                     android:id="@+id/news_switch_jieshou_video"
@@ -112,7 +112,7 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="推送显示内容"
+                    android:text="@string/msg_notification_show_push_content"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
                     android:id="@+id/news_switch_xianshi"

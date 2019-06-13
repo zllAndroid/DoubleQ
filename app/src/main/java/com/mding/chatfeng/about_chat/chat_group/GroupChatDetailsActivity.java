@@ -50,6 +50,7 @@ import com.mding.chatfeng.about_chat.chat_group.sub_group.GrouperEscActivity;
 import com.mding.chatfeng.about_chat.chat_group.sub_group.InvitationGroupChatActivity;
 import com.mding.chatfeng.about_chat.chat_group.sub_group.about_intent_data.IntentDataInvitation;
 import com.mding.chatfeng.about_chat.cus_data_group.CusJumpGroupChatData;
+import com.mding.chatfeng.about_chat.group_manage.ManageGroupActivity;
 import com.mding.chatfeng.about_utils.HelpUtils;
 import com.mding.chatfeng.about_utils.ImageUtils;
 import com.mding.chatfeng.about_utils.IntentUtils;
@@ -843,7 +844,7 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
         }
     }
 
-    @OnClick({R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat,
+    @OnClick({ R.id.group_details_lin_set, R.id.group_details_lin_add_type, R.id.group_details_lin_group_notice, R.id.group_details_lin_chat_old, R.id.group_details_lin_del_chat,
             R.id.include_top_iv_zhuanfa, R.id.group_details_iv_qrcode, R.id.group_details_lin_name, R.id.group_data_iv_head,
             R.id.group_chat_data_swibtn_nodarao, R.id.group_chat_data_lin_nodarao,R.id.group_data_lin_grouping, R.id.group_details_tv_to_chat})
     public void onViewClicked(View view) {
@@ -859,11 +860,11 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                 break;
             // 聊天记录
             case R.id.group_details_lin_chat_old:
-                DialogUtils.showDialog("敬请期待");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             // 删除聊天记录
             case R.id.group_details_lin_del_chat:
-                DialogUtils.showDialog("敬请期待");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.include_top_iv_zhuanfa:
 
@@ -873,8 +874,8 @@ public class GroupChatDetailsActivity extends BaseActivity implements ChangeInfo
                     PersonData personData = new PersonData();
                     personData.setHeadImg(dataRecord.getGroupHeadImg());
                     personData.setName(dataRecord.getGroupName());
-                    personData.setScanTital("扫一扫二维码，加入群聊");
-                    personData.setTital("群聊二维码");
+                    personData.setScanTital(getResources().getString(R.string.qrcode_add_group));
+                    personData.setTital(getResources().getString(R.string.qrcode_title_group));
                     personData.setQrCode(dataRecord.getGroupQrcode());
                     IntentUtils.JumpToHaveObj(QunCodeActivity.class, AppConfig.GROUP_ADDKEY, personData);
                 }

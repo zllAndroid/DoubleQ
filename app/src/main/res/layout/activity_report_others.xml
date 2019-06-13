@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".about_chat.group_manage.ReportOthersActivity">
+
+    <include layout="@layout/activity_include_title_bar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grayf4"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/dp10"
+            android:textSize="@dimen/sp12"
+            android:textColor="@color/grey999"
+            android:layout_marginTop="@dimen/dp10"
+            android:text="@string/report_others_choose_way"/>
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/report_others_cus_lin_to_chatfeng"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/report_others_cus_lin_to_blocked_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+
+
+    </LinearLayout>
+</LinearLayout>

@@ -363,7 +363,8 @@
                 android:paddingLeft="@dimen/dp80"
                 android:paddingRight="@dimen/dp80"
                 android:layout_marginTop="@dimen/dp50"
-                android:text="退出登录" />
+                android:layout_marginBottom="@dimen/dp50"
+                android:text="@string/setting_btn_log_out" />
 
         </LinearLayout>
     </ScrollView>

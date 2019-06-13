@@ -50,7 +50,8 @@ public class LaBlackActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        includeTopTvTital.setText("屏蔽名单");
+        includeTopTvTital.setText(getResources().getString(R.string.block_list_title));
+//        includeTopTvTital.setText("屏蔽名单");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
 
         mRecyclerView.setHasFixedSize(true);

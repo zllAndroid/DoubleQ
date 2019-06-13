@@ -191,7 +191,7 @@ public class FriendDataGroupMemberActivity extends BaseActivity {
                         personData.setHeadImg(dataSearch.getHeadImg());
                         personData.setName(dataSearch.getName());
                         personData.setScanTital("扫一扫,添加" + dataSearch.getName() + "为好友");
-                        personData.setTital("好友二维码");
+                        personData.setTital(getResources().getString(R.string.qrcode_title_friend));
                         personData.setQrCode(dataSearch.getQrcode());
                         IntentUtils.JumpToHaveObj(MyAccountActivity.class, MyAccountActivity.TITAL_NAME, personData);
                     }

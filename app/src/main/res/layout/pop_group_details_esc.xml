@@ -28,12 +28,37 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/gray666"
-            android:text="退出群聊"
+            android:text="@string/group_details_pop_exit"
             android:padding="@dimen/dp10"
             android:gravity="center"
             android:textSize="@dimen/sp18"
-            android:background="@color/grayf4"
             />
+        <View
+            style="@style/style_wei_line_margin_10"/>
+        <TextView
+            android:id="@+id/pop_btn_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray666"
+            android:text="@string/group_details_pop_share"
+            android:padding="@dimen/dp10"
+            android:gravity="center"
+            android:textSize="@dimen/sp18"
+            />
+        <View
+            style="@style/style_wei_line_margin_10"/>
+        <TextView
+            android:id="@+id/pop_btn_jvbao"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray666"
+            android:text="@string/group_details_pop_jvbao"
+            android:padding="@dimen/dp10"
+            android:gravity="center"
+            android:textSize="@dimen/sp18"
+            />
+        <View
+            style="@style/style_wei_line_margin_10"/>
         <!--<TextView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="@dimen/dp8"-->
@@ -44,9 +69,48 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/gray666"
-            android:text="取消"
+            android:text="@string/group_details_pop_cancel"
             android:gravity="center"
-            android:background="@null"
+            android:background="@color/grayf4"
+            android:textSize="@dimen/sp18"
+            android:padding="@dimen/dp10"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/share_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        >
+        <TextView
+            android:id="@+id/pop_share_btn_share"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray666"
+            android:text="@string/group_details_pop_share"
+            android:padding="@dimen/dp10"
+            android:gravity="center"
+            android:textSize="@dimen/sp18"
+            />
+        <View
+            style="@style/style_wei_line_margin_10"/>
+        <ImageView
+            android:id="@+id/pop_share_iv_share_logo"
+            android:layout_width="@dimen/dp100"
+            android:layout_height="@dimen/dp100"
+            android:layout_margin="@dimen/dp10"/>
+        <TextView
+            android:id="@+id/pop_share_btn_cancle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/gray666"
+            android:text="@string/group_details_pop_cancel"
+            android:gravity="center"
+            android:background="@color/grayf4"
             android:textSize="@dimen/sp18"
             android:padding="@dimen/dp10"
             />

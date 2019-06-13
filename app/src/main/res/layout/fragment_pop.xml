@@ -15,7 +15,7 @@
             android:gravity="center"
             android:layout_weight="1"
             android:layout_gravity="center"
-            android:text="创建群聊"
+            android:text="@string/home_pop_create_new_group"
             android:textSize="@dimen/sp14" />
         <View
             style="@style/style_wei_line_pop"
@@ -30,7 +30,7 @@
             android:paddingTop="@dimen/dp5"
             android:paddingBottom="@dimen/dp5"
             android:layout_gravity="center"
-            android:text="添加好友/群"
+            android:text="@string/home_pop_add_friend_or_group"
             android:textSize="@dimen/sp14" />
         <View
             style="@style/style_wei_line_pop"
@@ -44,7 +44,7 @@
             android:layout_gravity="center"
             android:paddingTop="@dimen/dp5"
             android:paddingBottom="@dimen/dp5"
-            android:text="扫一扫"
+            android:text="@string/home_pop_scan"
             android:textSize="@dimen/sp14" />
 
         <View

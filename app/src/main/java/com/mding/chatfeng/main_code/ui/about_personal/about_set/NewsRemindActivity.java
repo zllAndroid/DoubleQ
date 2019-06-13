@@ -43,7 +43,8 @@ public class NewsRemindActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        includeTopTvTital.setText("消息提醒");
+        includeTopTvTital.setText(getResources().getString(R.string.msg_notification_title));
+//        includeTopTvTital.setText("消息提醒");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         includeTopTvRight.setVisibility(View.VISIBLE);
         includeTopTvRight.setOnClickListener(new View.OnClickListener() {
@@ -82,7 +83,8 @@ public class NewsRemindActivity extends BaseActivity {
 //                        AppManager.getAppManager().finishActivity();
 //                    }
 //                });
-                ToastUtil.show("消息提醒设置成功！");
+                ToastUtil.show(getResources().getString(R.string.msg_notification_save_succeed));
+//                ToastUtil.show("消息提醒设置成功！");
                 AppManager.getAppManager().finishActivity();
                 break;
         }

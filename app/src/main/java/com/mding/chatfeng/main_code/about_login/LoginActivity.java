@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.mding.chatfeng.about_application.BaseApplication;
@@ -62,7 +61,8 @@ public class LoginActivity extends BaseLogin {
         this.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         screenWidth = displayMetrics.widthPixels;
         screenHeight = displayMetrics.heightPixels;
-        includeTopTvTital.setText("登录");
+//        includeTopTvTital.setText("登录");
+        includeTopTvTital.setText(getResources().getString(R.string.login_pwd_login_title));
         mLinBack.setVisibility(View.INVISIBLE);
         init(BaseApplication.getAppContext());
         //TODO  获取第一层url
@@ -146,11 +146,11 @@ public class LoginActivity extends BaseLogin {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.login_tv_code_login:
-                IntentUtils.JumpFinishTo(LoginActivity.this,PwdLoginActivity.class);
+                IntentUtils.JumpFinishTo(LoginActivity.this,SmsLoginActivity.class);
                 break;
             case R.id.login_tv_forget_pwd:
 //                DialogUtils.showDialogKnow("请直接输入手机号，用短信登录","知道了");
-                IntentUtils.JumpFinishTo(LoginActivity.this,PwdLoginActivity.class);
+                IntentUtils.JumpFinishTo(LoginActivity.this,SmsLoginActivity.class);
                 break;
             case R.id.login_btn_login:
                 if (NoDoubleClickUtils.isDoubleClick())
@@ -175,7 +175,7 @@ public class LoginActivity extends BaseLogin {
 //            return;
 //        }
         if (StrUtils.isEmpty(pwd)) {
-            DialogUtils.showDialog("密码不得为空");
+            DialogUtils.showDialog(getResources().getString(R.string.pwd_is_null));
             return;
         }
         if (StrUtils.isEmpty(SplitWeb.getSplitWeb().getFirstUrl()))

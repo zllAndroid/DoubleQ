@@ -29,7 +29,7 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="帐号显示"
+                    android:text="@string/privacy_show_account"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
                     android:id="@+id/yinsi_switch_count"
@@ -94,7 +94,7 @@
                     android:layout_gravity="center"
                     android:padding="@dimen/dp10"
                     android:layout_weight="1"
-                    android:text="二维码显示"
+                    android:text="@string/privacy_show_qrcode"
                     android:textColor="@color/gray333"/>
                 <com.suke.widget.SwitchButton
                     android:id="@+id/yinsi_switch_ercode"

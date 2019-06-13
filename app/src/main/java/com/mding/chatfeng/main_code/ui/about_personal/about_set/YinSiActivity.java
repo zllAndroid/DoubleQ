@@ -41,7 +41,8 @@ public class YinSiActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        includeTopTvTital.setText("隐私设置");
+        includeTopTvTital.setText(getResources().getString(R.string.privacy_title));
+//        includeTopTvTital.setText("隐私设置");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         includeTopTvRight.setVisibility(View.VISIBLE);
         includeTopTvRight.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +79,8 @@ public class YinSiActivity extends BaseActivity {
                 }
                 break;
             case "permissionSet":
-                ToastUtil.show("隐私设置处保存成功！");
+                ToastUtil.show(getResources().getString(R.string.privacy_save_succeed));
+//                ToastUtil.show("隐私设置保存成功！");
                 AppManager.getAppManager().finishActivity();
                 break;
         }

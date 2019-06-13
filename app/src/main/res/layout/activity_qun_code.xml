@@ -69,7 +69,7 @@
                                 android:layout_marginTop="@dimen/dp10"
                                 android:layout_gravity="center_vertical"
                                 android:gravity="center_vertical"
-                                android:text="扫一扫二维码，加入群聊"/>
+                                android:text="@string/qrcode_add_group"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -105,7 +105,7 @@
                     android:id="@+id/quncode_tv_save"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="保存到手机"
+                    android:text="@string/qrcode_save"
                     android:paddingTop="@dimen/dp10"
                     android:paddingRight="@dimen/dp20"
                     android:paddingLeft="@dimen/dp20"
@@ -121,7 +121,7 @@
                     android:id="@+id/quncode_tv_share"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="分享二维码"
+                    android:text="@string/qrcode_share"
                     android:paddingTop="@dimen/dp10"
                     android:paddingRight="@dimen/dp20"
                     android:paddingLeft="@dimen/dp20"

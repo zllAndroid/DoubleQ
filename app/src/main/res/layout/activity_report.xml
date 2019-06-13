@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".about_chat.group_manage.ReportActivity">
+
+    <include layout="@layout/activity_include_title_bar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/greyf3"
+        android:orientation="vertical">
+
+        <!--该群发布不良信息-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/report_cus_lin_unhealthy_news"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!--该群存在欺诈骗钱的行为-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/report_cus_lin_cheat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!--该群存在聚众赌博行为-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/report_cus_lin_gamble"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!--该群发布广告骚扰信息-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/report_cus_lin_ads"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!--其他-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/report_cus_lin_others"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</LinearLayout>

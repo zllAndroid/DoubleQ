@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:textCursorDrawable="@null"
-                android:hint="手机号"
+                android:hint="@string/login_phone"
                 android:minEms="11"
                 android:maxLength="11"
                 android:textColor="@color/white"
@@ -83,7 +83,7 @@
                 android:maxLength="20"
                 android:textCursorDrawable="@null"
                 android:inputType="textPassword"
-                android:hint="密码"
+                android:hint="@string/login_pwd"
 
                 android:textColor="@color/white"
                 android:layout_marginTop="@dimen/dp30"
@@ -130,7 +130,7 @@
                     android:textSize="@dimen/sp14"
                     android:paddingBottom="@dimen/dp10"
                     android:paddingLeft="@dimen/dp5"
-                    android:text="短信登录"/>
+                    android:text="@string/login_change_to_msg_login"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -148,7 +148,7 @@
             android:id="@+id/login_btn_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="登录"
+            android:text="@string/login_btn_login"
             android:layout_gravity="center"
             android:textSize="@dimen/sp16"
             android:textColor="@color/white"
@@ -163,7 +163,7 @@
             android:layout_marginTop="@dimen/dp15"
             android:textColor="@color/app_theme"
             android:textSize="@dimen/sp15"
-            android:text="新用户注册"/>
+            android:text="@string/login_change_to_register"/>
     </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

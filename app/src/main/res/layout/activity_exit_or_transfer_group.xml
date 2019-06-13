@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/group_set_lin_main"
+    android:orientation="vertical">
+    <include layout="@layout/activity_include_title_bar"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grayeee"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/group_set_lin_change_head"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp120"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_solid_stroke_white"
+            android:layout_marginTop="@dimen/dp15"
+            android:layout_marginLeft="@dimen/dp10"
+            android:layout_marginRight="@dimen/dp10"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/app_theme"
+                android:textSize="@dimen/sp16"
+                android:text="@string/exit_group_disconnected"/>
+
+        </RelativeLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="@dimen/dp20"
+            android:layout_marginRight="@dimen/dp50"
+            android:layout_marginLeft="@dimen/dp50">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/gray999"
+                android:textSize="@dimen/sp12"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/exit_group_choose_transfer_or_dismiss"/>
+            <TextView
+                android:id="@+id/exit_group_tv_transfer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp16"
+                android:background="@drawable/btn_solid_stroke"
+                android:padding="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp20"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/exit_group_transfer"/>
+            <TextView
+                android:id="@+id/exit_group_tv_dismiss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp16"
+                android:background="@drawable/btn_solid_stroke_red"
+                android:padding="@dimen/dp10"
+                android:layout_marginTop="@dimen/dp20"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/exit_group_dismiss"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

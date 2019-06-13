@@ -1,0 +1,706 @@
+<resources>
+
+    <!--<string name="app_name">信风</string>-->
+    <string name="app_name">ChatFeng</string>
+    <!--<string name="phone_is_null">请输入您的手机号</string>-->
+    <string name="phone_is_null">Please enter your mobile number</string>
+    <!--<string name="pwd_is_null">请输入您的密码</string>-->
+    <string name="pwd_is_null">Please enter your password</string>
+    <!--<string name="verification_code_is_null">请输入验证码</string>-->
+    <string name="verification_code_is_null">Please enter your SMS authentication code</string>
+    <!--<string name="phone_is_error">请输入正确的手机号格式</string>-->
+    <string name="phone_is_error">Please enter the correct phone number</string>
+    <!--<string name="try_again_later">请稍后再试</string>-->
+    <string name="try_again_later">Please try again later</string>
+
+    <string name="init_cream_hold">摄像头未初始化，请稍后</string>
+    <!--<string name="scan_sao">扫一扫</string>-->
+    <string name="scan_sao">Scan</string>
+    <!--<string name="scan_fail">扫码失败</string>-->
+    <string name="scan_fail">Failed</string>
+    <!--<string name="scan_success">扫描成功，即将打开该页面</string>-->
+    <string name="scan_success">Successful! The page will be opened soon</string>
+    <!--<string name="no_net">网络连接错误，请检查...</string>-->
+    <string name="no_net">Internet connect error，please check</string>
+    <!--<string name="stay_tuned">敬请期待</string>-->
+    <string name="stay_tuned">Stay Tuned!</string>
+
+    <string name="risk_test_title">Announcement for ChatFeng 1.0</string>
+    <!--<string name="risk_test_title">信风1.0封测公告</string>-->
+    <!--<string name="risk_test">\n-->
+      <!--尊敬的用户：\n\t\t您好，上个版本中我们重点测试了服务器方面性能，并解决了多个隐藏问题，使得服务器的稳定性从各方面得到提升，非常感谢您的参与。-->
+<!--\n\t\t本次版本中，我们重构了客户端逻辑，使得运行更加流畅，解决了卡死、闪退等问题。本次针对客户端逻辑问题进行测试。-->
+<!--\n\t\t下个版本，我们将优化交互体验和调整部分界面，使得更人性化，更美观。-->
+<!--\n\t\t信风团队，感谢您的支持，与我们一起成长。</string>-->
+    <string name="risk_test">\n
+      尊敬的用户：\n\t\t您好，上个版本中我们重点测试了服务器方面性能，并解决了多个隐藏问题，使得服务器的稳定性从各方面得到提升，非常感谢您的参与。
+\n\t\t本次版本中，我们重构了客户端逻辑，使得运行更加流畅，解决了卡死、闪退等问题。本次针对客户端逻辑问题进行测试。
+\n\t\t下个版本，我们将优化交互体验和调整部分界面，使得更人性化，更美观。
+\n\t\t信风团队，感谢您的支持，与我们一起成长。</string>
+    <!--<string name="risk_test_organization">信风团队</string>-->
+    <string name="risk_test_organization">ChatFeng Organization</string>
+    <string name="risk_test_time">2019.05.16</string>
+    <!--空格   &#160;-->
+
+    <!--<string name="copy">复制</string>-->
+    <string name="copy">Copy</string>
+    <!--<string name="delete">删除</string>-->
+    <string name="delete">Delete</string>
+    <!--<string name="share">转发</string>-->
+    <string name="share">Forward</string>
+    <!--<string name="more">更多&#8230;</string>-->
+    <string name="more">More&#8230;</string>
+
+
+    <!--<string name="btn_sure">确定</string>-->
+    <string name="btn_sure">Sure</string>
+    <!--<string name="btn_ok">好的</string>-->
+    <string name="btn_ok">OK</string>
+    <!--<string name="tv_sure">确定</string>-->
+    <string name="tv_sure">Sure</string>
+    <!--<string name="tv_save">保存</string>-->
+    <string name="tv_save">Save</string>
+    <!--<string name="btn_cancel">取消</string>-->
+    <string name="btn_cancel">Cancel</string>
+    <!--<string name="btn_no">不给</string>-->
+    <string name="btn_no">NO</string>
+    <!--<string name="tv_cancel">取消</string>-->
+    <string name="tv_cancel">Cancel</string>
+    <!--<string name="btn_cancel">取消</string>-->
+    <!--<string name="name">昵称</string>-->
+    <string name="name">Nick Name</string>
+    <!--<string name="phone">手机</string>-->
+    <string name="phone">Phone Number</string>
+    <!--<string name="verification_code">验证码</string>-->
+    <string name="verification_code">SMS Code</string>
+
+
+    <!--***Dialog相关-->
+    <!--<string name="dialog_btn_sure">确定</string>-->
+    <string name="dialog_btn_sure">Sure</string>
+    <!--<string name="dialog_btn_cancel">取消</string>-->
+    <string name="dialog_btn_cancel">Cancel</string>
+    <!--<string name="dialog_tv_update">发现新版本，是否下载并更新</string>-->
+    <string name="dialog_tv_update">Discover new version, do you want to download and update ?</string>
+    <!--<string name="dialog_modify_remark_name">修改备注</string>-->
+    <string name="dialog_modify_remark_name">Modify Remark</string>
+    <!--<string name="dialog_modify_group_name">修改群名</string>-->
+    <string name="dialog_modify_group_name">Modify Group Name</string>
+    <!--<string name="dialog_modify_group_card_name">修改群名片</string>-->
+    <string name="dialog_modify_group_card_name">Modify Group Alias</string>
+    <!--<string name="dialog_response">回复</string>-->
+    <string name="dialog_response">Response</string>
+
+
+    <!--***PopUpWindow相关-->
+    <!--<string name="popwindow_sure">确定</string>-->
+    <string name="popwindow_sure">Sure</string>
+    <!--<string name="popwindow_cancel">取消</string>-->
+    <string name="popwindow_cancel">Cancel</string>
+    <!--<string name="popwindow_album">相册</string>-->
+    <string name="popwindow_album">Album</string>
+    <!--<string name="popwindow_camera">相机</string>-->
+    <string name="popwindow_camera">Camera</string>
+    <!--<string name="popwindow_choose_method">选择上传方式</string>-->
+    <string name="popwindow_choose_method">Choose Upload Way:</string>
+    <!--<string name="popwindow_apply_for_camera">扫描二维码需要相机权限，应用将要申请使用相机权限</string>-->
+    <string name="popwindow_apply_for_camera">Scanning QR code requires camera permissions,\n the app will apply for camera permissions.</string>
+    <!--<string name="popwindow_go_for_open_camera">您已经禁止了相机权限,是否现在去开启</string>-->
+    <string name="popwindow_go_for_open_camera">You have disabled camera permissions, are you going to open now?</string>
+
+
+    <!--***Toast相关-->
+    <!--<string name="not_in_this_app">非本应用二维码！</string>-->
+    <string name="qrcode_not_in_this_app">Not this application QR code!</string>
+    <!--<string name="refused_and_exit">权限被拒绝,退出该页面</string>-->
+    <string name="refused_and_exit">Permission denied,\n you will exit this page</string>
+
+
+    <!--***注册界面-->
+    <!--注册标题 & 注册按钮-->
+    <!--<string name="register">注册</string>-->
+    <string name="register_title">Register</string>
+    <!--选择国家/地区-->
+    <!--<string name="register_country">国家/地区</string>-->
+    <string name="register_country">Country/Area</string>
+    <!--手机号-->
+    <!--<string name="register_phone">手机号</string>-->
+    <string name="register_phone">Phone Number</string>
+    <!--验证码-->
+    <!--<string name="register_verification_code">验证码</string>-->
+    <string name="register_verification_code">SMS Code</string>
+    <!--设置密码-->
+    <!--<string name="register_set_pwd">设置密码</string>-->
+    <string name="register_set_pwd">Set Password</string>
+    <!--设置昵称-->
+    <!--<string name="register_name">昵称</string>-->
+    <string name="register_name">Nick Name</string>
+    <!--验证码错误-->
+    <!--<string name="register_code_error">验证码错误</string>-->
+    <string name="register_code_error">Wrong SMS authentication code</string>
+    <!--验证码失效-->
+    <!--<string name="register_code_time_out">验证码已失效</string>-->
+    <string name="register_code_time_out">SMS authentication code has expired</string>
+    <!--密码设置错误-->
+    <!--<string name="register_pwd_set_error">密码至少要包括:\n字母、数字、标点符号\n的其中两项,长度为6–20位</string>-->
+    <string name="register_pwd_set_error">The password must include at least two of letters, numbers, and punctuation, and the length is 6–20.</string>
+    <!--注册成功-->
+    <!--<string name="register_succeed">注册成功</string>-->
+    <string name="register_succeed">Register successfully</string>
+
+
+    <!--***所有登录界面-->
+    <!--<string name="login_btn_login">登录</string>-->
+    <string name="login_btn_login">Login</string>
+    <!--<string name="login_change_to_register">新用户注册</string>-->
+    <string name="login_change_to_register">Register</string>
+    <!--<string name="login_phone">手机号</string>-->
+    <string name="login_phone">Phone</string>
+    <!--<string name="forget_pwd">忘记密码</string>-->
+    <string name="forget_pwd">Reset Password</string>
+
+    <!--***密码登录界面-->
+    <!--<string name="login_pwd_login_title">密码登录</string>-->
+    <string name="login_pwd_login_title">Password Login</string>
+    <!--<string name="login_pwd">密码</string>-->
+    <string name="login_pwd">Password</string>
+    <!--<string name="login_change_to_msg_login">短信登录</string>-->
+    <string name="login_change_to_msg_login">SMS Login</string>
+    <!--<string name="login_forget_pwd">忘记密码</string>-->
+    <string name="login_forget_pwd">Reset Password</string>
+    <!--<string name="login_pwd_error">密码错误</string>-->
+    <string name="login_pwd_error">Wrong password</string>
+
+    <!--***短信登录界面-->
+    <!--<string name="login_sms_login_title">短信登录</string>-->
+    <string name="login_sms_login_title">SMS Login</string>
+    <!--<string name="login_verification_code">验证码</string>-->
+    <string name="login_verification_code">SMS Code</string>
+    <!--<string name="login_get_code">获取验证码</string>-->
+    <string name="login_get_code">Get Code</string>
+    <!--<string name="login_code_error">短信验证码有误，请重新输入</string>-->
+    <string name="login_code_error">Wrong SMS authentication code</string>
+    <!--<string name="login_code_time_out">验证码失效</string>-->
+    <string name="login_code_time_out">SMS authentication code has expired</string>
+    <!--<string name="login_change_to_pwd_login">密码登录</string>-->
+    <string name="login_change_to_pwd_login">Password Login</string>
+
+    <!--***忘记密码  重置密码界面-->
+    <!--<string name="reset_pwd_title">重置密码</string>-->
+    <string name="reset_pwd_title">Reset Password</string>
+    <!--<string name="reset_pwd_verification_code">验证码</string>-->
+    <string name="reset_pwd_verification_code">SMS Code</string>
+    <!--<string name="reset_pwd_get_code">获取验证码</string>-->
+    <string name="reset_pwd_get_code">Get Code</string>
+    <!--<string name="reset_pwd_new_pwd">新密码</string>-->
+    <string name="reset_pwd_new_pwd">New Password</string>
+
+
+    <!--***消息页界面-->
+    <!--<string name="msg">消息</string>-->
+    <string name="msg_fragment">Message</string>
+    <!--<string name="msg_del">删除</string>-->
+    <string name="msg_del">Delete</string>
+    <!--<string name="msg_to_up">置顶</string>-->
+    <string name="msg_to_up">Stickie</string>
+    <!--<string name="msg_no_internet">网络不给力，请检查网络设置</string>-->
+    <string name="msg_no_internet">Please check your Internet</string>
+    <!--<string name="msg_group_assistant">群助手</string>-->
+    <string name="msg_group_assistant">Group Assistant</string>
+    <!--<string name="msg_group_notice">群通知</string>-->
+    <string name="msg_group_notice">Group Notifications</string>
+    <!--<string name="no_msg">暂无新消息</string>-->
+    <string name="no_msg">No new message</string>
+    <!--键盘下拉-->
+    <!--<string name="msg_pop_photo">照片</string>-->
+    <string name="msg_pop_photo">Photo</string>
+    <!--<string name="msg_pop_camera">相机</string>-->
+    <string name="msg_pop_camera">Camera</string>
+    <!--<string name="msg_pop_video">视频</string>-->
+    <string name="msg_pop_video">Video</string>
+    <!--<string name="msg_pop_voice">语音</string>-->
+    <string name="msg_pop_voice">Voice</string>
+    <!--<string name="msg_pop_transfer">转账</string>-->
+    <string name="msg_pop_transfer">Transfer</string>
+    <!--<string name="msg_pop_card">名片</string>-->
+    <string name="msg_pop_card">Contact Card</string>
+
+
+    <!--***群助手界面-->
+    <!--<string name="group_assistant_title">群助手</string>-->
+    <string name="group_assistant_title">Group Assistant</string>
+    <!--<string name="group_assistant_pop_copy">复制</string>-->
+    <string name="group_assistant_pop_copy">Copy</string>
+    <!--<string name="group_assistant_pop_forward">转发</string>-->
+    <string name="group_assistant_pop_forward">Forward</string>
+    <!--<string name="group_assistant_sub_title">以下为收进群助手且不提醒的群消息</string>-->
+    <string name="group_assistant_sub_title">These group messages are not reminded.</string>
+
+
+    <!--***官方推送界面-->
+    <!--<string name="official_push_title">官方推送</string>-->
+    <string name="official_push_title">Official Push</string>
+
+
+    <!--***群通知界面-->
+    <!--<string name="msg_group_notice_title">群通知</string>-->
+    <string name="msg_group_notice_title">Group Notifications</string>
+
+    <!--***加群申请界面-->
+    <!--<string name="add_group_application_title">加群申请</string>-->
+    <string name="add_group_application_title">Addition Application</string>
+
+    <!--***加群通知界面-->
+    <!--<string name="add_group_notice_title">加群通知</string>-->
+    <string name="add_group_notice_title">Addition Notifications</string>
+
+    <!--***退群通知界面-->
+    <!--<string name="exit_group_notice_title">退群通知</string>-->
+    <string name="exit_group_notice_title">Exit Group Notifications</string>
+
+    <!--***拒绝通知界面-->
+    <!--<string name="refused_notice_title">拒绝通知</string>-->
+    <string name="refused_notice_title">Reject Notifications</string>
+
+
+    <!--***联系人界面-->
+    <!--<string name="contacts">联系人</string>-->
+    <string name="contacts_fragment">Contacts</string>
+    <!--<string name="contacts_friend">好友</string>-->
+    <string name="contacts_friend">Friends</string>
+    <!--<string name="contacts_group">群组</string>-->
+    <string name="contacts_group">Groups</string>
+    <!--<string name="contacts_notice">请求通知</string>-->
+    <string name="contacts_request_notice">Request Notifications</string>
+
+    <!--***好友资料（还未添加）界面-->
+    <!--<string name="non_friend_info_title">好友资料</string>-->
+    <string name="non_friend_info_title">Friend`s Profile</string>
+    <!--<string name="non_friend_info_name">昵称</string>-->
+    <string name="non_friend_info_name">Nick Name</string>
+    <!--<string name="non_friend_info_account">帐号</string>-->
+    <string name="non_friend_info_account">Account</string>
+    <!--<string name="non_friend_info_signature">个签</string>-->
+    <string name="non_friend_info_signature">Signature</string>
+    <!--<string name="non_friend_info_discover">动态</string>-->
+    <string name="non_friend_info_discover">Discover</string>
+    <!--<string name="non_friend_info_btn_add_fiend">添加好友</string>-->
+    <string name="non_friend_info_btn_add_fiend">Add</string>
+
+    <!--***添加好友界面-->
+    <!--<string name="add_friend_write_info_title">添加好友</string>-->
+    <string name="add_friend_write_info_title">Add Friend</string>
+    <!--<string name="add_friend_write_info_send">发送</string>-->
+    <string name="add_friend_write_info_send">Send</string>
+    <!--<string name="add_friend_write_info_msg">填写验证信息：</string>-->
+    <string name="add_friend_write_info_msg">Fill in the verification information:</string>
+    <!--<string name="add_friend_write_info_msg_edit_hint">您好，我想加您为好友</string>-->
+    <string name="add_friend_write_info_msg_edit_hint">Hi, nice to meet you!</string>
+    <!--<string name="add_friend_write_info_set_remark">设置备注</string>-->
+    <string name="add_friend_write_info_set_remark">Set Remark Name</string>
+    <!--<string name="add_friend_write_info_set_remark_edit_hint">请输入您对该好友的备注</string>-->
+    <string name="add_friend_write_info_set_remark_edit_hint">Please input remark name for this friend</string>
+    <!--<string name="add_friend_write_info_remark">备注</string>-->
+    <string name="add_friend_write_info_remark">Remark Name</string>
+
+    <!--***（还未入群前显示的）群基本资料界面-->
+    <string name="simple_group_details_introduction">群介绍</string>
+    <string name="simple_group_details_create_time">创建时间</string>
+    <string name="simple_group_details_member_num">群成员</string>
+    <string name="simple_group_details_location">群地点</string>
+    <string name="simple_group_details_sort">群分类</string>
+    <string name="simple_group_details_label">群标签</string>
+    <string name="simple_group_details_unfilled">未填</string>
+    <string name="simple_group_details_btn_add_group">申请加群</string>
+
+
+    <!--***群标签界面-->
+    <string name="group_label_title">群标签</string>
+    <string name="group_label_edit">编辑</string>
+    <string name="group_label_add">添加</string>
+    <string name="group_label_input_new_lable">输入新标签名称</string>
+
+
+    <!--***搜索界面-->
+    <!--<string name="search_title">搜索</string>-->
+    <string name="search_title">Search</string>
+    <!--<string name="search_none">抱歉未搜索到当前信息</string>-->
+    <string name="search_none">Sorry, the current information was not found.</string>
+
+    <!--***发现界面-->
+    <!--<string name="discover">发现</string>-->
+    <string name="discover_fragment">Discover</string>
+    <!--<string name="discover_title">朋友圈</string>-->
+    <string name="discover_title">Discover</string>
+    <!--<string name="discover_title">朋友圈</string>-->
+    <string name="discover_discover">Discover</string>
+    <!--<string name="discover_pet_fuhua">宠物孵化基地</string>-->
+    <string name="discover_pet_fuhua">Pet Hatching</string>
+    <!--<string name="discover_pet_ai">AI宠物学舌</string>-->
+    <string name="discover_pet_ai">AI Pet Learning</string>
+    <!--<string name="discover_pey_shop">宠物商城</string>-->
+    <string name="discover_pet_shop">Pet Shop</string>
+    <!--<string name="discover_pey_life">宠物生涯</string>-->
+    <string name="discover_pet_life">Pet Life</string>
+    <!--<string name="discover_predictor">我是预言家</string>-->
+    <string name="discover_predictor">I Am A Prophet</string>
+    <!--<string name="discover_gaobai_wall">世界告白墙</string>-->
+    <string name="discover_gaobai_wall">World Confession Wall</string>
+    <!--<string name="discover_zhi_add_friend">吱一吱，加好友</string>-->
+    <string name="discover_zhi_add_friend">Zhi, To Add Friend</string>
+    <!--<string name="discover_app_store">应用商城</string>-->
+    <string name="discover_app_store">APP Store</string>
+    <!--<string name="discover_music">中国好音乐</string>-->
+    <string name="discover_music">Music of China</string>
+    <!--<string name="discover_shiyong">周周试用免单</string>-->
+    <string name="discover_shiyong">Trial Free Weekly</string>
+    <!--<string name="discover_jianding">防伪溯源鉴定</string>-->
+    <string name="discover_jianding">Anti-counterfeiting Traceability</string>
+    <!--<string name="discover_ad_wall">广告墙</string>-->
+    <string name="discover_ad_wall">Advertising wall</string>
+
+
+    <!--***个人中心界面-->
+    <!--<string name="personal">个人中心</string>-->
+    <string name="personal_fragment">Me</string>
+    <!--<string name="personal_share">分享</string>-->
+    <string name="personal_share">Share</string>
+    <!--<string name="personal_setting">设置</string>-->
+    <string name="personal_setting">Setting</string>
+    <!--<string name="personal_discover">动态</string>-->
+    <string name="personal_discover">My Discover</string>
+    <!--<string name="personal_send_msg">发送消息</string>-->
+    <string name="personal_btn_send_msg">Send Message</string>
+    <!--<string name="personal_no_set">暂未设置</string>-->
+    <string name="personal_no_set">Not Set</string>
+    <!--<string name="personal_set_signature">快来设置您的个性签名吧</string>-->
+    <string name="personal_set_signature">Come here to set signature</string>
+
+    <!--***我的资料界面-->
+    <!--<string name="my_info_title">我的资料</string>-->
+    <string name="my_info_title">My Profile</string>
+    <!--<string name="my_info_nick_name">昵称</string>-->
+    <string name="my_info_nick_name">Name：</string>
+    <!--<string name="my_info_modify_nick_name">修改昵称</string>-->
+    <string name="my_info_modify_nick_name">Modify Name</string>
+    <!--<string name="my_info_account">账号</string>-->
+    <string name="my_info_account">ID：</string>
+    <!--<string name="my_info_modify_account">修改账号</string>-->
+    <string name="my_info_modify_account">Modify Account</string>
+    <!--<string name="my_info_signature">个签</string>-->
+    <string name="my_info_signature">Signature：</string>
+    <!--<string name="my_info_modify_signature">修改个性签名</string>-->
+    <string name="my_info_modify_signature">Modify Signature</string>
+    <!--<string name="my_info_no_set">暂未设置</string>-->
+    <string name="my_info_no_set">Not Set</string>
+
+
+    <!--***二维码界面-->
+    <!--<string name="qrcode_title_mine">我的二维码</string>-->
+    <string name="qrcode_title_mine">My QR Code</string>
+    <!--<string name="qrcode_title_mine_add">扫一扫二维码，加我为好友</string>-->
+    <string name="qrcode_add_me">Scan the QR code to add me</string>
+    <!--<string name="qrcode_title_friend">好友二维码</string>-->
+    <string name="qrcode_title_friend">Friend QR Code</string>
+    <!--<string name="qrcode_title_group">群聊二维码</string>-->
+    <string name="qrcode_title_group">Group QR Code</string>
+    <!--<string name="qrcode_title_group_add">扫一扫二维码，加入群聊</string>-->
+    <string name="qrcode_add_group">Scan the QR code to join group</string>
+    <!--<string name="qrcode_save">保存到手机</string>-->
+    <string name="qrcode_save">Save To Album</string>
+    <!--<string name="qrcode_share">分享二维码</string>-->
+    <string name="qrcode_share">Share This</string>
+
+
+    <!--***设置界面-->
+    <!--<string name="setting_title">设置</string>-->
+    <string name="setting_title">Settings</string>
+    <!--<string name="setting_card_share">名片分享设置</string>-->
+    <string name="setting_card_share">Card Sharing Settings</string>
+    <!--<string name="setting_account_safe">帐号与安全</string>-->
+    <string name="setting_account_security">Account Security</string>
+    <!--<string name="setting_privacy">隐私设置</string>-->
+    <string name="setting_privacy">Privacy</string>
+    <!--<string name="setting_msg_notifications">消息提醒</string>-->
+    <string name="setting_msg_notifications">Message Notifications</string>
+    <!--<string name="setting_shield">屏蔽设置</string>-->
+    <string name="setting_block_list">Blocked List</string>
+    <!--<string name="setting_discover">朋友圈设置</string>-->
+    <string name="setting_discover">Discover Setting</string>
+    <!--<string name="setting_clear_cache">清理缓存</string>-->
+    <string name="setting_clear_cache">Clear Cache</string>
+    <!--<string name="setting_check_version_update">检查更新</string>-->
+    <string name="setting_check_version_update">Version Update</string>
+    <!--<string name="setting_about_us">关于我们</string>-->
+    <string name="setting_about_us">About Us</string>
+    <!--<string name="setting_btn_log_out">退出登录</string>-->
+    <string name="setting_btn_log_out">Log Out</string>
+
+
+    <!--<string name="setting_version_update_tip">已经是最新版本</string>-->
+    <string name="setting_version_update_tip">It is the latest version</string>
+    <!--<string name="setting_version_btn_update">更新</string>-->
+    <string name="setting_version_btn_update">Update</string>
+    <!--<string name="setting_about_us_tip">这里是关于我们\n敬请期待</string>-->
+    <string name="setting_about_us_tip"> This is about us \n please stay tuned</string>
+    <!--<string name="setting_no_cache">暂无缓存</string>-->
+    <string name="setting_no_cache">No cache yet</string>
+    <!--<string name="setting_btn_just_log_out">仅退出帐号</string>-->
+    <string name="setting_btn_just_log_out">Exit Account o Only</string>
+    <!--<string name="setting_btn_log_out_and_delete">退出并删除帐号信息</string>-->
+    <string name="setting_btn_log_out_and_delete">Log Out And Delete Account Profile</string>
+
+
+    <!--***名片分享界面-->
+    <!--<string name="card_sharing_title">名片分享</string>-->
+    <string name="card_sharing_title">Card Sharing</string>
+    <!--<string name="card_sharing_permit">允许分享</string>-->
+    <string name="card_sharing_permit">Allow sharing</string>
+    <!--<string name="card_sharing_need_ask">需要验证</string>-->
+    <string name="card_sharing_need_ask">Need to ask me before sharing to others</string>
+    <!--<string name="card_sharing_deny">禁止被分享</string>-->
+    <string name="card_sharing_deny">I don`t want to be shared</string>
+    <!--<string name="card_sharing_save_succeed">名片分享设置成功!</string>-->
+    <string name="card_sharing_save_succeed">Set successfully!</string>
+
+
+    <!--***帐号与安全界面-->
+    <!--<string name="account_security_title">账号与安全</string>-->
+    <string name="account_security_title">Account security</string>
+    <!--<string name="account_security_modify_pwd">修改密码</string>-->
+    <string name="account_security_modify_pwd">Modify password</string>
+    <!--<string name="account_security_change_bind">更换绑定</string>-->
+    <string name="account_security_change_bind">Change the bound phone</string>
+
+    <!--***隐私设置界面-->
+    <!--<string name="privacy_title">隐私设置</string>-->
+    <string name="privacy_title">Privacy</string>
+    <!--<string name="privacy_show_account">帐号显示</string>-->
+    <string name="privacy_show_account">Show my account</string>
+    <!--<string name="privacy_show_qrcode">二维码显示</string>-->
+    <string name="privacy_show_qrcode">Show my QR code</string>
+    <!--<string name="privacy_save_succeed">隐私设置保存成功！</string>-->
+    <string name="privacy_save_succeed">Set successfully!</string>
+
+    <!--***消息提醒界面-->
+    <!--<string name="msg_notification_title">消息提醒</string>-->
+    <string name="msg_notification_title">Message Notifications</string>
+    <!--<string name="msg_notification_accept_news">接收新消息提醒</string>-->
+    <string name="msg_notification_accept_news">Receive new message reminders</string>
+    <!--<string name="msg_notification_accept_voice">接收语音邀请</string>-->
+    <string name="msg_notification_accept_voice">Receive voice invitations</string>
+    <!--<string name="msg_notification_accept_video">接收视频邀请</string>-->
+    <string name="msg_notification_accept_video">Receive video invitations</string>
+    <!--<string name="msg_notification_show_content">推送显示内容</string>-->
+    <string name="msg_notification_show_push_content">Show push content</string>
+    <!--<string name="msg_notification_save_succeed">消息提醒设置成功！</string>-->
+    <string name="msg_notification_save_succeed">Set successfully!</string>
+
+    <!--***屏蔽名单-->
+    <!--<string name="block_list_title">屏蔽名单</string>-->
+    <string name="block_list_title">Block List</string>
+
+
+    <!--***右上角弹窗-->
+    <!--<string name="home_pop_create_new_group">创建群聊</string>-->
+    <string name="home_pop_create_new_group">Create Group</string>
+    <!--<string name="home_pop_add_friend_or_group">添加好友/群</string>-->
+    <string name="home_pop_add_friend_or_group">Add Friend/Group</string>
+    <!--<string name="home_pop_scan">扫一扫</string>-->
+    <string name="home_pop_scan">Scan</string>
+
+    <!--***创建群聊界面  && 发起群聊里联系人列表界面-->
+    <!--<string name="create_group_title">创建群聊</string>-->
+    <string name="create_group_title">Create Group</string>
+    <!--<string name="create_group_search_edit_hint">搜索好友/群</string>-->
+    <string name="create_group_search_edit_hint">Search Friend or Group</string>
+    <!--<string name="create_group_create">立即创建</string>-->
+    <string name="create_group_create">Create</string>
+    <!--<string name="create_group_search_friend_edit_hint">搜索好友</string>-->
+    <string name="create_group_search_friend_edit_hint">Search Friend</string>
+
+
+    <!--***通知界面-->
+    <!--<string name="notice_title">通知</string>-->
+    <string name="notice_title">Notifications</string>
+    <!--<string name="notice_btn_agree">同意</string>-->
+    <string name="notice_btn_agree">Agree</string>
+    <!--<string name="notice_delete">删除</string>-->
+    <string name="notice_delete">Delete</string>
+    <!--<string name="notice_waiting">等待验证</string>-->
+    <string name="notice_waiting">Being Waiting</string>
+    <!--<string name="notice_already_agree">已同意</string>-->
+    <string name="notice_already_agree">Agreed</string>
+    <!--<string name="notice_already_reject">已拒绝</string>-->
+    <string name="notice_already_reject">Rejected</string>
+    <!--<string name="notice_already_time_out">已过期</string>-->
+    <string name="notice_already_time_out">Timed out</string>
+    <!--<string name="notice_already_been_passed">已通过</string>-->
+    <string name="notice_already_been_passed">Passed</string>
+    <!--<string name="notice_already_been_rejected">已被拒绝</string>-->
+    <string name="notice_already_been_rejected">Been Rejected</string>
+
+
+    <!--***通知详情页界面  被申请人-->
+    <!--<string name="notice_details_remark">备注：</string>-->
+    <string name="notice_details_remark">Remark：</string>
+    <!--<string name="notice_details_time">时间：</string>-->
+    <string name="notice_details_time">Time：</string>
+    <!--同意 按钮-->
+    <!--<string name="notice_details_btn_agree">同意</string>-->
+    <string name="notice_details_btn_agree">Agree</string>
+    <!--拒绝 按钮-->
+    <!--<string name="notice_details_btn_reject">拒绝</string>-->
+    <string name="notice_details_btn_reject">Reject</string>
+    <!--消息已过期 提示-->
+    <!--<string name="notice_details_already_time_out">已过期</string>-->
+    <string name="notice_details_already_time_out">Timed out</string>
+    <!--已同意该申请 提示-->
+    <!--<string name="notice_details_already_agree">已同意该申请</string>-->
+    <string name="notice_details_already_agree">Already agreed this application</string>
+    <!--发送消息 按钮-->
+    <!--<string name="notice_details_btn_send_msg">发送消息</string>-->
+    <string name="notice_details_btn_send_msg">Send Message</string>
+    <!--已拒绝该申请 提示-->
+    <!--<string name="notice_details_already_reject">已拒绝该申请</string>-->
+    <string name="notice_details_already_reject">Already rejected this application</string>
+
+
+    <!--***通知详情页界面  申请人-->
+    <!--被拒绝  提示-->
+    <!--<string name="notice_details_already_been_rejected">对方拒绝了你的加好友请求</string>-->
+    <string name="notice_details_already_been_rejected">You have already been rejected</string>
+    <!--再次申请 按钮-->
+    <!--<string name="notice_details_btn_apply_again">再次申请</string>-->
+    <string name="notice_details_btn_apply_again">Apply Again</string>
+    <!--被通过 提示-->
+    <!--<string name="notice_details_already_been_agreed">对方同意了你的加好友请求</string>-->
+    <string name="notice_details_already_been_agreed">You have already been agreed</string>
+
+
+
+    <!--***添加好友/群界面-->
+    <string name="add_new_title">添加</string>
+    <string name="add_new_sub_title_friend">找人</string>
+    <string name="add_new_search_edit_hint_friend">帐号/昵称</string>
+    <string name="add_new_scan_to_add_friend">扫一扫添加好友</string>
+    <string name="add_new_sub_title_group">找群</string>
+    <string name="add_new_search_edit_hint_group">群号/群名</string>
+    <string name="add_new_scan_to_add_group">扫一扫添加群</string>
+
+
+    <!--***封测公告-->
+    <string name="home_dialog_gonggao_title">公告</string>
+    <string name="home_dialog_gonggao_btn_sure">确定</string>
+
+
+    <!--***群聊资料-->
+    <!--<string name="group_details_title">群资料</string>-->
+    <string name="group_details_title">Group Profile</string>
+    <!--<string name="group_details_member">群聊成员</string>-->
+    <string name="group_details_member">Group Member</string>
+    <!--<string name="group_details_invite">邀请</string>-->
+    <string name="group_details_invite">Invite</string>
+    <!--<string name="group_details_delete">删除</string>-->
+    <string name="group_details_delete">Remove</string>
+    <!--<string name="group_details_manage">群管理</string>-->
+    <string name="group_details_manage">Group Manage</string>
+    <!--<string name="group_details_card">群名片</string>-->
+    <string name="group_details_card">My Alias in Group</string>
+    <!--<string name="group_details_notice">群公告</string>-->
+    <string name="group_details_notice">Group Announcement</string>
+    <!--<string name="group_details_notice_none">暂无公告</string>-->
+    <string name="group_details_notice_none">No Announcement</string>
+    <!--<string name="group_details_to_up">置顶聊天</string>-->
+    <string name="group_details_to_top">Sticky on Top </string>
+    <!--<string name="group_details_msg_no_disturb">消息免打扰</string>-->
+    <string name="group_details_msg_no_disturb">Mute Notifications</string>
+    <!--<string name="group_details_to_assistant">收进群助手</string>-->
+    <string name="group_details_to_assistant">Into the Group Assistant</string>
+    <!--<string name="group_details_chat_history">聊天记录</string>-->
+    <string name="group_details_chat_history">Chat History</string>
+    <!--<string name="group_details_clear_chat_history">清空聊天记录</string>-->
+    <string name="group_details_clear_chat_history">Clear Chat History</string>
+    <!--<string name="group_details_btn_start_chat">开始群聊</string>-->
+    <string name="group_details_btn_start_chat">Start Chatting</string>
+    <!--<string name="group_details_history_item">图片，视频，文件等</string>-->
+    <string name="group_details_chat_history_item">Images, video, files, etc.</string>
+    <!--<string name="group_details_pop_exit">退出群聊</string>-->
+    <string name="group_details_pop_exit">Exit Group</string>
+    <!--<string name="group_details_pop_share">分享</string>-->
+    <string name="group_details_pop_share">Share</string>
+    <!--<string name="group_details_pop_jvbao">举报</string>-->
+    <string name="group_details_pop_jvbao">Inform of an Offense</string>
+    <!--<string name="group_details_pop_cancel">取消</string>-->
+    <string name="group_details_pop_cancel">Cancel</string>
+    <!--<string name="group_details_dialog_is_sure_exit">是否确认退出群聊</string>-->
+    <string name="group_details_dialog_is_sure_exit">Are you sure to exit the group chat?</string>
+    <!--<string name="group_details_dialog_exit_succeed">退出成功</string>-->
+    <string name="group_details_dialog_exit_succeed">Exit successfully!</string>
+
+    <!--***群管理界面-->
+    <!--<string name="magane_group_manage_title">群管理</string>-->
+    <string name="manage_group_title">Group Manage</string>
+    <!--<string name="magane_group_manage_edit_data">群编辑资料</string>-->
+    <string name="manage_group_edit_data">Edit Group Profile</string>
+    <!--<string name="magane_group_manage_upgrade">群升级</string>-->
+    <string name="manage_group_upgrade">Group Upgrade</string>
+    <!--<string name="magane_group_manage_add_group_way">加群方式</string>-->
+    <string name="manage_group_add_group_way">Way for Join Group</string>
+    <!--<string name="magane_group_manage_transfer_grouper">转让群主</string>-->
+    <string name="manage_group_transfer_grouper">Transfer Group Owner</string>
+    <!--<string name="magane_group_manage_administrator">管理员</string>-->
+    <string name="manage_group_administrator">Administrator</string>
+    <!--<string name="magane_group_manage_find_way">查找方式</string>-->
+    <string name="manage_group_find_way">Way for Search Group</string>
+
+    <!--***查找方式界面-->
+    <!--<string name="manage_group_find_way_allow">允许被搜索</string>-->
+    <string name="find_way_allow">Allowed to be searched</string>
+    <!--<string name="manage_group_find_way_deny">不允许被搜索</string>-->
+    <string name="find_way_deny">Not allowed to be searched</string>
+
+    <!--***退出该群界面-->
+    <!--<string name="exit_group_title">退出该群</string>-->
+    <string name="exit_group_title">Exit group</string>
+    <!--<string name="exit_group_disconnected">你将失去与他们的联系</string>-->
+    <string name="exit_group_disconnected">You will lose contact with them.</string>
+    <!--<string name="exit_group_choose_transfer_or_dismiss">你是群主，请选择转让或解散群，建议转让</string>-->
+    <string name="exit_group_choose_transfer_or_dismiss">You are the owner, you can transfer or dissolve the group, transfer is better</string>
+    <!--<string name="exit_group_transfer">转让</string>-->
+    <string name="exit_group_transfer">Transfer</string>
+    <!--<string name="exit_group_dismiss">解散</string>-->
+    <string name="exit_group_dismiss">Dissolve</string>
+    <!--<string name="exit_group_dialog_is_sure_dismiss">解散后你将失去与群友的联系，确认要解散吗？</string>-->
+    <string name="exit_group_dialog_is_sure_dismiss">After the dissolution,\nyou will lose contact with the group of friends, confirm that you want to dissolve?</string>
+    <!--<string name="exit_group_dialog_dismiss_succeed">解散成功</string>-->
+    <string name="exit_group_dialog_dismiss_succeed">Disbanded successfully!</string>
+
+
+    <!--***举报界面-->
+    <!--<string name="jvbao_title">举报</string>-->
+    <string name="report_title">Report</string>
+    <!--<string name="jvbao_choose_reason">请选择举报理由</string>-->
+    <string name="report_choose_reason">Select a report reason：</string>
+    <!--<string name="jvbao_bad_news">该群发布不良信息</string>-->
+    <string name="report_unhealthy_news">The group posted unhealthy information</string>
+    <!--<string name="jvbao_cheat">该群存在欺诈骗钱的行为</string>-->
+    <string name="report_cheat">The group has fraudulent and fraudulent behavior</string>
+    <!--<string name="jvbao_gamble">该群存在聚众赌博行为</string>-->
+    <string name="report_gamble">The group has a gambling behavior</string>
+    <!--<string name="jvbao_ads">该群发布广告骚扰信息</string>-->
+    <string name="report_too_many_ads">The group publishes advertising harassment information</string>
+    <!--<string name="jvbao_others">其他</string>-->
+    <string name="report_others">Others</string>
+
+    <!--***举报  其他子界面-->
+    <!--<string name="report_others_title">举报</string>-->
+    <string name="report_others_title">Report</string>
+    <!--<string name="report_others_choose_way">你可以选择以下处理方式</string>-->
+    <string name="report_others_choose_way">You can choose the following treatment</string>
+    <!--<string name="report_others_to_chat_feng">提交给信风团队审核处理</string>-->
+    <string name="report_others_to_chat_feng">Submit to the ChatFeng team for review and processing</string>
+    <!--<string name="report_others_to_blocked_list">将此账号加入屏蔽名单</string>-->
+    <string name="report_others_to_blocked_list">Move this account to the blocked list</string>
+
+</resources>

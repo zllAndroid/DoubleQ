@@ -22,6 +22,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -140,7 +141,7 @@ public class ChatActivity extends BaseActivity {
     RelativeLayout emotionLayout;
     //
     @BindView(R.id.include_top_tv_title)
-    TextView includeTopTvTital;
+    TextView includeTopTvTitle;
     @BindView(R.id.chat_tv_show)
     TextView mChatTvShow;
     @BindView(R.id.include_top_lin_back)
@@ -243,8 +244,8 @@ public class ChatActivity extends BaseActivity {
         includeTopIvMore.setImageResource(R.drawable.person);
         String friendName = new RealmFriendUserHelper(this).queryLinkFriendReturnname(FriendId);//获取私聊好友名
 //        String friendName = cusJumpChatData.getFriendName();
-        includeTopTvTital.setText(friendName);
-
+        includeTopTvTitle.setText(friendName);
+        includeTopTvTitle.setMovementMethod(new ScrollingMovementMethod());
         sendWeb(SplitWeb.getSplitWeb().privateSendInterface(FriendId));
         if (isLocked){
             includeTopIvLock.setVisibility(View.VISIBLE);
@@ -616,7 +617,7 @@ public class ChatActivity extends BaseActivity {
                 String nameText = StrUtils.isEmpty(remarkName) ? "暂无" : remarkName;
 //                String nameText = StrUtils.isEmpty(cusJumpChatData.getFriendRemarkName()) ? cusJumpChatData.getFriendName() : cusJumpChatData.getFriendRemarkName();
                 if (!StrUtils.isEmpty(nameText))
-                    includeTopTvTital.setText(nameText);
+                    includeTopTvTitle.setText(nameText);
                 break;
             case "privateSendInterface":
                 dataChatPop = JSON.parseObject(responseText, DataChatPop.class);
@@ -626,7 +627,7 @@ public class ChatActivity extends BaseActivity {
                     remarkName = StrUtils.isEmpty(recordBean.getRemarkName()) ? "暂无" : recordBean.getRemarkName();
                     groupName = StrUtils.isEmpty(recordBean.getGroupName()) ? "暂无" : recordBean.getGroupName();
                     if(!StrUtils.isEmpty(name))
-                        includeTopTvTital.setText(name);
+                        includeTopTvTitle.setText(name);
                 }
                 break;
             // TODO 请求MD5查询，返回值判断是否存在该key

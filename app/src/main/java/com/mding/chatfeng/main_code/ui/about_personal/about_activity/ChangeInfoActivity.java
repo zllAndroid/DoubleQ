@@ -125,7 +125,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     protected void initBaseView() {
         super.initBaseView();
         includeTopIvBack.setVisibility(View.VISIBLE);
-        includeTopTvTital.setText("我的资料");
+        includeTopTvTital.setText(getResources().getString(R.string.my_info_title));
+//        includeTopTvTital.setText("我的资料");
         includeTopLinBackground.setBackgroundColor(getResources().getColor(R.color.app_theme));
         if (aCache==null){
             aCache =  ACache.get(this);
@@ -151,7 +152,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
             changeinfoTvName.setText(recordBean.getNickName());
             changeinfoTvCount.setText(recordBean.getWxSno());
 
-            signatureText = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? "暂未设置" : recordBean.getPersonaSignature();
+            signatureText = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? getResources().getString(R.string.personal_no_set) : recordBean.getPersonaSignature();
             changeinfoTvSign.setText(signatureText);
             String up_sno_num = recordBean.getUpSnoNum();
             if (up_sno_num.equals("1")) {
@@ -195,11 +196,13 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     private void doChangeSign() {
         isChangeName = "2";
         ChangeInfoWindow changeInfoWindowSign;
-        if (signatureText.equals("暂未设置")){
-            changeInfoWindowSign = new ChangeInfoWindow(ChangeInfoActivity.this, "修改个性签名", "");
+        if (signatureText.equals(getResources().getString(R.string.personal_no_set))){
+            changeInfoWindowSign = new ChangeInfoWindow(ChangeInfoActivity.this, getResources().getString(R.string.my_info_modify_signature), "");
+//            changeInfoWindowSign = new ChangeInfoWindow(ChangeInfoActivity.this, "修改个性签名", "");
         }
         else {
-            changeInfoWindowSign = new ChangeInfoWindow(ChangeInfoActivity.this, "修改个性签名", changeinfoTvSign.getText().toString().trim());
+            changeInfoWindowSign = new ChangeInfoWindow(ChangeInfoActivity.this, getResources().getString(R.string.my_info_modify_signature), changeinfoTvSign.getText().toString().trim());
+//            changeInfoWindowSign = new ChangeInfoWindow(ChangeInfoActivity.this, "修改个性签名", changeinfoTvSign.getText().toString().trim());
         }
         changeInfoWindowSign.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindowSign.setOnAddpopClickListener(this);
@@ -208,7 +211,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     //修改帐号
     private void doChangeCount() {
         isChangeName = "1";
-        ChangeInfoWindow changeInfoWindowCount = new ChangeInfoWindow(ChangeInfoActivity.this, "修改帐号", changeinfoTvCount.getText().toString().trim());
+        ChangeInfoWindow changeInfoWindowCount = new ChangeInfoWindow(ChangeInfoActivity.this, getResources().getString(R.string.my_info_modify_account), changeinfoTvCount.getText().toString().trim());
+//        ChangeInfoWindow changeInfoWindowCount = new ChangeInfoWindow(ChangeInfoActivity.this, "修改帐号", changeinfoTvCount.getText().toString().trim());
         changeInfoWindowCount.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindowCount.setOnAddpopClickListener(this);
     }
@@ -216,7 +220,8 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
     //修改昵称
     private void doChangeName() {
         isChangeName = "0";
-        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(ChangeInfoActivity.this, "修改昵称", changeinfoTvName.getText().toString().trim());
+        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(ChangeInfoActivity.this, getResources().getString(R.string.my_info_modify_nick_name), changeinfoTvName.getText().toString().trim());
+//        ChangeInfoWindow changeInfoWindow = new ChangeInfoWindow(ChangeInfoActivity.this, "修改昵称", changeinfoTvName.getText().toString().trim());
         changeInfoWindow.showAtLocation(mLinMain, Gravity.CENTER, 0, 0);
         changeInfoWindow.setOnAddpopClickListener(this);
     }
@@ -309,7 +314,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     changeinfoTvName.setText(record.getNickName());
                     changeinfoTvCount.setText(record.getWxSno());
                     if (StrUtils.isEmpty(record.getPersonaSignature())) {
-                        changeinfoTvSign.setHint("暂未设置");
+                        changeinfoTvSign.setHint(getResources().getString(R.string.personal_no_set));
                     } else {
                         changeinfoTvSign.setText(record.getPersonaSignature());
                     }
@@ -344,7 +349,7 @@ public class ChangeInfoActivity extends BaseActivity implements ChangeInfoWindow
                     aCache.put(AppAllKey.PPERSON_iNFO, jsonString);
                 }
                 if (StrUtils.isEmpty(contant)) {
-                    changeinfoTvSign.setText("暂未设置");
+                    changeinfoTvSign.setText(getResources().getString(R.string.personal_no_set));
                 }
                 else {
                     changeinfoTvSign.setText(contant);

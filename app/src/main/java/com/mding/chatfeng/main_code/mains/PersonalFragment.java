@@ -1,10 +1,7 @@
 package com.mding.chatfeng.main_code.mains;
 
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -35,9 +32,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 /**
  * 项目：DoubleQ
@@ -102,11 +97,13 @@ public class PersonalFragment extends BaseFragment {
     private void initShare() {
         mineLinShare.setViewLineVisible(false);
         mineLinShare.setImgLogo(getResources().getDrawable(R.drawable.mine_share));
-        mineLinShare.setTvTitle("分享");
+        mineLinShare.setTvTitle(getResources().getString(R.string.personal_share));
+//        mineLinShare.setTvTitle("分享");
     }
     private void initSet() {
         mineLinSet.setImgLogo(getResources().getDrawable(R.drawable.mine_set));
-        mineLinSet.setTvTitle("设置");
+        mineLinSet.setTvTitle(getResources().getString(R.string.personal_setting));
+//        mineLinSet.setTvTitle("设置");
     }
 
     private void initOrangePocket() {
@@ -130,9 +127,9 @@ public class PersonalFragment extends BaseFragment {
         if (!StrUtils.isEmpty(name))
             mineTvName.setText(name);
         if (!StrUtils.isEmpty(sign)) {
-            String signature = StrUtils.isEmpty(sign) ? "快来设置您的个性签名吧" : sign;
+            String signature = StrUtils.isEmpty(sign) ? getResources().getString(R.string.personal_set_signature) : sign;
             mineTvSign.setText(signature);
-            if (signature.equals("快来设置您的个性签名吧")) {
+            if (signature.equals(getResources().getString(R.string.personal_set_signature))) {
                 mineTvSign.setTextColor(getResources().getColor(R.color.greye5));
             } else {
                 mineTvSign.setTextColor(getResources().getColor(R.color.grey72));
@@ -142,7 +139,8 @@ public class PersonalFragment extends BaseFragment {
 
     @Override
     protected String setFragmentTital() {
-        return "个人中心";
+        return getResources().getString(R.string.personal_fragment);
+//        return "个人中心";
     }
 
     @Override
@@ -166,9 +164,9 @@ public class PersonalFragment extends BaseFragment {
                 aCache.put(IMAGE_BASE64, headImg);
                 mineTvName.setText(recordBean.getNickName());
                 userPhone = recordBean.getMobile();
-                String signature = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? "快来设置您的个性签名吧" : recordBean.getPersonaSignature();
+                String signature = StrUtils.isEmpty(recordBean.getPersonaSignature()) ? getResources().getString(R.string.personal_set_signature) : recordBean.getPersonaSignature();
                 mineTvSign.setText(signature);
-                if (signature.equals("快来设置您的个性签名吧")) {
+                if (signature.equals(getResources().getString(R.string.personal_set_signature))) {
                     mineTvSign.setTextColor(getResources().getColor(R.color.greye5));
                 } else {
                     mineTvSign.setTextColor(getResources().getColor(R.color.grey72));
@@ -205,9 +203,11 @@ public class PersonalFragment extends BaseFragment {
                     }
                     mineTvName.setText(record.getNickName());
                     userPhone = record.getMobile();
-                    String signature = StrUtils.isEmpty(record.getPersonaSignature()) ? "你还没有设置签名哦！" : record.getPersonaSignature();
+                    String signature = StrUtils.isEmpty(record.getPersonaSignature()) ? getResources().getString(R.string.personal_set_signature) : record.getPersonaSignature();
+//                    String signature = StrUtils.isEmpty(record.getPersonaSignature()) ? "你还没有设置签名哦！" : record.getPersonaSignature();
                     mineTvSign.setText(signature);
-                    if (signature.equals("你还没有设置签名哦！")) {
+                    if (signature.equals(getResources().getString(R.string.personal_set_signature))) {
+//                    if (signature.equals("你还没有设置签名哦！")) {
                         mineTvSign.setTextColor(getResources().getColor(R.color.greye5));
                     } else {
                         mineTvSign.setTextColor(getResources().getColor(R.color.grey72));
@@ -243,7 +243,8 @@ public class PersonalFragment extends BaseFragment {
                 IntentUtils.JumpToHaveOne(MineSetActivity.class, "phone", userPhone);
                 break;
             case R.id.mine_lin_discover:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
+//                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.mine_lin_orange_pocket:
                 IntentUtils.JumpToHaveOne(OrangePocketActivity.class, "userId", userId);

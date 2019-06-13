@@ -80,7 +80,7 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="0dp"
                 android:paddingStart="15dp"
-                android:text="取消"
+                android:text="@string/tv_cancel"
                 android:textColor="#ffffff"
                 android:textSize="16sp" />
 
@@ -96,7 +96,7 @@
                 android:paddingLeft="0dp"
                 android:paddingRight="15dp"
                 android:paddingStart="0dp"
-                android:text="确定"
+                android:text="@string/tv_sure"
                 android:textColor="#ffffff"
                 android:textSize="16sp" />
         </RelativeLayout>

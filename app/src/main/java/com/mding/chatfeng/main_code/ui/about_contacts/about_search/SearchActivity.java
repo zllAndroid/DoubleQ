@@ -92,7 +92,7 @@ public class SearchActivity extends BaseActivity {
         if (intent!=null)
             type = intent.getStringExtra(SeacchKey);
 
-        includeTopTvTital.setText("搜索");
+        includeTopTvTital.setText(getResources().getString(R.string.search_title));
 
 
         mRecyclerView.setHasFixedSize(true);

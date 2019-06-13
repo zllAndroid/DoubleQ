@@ -21,6 +21,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.projects.zll.utilslibrarybyzll.about_dialog.CustomDialog;
 import com.projects.zll.utilslibrarybyzll.about_dialog.CustomUpDateDialog;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
@@ -76,7 +77,8 @@ public class UpDataUtils {
     }
 
     private void showNewVersionDialog() {
-        String message = "发现新版本，是否下载并更新";
+        String message = BaseApplication.getAppContext().getString(R.string.dialog_tv_update);
+//        String message = "发现新版本，是否下载并更新";
         if (!TextUtils.isEmpty(mUpdateInfo)){
             // TODO 替换成 换行 + 空两格
             mUpdateInfo = mUpdateInfo.replace("_","\n");
@@ -85,7 +87,8 @@ public class UpDataUtils {
         }
         mUpdateBuilder = new CustomUpDateDialog.Builder(mContext);
         mUpdateBuilder.setMessage(message)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton(BaseApplication.getAppContext().getResources().getString(R.string.dialog_btn_sure), new DialogInterface.OnClickListener() {
+//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
@@ -98,7 +101,8 @@ public class UpDataUtils {
                     }
                 });
         if (!mCancelable) {
-            mUpdateBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            mUpdateBuilder.setNegativeButton(BaseApplication.getAppContext().getResources().getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
+//            mUpdateBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -117,7 +121,7 @@ public class UpDataUtils {
                 .setMessage("软件更新中...")
 //        mBuilder = new CustomUpDateDialog.Builder(mContext);
 //        mBuilder.setMessage("软件更新中...");
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setNegativeButton(BaseApplication.getAppContext().getResources().getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (mCancelable) {

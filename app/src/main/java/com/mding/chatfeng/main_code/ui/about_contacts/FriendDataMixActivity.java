@@ -363,7 +363,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                         personData.setHeadImg(dataSearch.getHeadImg());
                         personData.setName(dataSearch.getName());
                         personData.setScanTital("扫一扫,添加" + dataSearch.getName() + "为好友");
-                        personData.setTital("好友二维码");
+                        personData.setTital(getResources().getString(R.string.qrcode_title_friend));
 
                         if (dataSearch.getId() != null) {
                             String string = type + "_xm6leefun_" + dataSearch.getId();
@@ -428,7 +428,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 break;
             case R.id.fd_tv_send_call:
                 if (NoDoubleClickUtils.isDoubleClick()) {
-                    ToastUtil.show("敬请期待！");
+                    ToastUtil.show(getResources().getString(R.string.stay_tuned));
                 }
                 break;
 //                发送消息
@@ -465,7 +465,7 @@ public class FriendDataMixActivity extends BaseActivity implements ChangeInfoWin
                 break;
             case R.id.fd_lin_discover:
                 if (NoDoubleClickUtils.isDoubleClick())
-                    DialogUtils.showDialog("敬请期待");
+                    DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
         }
     }

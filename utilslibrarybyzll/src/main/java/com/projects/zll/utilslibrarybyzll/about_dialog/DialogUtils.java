@@ -27,7 +27,7 @@ public class DialogUtils {
     }
     public static void showDialog(String text){
         haveShow();
-//        if (isUnFinished && (text.equals("敬请期待！") || text.equals("敬请期待"))){
+//        if (isUnFinished && (text.equals(getResources().getString(R.string.stay_tuned)) || text.equals(getResources().getString(R.string.stay_tuned)))){
 //            show(text);
 //        }
 //        else {

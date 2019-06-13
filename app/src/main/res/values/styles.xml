@@ -34,14 +34,16 @@
 
 
     <!-- 分割线 -->
-    <style name="style_height_line">
-        <item name="android:layout_width">@dimen/divider_height</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/graye5</item>
-    </style>
     <style name="style_wei_line">
         <item name="android:layout_height">@dimen/divider_height</item>
         <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/graye5</item>
+    </style>
+    <style name="style_wei_line_margin_10">
+        <item name="android:layout_height">@dimen/divider_height</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginRight">@dimen/dp10</item>
+        <item name="android:layout_marginLeft">@dimen/dp10</item>
         <item name="android:background">@color/graye5</item>
     </style>
     <style name="style_cus_linear_layout_line">

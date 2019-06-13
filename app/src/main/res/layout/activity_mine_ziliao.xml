@@ -57,7 +57,7 @@
                         android:layout_marginTop="@dimen/dp10"
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
-                        android:text="扫一扫二维码，加我为好友"/>
+                        android:text="@string/qrcode_add_me"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

@@ -66,8 +66,6 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:gravity="center"
-            android:maxEms="6"
-            android:minEms="6"
             android:ellipsize="end"
             android:textColor="@color/white"
             android:textSize="@dimen/sp18" />
@@ -109,7 +107,7 @@
                     android:padding="@dimen/dp10"
                     android:textColor="@color/white"
                     android:visibility="invisible"
-                    android:text="保存"
+                    android:text="@string/tv_save"
                     />
             </LinearLayout>
         </LinearLayout>

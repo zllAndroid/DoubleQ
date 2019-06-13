@@ -51,7 +51,8 @@ public class ShareSetActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        includeTopTvTital.setText("名片分享");
+        includeTopTvTital.setText(getResources().getString(R.string.card_sharing_title));
+//        includeTopTvTital.setText("名片分享");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         includeTopTvRight.setVisibility(View.VISIBLE);
         includeTopTvRight.setOnClickListener(new View.OnClickListener() {
@@ -122,7 +123,8 @@ public class ShareSetActivity extends BaseActivity {
 //                        AppManager.getAppManager().finishActivity();
 //                    }
 //                });
-                ToastUtil.show("名片分享设置成功！");
+                ToastUtil.show(getResources().getString(R.string.card_sharing_save_succeed));
+//                ToastUtil.show("名片分享设置成功！");
                 AppManager.getAppManager().finishActivity();
                 break;
         }

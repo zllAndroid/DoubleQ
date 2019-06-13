@@ -41,7 +41,6 @@
                 android:ems="10"
                 android:textSize="@dimen/sp14"
                 android:hint="搜索"
-
                 android:textColor="@color/gray666"
                 android:layout_margin="@dimen/dp8"
                 android:background="@null"

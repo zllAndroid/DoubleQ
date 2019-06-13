@@ -18,10 +18,16 @@
         android:id="@+id/cus_linearlayout_view_line"
         style="@style/style_cus_linear_layout_line"
         />
+    <!--长线   默认无-->
+    <View
+        android:id="@+id/cus_linearlayout_view_line_match"
+        style="@style/style_wei_line_margin_10"
+        android:visibility="gone"
+        />
     <LinearLayout
         android:id="@+id/cus_linearlayout_lin"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp45"
+        android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:orientation="horizontal">
         <ImageView
@@ -36,15 +42,24 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:padding="@dimen/dp10"
+            android:layout_marginTop="@dimen/dp10"
+            android:layout_marginBottom="@dimen/dp10"
             android:text="信风" />
         <TextView
             android:id="@+id/cus_linearlayout_tv_content"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/dp10"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/dp5"
+            android:gravity="center"
             android:padding="@dimen/dp5"
             android:visibility="gone"
             />
+        <ImageView
+            android:id="@+id/cus_linearlayout_img_in_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="@dimen/dp10"
+            android:visibility="gone"/>
         <ImageView
             android:id="@+id/cus_linearlayout_img_to_right"
             android:layout_width="wrap_content"

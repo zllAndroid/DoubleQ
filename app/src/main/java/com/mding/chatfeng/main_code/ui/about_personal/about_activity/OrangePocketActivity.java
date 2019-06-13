@@ -92,22 +92,22 @@ public class OrangePocketActivity extends BaseActivity {
         switch (view.getId()) {
             // 收付宝
             case R.id.orange_bag_lin_shouFuBao:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 合计
             case R.id.orange_bag_lin_total:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 节点投票
             case R.id.orange_bag_lin_node:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // Only（奥力橙）
             case R.id.orange_bag_lin_only:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 2种侧链资产
@@ -117,47 +117,47 @@ public class OrangePocketActivity extends BaseActivity {
 
             // 寻“橙”记
             case R.id.orange_bag_lin_xunChengJi:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 喜乐“橙”
             case R.id.orange_bag_lin_xiLeCheng:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 商家送“橙”
             case R.id.orange_bag_lin_shangJiaSongCheng:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 公益“橙”
             case R.id.orange_bag_lin_gongYiCheng:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 更多
             case R.id.orange_bag_lin_more:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 硬件钱包
             case R.id.orange_bag_lin_wallet:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 区块浏览器
             case R.id.orange_bag_lin_browser:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 行情
             case R.id.orange_bag_lin_quotes:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
 
             // 矿工专区
             case R.id.orange_bag_lin_miner:
-                DialogUtils.showDialog("敬请期待！");
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
         }
     }

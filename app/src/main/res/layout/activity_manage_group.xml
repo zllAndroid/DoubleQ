@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".about_chat.group_manage.ManageGroupActivity">
+
+    <include layout="@layout/activity_include_title_bar"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/grayf4"
+        android:orientation="vertical">
+
+        <!--群编辑资料-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/manage_group_cus_lin_edit_data"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!--群升级-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/manage_group_cus_lin_upgrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!--加群方式-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/manage_group_cus_lin_add_group_way"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <!--转让群主   默认不显示-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/manage_group_cus_lin_transfer_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <!--管理员  默认不显示-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/manage_group_cus_lin_administrator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <!--查找方式-->
+        <com.mding.chatfeng.about_custom.about_linearlayout.CusLinearLayout
+            android:id="@+id/manage_group_cus_lin_find_way"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+</LinearLayout>

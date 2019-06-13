@@ -1,6 +1,8 @@
 package com.mding.chatfeng.about_utils;
 
 import com.alibaba.fastjson.JSON;
+import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_base.AppConfig;
 import com.mding.model.about_update.DataUpdate;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
@@ -103,12 +105,14 @@ public class VersionCheckUtils {
 //                            public void onClickSure() {
 //                            }
 //                        });
-                        DialogUtils.showDialogOne("已经是最新版本", new DialogUtils.OnClickSureListener() {
+                        DialogUtils.showDialogOne(BaseApplication.getAppContext().getResources().getString(R.string.setting_version_update_tip), new DialogUtils.OnClickSureListener() {
+//                        DialogUtils.showDialogOne("已经是最新版本", new DialogUtils.OnClickSureListener() {
                             @Override
                             public void onClickSure() {
 
                             }
                         });
+//                       Tip.getDialog(AppManager.getAppManager().currentActivity(), BaseApplication.getAppContext().getResources().getString(R.string.setting_version_update_tip);
 //                       Tip.getDialog(AppManager.getAppManager().currentActivity(),"已经是最新版本");
                     }
                 }

@@ -72,7 +72,7 @@ public class QunCodeActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        includeTopTvTital.setText("群聊二维码");
+        includeTopTvTital.setText(getResources().getString(R.string.qrcode_title_group));
         Intent intent = getIntent();
         if (intent != null){
 //            groupId = intent.getStringExtra("groupId");
@@ -163,10 +163,10 @@ public class QunCodeActivity extends BaseActivity {
                 {
                     new Thread(runnable).start();
                 }
-                DialogUtils.showDialog(getResources().getString(R.string.coming_soon));
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.quncode_tv_share:
-                DialogUtils.showDialog(getResources().getString(R.string.coming_soon));
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
         }
     }

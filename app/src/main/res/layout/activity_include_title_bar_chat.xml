@@ -76,7 +76,6 @@
                     android:layout_gravity="center"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:maxEms="6"
                     android:textColor="@color/white"
                     android:textSize="@dimen/sp18" />
                 <ImageView

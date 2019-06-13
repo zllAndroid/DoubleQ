@@ -82,7 +82,8 @@ public class MineSetActivity extends BaseActivity {
         SplitWeb.getSplitWeb().IS_SET_ACTIVITY = "1";
         realmHelper = new RealmHomeHelper(this);
         realmChatHelper = new RealmChatHelper(this);
-        includeTopTvTital.setText("设置");
+        includeTopTvTital.setText(getResources().getString(R.string.setting_title));
+//        includeTopTvTital.setText("设置");
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         Intent intent = getIntent();
         if (intent != null) {
@@ -118,7 +119,8 @@ public class MineSetActivity extends BaseActivity {
     private void initShare() {
         setCusLinShare.setViewLineVisible(false);
         setCusLinShare.setImgLogo(getResources().getDrawable(R.drawable.mine_share));
-        setCusLinShare.setTvTitle("名片分享设置");
+        setCusLinShare.setTvTitle(getResources().getString(R.string.setting_card_share));
+//        setCusLinShare.setTvTitle("名片分享设置");
     }
 
     //        帐号与安全
@@ -126,31 +128,36 @@ public class MineSetActivity extends BaseActivity {
         setLinCount.setLinGreyBacVisible(true);
         setLinCount.setViewLineVisible(false);
         setLinCount.setImgLogo(getResources().getDrawable(R.drawable.set_count));
-        setLinCount.setTvTitle("帐号与安全");
+        setLinCount.setTvTitle(getResources().getString(R.string.setting_account_security));
+//        setLinCount.setTvTitle("帐号与安全");
     }
 
     //        隐私设置
     private void initYinSi() {
         setLinYinsi.setImgLogo(getResources().getDrawable(R.drawable.set_yinsi));
-        setLinYinsi.setTvTitle("隐私设置");
+        setLinYinsi.setTvTitle(getResources().getString(R.string.setting_privacy));
+//        setLinYinsi.setTvTitle("隐私设置");
     }
 
     //        消息提醒
     private void initMsgNotify() {
         setLinMessage.setImgLogo(getResources().getDrawable(R.drawable.set_message));
-        setLinMessage.setTvTitle("消息提醒");
+        setLinMessage.setTvTitle(getResources().getString(R.string.setting_msg_notifications));
+//        setLinMessage.setTvTitle("消息提醒");
     }
 
     //        屏蔽设置
     private void initPingBi() {
         setLinPingbi.setImgLogo(getResources().getDrawable(R.drawable.set_pingbi));
-        setLinPingbi.setTvTitle("屏蔽设置");
+        setLinPingbi.setTvTitle(getResources().getString(R.string.setting_block_list));
+//        setLinPingbi.setTvTitle("屏蔽设置");
     }
 
     //        朋友圈设置
     private void initDiscover() {
         setLinDiscover.setImgLogo(getResources().getDrawable(R.drawable.set_pingbi));
-        setLinDiscover.setTvTitle("朋友圈设置");
+        setLinDiscover.setTvTitle(getResources().getString(R.string.setting_discover));
+//        setLinDiscover.setTvTitle("朋友圈设置");
     }
 
     //        清理缓存
@@ -158,26 +165,31 @@ public class MineSetActivity extends BaseActivity {
         setLinClearCache.setLinGreyBacVisible(true);
         setLinClearCache.setViewLineVisible(false);
         setLinClearCache.setImgLogo(getResources().getDrawable(R.drawable.set_clean));
-        setLinClearCache.setTvTitle("" + "清理缓存");
+        setLinClearCache.setTvTitle(getResources().getString(R.string.setting_clear_cache));
+//        setLinClearCache.setTvTitle("" + "清理缓存");
         try {
             totalCacheSize = DataCleanManager.getTotalCacheSize(MineSetActivity.this);
         } catch (Exception e) {
             e.printStackTrace();
         }
         setLinClearCache.setTvContent(totalCacheSize);
+        setLinClearCache.setImgToRightVisible(false);
     }
 
     //        检查更新
     private void initUpdateCheck() {
         setLinVersion.setImgLogo(getResources().getDrawable(R.drawable.set_upda));
-        setLinVersion.setTvTitle("检查更新");
+        setLinVersion.setTvTitle(getResources().getString(R.string.setting_check_version_update));
+//        setLinVersion.setTvTitle("检查更新");
         String versionName = HelpUtils.getLocalVersionName();
         setLinVersion.setTvContent("v" + versionName);
+        setLinClearCache.setImgToRightVisible(false);
     }
     //        关于我们
     private void initAboutUs() {
         setLinAboutMe.setImgLogo(getResources().getDrawable(R.drawable.set_aboutme));
-        setLinAboutMe.setTvTitle("关于我们");
+        setLinAboutMe.setTvTitle(getResources().getString(R.string.setting_about_us));
+//        setLinAboutMe.setTvTitle("关于我们");
     }
 
     @Override
@@ -203,7 +215,8 @@ public class MineSetActivity extends BaseActivity {
             RealmChatHelper realmChatHelper = new RealmChatHelper(MineSetActivity.this);
             realmChatHelper.deleteAll();
 
-            ToastUtil.show("清理缓存成功");
+            ToastUtil.show(getResources().getString(R.string.setting_discover));
+//            ToastUtil.show("清理缓存成功");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -263,7 +276,8 @@ public class MineSetActivity extends BaseActivity {
                             }
                         });
                     } else {
-                        ToastUtil.show("暂无缓存");
+                        ToastUtil.show(getResources().getString(R.string.setting_no_cache));
+//                        ToastUtil.show("暂无缓存");
                     }
                 }
                 break;
@@ -291,13 +305,15 @@ public class MineSetActivity extends BaseActivity {
 
 //                关于我们界面
             case R.id.set_lin_about_me:
-                ToastUtil.show("这里是关于我们\n敬请期待！");
+                ToastUtil.show(getResources().getString(R.string.setting_about_us_tip));
+//                ToastUtil.show("这里是关于我们\n敬请期待！");
                 break;
 
 //                退出帐号    回到登录界面
             case R.id.set_btn_esc:
                 if (NoDoubleClickUtils.isDoubleClick()) {
-                    DialogExitUtils.showDialog("仅退出帐号", "退出并删除帐号信息", new DialogExitUtils.OnClickSureListener() {
+                    DialogExitUtils.showDialog(getResources().getString(R.string.setting_btn_just_log_out), getResources().getString(R.string.setting_btn_log_out_and_delete), new DialogExitUtils.OnClickSureListener() {
+//                    DialogExitUtils.showDialog("仅退出帐号", "退出并删除帐号信息", new DialogExitUtils.OnClickSureListener() {
                         @Override
                         public void onClickSure(String checkingId) {
                             switch (checkingId) {

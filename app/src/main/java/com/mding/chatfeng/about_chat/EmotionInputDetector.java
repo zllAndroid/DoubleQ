@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_utils.about_immersive.StatusBarUtil;
 import com.mding.model.DataJieShou;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.WindowBugDeal;
@@ -259,7 +260,8 @@ public class EmotionInputDetector {
         voiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.show("敬请期待！");
+                ToastUtil.show(BaseApplication.getAppContext().getResources().getString(com.mding.chatfeng.R.string.personal_set_signature));
+//                ToastUtil.show("敬请期待！");
                 hideEmotionLayout(false);
                 hideSoftInput();
 //                mVoiceText.setVisibility(mVoiceText.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);

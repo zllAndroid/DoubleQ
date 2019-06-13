@@ -34,7 +34,8 @@ public class CountAndSafeActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        includeTopTvTital.setText("帐号与安全");
+        includeTopTvTital.setText(getResources().getString(R.string.account_security_title));
+//        includeTopTvTital.setText("帐号与安全");
         includeTopIvBack.setVisibility(View.VISIBLE);
     }
     @Override

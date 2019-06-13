@@ -69,7 +69,8 @@ public class InvitationGroupChatActivity extends BaseActivity {
         super.initBaseView();
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         includeTopTvRight.setVisibility(View.VISIBLE);
-        includeTopTvRight.setText("确定");
+        includeTopTvRight.setText(getResources().getString(R.string.tv_sure));
+//        includeTopTvRight.setText("确定");
         Intent intent = getIntent();
         if (intent != null) {
             IntentDataInvitation dataInvitation = (IntentDataInvitation) intent.getSerializableExtra(AppConfig.GROUP_ID);

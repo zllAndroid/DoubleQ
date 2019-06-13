@@ -20,6 +20,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.main_code.mains.top_pop.data_bus.BusDataGroupOrFriend;
 import com.projects.zll.utilslibrarybyzll.aboututils.ToastUtil;
 import com.rance.chatui.R;
@@ -193,7 +194,8 @@ public class EmotionInputManager {
         voiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtil.show("敬请期待！");
+                ToastUtil.show(BaseApplication.getAppContext().getResources().getString(com.mding.chatfeng.R.string.personal_set_signature));
+//                ToastUtil.show("敬请期待！");
                 hideEmotionLayout(false);
                 hideSoftInput();
 //                mVoiceText.setVisibility(mVoiceText.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);

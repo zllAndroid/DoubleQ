@@ -52,7 +52,8 @@ public class RegisterActivity extends BaseActivity {
     protected void initBaseView() {
         super.initBaseView();
         includeTopIvBack.setVisibility(View.VISIBLE);
-        includeTopTvTital.setText("注册");
+//        includeTopTvTital.setText("注册");
+        includeTopTvTital.setText(getResources().getString(R.string.register_title));
     }
 
     @Override
@@ -102,16 +103,19 @@ public class RegisterActivity extends BaseActivity {
         String code = regEdCode.getText().toString().trim();
         String psw = regEdPsw.getText().toString().trim();
         if (StrUtils.isEmpty(phone)) {
-            ToastUtil.show("手机号不能为空");
+//            ToastUtil.show("手机号不能为空");
+            ToastUtil.show(getResources().getString(R.string.phone_is_null));
 //            Tip.getDialog(ResgisterActivity.this,getResources().getString(R.string.phone_is_error));
             return;
         }
         if (StrUtils.isEmpty(code)) {
-            ToastUtil.show("验证码不得为空");
+//            ToastUtil.show("验证码不得为空");
+            ToastUtil.show(getResources().getString(R.string.verification_code_is_null));
             return;
         }
         if (StrUtils.isEmpty(psw)) {
-            ToastUtil.show("密码不得为空");
+            ToastUtil.show(getResources().getString(R.string.pwd_is_null));
+//            ToastUtil.show("密码不得为空");
             return;
         }
 
@@ -119,7 +123,8 @@ public class RegisterActivity extends BaseActivity {
         Log.e("validatePassword","我是否满足="+b+"");
         if (!b) {
 //            ToastUtil.show("满足");
-            DialogUtils.showDialog("密码至少要包括:\n字母、数字、标点符号\n的其中两项,长度为6-20位");
+            DialogUtils.showDialog(getResources().getString(R.string.register_pwd_set_error));
+//            DialogUtils.showDialog("密码至少要包括:\n字母、数字、标点符号\n的其中两项,长度为6-20位");
             return;
         }
         String register = SplitWeb.getSplitWeb().register(phone, psw, code);
@@ -130,7 +135,8 @@ public class RegisterActivity extends BaseActivity {
                 @Override
                 public void onNetSuccess(String result) {
                     SPUtils.put(RegisterActivity.this, AppAllKey.SP_LOGIN_ACCOUNT,phone);
-                    DialogUtils.showDialogOne("注册成功", new DialogUtils.OnClickSureListener() {
+                    DialogUtils.showDialogOne(getResources().getString(R.string.register_succeed), new DialogUtils.OnClickSureListener() {
+//                    DialogUtils.showDialogOne("注册成功", new DialogUtils.OnClickSureListener() {
                         @Override
                         public void onClickSure() {
                             AppManager.getAppManager().finishActivity();
@@ -141,19 +147,20 @@ public class RegisterActivity extends BaseActivity {
             });
         }else
         {
-            ToastUtil.show("请稍后再试");
+            ToastUtil.show(getResources().getString(R.string.try_again_later));
+//            ToastUtil.show("请稍后再试");
             MyJsonUtils.initBeforeLogin(RegisterActivity.this);
         }
     }
     private void initSendSms() {
         String phone = regEdPhone.getText().toString().trim();
         if (StrUtils.isEmpty(phone)) {
-            ToastUtil.show("手机号不能为空");
+            ToastUtil.show(getResources().getString(R.string.phone_is_null));
 //            Tip.getDialog(this,"手机号不能为空");
             return;
         }
         if (StrUtils.isEmpty(phone)) {
-            ToastUtil.show("手机号输入有误");
+            ToastUtil.show(getResources().getString(R.string.phone_is_error));
 //            Tip.getDialog(this,"手机号输入有误");
             return;
         }
@@ -170,7 +177,8 @@ public class RegisterActivity extends BaseActivity {
                 }
             });
         }else{
-            ToastUtil.show("请稍后再试");
+            ToastUtil.show(getResources().getString(R.string.try_again_later));
+//            ToastUtil.show("请稍后再试");
             MyJsonUtils.initBeforeLogin(RegisterActivity.this);
         }
     }
@@ -190,7 +198,8 @@ public class RegisterActivity extends BaseActivity {
             try {
                 regTvSendCode.setEnabled(true);
                 regTvSendCode.setClickable(true);
-                regTvSendCode.setText("获取验证码");
+                regTvSendCode.setText(getResources().getString(R.string.login_get_code));
+//                regTvSendCode.setText("获取验证码");
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -98,7 +98,7 @@
                 android:layout_marginTop="@dimen/dp5"
                 android:layout_marginBottom="@dimen/dp3"
                 android:background="@drawable/btn_stroke_sel"
-                android:text="取消"
+                android:text="@string/dialog_btn_cancel"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
@@ -112,7 +112,7 @@
                 android:layout_marginRight="@dimen/dp30"
                 android:layout_gravity="center"
                 android:background="@drawable/btn_stroke_sel"
-                android:text="更新"
+                android:text="@string/setting_version_btn_update"
                 android:layout_weight="1"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
@@ -134,7 +134,7 @@
             android:layout_marginBottom="@dimen/dp3"
             android:layout_gravity="center"
             android:background="@drawable/btn_stroke_sel"
-            android:text="确定"
+            android:text="@string/dialog_btn_sure"
             android:textColor="@color/white"
             android:textSize="17sp" />
     </LinearLayout>

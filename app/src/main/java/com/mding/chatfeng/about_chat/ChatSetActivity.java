@@ -186,7 +186,7 @@ public class ChatSetActivity extends BaseActivity {
                     personData.setHeadImg(dataRecord.getHeadImg());
                     personData.setName(dataRecord.getNickName());
                     personData.setScanTital("扫一扫,添加" + dataRecord.getNickName() + "为好友");
-                    personData.setTital("好友二维码");
+                    personData.setTital(getResources().getString(R.string.qrcode_title_friend));
 
                     if (FriendId != null) {
                         String string = type + "_xm6leefun_" + FriendId;
@@ -203,7 +203,7 @@ public class ChatSetActivity extends BaseActivity {
                 break;
 
             case R.id.chatset_lin_chat_history:
-                DialogUtils.showDialog(getResources().getString(R.string.coming_soon));
+                DialogUtils.showDialog(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.chatset_lin_del_chat_history:
                 DialogUtils.showDialog("确定删除与该好友的聊天记录？", new DialogUtils.OnClickSureListener() {

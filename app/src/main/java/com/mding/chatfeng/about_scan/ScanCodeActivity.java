@@ -178,7 +178,8 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
             if (!qrCode.contains("xm6leefun"))
             {
                 Log.e("qrCode","----------qrCode_scanCode------------"+qrCode);
-                ToastUtil.show("非本应用二维码！");
+                ToastUtil.show(getResources().getString(R.string.qrcode_not_in_this_app));
+//                ToastUtil.show("非本应用二维码！");
                 reScan();
 //                MakeDialog("非本应用二维码,是否退出扫描？");
             }else {
@@ -326,7 +327,8 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
     @OnShowRationale(Manifest.permission.CAMERA)
     void showRationaleForRecord(final PermissionRequest request) {
         new AlertDialog.Builder(this)
-                .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
+//                .setPositiveButton("好的", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 //                        initScan();
@@ -334,19 +336,22 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
                         request.proceed();
                     }
                 })
-                .setNegativeButton("不给", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.btn_no), new DialogInterface.OnClickListener() {
+//                .setNegativeButton("不给", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         request.cancel();
                     }
                 })
                 .setCancelable(false)
-                .setMessage("扫描二维码需要相机权限，应用将要申请使用相机权限")
+                .setMessage(getResources().getString(R.string.popwindow_apply_for_camera))
+//                .setMessage("扫描二维码需要相机权限，应用将要申请使用相机权限")
                 .show();
     }
     @OnPermissionDenied(Manifest.permission.CAMERA)
     void showRecordDenied() {
-        ToastUtil.show("权限被拒绝,退出该页面");
+        ToastUtil.show(getResources().getString(R.string.refused_and_exit));
+//        ToastUtil.show("权限被拒绝,退出该页面");
         try {
             AppManager.getAppManager().finishActivity();
             inactivityTimer.shutdown();
@@ -357,7 +362,8 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
     @OnNeverAskAgain(Manifest.permission.CAMERA)
     void onRecordNeverAskAgain() {
         new AlertDialog.Builder(this)
-                .setPositiveButton("好的", new DialogInterface.OnClickListener() {
+                .setPositiveButton(getResources().getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
+//                .setPositiveButton("好的", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // 打开系统应用设置
@@ -369,14 +375,16 @@ public class ScanCodeActivity extends BaseActivity implements SurfaceHolder.Call
                         dialog.cancel();
                     }
                 })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                .setNegativeButton(getResources().getString(R.string.btn_cancel), new DialogInterface.OnClickListener() {
+//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
                     }
                 })
                 .setCancelable(false)
-                .setMessage("您已经禁止了相机权限,是否现在去开启")
+                .setMessage(getResources().getString(R.string.popwindow_go_for_open_camera))
+//                .setMessage("您已经禁止了相机权限,是否现在去开启")
                 .show();
     }
     @Override

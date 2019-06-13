@@ -48,10 +48,10 @@ public class ChangePwdActivity extends BaseActivity {
     @BindView(R.id.changepwd_ed_sure_psw)
     EditText changepwdEdSurePsw;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//    }
 
     @Override
     protected void initBaseView() {

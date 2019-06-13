@@ -106,7 +106,7 @@
                 android:id="@+id/changebind_btn_new_sure"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="确定"
+                android:text="@string/btn_sure"
                 android:layout_gravity="center"
                 android:textSize="@dimen/sp16"
                 android:textColor="@color/white"

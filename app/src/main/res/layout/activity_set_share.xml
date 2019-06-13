@@ -30,7 +30,7 @@
                     android:button="@null"
                     android:background="@color/transparent"
                     android:padding="@dimen/dp10"
-                    android:text="允许分享" />
+                    android:text="@string/card_sharing_permit" />
                 <View
                     style="@style/style_wei_line"
                     />
@@ -42,7 +42,7 @@
                     android:button="@null"
                     android:background="@color/transparent"
                     android:padding="@dimen/dp10"
-                    android:text="需要验证" />
+                    android:text="@string/card_sharing_need_ask" />
                 <View
                     style="@style/style_wei_line"
                     />
@@ -54,7 +54,7 @@
                     android:button="@null"
                     android:background="@color/transparent"
                     android:padding="@dimen/dp10"
-                    android:text="禁止被分享" />
+                    android:text="@string/card_sharing_deny" />
             </RadioGroup>
         </LinearLayout>
 

@@ -466,28 +466,28 @@ public class ChatFunctionFragment extends ChatBaseFragment {
                     //跳转到相册
                     goToAlbum();
                 }
-//                ToastUtil.isDebugShow(getResources().getString(R.string.coming_soon));
+//                ToastUtil.isDebugShow(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.chat_function_camera:
                 destoryImage();
                 getPicturesFile();
-//                ToastUtil.isDebugShow(getResources().getString(R.string.coming_soon));
+//                ToastUtil.isDebugShow(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.chat_function_video:
 
-                ToastUtil.show(getResources().getString(R.string.coming_soon));
+                ToastUtil.show(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.chat_function_voice:
 
-                ToastUtil.show(getResources().getString(R.string.coming_soon));
+                ToastUtil.show(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.chat_function_transfer:
 
-                ToastUtil.show(getResources().getString(R.string.coming_soon));
+                ToastUtil.show(getResources().getString(R.string.stay_tuned));
                 break;
             case R.id.chat_function_card:
 
-                ToastUtil.show(getResources().getString(R.string.coming_soon));
+                ToastUtil.show(getResources().getString(R.string.stay_tuned));
                 break;
         }
     }

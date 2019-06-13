@@ -274,7 +274,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                     personData.setHeadImg(dataRecord.getHeadImg());
                     personData.setName(dataRecord.getNickName());
                     personData.setScanTital("扫一扫,添加" + dataRecord.getNickName() + "为好友");
-                    personData.setTital("好友二维码");
+                    personData.setTital(getResources().getString(R.string.qrcode_title_friend));
 //                    if (FriendId != null) {
 //                        String string = type + "_xm6leefun_" + FriendId;
 //                        Log.e("qrcode", "----------FriendDataActivity--------------" + string);
@@ -346,7 +346,7 @@ public class FriendDataActivity extends BaseActivity implements ChangeInfoWindow
                 break;
             case R.id.fd_tv_send_call:
                 if (NoDoubleClickUtils.isDoubleClick()) {
-                    ToastUtil.show("敬请期待！");
+                    ToastUtil.show(getResources().getString(R.string.stay_tuned));
                 }
                 break;
         }

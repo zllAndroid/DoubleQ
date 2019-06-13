@@ -3,7 +3,6 @@ package com.mding.chatfeng.main_code.mains;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTabHost;
 import android.util.Log;
@@ -82,6 +81,7 @@ public class MainActivity extends BaseActivity  {
     @Override
     protected void initBaseView() {
         super.initBaseView();
+//        tvtab ={getResources().getString(R.string.msg),getResources().getString(R.string.contacts),getResources().getString(R.string.discover), getResources().getString(R.string.personal)};
         ((BaseApplication)getApplication()).startBase(getApplicationContext());
 
         stateHight=StatusBarUtil.getStatusBarHeight(this);
@@ -216,7 +216,9 @@ public class MainActivity extends BaseActivity  {
         initTabNum(num, type);
 //   发送     EventBus.getDefault().post(new MessageEvent(message.getResponseText()));
     }
-    private String[] tvtab ={"消息","联系人","发现", "个人中心" };
+    private String[] tvtab ={BaseApplication.getAppContext().getResources().getString(R.string.msg_fragment),BaseApplication.getAppContext().getResources().getString(R.string.contacts_fragment),BaseApplication.getAppContext().getResources().getString(R.string.discover_fragment), BaseApplication.getAppContext().getResources().getString(R.string.personal_fragment)};
+//    private String[] tvtabs ={getResources().getString(R.string.msg),getResources().getString(R.string.contacts),getResources().getString(R.string.discover), getResources().getString(R.string.personal)};
+//    private String[] tvtab ={"消息","联系人","发现", "个人中心" };
     int[] imgs = {R.drawable.tab_ac_main_msg,R.drawable.tab_ac_main_contacts, R.drawable.tab_ac_main_discovery,R.drawable.tab_ac_main_pesonal};
     @Override
     public boolean isSupportSwipeBack() {

@@ -260,8 +260,8 @@ public class GroupDataAddActivity extends BaseActivity {
 //                        PersonData personData = new PersonData();
 //                        personData.setHeadImg(dataRecord.getGroupHeadImg());
 //                        personData.setName(dataRecord.getGroupName());
-//                        personData.setScanTital("扫一扫二维码，加入群聊");
-//                        personData.setTital("群聊二维码");
+//                        personData.setScanTital(getResources().getString(R.string.qrcode_add_group));
+//                        personData.setTital(getResources().getString(R.string.qrcode_title_group));
 //                        personData.setQrCode(dataRecord.getGroupQrcode());
 //                        IntentUtils.JumpToHaveObj(QunCodeActivity.class, AppConfig.GROUP_INFO, personData);
 //                    }

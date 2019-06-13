@@ -134,10 +134,12 @@ public class CreatGroupChatActivity extends BaseActivity {
     @Override
     protected void initBaseView() {
         super.initBaseView();
-        includeTopTvTital.setText("创建群聊");
+        includeTopTvTital.setText(getResources().getString(R.string.create_group_title));
         includeTopLin.setBackgroundColor(getResources().getColor(R.color.app_theme));
         includeTopTvRight.setVisibility(View.VISIBLE);
-        includeTopTvRight.setText("确定");
+        includeTopTvRight.setText(getResources().getString(R.string.tv_sure));
+//        includeTopTvRight.setText("确定");
+
 //        mRecyclerView.setHasFixedSize(true);
 //        mRecyclerView.setNestedScrollingEnabled(false);
 //        linearLayoutManager = new LinearLayoutManager(CreatGroupChatActivity.this);

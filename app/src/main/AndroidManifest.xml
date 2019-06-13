@@ -111,13 +111,13 @@
             android:persistent="true"
             android:priority="1000"
             android:process=":worker" />
-        <!--<service-->
-            <!--android:name=".main_code.mains.test_service.DaemonService"-->
-            <!--android:enabled="true"-->
-            <!--android:exported="false"-->
-            <!--android:persistent="true"-->
-            <!--android:priority="1000"-->
-            <!--android:process=":daemon" />-->
+        <!-- <service -->
+        <!-- android:name=".main_code.mains.test_service.DaemonService" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="false" -->
+        <!-- android:persistent="true" -->
+        <!-- android:priority="1000" -->
+        <!-- android:process=":daemon" /> -->
 
         <uses-library
             android:name="org.apache.http.legacy"
@@ -210,7 +210,7 @@
             android:windowSoftInputMode="adjustPan" />
         <!-- 密码登录 -->
         <activity
-            android:name=".main_code.about_login.PwdLoginActivity"
+            android:name=".main_code.about_login.SmsLoginActivity"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan" />
         <!-- 注册 -->
@@ -524,9 +524,27 @@
             android:name=".about_chat.chat_group.ShowChatImgActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
-        <activity android:name=".about_chat.ShowFullImgActivity"
+        <activity
+            android:name=".about_chat.ShowFullImgActivity"
             android:launchMode="singleTop"
             android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity
+            android:name=".about_chat.group_manage.ManageGroupActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity
+            android:name=".about_chat.group_manage.GroupDetailActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".about_chat.group_manage.ExitOrTransferGroupActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
+        <activity android:name=".about_chat.group_manage.ReportActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme" />
+        <activity android:name=".about_chat.group_manage.ReportOthersActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/SwipeBack.Transparent.Theme"/>
     </application>
 
 </manifest>

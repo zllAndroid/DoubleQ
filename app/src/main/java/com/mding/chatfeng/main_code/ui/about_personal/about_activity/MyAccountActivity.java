@@ -84,7 +84,7 @@ public class MyAccountActivity extends BaseActivity  {
                 qrcodeTvName.setText(nickName);
             }
         }
-        includeTopTvTital.setText("我的二维码");
+        includeTopTvTital.setText(getResources().getString(R.string.qrcode_title_mine));
     }
 
 //    不需要网络请求，纯数据展示（1、传值显示  2、缓存显示）

@@ -8,14 +8,13 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.mding.chatfeng.about_custom.CustomViewPager;
 import com.mding.chatfeng.main_code.ui.about_contacts.ContactChildFragment;
 import com.mding.chatfeng.main_code.ui.about_contacts.ModelbyMissABC;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
-import com.mding.chatfeng.main_code.ui.about_pop.PopAddWindow;
 import com.mding.chatfeng.about_base.BaseFragment;
 import com.ogaclejapan.smarttablayout.SmartTabLayout;
-import com.projects.zll.utilslibrarybyzll.aboututils.MyLog;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -52,11 +51,13 @@ public class LinkManFragment extends BaseFragment {
 
     boolean ismPager = true;
     private MyPagerAdapter myPagerAdapter;
-    private String[]  contacts_tou = new String[]{"好友","群组"};
+    private String[]  contacts_tou = new String[]{BaseApplication.getAppContext().getResources().getString(R.string.contacts_friend), BaseApplication.getAppContext().getResources().getString(R.string.contacts_group)};
+//    private String[]  contacts_tou = new String[]{"好友","群组"};
 
     @Override
     protected String setFragmentTital() {
-        return "联系人";
+        return getResources().getString(R.string.contacts_fragment);
+//        return "联系人";
     }
 
     @Override

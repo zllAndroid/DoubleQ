@@ -52,6 +52,8 @@ public class SplitWeb {
 //    public  final String PreRequest= "http://192.168.4.131:40003/";
 //    public  final String PreRequest= "http://39.108.3.131/server_api.php";
 
+//    public  final String PreRequest= "http://192.168.4.210:30092/V2_0_0/LoginController/getClusterIp";
+    //正式
     public  final String PreRequest= "http://47.112.116.35:30092/V2_0_0/LoginController/getClusterIp";
 //    public  final String PreRequest= "http://120.78.92.225:9092/V2_0_0/LoginController/getClusterIp";
 //    public  final String PreRequest= "http://192.168.4.68/server_api.php";

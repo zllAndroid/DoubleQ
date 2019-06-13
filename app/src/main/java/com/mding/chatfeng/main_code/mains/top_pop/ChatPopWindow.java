@@ -276,7 +276,7 @@ public class ChatPopWindow extends PopupWindow implements View.OnClickListener, 
                 onClickLockListener.Locked(isLocked);
                 onClickBacListener.Clicked("");
                 dismiss();
-                DialogUtils.showDialog("敬请期待");
+                DialogUtils.showDialog(BaseApplication.getAppContext().getResources().getString(R.string.stay_tuned));
                 break;
             default:
                 break;

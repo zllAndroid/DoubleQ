@@ -4,10 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     android:id="@+id/msg_lin_top">
-
-    <!--title bar-->
-    <!--<include layout="@layout/fragment_include_title_bar"/>-->
 
     <com.mding.chatfeng.about_custom.about_top_bar.FragmentTopBarLayout
         android:id="@+id/fg_top_bar"
@@ -46,6 +44,27 @@
                 android:layout_weight="1"/>
 
         </LinearLayout>
+        <LinearLayout
+            android:id="@+id/frag_home_lin_no_msg"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:visibility="gone"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/msg_fragment_no_msg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/no_msg"
+                android:textSize="@dimen/sp12"
+                android:layout_marginTop="@dimen/dp15"
+                android:textColor="@color/grey999"/>
+        </LinearLayout>
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,5 +80,4 @@
         </RelativeLayout>
     </LinearLayout>
 
-    <!--com.mding.ljj.about_custom-->
 </LinearLayout>

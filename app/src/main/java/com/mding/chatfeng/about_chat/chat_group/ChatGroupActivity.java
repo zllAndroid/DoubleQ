@@ -24,6 +24,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -51,6 +52,7 @@ import com.mding.chatfeng.about_chat.GlobalOnItemClickManagerUtils;
 import com.mding.chatfeng.about_chat.adapter.CommonFragmentPagerAdapter;
 import com.mding.chatfeng.about_chat.fragment.ChatEmotionFragment;
 import com.mding.chatfeng.about_chat.fragment.ChatFunctionFragment;
+import com.mding.chatfeng.about_chat.group_manage.GroupDetailActivity;
 import com.mding.chatfeng.about_chat.ui.PopupList;
 import com.mding.chatfeng.about_chat.ui.StateButton;
 import com.example.zhouwei.library.CustomPopWindow;
@@ -260,6 +262,7 @@ public class ChatGroupActivity extends BaseActivity {
 //        if (StrUtils.isEmpty(includeTopTvTitle.getText().toString())) {
         sendWeb(SplitWeb.getSplitWeb().groupSendInterface(groupId));
 //        }
+        includeTopTvTitle.setMovementMethod(new ScrollingMovementMethod());
     }
 
 
@@ -385,6 +388,8 @@ public class ChatGroupActivity extends BaseActivity {
             case R.id.include_top_iv_more:
 //                IntentUtils.JumpToHaveOne(GroupChatDetailsActivity.class, AppConfig.GROUP_ID, groupId);
 //                AppManager.getAppManager().isNowActivityFinish(GroupChatDetailsActivity.class);
+                
+//                IntentUtils.JumpToHaveTwo(GroupDetailActivity.class, AppConfig.GROUP_ID,groupId,AppConfig.IS_CHATGROUP_TYPE,AppConfig.CHATGROUP);
                 IntentUtils.JumpToHaveTwo(GroupChatDetailsActivity.class, AppConfig.GROUP_ID,groupId,AppConfig.IS_CHATGROUP_TYPE,AppConfig.CHATGROUP);
                 break;
             case R.id.include_top_lin_title:
@@ -600,6 +605,7 @@ public class ChatGroupActivity extends BaseActivity {
                     DataChatGroupPop.RecordBean.GroupDetailInfoBean.GroupInfoBean groupInfo = groupDetailInfoBean.getGroupInfo();
                     includeTopTvTitle.setText(groupInfo.getGroupName());
                     includeTopTvPeopleNum.setText("人数：" + groupInfo.getNowNum());
+                    includeTopTvPeopleNum.setVisibility(View.VISIBLE);
                     cardName = StrUtils.isEmpty(userInfoBean.getCarteName()) ? "暂无" : userInfoBean.getCarteName();
                     isChecked = userInfoBean.getDisturbType();
                 }

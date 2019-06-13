@@ -47,7 +47,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="167dp"
+            android:layout_height="180dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -85,7 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@null"
-                    android:hint="手机号"
+                    android:hint="@string/login_phone"
                     android:inputType="phone"
                     android:maxLength="11"
                     android:minEms="11"
@@ -119,7 +119,7 @@
                         android:layout_gravity="bottom"
                         android:layout_weight="1"
                         android:background="@null"
-                        android:hint="验证码"
+                        android:hint="@string/verification_code"
                         android:inputType="number"
                         android:maxLength="6"
                         android:minEms="6"
@@ -134,7 +134,7 @@
                         android:layout_gravity="center"
                         android:background="@drawable/btn_shape_login_train"
                         android:padding="@dimen/dp8"
-                        android:text="获取验证码"
+                        android:text="@string/login_get_code"
                         android:textColor="@color/white" />
                 </LinearLayout>
 
@@ -151,7 +151,7 @@
                 android:paddingTop="@dimen/dp10"
                 android:paddingRight="@dimen/dp5"
                 android:paddingBottom="@dimen/dp10"
-                android:text="用密码登录"
+                android:text="@string/login_change_to_pwd_login"
                 android:textColor="@color/white"
                 android:textSize="@dimen/sp14" />
 
@@ -168,7 +168,7 @@
                 android:id="@+id/pwd_btn_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="登录"
+                android:text="@string/login_btn_login"
                 android:layout_gravity="center"
                 android:textSize="@dimen/sp16"
                 android:textColor="@color/white"
@@ -184,7 +184,7 @@
                 android:layout_marginTop="@dimen/dp15"
                 android:textColor="@color/app_theme"
                 android:textSize="@dimen/sp15"
-                android:text="新用户注册"/>
+                android:text="@string/login_change_to_register"/>
         </LinearLayout>
     </RelativeLayout>
     <!--</LinearLayout>-->

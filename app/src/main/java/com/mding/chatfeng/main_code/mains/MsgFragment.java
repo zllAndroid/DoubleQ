@@ -11,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.mding.chatfeng.R;
@@ -26,9 +25,6 @@ import com.mding.chatfeng.about_broadcastreceiver.NetEvent;
 import com.mding.chatfeng.about_broadcastreceiver.NetReceiver;
 import com.mding.chatfeng.about_chat.ChatActivity;
 import com.mding.chatfeng.about_chat.chat_group.ChatGroupActivity;
-import com.mding.chatfeng.about_chat.cus_data_group.CusJumpGroupChatData;
-import com.mding.chatfeng.about_chat.ui.PopupList;
-import com.mding.chatfeng.about_custom.WrapContentLinearLayoutManager;
 import com.mding.chatfeng.about_utils.IntentUtils;
 import com.mding.chatfeng.about_utils.NetUtils;
 import com.mding.chatfeng.about_utils.TimeUtil;
@@ -37,7 +33,6 @@ import com.mding.chatfeng.about_utils.about_realm.new_home.RealmHomeHelper;
 import com.mding.chatfeng.main_code.mains.top_pop.MyDialogFragment;
 import com.mding.chatfeng.main_code.mains.top_pop.data_bus.BusDataGroupOrFriend;
 import com.mding.chatfeng.main_code.ui.about_contacts.about_search.SearchActivity;
-import com.mding.chatfeng.main_code.ui.about_contacts.about_swipe.SwipeItemLayout;
 import com.mding.chatfeng.main_code.ui.about_message.GroupAssistantActivity;
 import com.mding.chatfeng.main_code.ui.about_message.about_message_adapter.MsgAdapter;
 import com.mding.model.CusJumpChatData;
@@ -69,6 +64,8 @@ public class MsgFragment extends BaseFragment {
     LinearLayout mLinNet;
     @BindView(R.id.frag_home_recyc)
     RecyclerView mRecyclerView;
+    @BindView(R.id.frag_home_lin_no_msg)
+    LinearLayout fragHomeLinNoMsg;
 
     public MsgFragment() {
     }
@@ -158,14 +155,14 @@ public class MsgFragment extends BaseFragment {
     }
     LongTimeTask myTask = null;
     private void initRealmData() {
-        MyLog.e("LongTimeTask", myTask+"-----------------------进来前----------myTask----------------------"+BaseApplication.isHomeMsgFragment);
-        if (BaseApplication.isHomeMsgFragment) {
-            MyLog.e("LongTimeTask", myTask+"-----------------------isHomeMsgFragment----------myTask----------------------"+BaseApplication.isHomeMsgFragment);
+        MyLog.e("LongTimeTask", myTask + "-----------------------进来前----------myTask----------------------" + BaseApplication.isHomeMsgFragment);
+//        if (BaseApplication.isHomeMsgFragment) {
+            MyLog.e("LongTimeTask", myTask + "-----------------------isHomeMsgFragment----------myTask----------------------" + BaseApplication.isHomeMsgFragment);
             if (myTask == null) {
                 myTask = new LongTimeTask();
                 myTask.execute();
             }
-        }
+//        }
     }
 
     private class LongTimeTask extends AsyncTask<List<CusHomeRealmData>, Void, List<CusHomeRealmData>> {
@@ -223,14 +220,14 @@ public class MsgFragment extends BaseFragment {
 
     //    LinearLayout mLinNet;
     //    ConfirmPopWindow confirmPopWindow=null;
-    public Handler mHandlers=null;
+    public Handler mHandlers = null;
     private void initFriend() {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //        mRecyclerView.setLayoutManager(new WrapContentLinearLayoutManager(getActivity()));
 //        mRecyclerView.addOnItemTouchListener(new SwipeItemLayout.OnSwipeItemTouchListener(getActivity()));
 //        mRecyclerView.getItemAnimator().setChangeDuration(0);// 通过设置动画执行时间为0来解决闪烁问题
 
-        if (mHandlers==null)
+        if (mHandlers == null)
             mHandlers = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
@@ -243,7 +240,8 @@ public class MsgFragment extends BaseFragment {
     //设置标题
     @Override
     protected String setFragmentTital() {
-        return "消息";
+        return getResources().getString(R.string.msg_fragment);
+//        return "消息";
     }
 
     @Override
@@ -507,6 +505,7 @@ public class MsgFragment extends BaseFragment {
         else {
             msgAdapter.notifyDataSetChanged();
         }
+        isNoMsgShow();
     }
     private List<String> popupMenuItemList = new ArrayList<>();
 
@@ -540,7 +539,7 @@ public class MsgFragment extends BaseFragment {
 //            cusJumpGroupChatData.setGroupName(item.getNickName());
 //            IntentUtils.JumpToHaveObj(ChatGroupActivity.class, Constants.KEY_FRIEND_HEADER, cusJumpGroupChatData);
 
-            IntentUtils.JumpToHaveOne(ChatGroupActivity.class,AppConfig.KEY_GROUP_Id,item.getFriendId());
+            IntentUtils.JumpToHaveOne(ChatGroupActivity.class, AppConfig.KEY_GROUP_Id, item.getFriendId());
         }
     }
 
@@ -552,10 +551,8 @@ public class MsgFragment extends BaseFragment {
         if (!StrUtils.isEmpty(messageInfo.getMsg()) && item != null) {
             if (type.equals("1")) {
                 BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().privateSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
-//                BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().privateSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
             } else {
                 BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().groupSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
-//                BaseApplication.getApp().sendData(SplitWeb.getSplitWeb().groupSend(item.getFriendId(), messageInfo.getMsg(), "1", TimeUtil.getTime()));
             }
         }
     }
@@ -570,7 +567,7 @@ public class MsgFragment extends BaseFragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        BaseApplication.isHomeMsgFragment=true;
+        BaseApplication.isHomeMsgFragment = true;
 
         try {
             if (mReceiver != null)
@@ -590,10 +587,20 @@ public class MsgFragment extends BaseFragment {
             CusHomeRealmData item = msgAdapter.getItem(positions);
             realmHelper.deleteRealmMsg(item.getFriendId());
             msgAdapter.delItem(positions);
+            isNoMsgShow();
             sendBroadcast();
         }
     };
 
-
-
+    private void isNoMsgShow() {
+        int size = mList.size();
+        if (size == 0){
+            fragHomeLinNoMsg.setVisibility(View.VISIBLE);
+            mRecyclerView.setVisibility(View.GONE);
+        }
+        else {
+            fragHomeLinNoMsg.setVisibility(View.GONE);
+            mRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
 }

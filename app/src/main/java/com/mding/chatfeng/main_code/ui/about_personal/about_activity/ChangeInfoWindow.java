@@ -16,6 +16,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.projects.zll.utilslibrarybyzll.about_dialog.DialogUtils;
 import com.projects.zll.utilslibrarybyzll.aboututils.StrUtils;
 
@@ -42,7 +43,22 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
 //
 //    }
 
+    String modify_nick_name;
+    String modify_account;
+    String modify_signature;
+    String modify_remark_name;
+    String modify_group_name;
+    String modify_group_card_name;
+    String resonse;
     private void initPop(Context context) {
+        modify_nick_name = BaseApplication.getAppContext().getResources().getString(R.string.my_info_modify_nick_name);
+        modify_account = BaseApplication.getAppContext().getResources().getString(R.string.my_info_modify_account);
+        modify_signature = BaseApplication.getAppContext().getResources().getString(R.string.my_info_modify_signature);
+        modify_remark_name = BaseApplication.getAppContext().getResources().getString(R.string.dialog_modify_remark_name);
+        modify_group_name = BaseApplication.getAppContext().getResources().getString(R.string.dialog_modify_group_name);
+        modify_group_card_name = BaseApplication.getAppContext().getResources().getString(R.string.dialog_modify_group_card_name);
+        resonse = BaseApplication.getAppContext().getResources().getString(R.string.dialog_response);
+
         //打气筒
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         mContentView = LayoutInflater.from(mContext).inflate(R.layout.pop_changeinfo,null);
@@ -119,6 +135,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
         mTvTitle.setText(title);
 
         switch (title) {
+            case "Modify Remark":
             case "修改备注": {
                 if (mContant.length() > BEIZHU_MAX_NUM) {
                     mTvMax.setText(BEIZHU_MAX_NUM + " / " + BEIZHU_MAX_NUM);
@@ -134,6 +151,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 }
                 break;
             }
+            case "Modify Name":
             case "修改昵称": {
                 if (mContant.length() > BEIZHU_MAX_NUM) {
                     mTvMax.setText(BEIZHU_MAX_NUM + " / " + BEIZHU_MAX_NUM);
@@ -144,6 +162,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 mEd.setFilters(filter);
                 break;
             }
+            case "Modify Account":
             case "修改帐号": {
 //                if (mContant.length() > COUNT_MAX_NUM) {
 //                    mTvMax.setText(COUNT_MAX_NUM + " / " + COUNT_MAX_NUM);
@@ -154,6 +173,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 mEd.setFilters(filter);
                 break;
             }
+            case "Modify Signature":
             case "修改个性签名": {
                 if (mContant.length() > SIGN_MAX_NUM) {
                     mTvMax.setText(SIGN_MAX_NUM + " / " + SIGN_MAX_NUM);
@@ -165,7 +185,9 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 break;
             }
             case "修改分组":mEd.setHint("请输入分组名称");
+            case "Modify Group Name":
             case "修改群名":
+            case "Modify Card Name":
             case "修改群名片":
             {
                 if (mContant.length() > FENZU_MAX_NUM) {
@@ -184,6 +206,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
                 mEd.setFilters(filter);
                 break;
             }
+            case "Response":
             case "回复":{
                 mTvMax.setText(mContant.length() + " / " + REPLY_MAX_NUM);
                 InputFilter[] filter = {new InputFilter.LengthFilter(REPLY_MAX_NUM)};
@@ -192,7 +215,8 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             }
         }
 
-        if (title.equals("修改备注") || title.equals("修改群名片")){
+        if (title.equals(modify_remark_name) || title.equals(modify_group_card_name)){
+//        if (title.equals("修改备注") || title.equals("修改群名片")){
             if (mContant.equals("")){
 //            if (mContant.trim().equals("暂未设置备注") || mContant.equals("")){
                 mEd.setText("");
@@ -205,7 +229,8 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
             }
 
         }
-        else if (title.equals("修改帐号") || title.equals("增加分组") ||  title.equals("回复") ){
+        else if (title.equals(modify_account) || title.equals("增加分组") ||  title.equals(resonse) ){
+//        else if (title.equals("修改帐号") || title.equals("增加分组") ||  title.equals("回复") ){
             mEd.setText("");
             mEd.setSelection(mEd.getText().toString().length());
             mEd.addTextChangedListener(textWatcher);
@@ -233,6 +258,7 @@ public class ChangeInfoWindow extends PopupWindow implements View.OnClickListene
         public void afterTextChanged(Editable editable) {
 
             switch (title) {
+
                 case "修改备注":
                 case "修改昵称":
                 case "修改分组":

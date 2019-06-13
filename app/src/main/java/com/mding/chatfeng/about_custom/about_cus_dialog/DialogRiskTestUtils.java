@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 
+import com.mding.chatfeng.R;
+import com.mding.chatfeng.about_application.BaseApplication;
 import com.projects.zll.utilslibrarybyzll.aboutsystem.AppManager;
 
 
@@ -66,13 +68,15 @@ public class DialogRiskTestUtils {
             BUILDER = new CusRiskTestDialog.Builder(mContext());
 
         BUILDER.setMessage(text,text_second,organization,time);
-        BUILDER.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+        BUILDER.setNegativeButton(BaseApplication.getAppContext().getString(R.string.dialog_btn_cancel), new DialogInterface.OnClickListener() {
+//        BUILDER.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 dialogInterface.dismiss();
             }
         });
-        BUILDER.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+        BUILDER.setPositiveButton(BaseApplication.getAppContext().getString(R.string.dialog_btn_sure), new DialogInterface.OnClickListener() {
+//        BUILDER.setPositiveButton("确定", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int var2) {
                 onClickSureListener.onClickSure();
